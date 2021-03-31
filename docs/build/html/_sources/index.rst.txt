@@ -19,7 +19,7 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-First section
-=============
+Work in progress
+================
 
-This is a test!
+This is a work in progress. More to come soon! In the meantime, go to https://developer.mautic.org to view the docs.
