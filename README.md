@@ -1,3 +1,5 @@
+[![Documentation Status][RTD badge URL]][RTD URL]
+
 # Mautic developer documentation (new)
 
 This repository hosts the new developer documentation for Mautic on the [Read the Docs platform][ReadTheDocs]. Whenever a PR is merged, changes are deployed immediately to https://mautic-developer.readthedocs.io/
@@ -19,3 +21,5 @@ For more background, our end goal, and to let us know if you want to help, pleas
 [New docs background and goals]: <https://github.com/mautic/developer-documentation-new/issues/2>
 [YouTube video image]: <https://img.youtube.com/vi/O3zXdKLznPQ/0.jpg>
 [YouTube video URL]: <https://www.youtube.com/watch?v=O3zXdKLznPQ>
+[RTD badge URL]: <https://readthedocs.org/projects/mautic-developer/badge/?version=latest>
+[RTD URL]: <https://mautic-developer.readthedocs.io/en/latest/?badge=latest>
