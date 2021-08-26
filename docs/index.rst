@@ -8,9 +8,15 @@ Welcome to Mautic Developer Documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Getting started
 
+   welcome
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Plugins
+
+   plugins/index
 
 Indices and tables
 ==================
@@ -22,4 +28,4 @@ Indices and tables
 Work in progress
 ================
 
-This is a work in progress. More to come soon! In the meantime, go to https://developer.mautic.org to view the docs.
+This is a work in progress. More to come soon! In the meantime, go to https://developer.mautic.org to view the developer documentation.
