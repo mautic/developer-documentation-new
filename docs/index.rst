@@ -36,12 +36,6 @@ Welcome to Mautic Developer Documentation!
 
    webhooks/index
 
-.. toctree::
-   :maxdepth: 2
-
-   marketplace/index
-
-
 Indices and tables
 ==================
 
