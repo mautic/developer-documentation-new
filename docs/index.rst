@@ -11,31 +11,67 @@ This is a work in progress. More to come soon! In the meantime, go to https://de
 .. toctree::
    :maxdepth: 2
    :caption: Themes
+   :hidden:
 
-   themes/index
+   themes/getting_started
 
 .. toctree::
    :maxdepth: 2
    :caption: Form Hooks
+   :hidden:
 
-   form_hooks/index
+   form_hooks/getting_started
+   form_hooks/general_hooks
+   form_hooks/validation_hooks
+   form_hooks/response_hooks
 
 .. toctree::
    :maxdepth: 2
    :caption: Webhooks
+   :hidden:
 
-   webhooks/index
+   webhooks/getting_started
 
 .. toctree::
    :caption: Plugins
+   :hidden:
 
-   plugins/index
+   plugins/getting_started
+   plugins/marketplace
+   plugins/structure
+   plugins/config
+   plugins/installation
+   plugins/entities
+   plugins/migrations
+   plugins/translations
+   plugins/permissions
 
 .. toctree::
    :maxdepth: 2
    :caption: Components
+   :hidden:
 
-   components/index
+   components/api
+   components/cache
+   components/campaigns
+   components/categories
+   components/channels
+   components/config
+   components/contacts
+   components/core
+   components/emails
+   components/forms
+   components/integrations
+   components/ip_lookups
+   components/landing_pages
+   components/maintenance
+   components/permissions
+   components/points
+   components/queue
+   components/reports
+   components/sms
+   components/tracking_script
+   components/ui
 
 Indices and tables
 ==================
