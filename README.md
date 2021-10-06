@@ -15,6 +15,17 @@ For more background, our end goal, and to let us know if you want to help, pleas
 
 [![Link to YouTube video with explanation of the current developer documentation structure][YouTube video image]][YouTube video URL]
 
+## Build documentation locally
+
+The following provides instructions for how to install Read the Docs in a local dev environment and build from this local repository so that you can write and visualize docs without pushing to the remote. 
+
+1. Install Python 3 for your OS if not already installed
+2. Install Sphinx `pip install sphinx`
+3. Install sphinx-rtd-theme `pip install sphinx-rtd-theme`
+4. CD into the docs directory `cd [path to this repo]/docs`
+5. Run `make html`
+6. This will generate HTML in docs/build/html. Setup a web server with the web root as docs/build/html or open docs/build/html/index.html in a browser.
+
 [ReadTheDocs]: <https://readthedocs.org>
 [Legacy dev docs]: <https://github.com/mautic/developer-documentation>
 [dennisameling GH profile]: <https://github.com/dennisameling>
