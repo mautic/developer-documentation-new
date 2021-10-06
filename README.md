@@ -26,7 +26,7 @@ The following provides instructions for how to build docs locally for visualizat
 5. Run `make html`
 6. This will generate HTML in docs/build/html. Setup a web server with the web root as docs/build/html or open docs/build/html/index.html in a browser.
 
-### PHPStorm/PyCharm File Watcher
+### PhpStorm/PyCharm File Watcher
 You can automatically build changes to rst files using a file watcher. 
 1. Go to Preferences -> Tools -> File Watchers -> + button -> custom
 2. Configure the watcher as presented in the screenshot

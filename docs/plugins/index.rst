@@ -1,10 +1,7 @@
-Plugins
-==========================================================
-
 .. toctree::
    :maxdepth: 2
 
-   marketplace
+   getting_started
    structure
    config
    installation
