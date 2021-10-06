@@ -15,9 +15,10 @@
    ip_lookups
    landing_pages
    maintenance
+   permissions
    points
+   queue
    reports
-   roles_permissions
    sms
    tracking_script
    ui

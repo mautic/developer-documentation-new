@@ -2,6 +2,7 @@
    :maxdepth: 2
 
    getting_started
+   marketplace
    structure
    config
    installation
