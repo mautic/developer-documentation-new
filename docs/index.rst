@@ -32,6 +32,12 @@ Welcome to Mautic Developer Documentation!
 
 .. toctree::
    :maxdepth: 2
+   :caption: themes
+
+   themes/index
+
+.. toctree::
+   :maxdepth: 2
    :caption: Webhooks
 
    webhooks/index

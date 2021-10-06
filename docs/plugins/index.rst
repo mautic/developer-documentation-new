@@ -1,9 +1,8 @@
-Intro to plugins
+Plugins
 ==========================================================
 
 .. toctree::
    :maxdepth: 2
-   :caption: Plugins
 
    structure
    config
