@@ -8,43 +8,36 @@ Welcome to Mautic Developer Documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Getting started
 
    welcome
 
 .. toctree::
    :maxdepth: 2
-   :caption: Plugins
 
    plugins/index
 
 .. toctree::
    :maxdepth: 2
-   :caption: Components
 
    components/index
 
 .. toctree::
    :maxdepth: 2
-   :caption: Form Hooks
 
    form_hooks/index
 
 .. toctree::
    :maxdepth: 2
-   :caption: themes
 
    themes/index
 
 .. toctree::
    :maxdepth: 2
-   :caption: Webhooks
 
    webhooks/index
 
 .. toctree::
    :maxdepth: 2
-   :caption: Marketplace
 
    marketplace/index
 
