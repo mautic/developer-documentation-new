@@ -30,10 +30,11 @@ release = '3.0.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+   'sphinx_rtd_theme'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-html_theme_path = ['_templates']
+#html_theme_path = ['_templates']
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
