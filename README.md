@@ -17,7 +17,7 @@ For more background, our end goal, and to let us know if you want to help, pleas
 
 ## Build documentation locally
 
-The following provides instructions for how to install Read the Docs in a local dev environment and build from this local repository so that you can write and visualize docs without pushing to the remote. 
+The following provides instructions for how to build docs locally for visualization without pushing to the remote:
 
 1. Install Python 3 for your OS if not already installed
 2. Install Sphinx `pip install sphinx`
