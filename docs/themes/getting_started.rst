@@ -59,7 +59,7 @@ Twig files
 html/message.html.twig
 ^^^^^^^^^^^^^^^^^^^^^^
 
-This file is a simple message file mainly used as the landing page for when a lead unsubscribes or resubscribes to the system’s emails. But may be used by other areas so should be included in all themes.
+This file is mainly used as the Landing Page for when a Lead unsubscribes or resubscribes to the system’s emails. It may be used by other areas, so should be included in all Themes.
 
 It requires echoing two variables: ``message`` and ``content``. ``message`` contains the string message such as "You have been unsubscribed..." content will either be empty or contain the HTML of a form that's been associated with the email as an unsubscribe form.
 
