@@ -39,7 +39,7 @@ Inserts a horizontal line to separate content.
 
 Slot Containers
 ^^^^^^^^^^^^^^^
-As stated before, users can drag & drop the new slots into the theme. So as a theme developer, you have to define where the user can drop the slots. You can do it again with a single HTML attribute ``data-slot-container="1"``.
+As previously stated, the user can drag and drop new slots when creating an email based on a Theme. Therefore, as a Theme developer, you have to define where the user can drop the slots. You can do this with a single HTML attribute ``data-slot-container="1"``.
 
 .. code-block:: html
 
