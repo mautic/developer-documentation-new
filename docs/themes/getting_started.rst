@@ -10,7 +10,7 @@ Finally, a special ``system`` Theme can be used to override system templates to 
 Directory Structure
 ==========================================================
 
-A theme is made of three components: the config, twig files (HTML content), and thumbnails::
+A Theme consists of three components: the configuration, Twig files (HTML content), and thumbnails::
 
     config.json
         html/
