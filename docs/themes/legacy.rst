@@ -6,7 +6,7 @@ Legacy Builder
 Slots
 -----
 
-Slot Definition
+Slot definition
 ^^^^^^^^^^^^^^^
 
 The slot can be defined by a single HTML attribute ```data-slot="{slot type here}"````. For example, the text slot can be defined even with the demo content.
