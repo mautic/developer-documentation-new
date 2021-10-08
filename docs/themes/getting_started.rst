@@ -47,7 +47,7 @@ name
 author
     This displays in the Theme manager as credit to the author of the theme.  Any themes added to Mautic Core will use 'Mautic Team' as the author.
 authorUrl
-    URL used for the author link.
+    This enables the author to provide a URL which will be displayed in the Theme manager.
 features
     An array of strings that tells Mautic which features the theme supports. Currently recognized values are ``email`` (email builder template), ``form`` (formatting the form page) and ``page`` (page builder template). A corresponding ``html/[feature].html.twig`` file is required for each feature supported. For example, if the theme supports ``email``, then there should be a ``html/email.html.twig`` file. See Twig Files more information on each feature.
 builder
