@@ -53,7 +53,7 @@ features
 builder
     This contains an array of strings declaring which Builder the Theme supports. This currently only applies to Themes that support ``page`` or ``email``. By default, Themes without this line will only be recognized by Mautic's legacy builder. New Themes built should declare the specific Builders it supports.
 
-Twig Files
+Twig files
 -------------------------
 
 html/message.html.twig
