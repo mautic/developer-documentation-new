@@ -76,7 +76,7 @@ The section holds the content. It should be centered and should have fixed width
 Section Wrapper
 ^^^^^^^
 
-Section wrapper must have 100% width of the browser window. You thus have to split your theme into several "rows" if you want to enable the users to change the background of each section. The section wrapper can be any block HTML element with attribute ``data-section-wrapper="1"``.
+Section wrappers must have 100% width of the browser window. You therefore have to split your theme into several "rows" if you want to enable the users to change the background of each section. The section wrapper can be any block HTML element with attribute ``data-section-wrapper="1"``.
 
 .. code-block:: html
 
