@@ -43,7 +43,7 @@ The configuration file tells Mautic how to utilize the Theme.
     }
 
 name
-    This is the name of the theme as displayed in Mautic.
+    This is the name of the Theme as displayed in Mautic.
 author
     This displays in the theme manager as credit to the author of the theme.
 authorUrl
