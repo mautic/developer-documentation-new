@@ -31,7 +31,7 @@ Inserts an HTML button. You can define text, URL as well as padding, size and po
 
 Text
 """"
-Inserts a new text slot which you can edit with a HTML editor, so you can insert even media like images and videos in it.
+Inserts a new text slot which you can edit with a HTML editor.  This enables the use of media such as images and videos.
 
 Separator
 """""""""
