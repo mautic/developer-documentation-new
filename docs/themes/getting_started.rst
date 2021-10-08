@@ -23,7 +23,7 @@ A Theme consists of three components: the configuration, Twig files (HTML conten
     thumbnail_form.png
     thumbnail_page.png
 
-Config File
+Configuration File
 -----------
 
 The config file tells Mautic how to utilize the theme.
