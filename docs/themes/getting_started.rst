@@ -177,6 +177,6 @@ See Customizing Forms on how to customize Form fields.
 Thumbnails
 ----------
 
-The thumbnail should be a screenshot of the theme with demo content. The width x height should be 575 x 600 px. This thumbnail will be available for Mautic users for quick theme preview in the Email edit form, Landing Page edit form and the Theme Manager.
+The thumbnail should be a screenshot of the Theme with demo content. The dimensions should be 575x600px. This thumbnail will be available to Mautic users for quick Theme preview in the Email edit form, Landing Page edit form and the Theme Manager.
 
 Mautic will look for ``thumbnail.png`` as default but if you want a specific image for different templates, you can add a ``thumbnail_[feature].png`` per feature with a custom thumbnail. For example, ``thumbnail_email.png``, ``thumbnail_page.png`` or ``thumbnail_form.png``.
