@@ -51,7 +51,7 @@ As previously stated, the user can drag and drop new slots when creating an emai
 
 This enables the user to drop the new slots into this container. In the example above there is already one predefined slot which the user can move to another container, remove or edit.
 
-This functionality will provide you with lots of creative freedom for designing and developing your own unique email and landing pages. Have a unique design? Share it with the community! We would love to see how you’re using Mautic to engage your audience.
+This functionality will provide you with lots of creative freedom for designing and developing your own unique Email and Landing Pages. Have a unique design? Share it with the community on the forums! We would love to see how you’re using Mautic to engage your audience.
 
 Sections
 ---------
