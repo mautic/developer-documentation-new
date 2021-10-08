@@ -11,7 +11,7 @@ Slot definition
 
 The slot can be defined by a single HTML attribute ```data-slot="{slot type here}"````. For example, the text slot can be defined even with the demo content.
 
-When the theme is opened in the builder, the div with attribute ```data-slot="text"``` will make the text inside the div editable within the inline Froala editor.
+When the Theme is opened in the builder, the div with attribute ```data-slot="text"``` will make the text inside the div editable within the inline Froala editor.
 
 .. code-block:: html
 
