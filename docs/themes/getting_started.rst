@@ -80,7 +80,7 @@ It requires echoing two variables: ``message`` and ``content``. ``message`` cont
 html/email.html.twig
 ^^^^^^^^^^^^^^^^^^^^^^
 
-This file defines the base template when creating a new email and should contain HTML suited for email clients.
+This file defines the base template when creating a new Email and should contain HTML suited for email clients.
 
 The GrapesJs builder supports the `mjml email framework <https://mjml.io/>`__.
 
