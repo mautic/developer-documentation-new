@@ -124,7 +124,7 @@ The GrapesJs Builder supports the `mjml email framework <https://mjml.io/>`__.
 html/page.html.twig
 ^^^^^^^^^^^^^^^^^^^^^^
 
-This file defines the base template when creating a new landing page and can contain advanced HTML for browsers.
+This file defines the base template when creating a new Landing Page and can contain advanced HTML for browsers.
 
 .. code-block:: twig
 
