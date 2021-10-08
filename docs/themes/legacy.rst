@@ -23,7 +23,7 @@ The slot types currently built:
 
 Image
 """""
-Inserts a single image into the div. User can click on it and edit it with options which provides Froala editor (link, change image source, alt text, ...)
+Inserts a single image into the div. You can click on it and edit it with options which provides Froala editor (link, change image source, alt text, ...)
 
 Button
 """"""
