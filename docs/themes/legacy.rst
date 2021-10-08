@@ -56,7 +56,7 @@ This functionality will provide you with lots of creative freedom for designing 
 Sections
 ---------
 
-Sections are full width parts of the theme which can let user to change the background color in the section wrapper (full monitor width) and in the section content itself. It’s possible to move the sections up or down, delete the sections and even create a new ones with layout of 1,2 or 3 columns.
+Sections are full width parts of the Theme which can enable the user to change the background color in the section wrapper (full monitor width) and in the section content itself. It’s possible to move the sections up or down, delete the sections and even create a new ones with layout of 1,2 or 3 columns.
 
 Section
 ^^^^^^^
