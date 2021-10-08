@@ -23,7 +23,7 @@ The GrapesJS builder does not require any special HTML syntax to edit content in
             <mj-text font-style="bold" font-size="22px" font-family="Helvetica Neue" color="#626262">Please confirm your subscription!</mj-text>
             <mj-button background-color="#F45E43" font-style="bold" href="#">Yes, subscribe me to the list</mj-button>
             <mj-text color="#525252" font-size="16" line-height="1.5">If you received this email by mistake, simply delete it. You won't be subscribed if you don't click the confirmation link above.<br/><br/>For questions about this list, please contact:
-    email@email.com</mj-text>
+    email@example.com</mj-text>
           </mj-column>
         </mj-section>
             <mj-raw>
