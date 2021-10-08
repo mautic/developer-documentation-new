@@ -1,7 +1,7 @@
 Customizing Forms
 ==========================================================
 
-To provide custom form field templates or to manipulate the form body, create the following directory structure::
+To provide custom Form field templates or to manipulate the Form body, create the following directory structure::
 
     html/
         MauticFormBundle
