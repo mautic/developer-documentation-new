@@ -1,7 +1,7 @@
 GrapesJS Builder
 ==========================================================
 
-The GrapesJS builder does not require any special HTML syntax to edit content in the builder. However, for emails, it supports the `mjml email framework <https://mjml.io/>`__ to create responsive emails.
+The GrapesJS builder does not require any special HTML syntax to edit content in the Builder. However, for Emails, it supports the `mjml email framework <https://mjml.io/>`__ to create responsive emails.
 
 .. code-block:: html
 
