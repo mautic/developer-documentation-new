@@ -82,7 +82,7 @@ html/email.html.twig
 
 This file defines the base template when creating a new Email and should contain HTML suited for email clients.
 
-The GrapesJs builder supports the `mjml email framework <https://mjml.io/>`__.
+The GrapesJs Builder supports the `mjml email framework <https://mjml.io/>`__.
 
 .. code-block:: html
 
