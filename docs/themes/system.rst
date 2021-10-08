@@ -1,4 +1,4 @@
-Overriding Core View Templates
+Overriding core view templates
 ==========================================================
 
 One can override any view's template in Mautic by creating a ``themes/system`` directory, copy the core's template into a corresponding directory and customizing the HTML.
