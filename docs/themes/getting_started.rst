@@ -26,7 +26,7 @@ A Theme consists of three components: the configuration, Twig files (HTML conten
 Configuration File
 -----------
 
-The config file tells Mautic how to utilize the theme.
+The configuration file tells Mautic how to utilize the Theme.
 
 .. code-block:: json
 
