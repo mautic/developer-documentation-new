@@ -51,7 +51,7 @@ authorUrl
 features
     An array of strings that tells Mautic which features the theme supports. Currently recognized values are ``email`` (email builder template), ``form`` (formatting the form page) and ``page`` (page builder template). A corresponding ``html/[feature].html.twig`` file is required for each feature supported. For example, if the theme supports ``email``, then there should be a ``html/email.html.twig`` file. See Twig Files more information on each feature.
 builder
-    Array of strings for which builder the theme supports. Currently only applies to themes that support ``page`` or ``email``. By default, themes without this will only be recognized by Mautic's legacy builder. New themes built should declare the specific builders it supports.
+    This contains an array of strings declaring which Builder the Theme supports. This currently only applies to Themes that support ``page`` or ``email``. By default, Themes without this line will only be recognized by Mautic's legacy builder. New Themes built should declare the specific Builders it supports.
 
 Twig Files
 -------------------------
