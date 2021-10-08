@@ -152,7 +152,7 @@ If a Form is embedded in a Landing Page, this file is used when accessing the fo
 
 This should output the variables ``message``, ``header``, and ``content``.
 
-See Customizing Forms on how to customize form fields.
+See Customizing Forms on how to customize Form fields.
 
 .. code-block:: twig
 
