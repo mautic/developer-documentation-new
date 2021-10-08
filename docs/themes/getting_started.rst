@@ -33,7 +33,7 @@ The configuration file tells Mautic how to utilize the Theme.
     {
       "name": "Theme Name",
       "author": "John Doe",
-      "authorUrl": "https://john-doe-the-mautic-theme-builder.com",
+      "authorUrl": "https://example.com",
       "features": [
         "email",
         "form",
