@@ -5,7 +5,7 @@ Themes can be used to create default content and layouts for Emails and Landing 
 
 They can also be used to customize Form pages (when visiting /form/ID) or using an iframe to embed a Form into a third party page. One can also customize the Form structure and fields but this must be done with PHP files, which disqualifies the theme from being installable through Mautic's Theme manager.  It must therefore be manually uploaded to the server.
 
-Finally, a special ``system`` theme can be used to override system templates to avoid customizing core code that could be lost with future upgrades.
+Finally, a special ``system`` Theme can be used to override system templates to avoid customizing core code that could be lost with future upgrades.
 
 Directory Structure
 ==========================================================
