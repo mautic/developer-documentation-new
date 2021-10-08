@@ -148,7 +148,7 @@ This file defines the base template when creating a new Landing Page and can con
 html/form.html.twig
 ^^^^^^^^^^^^^^^^^^^^^^
 
-This is used to format the page a form is embedded into when viewing the form at /form/ID or when using the iframe method of embedding a form into a 3rd party page.
+If a Form is embedded in a Landing Page, this file is used when accessing the form at /form/ID or when using the iframe method of embedding a Form into a third party page.
 
 This should output the variables ``message``, ``header``, and ``content``.
 
