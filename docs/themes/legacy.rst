@@ -27,7 +27,7 @@ Inserts a single image into the div. User can click on it and edit it with optio
 
 Button
 """"""
-Inserts a HTML button. User can define text, URL as well as padding, size and position.
+Inserts an HTML button. You can define text, URL as well as padding, size and position.
 
 Text
 """"
