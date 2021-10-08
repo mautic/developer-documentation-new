@@ -1,7 +1,7 @@
 Overriding core view templates
 ==========================================================
 
-One can override any view's template in Mautic by creating a ``themes/system`` directory, copy the core's template into a corresponding directory and customizing the HTML.
+You can override any view's template in Mautic by creating a ``themes/system`` directory, copying the core template file into a corresponding directory and customizing the HTML.
 
 For example, to customize the login page. Copy ``app/bundles/UserBundle/Views/Security/login.html.php`` into ``themes/system/MauticUserBundle/Security/login.html.php`` then make the desired changes.
 
