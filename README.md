@@ -17,6 +17,10 @@ For more background, our end goal, and to let us know if you want to help, pleas
 
 ## Build documentation locally
 
+- [RST Syntax Cheatsheet][RST Cheatsheet]
+- [Sphinx Demo][Sphinx Demo]
+- [Sphinx Syntax][Sphinx Template]
+
 The following provides instructions for how to build docs locally for visualization without pushing to the remote:
 
 1. Install Python 3 for your OS if not already installed
@@ -42,3 +46,6 @@ You can automatically build changes to rst files using a file watcher.
 [YouTube video URL]: <https://www.youtube.com/watch?v=O3zXdKLznPQ>
 [RTD badge URL]: <https://readthedocs.org/projects/mautic-developer/badge/?version=latest>
 [RTD URL]: <https://mautic-developer.readthedocs.io/en/latest/?badge=latest>
+[RST Cheatsheet]: <https://github.com/ralsina/rst-cheatsheet/blob/master/rst-cheatsheet.rst>
+[Sphinx Template]: <https://github.com/readthedocs/sphinx_rtd_theme/tree/master/docs/demo>
+[Sphinx Demo]: <https://sphinx-rtd-theme.readthedocs.io/en/stable/demo/structure.html>
