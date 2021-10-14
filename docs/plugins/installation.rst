@@ -1,4 +1,4 @@
-Installing/Upgrading
+Installing and upgrading
 ==========================================================
 
 
