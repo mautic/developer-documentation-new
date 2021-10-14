@@ -1,9 +1,9 @@
-Getting started with themes
+Getting started with Themes
 ==========================================================
 
-You can use Themes to create default content and layouts for Emails and Landing Pages written in the `Twig templating language <https://twig.symfony.com/>`__.
+You can use Themes to create default content and layouts for Emails and Landing Pages written in the :xref:`Twig documentation`.
 
-You can use Themes to also customize Form pages, for example when visiting /form/ID, or using an iframe to embed a Form into a third party page. You can also customize the Form structure and fields but need to use PHP files, which disqualifies the theme from being installable through Mautic's Theme manager. It must therefore be manually uploaded to the server.
+You can use Themes to also customize Form pages, for example when visiting /form/ID, or using an iframe to embed a Form into a third party page. You can also customize the Form structure and fields but need to use PHP files, which disqualifies the Theme from being installable through Mautic's Theme manager. It must therefore be manually uploaded to the server.
 
 Finally, use a special ``system`` Theme to override system templates to avoid losing core code changes with future upgrades.
 
@@ -45,11 +45,19 @@ The configuration file tells Mautic how to utilize the Theme.
 name
     This is the name of the Theme as displayed in Mautic.
 author
-    This displays in the Theme manager as credit to the author of the theme. Any themes added to Mautic Core use 'Mautic Team' as the author.
+    This displays in the Theme manager as credit to the author of the Theme. Any Themes added to Mautic Core use 'Mautic Team' as the author.
 authorUrl
     This enables the author to provide a URL displayed in the Theme manager.
 features
-    An array of strings that tells Mautic which features the theme supports. Currently recognized values are ``email`` (email builder template), ``form`` (formatting the form page) and ``page`` (page builder template). A corresponding ``html/[feature].html.twig`` file is required for each feature supported. For example, if the theme supports ``email``, then there should be a ``html/email.html.twig`` file. See Twig Files more information on each feature.
+    An array of strings that tells Mautic which features the Theme supports. Currently recognized values are:
+
+    ``email`` The theme is compatible with the Email Builder. See :ref:`html/email.html.twig`.
+
+    ``form`` The theme is compatible with the customizing Forms. See :ref:`html/form.html.twig`.
+
+    ``page`` The theme is compatible with the Page Builder. See :ref:`html/page.html.twig`.
+
+    A corresponding ``html/[feature].html.twig`` file is required for each feature supported. For example, if the Theme supports ``email``, then there should be a ``html/email.html.twig`` file. See :ref:`Twig files` more information on each feature.
 builder
     This contains an array of strings declaring which Builder the Theme supports. This currently only applies to Themes that support ``page`` or ``email``. By default, Themes without this line are only recognized by Mautic's legacy builder. New Themes built should declare the specific Builders it supports.
 
@@ -86,7 +94,7 @@ html/email.html.twig
 
 This file defines the base template when creating a new Email and should contain HTML suited for email clients.
 
-The GrapesJs Builder supports the `mjml email framework <https://mjml.io/>`__.
+The GrapesJs Builder supports the :xref:`mjml email framework`.
 
 .. code-block:: html
 
@@ -156,7 +164,7 @@ Mautic uses this file when accessing the form at /form/ID, embedding a Form in a
 
 This should output the variables ``message``, ``header``, and ``content``.
 
-See Customizing Forms on how to customize Form fields.
+See :ref:`Customizing forms` on how to customize Form fields.
 
 .. code-block:: twig
 
