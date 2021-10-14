@@ -29,6 +29,11 @@ The following provides instructions for how to build docs locally for visualizat
 4. CD into the docs directory `cd [path to this repo]/docs`
 5. Run `make html`
 6. This will generate HTML in docs/build/html. Setup a web server with the web root as docs/build/html or open docs/build/html/index.html in a browser.
+ 
+### Vale
+Before pushing, run Vale and address suggestions and errors as applicable.
+1. Install [`vale`][Vale] 
+2. `vale .`
 
 ### PhpStorm/PyCharm File Watcher
 You can automatically build changes to rst files using a file watcher. 
@@ -49,3 +54,4 @@ You can automatically build changes to rst files using a file watcher.
 [RST Cheatsheet]: <https://github.com/ralsina/rst-cheatsheet/blob/master/rst-cheatsheet.rst>
 [Sphinx Template]: <https://github.com/readthedocs/sphinx_rtd_theme/tree/master/docs/demo>
 [Sphinx Demo]: <https://sphinx-rtd-theme.readthedocs.io/en/stable/demo/structure.html>
+[Vale]: <https://docs.errata.ai/vale/install>
