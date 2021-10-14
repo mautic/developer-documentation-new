@@ -5,4 +5,4 @@ You can override any view's template in Mautic by creating a ``themes/system`` d
 
 For example, to customize the login page, copy ``app/bundles/UserBundle/Views/Security/login.html.php`` into ``themes/system/MauticUserBundle/Security/login.html.php`` then make the desired changes.
 
-.. Warning:: Future Mautic upgrades may break if core templates were updated. Overridden core templates must be reconciled with changes in future upgrades.
+.. Warning:: Customizations may break Mautic updates core templates in future versions. You will need to reconcile your customizations with changes in core templates from future upgrades.

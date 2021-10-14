@@ -1,16 +1,16 @@
 Getting started with themes
 ==========================================================
 
-Themes can be used to create default content and layouts for Emails and Landing Pages. Content is written in the `Twig templating language <https://twig.symfony.com/>`__.
+You can use Themes to create default content and layouts for Emails and Landing Pages written in the `Twig templating language <https://twig.symfony.com/>`__.
 
-They can also be used to customize Form pages (when visiting /form/ID) or using an iframe to embed a Form into a third party page. One can also customize the Form structure and fields but this must be done with PHP files, which disqualifies the theme from being installable through Mautic's Theme manager.  It must therefore be manually uploaded to the server.
+You can use Themes to also customize Form pages, for example when visiting /form/ID, or using an iframe to embed a Form into a third party page. You can also customize the Form structure and fields but need to use PHP files, which disqualifies the theme from being installable through Mautic's Theme manager. It must therefore be manually uploaded to the server.
 
-Finally, a special ``system`` Theme can be used to override system templates to avoid customizing core code that could be lost with future upgrades.
+Finally, use a special ``system`` Theme to override system templates to avoid losing core code changes with future upgrades.
 
-Directory Structure
+Directory structure
 ==========================================================
 
-A Theme consists of three components: the configuration, Twig files (HTML content), and thumbnails::
+A Theme consists of three components: the configuration, Twig files with content, and thumbnails::
 
     config.json
         html/
@@ -23,8 +23,8 @@ A Theme consists of three components: the configuration, Twig files (HTML conten
     thumbnail_form.png
     thumbnail_page.png
 
-Configuration File
------------
+Configuration file
+------------------
 
 The configuration file tells Mautic how to utilize the Theme.
 
@@ -45,13 +45,13 @@ The configuration file tells Mautic how to utilize the Theme.
 name
     This is the name of the Theme as displayed in Mautic.
 author
-    This displays in the Theme manager as credit to the author of the theme.  Any themes added to Mautic Core will use 'Mautic Team' as the author.
+    This displays in the Theme manager as credit to the author of the theme. Any themes added to Mautic Core use 'Mautic Team' as the author.
 authorUrl
-    This enables the author to provide a URL which will be displayed in the Theme manager.
+    This enables the author to provide a URL displayed in the Theme manager.
 features
     An array of strings that tells Mautic which features the theme supports. Currently recognized values are ``email`` (email builder template), ``form`` (formatting the form page) and ``page`` (page builder template). A corresponding ``html/[feature].html.twig`` file is required for each feature supported. For example, if the theme supports ``email``, then there should be a ``html/email.html.twig`` file. See Twig Files more information on each feature.
 builder
-    This contains an array of strings declaring which Builder the Theme supports. This currently only applies to Themes that support ``page`` or ``email``. By default, Themes without this line will only be recognized by Mautic's legacy builder. New Themes built should declare the specific Builders it supports.
+    This contains an array of strings declaring which Builder the Theme supports. This currently only applies to Themes that support ``page`` or ``email``. By default, Themes without this line are only recognized by Mautic's legacy builder. New Themes built should declare the specific Builders it supports.
 
 Twig files
 -------------------------
@@ -59,9 +59,13 @@ Twig files
 html/message.html.twig
 ^^^^^^^^^^^^^^^^^^^^^^
 
-This file is mainly used as the Landing Page for when a Lead unsubscribes or resubscribes to the system’s emails. It may be used by other areas, so should be included in all Themes.
+This file is mainly used as the Landing Page for when a Lead unsubscribes or resubscribes to the system’s emails. Other areas use this so all Themes should include it.
 
-It requires echoing two variables: ``message`` and ``content``. ``message`` contains the string message such as "You have been unsubscribed...", whereas ``content`` will either be empty or contain the HTML of a Form that's been associated with the Email as an unsubscribe form.
+It requires echoing two variables: ``message`` and ``content``.
+
+``message`` contains the string message such as "You have been unsubscribed..."
+
+``content`` is empty or contains the HTML of a Form associated with the Email as an unsubscribe form.
 
 .. code-block:: twig
 
@@ -148,7 +152,7 @@ This file defines the base template when creating a new Landing Page and can con
 html/form.html.twig
 ^^^^^^^^^^^^^^^^^^^^^^
 
-If a Form is embedded in a Landing Page, this file is used when accessing the form at /form/ID or when using the iframe method of embedding a Form into a third party page.
+Mautic uses this file when accessing the form at /form/ID, embedding a Form in a Landing Page, or using the iframe method of embedding a Form into a third party page.
 
 This should output the variables ``message``, ``header``, and ``content``.
 
@@ -177,6 +181,6 @@ See Customizing Forms on how to customize Form fields.
 Thumbnails
 ----------
 
-The thumbnail should be a screenshot of the Theme with demo content. The dimensions should be 575x600px. This thumbnail will be available to Mautic users for quick Theme preview in the Email edit form, Landing Page edit form and the Theme Manager.
+The thumbnail should be a screenshot of the Theme with demo content. The dimensions should be 575x600px. Mautic displays thumbnails in the Email edit form, Landing Page edit form, and the Theme Manager.
 
-Mautic will look for ``thumbnail.png`` by default, however if you want a specific image for different feature, you can add a ``thumbnail_[feature].png`` with a custom thumbnail. For example, ``thumbnail_email.png``, ``thumbnail_page.png`` or ``thumbnail_form.png``.
+Mautic looks for ``thumbnail.png`` by default, however if you want a specific image for different feature, you can add a ``thumbnail_[feature].png`` with a custom thumbnail. For example, ``thumbnail_email.png``, ``thumbnail_page.png`` or ``thumbnail_form.png``.

@@ -2,4 +2,4 @@ Tracking script
 ==========================================================
 
 
-todo include MauticJS
+Include MauticJS.

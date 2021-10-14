@@ -24,6 +24,7 @@ GMail
 Grav
 Gravatar
 href
+html
 http
 https
 HubSpot
@@ -35,6 +36,7 @@ Licensor
 LinkedIn
 Mailjet
 Mautic
+mjml
 Multiselect
 multiselect
 mysqldump
@@ -42,6 +44,7 @@ namespace
 Namespace
 noindex
 OAuth
+PHP
 Pipedrive
 Piwik
 Rackspace
