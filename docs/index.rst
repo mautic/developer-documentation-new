@@ -6,7 +6,7 @@
 Welcome to Mautic Developer Documentation!
 ==========================================================
 
-This is a work in progress. More to come soon! In the meantime, go to https://developer.mautic.org to view the developer documentation.
+This is a work in progress. More to come soon! In the meantime, go to :xref:`Legacy Developer Docs` to view the developer documentation.
 
 .. toctree::
    :maxdepth: 2

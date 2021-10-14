@@ -14,7 +14,14 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+import sys, os
 import sphinx_rtd_theme
+
+sys.path.append(os.path.abspath('ext'))
+sys.path.append('.')
+
+from links.link import *
+from links import *
 
 # -- Project information -----------------------------------------------------
 
@@ -32,9 +39,10 @@ release = '3.0.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+   'xref',
    'sphinx_rtd_theme',
    'sphinx.ext.viewcode',
-   'sphinx.ext.autosectionlabel'
+   'sphinx.ext.autosectionlabel',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
