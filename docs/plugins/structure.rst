@@ -1,4 +1,4 @@
-File/Directory Structure
+File and directory structure
 ==========================================================
 
 

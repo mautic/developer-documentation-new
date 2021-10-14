@@ -1,4 +1,4 @@
-Getting Started with Themes
+Getting started with themes
 ==========================================================
 
 

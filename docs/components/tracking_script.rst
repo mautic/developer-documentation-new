@@ -1,5 +1,5 @@
-Tracking Script
+Tracking script
 ==========================================================
 
 
-(include MauticJS)
+todo include MauticJS

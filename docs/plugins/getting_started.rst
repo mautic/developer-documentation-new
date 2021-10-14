@@ -1,4 +1,4 @@
-Getting Started with Plugins
+Getting started with Plugins
 ==========================================================
 
 
