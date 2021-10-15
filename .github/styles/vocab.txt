@@ -24,7 +24,7 @@ GMail
 Grav
 Gravatar
 href
-html
+HTML
 http
 https
 HubSpot
