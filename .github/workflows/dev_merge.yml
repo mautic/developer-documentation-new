@@ -1,4 +1,4 @@
-name: Merge branch with labeled
+name: Merge to development
 on:
   pull_request:
     types: [ opened, labeled, unlabeled ]
@@ -10,7 +10,6 @@ jobs:
       - uses: actions/checkout@master
         with:
           ref: development
-      - name: Merge to development
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
