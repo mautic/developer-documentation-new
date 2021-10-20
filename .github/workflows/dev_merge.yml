@@ -7,7 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' || github.event.label.name == 'review' }}
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout develoment and merge PR
+        uses: actions/checkout@master
         with:
           ref: development
         run: |
