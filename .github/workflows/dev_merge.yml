@@ -4,6 +4,7 @@ on:
     types: [labeled]
 jobs:
   merge-branch:
+    permissions: read-all|write-all
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
