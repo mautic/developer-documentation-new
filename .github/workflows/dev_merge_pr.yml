@@ -11,7 +11,7 @@ jobs:
       ${{ github.event.workflow_run.event == 'pull_request_review' &&
       github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: 'Get approved PR number'
+      - name: 'Download approved PR number'
         uses: actions/github-script@v3.1.0
         with:
           script: |
@@ -39,7 +39,7 @@ jobs:
           ref: development
           fetch-depth: 0
           token: ${{ secrets.MAUTIBOT_PAT }}
-        run: |
+      - run: |
           pr=$(cat './NR')
           git config user.name github-actions
           git config user.email github-actions@github.com
