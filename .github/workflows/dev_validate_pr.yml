@@ -1,0 +1,19 @@
+name: Check if PR is approved
+on:
+  pull_request_review:
+    types: [submitted]
+jobs:
+  merge-branch:
+    runs-on: ubuntu-latest
+    if: github.event.review.state == 'approved'
+    steps:
+      - name: 'Get approved PR number'
+        uses: actions/checkout@v2
+        run: |
+          mkdir -p ./pr
+          echo ${{ github.event.pull_request.number }} > ./pr/NR
+      - name: 'Store approved PR number for merge to development'
+        uses: actions/upload-artifact@v2
+        with:
+          name: pr
+          path: pr/
