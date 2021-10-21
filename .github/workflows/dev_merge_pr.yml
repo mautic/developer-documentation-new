@@ -39,11 +39,11 @@ jobs:
             var fs = require('fs');
             fs.writeFileSync('${{github.workspace}}/pr.zip', Buffer.from(download.data));
 
-        - name: "Unzip PR"
-          run: unzip pr.zip
+      - name: "Unzip PR"
+        run: unzip pr.zip
 
-        - name: "Merge PR into development"
-          run: |
+      - name: "Merge PR into development"
+        run: |
           ls -n ${{github.workspace}}
           pr=$(cat '${{github.workspace}}/NR')
           git config user.name github-actions
