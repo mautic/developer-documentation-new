@@ -50,5 +50,5 @@ jobs:
           git config user.email github-actions@github.com
           git fetch origin pull/${pr}/head:temp
           git merge --squash --no-edit temp
-          git commit -m 'Merged latest from PR ${pr}';
+          git commit -m "Merged latest from PR ${pr}"
           git push
