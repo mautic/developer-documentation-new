@@ -11,6 +11,13 @@ jobs:
       ${{ github.event.workflow_run.event == 'pull_request_review' &&
       github.event.workflow_run.conclusion == 'success' }}
     steps:
+      - name: 'Checkout development'
+        uses: actions/checkout@v2
+        with:
+          ref: development
+          fetch-depth: 0
+          token: ${{ secrets.MAUTIBOT_PAT }}
+
       - name: 'Download approved PR number'
         uses: actions/github-script@v3.1.0
         with:
@@ -31,15 +38,12 @@ jobs:
             });
             var fs = require('fs');
             fs.writeFileSync('${{github.workspace}}/pr.zip', Buffer.from(download.data));
-      - run: unzip pr.zip
 
-      - name: 'Merge to development'
-        uses: actions/checkout@v2
-        with:
-          ref: development
-          fetch-depth: 0
-          token: ${{ secrets.MAUTIBOT_PAT }}
-      - run: |
+        - name: "Unzip PR"
+          run: unzip pr.zip
+
+        - name: "Merge PR into development"
+          run: |
           ls -n ${{github.workspace}}
           pr=$(cat '${{github.workspace}}/NR')
           git config user.name github-actions
