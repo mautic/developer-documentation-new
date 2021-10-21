@@ -13,5 +13,7 @@ jobs:
       - run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git pull --no-edit --no-rebase --allow-unrelated-histories origin pull/${{github.event.number}}/head
+          git fetch origin pull/${{github.event.number}}/head:temp
+          git merge --squash --no-edit temp
+          git commit -m 'Merged latest from PR ${{github.event.number}}';
           git push
