@@ -11,7 +11,7 @@ jobs:
         with:
           ref: development
           fetch-depth: 0
-          token: ${{ secrets.MAUTIBOT }}
+          token: ${{ secrets.MAUTIBOT_PAT }}
       - run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
