@@ -14,6 +14,10 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    :hidden:
 
    themes/getting_started
+   themes/grapesjs
+   themes/legacy
+   themes/forms
+   themes/system
 
 .. toctree::
    :maxdepth: 2
