@@ -5,15 +5,23 @@ on:
 jobs:
   merge-branch:
     runs-on: ubuntu-latest
-    if: github.event.review.state == 'approved'
     steps:
       - uses: actions/checkout@v2
 
-      - name: 'Store approved PR'
+      - name: 'Is the PR is approved?'
+        if: github.event.review.state == 'approved'
         run: |
           mkdir -p ./pr
           echo ${{ github.event.pull_request.number }} > ./pr/NR
-      - uses: actions/upload-artifact@v2
+      - name: 'Store the PR number if approved'
+        if: github.event.review.state == 'approved'
+        uses: actions/upload-artifact@v2
         with:
           name: pr
           path: pr/
+      - name: 'Prevent merging into development if the PR is not approved'
+        if: github.event.review.state != 'approved'
+        uses: actions/github-script@v3
+        with:
+          script: |
+            core.setFailed('The PR is not approved to be merged into development')
