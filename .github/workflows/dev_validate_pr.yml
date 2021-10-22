@@ -8,6 +8,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: 'Prevent merging into development if the PR is not approved'
+        if: github.event.review.state != 'approved'
+        uses: actions/github-script@v3
+        with:
+          script: |
+            core.setFailed('The PR is not approved to be merged into development')
       - name: 'Is the PR is approved?'
         if: github.event.review.state == 'approved'
         run: |
@@ -19,9 +25,3 @@ jobs:
         with:
           name: pr
           path: pr/
-      - name: 'Prevent merging into development if the PR is not approved'
-        if: github.event.review.state != 'approved'
-        uses: actions/github-script@v3
-        with:
-          script: |
-            core.setFailed('The PR is not approved to be merged into development')

@@ -5,11 +5,9 @@ on:
     types:
       - completed
 jobs:
-  merge-branch:
+  on-success:
     runs-on: ubuntu-latest
-    if: >
-      ${{ github.event.workflow_run.event == 'pull_request_review' &&
-      github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: 'Checkout development'
         uses: actions/checkout@v2
