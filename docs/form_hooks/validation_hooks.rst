@@ -3,7 +3,7 @@ Validation hooks
 
 .. js:method:: onValidate()
 
-    Called prior to default Form validation. This is useful if you want to execute custom code prior to the Form being submitted or if you want to do your own validation.
+    Called prior to default Form validation. This is useful if you want to execute custom code prior to the Form being submitted, or if you want to do your own validation.
 
     :returns: bool|NULL|void Return TRUE to skip the default validation and continue with submitting the Form. Return FALSE to skip the default validation and prevent the Form submission. Return NULL to still proceed with default validation.
 
