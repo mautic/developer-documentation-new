@@ -15,6 +15,7 @@ cron
 Cron
 CTRL
 Dripflow
+FALSE
 Froala
 Froogaloop
 gcm
@@ -59,6 +60,7 @@ sublicense
 SugarCRM
 Suhosin
 Transifex
+TRUE
 Twilio
 unassign
 unpublish
