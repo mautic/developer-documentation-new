@@ -3,7 +3,7 @@ Response hooks
 
 .. js:method:: onResponse()
 
-    Called prior to the response form the Form submission is processed that handles downloading files, displaying a success message, and/or redirecting to another URL.
+    Called prior to processing the Form submission's response, which handles actions like downloading a file, displaying a success message, and/or redirecting to another URL.
 
     :param object response: The response object may have the following defined:
         * ``response.download`` URL of a file to download
