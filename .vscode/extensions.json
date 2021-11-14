@@ -1,5 +1,6 @@
 {
     "recommendations": [
-        "lextudio.restructuredtext"
+        "lextudio.restructuredtext",
+        "trond-snekvik.simple-rst"
     ]
 }
