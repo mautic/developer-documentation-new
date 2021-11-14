@@ -1,7 +1,9 @@
 AJAX
+allowlist
 bcc
 Beanstalkd
 Bing
+blocklist
 boolean
 cc
 Citrix
@@ -45,6 +47,7 @@ namespace
 Namespace
 noindex
 OAuth
+Packagist
 PHP
 Pipedrive
 Piwik
