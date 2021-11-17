@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "lextudio.restructuredtext",
-        "trond-snekvik.simple-rst"
+        "trond-snekvik.simple-rst",
+        "errata-ai.vale-server"
     ]
 }
