@@ -35,6 +35,8 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    :hidden:
 
    webhooks/getting_started
+   webhooks/example_scripts
+   webhooks/events/index
 
 .. toctree::
    :caption: Plugins
