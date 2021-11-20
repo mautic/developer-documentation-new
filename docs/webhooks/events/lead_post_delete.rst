@@ -8,4 +8,3 @@ Event type
 
 Event properties
 """"""""""""""""""
-
