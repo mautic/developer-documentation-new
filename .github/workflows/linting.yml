@@ -28,5 +28,5 @@ jobs:
     - name: Build docs, check links
       run: |
         cd docs
-        make html -W
+        make html SPHINXOPTS="-W"
         make checklinks
