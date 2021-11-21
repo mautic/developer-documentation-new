@@ -10,14 +10,14 @@ How does it work?
 
 The process roughly looks like this:
 
-1. Plugin author fills out the `application form`_.
+1. Plugin author fills out the :xref:`Marketplace allowlist application form`.
 2. Mautic's core team reviews the submission.
 3. Once accepted, the core team adds the Plugin to the list at https://github.com/mautic/marketplace-allowlist.
 
 Applying for the allowlist
 ==========================
 
-As mentioned, you can use the `application form`_ which is reviewed by the core team. Once reviewed, an update is sent by email to the address provided. In the meantime, you can keep an eye on the allowlist at https://github.com/mautic/marketplace-allowlist as it is updated regularly.
+As mentioned, you can use the :xref:`Marketplace allowlist application form` which is reviewed by the core team. Once reviewed, an update is sent by email to the address provided. In the meantime, you can keep an eye on the allowlist at https://github.com/mautic/marketplace-allowlist as it is updated regularly.
 
 Moving forward: roadmap
 =======================
@@ -25,4 +25,3 @@ Moving forward: roadmap
 - November 2021: Release Mautic 4.1 with allowlist enabled for the Marketplace
 - February 2022: Release Mautic 4.2 which may switch from allowlist to blocklist (all plugins allowed except the ones that we know are incompatible or have security issues)
 
-.. _application form: https://mau.tc/marketplace-allowlist

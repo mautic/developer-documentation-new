@@ -42,7 +42,7 @@ In addition to the information you already have in the composer.json for your Pl
 
 - ``type`` must have value ``mautic-plugin``. The Marketplace is filtering PHP packages by this tag. It's required to show up in the Marketplace.
 - ``extra.install-directory-name`` specifies the directory name for the bundle. Correct directory name is important for PSR4 autoloading. It must be the same as in the namespace in your PHP classes.
-- ``require.php`` be sure to specify the PHP version range that you test the Plugin against. Ideally it should be the same as the Mautic's `supported PHP versions <https://www.mautic.org/download/requirements>`_. Don't allow users to install the Plugin on versions that are not supported.
+- ``require.php`` be sure to specify the PHP version range that you test the Plugin against. Ideally it should be the same as the Mautic's :xref:`Mautic supported PHP versions`. Don't allow users to install the Plugin on versions that are not supported.
 - ``require.ext-*`` if your Plugin require some PHP extension, please list them in the require section too. As servers can have a wide variety of extensions enabled, this ensures that the correct extensions are available.
 - ``require.mautic/core-lib`` it's important to specify which Mautic versions your Plugin supports. Include only the versions you or your community have tested and confirmed the Plugin works with.
 
@@ -54,7 +54,7 @@ There's a few things which are highly recommend when creating Plugins for Mautic
 Step 3: publish to Composer
 ---------------------------
 
-When the composer.json is ready, follow the `Publishing Packages <https://packagist.org>`_ section directly in Packagist.
+When the composer.json is ready, follow the :xref:`Packagist` section directly in Packagist.
 
 Step 4: apply for the allowlist
 -------------------------------
@@ -66,6 +66,6 @@ Updating existing Plugins for usage with the Marketplace
 
 If you required ``mautic/composer-plugin`` in your plugin's dependencies in the past, please remove it. Support for Mautic plugins is now built into Composer, so you only have to set the type to ``mautic-plugin`` and Composer will automatically install your plugin into the ``plugins`` folder.
 
-Next to that, if you built your plugin for Mautic 3 originally, please check the `UPGRADE-4.0.md guide <https://github.com/mautic/mautic/blob/4.x/UPGRADE-4.0.md>`_ for the breaking changes in Mautic 4.
+Next to that, if you built your plugin for Mautic 3 originally, please check the :xref:`UPGRADE-4.0.md guide` for the breaking changes in Mautic 4.
 
 When you're done, you can go back to the :ref:`Preparing your plugin for the Marketplace` section in this document and proceed from there.
