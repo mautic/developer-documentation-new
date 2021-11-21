@@ -24,9 +24,16 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
     # The -W switch converts Sphinx warnings into errors
     - name: Build docs, check links
       run: |
+        pip3 install -r docs/requirements.txt
         cd docs
         make html SPHINXOPTS="-W"
         make checklinks
