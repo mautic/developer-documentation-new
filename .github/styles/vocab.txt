@@ -11,6 +11,7 @@ Clearbit
 CloudAMQP
 config
 Company(ies)
+Composer
 ConnectWise
 Contribution(s)
 cron

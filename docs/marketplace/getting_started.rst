@@ -4,17 +4,17 @@ Marketplace
 
 Mautic 4 comes with a Marketplace directly in the Mautic administration user interface and command line interface as well.
 
-- In **Mautic 4.0.0**, the read-only Marketplace was introduced, which only lists available plugins. Installing plugins isn't possible in this version.
-- In **Mautic 4.1.0**, the ability to install and remove plugins through the Marketplace was introduced.
+- **Mautic 4.0.0** introduced the read-only Marketplace, which only lists available plugins. Installing plugins isn't possible in this version.
+- **Mautic 4.1.0** introduced the ability to install and remove plugins through the Marketplace.
 
-TODO add screenshots here.
+TODO (SCREENSHOTS) add screenshots here.
 
 Getting your Plugin listed in the Marketplace
 ==============================================
 
 There are two steps involved in listing your Plugin in the Marketplace:
 
-1. Create and test your Plugin locally - see LINK for more details.
+1. Create and test your Plugin locally - see TODO (LINK) for more details.
 2. :doc:`Prepare your Plugin for listing in the Marketplace <./listing>` 
 
 Marketplace under the hood
