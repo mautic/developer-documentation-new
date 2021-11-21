@@ -29,11 +29,18 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+        cache: 'pip'
+
+    - name: Install Python dependencies
+      run: pip3 install -r docs/requirements.txt
     
     # The -W switch converts Sphinx warnings into errors
     - name: Build docs, check links
       run: |
-        pip3 install -r docs/requirements.txt
         cd docs
         make html SPHINXOPTS="-W"
         make checklinks
