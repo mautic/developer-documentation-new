@@ -39,8 +39,10 @@ jobs:
       run: pip3 install -r docs/requirements.txt
     
     # The -W switch converts Sphinx warnings into errors
-    - name: Build docs, check links
-      run: |
-        cd docs
-        make html SPHINXOPTS="-W"
-        make checklinks
+    - name: Build docs
+      working-directory: docs
+      run: make html SPHINXOPTS="-W"
+
+    - name: Check links
+      working-directory: docs
+      run: make checklinks
