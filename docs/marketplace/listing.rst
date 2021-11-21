@@ -47,7 +47,7 @@ In addition to the information you already have in the composer.json for your Pl
 - ``require.mautic/core-lib`` it's important to specify which Mautic versions your Plugin supports. Include only the versions you or your community have tested and confirmed the Plugin works with.
 
 Step 2: verify best practices
-----------------------------
+-----------------------------
 
 There's a few things which are highly recommend when creating Plugins for Mautic. Please refer to the :doc:`./best_practices` page for more details.
 

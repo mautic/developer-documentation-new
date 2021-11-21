@@ -23,3 +23,10 @@ jobs:
         onlyAnnotateModifiedLines: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # The -W switch converts Sphinx warnings into errors
+    - name: Build docs, check links
+      run: |
+        cd docs
+        make html -W
+        make checklinks
