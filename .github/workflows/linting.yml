@@ -19,7 +19,6 @@ jobs:
         # We can modify these styles as we want
         styles: |
           https://github.com/errata-ai/Google/releases/latest/download/Google.zip
-        files: pages/
         onlyAnnotateModifiedLines: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
