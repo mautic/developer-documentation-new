@@ -2,12 +2,14 @@ Contact identified event
 ------------------------
 Triggered when Mautic identifies a Contact.
 
+.. _Contact identified event type:
+
 Event type
 """"""""""""""""""
 
 ``mautic.lead_post_save_new``
 
-.. Contact identified event properties:
+.. _Contact identified event properties:
 
 Event properties
 """"""""""""""""""
@@ -229,7 +231,7 @@ Tag properties
 .. _Channel subscription properties:
 
 Channel subscription properties
-""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""
 
 .. list-table::
     :header-rows: 1

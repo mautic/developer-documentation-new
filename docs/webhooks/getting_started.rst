@@ -5,7 +5,7 @@ Webhooks are a universal way how to send data about Contacts and their activity 
 
 The structure of Webhook payloads are like the following. ``WebhookEventType`` would be the event's actual type and `WebhookEventPayload` will contain the event's data.
 
-.. code-block:: json
+.. code-block:: javascript
 
     {
         "WebhookEventType": [
@@ -15,7 +15,7 @@ The structure of Webhook payloads are like the following. ``WebhookEventType`` w
 
 Mautic aggregates event types and payloads when using the :ref:`Background workflow`.
 
-.. code-block:: json
+.. code-block:: javascript
 
     {
         "WebhookEventType1": [
@@ -59,7 +59,7 @@ Background workflow
 6. The PMS receives the data and creates new issues from it.
 
 Configuring Webhooks
--------------------
+---------------------
 
 Edit Mautic's Configuration to change some of the behaviors for Webhooks.
 

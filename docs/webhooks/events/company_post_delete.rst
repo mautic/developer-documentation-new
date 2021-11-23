@@ -2,9 +2,13 @@ Company deleted event
 ----------------------------
 Triggered when Mautic deletes a Company.
 
+.. _Company deleted event type:
+
 Event type
 """"""""""""""""""
 ``mautic.company_post_delete``
+
+.. _Company deleted event properties:
 
 Event properties
 """"""""""""""""""
@@ -16,6 +20,7 @@ Event properties
       - Type
       - Description
     * - ``id``
+      - int
       - ID of the deleted Company
     * - ``company``
       - object

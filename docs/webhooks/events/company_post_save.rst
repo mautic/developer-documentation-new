@@ -1,10 +1,14 @@
 Company created/updated event
-----------------------------
+------------------------------
 Triggered when Mautic creates or updates a Company.
+
+.. _Company created/updated event type:
 
 Event type
 """"""""""""""""""
 ``mautic.company_post_save``
+
+.. _Company created/updated event properties:
 
 Event properties
 """"""""""""""""""
@@ -92,6 +96,3 @@ Company properties
     * - ``fields``
       - object|array
       -  Fields are grouped by Field Groups keyed as one of ``core``, ``social``, ``personal``, and ``professional``. Each ``fieldGroup`` has an object of Fields keyed by the Field's API name. See :ref:`Custom field object<Custom field properties>` for each Field's properties. Note that this could be an object if there are Fields available. Otherwise, an empty array is set. For example, ``$companyCity = $company['fields']['core']['city']['value'];``.
-    * - ``PastChanges`` && ``Changes``
-      - object
-      - The Company's original value vs its new value in a ``fields`` object keyed by the Field's API name. Changes could be in ``PastChanges`` or ``Changes``. Each Field's value is an array where key 0 is the original value and key 1 is the new value. For example, ``$originalEmailValue = $company['PastChanges']['fields']['companyemail'][0];``.

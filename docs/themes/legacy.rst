@@ -63,7 +63,7 @@ Section
 
 The section holds and wraps the content. It can be any block HTML element with attribute ``data-section="1"``.
 
-.. Notice:: Center and add a fixed width consistent with all other sections to the element.
+.. note:: Center and add a fixed width consistent with all other sections to the element.
 
 .. code-block:: html
 
@@ -76,7 +76,7 @@ The section holds and wraps the content. It can be any block HTML element with a
     </div>
 
 Section wrapper
-^^^^^^^
+^^^^^^^^^^^^^^^
 
 Section wrappers must have 100% width of the browser window. You therefore have to split your theme into several "rows" if you want to enable the users to change the background of each section. The section wrapper can be any block HTML element with attribute ``data-section-wrapper="1"``.
 

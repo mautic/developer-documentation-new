@@ -28,7 +28,7 @@ Configuration file
 
 The configuration file tells Mautic how to utilize the Theme.
 
-.. code-block:: json
+.. code-block:: javascript
 
     {
       "name": "Theme Name",

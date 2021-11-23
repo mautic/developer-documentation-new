@@ -30,6 +30,7 @@ You can define hooks for multiple Forms using the API name of the Form as follow
 You'll need to view the HTML of the Form to find it's API name. The easiest way to do this is to browse to the Form's details in Mautic then click the "Manual Copy" button. Look for the following in the second box:
 
 .. code-block:: html
+
     <form autocomplete="false" role="form" method="post" action="https://example.com?formId=1" id="mauticform_thisismytestform" data-mautic-form="thisismytestform" enctype="multipart/form-data">
 
 The API name is the value for the ``data-mautic-form`` attribute which in this case is ``thisismytestform``.
