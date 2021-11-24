@@ -50,10 +50,12 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    :hidden:
 
    plugins/getting_started
+   plugins/mautic_vs_symfony
+   plugins/dependencies
    plugins/structure
    plugins/config
    plugins/installation
-   plugins/entities
+   plugins/data
    plugins/migrations
    plugins/translations
    plugins/permissions
