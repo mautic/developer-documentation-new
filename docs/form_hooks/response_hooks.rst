@@ -6,6 +6,7 @@ Response hooks
     Called prior to processing the Form submission's response, which handles actions like downloading a file, displaying a success message, and/or redirecting to another URL.
 
     :param object response: The response object may have the following defined:
+
         * ``response.download`` URL of a file to download
         * ``response.redirect`` URL to redirect to.
         * ``response.validationErrors`` Array of fields with validation errors.
@@ -28,6 +29,7 @@ Response hooks
     Called prior to the default processing of the response.
 
     :param object response: The response object may have the following defined:
+
         * ``response.download`` URL of a file to download
         * ``response.redirect`` URL to redirect to.
         * ``response.validationErrors`` Array of fields with validation errors.
@@ -52,6 +54,7 @@ Response hooks
     Called after to the default processing of the response.
 
     :param object response: The response object may have the following defined:
+
         * ``response.download`` URL of a file to download
         * ``response.redirect`` URL to redirect to.
         * ``response.validationErrors`` Array of fields with validation errors.
