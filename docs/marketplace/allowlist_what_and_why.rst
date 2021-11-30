@@ -1,5 +1,5 @@
 ============================================
-Allowlist: what's it and why is it needed?
+Allowlist: what is it and why is it needed?
 ============================================
  
 Plugin development can be challenging. Mautic tries to make plugin development as easy and smooth as possible, but there's always a risk that a Plugin breaks Mautic entirely.
