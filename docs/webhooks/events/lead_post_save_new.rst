@@ -241,7 +241,7 @@ Channel subscription properties
       - Description
     * - ``id``
       - int
-      - ID of the channel subscription entry.
+      - ID of the Channel subscription entry.
     * - ``reason``
       - int
       - Reason code for the unsubscription. ``1`` is unsubscribed by the Contact, ``2`` is bounced, and ``3`` is manually marked as unsubscribed by the Marketer.
