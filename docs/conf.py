@@ -40,6 +40,7 @@ release = '3.0.0'
 # ones.
 extensions = [
    'xref',
+   'phpdomain',
    'sphinx_rtd_theme',
    'sphinx.ext.viewcode',
    'sphinx.ext.autosectionlabel',

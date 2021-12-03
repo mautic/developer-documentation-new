@@ -2,12 +2,11 @@ Configuration
 ==============
 Mautic leverages a simple array based config file to register routes, menu items, services, categories and configuration parameters.
 
-General config parameters
-----------------------
-
+General config items
+--------------------------
 The general config options define how the plugin is recognized by Mautic.
 
-.. code-block::php
+.. code-block:: php
 
     <?php
     // plugins/HelloWorldBundle/Config/config.php
@@ -35,251 +34,527 @@ The general config options define how the plugin is recognized by Mautic.
       - Author of the plugin for attribution purposes.
     * - ``version``
       - string
-      - The version should be "[PHP-standardized](http://php.net/manual/en/function.version-compare.php)" as the Plugin manager will use version_compare() to determine if the [onUpdate callback](#update) should be executed.
+      - The version should be in a format compatible with :ref:`PHP's standardized version strings<PHP standardized version strings>`. The Plugin Manager uses PHP's ``version_compare()`` to determine if the plugin should be upgraded.
 
-### Routes
-> If copying, do not copy `<?php //continued` as it is simply used to force sytax highlighting.
+Routing config items
+--------------------------
 
-```php
-<?php // continued
+Routes define the URL paths that execute the specified controller action. Register routes with Mautic through the ``routes`` key in the Plugin's config. Define each route under one of Mautic's :ref:`supported firewalls<Routing firewalls>` with a uniquely identifying key and the :ref:`route's definition<Route definitions>`.
 
-    'routes'   => array(
-        'main' => array(
-            'plugin_helloworld_world' => array(
-                'path'       => '/hello/{world}',
-                'controller' => 'HelloWorldBundle:Default:world',
-                'defaults'    => array(
-                    'world' => 'earth'
-                ),
-                'requirements' => array(
-                    'world' => 'earth|mars'
-                )
-            ),
-            'plugin_helloworld_list'  => array(
+.. code-block:: php
+
+    'routes' => [
+        'main'   => [
+            'plugin_helloworld_world' => [
+                'path'         => '/hello/{world}',
+                'controller'   => [MauticPlugin\HelloWorldBundle\Controller\DefaultController, 'world'],
+                'defaults'     => [
+                    'world' => 'earth',
+                ],
+                'requirements' => [
+                    'world' => 'earth|mars',
+                ],
+            ],
+            'plugin_helloworld_list'  => [
                 'path'       => '/hello/{page}',
-                'controller' => 'HelloWorldBundle:Default:index'
-             ),
-            'plugin_helloworld_admin' => array(
+                'controller' => [MauticPlugin\HelloWorldBundle\Controller\DefaultController, 'index'],
+            ],
+            'plugin_helloworld_admin' => [
                 'path'       => '/hello/admin',
-                'controller' => 'HelloWorldBundle:Default:admin'
-            ),
-        ),
-        'public' => array(
-            'plugin_helloworld_goodbye' => array(
+                'controller' => [MauticPlugin\HelloWorldBundle\Controller\DefaultController, 'admin']
+            ],
+        ],
+        'public' => [
+            'plugin_helloworld_goodbye' => [
                 'path'       => '/hello/goodbye',
-                'controller' => 'HelloWorldBundle:Default:goodbye'
-            ),
-            'plugin_helloworld_contact' => array(
+                'controller' => MauticPlugin\HelloWorldBundle\Controller\GoodbyeController::class, // assumes an invokable class
+            ],
+            'plugin_helloworld_contact' => [
                 'path'       => '/hello/contact',
-                'controller' => 'HelloWorldBundle:Default:contact'
-            )
-        ),
-        'api' => array(
-            'plugin_helloworld_api' => array(
+                'controller' => MauticPlugin\HelloWorldBundle\Controller\ContactController::class, // assumes an invokable class
+            ],
+        ],
+        'api'    => [
+            'plugin_helloworld_api' => [
                 'path'       => '/hello',
-                'controller' => 'HelloWorldBundle:Api:howdy',
-                'method'     => 'GET'
-            )
-        )
-    ),
-```
+                'controller' => MauticPlugin\HelloWorldBundle\Controller\Api\HelloController::class, // assumes an invokable class
+                'method'     => 'GET',
+            ],
+        ],
+    ],
 
-Routes define the URL paths that will be used to execute the plugin's controller actions. See [Routing](#routing) for specifics on how routes work.
+Routing firewalls
+^^^^^^^^^^^^^^^^^^
 
-#### Firewalls
-There are three firewalls to define the routes behind.
+The following firewalls are available to routes.
 
-Firewall|Description
---------|-----------
-**main**|Secure area of Mautic (/s/ will be auto prepended to the path). The user will be required to login to access this path.
-**public**|Public access without needing authentication. The URL will be appended directly to Mautic's base URL.
-**api**|Secure API area of Mautic (/api/ will be auto prepended to the path). OAuth authorization will be required to access the path.
+.. list-table::
+    :header-rows: 1
+
+    * - Key
+      - URL prefix
+      - Description
+    * - ``api``
+      - ``/api/*``
+      - Routes that require API user authentication such as OAuth2.
+    * - ``main``
+      - ``/s/*``
+      - Routes that require standard user authentication to access secure parts of the UI.
+    * - ``public``
+      - ``/*``
+      - Routes that are public facing and do not require any user authentication.
+    * - ``catchall``
+      - ``/*``
+      - A special public firewall compiled after all other routes and namely used by Landing Pages in order to recognize custom Landing Page URLs.
 
 Each firewall accepts an array of defined routes. Each key, the route's name, must be unique across all bundles and firewalls. Paths must be unique across the same firewall.  **Order does matter** as the first matching route will be used.
 
-#### Route definitions
-Array Key|Required|Type|Description
----------|--------|----|-----------
-**path**|REQUIRED|string|Defines the path for the URL. Placeholders can be defined using curly brackets. Parameters are passed into the controller function as arguments.
-**controller**|REQUIRED|string|Defines the controller and function to call when the path is accessed. This should be in Symfony's controller notation of BundleName:ControllerClass:controllerMethod. See [Controllers](#controllers) for more information.
-**method**|OPTIONAL|string|Restricts the route to a specific method, i.e. GET, POST, etc
-**defaults**|OPTIONAL|array|Defines default values for path placeholders. If a default is defined, it is not required in the URL. In the code example, /hello will be the same as /hello/earth and the controller's $world argument will default to 'earth' as well.
-**requirements**|OPTIONAL|array|Defines regex matches placeholders must match in order for the route to be recognized. For example, for plugin_helloworld_world in the code example, world is restricted to earth or mars.  Anything else will not be recognized by the route.
-**format**|OPTIONAL|string|Sets the request format for the Request response, i.e. Content-Type header. The api firewall will automatically set this to json.
-**condition**|OPTIONAL|string|Very flexible expression to set when the route should match. Refer to [Symfony docs](http://symfony.com/doc/2.8/book/routing.html#completely-customized-route-matching-with-conditions).
+.. warning:: Each route's name must be unique across all bundles and firewalls and paths must be unique within the same firewall.
 
-Note that there are some internally used placeholders that Mautic will set defaults and requirements for (if not overridden by the route)
+.. warning:: Order of routes matters as Symfony will use the first route that matches the URL.
 
-{page} will default to 1 with a requirement of \d+
+Route definitions
+^^^^^^^^^^^^^^^^^^
 
-{objectId} will default to 0
+Route definitions define the route's method, path, controller, parameters, and others defined below.
 
-{id} will have a requirement of \d+ if under the api firewall
+.. list-table::
+    :header-rows: 1
 
-<aside class="notice">
-Each route's name must be unique across all bundles and firewalls and paths must be unique with the same firewall.
-</aside>
+    * - Key
+      - Is required?
+      - Type
+      - Description
+    * - ``path``
+      - yes
+      - string
+      - Defines the URL path for the route. Define placeholders for parameters using curly brackets. Values for parameters are passed into the controller method arguments that match by name. For example, ``/hello/{world}`` matches ``/hello/earth``, ``/hello/mars``, ``/hello/jupiter``, and so forth. ``earth``, ``mars``, and ``jupiter`` is assigned to the argument ``string $world`` if declared in the controller's method.
+    * - ``controller``
+      - yes
+      - string|array
+      - Defines the controller and function to call when the path is requested. There are three supported formats. The legacy string format, ``HelloWorldBundle:World:hello``, executes ``MauticPlugin\HelloWorldBundle\Controller\WorldController::helloAction()``. The recommended format starting in Mautic 4 is either ``[MauticPlugin\HelloWorldBundle\Controller\WorldController::class, 'hello']`` that executes ``MauticPlugin\HelloWorldBundle\Controller\WorldController::hello()`` or  ``MauticPlugin\HelloWorldBundle\Controller\WorldController::class`` that executes ``MauticPlugin\HelloWorldBundle\Controller\WorldController::__invoke()``.
+    * - ``method``
+      - no
+      - string
+      - Restricts the route to a specific method. For example GET, POST, PATCH, PUT, OPTIONS. All methods are supported by default.
+    * - ``defaults``
+      - no
+      - array
+      - Defines the default values for path placeholders as key/value paris. For example, if the ``path`` is defined as ``/hello/{world}`` where ``world`` defaults to ``earth``, define this as an array ``['world' => 'earth'],``. Visiting ``/hello`` is now the same as visiting ``/hello/earth``.
+    * - ``requirements``
+      - no
+      - array
+      - Defines regex patterns for placeholders as key/value pairs that the URL path must match in order for the route to be recognized. For example, if the ``path`` is defined as ``/hello/{world}`` and ``requirements`` as ``['world' => 'earth|mars'],`` visiting ``/hello/jupiter`` will not execute the defined controller.
+    * - ``format``
+      - no
+      - string
+      - The matched value is used to set the "request format" of the Request object. This is used for such things as setting the ``Content-Type`` of the response. For example, a json format translates into a ``Content-Type`` of ``application/json``.
+    * - ``standard_entity``
+      - no
+      - boolean
+      - If the firewall is ``api``, setting this to ``TRUE`` will automatically register GET, POST, PUT, PATCH, and DELETE API endpoints for single and batch handling of entities.
 
-<aside class="notice">
-Order does matter.  The first route the path matches will be used.
-</aside>
+Special routing parameters
+""""""""""""""""""""""""""
 
-**Debugging Routes**
-There are a few CLI commands that make help with debugging routes.
+Mautic defaults the following route definitions if not declared otherwise by the plugin.
 
-<pre class="inline">
-php app/console router:debug
-</pre>
+.. list-table::
+    :header-rows: 1
 
-<pre class="inline">
-php app/console router:debug article_show
-</pre>
+    * - Parameter
+      - Default value
+      - Description
+    * - ``{page}``
+      - ``['requirements' => ['{page}' => '\d+']]``
+      - Only digits are recognized for page parameters meant to be used in pagination.
+    * - ``{objectId}``
+      - ``['defaults' => ['{objectId' => 0]]``
+      - Typically used in routes that views or edits a specific entity.
+    * - ``{id}``
+      - ``['requirements' => ['{id}' => '\d+']]``
+      - A digit is required if using the ``api`` firewall.
 
-<pre class="inline">
-php app/console router:match /blog/my-latest-post
-</pre>
+Advanced routing
+^^^^^^^^^^^^^^^^^
 
-### Menu
+Configure custom routes through writing a listener to the ``\Mautic\CoreBundle\CoreEvents::BUILD_ROUTE`` event. Listeners to this event receives a ``Mautic\CoreBundle\Event\RouteEvent`` object. An event is dispatched for each firewall when routes are compiled.
 
-```php
-<?php // continued
+.. php:class:: Mautic\CoreBundle\Event\RouteEvent
 
-    'menu'     => array(
-        'main' => array(
+.. php:method:: getType(): string
+
+      :returns: The :ref:`route firewall<Routing firewalls>` for the given route collection.
+
+.. php:method:: getCollection(): Symfony\Component\Routing\RouteCollection
+
+    :returns: Returns a RouteCollection object that can be used to manually define custom routes.
+
+.. php:method:: addRoutes: void
+
+    Load custom routes through a resource file such as yaml or XML.
+
+    :param string $path: Path to the resource file. For example, ``@FMElfinderBundle/Resources/config/routing.yaml``.
+
+Debugging routes
+^^^^^^^^^^^^^^^^^^
+
+Use the follow commands to help debug routes:
+
+.. list-table::
+    :header-rows: 1
+
+    * - Command
+      - Description
+    * - ``php app/console router:debug``
+      - Lists all registered routes.
+    * - ``php app/console router:debug article_show``
+      - Lists the definition for the route ``article_show``.
+    * - ``php app/console router:match /blog/my-latest-post``
+      - Lists the route that matches the URL path ``/blog/my-latest-post``.
+
+Menu config items
+--------------------------
+
+Plugins define items for Mautic's varying menus through the ``menu`` config array keyed by the menu supported. Each menu can either be an array of menu items that assume default priority, see ``admin`` below for an example, or defined under an ``items`` array with an optional ``priority`` inherited by all defined items, see ``main`` below for an example.
+
+.. code-block:: php
+
+    'menu' => [
+        'main'  => [
             'priority' => 4,
-            'items'    => array(
-                'plugin.helloworld.index' => array(
+            'items'    => [
+                'plugin.helloworld.index' => [
                     'id'        => 'plugin_helloworld_index',
                     'iconClass' => 'fa-globe',
                     'access'    => 'plugin:helloworld:worlds:view',
                     'parent'    => 'mautic.core.channels',
-                    'children'  => array(
-                        'plugin.helloworld.manage_worlds'     => array(
-                            'route' => 'plugin_helloworld_list'
-                        ),
-                        'mautic.category.menu.index' => array(
-                            'bundle' => 'plugin:helloWorld'
-                        )
-                    )
-                )
-            )
-        ),
-        'admin' => array(
-            'plugin.helloworld.admin' => array(
+                    'children'  => [
+                        'plugin.helloworld.manage_worlds' => [
+                            'route' => 'plugin_helloworld_list',
+                        ],
+                        'mautic.category.menu.index'      => [
+                            'bundle' => 'plugin:helloWorld',
+                        ],
+                    ],
+                    'checks'    => [
+                        'integration' => [
+                            'HelloWorld' => [
+                                'enabled'  => true,
+                                'features' => [
+                                    'sync',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'admin' => [
+            'plugin.helloworld.admin' => [
                 'route'     => 'plugin_helloworld_admin',
                 'iconClass' => 'fa-gears',
                 'access'    => 'admin',
-                'checks'    => array(
-                    'parameters' => array(
-                        'helloworld_api_enabled' => true
-                    )
-                ),
-                'priority'  => 60
-            )
-        )
-    ),
-```
-Menu defines the menu items to display in the different menus.
+                'checks'    => [
+                    'parameters' => [
+                        'helloworld_api_enabled' => true,
+                    ],
+                ],
+                'priority'  => 60,
+            ],
+        ],
+    ],
 
-#### Menu types
-Mautic 2.0 has four customizable menus.
 
-Menu Name|Location|
----------|--------|
-**main**|Main menu on the left
-**admin**|Admin menu accessible through the cogwheel in upper right hand side of Mautic
-**profile**|Profile menu accessible through clicking the username in upper right hand side of Mautic
-**extra**|Displays to the right of the Mautic logo in the upper left hand. Only shows if there are menu items injected.
+Available menus
+^^^^^^^^^^^^^^^^^^
 
-#### Priority
-To control the placement of the menu item set, set an array with 'priority' and 'items' keys. Priority can be negative to position the items lower than others or positive to position them higher. If the menu items are returned without setting priority, like the admin menu in the code example, priority is treated as 9999.
+There are currently four menus built into Mautic.
 
-To control the priority of individual menu items, set `priority` it's definition array.
+.. list-table::
+    :header-rows: 1
 
-#### Parent
-To place a menu item in another bundles parent menu item, for example Channels or Components, define the `parent` key with the key of the menu item this item should display under. For example, to show an item under the Channels parent menu item, use `'parent'    => 'mautic.core.channels',`.
+    * - Key
+      - Description
+    * - ``main``
+      - Main app navigation.
+    * - ``admin``
+      - Menu for administration tasks such as Configuration, Webhooks, Custom Fields, and others.
+    * - ``profile``
+      - Menu for User specific tasks such as Profile and Logout.
+    * - ``extra``
+      - Menu not used by Core but available to Plugins.
 
-#### Menu item definitions
-The menu item's name should be the [language string key](#translations) that will be displayed as the item's link.
+Menu definitions
+^^^^^^^^^^^^^^^^^
 
-Item definitions:
+Menu item priority
+""""""""""""""""""""
 
-Array Key|Required|Type|Description
----------|--------|----|-----------
-**route**|OPTIONAL|string|The route name as defined in [routes](#routes). Do not set a route to treat the item as a parent to activate a submenu.
-**routeParameters**|OPTIONAL|array|Route placeholder values to use when generating the URL
-**id**|OPTIONAL|string|Sets the id of the &lt;a /&gt; attribute. This will default to what is set as route. This is used in conjuction with `returnUrl` returned in a controller's response so that the correct menu item is highlighted when ajax is used to navigate the interface.
-**iconClass**|OPTIONAL|string|Font Awesome class to set the icon for the menu item.
-**access**|OPTIONAL|string|Set the [permission](#security) required for this item to display to the user currently logged in. Can also set 'admin' to restrict to Administrators only.
-**checks**|OPTIONAL|array|Restricts display of the link based on either configured parameters or the GET request. It will accept a 'parameters' and/or 'request' array of key => value pairs that must be true to display the menu item.
-**bundle**|OPTIONAL|string|Required only for [category integration](#categories).
-**parent**|OPTIONAL|string|Display this item under another parent menu item.
-**priority**|OPTIONAL|int|Set the priority for ordering this menu item with it's siblings.
+The ``priority`` determines the position in the parent menu where items are displayed relative to other items defined by Core and Plugins. This can be in the root of the menu's array to set the priority for all items defined or in a specific item's definition. It can be negative to position the items lower than others or positive to position them higher. The default is ``9999`` if not defined.
 
-### Services
+.. notice:: You are not able to control the exact position of items in menus.
 
-```php
-<?php // continued
+Menu item definitions
+""""""""""""""""""""""
 
-    'services'    => array(
-        'events' => array(
-            'plugin.helloworld.leadbundle.subscriber' => array(
-                'class' => 'MauticPlugin\HelloWorldBundle\EventListener\LeadSubscriber'
-            )
-        ),
-        'forms'  => array(
-            'plugin.helloworld.form' => array(
-                'class' => 'MauticPlugin\HelloWorldBundle\Form\Type\HelloWorldType',
-                'alias' => 'helloworld'
-            )
-        ),
-        'helpers' => array(
-            'mautic.helper.helloworld' => array(
-                'class'     => 'MauticPlugin\HelloWorldBundle\Helper\HelloWorldHelper',
-                'alias'     => 'helloworld'
-            )
-        ),
-        'other'   => array(
-            'plugin.helloworld.mars.validator' => array(
-                'class'     => 'MauticPlugin\HelloWorldBundle\Form\Validator\Constraints\MarsValidator',
-                'arguments' => 'mautic.factory',
+Define items in an ``items`` array along with ``priority`` or at the root of the menu's array.
+
+Key each item with its respective :ref:`language string key<Translations>`.
+
+.. list-table::
+    :header-rows: 1
+
+    * - Key
+      - Is required?
+      - Type
+      - Description
+    * - ``route``
+      - conditional
+      - string
+      - Name of the :ref:`Routing config items<route>` for this item. Leave undefined if the item is a placeholder for a submenu.
+    * - ``routeParameters``
+      - no
+      - array
+      - Key/value pairs of :ref:`path parameters<Route definitions>`` for the given ``route``.
+    * - ``parent``
+      - no
+      - string
+      - Name of a parent menu to display this item under. For example, ``mautic.core.channels``, ``mautic.core.components``, or any parent defined by a Plugin.
+    * - ``priority``
+      - no
+      - ``int``
+      - Determines the position of this item relative to it's sibling items. See :ref:`Menu item priority`.
+    * - ``access``
+      - no
+      - string
+      - The :ref:`permission<Roles and permissions>` required in order to display this menu item. For example, ``category:categories:view`` or ``admin`` to restrict to only Administrators.
+    * - ``checks``
+      - no
+      - array
+      - Define checks that must evaluate to ``TRUE`` in order to display the item. See :ref:`Menu item checks` for more details.
+    * - ``id``
+      - no
+      - string
+      - ID for the menu item's link element, ``<a />``. The value for ``route`` is used by default.
+    * - ``iconClass``
+      - no
+      - string
+      - Font Awesome class to set the icon for the menu item.
+
+Menu item checks
+""""""""""""""""""
+
+Supported checks are ``parameters``, ``request``, and ``integration``.
+
+``parameters`` is an array of key/value pairs that matches the same key/value pair in Mautic's Configuration. For example:
+
+.. code-block:: php
+
+    [
+        'parameters' => [
+            'sysinfo_disabled' => false,
+        ],
+    ],
+
+``request`` is an array of key/value pairs that matches the same key/value pair in Symfony's Request. For example:
+
+.. code-block:: php
+
+    [
+        'request' => [
+            'show-something' => 1,
+        ],
+    ],
+
+``integration`` is an array keyed by the name of the Integration to be evaluated. Supported keys are ``enabled`` and ``features``. Define ``TRUE`` or ``FALSE`` for ``enabled`` to only show the menu item if the specified Integration's enabled state matches. Define an array of ``features`` that must be enabled for the Integration to show the menu item. For example:
+
+.. code-block:: php
+
+    [
+        'integration' => [
+            'OneSignal' => [
+                'enabled'  => true,
+                'features' => [
+                    'mobile',
+                ],
+            ],
+        ],
+    ],
+
+Of course, multiple checks can be combined. All must evaluate to true to display the item.
+
+.. code-block:: php
+
+    [
+        'parameters' => [
+            'sysinfo_disabled' => false,
+        ],
+        'request' => [
+            'show-something' => 1,
+        ],
+        'integration' => [
+            'OneSignal' => [
+                'enabled'  => true,
+                'features' => [
+                    'mobile',
+                ],
+            ],
+        ],
+    ],
+
+Service config items
+--------------------------
+
+Services define the Plugin's classes and their dependencies with Mautic and Symfony. Services defined within specific keys are auto-tagged as noted below.
+
+.. code-block:: php
+
+    'services' => [
+        'events'  => [
+            'helloworld.leadbundle.subscriber' => [
+                'class' => \MauticPlugin\HelloWorldBundle\EventListener\LeadSubscriber::class,
+            ],
+        ],
+        'forms'   => [
+            'helloworld.form' => [
+                'class' => \MauticPlugin\HelloWorldBundle\Form\Type\HelloWorldType::class,
+            ],
+        ],
+        'helpers' => [
+            'helloworld.helper.world' => [
+                'class' => MauticPlugin\HelloWorldBundle\Helper\WorldHelper::class,
+                'alias' => 'helloworld',
+            ],
+        ],
+        'other'   => [
+            'helloworld.mars.validator' => [
+                'class'     => MauticPlugin\HelloWorldBundle\Form\Validator\Constraints\MarsValidator::class,
+                'arguments' => [
+                    'mautic.helper.core_parameters',
+                    'helloworld.helper.world',
+                ],
                 'tag'       => 'validator.constraint_validator',
-                'alias'     => 'helloworld_mars'
-            )
-        )
-    ),
+            ],
+        ],
+    ],
 
-```
+Service types
+^^^^^^^^^^^^^^^^^^
 
-Services are PHP objects stored in the service container and are used all throughout Mautic. They can be as simple or as complex as required. Read more about Symfony's service container [here](http://symfony.com/doc/2.8/book/service_container.html).
+For convenience, Mautic will auto-tag services defined within specific keys.
 
-#### Service types
-Mautic allows easy configuration for four types of services:
+.. list-table::
+    :header-rows: 1
 
-Type|Description
-----|-----------
-**events**|Defines event subscriber classes used to listen to events dispatched throughout Mautic and auto-tagged with 'kernel.event_subscriber.' The defined class must extend \Mautic\CoreBundle\EventListener\CommonSubscriber. Read more about subscribers [here](#subscribers).
-**forms**|Defines custom [form types](#forms) and auto-tagged with 'form.type.'
-**helpers**|Defines custom template helpers available through the $view variable in [views](#views). These services are auto-tagged with 'templating.helper.'
-**models**|Defines [model services](#models)
-**other**|All other custom services.
+    * - Key
+      - Tag
+      - Description
+    * - ``command`` or ``commands``
+      - ``console.command``
+      - Registers the service with :xref:`Symfony as a console command<Symfony 4 console command tag>`.
+    * - ``controllers``
+      - ``controller.service_arguments``
+      - Controllers are typically autowired by Symfony. However, you can register :xref:`controllers as services<Symfony 4 controller service arguments tag` to manage your own dependency injection rather than relying on Symfony's service container.
+    * - ``events``
+      - ``kernel.event_subscriber``
+      - Registers the service with :xref:`Symfony as an event subscriber<Symfony 4 event subscriber tag>`.
+    * - ``forms``
+      - ``form.type``
+      - Registers the service with :xref:`Symfony as a custom form field type<Symfony 4 custom form field type tag>`.
+    * - ``helpers``
+      - ``templating.helper``
+      - Registers the service with :xref:`Symfony as a PHP template helper<Symfony 4 PHP template helper tag>`. The service definition must include an ``alias``.
+    * - ``models``
+      - ``mautic.model``
+      - Deprecated. Use service dependency injection instead.
+    * - ``permissions``
+      - ``mautic.permissions``
+      - Registers the service with Mautic's :ref:`permission service<Roles and permissions>`.
+    * - ``*`` or ``other``
+      - n/a
+      - You can use any other key you want to organize services in the config array. Note that this could risk incompatibility with a future version of Mautic if using something generic that Mautic starts to use as well.
 
-#### Service definitions
+Service definitions
+^^^^^^^^^^^^^^^^^^^^^
 
-Each key within the service types array is the name of the service and must be unique. Use the following to define the service:
+Key each service with a unique name to all of Mautic, including other Plugins.
 
-Array Key|Required|Type|Description
----------|--------|----|-----------
-**class**|REQUIRED|string|Namespace to the service class (not that it does not start with a backslash)
-**arguments**|OPTIONAL|string or array|String of a single argument to pass to the construct or an array of arguments to pass. Arguments enclosed with %% will be treated as a [parameter](#parameters). To pass a specific string, enclose the argument with double quotations "". Anything else that is not a boolean or a namespaced class (string with \ in it) will be treated as the name of another registered service. Often, this will simply be [mautic.factory](#factory-service).
-**alias**|OPTIONAL|string|Sets the alias used by the service. For example, the key for the template helpers, $view, array or the string to retrieve a specific form type.
+.. list-table::
+    :header-rows: 1
+
+    * - Key
+      - Is required?
+      - Type
+      - Description
+    * - ``class``
+      - yes
+      - string
+      - Fully qualified name for the service's class.
+    * - ``arguments``
+      - no
+      - array
+      - Array of services, parameters, booleans, or strings injected as arguments into this service's construct. Parameters are recognized by wrapping the parameter key in ``%`` signs, for example, ``'%mautic.some_parameter%',``. Hard coded strings need to be wrapped in ``"`` signs, for example, ``'"some string"',``. Any other string is assumed to be the name of a defined service.
+    * - ``alias``
+      - conditional
+      - string
+      - Used by specific service types. For example, services defined under ``helpers`` use this as the key in the ``$view`` variable to access the defined service from PHP templates. Otherwise, it defines an alternate name for the service.
+    * - ``tag``
+      - no
+      - string
+      -
+    * - ``tags``
+      - no
+      - array
+      -
+    * - ``tagArguments``
+      - no
+      - array
+      -
+    * - ``factory``
+      - no
+      - string
+      -
+    * - ``factory``
+      - no
+      - array
+      -
+    * - ``methodCalls``
+      - no
+      - array
+      -
+    * - ``decoratedService``
+      - no
+      - array
+    * - ``abstract``
+      - no
+      - boolean
+      -
+    * - ``public``
+      - no
+      - boolean
+      -
+    * - ``lazy``
+      - no
+      - boolean
+      -
+    * - ``synthetic``
+      - no
+      - boolean
+      -
+    * - ``file``
+      - no
+      - string
+      -
+    * - ``configurator``
+      - no
+      - array
+      -
+
 **tag**|OPTIONAL|string|[Tags](http://symfony.com/doc/2.8/components/dependency_injection/tags.html) the service used by bundles to get a list of specific services (for example form types and event subscribers).
 **tags**|OPTIONAL|array|Array of of tags
 **tagArguments**|OPTIONAL|array|Array of attributes for the tag. See [Symfony docs](http://symfony.com/doc/2.8/components/dependency_injection/tags.html#adding-additional-attributes-on-tags) for more information.
-**scope**|OPTIONAL|string|Defines the [service scope](http://symfony.com/doc/2.8/cookbook/service_container/scopes.html). Deprecated.
 **factory**|OPTIONAL|string|Preferred method for using a factory class. [Factory class](http://symfony.com/doc/2.8/components/dependency_injection/factories.html) for managing creating the service.
-**factoryService**|OPTIONAL|string|[Factory class](http://symfony.com/doc/2.8/components/dependency_injection/factories.html) for managing creating the service. Deprecated; use `factory` instead.
-**factoryMethod**|OPTIONAL|string|Method name in the [factory service](http://symfony.com/doc/2.8/components/dependency_injection/factories.html) called to create the service. Deprecated; use `factory` instead.
 **methodCalls**|OPTIONAL|array|Array of methods to be called after a service is created passing in the array of arguments provided. Should be in the format of 'methodName' => array('service_name', '%parameter%')
 **decoratedService**|OPTIONAL|array|[Decorated service](http://symfony.com/doc/2.8/components/dependency_injection/advanced.html#decorating-services)
 **public**|OPTIONAL|bool|[Public/private service](http://symfony.com/doc/2.8/components/dependency_injection/advanced.html#marking-services-as-public-private)
@@ -289,6 +564,24 @@ Array Key|Required|Type|Description
 **file**|OPTIONAL|string|[Include file prior to loading service](http://symfony.com/doc/2.8/components/dependency_injection/definitions.html#requiring-files)
 **configurator**|OPTIONAL|array|[Use a configurator to load service](http://symfony.com/doc/current/components/dependency_injection/configurators.html#configurator-service-config)
 
+Mautic service tags
+""""""""""""""""""""
+mautic.permissions
+
+mautic.basic_integration
+mautic.builder_integration
+mautic.authentication_integration
+mautic.config_integration
+mautic.sync_integration
+mautic.sync.notification_handler
+
+mautic.sms_transport
+mautic.sms_callback_handler
+mautic.email_transport
+mautic.email_stat_helper
+
+Category config items
+--------------------------
 
 ### Categories
 
@@ -300,6 +593,9 @@ Array Key|Required|Type|Description
     ),
 ```
 Defines category types available or the Category manager. See [Extending Categories](#extending-categories).
+
+Parameters config items
+--------------------------
 
 ### Parameters
 

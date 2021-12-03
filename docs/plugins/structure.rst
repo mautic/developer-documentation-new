@@ -12,7 +12,7 @@ At a minimum, the following structure is required::
 
 ``HelloWorldBundle/Config/config.php`` registers the plugin with Mautic along with defining routes, menu items, services, and parameters.
 
-The ``HelloWorldBundle.php`` file registers the bundle with Symfony's kernel. It should extend ``Mautic\IntegrationsBundle\Bundle\AbstractPluginBundle``.
+The ``HelloWorldBundle.php`` file registers the bundle with Symfony's kernel. Extend the class with ``Mautic\IntegrationsBundle\Bundle\AbstractPluginBundle``.
 
 .. code-block:: php
 
