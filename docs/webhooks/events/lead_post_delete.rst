@@ -1,6 +1,6 @@
 Contact deleted event
 ----------------------------
-Triggered when Mautic deletes Contact.
+Triggered when Mautic deletes a Contact.
 
 .. _Contact deleted event type:
 
