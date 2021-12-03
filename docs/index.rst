@@ -39,11 +39,19 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    webhooks/events/index
 
 .. toctree::
+   :caption: Mautic Marketplace
+   :hidden:
+
+   marketplace/getting_started
+   marketplace/listing
+   marketplace/allowlist_what_and_why
+   marketplace/best_practices
+
+.. toctree::
    :caption: Plugins
    :hidden:
 
    plugins/getting_started
-   plugins/marketplace
    plugins/structure
    plugins/config
    plugins/installation

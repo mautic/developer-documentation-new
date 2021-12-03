@@ -1,5 +1,7 @@
 tasks:
-  - init: pip3 install -r docs/requirements.txt
+  - init: |
+      pip3 install -r docs/requirements.txt
+      brew install vale
   - name: Open workspace on welcome page
     command: gp open .vscode/welcome.md
 
@@ -7,6 +9,9 @@ vscode:
   extensions:
     - lextudio.restructuredtext
     - trond-snekvik.simple-rst
+    - errata-ai.vale-server
+    - ms-python.python
+    - eamodio.gitlens
 
 github:
   prebuilds:
