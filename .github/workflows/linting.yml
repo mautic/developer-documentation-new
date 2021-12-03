@@ -19,7 +19,29 @@ jobs:
         # We can modify these styles as we want
         styles: |
           https://github.com/errata-ai/Google/releases/latest/download/Google.zip
-        files: pages/
         onlyAnnotateModifiedLines: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+        cache: 'pip'
+
+    - name: Install Python dependencies
+      run: pip3 install -r docs/requirements.txt
+    
+    # The -W switch converts Sphinx warnings into errors
+    - name: Build docs
+      working-directory: docs
+      run: make html SPHINXOPTS="-W"
+
+    - name: Check links
+      working-directory: docs
+      run: make checklinks

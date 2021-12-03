@@ -8,6 +8,7 @@ SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     =
 BUILDDIR      = build
 LINKSDIR      = links
+LINKCHECKDIR  = build/linkcheck
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -33,6 +34,12 @@ link_text = \"$$link_text\" \n\
 link_url = \"$$link_url\" \n\n\
 link.xref_links.update({link_name: (link_text, link_url)})" \
   > $(LINKSDIR)/$$file_name".py" \
+
+.PHONY: checklinks
+checklinks:
+	$(SPHINXBUILD) -b linkcheck . $(LINKCHECKDIR)
+	@echo
+	@echo "Check finished. Report is in $(LINKCHECKDIR)."
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
