@@ -250,4 +250,4 @@ Channel subscription properties
       - Channel the Contact unsubscribed from. Examples are ``email`` and ``sms``.
     * - ``channelId``
       - int|null
-      - ID of the specific channel entity the Contact clicked to unsubscribe from.
+      - ID of the specific Channel entity the Contact clicked to unsubscribe from.
