@@ -3,7 +3,7 @@ Getting started with webhooks
 
 Webhooks are a universal way to send data about Contacts and their activity to a third party in either real-time - as the change/activity happens - or queued - to be sent in batches through background cron jobs.
 
-The structure of Webhook payloads are like the following. ``WebhookEventType`` would be the event's actual type and `WebhookEventPayload` will contain the event's data.
+The structure of Webhook payloads are as follows. ``WebhookEventType`` would be the event's actual type and `WebhookEventPayload` will contain the event's data.
 
 .. code-block:: javascript
 
