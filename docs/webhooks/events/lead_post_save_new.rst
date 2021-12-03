@@ -76,7 +76,7 @@ Contact properties
       - Preferred image to display for the Contact. Defaults to ``gravatar``.
     * - ``fields``
       - object|array
-      -  Fields are grouped by Field Groups keyed as one of ``core``, ``social``, ``personal``, and ``professional``. Each ``fieldGroup`` has an object of Fields keyed by the Field's API name. See :ref:`Custom field object<Custom field properties>` for each Field's properties. Note that this could be an object if there are Fields available. Otherwise, an empty array is set. For example, ``$firstname = $contact['fields']['core']['firstname']['value'];``.
+      -  Fields are grouped by Field Groups keyed as one of ``core``, ``social``, ``personal``, and ``professional``. Each ``fieldGroup`` has an object of Fields keyed by the Field's API name. See :ref:`Custom Field object<Custom Field properties>` for each Field's properties. Note that this could be an object if there are Fields available. Otherwise, an empty array is set. For example, ``$firstname = $contact['fields']['core']['firstname']['value'];``.
     * - ``lastActive``
       - string|null
       - Date/time the Contact was last active in ISO 8601 format or null if it has not been active.
@@ -102,9 +102,9 @@ Contact properties
       - object
       - Currently not fully populated for Webhooks.
 
-.. _Custom field properties:
+.. _Custom Field properties:
 
-Custom field properties
+Custom Field properties
 """"""""""""""""""""""""""
 
 .. list-table::

@@ -95,4 +95,4 @@ Company properties
       - The Company's behavior score (similar to Contact Points).
     * - ``fields``
       - object|array
-      -  Fields are grouped by Field Groups keyed as one of ``core``, ``social``, ``personal``, and ``professional``. Each ``fieldGroup`` has an object of Fields keyed by the Field's API name. See :ref:`Custom field object<Custom field properties>` for each Field's properties. Note that this could be an object if there are Fields available. Otherwise, an empty array is set. For example, ``$companyCity = $company['fields']['core']['city']['value'];``.
+      -  Fields are grouped by Field Groups keyed as one of ``core``, ``social``, ``personal``, and ``professional``. Each ``fieldGroup`` has an object of Fields keyed by the Field's API name. See :ref:`Custom Field object<Custom Field properties>` for each Field's properties. Note that this could be an object if there are Fields available. Otherwise, an empty array is set. For example, ``$companyCity = $company['fields']['core']['city']['value'];``.
