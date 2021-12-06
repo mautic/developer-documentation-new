@@ -17,6 +17,8 @@ The general config options define how the plugin is recognized by Mautic.
         'author'      => 'Someone Awesome',
         'version'     => '1.0.0',
 
+    // ...
+
 .. list-table::
     :header-rows: 1
 
@@ -42,6 +44,10 @@ Routing config items
 Routes define the URL paths that execute the specified controller action. Register routes with Mautic through the ``routes`` key in the Plugin's config. Define each route under one of Mautic's :ref:`supported firewalls<Routing firewalls>` with a uniquely identifying key and the :ref:`route's definition<Route definitions>`.
 
 .. code-block:: php
+
+    <?php
+
+    // ...
 
     'routes' => [
         'main'   => [
@@ -82,6 +88,8 @@ Routes define the URL paths that execute the specified controller action. Regist
             ],
         ],
     ],
+
+    // ...
 
 Routing firewalls
 ^^^^^^^^^^^^^^^^^^
@@ -220,6 +228,9 @@ Plugins define items for Mautic's varying menus through the ``menu`` config arra
 
 .. code-block:: php
 
+    <?php
+    // ...
+
     'menu' => [
         'main'  => [
             'priority' => 4,
@@ -264,6 +275,8 @@ Plugins define items for Mautic's varying menus through the ``menu`` config arra
             ],
         ],
     ],
+
+    // ...
 
 
 Available menus
@@ -351,25 +364,38 @@ Supported checks are ``parameters``, ``request``, and ``integration``.
 
 .. code-block:: php
 
+    <?php
+    // ...
+
     [
         'parameters' => [
             'sysinfo_disabled' => false,
         ],
     ],
+
+    // ...
 
 ``request`` is an array of key/value pairs that matches the same key/value pair in Symfony's Request. For example:
 
 .. code-block:: php
 
+    <?php
+    // ...
+
     [
         'request' => [
             'show-something' => 1,
         ],
     ],
 
+    // ...
+
 ``integration`` is an array keyed by the name of the Integration to be evaluated. Supported keys are ``enabled`` and ``features``. Define ``TRUE`` or ``FALSE`` for ``enabled`` to only show the menu item if the specified Integration's enabled state matches. Define an array of ``features`` that must be enabled for the Integration to show the menu item. For example:
 
 .. code-block:: php
+
+    <?php
+    // ...
 
     [
         'integration' => [
@@ -382,9 +408,14 @@ Supported checks are ``parameters``, ``request``, and ``integration``.
         ],
     ],
 
+    // ...
+
 Of course, multiple checks can be combined. All must evaluate to true to display the item.
 
 .. code-block:: php
+
+    <?php
+    // ...
 
     [
         'parameters' => [
@@ -402,6 +433,8 @@ Of course, multiple checks can be combined. All must evaluate to true to display
             ],
         ],
     ],
+
+    // ...
 
 Service config items
 --------------------------
@@ -409,6 +442,10 @@ Service config items
 Services define the Plugin's classes and their dependencies with Mautic and Symfony. Services defined within specific keys are auto-tagged as noted below.
 
 .. code-block:: php
+
+    <?php
+
+    // ...
 
     'services' => [
         'events'  => [
@@ -438,6 +475,8 @@ Services define the Plugin's classes and their dependencies with Mautic and Symf
             ],
         ],
     ],
+
+    // ...
 
 Service types
 ^^^^^^^^^^^^^^^^^^
@@ -498,120 +537,165 @@ Key each service with a unique name to all of Mautic, including other Plugins.
     * - ``alias``
       - conditional
       - string
-      - Used by specific service types. For example, services defined under ``helpers`` use this as the key in the ``$view`` variable to access the defined service from PHP templates. Otherwise, it defines an alternate name for the service.
+      - Used by specific types of services. For example, services defined under ``helpers`` use this as the key in the ``$view`` variable to access the defined service from PHP templates. Otherwise, it defines an alternate name for the service.
+    * - ``serviceAlias``
+      - no
+      - string
+      - Define an alias for this service in addition to the name defined as the service's key. Note that the service's class name is set as an alias by default.
+    * - ``serviceAliases``
+      - no
+      - array
+      - Define multiple aliases for this service in addition to the name defined as the service's key. Note that the service's class name is set as an alias by default.
     * - ``tag``
       - no
       - string
-      -
+      - Define a :xref:`tag used by Symfony when compiling the container<Symfony 4 service tags>`. See :ref:`Mautic service tags` for Mautic specific tags.
     * - ``tags``
       - no
       - array
-      -
+      - An array of tags when there are more than one. See :ref:`Mautic service tags` for Mautic specific tags. This supersedes ``tag``.
     * - ``tagArguments``
       - no
       - array
-      -
-    * - ``factory``
-      - no
-      - string
-      -
+      - Some tags have special arguments which are defined through an array of tagArguments. If using ``tag``, this should be a key/value pair of the arguments specific to the given tag. For example, ``['tag' => 'tag1', 'tagArguments' => ['tag1-key' => 'tag1-value'],],``. If using ``tags``, this should be an array of arrays keyed the same as the values of ``tags``. For example, ``['tags' => [ 'tag1', 'tag2'], 'tagArguments' => [['tag1-key' => 'tag1-value'],['tag2-key' => 'tag2-value'],],],``.
     * - ``factory``
       - no
       - array
-      -
+      - Define a factory to create this service. For example, ``'factory' => ['@doctrine.orm.entity_manager', 'getRepository'],``. See :xref:`Symfony 4 factories`.
     * - ``methodCalls``
       - no
-      - array
-      -
+      - array[]
+      - Define methods to call after the service is instantiated. Use an array of arrays with keys as the method name and values the arguments to pass into the given method. For example,  ``['methodCalls' => ['setSecurity' => ['mautic.security'],],],``.
     * - ``decoratedService``
       - no
-      - array
-    * - ``abstract``
-      - no
-      - boolean
-      -
+      - string
+      - Name of another service to override and decorate. The original service becomes available as ``thisServiceName.inner`` that can be passed as an argument into this or other services. See :xref:`Symfony 4 service decoration`.
     * - ``public``
       - no
       - boolean
-      -
-    * - ``lazy``
-      - no
-      - boolean
-      -
+      - Defines the service as public and accessible through the service container. By default, all Mautic services are public. Set this to ``FALSE`` to make the service private instead.
     * - ``synthetic``
       - no
       - boolean
-      -
+      - Configure the service as synthetic meaning it is set during run time. See :xref:`Symfony 4 synthetic services`.
     * - ``file``
       - no
       - string
-      -
+      - Include the specified file prior to loading the service. Symfony uses ``require_once`` so this will only be included once per process. See :xref:`Symfony 4 requiring a file before loading a service`.
     * - ``configurator``
       - no
-      - array
-      -
-
-**tag**|OPTIONAL|string|[Tags](http://symfony.com/doc/2.8/components/dependency_injection/tags.html) the service used by bundles to get a list of specific services (for example form types and event subscribers).
-**tags**|OPTIONAL|array|Array of of tags
-**tagArguments**|OPTIONAL|array|Array of attributes for the tag. See [Symfony docs](http://symfony.com/doc/2.8/components/dependency_injection/tags.html#adding-additional-attributes-on-tags) for more information.
-**factory**|OPTIONAL|string|Preferred method for using a factory class. [Factory class](http://symfony.com/doc/2.8/components/dependency_injection/factories.html) for managing creating the service.
-**methodCalls**|OPTIONAL|array|Array of methods to be called after a service is created passing in the array of arguments provided. Should be in the format of 'methodName' => array('service_name', '%parameter%')
-**decoratedService**|OPTIONAL|array|[Decorated service](http://symfony.com/doc/2.8/components/dependency_injection/advanced.html#decorating-services)
-**public**|OPTIONAL|bool|[Public/private service](http://symfony.com/doc/2.8/components/dependency_injection/advanced.html#marking-services-as-public-private)
-**lazy**|OPTIONAL|bool|[Lazy load service](http://symfony.com/doc/2.8/components/dependency_injection/lazy_services.html)
-**synthetic**|OPTIONAL|bool|[Synthetic service](http://symfony.com/doc/2.8/components/dependency_injection/synthetic_services.html)
-**synthetic**|OPTIONAL|bool|[Synthetic service](http://symfony.com/doc/2.8/components/dependency_injection/synthetic_services.html)
-**file**|OPTIONAL|string|[Include file prior to loading service](http://symfony.com/doc/2.8/components/dependency_injection/definitions.html#requiring-files)
-**configurator**|OPTIONAL|array|[Use a configurator to load service](http://symfony.com/doc/current/components/dependency_injection/configurators.html#configurator-service-config)
+      - array|string
+      - Callable to use as a configurator to configure the service after its instantiation. See :xref:`Symfony 4 service configurators`.
+    * - ``abstract``
+      - no
+      - boolean
+      - Configure this service as an abstract/parent service. Unfortunately, this cannot be leveraged until https://forum.mautic.org/t/support-symfony-abstract-parent-services/21922 is addressed.
+    * - ``lazy``
+      - no
+      - boolean
+      - Define the service with lazy loading. Note that although this is available, it is ignored until https://forum.mautic.org/t/supporty-symfony-lazy-services/21923 is addressed.
 
 Mautic service tags
 """"""""""""""""""""
-mautic.permissions
 
-mautic.basic_integration
-mautic.builder_integration
-mautic.authentication_integration
-mautic.config_integration
-mautic.sync_integration
-mautic.sync.notification_handler
+Mautic uses the follow tags to register services as described below.
 
-mautic.sms_transport
-mautic.sms_callback_handler
-mautic.email_transport
-mautic.email_stat_helper
+**Channel tags**
+
+.. list-table::
+    :header-rows: 1
+
+    * - Tag
+      - Supported tag arguments
+      - Description
+    * - ``mautic.sms_transport``
+      - ``['integrationAlias' => 'Name to display in the UI for this transport.']``
+      - Register this service as a :ref:`Text Message transport<Text Message transports>`.
+    * - ``mautic.sms_callback_handler``
+      - none
+      - Registers this service to handle webhooks from a :ref:`Text Message transport<Text Message transports>`.
+    * - ``mautic.email_transport``
+      - Key/value pairs to configure fields required to authenticate with the transport's service. See :ref:`Email transports`.
+      - Registers the service as an :ref:`Email transport<Email transports>`.
+    * - ``mautic.email_stat_helper``
+      - none
+      - Registers the service as a stat helper for Email charts. See :ref:`Email stat helpers`.
+
+**Core tags**
+
+.. list-table::
+    :header-rows: 1
+
+    * - Tag
+      - Supported tag arguments
+      - Description
+    * - ``mautic.permissions``
+      - none
+      - Registers the service as a permission object that must extend ``\Mautic\CoreBundle\Security\Permissions\AbstractPermissions``. See :ref:`Roles and permissions`. This is not required if the service is defined under the ``['services']['permissions']`` array.
+
+**Integration tags**
+
+.. list-table::
+    :header-rows: 1
+
+    * - Tag
+      - Supported tag arguments
+      - Description
+    * - ``mautic.basic_integration``
+      - none
+      - Registers the service as an :ref:`Integration<Integrations>`.
+    * - ``mautic.builder_integration``
+      -  none
+      - Registers the service as a :ref:`Builder<Integration Builders>`.
+    * - ``mautic.authentication_integration``
+      - none
+      - Registers the service to :ref:`authenticate with the Integration's service<Integration authentication>`.
+    * - ``mautic.config_integration``
+      - none
+      - Registers the service to :ref:`configure the Integration<Integration configuration>`.
+    * - ``mautic.sync_integration``
+      - none
+      - Registers the service to :ref:`sync with Mautic objects with the Integration's service<Integration sync engine>`.
+    * - ``mautic.sync.notification_handler``
+      - none
+      - Registers the service to handle :ref:`sync notifications<Sync notification handlers>`.
 
 Category config items
 --------------------------
 
-### Categories
+Use ``categories`` to define Category types available to the Category manager. See :ref:`Categories`.
 
-```php
-<?php // continued
+.. code-block:: php
 
-    'categories' => array(
-        'plugin:helloWorld' => 'mautic.helloworld.world.categories'
-    ),
-```
-Defines category types available or the Category manager. See [Extending Categories](#extending-categories).
+    <?php
+    // ...
+
+   'categories' => [
+        'plugin:helloWorld' => 'mautic.helloworld.world.categories',
+    ],
+
+    // ...
+
 
 Parameters config items
 --------------------------
 
-### Parameters
+Configure parameters that are consumable through Mautic's ``CoreParameterHelper``, passed into services with ``%mautic.key%``, or read from the environment via ``MAUTIC_KEY``. See :ref:`Configuration parameters` for more information.
 
-```php
-<?php // continued
+.. code-block:: php
 
-    'parameters' => array(
-        'helloworld_api_enabled' => false
-    )
-);
-```
+    <?php
 
-The parameters array define and set default values for [custom configuration parameters](#custom-config-params) specific to the plugin.
+    // ...
 
-To obtain the values of these parameters, use the [`mautic.helper.core_parameters` service](#config-parameters).
+    'parameters' => [
+        'helloworld_api_enabled'      => false,
+        'helloworld_supported_worlds' => ['earth', 'mars', 'jupiter',],
+    ],
 
-<aside class="notice">
-Any parameter to be written to the system's local config file should be defined here.
-</aside>
+    // ...
+
+
+.. note:: The default value must match the value's type for Mautic to typecast and transform appropriately. For example, if there is not a specific default value to declare, define an empty array, ``[]``, for an array type; zero, ``0``, for an integer type; ``TRUE`` or ``FALSE`` for boolean types; and so forth. Services leveraging parameters should accept and handle ``NULL`` for integer and string types, excluding ``0``.
+
+.. note:: Parameters are not exposed to the UI by default. See :ref:`Configuration` for more information.
