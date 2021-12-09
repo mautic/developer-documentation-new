@@ -1,8 +1,8 @@
-Installing and upgrading
-=========================
+Installing, upgrading, and uninstalling
+========================================
 
-Installation processes
-------------------------
+It is recommended that you register your plugins with the :ref:`Marketplace`.
 
-Upgrade processes
--------------------
+Todo: update when Markplace docs are ready. https://github.com/mautic/mautic/pull/10518
+
+Unsure if the legacy callback methods ``\\Mautic\\PluginBundle\\Bundle\\PluginBundleBase::onPluginInstall`` and ``onPluginUpdate`` will continue to be used in the Marketplace and these are the only supported callbacks at the moment.
