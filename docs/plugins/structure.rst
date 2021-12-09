@@ -1,5 +1,5 @@
 File and directory structure
-==========================================================
+==============================
 
 The directory structure of an plugin will vary based on the features implemented.
 
