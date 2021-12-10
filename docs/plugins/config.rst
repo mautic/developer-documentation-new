@@ -1,5 +1,6 @@
-Configuration
+Config file
 ==============
+
 Mautic leverages a simple array based config file to register routes, menu items, services, categories, and configuration parameters.
 
 General config items
@@ -36,7 +37,7 @@ Mautic recognizes the plugin through the general config options.
       - Author of the plugin for attribution purposes.
     * - ``version``
       - string
-      - The version should be in a format compatible with :ref:`PHP's standardized version strings<PHP standardized version strings>`. The Plugin Manager uses PHP's ``version_compare()`` to determine if the plugin is eligible for an upgrade.
+      - The version should be in a format compatible with :xref:`PHP's standardized version strings<PHP standardized version strings>`. The Plugin Manager uses PHP's ``version_compare()`` to determine if the plugin is eligible for an upgrade.
 
 Routing config items
 --------------------------
@@ -309,14 +310,14 @@ Menu item priority
 
 The ``priority`` determines the position in the parent menu where items display relative to other items defined by Core and Plugins. This can be in the root of the menu's array to set the priority for all items defined or in a specific item's definition. It can be negative to position the items lower than others or positive to position them higher. The default is ``9999`` if not defined.
 
-.. notice:: You are not able to control the exact position of items in menus.
+.. note:: You are not able to control the exact position of items in menus.
 
 Menu item definitions
 """"""""""""""""""""""
 
 Define items in an ``items`` array along with ``priority`` or at the root of the menu's array.
 
-Key each item with its respective :ref:`language string key<Translations>`.
+Key each item with its respective :ref:`language string key<Translating plugins>`.
 
 .. list-table::
     :header-rows: 1
@@ -328,11 +329,11 @@ Key each item with its respective :ref:`language string key<Translations>`.
     * - ``route``
       - conditional
       - string
-      - Name of the :ref:`Routing config items<route>` for this item. Leave undefined if the item is a placeholder for a sub-menu.
+      - Name of the :ref:`Routing config items<Route definitions>` for this item. Leave undefined if the item is a placeholder for a sub-menu.
     * - ``routeParameters``
       - no
       - array
-      - Key/value pairs of :ref:`path parameters<Route definitions>`` for the given ``route``.
+      - Key/value pairs of :ref:`path parameters<Route definitions>` for the given ``route``.
     * - ``parent``
       - no
       - string

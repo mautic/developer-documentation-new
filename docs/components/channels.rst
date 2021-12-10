@@ -7,6 +7,7 @@ Preference center integration
 How to register channel features:
 
 .. code-block:: php
+
     <?php
 
     public static function getSubscribedEvents()

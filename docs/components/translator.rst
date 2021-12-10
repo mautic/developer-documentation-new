@@ -10,9 +10,9 @@ Translation file and directory structure
 
 Translations are `INI` files organized in the following directory structure for Core bundles and Plugins::
 
-Translations/
-    {locale}/
-        {:ref:`domain<Translation domains>`}.ini
+    Translations/
+        {locale}/
+            {:ref:`domain<Translation domains>`}.ini
 
 .. note:: All Core bundles and Plugins must include translations for the US English, en_US, locale.
 
@@ -40,7 +40,7 @@ Translation domains organize translations into files. The following are defined 
     * - ``flashes``
       - Default domain for translations for the ``\Mautic\CoreBundle\Service\FlashBag`` service.
     * - ``validators``
-      - Default domain for constraint messages for validations in :ref:`Symfony form field types<Symfony 4 custom form field type tag>`.
+      - Default domain for constraint messages for validations in :xref:`Symfony form field types<Symfony 4 custom form field type tag>`.
 
 Translation strings
 ------------------------
