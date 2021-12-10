@@ -1,9 +1,9 @@
 File and directory structure
 ==============================
 
-The directory structure of an plugin will vary based on the features implemented.
+The directory structure of an plugin varies based on the features implemented.
 
-At a minimum, the following structure is required::
+Plugins require the following structure at a minimum::
 
     HelloWorldBundle/
         Config/

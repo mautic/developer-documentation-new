@@ -3,7 +3,7 @@ Deviations from standard Symfony Framework
 
 Custom directory structure
 ---------------------------
-Mautic uses some directory paths that are not typical in Symfony in order to make it distributable and pluggable.
+Mautic uses directory paths that aren't typical in Symfony to make it distributable.
 
 .. list-table::
     :header-rows: 1
@@ -39,42 +39,42 @@ Mautic mostly uses Symfony's 2.x/3.x bundle structure for Core bundles in ``app\
 
 PHP everything
 ---------------
-Mautic was originally written in PHP. Yaml and twig wasn't familiar at the time so mostly avoided. This is why Mautic used Symfony's PHP template engine by default and PHP based configurations.
+Mautic was originally written in PHP. YAML and twig wasn't familiar at the time so mostly avoided. This is why Mautic used Symfony's PHP template engine by default and PHP based configurations.
 
 .. note:: Symfony has since deprecated its PHP template engine and removed it in Symfony 5. Twig is being slowly introduced to replace PHP templates.
 
-The goal for a PHP based config was to create a single place within the bundle to define routes, services, menus, parameters, etc rather than hunting for annotations buried throughout the application's code. Symfony's PHP configuration for registering services, parameters, routes, etc is verbose so a custom configuration framework was written that is parsed by various listeners and ``\Mautic\CoreBundle\DependencyInjection\MauticCoreExtension``.
+The goal for a PHP based config was to create a single place within the bundle to define routes, services, menus, parameters, etc rather than hunting for annotations buried throughout the app's code. Symfony's PHP configuration for registering services, parameters, routes, etc is also verbose. Therefore, Mautic provides a custom configuration framework through ``\Mautic\CoreBundle\DependencyInjection\MauticCoreExtension`` and various listeners.
 
 Custom configuration
 ---------------------
-Mautic has its own configuration system that is built on top of Symfony parameters and utilized in the application through the ``\Mautic\CoreBundle\Helper\CoreParametersHelper``. Configuration key/values are written to ``app/config/local.php`` by default.
+Mautic built its own configuration system that services can access through Symfony parameters or ``\Mautic\CoreBundle\Helper\CoreParametersHelper``. Mautic writes configuration key/value pairs to ``app/config/local.php`` by default.
 
-.. warning:: Although you can define and use Symfony parameters, it is recommended to use Mautic's native means of managing configuration parameters.
+.. note:: Use Mautic's native means of managing configuration parameters, although you can define and use Symfony parameters if you want to.
 
-In Mautic 3, the configuration was refactored to use Symfony's support environment variables. Note that not all bundles support environment variables for Symfony's configuration so this has to be taken into account before using third party bundles. Sometimes it can be worked around by using custom proxy or delegation services. For example, see ``\Mautic\EmailBundle\Swiftmailer\Spool\DelegatingSpool``.
+Mautic 3 introduced support for Symfony's environment variables. Note that not all bundles support environment variables for Symfony's configuration so take this into account before using third party bundles. You can sometimes implement workarounds by using custom proxy or delegation services. For example, see ``\Mautic\EmailBundle\Swiftmailer\Spool\DelegatingSpool``.
 
 Autowired services
 -------------------
-Mautic does not auto-wire native services other than Symfony commands and controllers.
+Mautic doesn't auto-wire native services other than Symfony commands and controllers.
 
 Service scope
 -------------
-Services are registered as public by default to have backwards compatibility with Mautic 3 and Symfony 3. You can change the scope of your service by setting ``public`` to false when defining the service in the plugin's ``Config/config.php``.
+Services are public by default to have backwards compatibility with Mautic 3 and Symfony 3. You can change the scope of your service by setting ``public`` to false when defining the service in the plugin's ``Config/config.php``.
 
 Entity annotations
 -------------------
-By default, Mautic uses Doctrine's PHP driver instead of annotations which requires a ``public static function loadMetadata(ORM\ClassMetadata $metadata)`` method. However, plugins can use annotations if desired but should use only annotations or only PHP ``loadMetadata``. A plugin cannot use a mix of both.
+By default, Mautic uses Doctrine's PHP driver instead of annotations which requires a ``public static function loadMetadata(ORM\ClassMetadata $metadata)`` method. However, plugins can use annotations if desired but should use only annotations or only PHP ``loadMetadata``. A plugin can't use a mix of both.
 
 Firewalls and user access management
 -------------------------------------
-The firewalls registered with Symfony are listed in ``app/config/security.php``. For the most part, we use Symfony's standard way of registering firewalls and authentication with a means for plugins to hook into the authentication process through listeners to the ``UserEvents::USER_PRE_AUTHENTICATION`` and ``UserEvents::USER_FORM_AUTHENTICATION`` events.
+``app/config/security.php`` lists Mautic's firewalls. For the most part, we use Symfony's standard way of registering firewalls and authentication with a means for plugins to hook into the authentication process through listeners to the ``UserEvents::USER_PRE_AUTHENTICATION`` and ``UserEvents::USER_FORM_AUTHENTICATION`` events.
 
 Mautic has its own permission system based on bitwise permissions and thus does not leverage Symfony voters.
 
 Middlewares
 ------------
-Mautic leverages middlewares before booting Symfony, see ``app/middlewares``. For example, ``index_dev.php`` is restricted by IP through ``\Mautic\Middleware\Dev\IpRestrictMiddleware``.
+Mautic leverages middlewares before booting Symfony, see ``app/middlewares``. For example, ``\Mautic\Middleware\Dev\IpRestrictMiddleware`` restricts IPs access to ``index_dev.php``.
 
 Custom Translator
 ------------------
-Mautic has a custom translator that extends Symfony's ``Translator`` component that enables Mautic's distributable language package model. All plugins and bundles should contain US English language strings by default. Translations are managed via Transifex of which https://github.com/mautic/language-packer integrates to create language packs stored in https://github.com/mautic/language-packs.
+Mautic has a custom translator that extends Symfony's ``Translator`` component and enables Mautic's distributable language package model. All plugins and bundles should contain US English language strings by default. https://github.com/mautic/language-packer integrates with Transifex to create language packs stored in https://github.com/mautic/language-packs.

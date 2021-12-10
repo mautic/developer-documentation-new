@@ -1,14 +1,14 @@
 Entities and schema
 =====================
 
-Mautic uses :xref:`Doctrine ORM` to define the schema. Plugins define their schema using entity classes stored in its ``Entity`` directory. Schema is defined for the entity through Doctrine's :xref:`PHP static function mapping<Doctrine ORM PHP mapping>` or :xref:`annotations<Doctrine ORM annotations>`.
+Mautic uses :xref:`Doctrine ORM` to define the schema. Plugins define their schema using entity classes stored in its ``Entity`` directory. Define the schema for the entity through Doctrine's :xref:`PHP static function mapping<Doctrine ORM PHP mapping>` or :xref:`annotations<Doctrine ORM annotations>`.
 
-.. warning:: You use the PHP mapping or annotations. It cannot use a mix of the two.
+.. warning:: You use the PHP mapping or annotations. You can't use a mix of the two.
 
 Entity PHP static function mapping
 -----------------------------------
 
-You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder`` class. Refer to :xref:`Doctrine ORM PHP mapping` for methods available. Mautic also provides a decorated ``ClassMetadataBuilder`` class through ``Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder`` that is described below.
+You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder`` class. Refer to :xref:`Doctrine ORM PHP mapping` for methods available. Mautic also provides a decorated ``ClassMetadataBuilder`` class through ``Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder`` described below.
 
 .. code-block:: php
 
@@ -288,7 +288,7 @@ You can choose to use annotations instead of the PHP static method. Refer to :xr
 Plugin schema migrations
 -------------------------
 
-Mautic Core uses :xref:`Doctrine migrations<Doctrine migrations bundle>` to manage schema changes. Plugins don't have access to this as migration files must be located in Core's ``migrations`` directory.
+Mautic Core uses :xref:`Doctrine migrations<Doctrine migrations bundle>` to manage schema changes. Plugins don't have access to this as migration files are in Core's ``migrations`` directory.
 
 Mautic provides a way for Plugins to manage their schema changes through the Integration bundle's ``\Mautic\IntegrationsBundle\Migration\Engine``. Mautic automatically handles migrations if the :ref:`Plugin's bundle class<File and directory structure>` extends ``Mautic\IntegrationsBundle\Bundle\AbstractPluginBundle``.
 
@@ -308,7 +308,7 @@ Mautic provides a way for Plugins to manage their schema changes through the Int
 
 Define migrations in the Plugin's ``Migrations`` directory. The file and class names can be anything but it's recommended to match the version of the Plugin that introduces the change. For example, ``Version_1_0_1.php``. Extend each migration class with ``\Mautic\IntegrationsBundle\Migration\AbstractMigration``.
 
-.. warning:: Every migration file is executed when Mautic upgrades the Plugin. Therefore, you must define the ``isApplicable()`` method to let Mautic know to execute the migration's SQL queries. Otherwise, Doctrine will throw an exception if MySQL returns an error. For example, when an index or column already exists.
+.. warning:: Mautic executes every migration file when it upgrades the Plugin. Therefore, you must define the ``isApplicable()`` method to let Mautic know to execute the migration's SQL queries. Otherwise, Doctrine throws an exception if MySQL returns an error such as when an index or column already exists.
 
 .. code-block:: php
 

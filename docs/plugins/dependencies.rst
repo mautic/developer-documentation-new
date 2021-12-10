@@ -3,7 +3,7 @@ Plugin dependencies
 
 You have a couple options when it comes to dependencies.
 
-The first is to include dependencies with your distributable plugin package. However, this is not recommended as other plugins may also include the same dependencies that will conflict with your own.
+The first is to include dependencies with your distributable plugin package. However, this isn't recommended as other plugins may also include the same dependencies and conflict with your own.
 
 The recommended approach is to use Composer and make the plugin available through the new Marketplace.
 
