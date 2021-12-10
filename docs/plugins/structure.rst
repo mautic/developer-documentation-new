@@ -1,7 +1,7 @@
 File and directory structure
 ==============================
 
-The directory structure of an plugin varies based on the features implemented.
+The directory structure of a Plugin varies based on the features implemented.
 
 Plugins require the following structure at a minimum::
 
