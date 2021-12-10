@@ -28,7 +28,7 @@ The ``HelloWorldBundle.php`` file registers the bundle with Symfony's kernel. Ex
         // Nothing more required
     }
 
-An example plugin directory and file structure may look something like this::
+An example Plugin directory and file structure may look something like this::
 
     HelloWorldBundle/
         Assets/
