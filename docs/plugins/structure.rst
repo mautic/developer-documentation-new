@@ -1,7 +1,7 @@
 File and directory structure
 ==============================
 
-The directory structure of an plugin varies based on the features implemented.
+The directory structure of a Plugin varies based on the features implemented.
 
 Plugins require the following structure at a minimum::
 
@@ -10,7 +10,7 @@ Plugins require the following structure at a minimum::
             config.php
         HelloWorldBundle.php
 
-``HelloWorldBundle/Config/config.php`` registers the plugin with Mautic along with defining routes, menu items, services, and parameters.
+``HelloWorldBundle/Config/config.php`` registers the Plugin with Mautic along with defining routes, menu items, services, and parameters.
 
 The ``HelloWorldBundle.php`` file registers the bundle with Symfony's kernel. Extend the class with ``Mautic\IntegrationsBundle\Bundle\AbstractPluginBundle``.
 
@@ -28,7 +28,7 @@ The ``HelloWorldBundle.php`` file registers the bundle with Symfony's kernel. Ex
         // Nothing more required
     }
 
-An example plugin directory and file structure may look something like this::
+An example Plugin directory and file structure may look something like this::
 
     HelloWorldBundle/
         Assets/

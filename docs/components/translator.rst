@@ -28,7 +28,7 @@ Mautic loads translations through ``\Mautic\CoreBundle\Loader\TranslationLoader`
 Translation domains
 ------------------------
 
-Translation domains organize translations into files. The following are defined by Mautic but the plugin can define and use its own domains by passing the domain into the :php:meth:`trans` method.
+Translation domains organize translations into files. The following are defined by Mautic but the Plugin can define and use its own domains by passing the domain into the :php:meth:`trans` method.
 
 .. list-table::
     :header-rows: 1

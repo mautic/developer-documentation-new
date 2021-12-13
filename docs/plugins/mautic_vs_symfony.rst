@@ -39,7 +39,7 @@ Mautic mostly uses Symfony's 2.x/3.x bundle structure for Core bundles in ``app\
 
 PHP everything
 ---------------
-Mautic was originally written in PHP. YAML and twig wasn't familiar at the time so mostly avoided. This is why Mautic used Symfony's PHP template engine by default and PHP based configurations.
+Mautic was originally written in PHP. YAML and Twig wasn't familiar at the time so mostly avoided. This is why Mautic used Symfony's PHP template engine by default and PHP based configurations.
 
 .. note:: Symfony has since deprecated its PHP template engine and removed it in Symfony 5. Twig is being slowly introduced to replace PHP templates.
 

@@ -1,7 +1,7 @@
 Installing, upgrading, and uninstalling
 ========================================
 
-It is recommended that you register your plugins with the :ref:`Marketplace`.
+It is recommended that you register your Plugins with the :ref:`Marketplace`.
 
 Todo: update when Marketplace docs are ready. https://github.com/mautic/mautic/pull/10518
 

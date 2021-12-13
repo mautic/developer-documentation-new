@@ -4,7 +4,7 @@ Todo:
 
 Preference center integration
 
-How to register channel features:
+How to register Channel features:
 
 .. code-block:: php
 

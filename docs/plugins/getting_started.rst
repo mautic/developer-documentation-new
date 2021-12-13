@@ -5,4 +5,4 @@ Plugins are Symfony bundles that can extend the capability of Mautic. They can b
 
 .. note:: Plugins install into the plugins/ directory. Namespace all classes with ``MauticPlugin\[Plugin Folder Name]\``.
 
-.. warning:: Avoid using Symfony's ability to override core classes with hacked versions in a plugin. Doing so creates compatibility challenges with future upgrades and/or may conflict with another plugin that is doing the same thing. Rather, build into core the support you need to enable what you are wanting to accomplish with your plugin then contribute it to the :xref:`project as a PR<Contributing to Mautic>`.
+.. warning:: Avoid using Symfony's ability to override core classes with hacked versions in a Plugin. Doing so creates compatibility challenges with future upgrades and/or may conflict with another Plugin that is doing the same thing. Rather, build into core the support you need to enable what you are wanting to accomplish with your Plugin then contribute it to the :xref:`project as a PR<Contributing to Mautic>`.
