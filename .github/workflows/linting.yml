@@ -40,7 +40,7 @@ jobs:
     # The -W switch converts Sphinx warnings into errors
     - name: Build docs
       working-directory: docs
-      run: make html SPHINXOPTS="-W"
+      run: make html
 
     - name: Check links
       working-directory: docs
