@@ -1,11 +1,11 @@
 Config file
 ==============
 
-Mautic leverages a simple array based config file to register routes, menu items, services, categories, and configuration parameters.
+Mautic leverages a simple array based config file to register routes, menu items, services, Categories, and configuration parameters.
 
 General config items
 --------------------------
-Mautic recognizes the plugin through the general config options.
+Mautic recognizes the Plugin through the general config options.
 
 .. code-block:: php
 
@@ -34,10 +34,10 @@ Mautic recognizes the plugin through the general config options.
       - Optional description of the Plugin. This is currently not displayed in the UI.
     * - ``author``
       - string
-      - Author of the plugin for attribution purposes.
+      - Author of the Plugin for attribution purposes.
     * - ``version``
       - string
-      - The version should be in a format compatible with :xref:`PHP's standardized version strings<PHP standardized version strings>`. The Plugin Manager uses PHP's ``version_compare()`` to determine if the plugin is eligible for an upgrade.
+      - The version should be in a format compatible with :xref:`PHP's standardized version strings<PHP standardized version strings>`. The Plugin Manager uses PHP's ``version_compare()`` to determine if the Plugin is eligible for an upgrade.
 
 Routing config items
 --------------------------
@@ -105,13 +105,13 @@ The following firewalls are available to routes.
       - Description
     * - ``api``
       - ``/api/*``
-      - Routes that require API user authentication such as OAuth 2.0.
+      - Routes that require API User authentication such as OAuth 2.0.
     * - ``main``
       - ``/s/*``
-      - Routes that require standard user authentication to access secure parts of the UI.
+      - Routes that require standard User authentication to access secure parts of the UI.
     * - ``public``
       - ``/*``
-      - Routes that are public facing and don't require any user authentication.
+      - Routes that are public facing and don't require any User authentication.
     * - ``catchall``
       - ``/*``
       - A special public firewall compiled after all other routes and namely used by Landing Pages to recognize custom Landing Page URLs.
@@ -166,7 +166,7 @@ Route definitions define the route's method, path, controller, parameters, and o
 Special routing parameters
 """"""""""""""""""""""""""
 
-Mautic defaults the following route definitions if not declared otherwise by the plugin.
+Mautic defaults the following route definitions if not declared otherwise by the Plugin.
 
 .. list-table::
     :header-rows: 1
@@ -310,7 +310,7 @@ Menu item priority
 
 The ``priority`` determines the position in the parent menu where items display relative to other items defined by Core and Plugins. This can be in the root of the menu's array to set the priority for all items defined or in a specific item's definition. It can be negative to position the items lower than others or positive to position them higher. The default is ``9999`` if not defined.
 
-.. note:: You are not able to control the exact position of items in menus.
+.. note:: You aren't able to control the exact position of items in menus.
 
 Menu item definitions
 """"""""""""""""""""""
@@ -394,7 +394,7 @@ Supported checks are ``parameters``, ``request``, and ``integration``.
 
     // ...
 
-``integration`` contains key/value pairs with the integration name as the key with an array of configuration options. Supported keys are ``enabled`` and ``features``. Define ``TRUE`` or ``FALSE`` for ``enabled`` to only show the menu item if the specified Integration's enabled state matches. Define an array of ``features`` enabled for the Integration to show the menu item. For example:
+``integration`` contains key/value pairs with the Integration name as the key with an array of configuration options. Supported keys are ``enabled`` and ``features``. Define ``TRUE`` or ``FALSE`` for ``enabled`` to only show the menu item if the specified Integration's enabled state matches. Define an array of ``features`` enabled for the Integration to show the menu item. For example:
 
 .. code-block:: php
 

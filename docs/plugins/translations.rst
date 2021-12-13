@@ -5,7 +5,7 @@ Plugins include their own translations in their ``Translations`` directories org
 
 .. note:: All Plugins must include a US English, en_US, translation.
 
-Below is an example plugin's translations::
+Below is an example Plugin's translations::
 
     Translations/
         en_US/

@@ -23,9 +23,9 @@ Mautic uses directory paths that aren't typical in Symfony to make it distributa
     * - ``media/``
       - Contains combined and minified production assets along with default images
     * - ``plugins/``
-      - Mautic plugins as Symfony bundles
+      - Mautic Plugins as Symfony bundles
     * - ``themes/``
-      - Mautic themes
+      - Mautic Themes
     * - ``themes/system``
       - :ref:`Contains custom overrides for Mautic Core templates<Overriding core view templates>`
     * - ``translations/``
@@ -35,7 +35,7 @@ Mautic uses directory paths that aren't typical in Symfony to make it distributa
     * - ``vendor/``
       - Contains Composer installed dependencies
 
-Mautic mostly uses Symfony's 2.x/3.x bundle structure for Core bundles in ``app\bundles\`` and custom plugins in ``plugins\``. Read more about these :ref:`here<File and directory structure>`.
+Mautic mostly uses Symfony's 2.x/3.x bundle structure for Core bundles in ``app\bundles\`` and custom Plugins in ``plugins\``. Read more about these :ref:`here<File and directory structure>`.
 
 PHP everything
 ---------------
@@ -59,17 +59,17 @@ Mautic doesn't auto-wire native services other than Symfony commands and control
 
 Service scope
 -------------
-Services are public by default to have backwards compatibility with Mautic 3 and Symfony 3. You can change the scope of your service by setting ``public`` to false when defining the service in the plugin's ``Config/config.php``.
+Services are public by default to have backwards compatibility with Mautic 3 and Symfony 3. You can change the scope of your service by setting ``public`` to false when defining the service in the Plugin's ``Config/config.php``.
 
 Support for entity annotations
 -------------------------------
-By default, Mautic uses Doctrine's PHP driver instead of annotations which requires a ``public static function loadMetadata(ORM\ClassMetadata $metadata)`` method. However, plugins can use annotations if desired but should use only annotations or only PHP ``loadMetadata``. A plugin can't use a mix of both. See :ref:`Entities and schema` for more information.
+By default, Mautic uses Doctrine's PHP driver instead of annotations which requires a ``public static function loadMetadata(ORM\ClassMetadata $metadata)`` method. However, Plugins can use annotations if desired but should use only annotations or only PHP ``loadMetadata``. A Plugin can't use a mix of both. See :ref:`Entities and schema` for more information.
 
-Firewalls and user access management
+Firewalls and User access management
 -------------------------------------
-``app/config/security.php`` lists Mautic's firewalls. For the most part, we use Symfony's standard way of registering firewalls and authentication with a means for plugins to hook into the authentication process through listeners to the ``UserEvents::USER_PRE_AUTHENTICATION`` and ``UserEvents::USER_FORM_AUTHENTICATION`` events.
+``app/config/security.php`` lists Mautic's firewalls. For the most part, Mautic uses Symfony's standard way of registering firewalls and authentication with a means for Plugins to hook into the authentication process through listeners to the ``UserEvents::USER_PRE_AUTHENTICATION`` and ``UserEvents::USER_FORM_AUTHENTICATION`` events.
 
-Mautic has its own permission system based on bitwise permissions and thus does not leverage Symfony voters.
+Mautic has its own permission system based on bitwise permissions and thus doesn't leverage Symfony voters.
 
 Middlewares
 ------------
@@ -77,4 +77,4 @@ Mautic leverages middlewares before booting Symfony, see ``app/middlewares``. Fo
 
 Custom Translator
 ------------------
-Mautic has a custom translator that extends Symfony's ``Translator`` component and enables Mautic's distributable language package model. All plugins and bundles should contain US English language strings by default. https://github.com/mautic/language-packer integrates with Transifex to create language packs stored in https://github.com/mautic/language-packs.
+Mautic has a custom translator that extends Symfony's ``Translator`` component and enables Mautic's distributable language package model. All Plugins and bundles should contain US English language strings by default. https://github.com/mautic/language-packer integrates with Transifex to create language packs stored in https://github.com/mautic/language-packs.
