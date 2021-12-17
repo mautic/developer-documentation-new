@@ -50,13 +50,13 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    :hidden:
 
    plugins/getting_started
+   plugins/mautic_vs_symfony
+   plugins/dependencies
    plugins/structure
    plugins/config
    plugins/installation
-   plugins/entities
-   plugins/migrations
+   plugins/data
    plugins/translations
-   plugins/permissions
 
 .. toctree::
    :maxdepth: 2
@@ -77,12 +77,13 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    components/ip_lookups
    components/landing_pages
    components/maintenance
-   components/permissions
    components/points
    components/queue
    components/reports
+   components/security
    components/sms
    components/tracking_script
+   components/translator
    components/ui
 
 Indices and tables

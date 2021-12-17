@@ -2,4 +2,8 @@ Tracking script
 ==========================================================
 
 
-Include MauticJS.
+Todo: Include MauticJS.
+    Add MauticJS.beforeFirstEventDelivery
+Todo: Update to include events
+    mauticPageEventDelivered
+    eventAddedToMauticQueue

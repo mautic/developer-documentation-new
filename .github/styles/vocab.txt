@@ -1,10 +1,14 @@
 AJAX
 allowlist
+Autowired
+autowired
 bcc
 Beanstalkd
 Bing
+bitwise
 blocklist
 boolean
+booleans
 cc
 Citrix
 Clearbit
@@ -12,6 +16,7 @@ CloudAMQP
 config
 Company(ies)
 Composer
+configurator
 ConnectWise
 Contribution(s)
 cron
@@ -40,6 +45,8 @@ Licensor
 LinkedIn
 Mailjet
 Mautic
+Middlewares
+middlewares
 MJML
 Multiselect
 multiselect
@@ -49,9 +56,12 @@ Namespace
 noindex
 OAuth
 Packagist
+PATCH
 PHP
 Pipedrive
 Piwik
+POST
+PUT
 Rackspace
 Remarketing
 Salesforce
@@ -63,6 +73,8 @@ SparkPost
 sublicense
 SugarCRM
 Suhosin
+Symfony
+Todo
 Transifex
 TRUE
 Twilio
@@ -75,5 +87,6 @@ utm
 Vtiger
 Webmecanik
 www
+YAML
 Zapier
 Zoho
