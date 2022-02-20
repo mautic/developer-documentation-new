@@ -1,14 +1,11 @@
-image:
-  file: .gitpod.Dockerfile
+image: python:3.9
 
 tasks:
   # Setting the pyenv root as the first item in the PATH ensures that we
   # don't use the Python version that comes preinstalled by Gitpod (which
   # may be outdated)
   - before: |
-      PATH="$(pyenv root)/shims:$PATH"
-      pyenv install
-      pip3 install -r docs/requirements.txt
+      pip install -r docs/requirements.txt
       brew install vale
     command: gp open .vscode/welcome.md
 
