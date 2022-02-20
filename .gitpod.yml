@@ -10,6 +10,7 @@ tasks:
       wget https://github.com/errata-ai/vale/releases/download/v${VALE_VERSION}/vale_${VALE_VERSION}_Linux_64-bit.tar.gz
       tar -xf vale_${VALE_VERSION}_Linux_64-bit.tar.gz
       export PATH="/workspace/vale:${PATH}"
+      echo 'PATH="/workspace/vale:${PATH}"' >> ~/.bashrc
       popd
       vale --version
       pip install -r docs/requirements.txt
