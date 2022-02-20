@@ -1,12 +1,18 @@
 image: python:3.9
 
 tasks:
-  # Setting the pyenv root as the first item in the PATH ensures that we
-  # don't use the Python version that comes preinstalled by Gitpod (which
-  # may be outdated)
+  # Since Gitpod doesn't support caching custom Dockerfiles yet, this is the best we can do for now to
+  # install all dependencies as well as the Vale linter.
   - before: |
       pip install -r docs/requirements.txt
-      brew install vale
+      mkdir -p /vale
+      pushd /vale
+      VALE_VERSION=2.15.1
+      wget https://github.com/errata-ai/vale/releases/download/v${VALE_VERSION}/vale_${VALE_VERSION}_Linux_64-bit.tar.gz
+      tar -xf 'vale_${VALE_VERSION}_Linux_64-bit.tar.gz'
+      export PATH="/vale:${PATH}"
+      popd
+      vale --version
     command: gp open .vscode/welcome.md
 
 vscode:
