@@ -1,5 +1,5 @@
 tasks:
-  - init: |
+  - before: |
       pip3 install -r docs/requirements.txt
       brew install vale
   - name: Open workspace on welcome page
