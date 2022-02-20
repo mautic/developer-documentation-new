@@ -5,12 +5,12 @@ tasks:
   # install all dependencies as well as the Vale linter.
   - before: |
       pip install -r docs/requirements.txt
-      mkdir -p /vale
-      pushd /vale
+      mkdir -p /workspace/vale
+      pushd /workspace/vale
       VALE_VERSION=2.15.1
       wget https://github.com/errata-ai/vale/releases/download/v${VALE_VERSION}/vale_${VALE_VERSION}_Linux_64-bit.tar.gz
-      tar -xf 'vale_${VALE_VERSION}_Linux_64-bit.tar.gz'
-      export PATH="/vale:${PATH}"
+      tar -xf vale_${VALE_VERSION}_Linux_64-bit.tar.gz
+      export PATH="/workspace/vale:${PATH}"
       popd
       vale --version
     command: gp open .vscode/welcome.md
