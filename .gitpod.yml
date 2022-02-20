@@ -4,7 +4,6 @@ tasks:
   # Since Gitpod doesn't support caching custom Dockerfiles yet, this is the best we can do for now to
   # install all dependencies as well as the Vale linter.
   - before: |
-      pip install -r docs/requirements.txt
       mkdir -p /workspace/vale
       pushd /workspace/vale
       VALE_VERSION=2.15.1
@@ -13,6 +12,7 @@ tasks:
       export PATH="/workspace/vale:${PATH}"
       popd
       vale --version
+      pip install -r docs/requirements.txt
     command: gp open .vscode/welcome.md
 
 vscode:
