@@ -1,20 +1,17 @@
+# Since Gitpod doesn't support caching custom Dockerfiles yet, we temporarily
+# use this once which has Python 3.9 and Vale preinstalled.
+image: dennisameling/python-vale:latest
+
 tasks:
-  # Setting the pyenv root as the first item in the PATH ensures that we
-  # don't use the Python version that comes preinstalled by Gitpod (which
-  # may be outdated)
-  - before: |
-      PATH="$(pyenv root)/shims:$PATH"
-      pyenv install
-      pip3 install -r docs/requirements.txt
-      brew install vale
+  - before: pip install -r docs/requirements.txt
     command: gp open .vscode/welcome.md
 
 vscode:
   extensions:
+    - ms-python.python
     - lextudio.restructuredtext
     - trond-snekvik.simple-rst
     - errata-ai.vale-server
-    - ms-python.python
     - eamodio.gitlens
 
 github:
