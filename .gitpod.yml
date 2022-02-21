@@ -1,19 +1,9 @@
-image: python:3.9
+# Since Gitpod doesn't support caching custom Dockerfiles yet, we temporarily
+# use this once which has Python 3.9 and Vale preinstalled.
+image: dennisameling/python-vale:latest
 
 tasks:
-  # Since Gitpod doesn't support caching custom Dockerfiles yet, this is the best we can do for now to
-  # install all dependencies as well as the Vale linter.
-  - before: |
-      mkdir -p /workspace/vale
-      pushd /workspace/vale
-      VALE_VERSION=2.15.1
-      wget https://github.com/errata-ai/vale/releases/download/v${VALE_VERSION}/vale_${VALE_VERSION}_Linux_64-bit.tar.gz
-      tar -xf vale_${VALE_VERSION}_Linux_64-bit.tar.gz
-      export PATH="/workspace/vale:${PATH}"
-      echo 'PATH="/workspace/vale:${PATH}"' >> ~/.bashrc
-      popd
-      vale --version
-      pip install -r docs/requirements.txt
+  - before: pip install -r docs/requirements.txt
     command: gp open .vscode/welcome.md
 
 vscode:
