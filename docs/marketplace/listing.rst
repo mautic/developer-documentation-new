@@ -27,6 +27,7 @@ Here's an example composer.json file:
         "description": "Example Plugin",
         "type": "mautic-plugin",
         "version": "1.0",
+        "license": "GPL-3.0-or-later",
         "keywords": ["mautic","plugin","integration"],
         "extra": {
             "install-directory-name": "ExampleBundle"
