@@ -26,7 +26,6 @@ Here's an example composer.json file:
         "name": "example-vendor/plugin-example",
         "description": "Example Plugin",
         "type": "mautic-plugin",
-        "version": "1.0",
         "license": "GPL-3.0-or-later",
         "keywords": ["mautic","plugin","integration"],
         "extra": {
