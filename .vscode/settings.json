@@ -1,7 +1,8 @@
 {
-    "restructuredtext.builtDocumentationPath": "${workspaceFolder}/build/html",
-    "restructuredtext.confPath": "${workspaceFolder}/docs",
     "vale.core.useCLI": true,
     "gitlens.showWelcomeOnInstall": false,
-    "vale.valeCLI.path": "/sphinx-tools/vale/vale"
+    "vale.valeCLI.path": "/sphinx-tools/vale/vale",
+    "esbonio.sphinx.buildDir": "${workspaceFolder}/build",
+    "esbonio.sphinx.confDir": "${workspaceFolder}/docs",
+    "restructuredtext.pythonRecommendation.disabled": true
 }
