@@ -16,7 +16,7 @@ Email tokens are placeholders that you can insert into an Email.
 They get replaced by Dynamic Content once the Email gets sent or viewed in the browser.
 
 You can find examples of both Email token handling and A/B testing in the code example below.
-Both leverage the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_BUILD`` event. Read more about listeners and subscribers (TODO add link).
+Both leverage the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_BUILD`` event. Read more about :doc:`listeners and subscribers</plugins/event_listeners>`.
 
 Email token capabilities consist of two parts: registering your custom tokens and rendering them.
 
