@@ -13,7 +13,7 @@ Email tokens and A/B testing
 ----------------------------
 
 Email tokens are placeholders that you can insert into an Email.
-They get replaced by dynamic content once the Email gets sent or viewed in the browser.
+They get replaced by Dynamic Content once the Email gets sent or viewed in the browser.
 
 You can find examples of both Email token handling and A/B testing in the code example below.
 Both leverage the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_BUILD`` event. Read more about listeners and subscribers (TODO add link).
@@ -21,7 +21,7 @@ Both leverage the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_BUILD`` event. Rea
 Email token capabilities consist of two parts: registering your custom tokens and rendering them.
 
 - ``$event->addToken($uniqueId, $htmlContent)`` allows you to show the email token in the email builder, so that users can easily add the token to their emails.
-- ``$event->getContent()`` and ``$event->setContent()`` are used for replacing the email token with actual dynamic content once the Email gets send or viewed in the browser.
+- ``$event->getContent()`` and ``$event->setContent()`` are used for replacing the email token with actual Dynamic Content once the Email gets send or viewed in the browser.
 
 While Mautic supports :xref:`A/B testing` out of the box, you might have more complex needs to determine A/B test winner criteria.
 

@@ -64,10 +64,10 @@ Restricting Category Management
 
 .. vale on
 
-To restrict access to Categories, use the following in the Plugin's Permission class (TODO).
+To restrict access to Categories, use the following in the Plugin's :ref:`Permission class<security-roles-and-permissions>`.
 
 In ``__construct()``, add ``$this->addStandardPermissions('categories');``, then in ``buildForm()``, add ``$this->addStandardFormFields('helloWorld', 'categories', $builder, $data);``.
 
-See a code example in Roles and Permissions (TODO).
+See a code example in :ref:`Roles and Permissions<security-roles-and-permissions>`.
 
 The two standard helper methods add the permissions of ``view``, ``edit``, ``create``, ``delete``, ``publish``, and ``full`` for Categories.
