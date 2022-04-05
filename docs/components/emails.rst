@@ -20,8 +20,8 @@ Both leverage the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_BUILD`` event. Rea
 
 Email token capabilities consist of two parts: registering your custom tokens and rendering them.
 
-- ``$event->addToken($uniqueId, $htmlContent)`` allows you to show the email token in the email builder, so that users can easily add the token to their emails.
-- ``$event->getContent()`` and ``$event->setContent()`` are used for replacing the email token with actual Dynamic Content once the Email gets send or viewed in the browser.
+- ``$event->addToken($uniqueId, $htmlContent)`` allows you to show the Email token in the email builder, so that users can easily add the token to their emails.
+- ``$event->getContent()`` and ``$event->setContent()`` are used for replacing the Email token with actual Dynamic Content once the Email gets send or viewed in the browser.
 
 While Mautic supports :xref:`A/B testing` out of the box, you might have more complex needs to determine A/B test winner criteria.
 
@@ -187,7 +187,7 @@ Monitored Inbox Integration
 .. vale on
 
 Plugins have access to hook into the ``mautic:email:fetch`` command to fetch email from a specific inbox/folder and process the content of the message.
-The Plugin also has access to inject specific search criteria for the messages to be processed.
+The Plugin also has access to inject specific search criteria for the processed messages.
 
 To do this, the Plugin needs to add an event listener for three events:
 
