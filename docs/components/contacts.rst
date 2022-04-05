@@ -12,7 +12,7 @@ Using this event, the plugin can inject unique items into the timeline and also 
 
 .. note:: Before using this event listener, you'll need to ensure that you store your custom events in a custom database table. See :ref:`Generating timeline events from your own custom events` below for more details.
 
-The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` object. The commonly used methods are defined below:
+The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` object. You can find the commonly used methods below the code example.
 
 .. code-block:: PHP
 
@@ -125,11 +125,11 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
     * - ``addEventType()``
       - Required - Add this event to the list of available events.
     * - ``getLead()``
-      - Get the Lead entity the event is dispatched for
+      - Get the Contact entity
     * - ``getQueryOptions()``
       - Used to get pagination, filters, etc needed to generate an appropriate query.
     * - ``addToCounter()``
-      - Used to add total number of events (across all pages) to the counters. This also generates the numbers for the engagements graph.
+      - Used to add total number of events across all Pages to the counters. This also generates the numbers for the engagements graph.
     * - ``addEvent()``
       - Required - Injects an event into the timeline. Accepts an array with the keys defined as below. 
 
@@ -155,15 +155,15 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
     * - ``eventLabel``
       - Optional
       - string/array
-      - The translated string to display in the event name. Examples include names of items, page titles, etc. This can also be an array of ['label' => '', 'href' => ''] to have the entry converted to a link. This will default to eventType if not defined.
+      - The translated string to display in the event name. Examples include names of items, Landing Page titles, etc. This can also be an array of ['label' => '', 'href' => ''] to have the entry converted to a link. This defaults to eventType if not defined.
     * - ``extra``
       - Optional
       - array
-      - Whatever should be passed through to the content template to generate the details view for this event
+      - Anything you want to pass through to the content template to generate the details view for this event
     * - ``contentTemplate``
       - Optional
       - string
-      - Template that should be used to generate the details view for this event. Eg. ``HelloBundle:SubscribedEvents\Timeline:index.html.php``
+      - Template you want to use to generate the details view for this event. Eg. ``HelloBundle:SubscribedEvents\Timeline:index.html.php``
     * - ``icon``
       - Optional
       - Font Awesome class
@@ -230,28 +230,28 @@ To leverage this, accept the array from ``$event->getQueryOptions()`` in the rep
     * - $query
       - Required
       - QueryBuilder
-      - DBAL QueryBuilder object defining basics of the query.
+      - Database Abstraction Layer QueryBuilder object defining basics of the query.
     * - $options
       - Required
       - array
-      - Array generated and passed into method by $event->getQueryOptions() in the event listener above
+      - Array generated and passed into method by ``$event->getQueryOptions()`` in the event listener above
     * - $eventNameColumn
       - Required
       - string
-      - Name of the column (with table prefix) that should be used when sorting by event name
+      - Name of the column with table prefix that should to use when sorting by event name
     * - $timestampColumn
       - Required
       - string
-      - Name of the column (with table prefix) that should be used when sorting by timestamp
+      - Name of the column with table prefix that should to use when sorting by timestamp
     * - $serializedColumns
       - Optional
       - array
-      - When using DBAL, arrays are not auto-unserialized by Doctrine. Define the columns here (as returned by the query results) to auto-unserialize.
+      - When using the Database Abstraction Layer, arrays won't be auto-unserialized by Doctrine. Define the columns here, as returned by the query results, to auto-unserialize.
     * - $dateTimeColumns
       - Optional
       - array
-      - When using DBAL, ``datetime`` columns are not auto converted to \DateTime objects by Doctrine. Define the columns here (as returned by the query results) to auto do so.
+      - When using the Database Abstraction Layer, ``datetime`` columns won't be auto converted to \DateTime objects by Doctrine. Define the columns here, as returned by the query results, to auto do so.
     * - $resultsParserCallback
       - Optional
       - callback
-      - Callback to custom parse a result. This is optional and mainly used to handle a column result when all results are already being looped over for $serializedColumns and $dateTimeColumns.
+      - Callback to custom parse a result. This is optional and mainly used to handle a column result when all results are already looped over for $serializedColumns and $dateTimeColumns.

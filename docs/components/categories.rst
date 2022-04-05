@@ -4,8 +4,12 @@ Categories
 Categories are a way to organize Mautic elements.
 Mautic has a ``CategoryBundle`` that you can leverage to incorporate Categories into your Plugin.
 
+.. vale off
+
 Adding Categories
 -----------------
+
+.. vale on
 
 You can add Categories through your Plugin's ``config.php`` file by adding the following as a key to the returned config array:
 
@@ -20,8 +24,12 @@ You can add Categories through your Plugin's ``config.php`` file by adding the f
 Please prefix Category keys with ``plugin:`` it determines permissions to manage Categories.
 The ``helloWorld`` should match the permission class name.
 
+.. vale off
+
 Configuring Categories for Routes
 ---------------------------------
+
+.. vale on
 
 There is no need to add custom routes for Categories.
 However, when generating a URL to the Plugin's Category list, use the following code:
@@ -32,8 +40,12 @@ However, when generating a URL to the Plugin's Category list, use the following 
 
     $categoryUrl = $router->generateUrl('mautic_category_index', ['bundle' => 'plugin:helloWorld']);
 
+.. vale off
+
 Including Category in Forms
 ---------------------------
+
+.. vale on
 
 To add a Category select list to a Form, use ``category`` as the Form type and pass ``bundle`` as an option:
 
@@ -45,8 +57,12 @@ To add a Category select list to a Form, use ``category`` as the Form type and p
         'bundle' => 'plugin:helloWorld'
     ]);
 
+.. vale off
+
 Restricting Category Management
 -------------------------------
+
+.. vale on
 
 To restrict access to Categories, use the following in the Plugin's Permission class (TODO).
 

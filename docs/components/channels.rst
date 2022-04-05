@@ -1,12 +1,12 @@
 Channels
 ==========================================================
 
-Todo:
+.. vale off
 
-Preference center integration
-
-Listening for channel features
+Listening for Channel features
 ------------------------------
+
+.. vale on
 
 You can find several events through the ``ChannelEvents`` class.
 

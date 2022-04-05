@@ -1,12 +1,12 @@
 Emails
 ==========================================================
 
-There are multiple ways to extend the way Mautic works with Emails. This document describes the following options for extending Mautic's email functionality:
+There are multiple ways to extend the way Mautic works with Emails. This document describes the following options for extending Mautic's Email capabilities:
 
 - Email tokens
 - A/B testing
 - Monitored Inbox Integration
-- Email transport (email providers)
+- Email transport/Email providers
 - Email stat helpers
 
 Email tokens and A/B testing
@@ -18,12 +18,12 @@ They get replaced by dynamic content once the Email gets sent or viewed in the b
 You can find examples of both Email token handling and A/B testing in the code example below.
 Both leverage the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_BUILD`` event. Read more about listeners and subscribers (TODO add link).
 
-Email token capabilities consist of two parts: registering your custom token(s) and rendering them.
+Email token capabilities consist of two parts: registering your custom tokens and rendering them.
 
 - ``$event->addToken($uniqueId, $htmlContent)`` allows you to show the email token in the email builder, so that users can easily add the token to their emails.
 - ``$event->getContent()`` and ``$event->setContent()`` are used for replacing the email token with actual dynamic content once the Email gets send or viewed in the browser.
 
-While Mautic supports A/B testing out of the box (https://kb.mautic.org/knowledgebase/emails/how-does-mautic-do-ab-testing), you might have more complex needs to determine A/B test winner criteria.
+While Mautic supports :xref:`A/B testing` out of the box, you might have more complex needs to determine A/B test winner criteria.
 
 - ``$event->addAbTestWinnerCriteria()`` allows you to do exactly that. Using your custom logic, you can decide the winner of such criteria. An example is shown below.
 - ``$event->setAbTestResults()`` is where you set the actual A/B test results. More details are in the code example below.
@@ -179,8 +179,12 @@ While Mautic supports A/B testing out of the box (https://kb.mautic.org/knowledg
         ); ?>
     </div>
 
+.. vale off
+
 Monitored Inbox Integration
 ---------------------------
+
+.. vale on
 
 Plugins have access to hook into the ``mautic:email:fetch`` command to fetch email from a specific inbox/folder and process the content of the message.
 The Plugin also has access to inject specific search criteria for the messages to be processed.
