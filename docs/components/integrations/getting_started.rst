@@ -34,7 +34,9 @@ Using the Integration Framework
 
 Basics
 ------
-Each Integration provides its unique name as registered with Mautic, icon, and display name. When an Integration is registered, the Integration helper classes will manage the `\Mautic\PluginBundle\Entity\Integration` object through `\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface`. It handles decryption and encryption of the integration's API keys so the implementing code never has to.
+Each Integration provides its unique name as registered with Mautic, icon, and display name.
+When registering an Integration, the Integration helper classes manages the ``\Mautic\PluginBundle\Entity\Integration`` object through ``\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface``.
+It handles decryption and encryption of the Integration's API keys so the implementing code never has to.
 
 .. vale off
 

@@ -22,6 +22,8 @@ Contribution(s)
 cron
 Cron
 CTRL
+docblock
+dockblocks
 Dripflow
 FALSE
 Froala
@@ -47,6 +49,7 @@ Mailjet
 Mautic
 Middlewares
 middlewares
+middleware
 MJML
 Multiselect
 multiselect

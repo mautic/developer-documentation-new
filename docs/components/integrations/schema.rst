@@ -1,63 +1,66 @@
-Plugin Schema
+Plugin schema
 =============
 
-The Integration framework provides a means for plugins to better manage their schema. Queries are in migration files that match the plugin's versions number in it's config. When the a plugin is installed or upgraded, it will loop over the migration files up to the latest version.
+The Integration framework provides a means for Plugins to better manage their schema.
+Queries are in migration files that match the Plugin's versions number in it's config.
+When the a Plugin gets installed or upgraded, it loops over the migration files up to the latest version.
 
-AbstractPluginBundle
---------------------
+``AbstractPluginBundle``
+------------------------
 
-The plugin's root bundle class should extend `MauticPlugin\IntegrationsBundle\Bundle\AbstractPluginBundle`.
+The Plugin's root bundle class should extend ``MauticPlugin\IntegrationsBundle\Bundle\AbstractPluginBundle``.
 
-```php
-<?php
+.. code-block:: PHP
 
-declare(strict_types=1);
+    <?php
 
-namespace MauticPlugin\HelloWorldBundle;
+    declare(strict_types=1);
 
-use MauticPlugin\IntegrationsBundle\Bundle\AbstractPluginBundle;
+    namespace MauticPlugin\HelloWorldBundle;
 
-class HelloWorldBundle extends AbstractPluginBundle
-{
-}
-```
+    use MauticPlugin\IntegrationsBundle\Bundle\AbstractPluginBundle;
 
-Plugin Migrations
+    class HelloWorldBundle extends AbstractPluginBundle
+    {
+    }
+
+Plugin migrations
 -----------------
 
-Each migration file should be stored in the plugin's `Migration` folder with a name that matches `Version_X_Y_Z.php` where `X_Y_Z` matches the semantic versioning of the plugin. Each file should contain the incremental schema changes for the plugin up to the latest version which should match the version in the plugin's Config/config.php file.
+Store each migration file in the Plugin's ``Migration`` folder with a name that matches ``Version_X_Y_Z.php`` where ``X_Y_Z`` matches the semantic versioning of the Plugin.
+Each file should contain the incremental schema changes for the Plugin up to the latest version which should match the version in the Plugin's ``Config/config.php`` file.
 
-There are two methods. `isApplicable` should return true/false if the migration should be ran. `up` should register the SQL to execute.
+There are two methods. ``isApplicable`` should return ``true/false`` if the migration should be ran. ``up`` should register the SQL to execute.
 
-```php
-<?php
+.. code-block:: PHP
 
-declare(strict_types=1);
+    <?php
 
-namespace MauticPlugin\HelloWorldBundle\Migrations;
+    declare(strict_types=1);
 
-use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Schema\SchemaException;
-use Mautic\IntegrationsBundle\Migration\AbstractMigration;
+    namespace MauticPlugin\HelloWorldBundle\Migrations;
 
-class Version_1_0_1 extends AbstractMigration
-{
-    private $table = 'hello_world';
+    use Doctrine\DBAL\Schema\Schema;
+    use Doctrine\DBAL\Schema\SchemaException;
+    use Mautic\IntegrationsBundle\Migration\AbstractMigration;
 
-    protected function isApplicable(Schema $schema): bool
+    class Version_1_0_1 extends AbstractMigration
     {
-        try {
-            return !$schema->getTable($this->concatPrefix($this->table))->hasColumn('is_enabled');
-        } catch (SchemaException $e) {
-            return false;
+        private $table = 'hello_world';
+
+        protected function isApplicable(Schema $schema): bool
+        {
+            try {
+                return !$schema->getTable($this->concatPrefix($this->table))->hasColumn('is_enabled');
+            } catch (SchemaException $e) {
+                return false;
+            }
+        }
+
+        protected function up(): void
+        {
+            $this->addSql("ALTER TABLE `{$this->concatPrefix($this->table)}` ADD `is_enabled` tinyint(1) 0");
+
+            $this->addSql("CREATE INDEX {$this->concatPrefix('is_enabled')} ON {$this->concatPrefix($this->table)}(is_enabled);");
         }
     }
-
-    protected function up(): void
-    {
-        $this->addSql("ALTER TABLE `{$this->concatPrefix($this->table)}` ADD `is_enabled` tinyint(1) 0");
-
-        $this->addSql("CREATE INDEX {$this->concatPrefix('is_enabled')} ON {$this->concatPrefix($this->table)}(is_enabled);");
-    }
-}
-```
