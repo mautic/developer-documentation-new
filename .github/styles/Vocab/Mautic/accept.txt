@@ -75,6 +75,7 @@ SugarCRM
 Suhosin
 Symfony
 Todo
+tooltip
 Transifex
 TRUE
 Twilio
