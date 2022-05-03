@@ -31,7 +31,7 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
     use Symfony\Component\Routing\RouterInterface;
     use Symfony\Contracts\Translation\TranslatorInterface;
 
-    class LeadSubscriber implements EventSubscriberInterface
+    final class LeadSubscriber implements EventSubscriberInterface
     {
         private TranslatorInterface $translator;
         private EntityManager $em;
@@ -44,7 +44,7 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
             $this->router     = $router;
         }
 
-        public static function getSubscribedEvents()
+        public static function getSubscribedEvents(): array
         {
             return [
                 LeadEvents::TIMELINE_ON_GENERATE => ['onTimelineGenerate', 0]
