@@ -44,7 +44,7 @@ While Mautic supports :xref:`A/B testing` out of the box, you might have more co
     use MauticPlugin\HelloWorldBundle\HelloWorldEvents;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-    class EmailSubscriber implements EventSubscriberInterface
+    final class EmailSubscriber implements EventSubscriberInterface
     {
         private TemplatingHelper $templating;
 
@@ -53,13 +53,13 @@ While Mautic supports :xref:`A/B testing` out of the box, you might have more co
             $this->templating = $templating;
         }
 
-        public static function getSubscribedEvents()
+        public static function getSubscribedEvents(): array
         {
-            return array(
-                EmailEvents::EMAIL_ON_BUILD   => array('onEmailBuild', 0),
-                EmailEvents::EMAIL_ON_SEND    => array('onEmailGenerate', 0),
-                EmailEvents::EMAIL_ON_DISPLAY => array('onEmailGenerate', 0)
-            );
+            return [
+                EmailEvents::EMAIL_ON_BUILD   => ['onEmailBuild', 0],
+                EmailEvents::EMAIL_ON_SEND    => ['onEmailGenerate', 0],
+                EmailEvents::EMAIL_ON_DISPLAY => ['onEmailGenerate', 0],
+            ];
         }
 
         /**
@@ -119,16 +119,17 @@ While Mautic supports :xref:`A/B testing` out of the box, you might have more co
     use MauticPlugin\HelloWorldBundle\HelloWorldEvents;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-    class PlanetVisitSubscriber implements EventSubscriberInterface
+    final class PlanetVisitSubscriber implements EventSubscriberInterface
     {
-        public static function getSubscribedEvents()
+        public static function getSubscribedEvents(): array
         {
             return [
                 HelloWorldEvents::ON_DETERMINE_PLANET_VISIT_WINNER   => ['onDeterminePlanetVisitWinner', 0],
             ];
         }
 
-        public function onDeterminePlanetVisitWinner(DetermineWinnerEvent $event): void {
+        public function onDeterminePlanetVisitWinner(DetermineWinnerEvent $event): void
+        {
             $event->setAbTestResults([
                 'winners' => [],
                 'support' => [
@@ -210,7 +211,7 @@ To do this, the Plugin needs to add an event listener for three events:
     use Mautic\EmailBundle\MonitoredEmail\Mailbox;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-    class MonitoredInboxSubscriber implements EventSubscriberInterface
+    final class MonitoredInboxSubscriber implements EventSubscriberInterface
     {
         private $bundle = 'HelloWorldBundle';
         private $monitor =  'deep_space_emails';
