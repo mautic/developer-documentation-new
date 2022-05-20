@@ -21,7 +21,7 @@ You can add Categories through your Plugin's ``config.php`` file by adding the f
         'plugin:helloWorld' => 'mautic.helloworld.world.categories'
     ]
 
-Please prefix Category keys with ``plugin:`` it determines permissions to manage Categories.
+Please prefix Category keys with ``plugin:`` as it determines permissions to manage Categories.
 The ``helloWorld`` should match the permission class name.
 
 .. vale off
