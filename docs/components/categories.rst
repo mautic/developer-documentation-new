@@ -31,8 +31,7 @@ Configuring Categories for Routes
 
 .. vale on
 
-There is no need to add custom routes for Categories.
-However, when generating a URL to the Plugin's Category list, use the following code:
+There is no need to add custom routes for Categories, however, when generating a URL to the Plugin's Category list, use the following code:
 
 .. code-block:: php
     
