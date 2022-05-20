@@ -42,7 +42,7 @@ However, when generating a URL to the Plugin's Category list, use the following 
 
 .. vale off
 
-Including Category in Forms
+Including Categories in Forms
 ---------------------------
 
 .. vale on
