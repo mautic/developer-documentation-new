@@ -63,31 +63,20 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
 
 .. toctree::
    :maxdepth: 2
+   :caption: Integrations framework
+   :hidden:
+   :glob:
+
+   components/integrations/getting_started
+   components/integrations/*
+
+.. toctree::
+   :maxdepth: 2
    :caption: Components
    :hidden:
+   :glob:
 
-   components/api
-   components/cache
-   components/campaigns
-   components/categories
-   components/channels
-   components/config
-   components/contacts
-   components/core
-   components/emails
-   components/forms
-   components/integrations
-   components/ip_lookups
-   components/landing_pages
-   components/maintenance
-   components/points
-   components/queue
-   components/reports
-   components/security
-   components/sms
-   components/tracking_script
-   components/translator
-   components/ui
+   components/*
 
 Indices and tables
 ==================
