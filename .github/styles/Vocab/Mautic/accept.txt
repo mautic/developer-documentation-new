@@ -1,5 +1,9 @@
 AJAX
 allowlist
+Amazon SES
+Ameling
+Autoloader
+autoloader
 Autowired
 autowired
 bcc
@@ -10,6 +14,7 @@ blocklist
 boolean
 booleans
 cc
+CCPA
 Citrix
 Clearbit
 CloudAMQP
@@ -19,24 +24,36 @@ Composer
 configurator
 ConnectWise
 Contribution(s)
+CORS
 cron
 Cron
 CTRL
+DDEV
+Do Not Contact
+DNC
 Dripflow
+Dynamic Web Content
 FALSE
+Focus Item
+Focus Items
 Froala
 Froogaloop
 gcm
+GIF
 GitBook
 GitHub
+Gitpod
 GMail
 Grav
 Gravatar
+Hammerschmied
 href
 HTML
 http
 https
 HubSpot
+IDP
+IMAP
 infographics
 JavaScript
 Joomla
@@ -44,12 +61,15 @@ Libre
 Licensor
 LinkedIn
 Mailjet
+Marketing Messages
 Mautic
+MaxMind
 Middlewares
 middlewares
 MJML
 Multiselect
 multiselect
+MVP
 mysqldump
 namespace
 Namespace
@@ -57,19 +77,26 @@ noindex
 OAuth
 Packagist
 PATCH
+patch
 PHP
 Pipedrive
 Piwik
 POST
+post
 PUT
 Rackspace
 Remarketing
 Salesforce
+SAML
 Schimpf
-scp
+SCP
 SendGrid
+SES
 SMS
+SMTP
+SNS
 SparkPost
+SSO
 sublicense
 SugarCRM
 Suhosin
@@ -83,7 +110,7 @@ unpublish
 Unpublish
 URL
 URLs
-utm
+UTM
 Vtiger
 Webmecanik
 www
