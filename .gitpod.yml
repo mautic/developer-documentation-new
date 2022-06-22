@@ -11,6 +11,7 @@ vscode:
     - errata-ai.vale-server
     - ms-python.python
     - eamodio.gitlens
+    - trond-snekvik.simple-rst
 
 github:
   prebuilds:
