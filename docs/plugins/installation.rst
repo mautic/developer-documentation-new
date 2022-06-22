@@ -1,5 +1,5 @@
 Installing, upgrading, and uninstalling
-========================================
+=======================================
 
 Todo: update when Marketplace docs are ready. https://github.com/mautic/mautic/pull/10518
 

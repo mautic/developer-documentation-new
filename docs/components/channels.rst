@@ -1,5 +1,5 @@
 Channels
-==========================================================
+========
 Todo:
 
 Preference center integration

@@ -1,5 +1,5 @@
 Customizing forms
-==========================================================
+=================
 
 To provide custom Form field templates or to manipulate the Form body, create the following directory structure::
 

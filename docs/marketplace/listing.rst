@@ -1,4 +1,3 @@
-===================================
 Listing a Plugin in the Marketplace
 ===================================
 
@@ -66,6 +65,6 @@ Updating existing Plugins for usage with the Marketplace
 
 If you required ``mautic/composer-plugin`` in your plugin's dependencies in the past, please remove it. Support for Mautic plugins is now built into Composer, so you only have to set the type to ``mautic-plugin`` and Composer will automatically install your plugin into the ``plugins`` folder.
 
-Next to that, if you built your plugin for Mautic 3 originally, please read the :xref:`UPGRADE-4.0.md guide` for the breaking changes in Mautic 4.
+Next to that, if you built your Plugin for Mautic 3 originally, please read the :xref:`UPGRADE-4.0.md guide` for the breaking changes in Mautic 4.
 
 When you're done, you can go back to the :ref:`Preparing your plugin for the Marketplace` section in this document and proceed from there.

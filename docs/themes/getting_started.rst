@@ -1,5 +1,5 @@
 Getting started with Themes
-==========================================================
+===========================
 
 You can use Themes to create default content and layouts for Emails and Landing Pages written in the :xref:`Twig documentation`.
 
@@ -8,7 +8,7 @@ You can use Themes to also customize Form pages, for example when visiting /form
 Finally, use a special ``system`` Theme to override system templates to avoid losing core code changes with future upgrades.
 
 Directory structure
-==========================================================
+===================
 
 A Theme consists of three components: the configuration, Twig files with content, and thumbnails::
 
@@ -62,7 +62,7 @@ builder
     This contains an array of strings declaring which Builder the Theme supports. This currently only applies to Themes that support ``page`` or ``email``. By default, Themes without this line are only recognized by Mautic's legacy builder. New Themes built should declare the specific Builders it supports.
 
 Twig files
--------------------------
+----------
 
 html/message.html.twig
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -90,7 +90,7 @@ It requires echoing two variables: ``message`` and ``content``.
     </html>
 
 html/email.html.twig
-^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
 
 This file defines the base template when creating a new Email and should contain HTML suited for email clients.
 
@@ -134,7 +134,7 @@ The GrapesJs Builder supports the :xref:`MJML email framework`.
     </mjml>
 
 html/page.html.twig
-^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^
 
 This file defines the base template when creating a new Landing Page and can contain advanced HTML for browsers.
 
@@ -158,7 +158,7 @@ This file defines the base template when creating a new Landing Page and can con
 
 
 html/form.html.twig
-^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^
 
 Mautic uses this file when accessing the form at /form/ID, embedding a Form in a Landing Page, or using the iframe method of embedding a Form into a third party page.
 

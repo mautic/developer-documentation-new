@@ -1,5 +1,5 @@
 Getting started with Plugins
-==========================================================
+============================
 
 Plugins are Symfony bundles that can extend the capability of Mautic. They can be very simple or complex and have access to leverage nearly all that Symfony offers. Just as a reminder, this covers the basics. If you require more advanced features of Symfony, the :xref:`Symfony 4 documentation` is a valuable resource.
 

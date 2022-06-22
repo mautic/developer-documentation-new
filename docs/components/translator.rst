@@ -1,12 +1,12 @@
 Translator
-==============
+==========
 
 Mautic leverages a decorated Symfony Translator service for translations.
 
 Visit :xref:`Translating Mautic` for information on how to translate Core. :ref:`Plugins must include their own translations<Translating plugins>`.
 
 Translation file and directory structure
-------------------------------------------
+----------------------------------------
 
 Translations are `INI` files organized in the following directory structure for Core bundles and Plugins::
 
@@ -26,7 +26,7 @@ Mautic loads translations through ``\Mautic\CoreBundle\Loader\TranslationLoader`
 .. note:: The loader finds and loads all `INI` files within those directories or their subdirectories.
 
 Translation domains
-------------------------
+-------------------
 
 Translation domains organize translations into files. The following are defined by Mautic but the Plugin can define and use its own domains by passing the domain into the :php:meth:`trans` method.
 
@@ -43,7 +43,7 @@ Translation domains organize translations into files. The following are defined 
       - Default domain for constraint messages for validations in :xref:`Symfony form field types<Symfony 4 custom form field type tag>`.
 
 Translation strings
-------------------------
+-------------------
 
 Translations are key/value pairs in the ``INI`` format. There is no hard and fast rule but, typically, Mautic uses periods, ``.``, to separate domains in translation keys and underscores, ``_``, to separate words. You can also use placeholders for the Translator service to replace with values given by the calling code. Placeholders typically are wrapped in percent signs, ``%``.
 
@@ -55,7 +55,7 @@ Translations are key/value pairs in the ``INI`` format. There is no hard and fas
     helloworld.moons.number_of_moons="{0}%world% has no moons|{1}%world% has one moon|]1,Inf[ %world% has %count% moons"
 
 Using the Translator service
------------------------------
+----------------------------
 
 Plugins have access to service by passing ``translator`` as :ref:`a service dependency<Service config items>`. Type-hint the argument in the service's construct with ``Symfony\Component\Translation\TranslatorInterface``.
 
