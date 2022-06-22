@@ -1,14 +1,14 @@
 Getting started with Themes
-===========================
+###########################
 
 You can use Themes to create default content and layouts for Emails and Landing Pages written in the :xref:`Twig documentation`.
 
-You can use Themes to also customize Form pages, for example when visiting /form/ID, or using an iframe to embed a Form into a third party page. You can also customize the Form structure and fields but need to use PHP files, which disqualifies the Theme from being installable through Mautic's Theme manager. It must therefore be manually uploaded to the server.
+You can use Themes to also customize Forms, for example when visiting /form/ID, or using an iframe to embed a Form into a third party page. You can also customize the Form structure and fields but need to use PHP files, which disqualifies the Theme from being installable through Mautic's Theme manager. It must therefore be manually uploaded to the server.
 
 Finally, use a special ``system`` Theme to override system templates to avoid losing core code changes with future upgrades.
 
 Directory structure
-===================
+*******************
 
 A Theme consists of three components: the configuration, Twig files with content, and thumbnails::
 
@@ -24,7 +24,7 @@ A Theme consists of three components: the configuration, Twig files with content
     thumbnail_page.png
 
 Configuration file
-------------------
+==================
 
 The configuration file tells Mautic how to utilize the Theme.
 
@@ -51,29 +51,29 @@ authorUrl
 features
     An array of strings that tells Mautic which features the Theme supports. Currently recognized values are:
 
-    ``email`` The theme is compatible with the Email Builder. See :ref:`html/email.html.twig`.
+    ``email`` The Theme is compatible with the Email Builder. See :ref:`html/email.html.twig`.
 
-    ``form`` The theme is compatible with the customizing Forms. See :ref:`html/form.html.twig`.
+    ``form`` The Theme is compatible with the customizing Forms. See :ref:`html/form.html.twig`.
 
-    ``page`` The theme is compatible with the Page Builder. See :ref:`html/page.html.twig`.
+    ``page`` The Theme is compatible with the Page Builder. See :ref:`html/page.html.twig`.
 
     A corresponding ``html/[feature].html.twig`` file is required for each feature supported. For example, if the Theme supports ``email``, then there should be a ``html/email.html.twig`` file. See :ref:`Twig files` more information on each feature.
 builder
     This contains an array of strings declaring which Builder the Theme supports. This currently only applies to Themes that support ``page`` or ``email``. By default, Themes without this line are only recognized by Mautic's legacy builder. New Themes built should declare the specific Builders it supports.
 
 Twig files
-----------
+==========
 
 html/message.html.twig
-^^^^^^^^^^^^^^^^^^^^^^
+----------------------
 
-This file is mainly used as the Landing Page for when a Lead unsubscribes or resubscribes to the system’s emails. Other areas use this so all Themes should include it.
+This file is mainly used as the Landing Page for when a Contact unsubscribes or resubscribes to the system's Emails. Other areas use this so all Themes should include it.
 
 It requires echoing two variables: ``message`` and ``content``.
 
 ``message`` contains the string message such as "You have been unsubscribed..."
 
-``content`` is empty or contains the HTML of a Form associated with the Email as an unsubscribe form.
+``content`` is empty or contains the HTML of a Form associated with the Email as an unsubscribe Form.
 
 .. code-block:: twig
 
@@ -90,7 +90,7 @@ It requires echoing two variables: ``message`` and ``content``.
     </html>
 
 html/email.html.twig
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
 This file defines the base template when creating a new Email and should contain HTML suited for email clients.
 
@@ -134,7 +134,7 @@ The GrapesJs Builder supports the :xref:`MJML email framework`.
     </mjml>
 
 html/page.html.twig
-^^^^^^^^^^^^^^^^^^^
+-------------------
 
 This file defines the base template when creating a new Landing Page and can contain advanced HTML for browsers.
 
@@ -158,7 +158,7 @@ This file defines the base template when creating a new Landing Page and can con
 
 
 html/form.html.twig
-^^^^^^^^^^^^^^^^^^^
+-------------------
 
 Mautic uses this file when accessing the form at /form/ID, embedding a Form in a Landing Page, or using the iframe method of embedding a Form into a third party page.
 
@@ -187,8 +187,8 @@ See :ref:`Customizing forms` on how to customize Form fields.
     </html>
 
 Thumbnails
-----------
+==========
 
-The thumbnail should be a screenshot of the Theme with demo content. The dimensions should be 575x600px. Mautic displays thumbnails in the Email edit form, Landing Page edit form, and the Theme Manager.
+The thumbnail should be a screenshot of the Theme with demo content. The dimensions should be 575x600px. Mautic displays thumbnails in the Email edit Form, Landing Page edit Form, and the Theme Manager.
 
 Mautic looks for ``thumbnail.png`` by default, however if you want a specific image for different feature, you can add a ``thumbnail_[feature].png`` with a custom thumbnail. For example, ``thumbnail_email.png``, ``thumbnail_page.png`` or ``thumbnail_form.png``.

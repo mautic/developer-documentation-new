@@ -1,9 +1,8 @@
 Tracking script
-===============
+###############
 
-
-Todo: Include MauticJS.
+Todo: include MauticJS.
     Add MauticJS.beforeFirstEventDelivery
-Todo: Update to include events
+Todo: update to include events
     mauticPageEventDelivered
     eventAddedToMauticQueue

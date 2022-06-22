@@ -1,10 +1,10 @@
 Config file
-===========
+###########
 
 Mautic leverages a simple array based config file to register routes, menu items, services, Categories, and configuration parameters.
 
 General config items
---------------------
+********************
 Mautic recognizes the Plugin through the general config options.
 
 .. code-block:: php
@@ -40,7 +40,7 @@ Mautic recognizes the Plugin through the general config options.
       - The version should be in a format compatible with :xref:`PHP's standardized version strings<PHP standardized version strings>`. The Plugin Manager uses PHP's ``version_compare()`` to determine if the Plugin is eligible for an upgrade.
 
 Routing config items
---------------------
+********************
 
 Routes define the URL paths that execute the specified controller action. Register routes with Mautic through the ``routes`` key in the Plugin's config. Define each route under one of Mautic's :ref:`supported firewalls<Routing firewalls>` with a uniquely identifying key and the :ref:`route's definition<Route definitions>`.
 
@@ -93,7 +93,7 @@ Routes define the URL paths that execute the specified controller action. Regist
     // ...
 
 Routing firewalls
-^^^^^^^^^^^^^^^^^^
+=================
 
 The following firewalls are available to routes.
 
@@ -123,7 +123,7 @@ Each firewall accepts an array of defined routes. Each key, the route's name, mu
 .. warning:: Order of routes matters as Symfony uses the first route that matches the URL.
 
 Route definitions
-^^^^^^^^^^^^^^^^^^
+=================
 
 Route definitions define the route's method, path, controller, parameters, and others defined below.
 
@@ -164,7 +164,7 @@ Route definitions define the route's method, path, controller, parameters, and o
       - If the firewall is ``api``, setting this to ``TRUE`` automatically registers GET, POST, PUT, PATCH, and DELETE API endpoints for single and batch handling of entities.
 
 Special routing parameters
-""""""""""""""""""""""""""
+--------------------------
 
 Mautic defaults the following route definitions if not declared otherwise by the Plugin.
 
@@ -176,7 +176,7 @@ Mautic defaults the following route definitions if not declared otherwise by the
       - Description
     * - ``{page}``
       - ``['requirements' => ['{page}' => '\d+']]``
-      - Recognizes only digits for page parameters meant to be used in pagination.
+      - Recognizes only digits for page parameters - used in pagination.
     * - ``{objectId}``
       - ``['defaults' => ['{objectId' => 0]]``
       - Routes that views or edits a specific entity may leverage this.
@@ -185,7 +185,7 @@ Mautic defaults the following route definitions if not declared otherwise by the
       - Requires a digit if using the ``api`` firewall.
 
 Advanced routing
-^^^^^^^^^^^^^^^^^
+================
 
 Configure custom routes through writing a listener to the ``\Mautic\CoreBundle\CoreEvents::BUILD_ROUTE`` event. Listeners to this event receives a ``Mautic\CoreBundle\Event\RouteEvent`` object. Mautic dispatches an event for each firewall when compiling routes.
 
@@ -209,7 +209,7 @@ Configure custom routes through writing a listener to the ``\Mautic\CoreBundle\C
     :returntype: void
 
 Debugging routes
-^^^^^^^^^^^^^^^^^^
+================
 
 Use the follow commands to help debug routes:
 
@@ -226,7 +226,7 @@ Use the follow commands to help debug routes:
       - Lists the route that matches the URL path ``/blog/my-latest-post``.
 
 Menu config items
------------------
+*****************
 
 Plugins define items for Mautic's varying menus through the ``menu`` config array keyed by the menu supported. Each menu can either be an array of menu items that assume default priority, see ``admin`` below for an example, or defined under an ``items`` array with an optional ``priority`` inherited by all defined items, see ``main`` below for an example.
 
@@ -284,7 +284,7 @@ Plugins define items for Mautic's varying menus through the ``menu`` config arra
 
 
 Available menus
-^^^^^^^^^^^^^^^
+===============
 
 There are currently four menus built into Mautic.
 
@@ -303,17 +303,17 @@ There are currently four menus built into Mautic.
       - Menu not used by Core but available to Plugins.
 
 Menu definitions
-^^^^^^^^^^^^^^^^
+================
 
 Menu item priority
-""""""""""""""""""
+------------------
 
 The ``priority`` determines the position in the parent menu where items display relative to other items defined by Core and Plugins. This can be in the root of the menu's array to set the priority for all items defined or in a specific item's definition. It can be negative to position the items lower than others or positive to position them higher. The default is ``9999`` if not defined.
 
 .. note:: You aren't able to control the exact position of items in menus.
 
 Menu item definitions
-"""""""""""""""""""""
+---------------------
 
 Define items in an ``items`` array along with ``priority`` or at the root of the menu's array.
 
@@ -360,7 +360,7 @@ Key each item with its respective :ref:`language string key<Translating plugins>
       - Font Awesome class to set the icon for the menu item.
 
 Menu item checks
-""""""""""""""""
+----------------
 
 Supported checks are ``parameters``, ``request``, and ``integration``.
 
@@ -414,7 +414,7 @@ Supported checks are ``parameters``, ``request``, and ``integration``.
 
     // ...
 
-Of course, you can also combine multiple checks. All must evaluate to true to display the item.
+Of course, you can also combine multiple checks. All must evaluate to TRUE to display the item.
 
 .. code-block:: php
 
@@ -441,7 +441,7 @@ Of course, you can also combine multiple checks. All must evaluate to true to di
     // ...
 
 Service config items
---------------------
+********************
 
 Services define the Plugin's classes and their dependencies with Mautic and Symfony. Services defined within specific keys are auto-tagged as noted below.
 
@@ -483,7 +483,7 @@ Services define the Plugin's classes and their dependencies with Mautic and Symf
     // ...
 
 Service types
-^^^^^^^^^^^^^
+=============
 
 For convenience, Mautic auto-tags services defined within specific keys.
 
@@ -519,7 +519,7 @@ For convenience, Mautic auto-tags services defined within specific keys.
       - You can use any other key you want to organize services in the config array. Note that this could risk incompatibility with a future version of Mautic if using something generic that Mautic starts to use as well.
 
 Service definitions
-^^^^^^^^^^^^^^^^^^^
+===================
 
 Key each service with a unique name to all of Mautic, including other Plugins.
 
@@ -600,7 +600,7 @@ Key each service with a unique name to all of Mautic, including other Plugins.
       - Define the service with lazy loading. Symfony ignores this until Mautic addresses https://forum.mautic.org/t/supporty-symfony-lazy-services/21923.
 
 Mautic service tags
-"""""""""""""""""""
+-------------------
 
 Mautic uses the follow tags to register services as described below.
 
@@ -665,7 +665,7 @@ Mautic uses the follow tags to register services as described below.
       - Registers the service to handle :ref:`sync notifications<Sync notification handlers>`.
 
 Category config items
----------------------
+*********************
 
 Use ``categories`` to define Category types available to the Category manager. See :ref:`Categories`.
 
@@ -682,7 +682,7 @@ Use ``categories`` to define Category types available to the Category manager. S
 
 
 Parameters config items
------------------------
+***********************
 
 Configure parameters that are consumable through Mautic's ``CoreParameterHelper``, passed into services with ``%mautic.key%``, or read from the environment via ``MAUTIC_KEY``. See :ref:`Configuration parameters` for more information.
 

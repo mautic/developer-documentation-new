@@ -1,8 +1,8 @@
 Security
-========
+########
 
 Roles and permissions
----------------------
+*********************
 
 Todo:
 
@@ -11,7 +11,7 @@ Class must extend ``\Mautic\CoreBundle\Security\Permissions\AbstractPermissions`
 
 
 Single sign-on
---------------
+**************
 
 Todo:
 

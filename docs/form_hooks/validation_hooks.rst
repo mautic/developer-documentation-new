@@ -1,5 +1,5 @@
 Validation hooks
-================
+################
 
 .. js:method:: onValidate()
 

@@ -19,6 +19,7 @@ Citrix
 Clearbit
 CloudAMQP
 config
+Config
 Company(ies)
 Composer
 configurator
@@ -49,6 +50,7 @@ Gravatar
 Hammerschmied
 href
 HTML
+html
 http
 https
 HubSpot

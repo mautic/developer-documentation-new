@@ -1,5 +1,5 @@
 General hooks
-=============
+#############
 
 .. js:method:: onSubmitButtonEnable()
 

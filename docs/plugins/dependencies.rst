@@ -1,5 +1,5 @@
 Plugin dependencies
-===================
+###################
 
 You have a couple of options when it comes to dependencies.
 
