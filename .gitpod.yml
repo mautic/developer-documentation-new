@@ -7,7 +7,7 @@ tasks:
 
 vscode:
   extensions:
-    - lextudio.restructuredtext-pack
+    - lextudio.restructuredtext
     - errata-ai.vale-server
     - ms-python.python
     - eamodio.gitlens
