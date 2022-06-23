@@ -1,5 +1,5 @@
 Allow list: what is it and why is it needed?
-###########################################
+############################################
  
 Plugin development can be challenging. Mautic tries to make Plugin development as easy and smooth as possible, but there's always a risk that a Plugin breaks Mautic entirely.
 There are plans to build several safeguards into the Marketplace which should prevent Mautic from crashing when installing a Plugin, however this is currently a work in progress. That's why there is a so-called ``allowlist`` in Mautic 4.1, meaning that Mautic's core team has to approve your Plugin for it to show up in the Marketplace. This should ensure a higher level of stability for all Users of Mautic.
