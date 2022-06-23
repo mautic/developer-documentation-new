@@ -1,17 +1,15 @@
 Page hit event
--------------------
+##############
+
 Triggered when a Contact visits a Landing Page or Mautic tracked third party webpage.
 
-.. _Page hit event type:
-
 Event type
-""""""""""""""""""
+**********
+
 ``mautic.page_on_hit``
 
-.. _Page hit event properties:
-
 Event properties
-""""""""""""""""""
+****************
 
 .. list-table::
     :header-rows: 1
@@ -26,10 +24,8 @@ Event properties
       - string
       - Date/time the event occurred in ISO 8601 format.
 
-.. _Page visit properties:
-
 Page visit properties
-""""""""""""""""""""""
+*********************
 
 .. list-table::
     :header-rows: 1
@@ -54,7 +50,7 @@ Page visit properties
       - :ref:`Contact object<Contact properties>`.
     * - ``ipAddress``
       - object
-      - :ref:`IP address basic object<IP address basic properties>` for the Contact when they visited the page.
+      - :ref:`IP address basic object<IP address basic properties>` for the Contact when they visited the Page.
     * - ``country``
       - string
       - Country gleaned from tracked IP address.
@@ -112,10 +108,13 @@ Page visit properties
     * - ``email``
       - object
       - Deprecated. Use ``source`` and ``sourceId`` where ``source`` equals ``email``.
-.. _Landing Page basic properties:
+
+.. vale off
 
 Landing Page basic properties
-""""""""""""""""""""""""""""""
+*****************************
+
+.. vale on
 
 .. list-table::
     :header-rows: 1

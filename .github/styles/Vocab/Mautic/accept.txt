@@ -57,6 +57,7 @@ HubSpot
 IDP
 IMAP
 infographics
+ISO
 JavaScript
 Joomla
 Libre
@@ -106,6 +107,7 @@ Symfony
 Todo
 Transifex
 TRUE
+true
 Twilio
 unassign
 unpublish

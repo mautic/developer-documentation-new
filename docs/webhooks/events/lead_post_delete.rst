@@ -1,17 +1,15 @@
 Contact deleted event
-----------------------------
+#####################
+
 Triggered when Mautic deletes a Contact.
 
-.. _Contact deleted event type:
-
 Event type
-""""""""""""""""""
+**********
+
 ``mautic.lead_post_delete``
 
-.. _Contact deleted event properties:
-
 Event properties
-""""""""""""""""""
+****************
 
 .. list-table::
     :header-rows: 1

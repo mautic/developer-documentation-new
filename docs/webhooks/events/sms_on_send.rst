@@ -1,17 +1,15 @@
 Text send event
-----------------
+###############
+
 Triggered when Mautic sends a Text Message to a Contact.
 
-.. _Text send event type:
-
 Event type
-""""""""""""""""""
+**********
+
 ``mautic.sms_on_send``
 
-.. _Text send event properties:
-
 Event properties
-""""""""""""""""""
+****************
 
 .. list-table::
     :header-rows: 1

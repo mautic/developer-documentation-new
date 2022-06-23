@@ -1,18 +1,17 @@
 Contact identified event
-------------------------
+########################
+
 Triggered when Mautic identifies a Contact.
 
-.. _Contact identified event type:
-
 Event type
-""""""""""""""""""
+**********
 
 ``mautic.lead_post_save_new``
 
-.. _Contact identified event properties:
-
 Event properties
-""""""""""""""""""
+****************
+
+.. _new_contact_event_properties:
 
 .. list-table::
     :header-rows: 1
@@ -27,10 +26,8 @@ Event properties
       - string
       - Date/time the event occurred in ISO 8601 format.
 
-.. _Contact properties:
-
 Contact properties
-"""""""""""""""""""
+******************
 
 .. list-table::
     :header-rows: 1
@@ -46,7 +43,7 @@ Contact properties
       - Always true.
     * - ``dateAdded``
       - string
-      - Date/time the Contact was created in ISO 8601 format.
+      - Date/time of Contact creation in ISO 8601 format.
     * - ``createdBy``
       - int|null
       - The ID of the User who created the Contact or null if unknown. For example, visitor tracking.
@@ -55,10 +52,10 @@ Contact properties
       - Name of the User that created the Contact if applicable. Otherwise null.
     * - ``dateIdentified``
       - string|null
-      - Date/time the Contact was identified in ISO 8601 format or null if it's a visitor.
+      - Date/time of Contact identification in ISO 8601 format or null if it's a visitor.
     * - ``dateModified``
       - string|null
-      - Date/time the Contact was last modified in ISO 8601 format or null if it has not been modified.
+      - Date/time the Contact was last modified in ISO 8601 format or null if not modified.
     * - ``modifiedBy``
       - int|null
       - The ID of the User who last modified the Contact or null if unknown. For example, visitor tracking.
@@ -76,13 +73,13 @@ Contact properties
       - Preferred image to display for the Contact. Defaults to ``gravatar``.
     * - ``fields``
       - object|array
-      -  Fields are grouped by Field Groups keyed as one of ``core``, ``social``, ``personal``, and ``professional``. Each ``fieldGroup`` has an object of Fields keyed by the Field's API name. See :ref:`Custom Field object<Custom Field properties>` for each Field's properties. Note that this could be an object if there are Fields available. Otherwise, an empty array is set. For example, ``$firstname = $contact['fields']['core']['firstname']['value'];``.
+      -  Mautic groups fields by Field Groups keyed as one of ``core``, ``social``, ``personal``, and ``professional``. Each ``fieldGroup`` has an object of Fields keyed by the Field's API name. See :ref:`Custom Field object<Custom Field properties>` for each Field's properties. Note that this could be an object if there are Fields available. Otherwise, Mautic sets an empty array. For example, ``$firstname = $contact['fields']['core']['firstname']['value'];``.
     * - ``lastActive``
       - string|null
-      - Date/time the Contact was last active in ISO 8601 format or null if it has not been active.
+      - Date/time the Contact was last active in ISO 8601 format or null if it hasn't been active.
     * - ``owner``
       - object|null
-      - :ref:`User object<Owner properties>` or null if no Owner is assigned to the Contact.
+      - :ref:`User object<Owner properties>` or null if no Owner assigned.
     * - ``ipAddresses``
       - object
       - :ref:`IP Address object<IP address properties>`.
@@ -102,10 +99,12 @@ Contact properties
       - object
       - Currently not fully populated for Webhooks.
 
-.. _Custom Field properties:
+.. vale off
 
 Custom Field properties
-""""""""""""""""""""""""""
+***********************
+
+.. vale on
 
 .. list-table::
     :header-rows: 1
@@ -130,7 +129,7 @@ Custom Field properties
       - Field type. Current options are ``boolean``, ``date``, ``datetime``, ``email``, ``country``, ``locale``, ``number``, ``tel``, ``region``, ``select``, ``multiselect``, ``text``, ``textarea``, ``time``, ``timezone``, and ``url``.
     * - ``properties``
       - object
-      - Properties for the given Field type. This will vary based on the Field's configuration.
+      - Properties for the given Field type. This varies based on the Field's configuration.
     * - ``value``
       - mixed
       - Field's value for the Contact.
@@ -138,10 +137,8 @@ Custom Field properties
       - mixed
       - Field's normalized value for the Contact.
 
-.. Owner properties:
-
 Owner properties
-""""""""""""""""""""""""""
+****************
 
 .. list-table::
     :header-rows: 1
@@ -162,10 +159,12 @@ Owner properties
       - string
       - User's last name or surname.
 
-.. IP Address properties:
+.. vale off
 
 IP Address properties
-""""""""""""""""""""""""""
+*********************
+
+.. vale on
 
 .. list-table::
     :header-rows: 1
@@ -184,25 +183,25 @@ IP Address properties
       - Details of the IP Address such as city, region, latitude, longitude, etc.
     * - ``ipDetails.city``
       - string
-      - City where the IP is located.
+      - City location of IP.
     * - ``ipDetails.region``
       - string
-      - Region where the IP is located.
+      - Region location of IP.
     * - ``ipDetails.zipcode``
       - string
-      - Zip code where the IP is located.
+      - Zip code location of IP.
     * - ``ipDetails.latitude``
       - string
-      - Latitude for where the IP is located.
+      - Latitude location of IP.
     * - ``ipDetails.longitude``
       - string
-      - Longitude for where the IP is located.
+      - Longitude location of IP.
     * - ``ipDetails.isp``
       - string
       - ISP that owns the IP.
     * - ``ipDetails.organization``
       - string
-      - Organization the IP is assigned to.
+      - Organization assigned to the IP.
     * - ``ipDetails.timezone``
       - string
       - Timezone the IP location belongs to.
@@ -210,10 +209,8 @@ IP Address properties
       - mixed
       - Stores extra data given by the configured IP lookup service.
 
-.. _Tag properties:
-
 Tag properties
-""""""""""""""""""""""""""
+**************
 
 .. list-table::
     :header-rows: 1
@@ -228,10 +225,8 @@ Tag properties
       - string
       - Tag name.
 
-.. _Channel subscription properties:
-
 Channel subscription properties
-""""""""""""""""""""""""""""""""
+*******************************
 
 .. list-table::
     :header-rows: 1
@@ -244,7 +239,7 @@ Channel subscription properties
       - ID of the Channel subscription entry.
     * - ``reason``
       - int
-      - Reason code for the unsubscription. ``1`` is unsubscribed by the Contact, ``2`` is bounced, and ``3`` is manually marked as unsubscribed by the Marketer.
+      - Reason code for the unsubscription. ``1`` reflects unsubscribed by the Contact, ``2`` reflects bounced, and ``3`` is manually marked as unsubscribed by the Marketer.
     * - ``channel``
       - string
       - Channel the Contact unsubscribed from. Examples are ``email`` and ``sms``.

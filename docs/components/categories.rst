@@ -42,7 +42,7 @@ There is no need to add custom routes for Categories, however, when generating a
 .. vale off
 
 Including Categories in Forms
----------------------------
+-----------------------------
 
 .. vale on
 
