@@ -30,6 +30,8 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    :hidden:
 
    webhooks/getting_started
+   webhooks/example_scripts
+   webhooks/events/index
 
 .. toctree::
    :caption: Mautic Marketplace
@@ -47,6 +49,7 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    plugins/getting_started
    plugins/mautic_vs_symfony
    plugins/dependencies
+   plugins/event_listeners
    plugins/structure
    plugins/config
    plugins/installation
