@@ -71,4 +71,4 @@ Report issues in the main Mautic repository, labelled as :xref:`GrapesJS issue q
 PRs
 ***
 
-Contributions to improve the GrapesJS Plugin happen in the main Mautic repository as :xref:`Github PRs`
+Contributions to improve the GrapesJS Plugin happen in the main Mautic repository as :xref:`GitHub PRs`
