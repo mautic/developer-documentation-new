@@ -1,8 +1,12 @@
 Campaigns
-==========================================================
+#########
+
+.. vale off
 
 Registering Campaign Events
------------------------------
+***************************
+
+.. vale on
 
 Mautic dispatches the Event ``\Mautic\CampaignBundle\CampaignEvents::CAMPAIGN_ON_BUILD`` for Plugins to register their Campaign Actions, Conditions and Decisions. Listeners receive a ``Mautic\CampaignBundle\Events\CampaignBuilderEvent`` object. Register the Event using the appropriate ``add`` method as described below.
 
@@ -11,21 +15,21 @@ Mautic dispatches the Event ``\Mautic\CampaignBundle\CampaignEvents::CAMPAIGN_ON
 .. php:method:: public addAction(string $key, array $action)
 
     :param string $key: Unique key for the Action.
-    :param array $action: :ref:`Action definition<Campaign Event definition>`.
+    :param array $action: :ref:`Action definition<Campaign Action definition>`.
 
     :returntype: void
 
 .. php:method:: public addCondition(string $key, array $condition)
 
     :param string $key: Unique key for the Condition.
-    :param array $condition: :ref:`Condition definition<Campaign Event definition>`.
+    :param array $condition: :ref:`Condition definition<Campaign Condition definition>`.
 
     :returntype: void
 
 .. php:method:: public addDecision(string $key, array $decision)
 
     :param string $key: Unique key for the Decision.
-    :param array $decision: :ref:`Decision definition<Campaign Event definition>`.
+    :param array $decision: :ref:`Decision definition<Campaign Decision definition>`.
 
     :returntype: void
 
@@ -44,8 +48,12 @@ Mautic dispatches the Event ``\Mautic\CampaignBundle\CampaignEvents::CAMPAIGN_ON
     :return: Array of registered Decisions.
     :returntype: array
 
+.. vale off
+
 Registering a Campaign Action
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=============================
+
+.. vale on
 
 .. code-block:: php
 
@@ -86,8 +94,13 @@ Registering a Campaign Action
         }
     }
 
+.. vale off
+
 Campaign Action definition
-"""""""""""""""""""""""""""
+==========================
+
+.. vale on
+
 .. list-table::
     :header-rows: 1
 
@@ -130,7 +143,7 @@ Campaign Action definition
     * - ``connectionRestrictions.anchor``
       - no
       - array
-      - Array of Event anchors this Event is **not** allowed to connect to. Names of anchors are ``yes`` for the "action" or "true" path and ``no`` for the "inaction" or "false" path. Expected format is ``EventType.anchorName``. For example, ``decision.no``.
+      - Array of Event anchors this Event **isn't** allowed to connect to. Names of anchors are ``yes`` for the "action" or "TRUE" path and ``no`` for the "inaction" or "FALSE" path. Expected format is ``EventType.anchorName``. For example, ``decision.no``.
     * - ``connectionRestrictions.source``
       - no
       - array[]
@@ -144,9 +157,12 @@ Campaign Action definition
       - string
       - PHP template to customize the UI for this Event in the Contact's timeline.
 
+.. vale off
 
 Registering a Campaign Condition
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+********************************
+
+.. vale on
 
 .. code-block:: php
 
@@ -187,8 +203,13 @@ Registering a Campaign Condition
         }
     }
 
+.. vale off
+
 Campaign Condition definition
-"""""""""""""""""""""""""""
+=============================
+
+.. vale on
+
 .. list-table::
     :header-rows: 1
 
@@ -231,7 +252,7 @@ Campaign Condition definition
     * - ``connectionRestrictions.anchor``
       - no
       - array
-      - Array of Event anchors this Event is **not** allowed to connect to. Names of anchors are ``yes`` for the "action" or "true" path and ``no`` for the "inaction" or "false" path. Expected format is ``EventType.anchorName``. For example, ``decision.no``.
+      - Array of Event anchors this Event **isn't** allowed to connect to. Names of anchors are ``yes`` for the "action" or "TRUE" path and ``no`` for the "inaction" or "FALSE" path. Expected format is ``EventType.anchorName``. For example, ``decision.no``.
     * - ``connectionRestrictions.source``
       - no
       - array[]
@@ -245,8 +266,12 @@ Campaign Condition definition
       - string
       - PHP template to customize the UI for this Event in the Contact's timeline.
 
+.. vale off
+
 Registering a Campaign Decision
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+*******************************
+
+.. vale on
 
 .. code-block:: php
 
@@ -287,8 +312,13 @@ Registering a Campaign Decision
         }
     }
 
+.. vale off
+
 Campaign Decision definition
-"""""""""""""""""""""""""""
+============================
+
+.. vale on
+
 .. list-table::
     :header-rows: 1
 
@@ -331,7 +361,7 @@ Campaign Decision definition
     * - ``connectionRestrictions.anchor``
       - no
       - array
-      - Array of Event anchors this Event is **not** allowed to connect to. Names of anchors are ``yes`` for the "action" or "true" path and ``no`` for the "inaction" or "false" path. Expected format is ``EventType.anchorName``. For example, ``decision.no``.
+      - Array of Event anchors this Event **isn't** allowed to connect to. Names of anchors are ``yes`` for the "action" or "TRUE" path and ``no`` for the "inaction" or "FALSE" path. Expected format is ``EventType.anchorName``. For example, ``decision.no``.
     * - ``connectionRestrictions.source``
       - no
       - array[]
@@ -345,15 +375,23 @@ Campaign Decision definition
       - string
       - PHP template to customize the UI for this Event in the Contact's timeline.
 
+.. vale off
+
 Executing or evaluating Campaign Events
-----------------------------------------
+***************************************
+
+.. vale on
 
 Implement a listener to the event name defined in either ``batchEventName`` or ``eventName`` to execute or evaluate the Campaign Event.
 
-Executing a Campaign Action
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. vale off
 
-Listeners to the event's ``batchEventName`` receives a ``\Mautic\CampaignBundle\Event\PendingEvent`` object. This object contains the Contacts that are at this point in their journey. Listeners must process the batch of Contacts and mark their respective ``\Mautic\CampaignBundle\Entity\LeadEventLog`` as passed or failed. Each `LeadEventLog` must be marked as passed or failed. Failed Events are rescheduled based on the ``campaign_time_wait_on_event_false`` configuration option.
+Executing a Campaign Action
+===========================
+
+.. vale on
+
+Listeners to the event's ``batchEventName`` receives a ``\Mautic\CampaignBundle\Event\PendingEvent`` object. This object contains the Contacts that are at this point in their journey. Listeners must process the batch of Contacts and mark their respective ``\Mautic\CampaignBundle\Entity\LeadEventLog`` as passed or failed. You must mark each `LeadEventLog` as passed or failed. The ``campaign_time_wait_on_event_false`` configuration option determines the rescheduling of failed events.
 
 .. code-block:: php
 
@@ -576,8 +614,12 @@ Listeners to the event's ``batchEventName`` receives a ``\Mautic\CampaignBundle\
 
     :returntype: void
 
+.. vale off
+
 Evaluating a Campaign Condition
----------------------------------
+*******************************
+
+.. vale on
 
 Listeners to the event's ``eventName`` receives a ``\Mautic\CampaignBundle\Event\ConditionEvent`` object. This object contains the single LeadEventLog object for the Contact to evaluate this condition. The listener must call ``ConditionEvent::pass()`` or ``ConditionEvent::fail()`` after evaluating the condition.
 
@@ -685,10 +727,14 @@ Listeners to the event's ``eventName`` receives a ``\Mautic\CampaignBundle\Event
 
     :returntype: void
 
-Evaluating a Campaign Decision
----------------------------------
+.. vale off
 
-Decisions are when a Contact takes some kind of direct action, that is, they made a decision to act. The code that handles the logic of the decision also needs to tell the Campaign Engine to evaluate Campaign Decisions of the given type by calling ``Mautic\CampaignBundle\Executioner\RealTimeExecutioner::execute()``, registered as the the ``mautic.campaign.executioner.realtime`` service.
+Evaluating a Campaign Decision
+******************************
+
+.. vale on
+
+Decisions are when a Contact takes some kind of direct action - where they made a decision to act. The code that handles the logic of the decision also needs to tell the Campaign Engine to evaluate Campaign Decisions of the given type by calling ``Mautic\CampaignBundle\Executioner\RealTimeExecutioner::execute()``, registered as the the ``mautic.campaign.executioner.realtime`` service.
 
 The Campaign Engine then dispatches the Decision Event's ``eventName`` where listeners receive a ``\Mautic\CampaignBundle\Event\DecisionEvent`` object. This object contains the single LeadEventLog object for the Contact to evaluate this decision. The listener must call ``DecisionEvent::setAsApplicable()`` to instruct the Campaign Engine to execute or schedule Events attached to the "action" (left) path of the decision.
 
