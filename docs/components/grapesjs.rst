@@ -66,7 +66,7 @@ E.g one where the Rich Text Editor is CKEditor, or where there is some very cust
 Issues
 ******
 
-Report issues in the main Mautic repository, labelled as :xref:`GrapesJS builder issues`
+Report issues in the main Mautic repository, labelled as :xref:`GrapesJS issue queue`
 
 PRs
 ***
