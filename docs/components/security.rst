@@ -1,6 +1,8 @@
 Security
 ==========================================================
 
+.. _security-roles-and-permissions:
+
 Roles and permissions
 --------------------------
 
