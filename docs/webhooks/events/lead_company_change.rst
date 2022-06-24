@@ -3,10 +3,14 @@ Contact Company subscription change event
 
 Triggered when Mautic adds or removes a Contact to/from a Company.
 
+.. _company_subscription_change_event_type:
+
 Event type
 **********
 
 ``mautic.lead_company_change``
+
+.. _company_subscription_change_event_properties:
 
 Event properties
 ****************

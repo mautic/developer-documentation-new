@@ -3,10 +3,14 @@ Company deleted event
 
 Triggered when Mautic deletes a Company.
 
+.. _company_deleted_updated_event_type:
+
 Event type
 **********
 
 ``mautic.company_post_delete``
+
+.. _company_deleted_updated_event_properties:
 
 Event properties
 ****************

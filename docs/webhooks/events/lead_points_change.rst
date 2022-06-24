@@ -3,10 +3,14 @@ Contact Points changed event
 
 Triggered when Mautic modifies a Contact's points.
 
+.. _contact_points_changed_event_type:
+
 Event type
 **********
 
 ``mautic.lead_points_change``
+
+.. _contact_points_changed_event_properties:
 
 Event properties
 ****************

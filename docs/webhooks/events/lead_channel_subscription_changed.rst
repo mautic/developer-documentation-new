@@ -3,10 +3,14 @@ Contact Channel subscription change event
 
 Triggered when Mautic changes a Contact's Channel subscription status.
 
+.. _channel_subscription_changed_event_type:
+
 Event type
 **********
 
 ``mautic.lead_channel_subscription_changed``
+
+.. _channel_subscription_changed_event_properties:
 
 Event properties
 ****************

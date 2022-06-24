@@ -3,10 +3,14 @@ Contact identified event
 
 Triggered when Mautic identifies a Contact.
 
+.. _contact_identified_event_type:
+
 Event type
 **********
 
 ``mautic.lead_post_save_new``
+
+.. _contact_identified_event_properties:
 
 Event properties
 ****************

@@ -3,10 +3,14 @@ Form submit event
 
 Triggered when a Contact submits a Mautic Form.
 
+.. _form_submit_event_type:
+
 Event type
 **********
 
 ``mautic.form_on_submit``
+
+.. _form_submit_event_properties:
 
 Event properties
 ****************

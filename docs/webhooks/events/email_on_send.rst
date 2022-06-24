@@ -3,10 +3,14 @@ Email send event
 
 Triggered when an Mautic sends an Email to a Contact.
 
+.. _email_send_event_type:
+
 Event type
 **********
 
 ``mautic.email_on_send``
+
+.. _email_send_event_properties:
 
 Event properties
 ****************

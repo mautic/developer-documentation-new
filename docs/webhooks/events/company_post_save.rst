@@ -3,10 +3,14 @@ Company created/updated event
 
 Triggered when Mautic creates or updates a Company.
 
+.. _company_created_updated_event_type:
+
 Event type
 **********
 
 ``mautic.company_post_save``
+
+.. _company_created_updated_event_properties:
 
 Event properties
 ****************

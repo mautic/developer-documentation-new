@@ -3,10 +3,14 @@ Page hit event
 
 Triggered when a Contact visits a Landing Page or Mautic tracked third party webpage.
 
+.. _page_on_hit_event_type:
+
 Event type
 **********
 
 ``mautic.page_on_hit``
+
+.. _page_on_hit_event_properties:
 
 Event properties
 ****************

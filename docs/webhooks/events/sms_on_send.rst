@@ -3,10 +3,14 @@ Text send event
 
 Triggered when Mautic sends a Text Message to a Contact.
 
+.. _sms_on_send_event_type:
+
 Event type
 **********
 
 ``mautic.sms_on_send``
+
+.. _sms_on_send_event_properties:
 
 Event properties
 ****************
