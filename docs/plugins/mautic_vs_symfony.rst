@@ -55,7 +55,7 @@ Mautic 3 introduced support for Symfony's environment variables. Note that not a
 
 Included commands
 -----------------
-Mautic includes it's own commands in addition to commands defined by Symfony and Symfony bundles such as the makers bundle.
+Mautic includes its own commands in addition to commands defined by Symfony and Symfony bundles such as the makers bundle.
 
 Running ``./bin/console`` without any arguments outputs a list of available commands.
 
