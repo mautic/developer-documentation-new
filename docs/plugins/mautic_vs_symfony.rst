@@ -53,6 +53,14 @@ Mautic built its own configuration system that services can access through Symfo
 
 Mautic 3 introduced support for Symfony's environment variables. Note that not all bundles support environment variables for Symfony's configuration so take this into account before using third party bundles. You can sometimes implement workarounds by using custom proxy or delegation services. For example, see ``\Mautic\EmailBundle\Swiftmailer\Spool\DelegatingSpool``.
 
+Included commands
+-----------------
+Mautic includes it's own commands in addition to commands defined by Symfony and Symfony bundles such as the makers bundle.
+
+Running ``./bin/console`` without any arguments outputs a list of available commands.
+
+.. note:: Some commands are only available in the development or test environments.
+
 Autowired services
 -------------------
 Mautic doesn't auto-wire native services other than Symfony commands and controllers.
