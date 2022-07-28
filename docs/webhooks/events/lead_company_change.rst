@@ -1,18 +1,20 @@
 Contact Company subscription change event
-------------------------------------------
+#########################################
 
 Triggered when Mautic adds or removes a Contact to/from a Company.
 
-.. _Contact Company subscription change event type:
+.. _company_subscription_change_event_type:
 
 Event type
-""""""""""""""""""
+**********
+
 ``mautic.lead_company_change``
 
-.. _Contact Company subscription change event properties:
+.. _company_subscription_change_event_properties:
 
 Event properties
-""""""""""""""""""
+****************
+
 .. list-table::
     :header-rows: 1
 
@@ -21,7 +23,7 @@ Event properties
       - Description
     * - ``added``
       - boolean
-      - ``TRUE`` if the Contact was added to the Company. ``FALSE`` if removed.
+      - ``TRUE`` if Contact added to the Company. ``FALSE`` if removed.
     * - ``contact``
       - object
       - :ref:`Contact object<Contact properties>`.

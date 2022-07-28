@@ -1,5 +1,6 @@
 {
     "vale.core.useCLI": true,
+    "esbonio.server.enabled": true,
     "gitlens.showWelcomeOnInstall": false,
     "vale.valeCLI.path": "/sphinx-tools/vale/vale",
     "esbonio.sphinx.buildDir": "${workspaceFolder}/build",

@@ -1,17 +1,19 @@
 Company deleted event
-----------------------------
+#####################
+
 Triggered when Mautic deletes a Company.
 
-.. _Company deleted event type:
+.. _company_deleted_updated_event_type:
 
 Event type
-""""""""""""""""""
+**********
+
 ``mautic.company_post_delete``
 
-.. _Company deleted event properties:
+.. _company_deleted_updated_event_properties:
 
 Event properties
-""""""""""""""""""
+****************
 
 .. list-table::
     :header-rows: 1
@@ -24,7 +26,7 @@ Event properties
       - ID of the deleted Company
     * - ``company``
       - object
-      - :ref:`Company object<Company properties>`. Note that ``id`` will be null in this context. Use the ``id`` in the event instead.
+      - :ref:`Company object<Company properties>`. Note that ``id`` is null in this context. Use the ``id`` in the event instead.
     * - ``timestamp``
       - string
       - Date/time the event occurred in ISO 8601 format.

@@ -1,17 +1,19 @@
-Contact points changed event
-----------------------------
+Contact Points changed event
+############################
+
 Triggered when Mautic modifies a Contact's points.
 
-.. _Contact points changed event type:
+.. _contact_points_changed_event_type:
 
 Event type
-""""""""""""""""""
+**********
+
 ``mautic.lead_points_change``
 
-.. _Contact points changed event properties:
+.. _contact_points_changed_event_properties:
 
 Event properties
-""""""""""""""""""
+****************
 
 .. list-table::
     :header-rows: 1

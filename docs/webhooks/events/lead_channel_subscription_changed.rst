@@ -1,18 +1,19 @@
-Contact channel subscription change event
-------------------------------------------
+Contact Channel subscription change event
+#########################################
 
-Triggered when Mautic changes a Contact's channel subscription status.
+Triggered when Mautic changes a Contact's Channel subscription status.
 
-.. _Contact channel subscription change type:
+.. _channel_subscription_changed_event_type:
 
 Event type
-""""""""""""""""""
+**********
+
 ``mautic.lead_channel_subscription_changed``
 
-.. _Contact channel subscription change properties:
+.. _channel_subscription_changed_event_properties:
 
 Event properties
-""""""""""""""""""
+****************
 
 .. list-table::
     :header-rows: 1
@@ -25,13 +26,13 @@ Event properties
       - :ref:`Contact object<Contact properties>`.
     * - ``channel``
       - string
-      - The channel the Contact was unsubscribed from. Examples are ``email`` and ``sms``.
+      - The Channel unsubscribed from. Examples are ``email`` and ``sms``.
     * - ``old_status``
       - string
-      - The Contact's original state for the given channel. Options are ``contactable``, ``bounced``, ``manual``, and ``unsubscribed``.
+      - The Contact's original state for the given Channel. Options are ``contactable``, ``bounced``, ``manual``, and ``unsubscribed``.
     * - ``new_status``
       - string
-      - The Contact's new state for the given channel. Options are ``contactable``, ``bounced``, ``manual``, and ``unsubscribed``.
+      - The Contact's new state for the given Channel. Options are ``contactable``, ``bounced``, ``manual``, and ``unsubscribed``
     * - ``timestamp``
       - string
       - Date/time the event occurred in ISO 8601 format.

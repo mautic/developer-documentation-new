@@ -10,9 +10,9 @@ vscode:
   extensions:
     - ms-python.python
     - lextudio.restructuredtext
-    - trond-snekvik.simple-rst
     - errata-ai.vale-server
     - eamodio.gitlens
+    - trond-snekvik.simple-rst
 
 github:
   prebuilds:

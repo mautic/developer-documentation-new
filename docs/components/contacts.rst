@@ -1,5 +1,5 @@
 Contacts
-==========================================================
+########
 
 There's several ways to extend Contacts in Mautic.
 One of them is to show custom events in a Contact's event timeline - this document shows you how.

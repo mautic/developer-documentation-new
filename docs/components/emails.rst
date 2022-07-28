@@ -1,5 +1,5 @@
 Emails
-==========================================================
+######
 
 There are multiple ways to extend the way Mautic works with Emails. This document describes the following options for extending Mautic's Email capabilities:
 
@@ -262,7 +262,7 @@ To do this, the Plugin needs to add an event listener for three events:
     }
 
 Email transports
-----------------------------
+****************
 
 Mautic supports quite some Email providers out of the box (Amazon Simple Email Service, SendGrid, etc.).
 If you want to add your own Email transport, that's certainly possible.
