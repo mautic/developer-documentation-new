@@ -1,5 +1,5 @@
 Categories
-==========================================================
+##########
 
 Categories are a way to organize Mautic elements.
 Mautic has a ``CategoryBundle`` that you can leverage to incorporate Categories into your Plugin.
@@ -42,7 +42,7 @@ There is no need to add custom routes for Categories, however, when generating a
 .. vale off
 
 Including Categories in Forms
----------------------------
+-----------------------------
 
 .. vale on
 

@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "diaboloshogunate",
+      "name": "Robert Parker",
+      "avatar_url": "https://avatars.githubusercontent.com/u/25473863?v=4",
+      "profile": "https://robert-parker.me",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "developer-documentation-new",
+  "projectOwner": "mautic",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}

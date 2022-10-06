@@ -1,5 +1,5 @@
 API
-==========================================================
+###
 
 To add custom API endpoints, define the routes under the API firewall in the :doc:`Plugin's config file</plugins/config>`.
 This places the route behind ``/api`` which is only accessible to authorized Users.

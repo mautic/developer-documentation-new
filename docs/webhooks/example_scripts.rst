@@ -1,8 +1,8 @@
 Webhook example scripts
-==========================================================
+#######################
 
 PHP
----
+***
 
 .. code-block:: php
 
@@ -65,7 +65,7 @@ PHP
     }
 
 Node.js
---------
+*******
 
 .. code-block:: javascript
 

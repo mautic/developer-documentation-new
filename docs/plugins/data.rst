@@ -1,12 +1,12 @@
 Entities and schema
-=====================
+###################
 
 Mautic uses :xref:`Doctrine ORM` to define the schema. Plugins define their schema using entity classes stored in its ``Entity`` directory. Define the schema for the entity through Doctrine's :xref:`PHP static function mapping<Doctrine ORM PHP mapping>` or :xref:`annotations<Doctrine ORM annotations>`.
 
-.. warning:: You use the PHP mapping or annotations. You can't use a mix of the two.
+.. warning:: You use the PHP mapping **or** annotations. You can't use a mix of the two.
 
 Entity PHP static function mapping
------------------------------------
+**********************************
 
 You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder`` class. Refer to :xref:`Doctrine ORM PHP mapping` for methods available. Mautic also provides a decorated ``ClassMetadataBuilder`` class through ``Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder`` described below.
 
@@ -233,7 +233,7 @@ You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\Class
     :returntype: bool
 
 Entity annotations
----------------------
+******************
 
 You can choose to use annotations instead of the PHP static method. Refer to :xref:`Doctrine's documentation on available annotations<Doctrine ORM annotations>`.
 
@@ -286,7 +286,7 @@ You can choose to use annotations instead of the PHP static method. Refer to :xr
     }
 
 Plugin schema migrations
--------------------------
+************************
 
 Mautic Core uses :xref:`Doctrine migrations<Doctrine migrations bundle>` to manage schema changes. Plugins don't have access to this as migration files are in Core's ``migrations`` directory.
 
