@@ -1,6 +1,8 @@
 Integration Configuration
 #########################
 
+.. contents:: Table of Contents
+
 The integration plugin provides interfaces to display and store configuration options that can be accessed through the ``\Mautic\PluginBundle\Entity\Integration`` object.
 
 Registering the Integration for Configuration
@@ -8,7 +10,7 @@ Registering the Integration for Configuration
 
 To tell the IntegrationsBundle that this integration has configuration options, tag the integration or support class with ``mautic.config_integration`` in the plugin's ``app/config.php``.
 
-.. code-block:: php
+.. code-block:: PHP
 
     <?php
     return [
@@ -32,7 +34,7 @@ To tell the IntegrationsBundle that this integration has configuration options, 
 
 The ``ConfigSupport`` class must implement ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormInterface``.
 
-.. code-block:: php
+.. code-block:: PHP
 
     <?php
     namespace MauticPlugin\HelloBundle\Integration\Support;
@@ -74,39 +76,44 @@ There are multiple interfaces that can be used to add form fields options to the
 
 Enabled/Auth Tab
 ----------------
-These interfaces provide the configuration options for authenticating with the 3rd party service. Read more about how to use integrations bundle's [auth providers here](#integration-authentication).
+These interfaces provide the configuration options for authenticating with the third party service. Read more about how to use integrations bundle's [auth providers here](#integration-authentication).
 
-``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormAuthInterface``
-^^^^
-Used in the example above. This interface provides the Symfony form type class that defines the fields to be stored as the api keys.
+ConfigFormAuthInterface
+^^^^^^^^^^^^^^^^^^^^^^^
 
-.. code-block:: php
+Used in the example above. This, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormAuthInterface``, interface provides the Symfony form type class that defines the fields to be stored as the API keys.
+
+.. code-block:: PHP
+
     <?php
     $apiKeys  = $integrationHelper->get(HelloWorldIntegration::NAME)->getIntegrationConfiguration()->getApiKeys();
     $username = $apiKeys['username'];
 
 
-``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormCallbackInterface``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-If the integration leverages an auth provider that requires a callback URL or something similar, this interface provides a means to return a translation string to display in the UI. For example, OAuth2 requires a redirect URI. If the admin has to configure the OAuth credentials in the 3rd party service and needs to know what URL to use in Mautic as the return URI, or callback URL, use the ``getCallbackHelpMessageTranslationKey()`` method.
+ConfigFormCallbackInterface
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+If the integration leverages an auth provider that requires a callback URL or something similar, this interface, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormCallbackInterface``, provides a means to return a translation string to display in the UI. For example, OAuth2 requires a redirect URI. If the admin has to configure the OAuth credentials in the third party service and needs to know what URL to use in Mautic as the return URI, or callback URL, use the ``getCallbackHelpMessageTranslationKey()`` method.
 
 Feature Interfaces
 ------------------
 
-``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeatureSettingsInterface``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This interface provides the Symfony form type class that defines the fields to be displayed on the Features tab. These values are not encrypted.
+ConfigFormFeatureSettingsInterface
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The interface, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeatureSettingsInterface``, provides the Symfony form type class that defines the fields to be displayed on the Features tab. These values are not encrypted.
 
-.. code-block:: php
+.. code-block:: PHP
+
     <?php
     $featureSettings  = $integrationHelper->get(HelloWorldIntegration::NAME)->getIntegrationConfiguration()->getFeatureSettings();
-    $doSomething      = $featureSettings['doSomething'];
+    $doSomething      = $featureSettings['do_Something'];
 
 
-``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeaturesInterface``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Currently the integrations bundle provides default features. To use these features, implement this interface. ``getSupportedFeatures`` returns an array of supported features. For example, if the Integration syncs with Mautic Contacts, ``getSupportedFeatures()`` could ``return [ConfigFormFeaturesInterface::FEATURE_SYNC];``.
+ConfigFormFeaturesInterface
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Currently the integrations bundle provides default features. To use these features, implement this, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeaturesInterface``, interface. ``getSupportedFeatures`` returns an array of supported features. For example, if the Integration syncs with Mautic Contacts, ``getSupportedFeatures()`` could ``return [ConfigFormFeaturesInterface::FEATURE_SYNC];``.
 
 Contact/Company Syncing Interfaces
 ----------------------------------
-The integrations bundle provides a sync framework for third party services to sync with Mautic's Contacts and Companies. The ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormSyncInterface`` determines the configuration options for this sync feature. Refer to the method docblocks in the interface for more details.
+The integrations bundle provides a sync framework for third party services to sync with Mautic's Contacts and Companies. The ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormSyncInterface`` determines the configuration options for this sync feature. Refer to the method DocBlocks in the interface for more details.
+
+Read more about how to leverage the [sync framework](#integration-sync-engine).

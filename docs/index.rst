@@ -55,7 +55,7 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    plugins/installation
    plugins/data
    plugins/translations
-   plugins/integrations_configuration
+   plugins/integrations/index
 
 .. toctree::
    :maxdepth: 2
