@@ -4,7 +4,7 @@ Integration Sync Engine
 
 .. contents:: Table of Contents
 
-The sync engine supports bidirectional syncing between Mautic's contact and companies with 3rd party objects. The engine generates a "sync report" from Mautic that it converts to a "sync order" for the integration to process. It then asks for a "sync report" from the integration which it converts to a "sync order" for Mautic to process. 
+The sync engine supports bidirectional syncing between Mautic's contact and companies with third party objects. The engine generates a "sync report" from Mautic that it converts to a "sync order" for the integration to process. It then asks for a "sync report" from the integration which it converts to a "sync order" for Mautic to process.
 
 When building the report, Mautic or the integration will fetch the objects that have been modified or created within the specified timeframe. If the integration supports changes at the field level, it should tell the report on a per field basis when the field was last updated. Otherwise, it should tell the report when the object itself was last modified. These dates are used by the "sync judge" to determine which value should be used in a bi-directional sync.
 
@@ -16,7 +16,7 @@ The sync is initiated using the ``mautic:integrations:sync`` command. For exampl
 
 Registering the Integration for the Sync Engine
 ===============================================
-To tell the IntegrationsBundle that this integration provides a syncing feature, tag the integration or support class with `mautic.sync_integration` in the plugin's `app/config.php`.
+To tell the IntegrationsBundle that this integration provides a syncing feature, tag the integration or support class with ``mautic.sync_integration`` in the plugin's ``app/config.php``.
 
 .. code-block:: php
 

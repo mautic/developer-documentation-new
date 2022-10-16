@@ -35,7 +35,7 @@ Plugin Migrations
 
 Each migration file should be stored in the plugin's ``Migration`` folder with a name that matches ``Version_X_Y_Z.php`` where ``X_Y_Z`` matches the semantic versioning of the plugin. Each file should contain the incremental schema changes for the plugin up to the latest version which should match the version in the plugin's ``Config/config.php`` file.
 
-There are two methods. ``isApplicable`` should return true/false if the migration should be ran. `up` should register the SQL to execute.
+There are two methods. ``isApplicable`` should return true/false if the migration should be ran. ``up`` should register the SQL to execute.
 
 .. code-block:: php
 

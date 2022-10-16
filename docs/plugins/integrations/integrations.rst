@@ -45,13 +45,13 @@ If the integration includes a builder integration (email or landing page)
 Basics
 ======
 
-Each integration provides its unique name as registered with Mautic, icon, and display name. When an integration is registered, the integration helper classes will manage the `\Mautic\PluginBundle\Entity\Integration` object through `\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface`. It handles decryption and encryption of the integration's API keys so the implementing code never has to.
+Each integration provides its unique name as registered with Mautic, icon, and display name. When an integration is registered, the integration helper classes will manage the ``\Mautic\PluginBundle\Entity\Integration`` object through ``\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface``. It handles decryption and encryption of the integration's API keys so the implementing code never has to.
 
 Registering the Integration
 ___________________________
-All integrations whether it uses the config, auth or sync interfaces must have a class that registers itself with Mautic. The integration will be listed no the `/s/plugins` page.
+All integrations whether it uses the config, auth or sync interfaces must have a class that registers itself with Mautic. The integration will be listed no the ``/s/plugins`` page.
 
-In the plugin's `Config/config.php`, register the integration using the tag `mautic.basic_integration`.
+In the plugin's ``Config/config.php``, register the integration using the tag ``mautic.basic_integration``.
 
 .. code-block:: php
 
