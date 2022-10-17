@@ -5,12 +5,12 @@ Integration Configuration
 
 The integration plugin provides interfaces to display and store configuration options that can be accessed through the ``\Mautic\PluginBundle\Entity\Integration`` object.
 
-Registering the Integration for Configuration
+Register the Integration for Configuration
 =============================================
 
 To tell the IntegrationsBundle that this integration has configuration options, tag the integration or support class with ``mautic.config_integration`` in the plugin's ``app/config.php``.
 
-.. code-block:: PHP
+.. code-block:: php
 
     <?php
     return [
@@ -34,7 +34,7 @@ To tell the IntegrationsBundle that this integration has configuration options, 
 
 The ``ConfigSupport`` class must implement ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormInterface``.
 
-.. code-block:: PHP
+.. code-block:: php
 
     <?php
     namespace MauticPlugin\HelloBundle\Integration\Support;
@@ -116,4 +116,4 @@ Contact/Company Syncing Interfaces
 ----------------------------------
 The integrations bundle provides a sync framework for third party services to sync with Mautic's Contacts and Companies. The ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormSyncInterface`` determines the configuration options for this sync feature. Refer to the method DocBlocks in the interface for more details.
 
-Read more about how to leverage the [sync framework](#integration-sync-engine).
+Read more about how to leverage the :doc:`sync framework<sync>`.

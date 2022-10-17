@@ -32,13 +32,16 @@ If the integration has extra configuration settings for features unique to it
 
 The sync engine
 ________________
+
 If the integration syncs with Mautic's contacts and/or companies
 
 1. Read about :doc:`the sync engine<sync>`.
 
 Registering the Integration as a Builder
 ________________________________________
+
 If the integration includes a builder integration (email or landing page)
+
 1. :ref:`Register the integration<Registering the Integration as a Builder>` as an integration that provides a custom builder.
 2. Configure what featured builders the integration supports (Mautic currently supports "email" and "page" builders).
 
