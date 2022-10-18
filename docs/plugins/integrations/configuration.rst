@@ -5,7 +5,7 @@ Integration Configuration
 
 The integration plugin provides interfaces to display and store configuration options that can be accessed through the ``\Mautic\PluginBundle\Entity\Integration`` object.
 
-Register the Integration for Configuration
+Registering the Integration for Configuration
 =============================================
 
 To tell the IntegrationsBundle that this integration has configuration options, tag the integration or support class with ``mautic.config_integration`` in the plugin's ``app/config.php``.

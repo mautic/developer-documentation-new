@@ -13,7 +13,7 @@ An example HelloWorld plugin is available https://github.com/mautic/plugin-hello
 Using the Integration Framework
 ===============================
 
-Registering the Integration for Authentication
+Register the Integration for Authentication
 _______________________________________________
 
 If the integration requires authentication with the third party service
@@ -22,7 +22,7 @@ If the integration requires authentication with the third party service
 2. Create a custom Symfony form type for the required credentials and return it as part of the :ref:`config interface<ConfigFormAuthInterface>`.
 3. Create a custom service that builds and configures the Guzzle client required to authenticate and communicate with the third party service. Use an [existing supported factory or create a new one](#authentication-providers).
 
-Registering the Integration for Configuration
+Register the Integration for Configuration
 _____________________________________________
 
 If the integration has extra configuration settings for features unique to it
@@ -37,7 +37,7 @@ If the integration syncs with Mautic's contacts and/or companies
 
 1. Read about :doc:`the sync engine<sync>`.
 
-Registering the Integration as a Builder
+Register the Integration as a Builder
 ________________________________________
 
 If the integration includes a builder integration (email or landing page)
