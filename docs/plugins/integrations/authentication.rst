@@ -1,16 +1,16 @@
 **************************
-Integration Authentication
+Integration authentication
 **************************
 
-.. contents:: Table of Contents
+.. contents:: Table of contents
 
 The integrations bundle provides factories and helpers to create Guzzle Client classes for common authentication protocols.
 
 ----------
 
-Registering the Integration for Authentication
+Registering the Integration for authentication
 ==============================================
-If the integration requires the user to authenticate through the web (OAuth2 three legged), the integration needs to tag a service with ``mautic.auth_integration`` to handle the authentication process (redirecting to login, request the access token, etc). This service will need to implement ``\Mautic\IntegrationsBundle\Integration\Interfaces\AuthenticationInterface``.
+If the Integration requires the user to authenticate through the web (OAuth2 three legged), the Integration needs to tag a service with ``mautic.auth_integration`` to handle the authentication process (redirecting to login, request the access token, etc). This service will need to implement ``\Mautic\IntegrationsBundle\Integration\Interfaces\AuthenticationInterface``.
 
 .. code-block:: php
 
