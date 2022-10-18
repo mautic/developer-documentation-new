@@ -1,10 +1,10 @@
 ******************************************
-Getting started with Integration Framework
+Getting started with the Integration Framework
 ******************************************
 
-.. contents:: Table of Contents
+.. contents:: Table of contents
 
-The IntegrationsBundle is meant to be a drop in replacement for Mautic's PluginBundle's AbstractIntegration class. It provides cleaner interfaces for configuring, authenticating and syncing contacts/companies with third party integrations.
+The IntegrationsBundle is meant to be a drop in replacement for Mautic's PluginBundle's AbstractIntegration class. It provides cleaner interfaces for configuring, authenticating and syncing Contacts/Companies with third party Integrations.
 
 An example HelloWorld plugin is available https://github.com/mautic/plugin-helloworld.
 
@@ -13,48 +13,48 @@ An example HelloWorld plugin is available https://github.com/mautic/plugin-hello
 Using the Integration Framework
 ===============================
 
-Registering the Integration for Authentication
+Registering the Integration for authentication
 _______________________________________________
 
-If the integration requires authentication with the third party service
+If the Integration requires authentication with the third party service:
 
 1. :ref:`Register the integration<Registering the Integration for Authentication>` as an integration that requires configuration options.
 2. Create a custom Symfony form type for the required credentials and return it as part of the :ref:`config interface<ConfigFormAuthInterface>`.
 3. Create a custom service that builds and configures the Guzzle client required to authenticate and communicate with the third party service. Use an [existing supported factory or create a new one](#authentication-providers).
 
-Registering the Integration for Configuration
+Registering the Integration for configuration
 _____________________________________________
 
-If the integration has extra configuration settings for features unique to it
+If the Integration has extra configuration settings for features unique to it:
 
-1. :ref:`Register the integration<Registering the Integration for Configuration>` as an integration that requires configuration options.
+1. :ref:`Register the integration<Registering the Integration for Configuration>` as an Integration that requires configuration options.
 2. Create a custom Symfony form type for the features and return it as part of the :ref:`config form feature setting interface<ConfigFormFeatureSettingsInterface>`.
 
 The sync engine
 ________________
 
-If the integration syncs with Mautic's contacts and/or companies
+If the integration syncs with Mautic's Contacts and/or Companies:
 
 1. Read about :doc:`the sync engine<sync>`.
 
 Registering the Integration as a Builder
 ________________________________________
 
-If the integration includes a builder integration (email or landing page)
+If the Integration includes a Builder (Email or Landing Page):
 
 1. :ref:`Register the integration<Registering the Integration as a Builder>` as an integration that provides a custom builder.
-2. Configure what featured builders the integration supports (Mautic currently supports "email" and "page" builders).
+2. Configure what featured builders the integration supports (Mautic currently supports 'Email' and 'Page' builders).
 
 Basics
 ======
 
-Each integration provides its unique name as registered with Mautic, icon, and display name. When an integration is registered, the integration helper classes will manage the ``\Mautic\PluginBundle\Entity\Integration`` object through ``\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface``. It handles decryption and encryption of the integration's API keys so the implementing code never has to.
+Each Integration provides its unique name as registered with Mautic, an icon, and a display name. When an Integration is registered, the Integration helper classes will manage the ``\Mautic\PluginBundle\Entity\Integration`` object through ``\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface``. It handles decryption and encryption of the Integration's API keys so the implementing code never has to.
 
-Registering the Integration
+Registering the integration
 ___________________________
-All integrations whether it uses the config, auth or sync interfaces must have a class that registers itself with Mautic. The integration will be listed no the ``/s/plugins`` page.
+All Integrations whether using the config, auth or sync interfaces must have a class that registers itself with Mautic. The Integration will be listed on the ``/s/plugins`` page.
 
-In the plugin's ``Config/config.php``, register the integration using the tag ``mautic.basic_integration``.
+In the Plugin's ``Config/config.php``, register the Integration using the tag ``mautic.basic_integration``.
 
 .. code-block:: php
 

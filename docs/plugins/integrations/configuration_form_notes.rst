@@ -3,10 +3,10 @@
 :orphan:
 
 ************************************
-Integration Configuration Form Notes
+Integration configuration form notes
 ************************************
 
-The integration framework lets developer define their custom messages for the plugin's configuration form. 
+The integration framework lets developer define their custom messages for the Plugin's configuration form. 
 
 The ``ConfigSupport`` class should implement the::
 
@@ -77,7 +77,7 @@ _____
         }
     }
 
-.. admonition:: Additional Information
+.. admonition:: Additional information
 
     - The trait ``Mautic\IntegrationsBundle\Integration\ConfigFormNotesTrait`` helps define the default ``null``.
     - Instead of plain string, one can pass the translation key which holds the message. for example ``new Note('helloworld.config.auth_tab', Note::TYPE_INFO);``

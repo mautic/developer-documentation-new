@@ -1,17 +1,17 @@
 *************
-Plugin Schema
+Plugin schema
 *************
 
-.. contents:: Table of Contents
+.. contents:: Table of contents
 
-The integration framework provides a means for plugins to better manage their schema. Queries are in migration files that match the plugin's versions number in it's config. When the a plugin is installed or upgraded, it will loop over the migration files up to the latest version.
+The Integration Framework provides a means for Plugins to better manage their schema. Queries are in migration files that match the Plugin's versions number in its config. When the a Plugin is installed or upgraded, it will loop over the migration files up to the latest version.
 
 ____
 
 AbstractPluginBundle
 ====================
 
-The plugin's root bundle class should extend::
+The Plugin's root bundle class should extend:
 
     MauticPlugin\IntegrationsBundle\Bundle\AbstractPluginBundle
 
@@ -30,10 +30,10 @@ The plugin's root bundle class should extend::
     }
 
 
-Plugin Migrations
+Plugin migrations
 -----------------
 
-Each migration file should be stored in the plugin's ``Migration`` folder with a name that matches ``Version_X_Y_Z.php`` where ``X_Y_Z`` matches the semantic versioning of the plugin. Each file should contain the incremental schema changes for the plugin up to the latest version which should match the version in the plugin's ``Config/config.php`` file.
+Each migration file should be stored in the Plugin's ``Migration`` folder with a name that matches ``Version_X_Y_Z.php`` where ``X_Y_Z`` matches the semantic versioning of the Plugin. Each file should contain the incremental schema changes for the Plugin up to the latest version which should match the version in the Plugin's ``Config/config.php`` file.
 
 There are two methods. ``isApplicable`` should return true/false if the migration should be ran. ``up`` should register the SQL to execute.
 
