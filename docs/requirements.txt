@@ -8,5 +8,5 @@ rstcheck==6.1.0
 myst-parser==0.18.1 
 linkify-it-py==2.0.0
 esbonio==0.14.1
-attrs==21.4.0
+attrs==22.1.0
 
