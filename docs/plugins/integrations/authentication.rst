@@ -181,7 +181,7 @@ To use the parameter based API key, create a credentials class that implements::
 
     /** @var $factory HttpFactory */
     $client   = $factory->getClient($credentials);
-    $response = $client->get('https://api-url.com/fetch');
+    $response = $client->get('https://example.com/api/fetch');
 
 
 Header based API key
@@ -221,7 +221,7 @@ Header based API key
 
     /** @var $factory HttpFactory */
     $client   = $factory->getClient($credentials);
-    $response = $client->get('https://api-url.com/fetch');
+    $response = $client->get('https://example.com/api/fetch');
 
 
 Basic auth
@@ -266,7 +266,7 @@ Use the ``mautic.integrations.auth_provider.basic_auth`` service (``\Mautic\Inte
 
     /** @var $factory HttpFactory */
     $client   = $factory->getClient($credentials);
-    $response = $client->get('https://api-url.com/fetch');
+    $response = $client->get('https://example.com/api/fetch');
 
 
 OAuth1a
@@ -297,7 +297,7 @@ OAuth1a two legged does not require a User to login as would three legged.
     $apiKeys       = $configuration->getApiKeys();
 
     $credentials = new class(
-        'https://api-url.com/oauth/token',
+        'https://example.com/api/oauth/token',
         $apiKeys['consumer_key'],
         $apiKeys['consumer_secret']
     ) implements CredentialsInterface {
@@ -350,7 +350,7 @@ OAuth1a two legged does not require a User to login as would three legged.
 
     /** @var $factory HttpFactory */
     $client   = $factory->getClient($credentials);
-    $response = $client->get('https://api-url.com/fetch');
+    $response = $client->get('https://example.com/api/fetch');
 
 OAuth2
 ======
@@ -362,7 +362,7 @@ The OAuth2 factories leverages https://github.com/kamermans/guzzle-oauth2-subscr
 Client configuration
 --------------------
 
-Both OAuth2 factories leverage ``\Mautic\IntegrationsBundle\Auth\Provider\AuthConfigInterface`` object to configure things such as configuring the signer (basic auth, post form data, custom), token factory, token persistence, and token signer (bearer auth, basic auth, query string, custom). Use the appropriate interfaces as required for the use case (see the interfaces in ``plugins/IntegrationsBundle/Auth/Support/Oauth2/ConfigAccess``).
+Both OAuth2 factories leverage the ``\Mautic\IntegrationsBundle\Auth\Provider\AuthConfigInterface`` object to manage things such as configuring the signer (basic auth, post form data, custom), token factory, token persistence, and token signer (bearer auth, basic auth, query string, custom). Use the appropriate interfaces as required for the use case (see the interfaces in ``plugins/IntegrationsBundle/Auth/Support/Oauth2/ConfigAccess``).
 
 See https://github.com/kamermans/guzzle-oauth2-subscriber for additional details on configuring the credentials and token signers or creating custom token persistence and factories.
 
@@ -460,7 +460,7 @@ Below is an example of the password grant for a service that uses a scope (optio
     $apiKeys       = $configuration->getApiKeys();
 
     $credentials = new class(
-        'https://api-url.com/oauth/token',
+        'https://example.com/api/oauth/token',
         'scope1,scope2',
         $apiKeys['client_id'],
         $apiKeys['client_secret'],
@@ -523,7 +523,7 @@ Below is an example of the password grant for a service that uses a scope (optio
 
     /** @var $factory HttpFactory */
     $client   = $factory->getClient($credentials, $config);
-    $response = $client->get('https://api-url.com/fetch');
+    $response = $client->get('https://example.com/api/fetch');
 
 Client credentials grant
 ------------------------
@@ -548,7 +548,7 @@ Below is an example of the client credentials grant for a service that uses a sc
     $apiKeys       = $configuration->getApiKeys();
 
     $credentials = new class(
-        'https://api-url.com/oauth/token',
+        'https://example.com/api/oauth/token',
         'scope1,scope2',
         $apiKeys['client_id'],
         $apiKeys['client_secret']
@@ -597,7 +597,7 @@ Below is an example of the client credentials grant for a service that uses a sc
 
     /** @var $factory HttpFactory */
     $client   = $factory->getClient($credentials, $config);
-    $response = $client->get('https://api-url.com/fetch');
+    $response = $client->get('https://example.com/api/fetch');
 
 OAuth2 three legged
 ===================
@@ -668,8 +668,8 @@ Here is an example of a client, assuming that the User has already logged in and
     $code = $request->get('code');
 
     $credentials = new class(
-        'https://api-url.com/oauth/authorize',
-        'https://api-url.com/oauth/token',
+        'https://example.com/api/oauth/authorize',
+        'https://example.com/api/oauth/token',
         $redirectUrl,
         'scope1,scope2',
         $apiKeys['client_id'],
@@ -749,4 +749,4 @@ Here is an example of a client, assuming that the User has already logged in and
 
     /** @var $factory HttpFactory */
     $client   = $factory->getClient($credentials, $config);
-    $response = $client->get('https://api-url.com/fetch');
+    $response = $client->get('https://example.com/api/fetch');
