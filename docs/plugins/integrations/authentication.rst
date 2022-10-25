@@ -1,16 +1,21 @@
 **************************
-Integration Authentication
+Integration authentication
 **************************
 
-.. contents:: Table of Contents
+.. contents:: Table of contents
 
-The integrations bundle provides factories and helpers to create Guzzle Client classes for common authentication protocols.
+The IntegrationsBundle provides factories and helpers to create Guzzle Client classes for common authentication protocols.
 
 ----------
 
-Registering the Integration for Authentication
-==============================================
-If the integration requires the user to authenticate through the web (OAuth2 three legged), the integration needs to tag a service with ``mautic.auth_integration`` to handle the authentication process (redirecting to login, request the access token, etc). This service will need to implement ``\Mautic\IntegrationsBundle\Integration\Interfaces\AuthenticationInterface``.
+Registering the Integration for authentication
+##############################################
+
+If the Integration requires the User to authenticate through the web (OAuth2 three legged), the Integration needs to tag a service with ``mautic.auth_integration`` to handle the authentication process (redirecting to login, request the access token, etc).
+
+This service needs to implement::
+
+    \Mautic\IntegrationsBundle\Integration\Interfaces\AuthenticationInterface.
 
 .. code-block:: php
 
@@ -101,11 +106,16 @@ The ``AuthSupport`` class must implement ``\Mautic\IntegrationsBundle\Integratio
         }
     }
 
-Authentication Providers
-------------------------
-The integrations bundle comes with a number of popular authentication protocols available to use as Guzzle clients. New ones can be created by implementing ``\Mautic\IntegrationsBundle\Auth\Provider\AuthProviderInterface.``
+Authentication providers
+************************
 
-**The examples below use anonymous classes. Of course, use OOP with services and factories to generate credential, configuration, and client classes.** The best way to get configuration values such as username, password, consumer key, consumer secret, etc is by using the ``mautic.integrations.helper`` (``\Mautic\IntegrationsBundle\Helper\IntegrationsHelper``) service in order to leverage the configuration stored in the ``Integration`` entity's API keys.
+The Integration bundle comes with a number of popular authentication protocols available to use as Guzzle clients. New ones should implement::
+
+    \Mautic\IntegrationsBundle\Auth\Provider\AuthProviderInterface.
+
+**The examples below use anonymous classes. Of course, use Object Oriented Programming with services and factories to generate credential, configuration, and client classes.**
+
+The best way to get configuration values such as username, password, consumer key, consumer secret, etc is by using the ``mautic.integrations.helper`` ``(\Mautic\IntegrationsBundle\Helper\IntegrationsHelper)`` service to leverage the configuration stored in the ``Integration`` entity's API keys.
 
 .. code-block:: php
 
@@ -125,14 +135,17 @@ The integrations bundle comes with a number of popular authentication protocols 
     //...
 
 
-API Key
-^^^^^^^
+API key
+=======
+
 Use the ``mautic.integrations.auth_provider.api_key`` service (``\Mautic\IntegrationsBundle\Auth\Provider\ApiKey\HttpFactory``) to obtain a ``GuzzleHttp\ClientInterface`` that uses an API key for all requests. Out of the box, the factory supports a parameter API key or a header API key.
 
-Parameter Based API Key
-"""""""""""""""""""""""
+Parameter based API key
+-----------------------
 
-To use the parameter based API key, create a credentials class that implements ``\Mautic\IntegrationsBundle\Auth\Provider\ApiKey\Credentials\ParameterCredentialsInterface``.
+To use the parameter based API key, create a credentials class that implements::
+
+    \Mautic\IntegrationsBundle\Auth\Provider\ApiKey\Credentials\ParameterCredentialsInterface.
 
 .. code-block:: php
 
@@ -171,8 +184,9 @@ To use the parameter based API key, create a credentials class that implements `
     $response = $client->get('https://api-url.com/fetch');
 
 
-Header Based API Key
-""""""""""""""""""""
+Header based API key
+--------------------
+
 .. code-block:: php
 
     <?php
@@ -210,8 +224,9 @@ Header Based API Key
     $response = $client->get('https://api-url.com/fetch');
 
 
-Basic Auth
-^^^^^^^^^^
+Basic auth
+==========
+
 Use the ``mautic.integrations.auth_provider.basic_auth`` service (``\Mautic\IntegrationsBundle\Auth\Provider\BasicAuth\HttpFactory``) to obtain a ``GuzzleHttp\ClientInterface`` that uses basic auth for all requests.
 
 .. code-block:: php
@@ -255,15 +270,17 @@ Use the ``mautic.integrations.auth_provider.basic_auth`` service (``\Mautic\Inte
 
 
 OAuth1a
-^^^^^^^
-OAuth1a Three Legged
-""""""""""""""""""""
+=======
+
+OAuth1a three legged
+--------------------
 
 This has not been implemented yet.
 
-OAuth1a Two Legged
-""""""""""""""""""
-OAuth1A two legged does not require a user to login as would three legged. 
+OAuth1a two legged
+------------------
+
+OAuth1a two legged does not require a User to login as would three legged.
 
 .. code-block:: php
 
@@ -336,20 +353,23 @@ OAuth1A two legged does not require a user to login as would three legged.
     $response = $client->get('https://api-url.com/fetch');
 
 OAuth2
-^^^^^^
+======
+
 Use the OAuth2 factory according to the grant type required. ``\Mautic\IntegrationsBundle\Auth\Provider\Oauth2ThreeLegged\HttpFactory`` supports ``code`` and ``refresh_token`` grant types. ``\Mautic\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\HttpFactory`` supports ``client_credentials`` and ``password``.
 
 The OAuth2 factories leverages https://github.com/kamermans/guzzle-oauth2-subscriber as a middleware.
 
-Client Configuration
-""""""""""""""""""""
+Client configuration
+--------------------
+
 Both OAuth2 factories leverage ``\Mautic\IntegrationsBundle\Auth\Provider\AuthConfigInterface`` object to configure things such as configuring the signer (basic auth, post form data, custom), token factory, token persistence, and token signer (bearer auth, basic auth, query string, custom). Use the appropriate interfaces as required for the use case (see the interfaces in ``plugins/IntegrationsBundle/Auth/Support/Oauth2/ConfigAccess``).
 
 See https://github.com/kamermans/guzzle-oauth2-subscriber for additional details on configuring the credentials and token signers or creating custom token persistence and factories.
 
-Integration Token Persistence
-"""""""""""""""""""""""""""""
-For most use cases, a token persistence service to fetch and store the access tokens generated by using refresh tokens, etc will be required. The integrations bundle provides one that natively uses the ``\Mautic\PluginBundle\Entity\Integration`` entity's API keys. Anything stored through the service is automatically encrypted.
+Token persistence
+-----------------
+
+For most use cases, a token persistence service to fetch and store the access tokens generated by using refresh tokens, etc are required. The IntegrationBundle provides one that natively uses the ``\Mautic\PluginBundle\Entity\Integration`` entity's API keys. Anything stored through the service is automatically encrypted.
 
 Use the ``mautic.integrations.auth_provider.token_persistence_factory`` service (``\Mautic\IntegrationsBundle\Auth\Support\Oauth2\Token\TokenPersistenceFactory``) to generate a ``TokenFactoryInterface`` to be returned by the ``\Mautic\IntegrationsBundle\Auth\Support\Oauth2\ConfigAccess\ConfigTokenFactoryInterface`` interface.
  
@@ -382,11 +402,12 @@ Use the ``mautic.integrations.auth_provider.token_persistence_factory`` service 
         }
     };
 
-The token persistence service will automatically manage ``access_token``, ``refresh_token``, and ``expires_at`` from the authentication process which are stored in the ``Integration`` entity's API keys array.
+The token persistence service automatically manages ``access_token``, ``refresh_token``, and ``expires_at`` from the authentication process and stores them in the ``Integration`` entity's API keys array.
 
-Token Factory
-"""""""""""""
-In some cases, the third party service may return additional values that are not traditionally part of the oauth2 spec and these values are required for further communication with the API service. In this case, the integration bundle's ``\Mautic\IntegrationsBundle\Auth\Support\Oauth2\Token\IntegrationTokenFactory`` can be used to capture those extra values and store them in the ``Integration`` entity's API keys array.
+Token factory
+-------------
+
+In some cases, the third party service may return additional values that are not traditionally part of the OAuth2 spec and these values are required for further communication with the API service. In this case, the integration bundle's ``\Mautic\IntegrationsBundle\Auth\Support\Oauth2\Token\IntegrationTokenFactory`` can be used to capture those extra values and store them in the ``Integration`` entity's API keys array.
 
 The ``IntegrationTokenFactory`` can then be returned in a ``\Mautic\IntegrationsBundle\Auth\Support\Oauth2\ConfigAccess\ConfigTokenFactoryInterface`` when configuring the ``Client``.
 
@@ -413,12 +434,13 @@ The ``IntegrationTokenFactory`` can then be returned in a ``\Mautic\Integrations
         }
     };
 
-OAuth2 Two Legged
-^^^^^^^^^^^^^^^^^
+OAuth2 two legged
+=================
 
-Password Grant
-""""""""""""""
-Below is an example of the password grant for a service that uses a scope (optional interface). The use of the token persistence is assuming the access token is valid for a period of time (that is an hour). 
+Password grant
+--------------
+
+Below is an example of the password grant for a service that uses a scope (optional interface). The use of the token persistence is assuming the access token is valid for a period of time (that is an hour).
 
 .. code-block:: php
 
@@ -503,9 +525,10 @@ Below is an example of the password grant for a service that uses a scope (optio
     $client   = $factory->getClient($credentials, $config);
     $response = $client->get('https://api-url.com/fetch');
 
-Client Credentials Grant
-""""""""""""""""""""""""
-Below is an example of the client credentials grant for a service that uses a scope (optional interface). The use of the token persistence is assuming the access token is valid for a period of time (that is an hour). 
+Client credentials grant
+------------------------
+
+Below is an example of the client credentials grant for a service that uses a scope (optional interface). The use of the token persistence is assuming the access token is valid for a period of time (that is an hour).
 
 .. code-block:: php
 
@@ -576,11 +599,14 @@ Below is an example of the client credentials grant for a service that uses a sc
     $client   = $factory->getClient($credentials, $config);
     $response = $client->get('https://api-url.com/fetch');
 
-OAuth2 Three Legged
-^^^^^^^^^^^^^^^^^^^
+OAuth2 three legged
+===================
+
 Three legged OAuth2 with the code grant is the most complex to implement because it involves redirecting the user to the third party service to authenticate then sent back to Mautic to initiate the access token process using a code returned in the request.
 
-The first step is to register the integration as a :ref:`\Mautic\IntegrationsBundle\Integration\Interfaces\AuthenticationInterface<Registering the Integration for Authentication>`. The ``authenticateIntegration()`` method will be used to initiate the access token process using the ``code`` returned in the request after the user logs into the third party service. The integrations bundle provides a route that can be used as the redirect or callback URIs through the named route ``mautic_integration_public_callback`` that requires a ``integration`` parameter. This redirect URI can be displayed in the UI by using [`ConfigFormCallbackInterface`](https://github.com/mautic/plugin-integrations/wiki/2.-Integration-Configuration#mauticpluginintegrationsbundleintegrationinterfacesconfigformcallbackinterface). This route will find the integration by name from the ``AuthIntegrationsHelper`` then execute its ``authenticateIntegration()``.
+The first step is to register the integration as a :ref:`\\Mautic\\IntegrationsBundle\\Integration\\Interfaces\\AuthenticationInterface<Registering the Integration for Authentication>`. The ``authenticateIntegration()`` method initiates the access token process using the ``code`` returned in the request after the user logs into the third-party service. The Integration bundle provides a route that can use as the redirect or callback URIs through the named route ``mautic_integration_public_callback`` that requires a ``integration`` parameter. This redirect URI can display in the UI by using ConfigFormCallbackInterface_. This route is to find the integration by name from the ``AuthIntegrationsHelper``and then execute its ``authenticateIntegration()``.
+
+.. _ConfigFormCallbackInterface: https://github.com/mautic/mautic/blob/5.x/app/bundles/IntegrationsBundle/Integration/Interfaces/ConfigFormCallbackInterface.php
 
 .. code-block:: php
 
@@ -610,9 +636,9 @@ The first step is to register the integration as a :ref:`\Mautic\IntegrationsBun
         }
     }
 
-The trick here is that the ``Client``'s ``authenticate`` method will configure a ``ClientInterface`` then make a call to any valid API URL (*this is required*). By making a call, the middleware will initiate the access token process and store it in the ``Integration`` entity's API keys through the :ref:`TokenPersistenceFactory<Integration Token Persistence>`. The URL is recommended to be something simple like a version check or fetching info for the authenticated user.
+The trick here is that the ``Client``'s ``authenticate`` method configures a ``ClientInterface`` and then calls to any valid API URL (*this is required*). The middleware initiates the access token process by making a call and storing it in the ``Integration`` entity's API keys through :ref:`TokenPersistenceFactory<Token Persistence>`. The URL is recommended to be something simple, like a version check or fetching info for the authenticated User.
 
-Here is an example of a client, assuming that the user has already logged in and the code is in the request.
+Here is an example of a client, assuming that the User has already logged in and the code is in the request.
 
 .. code-block:: php
 
@@ -724,4 +750,3 @@ Here is an example of a client, assuming that the user has already logged in and
     /** @var $factory HttpFactory */
     $client   = $factory->getClient($credentials, $config);
     $response = $client->get('https://api-url.com/fetch');
-
