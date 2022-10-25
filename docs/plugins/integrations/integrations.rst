@@ -1,58 +1,59 @@
-**********************************************
-Getting started with the Integration Framework
-**********************************************
+**************************************************
+Getting started with the ``Integration Framework``
+**************************************************
 
 .. contents:: Table of contents
 
-The IntegrationsBundle is meant to be a drop in replacement for Mautic's PluginBundle's AbstractIntegration class. It provides cleaner interfaces for configuring, authenticating and syncing Contacts/Companies with third party Integrations.
+The IntegrationsBundle is meant to be a drop in replacement for Mautic's PluginBundle's AbstractIntegration class. It provides cleaner interfaces for configuring, authenticating, and syncing Contacts/Companies with third party Integrations.
 
-An example HelloWorld plugin is available https://github.com/mautic/plugin-helloworld.
+An example HelloWorld Plugin is available https://github.com/mautic/plugin-helloworld.
 
 ---------
 
 Using the Integration Framework
-===============================
+###############################
 
-Register the Integration for authentication
-_______________________________________________
+Register the ``Integration`` for authentication
+***********************************************
 
 If the Integration requires authentication with the third party service:
 
-1. :ref:`Register the integration<Registering the Integration for authentication>` as an integration that requires configuration options.
-2. Create a custom Symfony form type for the required credentials and return it as part of the :ref:`config interface<ConfigFormAuthInterface>`.
+1. :ref:`Register the Integration<Registering the Integration for authentication>` as an Integration that requires configuration options.
+2. Create a custom Symfony Form type for the required credentials and return it as part of the :ref:`config interface<ConfigFormAuthInterface>`.
 3. Create a custom service that builds and configures the Guzzle client required to authenticate and communicate with the third party service. Use an [existing supported factory or create a new one](#authentication-providers).
 
-Register the Integration for configuration
-_____________________________________________
+Register the ``Integration`` for configuration
+***********************************************
 
 If the Integration has extra configuration settings for features unique to it:
 
-1. :ref:`Register the integration<Registering the Integration for configuration>` as an Integration that requires configuration options.
-2. Create a custom Symfony form type for the features and return it as part of the :ref:`config form feature setting interface<ConfigFormFeatureSettingsInterface>`.
+1. :ref:`Register the Integration<Registering the Integration for configuration>` as an Integration that requires configuration options.
+2. Create a custom Symfony Form type for the features and return it as part of the :ref:`Config Form feature setting interface<ConfigFormFeatureSettingsInterface>`.
 
 The sync engine
-________________
+***************
 
-If the integration syncs with Mautic's Contacts and/or Companies:
+If the Integration syncs with Mautic's Contacts and/or Companies:
 
 1. Read about :doc:`the sync engine<sync>`.
 
-Register the Integration as a Builder
-________________________________________
+Register the ``Integration`` as a Builder
+*****************************************
 
 If the Integration includes a Builder (Email or Landing Page):
 
-1. :ref:`Register the integration<Registering the Integration as a builder>` as an integration that provides a custom builder.
-2. Configure what featured builders the integration supports (Mautic currently supports 'Email' and 'Page' builders).
+1. :ref:`Register the Integration<Registering the Integration as a builder>` as an Integration that provides a custom builder.
+2. Configure what featured builders the Integration supports (Mautic currently supports 'Email' and 'Landing Page' builders).
 
 Basics
-======
+******
 
-Each Integration provides its unique name as registered with Mautic, an icon, and a display name. When an Integration is registered, the Integration helper classes will manage the ``\Mautic\PluginBundle\Entity\Integration`` object through ``\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface``. It handles decryption and encryption of the Integration's API keys so the implementing code never has to.
+Each Integration provides its unique name as registered with Mautic, an icon, and a display name. When an Integration is registered, the Integration helper classes manages the ``\Mautic\PluginBundle\Entity\Integration`` object through ``\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface``. It handles decryption and encryption of the Integration's API keys so the implementing code never has to.
 
 Registering the integration
-___________________________
-All Integrations whether using the config, auth or sync interfaces must have a class that registers itself with Mautic. The Integration will be listed on the ``/s/plugins`` page.
+***************************
+
+All Integrations, whether using the config, auth, or sync interfaces, must have a class that registers itself with Mautic. The Integration should list on the ``/s/plugins`` page.
 
 In the Plugin's ``Config/config.php``, register the Integration using the tag ``mautic.basic_integration``.
 
@@ -77,7 +78,7 @@ In the Plugin's ``Config/config.php``, register the Integration using the tag ``
         // ...
     ];
 
-The ``HelloWorldIntegration`` will need to implement ``\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface`` and ``\Mautic\IntegrationsBundle\Integration\Interfaces\BasicInterface`` interfaces. Most use cases can simply extend the ``\Mautic\IntegrationsBundle\Integration\BasicIntegration`` abstract class then define the ``getName()``, ``getDisplayName()`` and ``getIcon()`` methods.
+The ``HelloWorldIntegration`` needs to implement ``\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface`` and ``\Mautic\IntegrationsBundle\Integration\Interfaces\BasicInterface`` interfaces. Most use cases can simply extend the ``\Mautic\IntegrationsBundle\Integration\BasicIntegration`` abstract class then define the ``getName()``, ``getDisplayName()`` and ``getIcon()`` methods.
 
 .. code-block:: php
 

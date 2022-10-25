@@ -126,3 +126,5 @@ middleware
 URIs
 false
 timeframe
+OAuth1a
+OAuth2
