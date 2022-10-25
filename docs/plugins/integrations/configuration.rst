@@ -78,7 +78,7 @@ There are multiple interfaces that can be used to add Form Fields options to the
 Enabled/auth tab
 ================
 
-These interfaces provide the configuration options for authenticating with the third party service. Read more about how to use IntegrationsBundle's [auth providers here](#integration-authentication).
+These interfaces provide the configuration options for authenticating with the third party service. Read more about how to use IntegrationsBundle's  :ref:`auth providers here<Authentication Providers>`.
 
 ConfigFormAuthInterface
 -----------------------

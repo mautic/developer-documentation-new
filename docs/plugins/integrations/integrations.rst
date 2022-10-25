@@ -20,7 +20,7 @@ If the Integration requires authentication with the third party service:
 
 1. :ref:`Register the Integration<Registering the Integration for authentication>` as an Integration that requires configuration options.
 2. Create a custom Symfony Form type for the required credentials and return it as part of the :ref:`config interface<ConfigFormAuthInterface>`.
-3. Create a custom service that builds and configures the Guzzle client required to authenticate and communicate with the third party service. Use an [existing supported factory or create a new one](#authentication-providers).
+3. Create a custom service that builds and configures the Guzzle client required to authenticate and communicate with the third party service. Use an :ref:`existing supported factory or create a new one<Authentication Providers>`.
 
 Register the ``Integration`` for configuration
 ***********************************************
