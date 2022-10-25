@@ -127,6 +127,6 @@ Read more about how to leverage the :doc:`sync framework<sync>`.
 Config form notes interface
 ---------------------------
 
-The interface, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormNotesInterface``, provides a way to put notes, either info or warning, on the plugin configuration form.
+The interface, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormNotesInterface``, provides a way to display notes, either info or warning, on the plugin configuration form.
 
 Read more about to how-tos :doc:`here<configuration_form_notes>`
