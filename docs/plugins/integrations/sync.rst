@@ -53,14 +53,14 @@ The mapping manual
 
 The mapping manual tells the sync engine which Integration should be synced with which Mautic object (Contact or Company), the Integration fields that were mapped to Mautic fields, and the direction the data is supposed to flow. 
 
-See https://github.com/mautic/plugin-helloworld/blob/mautic-4/Sync/Mapping/Manual/MappingManualFactory.php
+See :xref:`MappingManualFactory`.
 
 The sync data exchange
 ======================
 
 This is where the sync takes place and is executed by the ``mautic:integrations:sync`` command. Mautic and the Integration builds their respective Reports of new or modified objects then execute the order from the other side.
 
-See https://github.com/mautic/plugin-helloworld/blob/mautic-4/Sync/DataExchange/SyncDataExchange.php
+See :xref:`SyncDataExchange`.
 
 Building sync report
 ____________________
@@ -69,11 +69,12 @@ The sync report tells the sync engine what objects are new and/or modified betwe
 
 If the Integration supports field level change tracking, it should tell the Report so that the sync engine can merge the two data sets more accurately.
 
-See https://github.com/mautic/plugin-helloworld/blob/mautic-4/Sync/DataExchange/ReportBuilder.php
+See :xref:`ReportBuilder`.
+
 
 Executing the sync order
 ________________________
 
 The sync order contains all the changes the sync engine has determined should be written to the Integration. The Integration should communicate back the ID of any objects created or adjust objects as needed such as if they were converted from one to another or deleted.
 
-See https://github.com/mautic/plugin-helloworld/blob/mautic-4/Sync/DataExchange/OrderExecutioner.php
+See :xref:`OrderExecutioner`.

@@ -357,14 +357,14 @@ OAuth2
 
 Use the OAuth2 factory according to the grant type required. ``\Mautic\IntegrationsBundle\Auth\Provider\Oauth2ThreeLegged\HttpFactory`` supports ``code`` and ``refresh_token`` grant types. ``\Mautic\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\HttpFactory`` supports ``client_credentials`` and ``password``.
 
-The OAuth2 factories leverages https://github.com/kamermans/guzzle-oauth2-subscriber as a middleware.
+The OAuth2 factories leverages :xref:`Guzzle Oauth2 Subscriber` as a middleware.
 
 Client configuration
 --------------------
 
 Both OAuth2 factories leverage the ``\Mautic\IntegrationsBundle\Auth\Provider\AuthConfigInterface`` object to manage things such as configuring the signer (basic auth, post form data, custom), token factory, token persistence, and token signer (bearer auth, basic auth, query string, custom). Use the appropriate interfaces as required for the use case (see the interfaces in ``plugins/IntegrationsBundle/Auth/Support/Oauth2/ConfigAccess``).
 
-See https://github.com/kamermans/guzzle-oauth2-subscriber for additional details on configuring the credentials and token signers or creating custom token persistence and factories.
+See :xref:`Guzzle Oauth2 Subscriber` for additional details on configuring the credentials and token signers or creating custom token persistence and factories.
 
 Token persistence
 -----------------
@@ -604,9 +604,7 @@ OAuth2 three legged
 
 Three legged OAuth2 with the code grant is the most complex to implement because it involves redirecting the user to the third party service to authenticate then sent back to Mautic to initiate the access token process using a code returned in the request.
 
-The first step is to register the integration as a :ref:`\\Mautic\\IntegrationsBundle\\Integration\\Interfaces\\AuthenticationInterface<Registering the Integration for Authentication>`. The ``authenticateIntegration()`` method initiates the access token process using the ``code`` returned in the request after the user logs into the third-party service. The Integration bundle provides a route that can use as the redirect or callback URIs through the named route ``mautic_integration_public_callback`` that requires a ``integration`` parameter. This redirect URI can display in the UI by using ConfigFormCallbackInterface_. This route is to find the integration by name from the ``AuthIntegrationsHelper``and then execute its ``authenticateIntegration()``.
-
-.. _ConfigFormCallbackInterface: https://github.com/mautic/mautic/blob/5.x/app/bundles/IntegrationsBundle/Integration/Interfaces/ConfigFormCallbackInterface.php
+The first step is to register the integration as a :ref:`\\Mautic\\IntegrationsBundle\\Integration\\Interfaces\\AuthenticationInterface<Registering the Integration for Authentication>`. The ``authenticateIntegration()`` method initiates the access token process using the ``code`` returned in the request after the user logs into the third-party service. The Integration bundle provides a route that can use as the redirect or callback URIs through the named route ``mautic_integration_public_callback`` that requires a ``integration`` parameter. This redirect URI can display in the UI by using :xref:`ConfigFormCallbackInterface`. This route is to find the integration by name from the ``AuthIntegrationsHelper``and then execute its ``authenticateIntegration()``.
 
 .. code-block:: php
 
