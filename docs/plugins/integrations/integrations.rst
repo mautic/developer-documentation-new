@@ -6,7 +6,7 @@ Getting started with the ``Integration Framework``
 
 The IntegrationsBundle is meant to be a drop in replacement for Mautic's PluginBundle's AbstractIntegration class. It provides cleaner interfaces for configuring, authenticating, and syncing Contacts/Companies with third party Integrations.
 
-An example HelloWorld Plugin is available https://github.com/mautic/plugin-helloworld.
+An example HelloWorld Plugin is available :xref:`Plugin HelloWorld`.
 
 ---------
 
