@@ -4,7 +4,7 @@ Integration authentication
 
 .. contents:: Table of contents
 
-The Integration bundle provides factories and helpers to create Guzzle Client classes for common authentication protocols.
+The IntegrationsBundle provides factories and helpers to create Guzzle Client classes for common authentication protocols.
 
 ----------
 
