@@ -24,6 +24,53 @@ Mautic dispatches the Event ``\Mautic\PointBundle\PointEvents::POINT_ON_BUILD`` 
     :return: Array of registered Actions.
     :returntype: array
 
+.. vale off
+
+Registering a Custom Point Actions
+==================================
+
+.. vale on
+
+.. code-block:: php
+
+    <?php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\PointBundle\Event\PointBuilderEvent;
+    use Mautic\PointBundle\PointEvents;
+    use MauticPlugin\HelloWorldBundle\Form\Type\PointActionsType;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    class PointSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                PointEvents::POINT_ON_BUILD => ['onPointBuild', 0],
+            ];
+        }
+
+        public function onPointBuild(PointBuilderEvent $event)
+        {
+            $action = [
+                'group'    => 'helloworld.points.actions',
+                'label'    => 'helloworld.points.actions.action',
+                'callback' => [self::class, 'addPointTriggerCallback'],
+                'formType' => PointActionsType::class,
+            ];
+
+            $event->addAction('helloworld.action', $action);
+        }
+
+        public static function addPointTriggerCallback(array $action, array $eventDetails): bool
+        {
+            // .. Add logic to weigh the action.
+        }
+    }
+
 
 In order for the custom Point Action to work, add something like the following in the code logic when the Contact executes the custom action::
 
@@ -94,6 +141,54 @@ Mautic dispatches the Event ``\Mautic\PointBundle\PointEvents::TRIGGER_ON_BUILD`
 
     :return: Array of registered Events.
     :returntype: array
+
+.. vale off
+
+Registering a Custom Point Triggers
+===================================
+
+.. vale on
+
+.. code-block:: php
+
+    <?php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\CoreBundle\Factory\MauticFactory;
+    use Mautic\HelloWorldBundle\Form\Type\TriggerChoiceType;
+    use Mautic\PointBundle\Event\TriggerBuilderEvent;
+    use Mautic\PointBundle\PointEvents;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    class PointSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                PointEvents::TRIGGER_ON_BUILD => ['onTriggerBuild', 0],
+            ];
+        }
+
+        public function onTriggerBuild(TriggerBuilderEvent $event)
+        {
+            $changeLists = [
+                'group'    => 'mautic.campaign.point.trigger',
+                'label'    => 'mautic.campaign.point.trigger.changecampaigns',
+                'callback' => [self::class, 'updatePointsOnBuild'],
+                'formType' => TriggerChoiceType::class,
+            ];
+
+            $event->addEvent('campaign.changecampaign', $changeLists);
+        }
+
+        public static function updatePointsOnBuild($config, $lead, MauticFactory $factory): bool
+        {
+            // Add custom code to do some action.
+        }
+    }
 
 .. vale off
 
