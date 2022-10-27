@@ -1,5 +1,7 @@
 Channels
-==========================================================
+########
+
+Todo:
 
 .. vale off
 
@@ -67,7 +69,7 @@ The event listener should check for the appropriate context and ID.
     use MauticPlugin\HelloWorldPlugin\Model\WorldModel;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-    class BroadcastSubscriber implements EventSubscriberInterface
+    final class BroadcastSubscriber implements EventSubscriberInterface
     {
         private WorldModel $model;
 
@@ -76,14 +78,14 @@ The event listener should check for the appropriate context and ID.
             $this->model = $model;
         }
 
-        public static function getSubscribedEvents()
+        public static function getSubscribedEvents(): array
         {
             return [
                 ChannelEvents::CHANNEL_BROADCAST => ['onChannelBroadcast', 0]
             ];
         }
 
-        public function onChannelBroadcast(ChannelBroadcastEvent $event)
+        public function onChannelBroadcast(ChannelBroadcastEvent $event): void
         {
             if (!$event->checkContext('world')) {
                 return;

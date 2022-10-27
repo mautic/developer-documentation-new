@@ -1,8 +1,12 @@
 # File: docs/requirements.txt
 
 # Defining the exact version will make sure things don't break
-sphinx==4.4.0
+sphinx==5.3.0
 sphinx_rtd_theme==1.0.0
-readthedocs-sphinx-search==0.1.1
-rstcheck==3.3.1
-esbonio==0.10.2
+readthedocs-sphinx-search==0.1.2
+rstcheck==6.1.0
+myst-parser==0.18.1 
+linkify-it-py==2.0.0
+esbonio==0.14.1
+attrs==22.1.0
+

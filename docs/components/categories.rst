@@ -1,5 +1,5 @@
 Categories
-==========================================================
+##########
 
 Categories are a way to organize Mautic elements.
 Mautic has a ``CategoryBundle`` that you can leverage to incorporate Categories into your Plugin.
@@ -21,7 +21,7 @@ You can add Categories through your Plugin's ``config.php`` file by adding the f
         'plugin:helloWorld' => 'mautic.helloworld.world.categories'
     ]
 
-Please prefix Category keys with ``plugin:`` it determines permissions to manage Categories.
+Please prefix Category keys with ``plugin:`` as it determines permissions to manage Categories.
 The ``helloWorld`` should match the permission class name.
 
 .. vale off
@@ -31,8 +31,7 @@ Configuring Categories for Routes
 
 .. vale on
 
-There is no need to add custom routes for Categories.
-However, when generating a URL to the Plugin's Category list, use the following code:
+There is no need to add custom routes for Categories, however, when generating a URL to the Plugin's Category list, use the following code:
 
 .. code-block:: php
     
@@ -42,8 +41,8 @@ However, when generating a URL to the Plugin's Category list, use the following 
 
 .. vale off
 
-Including Category in Forms
----------------------------
+Including Categories in Forms
+-----------------------------
 
 .. vale on
 

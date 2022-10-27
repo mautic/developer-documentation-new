@@ -1,17 +1,20 @@
 Company created/updated event
-------------------------------
+#############################
+
 Triggered when Mautic creates or updates a Company.
 
-.. _Company created/updated event type:
+.. _company_created_updated_event_type:
 
 Event type
-""""""""""""""""""
+**********
+
 ``mautic.company_post_save``
 
-.. _Company created/updated event properties:
+.. _company_created_updated_event_properties:
 
 Event properties
-""""""""""""""""""
+****************
+
 .. list-table::
     :header-rows: 1
 
@@ -25,10 +28,9 @@ Event properties
       - string
       - Date/time the event occurred in ISO 8601 format.
 
-.. _Company properties:
-
 Company properties
-"""""""""""""""""""
+******************
+
 
 .. list-table::
     :header-rows: 1
@@ -44,7 +46,7 @@ Company properties
       - Always true.
     * - ``dateAdded``
       - string
-      - Date/time the Company was created in ISO 8601 format.
+      - Date/time of Company creation in ISO 8601 format.
     * - ``createdBy``
       - int|null
       - The ID of the User who created the Company or null if unknown.
@@ -53,7 +55,7 @@ Company properties
       - Name of the User that created the Company.
     * - ``dateModified``
       - string|null
-      - Date/time the Company was last modified in ISO 8601 format or null if it has not been modified.
+      - Date/time the Company was last modified in ISO 8601 format or null if not modified.
     * - ``modifiedBy``
       - int|null
       - The ID of the User who last modified the Company or null if unknown. For example, visitor tracking.
@@ -92,7 +94,7 @@ Company properties
       - The Company's industry.
     * - ``score``
       - string|null
-      - The Company's behavior score (similar to Contact Points).
+      - The Company's behavior score - similar to Contact Points.
     * - ``fields``
       - object|array
-      -  Fields are grouped by Field Groups keyed as one of ``core``, ``social``, ``personal``, and ``professional``. Each ``fieldGroup`` has an object of Fields keyed by the Field's API name. See :ref:`Custom Field object<Custom Field properties>` for each Field's properties. Note that this could be an object if there are Fields available. Otherwise, an empty array is set. For example, ``$companyCity = $company['fields']['core']['city']['value'];``.
+      -  Mautic groups fields by Field Groups keyed as one of ``core``, ``social``, ``personal``, and ``professional``. Each ``fieldGroup`` has an object of Fields keyed by the Field's API name. See :ref:`Custom Field object<Custom Field properties>` for each Field's properties. Note that this could be an object if there are Fields available. Otherwise, Mautic sets an empty array. For example, ``$companyCity = $company['fields']['core']['city']['value'];``.

@@ -1,5 +1,5 @@
 Forms
-==========================================================
+#####
 
 You can extend Forms by listening to the ``\Mautic\FormBundle\FormEvents::FORM_ON_BUILD`` event. Read more about :doc:`listeners and subscribers</plugins/event_listeners>`.
 At the bottom of this page, you can find code examples to make it easier to get started.

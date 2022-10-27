@@ -1,17 +1,19 @@
 Form submit event
---------------------
+################# 
+
 Triggered when a Contact submits a Mautic Form.
 
-.. _Form submit event type:
+.. _form_submit_event_type:
 
 Event type
-""""""""""""""""""
+**********
+
 ``mautic.form_on_submit``
 
-.. _Form submit event properties:
+.. _form_submit_event_properties:
 
 Event properties
-""""""""""""""""""
+****************
 
 .. list-table::
     :header-rows: 1
@@ -26,10 +28,8 @@ Event properties
       - string
       - Date/time the event occurred in ISO 8601 format.
 
-.. _Submission properties:
-
 Submission properties
-"""""""""""""""""""""
+*********************
 
 .. list-table::
     :header-rows: 1
@@ -63,12 +63,10 @@ Submission properties
       - Key/value pairs with Form field API names as the keys and submitted values.
     * - ``page``
       - object|null
-      - :ref:`Landing Page basic object<Landing Page basic properties>` if the Contact submitted the Form from if the Form was embedded on a Landing Page. Otherwise, ``null``.
-
-.. _Form basic properties:
+      - :ref:`Landing Page basic object<Landing Page basic properties>` if the Contact submitted the Form when embedded on a Landing Page. Otherwise, ``null``.
 
 Form basic properties
-""""""""""""""""""""""
+*********************
 
 .. list-table::
     :header-rows: 1
@@ -89,10 +87,8 @@ Form basic properties
       - object
       - :ref:`Category object<Category properties>`
 
-.. _IP address basic properties:
-
-Form basic properties
-"""""""""""""""""""""
+IP address basic properties
+***************************
 
 .. list-table::
     :header-rows: 1

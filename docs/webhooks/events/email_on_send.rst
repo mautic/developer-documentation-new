@@ -1,17 +1,19 @@
 Email send event
-----------------
+################
+
 Triggered when an Mautic sends an Email to a Contact.
 
-.. _Email send event type:
+.. _email_send_event_type:
 
 Event type
-""""""""""""""""""
+**********
+
 ``mautic.email_on_send``
 
-.. _Email send event properties:
+.. _email_send_event_properties:
 
 Event properties
-""""""""""""""""""
+****************
 
 .. list-table::
     :header-rows: 1
@@ -30,7 +32,7 @@ Event properties
       - Key/value pairs of personalized tokens and values for the Contact.
     * - ``contentHash``
       - string
-      - Identifies the unique Email templated content.
+      - Identifies the unique Email content including template.
     * - ``idHash``
       - string
       - Unique to the specific Email send to the Contact.
@@ -42,7 +44,7 @@ Event properties
       - The rendered subject of the Email sent to the Contact.
     * - ``source``
       - array
-      - The Component that sent the Email. Key 0 is the Component and key 1 is the ID if applicable. For example, if a Campaign sent the email, this value will be ``['campaign.event', 1]`` which means that Campaign Event ID 1 sent the Email.
+      - The Component that sent the Email. Key 0 is the Component and key 1 is the ID if applicable. For example, if a Campaign sent the Email, this value is ``['campaign.event', 1]`` which means that Campaign Event ID 1 sent the Email.
     * - ``headers``
       - object
       - Key/value pairs of headers set on the Email sent to the Contact.
@@ -50,10 +52,8 @@ Event properties
       - string
       - Date/time the event occurred in ISO 8601 format.
 
-.. _Email properties:
-
 Email properties
-"""""""""""""""""""
+****************
 
 .. list-table::
     :header-rows: 1
@@ -69,7 +69,7 @@ Email properties
       - Published state of the Email.
     * - ``dateAdded``
       - string
-      - Date/time the Email was created in ISO 8601 format.
+      - Date/time of Email creation in ISO 8601 format.
     * - ``createdBy``
       - int|null
       - The ID of the User who created the Email.
@@ -78,10 +78,10 @@ Email properties
       - Name of the User that created the Email.
     * - ``dateModified``
       - string|null
-      - Date/time the Email was last modified in ISO 8601 format or null if it has not been modified.
+      - Date/time the Email was last modified in ISO 8601 format or null if not modified.
     * - ``modifiedBy``
       - int|null
-      - The ID of the User who last modified the Email or null if it has not been modified.
+      - The ID of the User who last modified the Email or null if not modified.
     * - ``modifiedByUser``
       - string|null
       - Name of the User that last modified the Email if applicable. Otherwise null.
@@ -108,52 +108,52 @@ Email properties
       - A custom reply to address if configured.
     * - ``useOwnerAsMailer``
       - boolean
-      - True if a Contact's Owner should be set as the Email's from address and name.
+      - TRUE if a Contact's Owner should the Email's from address and name.
     * - ``customHtml``
       - string
       - HTML template for the Email.
     * - ``plainText``
       - string|null
-      - Plain text for the email.
+      - Plain text for the Email.
     * - ``template``
       - string
-      - The Mautic theme used as the originating content.
+      - The Mautic Theme used as the originating content.
     * - ``emailType``
       - string
-      - Type of Email. Options are ``template`` and ``list`` (broadcast).
+      - Type of Email. Options are ``template`` and ``list`` - broadcast.
     * - ``readCount``
       - int
-      - The number of times the Email has been opened.
+      - The number of opens for the Email.
     * - ``sentCount``
       - int
-      - The number of times the Email has been sent.
+      - The number of sends for the Email.
     * - ``revision``
       - int
-      - The number of times the Email has been edited.
+      - The number of edits for the Email.
     * - ``dynamicContent``
       - object[]
       - Array of objects that contain the Dynamic Content configured as tokens for the Email.
     * - ``utmTags``
       - object
-      - Key/value pairs of UTM Tags as keys. The following keys are supported ``utmSource``, ``utmMedium``, ``utmCampaign``, and ``utmContent``. Values are strings or null.
+      - Key/value pairs of UTM Tags as keys. Mautic supports the following keys: ``utmSource``, ``utmMedium``, ``utmCampaign``, and ``utmContent``. Values are strings or null.
     * - ``publishUp``
       - string|null
-      - Date/time the Email should be published in ISO 8601 format. ``null`` to consider the Email published if now is before ``publishDown``, if applicable.
+      - Date/time for publishing the Email in ISO 8601 format. ``null`` to consider the Email published if now is before ``publishDown``, if applicable.
     * - ``publishDown``
       - string|null
-      - Date/time the Email should be considered unpublished in ISO 8601 format. ``null`` to consider the Email published if now is after ``publishUp``, if applicable.
+      - Date/time for unpublishing the Email in ISO 8601 format. ``null`` to consider the Email published if now is after ``publishUp``, if applicable.
     * - ``assetAttachments``
       - array
       - Array of :ref:`Asset objects<Asset properties>`.
     * - ``variantStartDate``
       - string|null
-      - Date/time the Email started to track A/B test statistics. ``null`` if the Email is not part of an A/B test.
+      - Date/time the Email started to track A/B test statistics. ``null`` if the Email isn't part of an A/B test.
     * - ``variantSentCount``
       - int
-      - The number of times the Email has been sent since the last edit to an A/B test Email.
+      - The number of times sent since the last edit to an A/B test Email.
     * - ``variantReadCount``
       - int
-      - The number of times the Email has been read since the last edit to an A/B test Email.
+      - The number of times read since the last edit to an A/B test Email.
     * - ``variantParent``
       - object|null
       - :ref:`Email object<Email properties>`. The A test for an Email configured as an A/B test.
@@ -176,10 +176,8 @@ Email properties
       - array
       - Key/value pairs of header templates configured for the Email.
 
-.. _Category properties:
-
 Category properties
-"""""""""""""""""""
+*******************
 
 .. list-table::
     :header-rows: 1
@@ -210,12 +208,10 @@ Category properties
       - Name of the User that created the Category.
     * - ``modifiedByUser``
       - string|null
-      - Name of the User who last updated the Category. Null if it has not been modified.
-
-.. _Asset properties:
+      - Name of the User who last updated the Category. Null if not modified.
 
 Asset properties
-"""""""""""""""""""
+****************
 
 .. list-table::
     :header-rows: 1
@@ -240,13 +236,13 @@ Asset properties
       - :ref:`Category object<Category properties>`
     * - ``revision``
       - int
-      - The number of times the Asset has been edited.
+      - The number of edits of the Asset.
     * - ``language``
       - string
       - The configured locale for the Asset.
     * - ``storageLocation``
       - string
-      - ``local`` if the file was uploaded. ``remote`` if the file is hosted elsewhere where the URL is available through ``downloadUrl``.
+      - ``local`` if an uploaded file. ``remote`` if hosted elsewhere, with the URL is available through ``downloadUrl``.
     * - ``downloadUrl``
       - string|null
       - The URL of the Asset if ``storageLocation`` is ``remote``. ``null`` if stored locally.
@@ -261,7 +257,7 @@ Asset properties
       - File size in bytes.
     * - ``downloadCount``
       - int
-      - Total number of times the Asset has been downloaded.
+      - Total number of downloads of the Asset.
     * - uniqueDownloadCount
       - int
       - Number of Contacts that has downloaded the Asset at least once.
@@ -269,10 +265,8 @@ Asset properties
       - boolean
       - ``TRUE`` if bots have access to index the Asset. ``FALSE`` otherwise. Applicable only for local Assets.
 
-.. _Segment properties:
-
 Segment properties
-"""""""""""""""""""
+******************
 
 .. list-table::
     :header-rows: 1
@@ -303,7 +297,7 @@ Segment properties
       - The name of the User that created the Segment.
     * - ``modifiedByUser``
       - string|null
-      - The name of the User that last modified the Segment. ``null`` if it has never been modified.
+      - The name of the User that last modified the Segment. ``null`` if never modified.
     * - ``isGlobal``
       - boolean
       - ``TRUE`` if configured to be a Public Segment. ``FALSE`` otherwise.
@@ -314,10 +308,8 @@ Segment properties
       - array
       - Array of :ref:`Segment filter objects<Segment filter properties>`.
 
-.. _Segment filter properties:
-
 Segment filter properties
-"""""""""""""""""""""""""""""""""""
+*************************
 
 .. list-table::
     :header-rows: 1
@@ -327,7 +319,7 @@ Segment filter properties
       - Description
     * - ``glue``
       - string
-      - Notes how the filter is related to the filter before it. Options are ``and`` or ``or``. ``and``  groups the filter with the previous filters. ``or`` starts a new group.
+      - Notes how the filter relates to the filter before it. Options are ``and`` or ``or``. ``and``  groups the filter with the previous filters. ``or`` starts a new group.
     * - ``field``
       - string
       - The field type for the filter. For example, it could be a custom field filter such as ``email``. Or it could be a behavioral based filter such as ``lead_asset_download``.
@@ -347,10 +339,12 @@ Segment filter properties
       - string
       - The comparison operator for the filter. Available values vary based on what the filter supports and includes ``=``, ``!=``, ``gt``, ``gte``, ``lt``, ``lte``, ``like``, ``!like``, ``startsWith``, ``endsWith``, ``contains``, ``empty``, ``!empty``, ``in``, ``!in``, and ``regexp``, ``!regexp``.
 
-.. _Unsubscribe Form properties:
+.. vale off 
 
 Unsubscribe Form properties
-""""""""""""""""""""""""""""
+***************************
+
+.. vale on
 
 .. list-table::
     :header-rows: 1
@@ -378,13 +372,13 @@ Unsubscribe Form properties
       - Name of the User that created the Form.
     * - ``modifiedByUser``
       - string|null
-      - Name of the User who last updated the Form. Null if it has not been modified.
+      - Name of the User who last updated the Form. Null if not modified.
     * - ``publishUp``
       - string|null
-      - Date/time the Form should be published in ISO 8601 format. ``null`` to consider the Form published if now is before ``publishDown``, if applicable.
+      - Date/time for publishing the Form in ISO 8601 format. ``null`` to consider the Form published if now is before ``publishDown``, if applicable.
     * - ``publishDown``
       - string|null
-      - Date/time the Form should be considered unpublished in ISO 8601 format. ``null`` to consider the Form published if now is after ``publishUp``, if applicable.
+      - Date/time for unpublishing the Form in ISO 8601 format. ``null`` to consider the Form published if now is after ``publishUp``, if applicable.
     * - ``cachedHtml``
       - string
       - Cached rendered HTML for the Form.
@@ -396,13 +390,13 @@ Unsubscribe Form properties
       - Applicable values are ``standalone`` or ``campaign``.
     * - ``postAction``
       - string
-      - Notes the behavior of the Form after it has been submitted. Current supported values are ``return``, ``redirect``, and ``message``.
+      - Notes the behavior of the Form after submission. Current supported values are ``return``, ``redirect``, and ``message``.
     * - ``postActionProperty``
       - string|null
-      - The URL to redirect a user to if ``postAction`` is ``redirect`` or the message to display to the Contact if ``postAction`` is ``message``.
+      - The URL to redirect a Contact to if ``postAction`` is ``redirect`` or the message to display to the Contact if ``postAction`` is ``message``.
     * - ``inKioskMode``
       - boolean
-      - ``TRUE`` if setting cookies for the tracked Contact is disabled.
+      - ``TRUE`` if Mautic has setting cookies for the tracked Contact turned off.
     * - ``renderStyle``
       - boolean
       - ``TRUE`` to render CSS styles from the configured ``template``.
@@ -419,10 +413,12 @@ Unsubscribe Form properties
       - array
       - Array of :ref:`Unsubscribe Form action objects<Unsubscribe Form action properties>`
 
-.. _Unsubscribe Form field properties:
+.. vale off
 
 Unsubscribe Form field properties
-"""""""""""""""""""""""""""""""""""
+*********************************
+
+.. vale on
 
 .. list-table::
     :header-rows: 1
@@ -453,7 +449,7 @@ Unsubscribe Form field properties
       - ``TRUE`` if required.
     * - ``validationMessage``
       - string|null
-      - Message to display if the field is required but left empty.
+      - Message to display if empty when a mandatory field.
     * - ``helpMessage``
       - string|null
       - Message to display in the Form's HTML as instructions for the field.
@@ -482,10 +478,12 @@ Unsubscribe Form field properties
       - boolean
       - ``TRUE`` to auto fill known values from the tracked Contact's profile.
 
-.. _Unsubscribe Form action properties:
+.. vale off
 
 Unsubscribe Form action properties
-"""""""""""""""""""""""""""""""""""
+**********************************
+
+.. vale on
 
 .. list-table::
     :header-rows: 1
