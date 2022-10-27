@@ -1,8 +1,67 @@
 UI
 ##
 
+.. vale off
+
 Injecting Buttons
 *****************
+
+.. vale on
+
+Mautic dispatches the Event ``\Mautic\CoreBundle\CoreEvents::VIEW_INJECT_CUSTOM_BUTTONS`` for Plugins to register their Buttons. Listeners receive a ``Mautic\CoreBundle\Event\CustomButtonEvent`` object. Register the Event using the ``addButton`` method as described below.
+
+.. php:class:: Mautic\CoreBundle\Event\CustomButtonEvent
+
+.. php:method:: public function getLocation()
+
+    :return: Requested location for the Button.
+
+.. php:method:: public function getButtons()
+
+    :return: Array of registered Buttons.
+    :returntype: array
+
+.. php:method:: public function addButtons(array $buttons, $location = null, $route = null)
+
+    :param array[] $buttons: Array of buttons.
+    :param string $location: Location of the Button to be placed.
+    :param string $route: Route.
+
+.. php:method:: public function addButton(array $button, $location = null, $route = null)
+
+    :param array[] $button: :ref:`Details for button<Button Array Format>`.
+    :param string $location: Location of the Button to be placed.
+    :param string $route: Route.
+
+A Plugin can inject the Buttons into five places in Mautic's UI.
+
+.. list-table::
+    :header-rows: 1
+
+    *   - Location
+        - Description
+    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_LIST_ACTIONS``
+        - Drop down actions per each item in list views.
+    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_TOOLBAR_ACTIONS``
+        - Top right preceding list view tables to the right of the table filter. Preferably buttons with icons only.
+    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_PAGE_ACTIONS``
+        - Main page buttons to the right of the page title (New, Edit, and so forth). Primary buttons displays as buttons, while the rest listed in a drop-down.
+    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_NAVBAR``
+        - Top of the page to the left of the account/profile menu. Buttons with text and/or icons.
+    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_BULK_ACTIONS``
+        - Buttons inside the bulk drop-down (around the ``checkall`` checkbox of lists).
+
+Buttons use a priority system to determine the order.
+The higher the priority, the Button displayed closer to first the Button.
+The lower the priority, the Button displayed closer to the last.
+For a Button drop-down, setting a button as ``primary`` displays the Button in the Button group rather than the drop-down.
+
+.. vale off
+
+Registering Integration to inject buttons
+=========================================
+
+.. vale on
 
 .. code-block:: php
 
@@ -90,32 +149,14 @@ Injecting Buttons
         }
     }
 
-As of Mautic 2.3.0, support for plugins to inject buttons throughout Mautic's UI has been added by listening to the `CoreEvents::VIEW_INJECT_CUSTOM_BUTTONS` event.
-
-There are five places in Mautic's UI that buttons can be injected into:
-
-.. list-table::
-    :header-rows: 1
-
-    *   - Location
-        - Description
-    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_LIST_ACTIONS``
-        - Drop down actions per each item in list views.
-    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_TOOLBAR_ACTIONS``
-        - Top right above list view tables to the right of the table filter. Preferably buttons with icons only.
-    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_PAGE_ACTIONS``
-        - Main page buttons to the right of the page title (New, Edit, etc). Primary buttons will be displayed as buttons while the rest will be displayed in a drop down.
-    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_NAVBAR``
-        - Top of the page to the left of the account/profile menu. Buttons with text and/or icons.
-    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_BULK_ACTIONS``
-        - Buttons inside the bulk dropdown (around the checkall checkbox of lists).
-
-Buttons use a priority system to determine order. The higher the priority, the closer to first the button is displayed. The lower the priority, the closer to last. For a button dropdown, setting a button as `primary` will display the button in the button group rather than the dropdown.
+.. vale off
 
 Button Array Format
 ===================
 
-The array defining the button can include the following keys:
+.. vale on
+
+The array defining the Button can include the following keys:
 
 .. list-table::
     :header-rows: 1
@@ -123,26 +164,26 @@ The array defining the button can include the following keys:
     *   - Key
         - Type
         - Description
-    *   - attr
-        - array
-        - Array of attributes to be appended to the button (data attributes, href, etc)
-    *   - btnText
+    *   - ``attr``
+        - array[]
+        - Array of attributes to appended to the Button (data attributes, href, etc)
+    *   - ``btnText``
         - string
-        - Text to display for the button
-    *   - iconClass
+        - Text to display for the Button
+    *   - ``iconClass``
         - string
-        - Font Awesome class to use as the icon within the button
-    *   - tooltip
+        - Font Awesome class to use as the icon within the Button
+    *   - ``tooltip``
         - string
-        - Text to display as a tooltip
-    *   - primary
+        - Text to display as a Tooltip
+    *   - ``primary``
         - boolean
-        - For button dropdown formats, this will display the button in the group rather than in the dropdown
-    *   - priority
+        - For Button drop-down formats, this displays the Button in the group rather than in the drop-down
+    *   - ``priority``
         - int
-        - Determines the order of buttons. Higher the priority, closer to the first the button will be placed. Buttons with the same priority wil be ordered alphabetically.
+        - Determines the order of buttons. The higher the priority, the Button displayed closer to the first Button. Buttons with the same priority are ordered alphabetically.
 
-If a button is to display a confirmation modal, the key `confirm` can be used. A `confirm` array  can have the following keys:
+If a button is to display a confirmation modal, the key ``confirm``  is a must. A ``confirm`` array  can have the following keys:
 
 .. list-table::
     :header-rows: 1
@@ -150,56 +191,60 @@ If a button is to display a confirmation modal, the key `confirm` can be used. A
     *   - Key
         - Type
         - Description
-    *   - message
+    *   - ``message``
         - string
         - Translated message to display in the confirmation window
-    *   - confirmText
+    *   - ``confirmText``
         - string
-        - Text to display as the confirm button
-    *   - confirmAction
+        - Text to display as the confirm Button
+    *   - ``confirmAction``
         - string
-        - HREF of the button
-    *   - cancelText
+        - href of the Button
+    *   - ``cancelText``
         - string
         - Text to display as the cancel button
-    *   - cancelCallback
+    *   - ``cancelCallback``
         - string
-        - Mautic namespaced Javascript method to be executed when the cancel button is clicked
-    *   - confirmCallback
+        - Mautic namespaced JavaScript method to execute when the cancel Button clicked.
+    *   - ``confirmCallback``
         - string
-        - Mautic namespaced Javascript method to be executed when the confirm button is clicked
-    *   - precheck
+        - Mautic namespaced JavaScript method to execute when the confirm Button clicked
+    *   - ``precheck``
         - string
-        - Mautic namespaced Javascript method to be executed prior to displaying the confirmation modal
-    *   - btnClass
+        - Mautic namespaced JavaScript method to executed before displaying the confirmation modal
+    *   - ``btnClass``
         - string
-        - Class for the button
-    *   - iconClass
+        - Class for the Button
+    *   - ``iconClass``
         - string
         - Font Awesome class to use as the icon
-    *   - btnTextAttr
+    *   - ``btnTextAttr``
         - string
-        - string of attributes to append to the button's inner text
-    *   - attr
-        - array
-        - Array of attributes to append to the button's outer tag
-    *   - tooltip
+        - string of attributes to append to the Button's inner text
+    *   - ``attr``
+        - array[]
+        - Array of attributes to append to the Button's outer tag
+    *   - ``tooltip``
         - string
-        - Translated string to display as a tooltip
-    *   - tag
+        - Translated string to display as a Tooltip
+    *   - ``tag``
         - string
-        - Tag to use as the button. Defaults to an `a` tag.
-    *   - wrapOpeningTag
+        - Tag to use as the Button. Defaults to an ``a`` tag.
+    *   - ``wrapOpeningTag``
         - string
-        - Tag/html to wrap button in. Defaults to nothing.
-    *   - wrapClosingTag
+        - Tag/html to wrap Button in. Defaults to nothing.
+    *   - ``wrapClosingTag``
         - string
         - Tag/thml to close wrapOpeningTag. Defaults to nothing.
 
-On the same nested level as the `confirm` key can include `primary` and/or `priority`. 
+On the same nested level as the ``confirm`` key can include ``primary`` and/or ``priority``.
+
+.. vale off
 
 Defining Button Locations
-=========================
+*************************
+
+.. vale on
 
 .. code-block:: php
 
@@ -211,7 +256,7 @@ Defining Button Locations
     echo $view['buttons']->reset($app->getRequest(), 'custom_location')->renderButtons($dropdownOpenHtml, '</ul>');
 
 
-A plugin can define it's own locations that other plugins can leverage by using the template `buttons` helper.
+A Plugin can define it's own locations that other Plugins can leverage by using the template ``buttons`` helper.
 
 There are three types of button groups supported:
 
@@ -220,11 +265,11 @@ There are three types of button groups supported:
 
     *   - Type
         - Description
-    *   - \Mautic\CoreBundle\Templating\Helper\ButtonHelper::TYPE_BUTTON_DROPDOWN
-        - Primary buttons are displayed in a button group while others in a dropdown menu.
-    *   - \Mautic\CoreBundle\Templating\Helper\ButtonHelper::TYPE_DROPDOWN
-        - Buttons displayed in a dropdown menu.
-    *   - \Mautic\CoreBundle\Templating\Helper\ButtonHelper::TYPE_GROUP
+    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::TYPE_BUTTON_DROPDOWN``
+        - Primary buttons renders in a button group while others in a drop-down menu.
+    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::TYPE_DROPDOWN``
+        - Buttons displayed in a drop-down menu.
+    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::TYPE_GROUP``
         - A group of buttons side by side.
 
-Dropdowns require the wrapping HTML to be passed to the `renderButtons` method.
+Drop-downs require the wrapping HTML to pass to the ``renderButtons`` method.
