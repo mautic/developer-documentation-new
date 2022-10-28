@@ -8,9 +8,9 @@ Point Actions
 
 .. vale on
 
-A custom Point Action used to give a Contact `x` Points for doing a certain action.
+In Mautic, custom Point Actions give a Contact `x` Points for doing a certain action.
 
-Mautic dispatches the Event ``\Mautic\PointBundle\PointEvents::POINT_ON_BUILD`` for Plugins to register their custom point action. Listeners receive a ``Mautic\PointBundle\Event\PointBuilderEvent`` object. Register the Event using the ``addAction`` method as described below.
+Mautic dispatches the Event ``\Mautic\PointBundle\PointEvents::POINT_ON_BUILD`` for Plugins to register their custom Point Action. Listeners receive a ``Mautic\PointBundle\Event\PointBuilderEvent`` object. Register the Event using the ``addAction`` method as described below.
 
 .. php:class:: Mautic\PointBundle\Event\PointBuilderEvent
 
@@ -26,7 +26,7 @@ Mautic dispatches the Event ``\Mautic\PointBundle\PointEvents::POINT_ON_BUILD`` 
 
 .. vale off
 
-Registering a Custom Point Actions
+Registering a Custom Point Action
 ==================================
 
 .. vale on
@@ -126,9 +126,9 @@ Point Triggers
 
 .. vale on
 
-A custom Point Trigger used to execute a specific action once a Contact hits X number of Points.
+A custom Point Trigger used to execute a specific action once a Contact reaches X number of Points.
 
-Mautic dispatches the Event ``\Mautic\PointBundle\PointEvents::TRIGGER_ON_BUILD`` for Plugins to register their custom point triggers. Listeners receive a ``Mautic\PointBundle\Event\TriggerBuilderEvent`` object. Register the Event using the ``addEvent`` method as described below.
+Mautic dispatches the Event ``\Mautic\PointBundle\PointEvents::TRIGGER_ON_BUILD`` for Plugins to register their custom Point Triggers. Listeners receive a ``Mautic\PointBundle\Event\TriggerBuilderEvent`` object. Register the Event using the ``addEvent`` method as described below.
 
 .. php:class:: Mautic\PointBundle\Event\TriggerBuilderEvent
 
@@ -144,7 +144,7 @@ Mautic dispatches the Event ``\Mautic\PointBundle\PointEvents::TRIGGER_ON_BUILD`
 
 .. vale off
 
-Registering a Custom Point Triggers
+Registering a Custom Point Trigger
 ===================================
 
 .. vale on
