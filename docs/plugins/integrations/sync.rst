@@ -14,8 +14,12 @@ The sync is initiated using the ``mautic:integrations:sync`` command. For exampl
 
 ------
 
-Registering the Integration for the sync engine
+.. vale off
+
+Registering the Integration for the Sync Engine
 ###############################################
+
+.. vale on
 
 To tell the IntegrationsBundle that this Integration provides a syncing feature, tag the Integration or support class with ``mautic.sync_integration`` in the Plugin's ``app/config.php``.
 

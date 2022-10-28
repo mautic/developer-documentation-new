@@ -1,5 +1,5 @@
 **************************
-Authentication Integration
+Authentication integration
 **************************
 
 .. contents:: Table of contents

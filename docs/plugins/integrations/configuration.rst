@@ -1,13 +1,17 @@
 *************************
-Configuration Integration
+Configuration integration
 *************************
 
 .. contents:: Table of contents
 
 The Integration Plugin provides interfaces to display and store configuration options that can be accessed through the ``\Mautic\PluginBundle\Entity\Integration`` object.
 
-Registering the Integration for configuration
+.. vale off
+
+Registering the Integration for Configuration
 #############################################
+
+.. vale on
 
 To tell the IntegrationsBundle that this Integration has configuration options, tag the Integration or support class with ``mautic.config_integration`` in the Plugin's ``app/config.php``.
 
@@ -80,8 +84,13 @@ Enabled/auth tab
 
 These interfaces provide the configuration options for authenticating with the third party service. Read more about how to use IntegrationsBundle's  :ref:`auth providers here<Authentication Providers>`.
 
+
+.. vale off
+
 ConfigFormAuthInterface
 -----------------------
+
+.. vale on
 
 Used in the example preceding. This, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormAuthInterface``, interface provides the Symfony Form type class that defines the fields to be stored as the API keys.
 
@@ -92,16 +101,24 @@ Used in the example preceding. This, ``\Mautic\IntegrationsBundle\Integration\In
     $username = $apiKeys['username'];
 
 
+.. vale off
+
 ConfigFormCallbackInterface
 ---------------------------
+
+.. vale on
 
 If the Integration leverages an auth provider that requires a callback URL or something similar, this interface, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormCallbackInterface``, provides a means to return a translation string to display in the UI. For example, OAuth2 requires a redirect URI. If the administrator has to configure the OAuth credentials in the third party service and needs to know what URL to use in Mautic as the return URI, or callback URL, use the ``getCallbackHelpMessageTranslationKey()`` method.
 
 Feature interfaces
 ==================
 
+.. vale off
+
 ConfigFormFeatureSettingsInterface
 ----------------------------------
+
+.. vale on
 
 The interface, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeatureSettingsInterface``, provides the Symfony Form type class that defines the fields to be displayed on the Features tab. These values are not encrypted.
 
@@ -111,14 +128,22 @@ The interface, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFea
     $featureSettings  = $integrationHelper->get(HelloWorldIntegration::NAME)->getIntegrationConfiguration()->getFeatureSettings();
     $doSomething      = $featureSettings['do_Something'];
 
+.. vale off
 
 ConfigFormFeaturesInterface
 ---------------------------
 
+.. vale on
+
+
 Currently the IntegrationsBundle provides default features. To use these features, implement this, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeaturesInterface``, interface. ``getSupportedFeatures`` returns an array of supported features. For example, if the Integration syncs with Mautic Contacts, ``getSupportedFeatures()`` could ``return [ConfigFormFeaturesInterface::FEATURE_SYNC];``.
+
+.. vale off
 
 Contact/Company syncing interfaces
 ==================================
+
+.. vale on
 
 The IntegrationsBundle provides a sync framework for third party services to sync with Mautic's Contacts and Companies. The ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormSyncInterface`` determines the configuration options for this sync feature. Refer to the method DocBlocks in the interface for more details.
 

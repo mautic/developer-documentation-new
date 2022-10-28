@@ -1,10 +1,6 @@
-.. vale off
-
 *******************************
-Using the Integration Framework
+Using the integration framework
 *******************************
-
-.. vale on
 
 .. contents:: Table of contents
 

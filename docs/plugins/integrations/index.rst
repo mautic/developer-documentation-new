@@ -1,5 +1,5 @@
 *********************
-Integration Framework
+Integration framework
 *********************
 
 .. toctree::
@@ -19,8 +19,12 @@ Each Integration provides its unique name as registered with Mautic, an icon, an
 
 ----
 
-Registering the integration
-###############################
+.. vale off
+
+Registering the Integration
+###########################
+
+.. vale on
 
 All Integrations, whether using the config, auth, or sync interfaces, must have a class that registers itself with Mautic. The Integration should list on the ``/s/plugins`` page.
 
