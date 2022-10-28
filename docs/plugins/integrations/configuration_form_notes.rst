@@ -6,13 +6,53 @@
 Integration configuration form notes
 ************************************
 
-The integration framework lets developer define their custom messages for the Plugin's configuration form. 
+The Integration framework lets developer define their custom messages for the Plugin's configuration Form.
 
-The ``ConfigSupport`` class should implement the::
+The ``ConfigSupport`` class should implement the ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormNotesInterface``
 
-    \Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormNotesInterface
+.. php:interface:: \Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormNotesInterface
+
+.. php:method:: public function getAuthorizationNote(): ?Note
+
+    :return: The message and type for Auth tab.
+    :returntype: :ref:`Note<Note Object>`
+
+.. php:method:: public function getFeaturesNote(): ?Note
+
+    :return: The message and type for Features tab.
+    :returntype: :ref:`Note<Note Object>`
+
+.. php:method:: public function getFieldMappingNote(): ?Note
+
+    :return: The message and type for Field Mapping tab.
+    :returntype: :ref:`Note<Note Object>`
 
 _____
+
+.. vale off
+
+Note Object
+===========
+
+.. vale:on
+
+.. php:class:: \Mautic\IntegrationsBundle\DTO\Note
+
+.. php:attr:: public note;
+
+.. php:attr:: public type;
+
+.. php:method:: public function getNote(): string
+
+    :return: The string to display.
+    :returntype: string
+
+.. php:method:: public function getType(): string
+
+    :return: The note type, this helps annotate the note.
+    :returntype: string
+
+The following code snippet shows the use of ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormNotesInterface``.
 
  .. code-block:: php
 

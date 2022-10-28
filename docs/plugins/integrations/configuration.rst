@@ -205,9 +205,13 @@ The IntegrationsBundle provides a sync framework for third party services to syn
 
 Read more about how to leverage the :doc:`sync framework<sync>`.
 
-Config form notes interface
+.. vale off
+
+Config Form notes interface
 ===========================
 
-The interface, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormNotesInterface``, provides a way to display notes, either info or warning, on the plugin configuration form.
+.. vale on
+
+The interface, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormNotesInterface``, provides a way to display notes, either info or warning, on the plugin configuration Form.
 
 Read more about to how-tos :doc:`here<configuration_form_notes>`
