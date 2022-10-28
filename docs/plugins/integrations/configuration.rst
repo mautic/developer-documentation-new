@@ -39,6 +39,25 @@ To tell the IntegrationsBundle that this Integration has configuration options, 
 
 The ``ConfigSupport`` class must implement ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormInterface``.
 
+.. php:interface:: \Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormInterface
+
+.. php:method:: public function getDisplayName(): string;
+
+    :return: Return the Integration's display name.
+    :returntype: string
+
+.. php:method:: public function getConfigFormName(): ?string;
+
+    :return: The name/class of the Form type to override the default or just return NULL to use the default.
+    :returntype: ?string
+
+.. php:method:: public function getConfigFormContentTemplate(): ?string;
+
+    :return: The template to use from the controller. Return null to use the default.
+    :returntype: ?string
+
+Find the code snippet as follows,
+
 .. code-block:: php
 
     <?php
@@ -92,7 +111,16 @@ ConfigFormAuthInterface
 
 .. vale on
 
-Used in the example preceding. This, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormAuthInterface``, interface provides the Symfony Form type class that defines the fields to be stored as the API keys.
+The ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormAuthInterface``, interface provides the Symfony Form type class that defines the fields to be stored as the API keys.
+
+.. php:interface:: \Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormAuthInterface
+
+.. php:method:: public function getAuthConfigFormName(): string;
+
+    :return: The name of the Form type service for the authorization tab which should include all the fields required for the API to work.
+    :returntype: string
+
+Find the following code snippet which helps you to fetch the API keys,
 
 .. code-block:: PHP
 
@@ -108,7 +136,15 @@ ConfigFormCallbackInterface
 
 .. vale on
 
-If the Integration leverages an auth provider that requires a callback URL or something similar, this interface, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormCallbackInterface``, provides a means to return a translation string to display in the UI. For example, OAuth2 requires a redirect URI. If the administrator has to configure the OAuth credentials in the third party service and needs to know what URL to use in Mautic as the return URI, or callback URL, use the ``getCallbackHelpMessageTranslationKey()`` method.
+If the Integration leverages an auth provider that requires a callback URL or something similar, this interface, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormCallbackInterface``, provides a means to return a translation string to display in the UI.
+For example, OAuth2 requires a redirect URI. If the administrator has to configure the OAuth credentials in the third party service and needs to know what URL to use in Mautic as the return URI, or callback URL, use the ``getCallbackHelpMessageTranslationKey()`` method.
+
+.. php:interface:: \Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormCallbackInterface
+
+.. php:method:: public function getCallbackHelpMessageTranslationKey(): string;
+
+    :return: Message ID used in Form as description what for is used callback URL.
+    :returntype: string
 
 Feature interfaces
 ==================
@@ -121,6 +157,14 @@ ConfigFormFeatureSettingsInterface
 .. vale on
 
 The interface, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeatureSettingsInterface``, provides the Symfony Form type class that defines the fields to be displayed on the Features tab. These values are not encrypted.
+
+.. php:interface:: \Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeatureSettingsInterface
+
+.. php:method:: public function getFeatureSettingsConfigFormName(): string;
+
+    :return: The name of the Form type service for the feature settings.
+    :returntype: string
+
 
 .. code-block:: PHP
 
@@ -136,7 +180,19 @@ ConfigFormFeaturesInterface
 .. vale on
 
 
-Currently the IntegrationsBundle provides default features. To use these features, implement this, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeaturesInterface``, interface. ``getSupportedFeatures`` returns an array of supported features. For example, if the Integration syncs with Mautic Contacts, ``getSupportedFeatures()`` could ``return [ConfigFormFeaturesInterface::FEATURE_SYNC];``.
+Currently the IntegrationsBundle provides default features. To use these features, implement this, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeaturesInterface``, interface.
+``getSupportedFeatures`` returns an array of supported features.
+For example, if the Integration syncs with Mautic Contacts, ``getSupportedFeatures()`` could ``return [ConfigFormFeaturesInterface::FEATURE_SYNC];``.
+
+.. php:interface:: \Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeaturesInterface
+
+.. php:attr:: public const FEATURE_SYNC = 'sync';
+.. php:attr:: public const FEATURE_PUSH_ACTIVITY = 'push_activity';
+
+.. php:method:: public function getSupportedFeatures(): array;
+
+    :return: An array of value => label pairs for the features this Integration supports.
+    :returntype: array[]
 
 .. vale off
 

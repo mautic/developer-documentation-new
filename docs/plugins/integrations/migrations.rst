@@ -4,12 +4,16 @@ Plugin schema
 
 .. contents:: Table of contents
 
-The Integration Framework provides a means for Plugins to better manage their schema. Queries are in migration files that match the Plugin's versions number in its config. When the a Plugin is installed or upgraded, it loops over the migration files up to the latest version.
+The Integration Framework provides a means for Plugins to better manage their schema. Queries are in migration files that match the Plugin's versions number in its config. When the a Plugin gets install or upgrade, it loops over the migration files up to the latest version.
 
 ____
 
-``AbstractPluginBundle``
-########################
+.. vale off
+
+AbstractPluginBundle
+####################
+
+.. vale on
 
 The Plugin's root bundle class should extend::
 
