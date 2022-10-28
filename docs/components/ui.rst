@@ -256,7 +256,7 @@ Defining Button Locations
     echo $view['buttons']->reset($app->getRequest(), 'custom_location')->renderButtons($dropdownOpenHtml, '</ul>');
 
 
-A Plugin can define it's own locations that other Plugins can leverage by using the template ``buttons`` helper.
+A Plugin can define its own locations that other Plugins can leverage by using the template ``buttons`` helper.
 
 There are three types of button groups supported:
 
