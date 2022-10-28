@@ -8,8 +8,12 @@ Builders can register itself as a "builder" for Email and/or Landing Pages.
 
 ----
 
-Registering the Integration as a builder
+.. vale off
+
+Registering the Integration as a Builder
 ########################################
+
+.. vale on
 
 To tell the IntegrationsBundle that this Integration has configuration options, tag the Integration or support class with ``mautic.config_integration`` in the Plugin's ``app/config.php``.
 
