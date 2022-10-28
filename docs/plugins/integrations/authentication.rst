@@ -1,5 +1,5 @@
 **************************
-Integration authentication
+Authentication Integration
 **************************
 
 .. contents:: Table of contents
@@ -8,8 +8,12 @@ The IntegrationsBundle provides factories and helpers to create Guzzle Client cl
 
 ----------
 
-Registering the Integration for authentication
+.. vale off
+
+Registering the Integration for Authentication
 ##############################################
+
+.. vale on
 
 If the Integration requires the User to authenticate through the web (OAuth2 three legged), the Integration needs to tag a service with ``mautic.auth_integration`` to handle the authentication process (redirecting to login, request the access token, etc).
 

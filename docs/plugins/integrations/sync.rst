@@ -1,6 +1,6 @@
-***********************
-Integration sync engine
-***********************
+***********
+Sync engine
+***********
 
 .. contents:: Table of contents
 

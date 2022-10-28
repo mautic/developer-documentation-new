@@ -1,5 +1,5 @@
 *************************
-Integration configuration
+Configuration Integration
 *************************
 
 .. contents:: Table of contents

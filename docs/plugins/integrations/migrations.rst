@@ -30,8 +30,8 @@ The Plugin's root bundle class should extend::
     }
 
 
-Plugin migrations
-*****************
+The Plugin migrations
+*********************
 
 Each migration file should be stored in the Plugin's ``Migration`` folder with a name that matches ``Version_X_Y_Z.php`` where ``X_Y_Z`` matches the semantic versioning of the Plugin. Each file should contain the incremental schema changes for the Plugin up to the latest version which should match the version in the Plugin's ``Config/config.php`` file.
 
