@@ -44,4 +44,4 @@ The ``BuilderSupport`` class must implement::
 
     \Mautic\IntegrationsBundle\Integration\Interfaces\BuilderInterface
 
-The only method currently defined for the interface is ``isSupported`` which should return a boolean if it supports the given feature. Currently, Mautic supports ``email`` and ``page`` (Landing Pages). This determines what themes should be displayed as an option for the given builder/feature.
+The only method currently defined for the interface is ``isSupported`` which should return a boolean if it supports the given feature. Currently, Mautic supports ``email`` and ``page (Landing Pages)``. This determines what Themes should list as an option for the given builder/feature.

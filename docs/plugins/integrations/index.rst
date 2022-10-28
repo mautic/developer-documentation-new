@@ -15,7 +15,7 @@ Integration framework
    sync
 
 
-Each Integration provides its unique name as registered with Mautic, an icon, and a display name. When an Integration is registered, the Integration helper classes manages the ``\Mautic\PluginBundle\Entity\Integration`` object through ``\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface``. It handles decryption and encryption of the Integration's API keys so the implementing code never has to.
+Each Integration provides its unique name as registered with Mautic, an icon, and a display name. When an Integration registers, the Integration helper classes manage the ``\Mautic\PluginBundle\Entity\Integration`` object through ``\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface``. It handles decryption and encryption of the Integration's API keys, so the implementing code never has to.
 
 ----
 
@@ -51,7 +51,26 @@ In the Plugin's ``Config/config.php``, register the Integration using the tag ``
         // ...
     ];
 
-The ``HelloWorldIntegration`` needs to implement ``\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface`` and ``\Mautic\IntegrationsBundle\Integration\Interfaces\BasicInterface`` interfaces. Most use cases can simply extend the ``\Mautic\IntegrationsBundle\Integration\BasicIntegration`` abstract class then define the ``getName()``, ``getDisplayName()`` and ``getIcon()`` methods.
+The ``HelloWorldIntegration`` needs to implement ``\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface`` and ``\Mautic\IntegrationsBundle\Integration\Interfaces\BasicInterface`` interfaces. Most use cases can simply extend the ``\Mautic\IntegrationsBundle\Integration\BasicIntegration`` abstract class.
+
+.. php:class:: \Mautic\IntegrationsBundle\Integration\BasicIntegration
+
+.. php:method:: public function getName(): string;
+
+    :return: Return the Integration's name.
+    :returntype: string
+
+.. php:method:: public function getDisplayName(): string;
+
+    :return: Return the Integration's display name.
+    :returntype: string
+
+.. php:method:: public function getIcon(): string;
+
+    :return: Get the path to the Integration's icon.
+    :returntype: string
+
+
 
 .. code-block:: php
 

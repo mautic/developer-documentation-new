@@ -4,9 +4,9 @@ Using the integration framework
 
 .. contents:: Table of contents
 
-The IntegrationsBundle is meant to be a drop in replacement for Mautic's PluginBundle's AbstractIntegration class. It provides cleaner interfaces for configuring, authenticating, and syncing Contacts/Companies with third party Integrations.
+The IntegrationsBundle is a drop-in replacement for ``PluginBundle``'s ``AbstractIntegration`` class. It provides cleaner interfaces for configuring, authenticating, and syncing Contacts/Companies with third-party Integrations.
 
-An example HelloWorld Plugin is available :xref:`Plugin HelloWorld`.
+An example HelloWorld Plugin is available :xref:`here<Plugin HelloWorld>`.
 
 ---------
 
@@ -35,8 +35,12 @@ If the Integration has extra configuration settings for features unique to it:
 1. :ref:`Register the Integration<Registering the Integration for configuration>` as an Integration that requires configuration options.
 2. Create a custom Symfony Form type for the features and return it as part of the :ref:`Config Form feature setting interface<ConfigFormFeatureSettingsInterface>`.
 
-The sync engine
+.. vale off
+
+The Sync Engine
 ###############
+
+.. vale on
 
 If the Integration syncs with Mautic's Contacts and/or Companies:
 
@@ -49,7 +53,7 @@ Register the Integration as a Builder
 
 .. vale on
 
-If the Integration includes a Builder (Email or Landing Page):
+If the Integration includes a Builder, Email or Landing Page:
 
 1. :ref:`Register the Integration<Registering the Integration as a builder>` as an Integration that provides a custom builder.
 2. Configure what featured builders the Integration supports (Mautic currently supports 'Email' and 'Landing Page' builders).
