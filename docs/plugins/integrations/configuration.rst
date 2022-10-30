@@ -1,15 +1,12 @@
-*************************
 Configuration integration
-*************************
-
-.. contents:: Table of contents
+#########################
 
 The Integration Plugin provides interfaces to display and store configuration options that can be accessed through the ``\Mautic\PluginBundle\Entity\Integration`` object.
 
 .. vale off
 
 Registering the Integration for Configuration
-#############################################
+*********************************************
 
 .. vale on
 

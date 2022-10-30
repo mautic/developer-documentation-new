@@ -1,8 +1,5 @@
-*************
 Plugin schema
-*************
-
-.. contents:: Table of contents
+#############
 
 The Integration Framework provides a means for Plugins to better manage their schema. Queries are in migration files that match the Plugin's versions number in its config. When the a Plugin gets install or upgrade, it loops over the migration files up to the latest version.
 
@@ -11,7 +8,7 @@ ____
 .. vale off
 
 AbstractPluginBundle
-####################
+********************
 
 .. vale on
 
@@ -35,7 +32,7 @@ The Plugin's root bundle class should extend::
 
 
 The Plugin migrations
-*********************
+=====================
 
 Each migration file should be stored in the Plugin's ``Migration`` folder with a name that matches ``Version_X_Y_Z.php`` where ``X_Y_Z`` matches the semantic versioning of the Plugin. Each file should contain the incremental schema changes for the Plugin up to the latest version which should match the version in the Plugin's ``Config/config.php`` file.
 

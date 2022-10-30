@@ -2,9 +2,8 @@
 
 :orphan:
 
-************************************
 Integration configuration form notes
-************************************
+####################################
 
 The Integration framework lets developer define their custom messages for the Plugin's configuration Form.
 
@@ -32,7 +31,7 @@ _____
 .. vale off
 
 Note Object
-===========
+***********
 
 .. vale:on
 
