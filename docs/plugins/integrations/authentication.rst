@@ -1,8 +1,5 @@
-**************************
 Authentication integration
-**************************
-
-.. contents:: Table of contents
+##########################
 
 The IntegrationsBundle provides factories and helpers to create Guzzle Client classes for common authentication protocols.
 
@@ -11,7 +8,7 @@ The IntegrationsBundle provides factories and helpers to create Guzzle Client cl
 .. vale off
 
 Registering the Integration for Authentication
-##############################################
+**********************************************
 
 .. vale on
 

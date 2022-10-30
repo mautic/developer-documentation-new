@@ -1,17 +1,14 @@
-********************
 Builder integrations
-********************
+#####################
 
-.. contents:: Table of contents
-
-Builders can register itself as a "builder" for Email and/or Landing Pages. 
+Builders can register itself as a "builder" for Email and/or Landing Pages.
 
 ----
 
 .. vale off
 
 Registering the Integration as a Builder
-########################################
+****************************************
 
 .. vale on
 

@@ -1,8 +1,5 @@
-***********
 Sync engine
-***********
-
-.. contents:: Table of contents
+###########
 
 The Sync Engine supports bidirectional syncing between Mautic's Contact and Companies with third party objects. The engine generates a "``sync report``" from Mautic that it converts to a "``sync order``" for the Integration to process. It then asks for a "``sync report``" from the Integration which it converts to a "``sync order``" for Mautic to process.
 
@@ -17,7 +14,7 @@ The sync is initiated using the ``mautic:integrations:sync`` command. For exampl
 .. vale off
 
 Registering the Integration for the Sync Engine
-###############################################
+***********************************************
 
 .. vale on
 

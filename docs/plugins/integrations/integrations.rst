@@ -1,8 +1,5 @@
-*******************************
 Using the integration framework
-*******************************
-
-.. contents:: Table of contents
+###############################
 
 The IntegrationsBundle is a drop-in replacement for ``PluginBundle``'s ``AbstractIntegration`` class. It provides cleaner interfaces for configuring, authenticating, and syncing Contacts/Companies with third-party Integrations.
 
@@ -13,7 +10,7 @@ An example HelloWorld Plugin is available :xref:`here<Plugin HelloWorld>`.
 .. vale off
 
 Register the Integration for Authentication
-###############################################
+*******************************************
 
 .. vale on
 
@@ -26,7 +23,7 @@ If the Integration requires authentication with the third party service:
 .. vale off
 
 Register the Integration for configuration
-##############################################
+******************************************
 
 .. vale on
 
@@ -38,7 +35,7 @@ If the Integration has extra configuration settings for features unique to it:
 .. vale off
 
 The Sync Engine
-###############
+***************
 
 .. vale on
 
@@ -49,7 +46,7 @@ If the Integration syncs with Mautic's Contacts and/or Companies:
 .. vale off
 
 Register the Integration as a Builder
-#########################################
+*************************************
 
 .. vale on
 
