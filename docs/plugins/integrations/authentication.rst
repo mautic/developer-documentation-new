@@ -7,8 +7,8 @@ The IntegrationsBundle provides factories and helpers to create Guzzle Client cl
 
 .. vale off
 
-Registering the Integration for Authentication
-**********************************************
+Register the Integration for Authentication
+*******************************************
 
 .. vale on
 
