@@ -14,7 +14,7 @@ AbstractPluginBundle
 
 The Plugin's root bundle class should extend::
 
-    MauticPlugin\IntegrationsBundle\Bundle\AbstractPluginBundle
+    Mautic\IntegrationsBundle\Bundle\AbstractPluginBundle
 
 .. code-block:: php
 
@@ -24,7 +24,7 @@ The Plugin's root bundle class should extend::
 
     namespace MauticPlugin\HelloWorldBundle;
 
-    use MauticPlugin\IntegrationsBundle\Bundle\AbstractPluginBundle;
+    use Mautic\IntegrationsBundle\Bundle\AbstractPluginBundle;
 
     class HelloWorldBundle extends AbstractPluginBundle
     {

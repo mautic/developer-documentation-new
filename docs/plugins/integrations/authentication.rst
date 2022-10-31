@@ -62,8 +62,8 @@ Find the code snippet as follows,
 
     use MauticPlugin\HelloWorldBundle\Connection\Client;
     use MauticPlugin\HelloWorldBundle\Integration\HelloWorldIntegration;
-    use MauticPlugin\IntegrationsBundle\Integration\ConfigurationTrait;
-    use MauticPlugin\IntegrationsBundle\Integration\Interfaces\AuthenticationInterface;
+    use Mautic\IntegrationsBundle\Integration\ConfigurationTrait;
+    use Mautic\IntegrationsBundle\Integration\Interfaces\AuthenticationInterface;
     use Symfony\Component\HttpFoundation\Request;
 
     class AuthSupport implements AuthenticationInterface
@@ -134,7 +134,7 @@ The best way to get configuration values such as username, password, consumer ke
 
     <?php
     use MauticPlugin\HelloWorldBundle\Integration\HelloWorldIntegration;
-    use MauticPlugin\IntegrationsBundle\Helper\IntegrationsHelper;
+    use Mautic\IntegrationsBundle\Helper\IntegrationsHelper;
 
     /** @var $integrationsHelper IntegrationsHelper */
     $integration = $integrationsHelper->getIntegration(HelloWorldIntegration::NAME);
@@ -176,9 +176,9 @@ Find the code snippet as follows,
 
     <?php
     use MauticPlugin\HelloWorldBundle\Integration\HelloWorldIntegration;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\ApiKey\Credentials\ParameterCredentialsInterface;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\ApiKey\HttpFactory;
-    use MauticPlugin\IntegrationsBundle\Helper\IntegrationsHelper;
+    use Mautic\IntegrationsBundle\Auth\Provider\ApiKey\Credentials\ParameterCredentialsInterface;
+    use Mautic\IntegrationsBundle\Auth\Provider\ApiKey\HttpFactory;
+    use Mautic\IntegrationsBundle\Helper\IntegrationsHelper;
 
     /** @var $integrationsHelper IntegrationsHelper */
     $integration = $integrationsHelper->getIntegration(HelloWorldIntegration::NAME);
@@ -232,9 +232,9 @@ Find the code snippet as follows,
 
     <?php
     use MauticPlugin\HelloWorldBundle\Integration\HelloWorldIntegration;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\ApiKey\Credentials\HeaderCredentialsInterface;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\ApiKey\HttpFactory;
-    use MauticPlugin\IntegrationsBundle\Helper\IntegrationsHelper;
+    use Mautic\IntegrationsBundle\Auth\Provider\ApiKey\Credentials\HeaderCredentialsInterface;
+    use Mautic\IntegrationsBundle\Auth\Provider\ApiKey\HttpFactory;
+    use Mautic\IntegrationsBundle\Helper\IntegrationsHelper;
 
     /** @var $integrationsHelper IntegrationsHelper */
     $integration = $integrationsHelper->getIntegration(HelloWorldIntegration::NAME);
@@ -290,9 +290,9 @@ Find the code snippet as follows,
 
     <?php
     use MauticPlugin\HelloWorldBundle\Integration\HelloWorldIntegration;
-    use MauticPlugin\IntegrationsBundle\Helper\IntegrationsHelper;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\BasicAuth\HttpFactory;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\BasicAuth\CredentialsInterface;
+    use Mautic\IntegrationsBundle\Helper\IntegrationsHelper;
+    use Mautic\IntegrationsBundle\Auth\Provider\BasicAuth\HttpFactory;
+    use Mautic\IntegrationsBundle\Auth\Provider\BasicAuth\CredentialsInterface;
 
     /** @var $integrationsHelper IntegrationsHelper */
     $integration = $integrationsHelper->getIntegration(HelloWorldIntegration::NAME);
@@ -343,9 +343,9 @@ OAuth1a two legged does not require a User to login as would three legged.
 
     <?php
     use MauticPlugin\HelloWorldBundle\Integration\HelloWorldIntegration;
-    use MauticPlugin\IntegrationsBundle\Helper\IntegrationsHelper;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\OAuth1aTwoLegged\HttpFactory;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\OAuth1aTwoLegged\CredentialsInterface;
+    use Mautic\IntegrationsBundle\Helper\IntegrationsHelper;
+    use Mautic\IntegrationsBundle\Auth\Provider\OAuth1aTwoLegged\HttpFactory;
+    use Mautic\IntegrationsBundle\Auth\Provider\OAuth1aTwoLegged\CredentialsInterface;
 
     /** @var $integrationsHelper IntegrationsHelper */
     $integration = $integrationsHelper->getIntegration(HelloWorldIntegration::NAME);
@@ -435,9 +435,9 @@ Use the ``mautic.integrations.auth_provider.token_persistence_factory`` service 
     <?php
     use kamermans\OAuth2\Persistence\TokenPersistenceInterface;
     use MauticPlugin\HelloWorldBundle\Integration\HelloWorldIntegration;
-    use MauticPlugin\IntegrationsBundle\Auth\Support\Oauth2\ConfigAccess\ConfigTokenPersistenceInterface;
-    use MauticPlugin\IntegrationsBundle\Auth\Support\Oauth2\Token\TokenPersistenceFactory;
-    use MauticPlugin\IntegrationsBundle\Helper\IntegrationsHelper;
+    use Mautic\IntegrationsBundle\Auth\Support\Oauth2\ConfigAccess\ConfigTokenPersistenceInterface;
+    use Mautic\IntegrationsBundle\Auth\Support\Oauth2\Token\TokenPersistenceFactory;
+    use Mautic\IntegrationsBundle\Helper\IntegrationsHelper;
 
     /** @var $integrationsHelper IntegrationsHelper */
     $integration = $integrationsHelper->getIntegration(HelloWorldIntegration::NAME);
@@ -471,9 +471,9 @@ The ``IntegrationTokenFactory`` can then be returned in a ``\Mautic\Integrations
 .. code-block:: php
 
     <?php
-    use MauticPlugin\IntegrationsBundle\Auth\Support\Oauth2\ConfigAccess\ConfigTokenFactoryInterface;
-    use MauticPlugin\IntegrationsBundle\Auth\Support\Oauth2\Token\IntegrationTokenFactory;
-    use MauticPlugin\IntegrationsBundle\Auth\Support\Oauth2\Token\TokenFactoryInterface;
+    use Mautic\IntegrationsBundle\Auth\Support\Oauth2\ConfigAccess\ConfigTokenFactoryInterface;
+    use Mautic\IntegrationsBundle\Auth\Support\Oauth2\Token\IntegrationTokenFactory;
+    use Mautic\IntegrationsBundle\Auth\Support\Oauth2\Token\TokenFactoryInterface;
 
     $tokenFactory = new IntegrationTokenFactory(['something_extra']);
 
@@ -504,11 +504,11 @@ Below is an example of the password grant for a service that uses a scope (optio
     <?php
     use kamermans\OAuth2\Persistence\TokenPersistenceInterface;
     use MauticPlugin\HelloWorldBundle\Integration\HelloWorldIntegration;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\Credentials\PasswordCredentialsGrantInterface;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\Credentials\ScopeInterface;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\HttpFactory;
-    use MauticPlugin\IntegrationsBundle\Auth\Support\Oauth2\ConfigAccess\ConfigTokenPersistenceInterface;
-    use MauticPlugin\IntegrationsBundle\Helper\IntegrationsHelper;
+    use Mautic\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\Credentials\PasswordCredentialsGrantInterface;
+    use Mautic\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\Credentials\ScopeInterface;
+    use Mautic\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\HttpFactory;
+    use Mautic\IntegrationsBundle\Auth\Support\Oauth2\ConfigAccess\ConfigTokenPersistenceInterface;
+    use Mautic\IntegrationsBundle\Helper\IntegrationsHelper;
 
     /** @var $integrationsHelper IntegrationsHelper */
     $integration = $integrationsHelper->getIntegration(HelloWorldIntegration::NAME);
@@ -592,11 +592,11 @@ Below is an example of the client credentials grant for a service that uses a sc
     <?php
     use kamermans\OAuth2\Persistence\TokenPersistenceInterface;
     use MauticPlugin\HelloWorldBundle\Integration\HelloWorldIntegration;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\Credentials\ClientCredentialsGrantInterface;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\Credentials\ScopeInterface;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\HttpFactory;
-    use MauticPlugin\IntegrationsBundle\Auth\Support\Oauth2\ConfigAccess\ConfigTokenPersistenceInterface;
-    use MauticPlugin\IntegrationsBundle\Helper\IntegrationsHelper;
+    use Mautic\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\Credentials\ClientCredentialsGrantInterface;
+    use Mautic\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\Credentials\ScopeInterface;
+    use Mautic\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\HttpFactory;
+    use Mautic\IntegrationsBundle\Auth\Support\Oauth2\ConfigAccess\ConfigTokenPersistenceInterface;
+    use Mautic\IntegrationsBundle\Helper\IntegrationsHelper;
 
     /** @var $integrationsHelper IntegrationsHelper */
     $integration = $integrationsHelper->getIntegration(HelloWorldIntegration::NAME);
@@ -669,7 +669,7 @@ The first step is to register the integration as a :ref:`\\Mautic\\IntegrationsB
     namespace MauticPlugin\HelloWorldBundle\Integration\Support;
 
     use GuzzleHttp\ClientInterface;
-    use MauticPlugin\IntegrationsBundle\Integration\Interfaces\AuthenticationInterface;
+    use Mautic\IntegrationsBundle\Integration\Interfaces\AuthenticationInterface;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
 
@@ -700,13 +700,13 @@ Here is an example of a client, assuming that the User has already logged in and
     <?php
     use kamermans\OAuth2\Persistence\TokenPersistenceInterface;
     use MauticPlugin\HelloWorldBundle\Integration\HelloWorldIntegration;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\Oauth2ThreeLegged\Credentials\CodeInterface;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\Oauth2ThreeLegged\Credentials\CredentialsInterface;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\Oauth2ThreeLegged\Credentials\RedirectUriInterface;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\Credentials\ScopeInterface;
-    use MauticPlugin\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\HttpFactory;
-    use MauticPlugin\IntegrationsBundle\Auth\Support\Oauth2\ConfigAccess\ConfigTokenPersistenceInterface;
-    use MauticPlugin\IntegrationsBundle\Helper\IntegrationsHelper;
+    use Mautic\IntegrationsBundle\Auth\Provider\Oauth2ThreeLegged\Credentials\CodeInterface;
+    use Mautic\IntegrationsBundle\Auth\Provider\Oauth2ThreeLegged\Credentials\CredentialsInterface;
+    use Mautic\IntegrationsBundle\Auth\Provider\Oauth2ThreeLegged\Credentials\RedirectUriInterface;
+    use Mautic\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\Credentials\ScopeInterface;
+    use Mautic\IntegrationsBundle\Auth\Provider\Oauth2TwoLegged\HttpFactory;
+    use Mautic\IntegrationsBundle\Auth\Support\Oauth2\ConfigAccess\ConfigTokenPersistenceInterface;
+    use Mautic\IntegrationsBundle\Helper\IntegrationsHelper;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Router;
 

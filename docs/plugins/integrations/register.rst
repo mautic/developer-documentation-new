@@ -52,9 +52,9 @@ The ``HelloWorldIntegration`` needs to implement ``\Mautic\IntegrationsBundle\In
     <?php
     namespace MauticPlugin\HelloWorldBundle\Integration;
 
-    use MauticPlugin\IntegrationsBundle\Integration\BasicIntegration;
-    use MauticPlugin\IntegrationsBundle\Integration\Interfaces\BasicInterface;
-    use MauticPlugin\IntegrationsBundle\Integration\Interfaces\IntegrationInterface;
+    use Mautic\IntegrationsBundle\Integration\BasicIntegration;
+    use Mautic\IntegrationsBundle\Integration\Interfaces\BasicInterface;
+    use Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface;
 
     class HelloWorldIntegration extends BasicIntegration
     {
