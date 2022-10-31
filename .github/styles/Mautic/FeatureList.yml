@@ -54,6 +54,8 @@ swap:
   segments: Segments
   stage: Stage
   stages: Stages
+  sync engine: Sync Engine
+  sync report: Sync Report
   theme: Theme
   themes: Themes
   user: User
