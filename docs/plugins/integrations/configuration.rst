@@ -61,9 +61,9 @@ Find the code snippet as follows,
     namespace MauticPlugin\HelloBundle\Integration\Support;
 
     use MauticPlugin\HelloWorldBundle\Form\Type\ConfigAuthType;
-    use MauticPlugin\IntegrationsBundle\Integration\DefaultConfigFormTrait;
-    use MauticPlugin\IntegrationsBundle\Integration\Interfaces\ConfigFormInterface;
-    use MauticPlugin\IntegrationsBundle\Integration\Interfaces\ConfigFormAuthInterface;
+    use Mautic\IntegrationsBundle\Integration\DefaultConfigFormTrait;
+    use Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormInterface;
+    use Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormAuthInterface;
 
     class ConfigSupport implements ConfigFormInterface, ConfigFormAuthInterface
     {
