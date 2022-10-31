@@ -5,8 +5,8 @@ The Integration Plugin provides interfaces to display and store configuration op
 
 .. vale off
 
-Registering the Integration for Configuration
-*********************************************
+Register the Integration for Configuration
+******************************************
 
 .. vale on
 
