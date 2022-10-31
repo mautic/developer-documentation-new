@@ -1,12 +1,9 @@
-***********************
-Integration sync engine
-***********************
+Sync engine
+###########
 
-.. contents:: Table of contents
+The Sync Engine supports bidirectional syncing between Mautic's Contact and Companies with third party objects. The engine generates a "``sync report``" from Mautic that it converts to a "``sync order``" for the Integration to process. It then asks for a "``sync report``" from the Integration which it converts to a "``sync order``" for Mautic to process.
 
-The sync engine supports bidirectional syncing between Mautic's Contact and Companies with third party objects. The engine generates a "``sync report``" from Mautic that it converts to a "``sync order``" for the Integration to process. It then asks for a "``sync report``" from the Integration which it converts to a "``sync order``" for Mautic to process.
-
-When building the Report, Mautic or the Integration fetches the objects that have been modified or created within the specified timeframe. If the Integration supports changes at the field level, it should tell the Report on a per field basis when the field was last updated. Otherwise, it should tell the Report when the object itself was last modified. These dates are used by the "``sync judge``" to determine which value should be used in a bi-directional sync.
+When building the Report, Mautic or the Integration fetches the objects those either modified or created within the specified timeframe. If the Integration supports changes at the field level, it should tell the Report on a per-field basis when the field was last updated. Otherwise, it should tell the Report when the object itself was last modified. The "``sync judge``" uses these dates to determine which value to use in bi-directional sync.
 
 The sync is initiated using the ``mautic:integrations:sync`` command. For example::
 
@@ -14,8 +11,12 @@ The sync is initiated using the ``mautic:integrations:sync`` command. For exampl
 
 ------
 
-Registering the Integration for the sync engine
-###############################################
+.. vale off
+
+Registering the Integration for the Sync Engine
+***********************************************
+
+.. vale on
 
 To tell the IntegrationsBundle that this Integration provides a syncing feature, tag the Integration or support class with ``mautic.sync_integration`` in the Plugin's ``app/config.php``.
 
@@ -51,30 +52,37 @@ Syncing
 The mapping manual
 ==================
 
-The mapping manual tells the sync engine which Integration should be synced with which Mautic object (Contact or Company), the Integration fields that were mapped to Mautic fields, and the direction the data is supposed to flow. 
+The mapping manual tells the Sync Engine which Integration should sync with which Mautic object like Contact or Company, the Integration fields. These fields should get mapped to Mautic fields, and the direction in the data suppose to flow.
 
 See :xref:`MappingManualFactory`.
 
 The sync data exchange
 ======================
 
-This is where the sync takes place and is executed by the ``mautic:integrations:sync`` command. Mautic and the Integration builds their respective Reports of new or modified objects then execute the order from the other side.
+This is where the sync takes place, and the ``mautic:integrations:sync``  executes it. Mautic and the Integration build their respective Reports of new or modified objects, then execute the order from the other side.
 
 See :xref:`SyncDataExchange`.
 
-Building sync report
+.. vale off
+
+Building Sync Report
 ____________________
 
-The sync report tells the sync engine what objects are new and/or modified between the two timestamps given by the engine (or up to the Integration's discretion if it is a first time sync). Objects should be processed in batches which can be done using the ``RequestDAO::getSyncIteration()``. The sync engine executes ``SyncDataExchangeInterface::getSyncReport()`` until a Report comes back with no objects.
+.. vale on
 
-If the Integration supports field level change tracking, it should tell the Report so that the sync engine can merge the two data sets more accurately.
+The Sync Report tells the Sync Engine what objects are new and/or modified between the two timestamps given by the engine (or up to the Integration's discretion if it is a first-time sync). Objects should process in batches and ``RequestDAO::getSyncIteration()`` takes care of this batching. The Sync Engine executes ``SyncDataExchangeInterface::getSyncReport()`` until a Report comes back with no objects.
+
+If the Integration supports field level change tracking, it should tell the Report so that the Sync Engine can merge the two data sets more accurately.
 
 See :xref:`ReportBuilder`.
 
+.. vale off
 
-Executing the sync order
+Executing the Sync Order
 ________________________
 
-The sync order contains all the changes the sync engine has determined should be written to the Integration. The Integration should communicate back the ID of any objects created or adjust objects as needed such as if they were converted from one to another or deleted.
+.. vale on
+
+The Sync Order contains all the changes the Sync Engine has determined, and these should report to the Integration. The Integration should communicate back the ID of any objects created or adjust objects as needed, such as if they get converted from one to another or deleted.
 
 See :xref:`OrderExecutioner`.

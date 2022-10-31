@@ -1,13 +1,5 @@
-******
-Basics
-******
-
-Each Integration provides its unique name as registered with Mautic, an icon, and a display name. When an Integration is registered, the Integration helper classes manages the ``\Mautic\PluginBundle\Entity\Integration`` object through ``\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface``. It handles decryption and encryption of the Integration's API keys so the implementing code never has to.
-
-----
-
 Registering the integration
-###############################
+###########################
 
 All Integrations, whether using the config, auth, or sync interfaces, must have a class that registers itself with Mautic. The Integration should list on the ``/s/plugins`` page.
 
@@ -34,16 +26,35 @@ In the Plugin's ``Config/config.php``, register the Integration using the tag ``
         // ...
     ];
 
-The ``HelloWorldIntegration`` needs to implement ``\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface`` and ``\Mautic\IntegrationsBundle\Integration\Interfaces\BasicInterface`` interfaces. Most use cases can simply extend the ``\Mautic\IntegrationsBundle\Integration\BasicIntegration`` abstract class then define the ``getName()``, ``getDisplayName()`` and ``getIcon()`` methods.
+The ``HelloWorldIntegration`` needs to implement ``\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface`` and ``\Mautic\IntegrationsBundle\Integration\Interfaces\BasicInterface`` interfaces. Most use cases can simply extend the ``\Mautic\IntegrationsBundle\Integration\BasicIntegration`` abstract class.
+
+.. php:class:: \Mautic\IntegrationsBundle\Integration\BasicIntegration
+
+.. php:method:: public function getName(): string;
+
+    :return: Return the Integration's name.
+    :returntype: string
+
+.. php:method:: public function getDisplayName(): string;
+
+    :return: Return the Integration's display name.
+    :returntype: string
+
+.. php:method:: public function getIcon(): string;
+
+    :return: Get the path to the Integration's icon.
+    :returntype: string
+
+
 
 .. code-block:: php
 
     <?php
     namespace MauticPlugin\HelloWorldBundle\Integration;
 
-    use MauticPlugin\IntegrationsBundle\Integration\BasicIntegration;
-    use MauticPlugin\IntegrationsBundle\Integration\Interfaces\BasicInterface;
-    use MauticPlugin\IntegrationsBundle\Integration\Interfaces\IntegrationInterface;
+    use Mautic\IntegrationsBundle\Integration\BasicIntegration;
+    use Mautic\IntegrationsBundle\Integration\Interfaces\BasicInterface;
+    use Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface;
 
     class HelloWorldIntegration extends BasicIntegration
     {
@@ -64,3 +75,4 @@ The ``HelloWorldIntegration`` needs to implement ``\Mautic\IntegrationsBundle\In
             return 'plugins/HelloWorldBundle/Assets/img/helloworld.png';
         }
     }
+
