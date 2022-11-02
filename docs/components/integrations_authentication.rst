@@ -1,3 +1,7 @@
+.. It is a reference only page, not a part of doc tree.
+
+:orphan:
+
 Authentication integration
 ##########################
 
@@ -661,7 +665,7 @@ OAuth2 three legged
 
 Three legged OAuth2 with the code grant is the most complex to implement because it involves redirecting the user to the third party service to authenticate then sent back to Mautic to initiate the access token process using a code returned in the request.
 
-The first step is to register the integration as a :ref:`\\Mautic\\IntegrationsBundle\\Integration\\Interfaces\\AuthenticationInterface<Registering the Integration for Authentication>`. The ``authenticateIntegration()`` method initiates the access token process using the ``code`` returned in the request after the user logs into the third-party service. The Integration bundle provides a route that can use as the redirect or callback URIs through the named route ``mautic_integration_public_callback`` that requires a ``integration`` parameter. This redirect URI can display in the UI by using :xref:`ConfigFormCallbackInterface`. This route is to find the integration by name from the ``AuthIntegrationsHelper`` and then execute its ``authenticateIntegration()``.
+The first step is to register the integration as a :ref:`\\Mautic\\IntegrationsBundle\\Integration\\Interfaces\\AuthenticationInterface<Register the Integration for Authentication>`. The ``authenticateIntegration()`` method initiates the access token process using the ``code`` returned in the request after the user logs into the third-party service. The Integration bundle provides a route that can use as the redirect or callback URIs through the named route ``mautic_integration_public_callback`` that requires a ``integration`` parameter. This redirect URI can display in the UI by using :xref:`ConfigFormCallbackInterface`. This route is to find the integration by name from the ``AuthIntegrationsHelper`` and then execute its ``authenticateIntegration()``.
 
 .. code-block:: php
 

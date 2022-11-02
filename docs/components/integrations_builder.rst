@@ -1,3 +1,7 @@
+.. It is a reference only page, not a part of doc tree.
+
+:orphan:
+
 Builder integrations
 #####################
 
