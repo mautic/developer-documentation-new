@@ -204,7 +204,7 @@ Contact/Company syncing interfaces
 
 The IntegrationsBundle provides a sync framework for third party services to sync with Mautic's Contacts and Companies. The ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormSyncInterface`` determines the configuration options for this sync feature. Refer to the method DocBlocks in the interface for more details.
 
-Read more about how to leverage the :doc:`sync framework<sync>`.
+Read more about how to leverage the :doc:`sync framework<integrations_sync>`.
 
 .. vale off
 
@@ -215,4 +215,4 @@ Config Form notes interface
 
 The interface, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormNotesInterface``, provides a way to display notes, either info or warning, on the plugin configuration Form.
 
-Read more about to how-tos :doc:`here<configuration_form_notes>`
+Read more about to how-tos :doc:`here<integrations_configuration_form_notes>`
