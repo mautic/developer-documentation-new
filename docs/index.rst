@@ -49,16 +49,14 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    plugins/getting_started
    plugins/mautic_vs_symfony
    plugins/dependencies
-   plugins/event_listeners
    plugins/structure
    plugins/config
+   plugins/event_listeners
    plugins/installation
    plugins/data
    plugins/translations
-   plugins/integrations/index
 
 .. toctree::
-   :maxdepth: 2
    :caption: Components
    :hidden:
 
