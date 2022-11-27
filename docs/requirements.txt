@@ -4,7 +4,7 @@
 sphinx==5.3.0
 sphinx_rtd_theme==1.1.0
 readthedocs-sphinx-search==0.1.2
-rstcheck==6.1.0
+rstcheck==6.1.1
 myst-parser==0.18.1 
 linkify-it-py==2.0.0
 esbonio==0.14.1
