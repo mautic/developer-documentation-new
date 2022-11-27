@@ -4,6 +4,9 @@ ENV VALE_VERSION=2.21.2
 
 WORKDIR /workspace
 
+# Needed for vale
+RUN pip install rst2html
+
 RUN mkdir -p vale && cd vale && wget https://github.com/errata-ai/vale/releases/download/v${VALE_VERSION}/vale_${VALE_VERSION}_Linux_64-bit.tar.gz && \
     tar -xf vale_${VALE_VERSION}_Linux_64-bit.tar.gz && cp /workspace/vale/vale /usr/local/bin/vale && cd ../
 
