@@ -146,7 +146,7 @@ When registering a validation group in the form type class, you can use a static
 Using constraints
 =================
 
-A :xref:`Form type service<Symfony 4 custom form field type>` can also register :xref:`Constraints<Symfony 4 form constraints>` when defining the form fields.
+A :xref:`Form type service<Symfony 4 custom Form field type>` can also register :xref:`Constraints<Symfony 4 form constraints>` when defining the form fields.
 
 .. code-block:: php
 
