@@ -5,7 +5,7 @@ You can extend Forms by listening to the ``\Mautic\FormBundle\FormEvents::FORM_O
 At the bottom of this page, you can find code examples to make it easier to get started.
 
 Form fields
------------
+***********
 To add a custom Form field, use the ``$event->addFormField($identifier, $parameters)`` method. ``$identifier`` must be something unique. The ``$parameters`` array can contain the following elements:
 
 .. list-table::
@@ -66,7 +66,7 @@ To add a custom Form field, use the ``$event->addFormField($identifier, $paramet
             ];
 
 Form submit actions
--------------------
+*******************
 
 To add an action, use the ``$event->addSubmitAction($identifier, $parameters)`` method. ``$identifier`` must be something unique. The ``$parameters`` array can contain the following elements:
 
@@ -117,7 +117,7 @@ To do this, register a submit callback through the subscriber that processes the
 You can either inject the ``Symfony\Component\HttpFoundation\Response`` at that time with ``$event->setPostSubmitCallbackResponse($identifier, $response);`` or register another custom event to be dispatched after all submit actions have been processed using ``$event->setPostSubmitCallback($key, ['eventName' => HelloWorld::ANOTHER_CUSTOM_EVENT]);``.
 
 Form validations
-----------------
+****************
 
 To add a custom validation, use the ``$event->addValidator($identifier, $parameters)`` method. ``$identifier`` must be something unique. The ``$parameters`` array can contain the following elements:
 
@@ -145,7 +145,7 @@ The listener for the Form event receives a ``Mautic\FormBundle\Event\ValidationE
 Obtain the field with ``$event->getField();``, do the logic to fail a validation, then execute ``$event->failedValidation('I said so.');``.
 
 Example code
-------------
+************
 
 .. code-block:: PHP
 
