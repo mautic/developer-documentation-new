@@ -1,6 +1,6 @@
 FROM python:3.10
 
-ARG VALE_VERSION=2.21.2
+ENV VALE_VERSION=2.21.2
 
 WORKDIR /workspace
 
