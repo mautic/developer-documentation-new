@@ -1,4 +1,4 @@
-FROM gitpod/workspace-python-3.10:2022-11-15-17-00-18
+FROM python:3.10
 
 ENV VALE_VERSION=2.21.2
 
