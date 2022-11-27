@@ -13,6 +13,8 @@ jobs:
 
     - name: Vale
       uses: errata-ai/vale-action@reviewdog
+      with:
+        filter_mode: nofilter
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
