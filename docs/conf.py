@@ -41,6 +41,7 @@ release = '3.0.0'
 extensions = [
    'xref',
    'phpdomain',
+   'helloworld_plugin',
    'sphinx_rtd_theme',
    'sphinx.ext.viewcode',
    'sphinx.ext.autosectionlabel',

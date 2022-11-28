@@ -10,6 +10,8 @@ Entity PHP static function mapping
 
 You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder`` class. Refer to :xref:`Doctrine ORM PHP mapping` for methods available. Mautic also provides a decorated ``ClassMetadataBuilder`` class through ``Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder`` described below.
 
+.. helloworld-plugin-code-url:: https://github.com/mautic/plugin-helloworld/blob/mautic-4/Entity/World.php
+
 .. code-block:: php
 
     <?php
