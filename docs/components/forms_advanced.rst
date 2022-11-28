@@ -9,8 +9,12 @@ You can read more about this here: :xref:`Symfony 4 form classes`. This section 
 - Dynamic Form modification
 - Data validation
 
+.. vale off
+
 Custom Form types
 *****************
+
+.. vale on
 
 As stated in Symfony's documentation as referenced in the preceding section, Form type classes are the best way to go.
 Mautic makes it easy to register :xref:`Form type services<Symfony 4 custom Form field type>` through the bundle's config file.
@@ -23,7 +27,7 @@ Form data isn't automatically sanitized. Mautic provides a Form event subscriber
 
 In your :xref:`Form type class<Symfony 4 form classes>`, register the ``Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber`` event subscriber. 
  
-The array provided to ``CleanFormSubscriber`` should contain the names of the Form fields as keys and the values the masks to use to sanitize the data. Any unspecified Form field uses the ``clean`` mask by default.
+The array provided to ``CleanFormSubscriber`` should contain the names of the Form Fields as keys and the values the masks to use to sanitize the data. Any unspecified Form field uses the ``clean`` mask by default.
 
 .. code-block:: php
 
@@ -53,8 +57,12 @@ The array provided to ``CleanFormSubscriber`` should contain the names of the Fo
         }
     }
 
+.. vale off
+
 Dynamic Form modification
 *************************
+
+.. vale on
 
 If you need to manipulate a Form based on submitted data, use a Form event listener.
 This is useful in cases like changing defined fields, adjust constraints, or changing select choices based on submitted values.
@@ -73,9 +81,9 @@ Using entity static callback
 If the underlying data of a Form is an Entity object you can define a static method ``loadValidatorMetadata`` in the Entity class.
 This automatically gets called when Symfony is processing Form data.
 
-A Form can also use :xref:`validation_groups<Symfony 4 form validation groups>` to change the order of data to validate or only validate if certain criteria is true.
+A Form can also use :xref:`validation_groups<Symfony 4 Form validation groups>` to change the order of data to validate or only validate if certain criteria is true.
 For example, only validate a password confirmation field if the first password field passes validation.
-When registering a validation group in the form type class, you can use a static callback to determine what validation groups Symfony should use.
+When registering a validation group in the Form type class, you can use a static callback to determine what validation groups Symfony should use.
 
 .. code-block:: php
 
@@ -146,7 +154,7 @@ When registering a validation group in the form type class, you can use a static
 Using constraints
 =================
 
-A :xref:`Form type service<Symfony 4 custom Form field type>` can also register :xref:`Constraints<Symfony 4 form constraints>` when defining the form fields.
+A :xref:`Form type service<Symfony 4 custom Form field type>` can also register :xref:`Constraints<Symfony 4 Form constraints>` when defining the Form fields.
 
 .. code-block:: php
 
