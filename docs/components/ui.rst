@@ -45,11 +45,11 @@ A Plugin can inject the Buttons into five places in Mautic's UI.
     *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_TOOLBAR_ACTIONS``
         - Top right preceding list view tables to the right of the table filter. Preferably buttons with icons only.
     *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_PAGE_ACTIONS``
-        - Main page buttons to the right of the page title (New, Edit, and so forth). Primary buttons displays as buttons, while the rest listed in a drop-down.
+        - Main UI buttons to the right of the title: new, edit, and so forth. Primary buttons displays as buttons, while the rest listed in a drop-down.
     *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_NAVBAR``
-        - Top of the page to the left of the account/profile menu. Buttons with text and/or icons.
+        - Top of the UI to the left of the account/profile menu. Buttons with text and/or icons.
     *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_BULK_ACTIONS``
-        - Buttons inside the bulk drop-down (around the ``checkall`` checkbox of lists).
+        - Buttons inside the bulk drop-down, around the ``checkall`` checkbox of lists.
 
 Buttons use a priority system to determine the order.
 The higher the priority, the Button displayed closer to first the Button.
@@ -181,7 +181,7 @@ The array defining the Button can include the following keys:
         - For Button drop-down formats, this displays the Button in the group rather than in the drop-down
     *   - ``priority``
         - int
-        - Determines the order of buttons. The higher the priority, the Button displayed closer to the first Button. Buttons with the same priority are ordered alphabetically.
+        - Determines the order of buttons. The higher the priority, the Button displayed closer to the first Button. Buttons with the same priority get ordered alphabetically.
 
 If a button is to display a confirmation modal, the key ``confirm``  is a must. A ``confirm`` array  can have the following keys:
 
