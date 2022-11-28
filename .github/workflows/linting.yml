@@ -14,7 +14,8 @@ jobs:
     - name: Vale
       uses: errata-ai/vale-action@reviewdog
       with:
-        filter_mode: nofilter
+        # Please keep version in sync with the version in .gitpod.Dockerfile for a consistent experience
+        version: 2.20.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
