@@ -74,6 +74,10 @@ Registering a Custom Point Action
 
 In order for the custom Point Action to work, add something like the following in the code logic when the Contact executes the custom action:
 
+.. code-block:: php
+    
+    <?php
+    
     $this->getModel('point')->triggerAction('helloworld.action', $event->getHit());
 
 .. vale off
