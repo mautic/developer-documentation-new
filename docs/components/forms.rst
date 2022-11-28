@@ -2,11 +2,16 @@ Forms
 #####
 
 You can extend Forms by listening to the ``\Mautic\FormBundle\FormEvents::FORM_ON_BUILD`` event. Read more about :doc:`listeners and subscribers</plugins/event_listeners>`.
-At the bottom of this page, you can find code examples to make it easier to get started.
+At the bottom of this document, you can find code examples to make it easier to get started.
 
-Form fields
+.. vale off
+
+Form Fields
 ***********
-To add a custom Form field, use the ``$event->addFormField($identifier, $parameters)`` method. ``$identifier`` must be something unique. The ``$parameters`` array can contain the following elements:
+
+.. vale on
+
+To add a custom Form Field, use the ``$event->addFormField($identifier, $parameters)`` method. ``$identifier`` must be something unique. The ``$parameters`` array can contain the following elements:
 
 .. list-table::
     :header-rows: 1
@@ -26,19 +31,19 @@ To add a custom Form field, use the ``$event->addFormField($identifier, $paramet
     * - ``template``
       - Required
       - string
-      - View template used to render the formType, for example ``HelloWorldBundle:SubscribedEvents\FormField:customfield.html.php``
+      - View template used to render the ``formType``, for example ``HelloWorldBundle:SubscribedEvents\FormField:customfield.html.php``
     * - ``formTypeOptions``
       - Optional
       - array
-      - Array of options to include into the formType's $options argument
+      - Array of options to include into the ``formType``'s $options argument
     * - ``formTypeCleanMasks``
       - Optional
       - array
-      - Array of input masks to clean a values from formType
+      - Array of input masks to clean a values from ``formType``
     * - ``formTypeTheme``
       - Optional
       - array
-      - Array of input masks to clean a values from formType
+      - Array of input masks to clean a values from ``formType``
     * - ``valueFilter``
       - Optional
       - mixed
@@ -96,19 +101,19 @@ To add an action, use the ``$event->addSubmitAction($identifier, $parameters)`` 
     * - ``formTypeOptions``
       - Optional
       - array
-      - Array of options to include into the formType's ``$options`` argument
+      - Array of options to include into the ``formType``'s ``$options`` argument
     * - ``formTypeCleanMasks``
       - Optional
       - array
-      - Array of input masks to clean a values from formType
+      - Array of input masks to clean a values from ``formType``
     * - ``formTypeTheme``
       - Optional
       - string
-      - Theme to customize elements for formType
+      - Theme to customize elements for ``formType``
     * - ``template``
       - Optional
       - string
-      - View template used to render the formType
+      - View template used to render the ``formType``
 
 The subscriber registered to listen to the ``eventName`` gets an instance of ``Mautic\FormBundle\Events\SubmissionEvent`` with the details about the submission. 
  
