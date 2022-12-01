@@ -6,6 +6,10 @@ Autoloader
 autoloader
 Autowired
 autowired
+Autowiring
+autowiring
+autowire
+autowires
 bcc
 Beanstalkd
 Bing
