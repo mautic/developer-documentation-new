@@ -49,7 +49,14 @@ The following provides instructions for how to build docs locally for visualizat
 4. CD into the docs directory `cd [path to this repo]/docs`
 5. Run `make html`
 6. This will generate HTML in docs/build/html. Setup a web server with the web root as docs/build/html or open docs/build/html/index.html in a browser.
- 
+
+## Troubleshooting
+
+If the build isn't working for some reason, here's some tips:
+
+- Try running the `make html` command in the terminal: `cd docs && make html`. This command normally provides a lot of additional context.
+- If the preview isn't working, click the `esbonio` section in the bottom right corner of the VS Code window. That rebuilds the docs and previews, and tells you if something is wrong.
+
 ### Vale
 Before pushing, run Vale and address suggestions and errors as applicable.
 1. Install [`vale`][Vale] 
