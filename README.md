@@ -20,6 +20,21 @@ For more background, our end goal, and to let us know if you want to help, pleas
 
 [![Link to YouTube video with explanation of the current developer documentation structure][YouTube video image]][YouTube video URL]
 
+## Adding a code sample
+
+Code samples get downloaded from GitHub to ensure that they're always up to date. If you want to add a new code sample, follow these two steps:
+
+1. Create a file in `docs/code_samples/` and add a permalink in there. Look at other files in that directory for examples. URLs should always start with `https://raw.githubusercontent.com/...` to ensure that Sphinx can download the file correctly.
+2. In any documentation file, add a `literalinclude` block to include the code, like so:
+
+```
+.. The link to this file is defined in docs/code_samples/helloworld_entity_world.py 
+.. literalinclude:: ../code_samples_downloaded/Entity_World.php
+    :language: php
+```
+
+Tip: downloaded files get cached in `docs/code_samples_downloaded` to prevent overloading GitHub with download requests. If you change the URL to a file, simply remove the cached file from `docs/code_samples_downloaded` and Sphinx will automatically re-download it.
+
 ## Build documentation locally
 
 - [RST Syntax Cheatsheet][RST Cheatsheet]

@@ -10,66 +10,9 @@ Entity PHP static function mapping
 
 You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder`` class. Refer to :xref:`Doctrine ORM PHP mapping` for methods available. Mautic also provides a decorated ``ClassMetadataBuilder`` class through ``Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder`` described below.
 
-.. helloworld-plugin-code-url:: https://github.com/mautic/plugin-helloworld/blob/mautic-4/Entity/World.php
-
-.. code-block:: php
-
-    <?php
-
-    declare(strict_types=1);
-
-    namespace Mautic\UserBundle\Entity;
-
-    use Doctrine\ORM\Mapping as ORM;
-    use Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder;
-    use Ramsey\Uuid\Uuid;
-
-    class World
-    {
-        /**
-         * @var string
-         */
-        private $uuid;
-
-        /**
-         * @var string
-         */
-        private $name;
-
-        public function __construct()
-        {
-            $this->uuid = Uuid::uuid4()->toString();
-        }
-
-        public static function loadMetadata(ORM\ClassMetadata $metadata)
-        {
-            $builder = new ClassMetadataBuilder($metadata);
-
-            $builder->setTable('worlds');
-
-            $builder->addUuid();
-
-            $builder->createField('name', 'string')
-                ->length(191)
-                ->build();
-        }
-
-        public function getUuid(): string
-        {
-            return $this->uuid;
-        }
-
-        public function getName(): string
-        {
-            return $this->name;
-        }
-
-        public function setName(string $name): void
-        {
-            $this->name = $name;
-        }
-    }
-
+.. The link to this file is defined in docs/code_samples/helloworld_entity_world.py 
+.. literalinclude:: ../code_samples_downloaded/Entity_World.php
+    :language: php
 
 .. php:class:: Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder
 

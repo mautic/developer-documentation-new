@@ -23,6 +23,11 @@ sys.path.append('.')
 from links.link import *
 from links import *
 
+# We get code samples directly from GitHub. For more info, see the README.md file of this repo.
+
+from code_samples.code_sample import *
+from code_samples import *
+
 # -- Project information -----------------------------------------------------
 
 project = 'Mautic Developer Documentation'
@@ -41,7 +46,7 @@ release = '3.0.0'
 extensions = [
    'xref',
    'phpdomain',
-   'helloworld_plugin',
+   'code_samples_ext',
    'sphinx_rtd_theme',
    'sphinx.ext.viewcode',
    'sphinx.ext.autosectionlabel',
