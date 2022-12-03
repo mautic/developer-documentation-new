@@ -33,7 +33,7 @@ Code samples get downloaded from GitHub to ensure that they're always up to date
     :language: php
 ```
 
-Tip: downloaded files get cached in `docs/code_samples_downloaded` to prevent overloading GitHub with download requests. If you change the URL to a file, simply remove the cached file from `docs/code_samples_downloaded` and Sphinx will automatically re-download it.
+Tip: downloaded files get cached in `docs/code_samples_downloaded` to prevent overloading GitHub with download requests. If you change the URL to a file, simply remove the cached file from `docs/code_samples_downloaded` and Sphinx automatically re-downloads it.
 
 ## Build documentation locally
 

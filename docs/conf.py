@@ -25,7 +25,7 @@ from links import *
 
 # We get code samples directly from GitHub. For more info, see the README.md file of this repo.
 
-from code_samples.code_sample import *
+from code_samples._main_code_sample import *
 from code_samples import *
 
 # -- Project information -----------------------------------------------------
