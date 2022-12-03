@@ -1,4 +1,5 @@
 build
 .idea
 __pycache__
-docs/code_samples_downloaded
+docs/code_samples_downloaded/*
+!docs/code_samples_downloaded/.gitkeep
