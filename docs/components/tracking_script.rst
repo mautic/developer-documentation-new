@@ -1,14 +1,10 @@
-.. vale off
-
-Tracking script MauticJS
-########################
-
-.. vale on
+Tracking script ``MauticJS (mtc.js)``
+#####################################
 
 Mautic provides a means for Plugins to inject custom JavaScript into ``mtc.js``, the PHP generated script that manages Mautic's tracking pixel, Dynamic Web Content, etc.
 You can embed ``mtc.js`` in third party websites to manage communication between those and Mautic.
 
-.. note:: For basic guidance on how to implement ``mtc.js`` into your website, please visit the :xref:`Mautic User Documentation<Mautic tracking script docs>`.
+.. note:: For basic guidance on how to implement ``mtc.js`` on your website, please visit the :xref:`Mautic User Documentation<Mautic tracking script docs>`.
 
 ``mtc.js``
 **********
