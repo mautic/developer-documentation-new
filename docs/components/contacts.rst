@@ -4,8 +4,170 @@ Contacts
 There's several ways to extend Contacts in Mautic.
 One of them is to show custom events in a Contact's event timeline - this document shows you how.
 
+.. vale off
+
+.. note:: In Mautic 1.4, Leads got renamed to Contacts. However, much of the code still refers to Contacts as Leads. 
+
+Creating Contacts
+*****************
+
+.. vale on
+
+To create a new Contact, use the ``\Mautic\LeadBundle\Entity\Lead`` entity. Review the code sample.
+
+.. code-block:: php
+
+  <?php
+  // plugins/HelloWorldBundle/Services/ContactService.php
+
+  declare(strict_types=1);
+
+  namespace MauticPlugin\HelloWorldBundle\Services;
+
+  use Mautic\CoreBundle\Helper\IpLookupHelper;
+  use Mautic\LeadBundle\Entity\Lead;
+  use Mautic\LeadBundle\Entity\LeadRepository;
+  use Mautic\LeadBundle\Model\FieldModel;
+  use Mautic\LeadBundle\Model\LeadModel;
+  use Mautic\LeadBundle\Tracker\ContactTracker;
+
+  class ContactService
+  {
+      protected LeadModel $leadModel;
+      protected ContactTracker $contactTracker;
+      protected IpLookupHelper $ipLookupHelper;
+      protected FieldModel $fieldModel;
+      protected LeadRepository $leadRepository;
+
+      public function __construct(
+          LeadModel $leadModel,
+          ContactTracker $contactTracker,
+          IpLookupHelper $ipLookupHelper,
+          FieldModel $fieldModel,
+          LeadRepository $leadRepository
+      ) {
+          $this->leadModel      = $leadModel;
+          $this->contactTracker = $contactTracker;
+          $this->ipLookupHelper = $ipLookupHelper;
+          $this->fieldModel     = $fieldModel;
+          $this->leadRepository = $leadRepository;
+      }
+
+      public function createLead()
+      {
+          // Currently tracked lead based on cookies
+          $lead = $this->contactTracker->getContact();
+          $leadId = $lead->getId();
+
+          // OR generate a completely new lead with
+          $lead = new Lead();
+          $lead->setNewlyCreated(true);
+          $leadId = null;
+
+          // IP address of the request
+          $ipAddress = $this->ipLookupHelper->getIpAddress();
+
+          // Updated/new fields
+          $leadFields = array(
+              'firstname' => 'Bob',
+              //...
+          );
+
+          // Optionally check for identifier fields to determine if the lead is unique
+          $uniqueLeadFields    = $this->fieldModel->getUniqueIdentiferFields();
+          $uniqueLeadFieldData = array();
+
+          // Check if unique identifier fields are included
+          $inList = array_intersect_key($leadFields, $uniqueLeadFields);
+          foreach ($inList as $k => $v) {
+              if (empty($query[$k])) {
+                  unset($inList[$k]);
+              }
+
+              if (array_key_exists($k, $uniqueLeadFields)) {
+                  $uniqueLeadFieldData[$k] = $v;
+              }
+          }
+
+          // If there are unique identifier fields, check for existing leads based on lead data
+          if (count($inList) && count($uniqueLeadFieldData)) {
+              $existingLeads = $this->leadRepository->getLeadsByUniqueFields(
+                  $uniqueLeadFieldData,
+                  $leadId // If a currently tracked lead, ignore this ID when searching for duplicates
+              );
+              if (!empty($existingLeads)) {
+                  // Existing found so merge the two leads
+                  $lead = $this->leadModel->mergeLeads($lead, $existingLeads[0]);
+              }
+
+              // Get the lead's currently associated IPs
+              $leadIpAddresses = $lead->getIpAddresses();
+
+              // If the IP is not already associated, do so (the addIpAddress will automatically handle ignoring
+              // the IP if it is set to be ignored in the Configuration)
+              if (!$leadIpAddresses->contains($ipAddress)) {
+                  $lead->addIpAddress($ipAddress);
+              }
+          }
+
+          // Set the lead's data
+          $this->leadModel->setFieldValues($lead, $leadFields);
+
+          // Save the entity
+          $this->leadModel->saveEntity($lead);
+      }
+  }
+
+Contact tracking
+****************
+
+Contacts get tracked by two cookies. The first cookie registers the ID of the Contact that's tracked by Mautic.
+The second is to track the Contact's activity for the current session. This defaults to 30 minutes and resets during each Contact interaction.
+  
+``mautic_session_id`` holds the value of the Contact's current session ID.  That value is then name of the cookie that holds the Contact's ID. 
+
+Review the sample code on how to obtain the currently tracked Contact.
+
+.. note:: As of Mautic 2.2.0, a cookie is also placed on any domain with mtc.js embedded. Ensure that Mautic's CORS settings allow the domain. This contains the ID of the currently tracked Contact.
+
+.. code-block:: PHP
+
+  <?php
+  // plugins/HelloWorldBundle/Services/ContactTrackingService.php
+
+  declare(strict_types=1);
+
+  namespace MauticPlugin\HelloWorldBundle\Services;
+
+  use Mautic\LeadBundle\Entity\Lead;
+  use Mautic\LeadBundle\Tracker\ContactTracker;
+
+  class ContactTrackingService
+  {
+      protected ContactTracker $contactTracker;
+
+      public function __construct(ContactTracker $contactTracker) {
+          $this->contactTracker = $contactTracker;
+      }
+
+      public function track() {
+          $currentContact = $this->contactTracker->getContact();
+
+          // To obtain the tracking ID, use getTrackingId();
+          $trackingId = $this->contactTracker->getTrackingId();
+
+          // Set the currently tracked lead and generate tracking cookies
+          $lead = new Lead();
+          // ...
+          $this->contactTracker->setTrackedContact($lead);
+
+          // Set a contact for system use purposes (i.e. events that use getCurrentLead()) but without generating tracking cookies
+          $this->contactTracker->setSystemContact($lead);
+      }
+  }
+
 Contact timeline/history
-------------------------
+************************
 
 To inject events into a Contact's timeline, create an event listener that listens to the ``LeadEvents::TIMELINE_ON_GENERATE`` event.
 Using this event, the Plugin can inject unique items into the timeline and also into the engagements graph on each page.
@@ -129,7 +291,7 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
     * - ``getQueryOptions()``
       - Used to get pagination, filters, etc needed to generate an appropriate query.
     * - ``addToCounter()``
-      - Used to add total number of events across all Pages to the counters. This also generates the numbers for the engagements graph.
+      - Used to add total number of events across all Landing Pages to the counters. This also generates the numbers for the engagements graph.
     * - ``addEvent()``
       - Required - Injects an event into the timeline. Accepts an array with the keys defined as below. 
 
@@ -155,7 +317,7 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
     * - ``eventLabel``
       - Optional
       - string/array
-      - The translated string to display in the event name. Examples include names of items, Landing Page titles, etc. This can also be an array of ['label' => '', 'href' => ''] to have the entry converted to a link. This defaults to eventType if not defined.
+      - The translated string to display in the event name. Examples include names of items, Landing Page titles, etc. This can also be an array of ['label' => '', 'href' => ''] to have the entry converted to a link. This defaults to ``eventType`` if not defined.
     * - ``extra``
       - Optional
       - array
@@ -170,7 +332,7 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
       - 
 
 Generating timeline events from your own custom events
-------------------------------------------------------
+******************************************************
 
 You're responsible for creating your own events and store them in some database tables.
 From there, you can turn them into timeline events so they show up on the Contact's detail screen.
@@ -227,31 +389,31 @@ To leverage this, accept the array from ``$event->getQueryOptions()`` in the rep
       - Required
       - Type
       - Description
-    * - $query
+    * - ``$query``
       - Required
       - QueryBuilder
       - Database Abstraction Layer QueryBuilder object defining basics of the query.
-    * - $options
+    * - ``$options``
       - Required
       - array
       - Array generated and passed into method by ``$event->getQueryOptions()`` in the event listener above
-    * - $eventNameColumn
+    * - ``$eventNameColumn``
       - Required
       - string
       - Name of the column with table prefix that should to use when sorting by event name
-    * - $timestampColumn
+    * - ``$timestampColumn``
       - Required
       - string
       - Name of the column with table prefix that should to use when sorting by timestamp
-    * - $serializedColumns
+    * - ``$serializedColumns``
       - Optional
       - array
       - When using the Database Abstraction Layer, arrays won't be auto-unserialized by Doctrine. Define the columns here, as returned by the query results, to auto-unserialize.
-    * - $dateTimeColumns
+    * - ``$dateTimeColumns``
       - Optional
       - array
       - When using the Database Abstraction Layer, ``datetime`` columns won't be auto converted to \DateTime objects by Doctrine. Define the columns here, as returned by the query results, to auto do so.
-    * - $resultsParserCallback
+    * - ``$resultsParserCallback``
       - Optional
       - callback
-      - Callback to custom parse a result. This is optional and mainly used to handle a column result when all results are already looped over for $serializedColumns and $dateTimeColumns.
+      - Callback to custom parse a result. This is optional and mainly used to handle a column result when all results are already looped over for ``$serializedColumns`` and $dateTimeColumns.
