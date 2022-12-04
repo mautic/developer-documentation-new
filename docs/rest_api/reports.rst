@@ -56,8 +56,7 @@ Or define query parameters like this:
 
 ``GET /reports/3?dateFrom=2017-01-01&dateTo=2018-01-01&limit=5&page=3``
 
-Response
-========
+**Response**
 
 ``Expected Response Code: 200``
 
@@ -211,8 +210,7 @@ Returns a list of Contact Reports available to the User. This list isn't filtera
 
 ``GET /reports``
 
-Response
-~~~~~~~~
+**Response**
 
 ``Expected Response Code: 200``
 

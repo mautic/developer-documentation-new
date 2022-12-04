@@ -90,6 +90,8 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    :caption: REST API
    :hidden:
 
+   rest_api/contacts
+   rest_api/reports
    rest_api/text_messages
 
 Indices and tables
