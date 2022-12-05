@@ -8,6 +8,7 @@ SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     =
 BUILDDIR      = build
 LINKSDIR      = links
+LINKCHECKDIR  = build/linkcheck
 CODESAMPLESDIR = code_samples
 
 # Put it first so that "make" without argument is like "make help".
