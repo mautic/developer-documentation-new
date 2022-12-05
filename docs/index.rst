@@ -47,6 +47,7 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    :hidden:
 
    plugins/getting_started
+   plugins/autowiring
    plugins/mautic_vs_symfony
    plugins/dependencies
    plugins/event_listeners
