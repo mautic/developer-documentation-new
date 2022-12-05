@@ -7,6 +7,6 @@ readthedocs-sphinx-search==0.1.2
 rstcheck==6.1.1
 myst-parser==0.18.1 
 linkify-it-py==2.0.0
-esbonio==0.14.3
+esbonio==0.15.0
 attrs==22.1.0
 
