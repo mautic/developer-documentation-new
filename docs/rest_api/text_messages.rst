@@ -1,7 +1,7 @@
 Text messages
 #############
 
-Use this endpoint to obtain details on Mautic's Text Messages, or SMSes.
+Use this endpoint to obtain details on Mautic's Text Messages, or SMSs.
 
 Text message properties
 =======================
