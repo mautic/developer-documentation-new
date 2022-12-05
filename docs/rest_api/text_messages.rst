@@ -70,7 +70,7 @@ You can interact with this API through the :xref:`Mautic API Library` as follows
    // ...
    $initAuth = new ApiAuth();
    $auth     = $initAuth->newAuth($settings);
-   $apiUrl   = "https://your-mautic.com";
+   $apiUrl   = "https://example.com";
    $api      = new MauticApi();
    $smsApi   = $api->newApi("smses", $auth, $apiUrl);
 
@@ -105,7 +105,7 @@ Get an individual SMS by ID.
            "isPublished":true,
            "dateAdded":"2016-09-14T12:14:45+00:00",
            "createdBy":1,
-           "createdByUser":"John Doe",
+           "createdByUser":"Wu Popovski",
            "dateModified":null,
            "modifiedBy":null,
            "modifiedByUser":null,
@@ -173,7 +173,7 @@ List text messages
                "isPublished":true,
                "dateAdded":"2016-09-14T12:14:45+00:00",
                "createdBy":1,
-               "createdByUser":"John Doe",
+               "createdByUser":"Kevin Bulgarelli",
                "dateModified":null,
                "modifiedBy":null,
                "modifiedByUser":null,
@@ -243,7 +243,7 @@ Edit text message
        'isPublished' => 0
    );
 
-   // Create new a sms of ID 1 is not found?
+   // Create new a SMS of ID 1 is not found?
    $createIfNotFound = true;
 
    $sms = $smsApi->edit($id, $data, $createIfNotFound);
@@ -259,11 +259,11 @@ Edit a new SMS. Note that this supports PUT or PATCH depending on the desired be
 
 .. vale on
 
-To edit a SMS and return a 404 if the SMS isn't found:
+To edit an SMS and return a 404 if the SMS isn't found:
 
 ``PATCH /smses/ID/edit``
 
-To edit a SMS and create a new one if the SMS isn't found:
+To edit an SMS and create a new one if the SMS isn't found:
 
 ``PUT /smses/ID/edit``
 

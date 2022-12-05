@@ -16,7 +16,7 @@ You can interact with this API through the :xref:`Mautic API Library` as follows
    // ...
    $initAuth   = new ApiAuth();
    $auth       = $initAuth->newAuth($settings);
-   $apiUrl     = "https://your-mautic.com";
+   $apiUrl     = "https://example.com";
    $api        = new MauticApi();
    $contactApi = $api->newApi("contacts", $auth, $apiUrl);
 
@@ -268,7 +268,7 @@ In PHP:
 This design allows to add multiple conditions in the same request.
 
 If you aren't using PHP, here is URL-encoded version of the example:
-``GET https://[your_mauitc_domain]/api/contacts?where%5B0%5D%5Bcol%5D=phone&where%5B0%5D%5Bexpr%5D=in&where%5B0%5D%5Bval%5D=444444444,888888888``
+``GET https://[example.com]/api/contacts?where%5B0%5D%5Bcol%5D=phone&where%5B0%5D%5Bexpr%5D=in&where%5B0%5D%5Bval%5D=444444444,888888888``
 
 `List of available expressions <https://www.doctrine-project.org/projects/doctrine-orm/en/2.7/reference/query-builder.html#the-expr-class>`_
 
@@ -412,7 +412,7 @@ Create Contact
    $data = array(
        'firstname' => 'Jim',
        'lastname'  => 'Contact',
-       'email'     => 'jim@his-site.com',
+       'email'     => 'jim@example.com',
        'ipAddress' => $_SERVER['REMOTE_ADDR'],
        'overwriteWithBlank' => true,
    );
@@ -471,13 +471,13 @@ Create Batch Contact
        array(
        'firstname' => 'Jim',
        'lastname'  => 'Contact',
-       'email'     => 'jim@his-site.com',
+       'email'     => 'jim@example.com',
        'ipAddress' => $_SERVER['REMOTE_ADDR']
        ),
        array(
-           'firstname' => 'John',
-       'lastname'  => 'Doe',
-       'email'     => 'john@his-site.com',
+           'firstname' => 'Rudolf',
+       'lastname'  => 'Große',
+       'email'     => 'rudolf@example.com',
        'ipAddress' => $_SERVER['REMOTE_ADDR']
        )
    );
@@ -531,7 +531,7 @@ Edit Contact
 
    $id   = 1;
    $data = array(
-       'email'     => 'jim-new-address@his-site.com',
+       'email'     => 'isabel-new-address@example.com',
        'ipAddress' => $_SERVER['REMOTE_ADDR'],    
    );
 
@@ -604,14 +604,14 @@ Edit Batch Contact
            'id'        => 1,
            'firstname' => 'Jim',
            'lastname'  => 'Contact',
-           'email'     => 'jim@his-site.com',
+           'email'     => 'jim@example.com',
            'ipAddress' => $_SERVER['REMOTE_ADDR']
        ],
        [
            'id'        => 1,
-           'firstname' => 'John',
-           'lastname'  => 'Doe',
-           'email'     => 'john@his-site.com',
+           'firstname' => 'Ashish',
+           'lastname'  => 'Wallach',
+           'email'     => 'ashish@example.com',
            'ipAddress' => $_SERVER['REMOTE_ADDR']
        ]
    ];
@@ -722,7 +722,7 @@ Delete Contacts.
 
 If you aren't using PHP, here is a URL example:
 
-``DELETE https://[your_mautic_domain]/api/contacts/batch/delete?ids=1,2``
+``DELETE https://[example.com]/api/contacts/batch/delete?ids=1,2``
 
 **Response**
 
@@ -1862,7 +1862,7 @@ Get Activity events for all Contacts
          "eventId": "email.sent796",
          "eventLabel": {
            "label": "2017-05-23 - Email - Leads - Nurture Flow (Monica) 1",
-           "href": "http:\/\/mautic.dev\/email\/view\/597a116ae69ca",
+           "href": "http:\/\/example.com\/email\/view\/597a116ae69ca",
            "isExternal": true
          },
          "eventType": "Email sent",
@@ -1892,7 +1892,7 @@ Get Activity events for all Contacts
          "eventId": "email.read769",
          "eventLabel": {
            "label": "Custom Email: device test",
-           "href": "http:\/\/mautic.dev\/email\/view\/5966b0cd571f4",
+           "href": "http:\/\/example.com\/email\/view\/5966b0cd571f4",
            "isExternal": true
          },
          "eventType": "Email read",
@@ -1957,10 +1957,10 @@ Get Activity events for all Contacts
                "alias": "3586_test"
              },
              "dateSubmitted": "2017-07-27T03:09:07+00:00",
-             "referer": "http:\/\/mautic.dev\/form\/143",
+             "referer": "http:\/\/example.com\/form\/143",
              "results": {
                "form_id": "143",
-               "email": "formtest7@test.com",
+               "email": "formtest7@example.com",
                "f_name": ""
              }
            },
@@ -1985,9 +1985,9 @@ Get Activity events for all Contacts
            "hit": {
              "UserAgent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/59.0.3071.115 Safari\/537.36",
              "dateHit": "2017-07-21T20:36:49+00:00",
-             "url": "http:\/\/mautic.dev\/uncategorized\/translation-test1",
+             "url": "http:\/\/example.com\/uncategorized\/translation-test1",
              "query": {
-               "pageUrl": "http:\/\/mautic.dev\/uncategorized\/translation-test1"
+               "pageUrl": "http:\/\/example.com\/uncategorized\/translation-test1"
              },
              "clientInfo": "a:6:{s:4:\"type\";s:7:\"browser\";s:4:\"name\";s:6:\"Chrome\";s:10:\"short_name\";s:2:\"CH\";s:7:\"version\";s:4:\"59.0\";s:6:\"engine\";s:5:\"Blink\";s:14:\"engine_version\";s:0:\"\";}",
              "device": "desktop",
@@ -2056,7 +2056,7 @@ Get Activity events for all Contacts
              "alias": "download-mautic",
              "description": "test"
            },
-           "assetDownloadUrl": "http:\/\/mautic.dev\/asset\/1:download-mautic"
+           "assetDownloadUrl": "http:\/\/example.com\/asset\/1:download-mautic"
          }
        },
      ],
@@ -2187,7 +2187,7 @@ Get a list of Contact's Companies the Contact belongs to.
          "date_associated":"2016-12-27 15:03:43",
          "is_primary":"0",
          "companyname":"test",
-         "companyemail":"test@company.com",
+         "companyemail":"test@example.com",
          "companycity":"Raleigh",
          "score":"0",
          "date_added":"2016-12-27 15:03:42"

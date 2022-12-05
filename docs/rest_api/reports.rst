@@ -16,7 +16,7 @@ You can interact with this API through the :xref:`Mautic API Library` as follows
    // ...
    $initAuth  = new ApiAuth();
    $auth      = $initAuth->newAuth($settings);
-   $apiUrl    = "https://your-mautic.com";
+   $apiUrl    = "https://example.com";
    $api       = new MauticApi();
    $reportApi = $api->newApi("reports", $auth, $apiUrl);
 
@@ -32,7 +32,7 @@ Get report
    <?php
 
    //...
-   // Simple get all with default options:
+   // Get all with default options:
    $report = $reportApi->get($id);
 
    // Or define exactly what rows you want:
@@ -67,31 +67,31 @@ Or define query parameters like this:
      "data": [
        {
          "id2": "12",
-         "email1": "john@doe.email",
+         "email1": "john@example.com",
          "firstname1": "",
          "lastname1": ""
        },
        {
          "id2": "23",
-         "email1": "johnatan@doe.email",
+         "email1": "alex@example.com",
          "firstname1": "",
          "lastname1": ""
        },
        {
          "id2": "24",
-         "email1": "johny@doe.email",
+         "email1": "amal@example.com",
          "firstname1": "",
          "lastname1": ""
        },
        {
          "id2": "25",
-         "email1": "johan@doe.email",
+         "email1": "ariel@example.com",
          "firstname1": "",
          "lastname1": ""
        },
        {
          "id2": "26",
-         "email1": "jane@doe.email",
+         "email1": "bola@example.com",
          "firstname1": "",
          "lastname1": ""
        }
