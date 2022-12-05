@@ -8,7 +8,7 @@ SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     =
 BUILDDIR      = build
 LINKSDIR      = links
-LINKCHECKDIR  = build/linkcheck
+CODESAMPLESDIR = code_samples
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -33,7 +33,23 @@ link:
 link_text = \"$$link_text\" \n\
 link_url = \"$$link_url\" \n\n\
 link.xref_links.update({link_name: (link_text, link_url)})" \
-  > $(LINKSDIR)/$$file_name".py" \
+  > $(LINKSDIR)/$$file_name".py"
+
+.PHONY: code-sample
+code-sample:
+	@read -p "Enter a Unique File Name (with .php suffix): " file_name; \
+	read -p "Enter the URL to the file (should start with https://raw.githubusercontent.com/...): " file_url; \
+	read -p "Enter the .py file name (use_lower_case_and_underscore of file name): " py_file_name; \
+	echo "The file name is: " $$file_name; \
+	echo "The URL is: " $$file_url; \
+	echo "The .py file name is: " $$py_file_name; \
+	echo "Creating the file: " $(CODESAMPLESDIR)/$$py_file_name".py"; \
+	echo "Enter the link in content as .. literalinclude:: ../code_samples_downloaded/"$$file_name; \
+	echo "Make sure you build and test the code sample."; \
+  echo "from . import _main_code_sample\n\noutput_file_name = \"$$file_name\" \n\
+url = \"$$file_url\" \n\n\
+_main_code_sample.code_samples.update({output_file_name: (url)})" \
+  > $(CODESAMPLESDIR)/$$py_file_name".py"
 
 .PHONY: checklinks
 checklinks:
