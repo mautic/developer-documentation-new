@@ -1,15 +1,15 @@
 Extending maintenance cleanup
 #############################
 
-To hook into the ``mautic:maintenance:cleanup`` command, create a listening for the ``\Mautic\CoreBundle\CoreEvents::MAINTENANCE_CLEANUP_DATA`` event.
-The event listener should check if data should be deleted or a counted. Use ``$event->setStat($key, $affectedRows, $sql, $sqlParameters)`` to give feedback to the CLI command.
+To hook into the ``mautic:maintenance:cleanup`` command, create a listener for the ``\Mautic\CoreBundle\CoreEvents::MAINTENANCE_CLEANUP_DATA`` event.
+Use ``$event->setStat($key, $affectedRows, $sql, $sqlParameters)`` to give feedback to the CLI command.
 Note that ``$sql`` and ``$sqlParameters`` are only used for debugging and shown only in the ``dev`` environment.
 
-.. note:: The Plugin should verify if a dry run got requested using ``$event->isDryRun()`` before deleting records!
+.. warning:: Don't delete records when the event is a dry run. You can use ``$event->isDryRun()`` to validate whether this is the case. See the code sample below for more details.
 
 .. code-block:: php
 
-   <?php
+    <?php
     // plugins\HelloWorldBundle\EventListener\MaintenanceSubscriber.php
 
     declare(strict_types=1);
