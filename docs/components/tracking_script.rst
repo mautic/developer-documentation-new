@@ -80,7 +80,7 @@ This will expose the payload to the tracking code's ``mauticPageEventDelivered``
 .. vale off
 
 JavaScript Form processing hooks
-************************
+********************************
 
 .. vale on
 
@@ -98,7 +98,7 @@ JavaScript Form processing hooks
        }
    };
 
-If you wish execute additional code to execute as the Form is getting processed, create a ``MauticFormCallback`` object.
+If you wish to run additional code before or after submission of the Form, create a ``MauticFormCallback`` object.
 In the example code, replace ``replaceWithFormName`` with the name of your Form. 
 
 ``onValidateEnd`` and ``onResponse`` are actions called by ``Form.customCallbackHandler``. 
