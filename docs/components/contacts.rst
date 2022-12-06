@@ -55,11 +55,11 @@ To create a new Contact, use the ``\Mautic\LeadBundle\Entity\Lead`` entity. Revi
 
       public function createLead()
       {
-          // Currently tracked lead based on cookies
+          // Currently tracked Contact based on cookies
           $lead = $this->contactTracker->getContact();
           $leadId = $lead->getId();
 
-          // OR generate a completely new lead with
+          // OR generate a completely new Contact with
           $lead = new Lead();
           $lead->setNewlyCreated(true);
           $leadId = null;
@@ -73,7 +73,7 @@ To create a new Contact, use the ``\Mautic\LeadBundle\Entity\Lead`` entity. Revi
               //...
           );
 
-          // Optionally check for identifier fields to determine if the lead is unique
+          // Optionally check for identifier fields to determine if the Contact is unique
           $uniqueLeadFields    = $this->fieldModel->getUniqueIdentiferFields();
           $uniqueLeadFieldData = array();
 
@@ -89,18 +89,18 @@ To create a new Contact, use the ``\Mautic\LeadBundle\Entity\Lead`` entity. Revi
               }
           }
 
-          // If there are unique identifier fields, check for existing leads based on lead data
+          // If there are unique identifier fields, check for existing Contacts based on Contact data
           if (count($inList) && count($uniqueLeadFieldData)) {
               $existingLeads = $this->leadRepository->getLeadsByUniqueFields(
                   $uniqueLeadFieldData,
-                  $leadId // If a currently tracked lead, ignore this ID when searching for duplicates
+                  $leadId // If a currently tracked Contact, ignore this ID when searching for duplicates
               );
               if (!empty($existingLeads)) {
-                  // Existing found so merge the two leads
+                  // Existing found so merge the two Contacts
                   $lead = $this->leadModel->mergeLeads($lead, $existingLeads[0]);
               }
 
-              // Get the lead's currently associated IPs
+              // Get the Contact's currently associated IPs
               $leadIpAddresses = $lead->getIpAddresses();
 
               // If the IP is not already associated, do so (the addIpAddress will automatically handle ignoring
@@ -110,7 +110,7 @@ To create a new Contact, use the ``\Mautic\LeadBundle\Entity\Lead`` entity. Revi
               }
           }
 
-          // Set the lead's data
+          // Set the Contact's data
           $this->leadModel->setFieldValues($lead, $leadFields);
 
           // Save the entity
@@ -156,12 +156,12 @@ Review the sample code on how to obtain the currently tracked Contact.
           // To obtain the tracking ID, use getTrackingId();
           $trackingId = $this->contactTracker->getTrackingId();
 
-          // Set the currently tracked lead and generate tracking cookies
+          // Set the currently tracked Contact and generate tracking cookies
           $lead = new Lead();
           // ...
           $this->contactTracker->setTrackedContact($lead);
 
-          // Set a contact for system use purposes (i.e. events that use getCurrentLead()) but without generating tracking cookies
+          // Set a Contact for system use purposes (i.e. events that use getCurrentLead()) but without generating tracking cookies
           $this->contactTracker->setSystemContact($lead);
       }
   }
@@ -334,7 +334,7 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
 Generating timeline events from your own custom events
 ******************************************************
 
-You're responsible for creating your own events and store them in some database tables.
+You're responsible for creating your own events and storing them in appropriate database tables.
 From there, you can turn them into timeline events so they show up on the Contact's detail screen.
 To make this process a bit easier, the ``Mautic\LeadBundle\Entity\TimelineTrait`` trait is available.
 

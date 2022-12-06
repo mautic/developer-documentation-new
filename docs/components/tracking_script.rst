@@ -1,7 +1,7 @@
 Tracking script ``MauticJS (mtc.js)``
 #####################################
 
-Mautic provides a means for Plugins to inject custom JavaScript into ``mtc.js``, the PHP generated script that manages Mautic's tracking pixel, Dynamic Web Content, etc.
+Mautic provides a means for Plugins to inject custom JavaScript into ``mtc.js``, the PHP generated script that manages Mautic's tracking pixel and Dynamic Web Content.
 You can embed ``mtc.js`` in third party websites to manage communication between those and Mautic.
 
 .. note:: For basic guidance on how to implement ``mtc.js`` on your website, please visit the :xref:`Mautic User Documentation<Mautic tracking script docs>`.
@@ -68,20 +68,18 @@ This event receives a ``Mautic\CoreBundle\Event\BuildJsEvent`` object where ``$e
 
 .. warning:: Only use native JavaScript or <a href="#mauticjs-api-functions">MauticJS API functions</a> since ``jQuery`` and other libraries aren't guaranteed to be available in third party websites.
 
-.. vale off
 
-Hooking into the Tracking Process and Returning Custom Responses
+Hooking into the tracking process and returning custom responses
 ****************************************************************
 
-.. vale on
 
-If you desire to do something during the request to track the Contact through ``/mtc/event`` or append to the payload returned to the tracking code which you can leverage by custom JavaScript injected through ``CoreEvents::BUILD_MAUTIC_JS``, subscribe to the ``PageEvents::ON_CONTACT_TRACKED`` event.
+If you need to do something during the request to track the Contact through ``/mtc/event``, or append to the payload returned to the tracking code which you can leverage by custom JavaScript injected through ``CoreEvents::BUILD_MAUTIC_JS``, subscribe to the ``PageEvents::ON_CONTACT_TRACKED`` event.
 The listener can inject a custom payload through the ``Mautic\PageBundle\Event\TrackingEvent::set`` method.
 This will expose the payload to the tracking code's ``mauticPageEventDelivered`` event in the ``detail.response.events`` object. See the PHP code example. 
 
 .. vale off
 
-JS Form Processing Hooks
+JavaScript Form processing hooks
 ************************
 
 .. vale on
@@ -108,9 +106,9 @@ In the example code, replace ``replaceWithFormName`` with the name of your Form.
 ``onValidate()``
 ================
 
-Called before default Form validation. You can use it to override the default Form validation.
+Called before default Form validation - use it to override the default Form validation.
 
-Return ``True`` to skip the default Form validation continue with Form processing.
+Return ``True`` to skip the default Form validation and continue with Form processing.
 Return ``False`` to skip the default Form validation and prevent the Form submission.
 Return ``null`` to execute default Form validation.
 
@@ -134,7 +132,7 @@ Return ``null`` to execute default Form validation.
 ``onValidateStart()``
 =====================
 
-Called at the beginning of the default Form validation. Receives no values and return value isn't required and not processed.
+Called at the beginning of the default Form validation, this receives no values and a return value isn't required and isn't processed.
 
 .. warning:: onValidateStart may not get executed if the default Form validation gets handled during the ``onValidate`` callback.
 
@@ -149,8 +147,8 @@ Called at the beginning of the default Form validation. Receives no values and r
 ``onValidateEnd(formValid)``
 ============================
 
-Called after all Form validations are complete, either the default validations and/or the ``onValidate`` callback, and before the Form gets submitted.
-Receives ``formValid`` to determine if the Form is valid. Return value isn't required and not processed.
+Called after all Form validations are complete - either the default validations and/or the ``onValidate`` callback - and before the Form gets submitted.
+Receives ``formValid`` to determine if the Form is valid. A return value isn't required and isn't processed.
 
 .. code-block:: js
 
@@ -163,7 +161,7 @@ Receives ``formValid`` to determine if the Form is valid. Return value isn't req
 ``onErrorMark(callbackData)``
 =============================
 
-Called during error marking. Receives a ``callbackData`` object. Return ``True`` to skip the default error marking.
+Called during error marking. It receives a ``callbackData`` object. Return ``True`` to skip the default error marking.
 
 .. code-block:: js
 
@@ -209,8 +207,8 @@ Return ``True`` to skip the default Form submission response processing.
 ``onResponseStart(response)``
 =============================
 
-Called at the beginning default Form submission response processing. Receives ``response`` containing the Form submission response.
-Return value isn't required and not processed.
+Called at the beginning of the default Form submission response processing. Receives ``response`` containing the Form submission response.
+Return value isn't required and isn't processed.
 
 .. warning:: onResponseStart may not get executed if the default response processing gets handled during the ``onResponse`` callback
 
@@ -234,7 +232,7 @@ Return value isn't required and not processed.
    };
 
 Called at the end default Form submission response processing. Receives ``response`` containing the Form submission response.
-Return value isn't required and not processed.
+Return value isn't required and isn't processed.
 
 .. warning:: onResponseEnd may not get executed if the default response processing gets handled during the ``onResponse`` callback
 
@@ -320,7 +318,7 @@ Called prior to going back to a previous page in the Form. Useful to adjust the 
 
 .. vale off
 
-MauticJS API Functions
+MauticJS API functions
 **********************
 
 .. vale on
@@ -342,7 +340,7 @@ It's used when submitting data via ``MauticJS.makeCORSRequest``.
 ``MauticJS.documentReady(functionName|function)``
 =================================================
 
-This method validates if the document has finished rendering, then execute the given function.
+This method validates if the document has finished rendering, then executes the given function.
 The function argument can be the name of a function or an anonymous function.
 
 .. code-block:: js
