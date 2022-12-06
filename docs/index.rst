@@ -59,7 +59,7 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
 
 .. toctree::
    :maxdepth: 2
-   :caption: Components
+   :caption: Extending Mautic
    :hidden:
 
    components/api
@@ -81,10 +81,18 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    components/queue
    components/reports
    components/security
-   components/sms
    components/tracking_script
    components/translator
    components/ui
+
+.. toctree::
+   :maxdepth: 2
+   :caption: REST API
+   :hidden:
+
+   rest_api/contacts
+   rest_api/reports
+   rest_api/text_messages
 
 Indices and tables
 ==================
