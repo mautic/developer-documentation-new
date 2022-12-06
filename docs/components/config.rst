@@ -12,7 +12,7 @@ You can define every configuration option you need. Make sure it has a default s
 This prevents Symfony from throwing errors if the parameter gets used during cache compilation or if accessed directly from the container without checking if it exists first.
 Defining the parameters in the Plugin's config file ensures that it always exists.
 
-To add config options to the Configuration section, you will need to add an :ref:`Event Listener<Event listeners>`, a config  :ref:`form type<Forms>`, and a specific view (TODO).
+To add config options to the Configuration section, you need to add an :ref:`Event Listener<Event listeners>`, a config  :ref:`form type<Forms>`, and a specific view (TODO).
 
 .. note:: To translate the Plugin's tab in the configuration Form, be sure to include ``mautic.config.tab.helloworld_config`` in the Plugin's messages.ini file. Replace helloworld_config with whatever you use as the ``formAlias`` when registering the Form in the event subscriber. You can find more on this below.
 
@@ -148,7 +148,7 @@ Remember that you must register the Form type through the Plugin's config in the
 Config Template
 ===============
 
-.. vale oon
+.. vale on
 
 .. code-block:: php
 
