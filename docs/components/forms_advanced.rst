@@ -27,7 +27,7 @@ Form data isn't automatically sanitized. Mautic provides a Form event subscriber
 
 In your :xref:`Form type class<Symfony 4 form classes>`, register the ``Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber`` event subscriber. 
  
-The array provided to ``CleanFormSubscriber`` should contain the names of the Form Fields as keys and the values the masks to use to sanitize the data. Any unspecified Form field uses the ``clean`` mask by default.
+The array provided to ``CleanFormSubscriber`` should contain the names of the Form Fields as keys and the values the masks to use to sanitize the data. Any unspecified Form Field uses the ``clean`` mask by default.
 
 .. code-block:: php
 
@@ -154,7 +154,7 @@ When registering a validation group in the Form type class, you can use a static
 Using constraints
 =================
 
-A :xref:`Form type service<Symfony 4 custom Form field type>` can also register :xref:`Constraints<Symfony 4 Form constraints>` when defining the Form fields.
+A :xref:`Form type service<Symfony 4 custom Form field type>` can also register :xref:`Constraints<Symfony 4 Form constraints>` when defining the Form Fields.
 
 .. code-block:: php
 
