@@ -22,11 +22,11 @@ Page A/B Test Winner Criteria
 *****************************
 
 Custom Landing Page A/B test winner criteria get handled exactly the same as :ref:`Email A/B test winner criteria<Email tokens and A/B testing>` with the only differences being that the ``callback`` function gets passed ``Mautic\PageBundle\Entity\Page $page`` and ``Mautic\PageBundle\Entity\Page $parent`` instead.
-Of course ``$children`` is an ArrayCollection of Page entities as well.
+``$children`` is an ArrayCollection of Page entities as well.
 
 .. vale on
 
-Please find a below an example of both Landing Page Tokens and Landing Page A/B Test Winner Criteria.
+Below is an example of both Landing Page Tokens and Landing Page A/B Test Winner Criteria.
 
 .. code-block:: php
 
