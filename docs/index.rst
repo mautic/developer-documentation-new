@@ -47,6 +47,7 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    :hidden:
 
    plugins/getting_started
+   plugins/autowiring
    plugins/mautic_vs_symfony
    plugins/dependencies
    plugins/structure
@@ -70,6 +71,7 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    components/core
    components/emails
    components/forms
+   components/forms_advanced
    components/integrations
    components/ip_lookups
    components/landing_pages

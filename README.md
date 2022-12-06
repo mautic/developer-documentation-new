@@ -20,6 +20,21 @@ For more background, our end goal, and to let us know if you want to help, pleas
 
 [![Link to YouTube video with explanation of the current developer documentation structure][YouTube video image]][YouTube video URL]
 
+## Adding a code sample
+
+Code samples get downloaded from GitHub to ensure that they're always up to date. If you want to add a new code sample, follow these two steps:
+
+1. Create a file in `docs/code_samples/` and add a permalink in there. Look at other files in that directory for examples. URLs should always start with `https://raw.githubusercontent.com/...` to ensure that Sphinx can download the file correctly.
+2. In any documentation file, add a `literalinclude` block to include the code, like so:
+
+```
+.. The link to this file is defined in docs/code_samples/helloworld_entity_world.py 
+.. literalinclude:: ../code_samples_downloaded/Entity_World.php
+    :language: php
+```
+
+Tip: downloaded files get cached in `docs/code_samples_downloaded` to prevent overloading GitHub with download requests. If you change the URL to a file, simply remove the cached file from `docs/code_samples_downloaded` and Sphinx automatically re-downloads it.
+
 ## Build documentation locally
 
 - [RST Syntax Cheatsheet][RST Cheatsheet]
@@ -34,7 +49,14 @@ The following provides instructions for how to build docs locally for visualizat
 4. CD into the docs directory `cd [path to this repo]/docs`
 5. Run `make html`
 6. This will generate HTML in docs/build/html. Setup a web server with the web root as docs/build/html or open docs/build/html/index.html in a browser.
- 
+
+## Troubleshooting
+
+If the build isn't working for some reason, here's some tips:
+
+- Try running the `make html` command in the terminal: `cd docs && make html`. This command normally provides a lot of additional context.
+- If the preview isn't working, click the `esbonio` section in the bottom right corner of the VS Code window. That rebuilds the docs and previews, and tells you if something is wrong.
+
 ### Vale
 Before pushing, run Vale and address suggestions and errors as applicable.
 1. Install [`vale`][Vale] 
