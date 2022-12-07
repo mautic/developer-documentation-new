@@ -2,14 +2,18 @@
 
 :orphan:
 
+.. vale off
+
 Sync engine
 ###########
+
+.. vale on
 
 The Sync Engine supports bidirectional syncing between Mautic's Contact and Companies with third party objects. The engine generates a "``sync report``" from Mautic that it converts to a "``sync order``" for the Integration to process. It then asks for a "``sync report``" from the Integration which it converts to a "``sync order``" for Mautic to process.
 
 When building the Report, Mautic or the Integration fetches the objects those either modified or created within the specified timeframe. If the Integration supports changes at the field level, it should tell the Report on a per-field basis when the field was last updated. Otherwise, it should tell the Report when the object itself was last modified. The "``sync judge``" uses these dates to determine which value to use in bi-directional sync.
 
-The sync is initiated using the ``mautic:integrations:sync`` command. For example::
+The ``mautic:integrations:sync`` command initiates the sync. For example::
 
     php bin/console mautic:integrations:sync HelloWorld --start-datetime="2020-01-01 00:00:00" --end-datetime="2020-01-02 00:00:00".
 
@@ -74,7 +78,7 @@ ____________________
 
 .. vale on
 
-The Sync Report tells the Sync Engine what objects are new and/or modified between the two timestamps given by the engine (or up to the Integration's discretion if it is a first-time sync). Objects should process in batches and ``RequestDAO::getSyncIteration()`` takes care of this batching. The Sync Engine executes ``SyncDataExchangeInterface::getSyncReport()`` until a Report comes back with no objects.
+The Sync Report tells the Sync Engine what objects are new and/or modified between the two timestamps given by the engine. It's up to the Integration's discretion if it's a first-time sync. Objects should process in batches and ``RequestDAO::getSyncIteration()`` takes care of this batching. The Sync Engine executes ``SyncDataExchangeInterface::getSyncReport()`` until a Report comes back with no objects.
 
 If the Integration supports field level change tracking, it should tell the Report so that the Sync Engine can merge the two data sets more accurately.
 
@@ -87,6 +91,6 @@ ________________________
 
 .. vale on
 
-The Sync Order contains all the changes the Sync Engine has determined, and these should report to the Integration. The Integration should communicate back the ID of any objects created or adjust objects as needed, such as if they get converted from one to another or deleted.
+The Sync Order contains all the changes the Sync Engine has determined, and these should inform the Integration. The Integration should communicate back the ID of any objects created or adjust objects as needed, such as if they get converted from one to another or deleted.
 
 See :xref:`OrderExecutioner`.

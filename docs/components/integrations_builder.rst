@@ -2,8 +2,12 @@
 
 :orphan:
 
+.. vale off
+
 Builder integrations
 #####################
+
+.. vale on
 
 Builders can register itself as a "builder" for Email and/or Landing Pages.
 
