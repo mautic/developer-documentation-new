@@ -356,10 +356,3 @@ Single sign-on
 **************
 
 .. vale on
-
-Todo:
-
-- ``\Mautic\UserBundle\UserEvents::USER_LOGIN``
-- ``\Mautic\UserBundle\UserEvents::USER_FORM_AUTHENTICATION``
-- ``\Mautic\UserBundle\UserEvents::USER_PRE_AUTHENTICATION``
-- ``\Mautic\UserBundle\UserEvents::USER_AUTHENTICATION_CONTENT``
