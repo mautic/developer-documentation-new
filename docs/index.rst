@@ -50,15 +50,16 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    plugins/autowiring
    plugins/mautic_vs_symfony
    plugins/dependencies
+   plugins/event_listeners
    plugins/structure
    plugins/config
-   plugins/event_listeners
    plugins/installation
    plugins/data
    plugins/translations
 
 .. toctree::
-   :caption: Components
+   :maxdepth: 2
+   :caption: Extending Mautic
    :hidden:
 
    components/api
@@ -80,10 +81,18 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    components/queue
    components/reports
    components/security
-   components/sms
    components/tracking_script
    components/translator
    components/ui
+
+.. toctree::
+   :maxdepth: 2
+   :caption: REST API
+   :hidden:
+
+   rest_api/contacts
+   rest_api/reports
+   rest_api/text_messages
 
 Indices and tables
 ==================
