@@ -349,10 +349,3 @@ Advanced ``isSupported`` logic
 
 The same applies for the method ``isSupported()`` which you can use to determine if a bundle or Plugin includes the requested permission and permission level.
 You can also use this to provide BC support.
-
-.. vale off
-
-Single sign-on
-**************
-
-.. vale on
