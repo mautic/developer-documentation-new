@@ -1,6 +1,6 @@
 
 Assets
-------
+######
 
 Use this endpoint to obtain details on Mautic's Assets.
 
