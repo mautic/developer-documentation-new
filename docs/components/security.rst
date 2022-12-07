@@ -102,7 +102,7 @@ As suggested in the preceding section, Mautic uses a special permission notation
 For core bundles, use ``bundleName:permissionLevel:permission``.
 For Plugins, append ``plugin:``, for example ``plugin:bundleName:permissionLevel:permission``. ``plugin:`` tells Mautic to look for the permission class in the ``plugins/`` directory and the ``MauticPlugin`` namespace. 
 
-Mautic the core bundle or Plugin to set permission levels and permissions. For example, Mautic's core UserBundle has ``users`` and ``roles`` levels with ``view``, ``edit``, ``create``, ``delete`` and ``full`` permissions for each. 
+Mautic's core bundles and external Plugins are responsible for setting the permission level and permissions. For example, Mautic's core UserBundle has ``users`` and ``roles`` levels with ``view``, ``edit``, ``create``, ``delete`` and ``full`` permissions for each. 
 
 .. note:: To validate whether a User has permissions to edit Roles, use ``$mauticSecurity->isGranted('user:roles:edit');``
 
@@ -238,9 +238,9 @@ Mautic provides a few helper methods for common permission sets:
    * - ``addStandardPermissions()``
      - Set view, edit, create, delete, publish - with option to exclude, and full permissions.
    * - ``addExtendedPermissions()``
-     - Set creator level restrictions: ``viewown``, ``viewother``, ``editown``, ``editother``, ``create``, ``deleteown``, ``deleteother``, ``publishown`` - with option to exclude, ``publishother`` - with option to exclude, and full
+     - Set creator level restrictions: ``viewown``, ``viewother``, ``editown``, ``editother``, ``create``, ``deleteown``, ``deleteother``, ``publishown`` - with option to exclude, ``publishother`` - with option to exclude, and ``full``
    * - ``addManagePermission()``
-     - Set single manage permission
+     - Add a single ``manage`` permission, which is the same as ``full``. Use this in cases where you only need a single permission for everything, also known as an "all or nothing" approach.
 
 
 **buildForm()**
