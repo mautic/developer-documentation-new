@@ -245,7 +245,7 @@ Mautic provides a way for Plugins to manage their schema changes through the Int
 
     namespace MauticPlugin\HelloWorldBundle;
 
-    use MauticPlugin\IntegrationsBundle\Bundle\AbstractPluginBundle;
+    use Mautic\IntegrationsBundle\Bundle\AbstractPluginBundle;
 
     class HelloWorldBundle extends AbstractPluginBundle
     {

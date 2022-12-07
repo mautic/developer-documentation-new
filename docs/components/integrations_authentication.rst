@@ -74,10 +74,7 @@ Find the code snippet as follows,
     {
         use ConfigurationTrait;
 
-        /**
-         * @var Client
-         */
-        private $client;
+        private Client $client;
 
         public function __construct(Client $client)
         {
@@ -126,9 +123,9 @@ Find the code snippet as follows,
 Authentication providers
 ************************
 
-The Integration bundle comes with a number of popular authentication protocols available to use as Guzzle clients. New ones should implement::
+The Integration bundle comes with a number of popular authentication protocols available to use as Guzzle clients. New ones should implement:
 
-    \Mautic\IntegrationsBundle\Auth\Provider\AuthProviderInterface.
+    ``\Mautic\IntegrationsBundle\Auth\Provider\AuthProviderInterface``
 
 **The examples below use anonymous classes. Use Object Oriented Programming with services and factories to generate credential, configuration, and client classes.**
 
@@ -423,7 +420,7 @@ The OAuth2 factories leverages :xref:`Guzzle Oauth2 Subscriber` as a middleware.
 Client configuration
 --------------------
 
-Both OAuth2 factories leverage the ``\Mautic\IntegrationsBundle\Auth\Provider\AuthConfigInterface`` object to manage things such as configuring the signer (basic auth, post form data, custom), token factory, token persistence, and token signer (bearer auth, basic auth, query string, custom). Use the appropriate interfaces as required for the use case (see the interfaces in ``plugins/IntegrationsBundle/Auth/Support/Oauth2/ConfigAccess``).
+Both OAuth2 factories leverage the ``\Mautic\IntegrationsBundle\Auth\Provider\AuthConfigInterface`` object to manage things such as configuring the signer (basic auth, post form data, custom), token factory, token persistence, and token signer (bearer auth, basic auth, query string, custom). Use the appropriate interfaces as required for the use case (see the interfaces in ``app/bundles/IntegrationsBundle/Auth/Support/Oauth2/ConfigAccess``).
 
 See :xref:`Guzzle Oauth2 Subscriber` for additional details on configuring the credentials and token signers or creating custom token persistence and factories.
 
@@ -678,10 +675,7 @@ The first step is to register the integration as a :ref:`\\Mautic\\IntegrationsB
     use Symfony\Component\HttpFoundation\Response;
 
     class AuthSupport implements AuthenticationInterface {
-        /**
-         * @var ClientInterface
-         */
-        private $client;
+        private ClientInterface $client;
 
         // ...
 

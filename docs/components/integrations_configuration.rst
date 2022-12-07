@@ -2,10 +2,14 @@
 
 :orphan:
 
+.. vale off
+
 Configuration integration
 #########################
 
-The Integration Plugin provides interfaces to display and store configuration options that can be accessed through the ``\Mautic\PluginBundle\Entity\Integration`` object.
+.. vale on
+
+The Integration Plugin provides interfaces to display and store configuration options. You can use the ``\Mautic\PluginBundle\Entity\Integration`` object for that.
 
 .. vale off
 
@@ -83,7 +87,7 @@ Find the code snippet as follows,
          * This should include things like API credentials, URLs, etc. All values from this form fields
          * will be encrypted before being persisted.
          *
-         * @link https://symfony.com/doc/2.8/form/create_custom_field_type.html#defining-the-field-type
+         * @link https://symfony.com/doc/4.4/form/create_custom_field_type.html#defining-the-form-type
          *
          * @return string
          */
@@ -97,10 +101,14 @@ Find the code snippet as follows,
 Interfaces
 **********
 
-There are multiple interfaces that can be used to add Form Fields options to the provided configuration tabs.
+There are multiple interfaces that you can use to add Form Fields options to the provided configuration tabs.
+
+.. vale off
 
 Enabled/auth tab
 ================
+
+.. vale on
 
 These interfaces provide the configuration options for authenticating with the third party service. Read more about how to use IntegrationsBundle's  :ref:`auth providers here<Authentication Providers>`.
 
@@ -112,7 +120,7 @@ ConfigFormAuthInterface
 
 .. vale on
 
-The ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormAuthInterface``, interface provides the Symfony Form type class that defines the fields to be stored as the API keys.
+The ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormAuthInterface`` interface provides the Symfony Form type class that defines the fields to get stored as the API keys.
 
 .. php:interface:: \Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormAuthInterface
 
@@ -157,7 +165,7 @@ ConfigFormFeatureSettingsInterface
 
 .. vale on
 
-The interface, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeatureSettingsInterface``, provides the Symfony Form type class that defines the fields to be displayed on the Features tab. These values are not encrypted.
+The interface ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeatureSettingsInterface`` provides the Symfony Form type class. It determines what fields to display on the Features tab. These values aren't encrypted.
 
 .. php:interface:: \Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeatureSettingsInterface
 
