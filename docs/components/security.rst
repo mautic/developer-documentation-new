@@ -285,7 +285,7 @@ Permission aliases
     }
 
 To add a permission alias, use the ``getSynonym()`` method.
-Basically this method gets called before each requested permission gets determined giving opportunity to change the permission level or name as needed.
+Basically this method gets called before each requested permission gets determined, giving opportunity to change the permission level or name as needed.
 
 For example, ``parent::getSynonym()`` will recognize ``editown`` as ``edit`` if ``editown`` isn't defined in the permission class' ``$this->permissions`` property for the requested level.
 
@@ -342,7 +342,7 @@ In this case, the argument ``$isSecondRound`` is true.
 Advanced ``isGranted`` logic
 ============================
 
-If it's necessary to perform some logic other than simply comparing bits, the permission class can override the parent's ``public function isGranted($userPermissions, $name, $level)`` and do whatever is necessary for it's own permission levels and individual permissions.
+If it's necessary to perform some logic other than simply comparing bits, the permission class can override the parent's ``public function isGranted($userPermissions, $name, $level)`` and do whatever is necessary for its own permission levels and individual permissions.
 
 Advanced ``isSupported`` logic
 ==============================
