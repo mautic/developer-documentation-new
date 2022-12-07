@@ -1,6 +1,6 @@
 [![Documentation Status][RTD badge URL]][RTD URL]
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/mautic/developer-documentation-new)
@@ -118,9 +118,12 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
-  <tr>
-    <td align="center"><a href="https://robert-parker.me"><img src="https://avatars.githubusercontent.com/u/25473863?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Robert Parker</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=diaboloshogunate" title="Documentation">📖</a></td>
-  </tr>
+  <tbody>
+    <tr>
+      <td align="center"><a href="https://robert-parker.me"><img src="https://avatars.githubusercontent.com/u/25473863?v=4?s=100" width="100px;" alt="Robert Parker"/><br /><sub><b>Robert Parker</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=diaboloshogunate" title="Documentation">📖</a></td>
+      <td align="center"><a href="https://github.com/shinde-rahul"><img src="https://avatars.githubusercontent.com/u/1046788?v=4?s=100" width="100px;" alt="Rahul Shinde"/><br /><sub><b>Rahul Shinde</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=shinde-rahul" title="Documentation">📖</a></td>
+    </tr>
+  </tbody>
 </table>
 
 <!-- markdownlint-restore -->
