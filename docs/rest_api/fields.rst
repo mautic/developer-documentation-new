@@ -2,7 +2,7 @@
 Fields
 ######
 
-Use this endpoint to work with Mautic's Contact/company fields.
+Use this endpoint to work with Mautic's Contact/Company fields.
 
 **Using Mautic's API Library**
 
