@@ -23,7 +23,7 @@ You can interact with this API through the :xref:`Mautic API Library` as follows
 
 .. vale off
 
-Get asset
+Get Asset
 **********
 
 .. vale on
@@ -65,16 +65,16 @@ Get an individual Asset by ID.
            "publishDown": "2015-06-30T06:28:27+00:00",
            "dateAdded": "2015-06-07T06:28:27+00:00",
            "createdBy": 1,
-           "createdByUser": "Joe Smith",
+           "createdByUser": "Rahel Herschel",
            "dateModified": "2015-06-010T09:30:47+00:00",
            "modifiedBy": 1,
-           "modifiedByUser": "Joe Smith",
+           "modifiedByUser": "Rahel Herschel",
            "downloadCount": 10,
            "uniqueDownloadCount": 8,
            "revision": 1,
            "category": {
-               "createdByUser": "John Doe",
-               "modifiedByUser": "John Doe",
+               "createdByUser": "Yoav Andrysiak",
+               "modifiedByUser": "Yoav Andrysiak",
                "id": 19,
                "title": "test",
                "alias": "test",
@@ -85,7 +85,7 @@ Get an individual Asset by ID.
            "extension": "pdf",
            "mime": "application/pdf",
            "size": 269128,
-           "downloadUrl": "https://your-mautic.com/asset/1:whitepaper"
+           "downloadUrl": "https://example.com/asset/1:whitepaper"
        }
    }
 
@@ -117,13 +117,13 @@ Get an individual Asset by ID.
      - Published state
    * - ``publishUp``
      - datetime/null
-     - Date/time when the Asset should gets published
+     - Asset publish date/time
    * - ``publishDown``
      - datetime/null
-     - Date/time the Asset should gets published
+     - Asset unpublish date/time
    * - ``dateAdded``
      - ``datetime``
-     - Date/time Asset got created
+     - Asset creation date/time
    * - ``createdBy``
      - int
      - ID of the User that created the Asset
@@ -132,7 +132,7 @@ Get an individual Asset by ID.
      - Name of the User that created the Asset
    * - ``dateModified``
      - datetime/null
-     - Date/time Asset was last modified
+     - Asset modified date/time
    * - ``modifiedBy``
      - int
      - ID of the User that last modified the Asset
@@ -194,19 +194,19 @@ List assets
    * - Name
      - Description
    * - ``search``
-     - String or search command to filter entities by.
+     - String or search command to filter entities by
    * - ``start``
-     - Starting row for the entities returned. Defaults to 0.
+     - Starting row for the entities returned, defaults to 0
    * - ``limit``
-     - Limit number of entities to return. Defaults to the system configuration for pagination, which defaults to 30.
+     - Limit number of entities to return, defaults to the system configuration for pagination - default of 30
    * - ``orderBy``
-     - Column to sort by. Can use any column listed in the response.
+     - Column to sort by, can use any column listed in the response
    * - ``orderByDir``
-     - Sort direction: ``asc`` or ``desc``.
+     - Sort direction: ``asc`` or ``desc``
    * - ``publishedOnly``
-     - Only return currently published entities.
+     - Only return currently published entities
    * - ``minimal``
-     - Return only array of entities without additional lists in it.
+     - Return only array of entities without additional lists in it
 
 
 **Response**
@@ -229,10 +229,10 @@ List assets
                "publishDown": "2015-06-30T06:28:27+00:00",
                "dateAdded": "2015-06-07T06:28:27+00:00",
                "createdBy": 1,
-               "createdByUser": "Joe Smith",
+               "createdByUser": "Wayne Costa",
                "dateModified": "2015-06-010T09:30:47+00:00",
                "modifiedBy": 1,
-               "modifiedByUser": "Joe Smith",
+               "modifiedByUser": "Wayne Costa",
                "downloadCount": 10,
                "uniqueDownloadCount": 8,
                "revision": 1,
@@ -240,7 +240,7 @@ List assets
                "extension": "pdf",
                "mime": "application/pdf",
                "size": 269128,
-               "downloadUrl": "https://your-mautic.com/asset/1:whitepaper"
+               "downloadUrl": "https://example.com/asset/1:whitepaper"
            }
        ]
    }
@@ -251,7 +251,7 @@ Same as `Get Asset <#get-asset>`_.
 
 .. vale off
 
-Create asset
+Create Asset
 ************
 
 .. vale on
@@ -317,7 +317,7 @@ Create a new Asset. There are 2 options: local or remote Asset.
      - Storage location can be local or remote
    * - ``file``
      - string
-     - Either URL for remote file or filename for local file.
+     - Either URL for remote file or filename for local file
 
 
 **Response**
@@ -330,7 +330,7 @@ Same as `Get Asset <#get-asset>`_.
 
 .. vale off
 
-Edit asset
+Edit Asset
 **********
 
 .. vale on
@@ -344,14 +344,14 @@ Edit asset
        'type' => 'general',
    );
 
-   // Create new a Asset of ID 1 isn't found?
+   // Create new a Asset if ID 1 isn't found?
    $createIfNotFound = true;
 
    $asset = $assetApi->edit($id, $data, $createIfNotFound);
 
-Edit a new Asset. Asset that this supports PUT or PATCH depending on the desired behavior.
+Edit a new Asset. This supports PUT or PATCH depending on the desired behavior.
 
-**PUT** creates a Asset if the given ID doesn't exist and clears all the Asset information, adds the information from the request.
+**PUT** creates a Asset if the given ID doesn't exist and clears all the Asset information, adding the information from the request.
 **PATCH** fails if the Asset with the given ID doesn't exist and updates the Asset field values with the values from the request.
 
 .. vale off
@@ -384,14 +384,14 @@ To edit a Asset and create a new one if the Asset isn't found:
      - Storage location can be local or remote
    * - ``file``
      - string
-     - Either URL for remote file or filename for local file.
+     - Either URL for remote file or filename for local file
 
 
 **Response**
 
-If ``PUT``\ , the expected response code is ``200`` if the Asset got edited or ``201`` if created.
+If ``PUT``\ , the expected response code if editing the Asset is ``200`` or ``201`` if created.
 
-If ``PATCH``\ , the expected response code is ``200``.
+If using ``PATCH``\ , the expected response code is ``200``.
 
 **Properties**
 
@@ -399,7 +399,7 @@ Same as `Get Asset <#get-asset>`_.
 
 .. vale off
 
-Delete asset
+Delete Asset
 ************
 
 .. vale on

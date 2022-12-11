@@ -2,7 +2,7 @@
 Categories
 ##########
 
-Use this endpoint to obtain details on Mautic'sCategories or to manipulate Category memberships.
+Use this endpoint to obtain details on Mautic's Categories, or to manipulate Category memberships.
 
 **Using Mautic's API Library**
 
@@ -17,7 +17,7 @@ You can interact with this API through the :xref:`Mautic API Library` as follows
    // ...
    $initAuth    = new ApiAuth();
    $auth        = $initAuth->newAuth($settings);
-   $apiUrl      = "https://your-mautic.com";
+   $apiUrl      = "https://example.com";
    $api         = new MauticApi();
    $categoryApi = $api->newApi("categories", $auth, $apiUrl);
 
@@ -64,7 +64,7 @@ Get an individual Category by ID.
 
 See JSON code example.
 
-**Category Properties**
+**Category properties**
 
 .. list-table::
    :header-rows: 1
@@ -80,7 +80,7 @@ See JSON code example.
      - Published status of the Category
    * - ``dateAdded``
      - ``datetime``
-     - Date/time Category got created
+     - Category creation date/time
    * - ``createdBy``
      - int
      - ID of the User that created the Category
@@ -89,7 +89,7 @@ See JSON code example.
      - Name of the User that created the Category
    * - ``dateModified``
      - datetime/null
-     - Date/time Category was last modified
+     - Category modified date/time
    * - ``modifiedBy``
      - int
      - ID of the User that last modified the Category
@@ -114,7 +114,7 @@ See JSON code example.
 
 .. vale off
 
-List contact categories
+List Contact Categories
 ***********************
 
 .. vale on
@@ -126,7 +126,7 @@ List contact categories
    //...
    $categories = $categoryApi->getList($searchFilter, $start, $limit, $orderBy, $orderByDir, $publishedOnly, $minimal);
 
-Returns a list of ContactCategories available to the User. This list isn't filterable.
+Returns a list of Contact Categories available to the User. This list isn't filterable.
 
 .. vale off
 
@@ -156,7 +156,7 @@ Returns a list of ContactCategories available to the User. This list isn't filte
      ]
    }
 
-**Category Properties**
+**Category properties**
 
 .. list-table::
    :header-rows: 1
@@ -172,7 +172,7 @@ Returns a list of ContactCategories available to the User. This list isn't filte
      - Published status of the Category
    * - ``dateAdded``
      - ``datetime``
-     - Date/time Category got created
+     - Category creation date/time
    * - ``createdBy``
      - int
      - ID of the User that created the Category
@@ -181,7 +181,7 @@ Returns a list of ContactCategories available to the User. This list isn't filte
      - Name of the User that created the Category
    * - ``dateModified``
      - datetime/null
-     - Date/time Category was last modified
+     - Category modified date/time
    * - ``modifiedBy``
      - int
      - ID of the User that last modified the Category
@@ -206,7 +206,7 @@ Returns a list of ContactCategories available to the User. This list isn't filte
 
 .. vale off
 
-Create category
+Create Category
 ***************
 
 .. vale on
@@ -217,7 +217,7 @@ Create category
 
    $data = array(
        'categoryname' => 'test',
-       'categoryemail' => 'test@category.com',
+       'categoryemail' => 'test@example.com',
        'categorycity' => 'Raleigh',
    );
 
@@ -233,7 +233,7 @@ Create a new Category.
 
 ``POST /categories/new``
 
-**POST Parameters**
+**POST parameters**
 
 .. list-table::
    :header-rows: 1
@@ -259,7 +259,7 @@ Same as `Get Category <#get-category>`_.
 
 .. vale off
 
-Edit category
+Edit Category
 *************
 
 .. vale on
@@ -274,7 +274,7 @@ Edit category
        'bundle' => 'asset'
    );
 
-   // Create new a Category of ID 1 isn't found?
+   // Create new a Category if ID 1 isn't found?
    $createIfNotFound = true;
 
    $category = $categoryApi->edit($id, $data, $createIfNotFound);
@@ -298,7 +298,7 @@ To edit a Category and create a new one if the Category isn't found:
 
 ``PUT /categories/ID/edit``
 
-**POST Parameters**
+**POST parameters**
 
 .. list-table::
    :header-rows: 1
@@ -316,7 +316,7 @@ To edit a Category and create a new one if the Category isn't found:
 
 **Response**
 
-If ``PUT``, the expected response code is ``200`` if the Category got edited or ``201`` if created.
+If using ``PUT``, the expected response code is ``200`` if editing the Category or ``201`` if creating the Category.
 
 If ``PATCH``, the expected response code is ``200``.
 
@@ -326,7 +326,7 @@ Same as `Get Category <#get-category>`_.
 
 .. vale off
 
-Delete category
+Delete Category
 ***************
 
 .. vale on
@@ -357,12 +357,12 @@ Same as `Get Category <#get-category>`_.
 
 .. vale off
 
-Assign a category
+Assign a Category
 *****************
 
 .. vale on
 
-To assign a Category to an entity, simply set ``category = [ID]`` to the payload. For example, this is how you can assign Category 123 to a new Asset:
+To assign a Category to an entity, set ``category = [ID]`` to the payload. For example, this is how you can assign Category 123 to a new Asset:
 
 .. code-block:: php
 
@@ -375,4 +375,4 @@ To assign a Category to an entity, simply set ``category = [ID]`` to the payload
 
    $asset = $assetApi->create($data);
 
-The Category must exist in the Mautic instance and the entity must support Categories,
+The Category must exist in the Mautic instance, and the entity must support Categories.

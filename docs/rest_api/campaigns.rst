@@ -17,13 +17,13 @@ You can interact with this API through the :xref:`Mautic API Library` as follows
    // ...
    $initAuth    = new ApiAuth();
    $auth        = $initAuth->newAuth($settings);
-   $apiUrl      = "https://your-mautic.com";
+   $apiUrl      = "https://example.com";
    $api         = new MauticApi();
    $campaignApi = $api->newApi("campaigns", $auth, $apiUrl);
 
 .. vale off
 
-Get campaign
+Get Campaign
 ************
 
 .. vale on
@@ -61,10 +61,10 @@ Get an individual Campaign by ID.
            "publishDown": null,
            "dateAdded": "2015-07-15T15:06:02-05:00",
            "createdBy": 1,
-           "createdByUser": "Joe Smith",
+           "createdByUser": "Delfina Henderson",
            "dateModified": "2015-07-20T13:11:56-05:00",
            "modifiedBy": 1,
-           "modifiedByUser": "Joe Smith",
+           "modifiedByUser": "Iris Durand",
            "category": null,
            "events": {
                "28": {
@@ -114,13 +114,13 @@ Get an individual Campaign by ID.
      - Published state
    * - ``publishUp``
      - datetime/null
-     - Date/time when the Campaign should get published
+     - Campaign publish date/time
    * - ``publishDown``
      - datetime/null
-     - Date/time the Campaign should get unpublished
+     - Campaign unpublish date/time
    * - ``dateAdded``
      - ``datetime``
-     - Date/time Campaign got created
+     - Campaign creation date/time
    * - ``createdBy``
      - int
      - ID of the User that created the Campaign
@@ -129,7 +129,7 @@ Get an individual Campaign by ID.
      - Name of the User that created the Campaign
    * - ``dateModified``
      - datetime/null
-     - Date/time Campaign was last modified
+     - Campaign modified date/time
    * - ``modifiedBy``
      - int
      - ID of the User that last modified the Campaign
@@ -138,7 +138,7 @@ Get an individual Campaign by ID.
      - Name of the User that last modified the Campaign
    * - ``events``
      - array
-     - Array of Event entities for the Campaign. See below.
+     - Array of Event entities for the Campaign - see below
 
 
 **Event Properties**
@@ -190,11 +190,11 @@ Get an individual Campaign by ID.
      - This event's parent
    * - ``decisionPath``
      - string/null
-     - If the event connects to an action, this value is "no" for the non-decision path or "yes" for the actively followed path.
+     - If the event connects to an action, this value is "no" for the non-decision path or "yes" for the actively followed path
 
 .. vale off
 
-List campaigns
+List Campaigns
 **************
 
 .. vale on
@@ -222,19 +222,19 @@ List campaigns
    * - Name
      - Description
    * - ``search``
-     - String or search command to filter entities by.
+     - String or search command to filter entities by
    * - ``start``
-     - Starting row for the entities returned. Defaults to 0.
+     - Starting row for the entities returned, defaults to 0
    * - ``limit``
-     - Limit number of entities to return. Defaults to the system configuration for pagination, which defaults to 30.
+     - Limit number of entities to return, defaults to the system configuration for pagination - default of 30
    * - ``orderBy``
-     - Column to sort by. Can use any column listed in the response.
+     - Column to sort by, can use any column listed in the response
    * - ``orderByDir``
-     - Sort direction: ``asc`` or ``desc``.
+     - Sort direction: ``asc`` or ``desc``
    * - ``published``
-     - Only return currently published entities.
+     - Only return currently published entities
    * - ``minimal``
-     - Return only array of entities without additional lists in it.
+     - Return only array of entities without additional lists in it
 
 
 **Response**
@@ -255,10 +255,10 @@ List campaigns
                "publishDown": null,
                "dateAdded": "2015-07-15T15:06:02-05:00",
                "createdBy": 1,
-               "createdByUser": "Joe Smith",
+               "createdByUser": "Lucine Van der Zee",
                "dateModified": "2015-07-20T13:11:56-05:00",
                "modifiedBy": 1,
-               "modifiedByUser": "Joe Smith",
+               "modifiedByUser": "Lucine Van der Zee",
                "category": null,
                "events": {
                    "22": {
@@ -353,7 +353,7 @@ This endpoint is basically an alias for the stats endpoint with ``campaign_leads
 
 .. vale off
 
-Create campaign
+Create Campaign
 ***************
 
 .. vale on
@@ -370,7 +370,7 @@ Create campaign
 
    $campaign = $campaignApi->create($data);
 
-Create a new Campaign. To see more advanced example with Campaign events and so on, see the unit tests.
+Create a new Campaign. To see a more advanced example with Campaign events and so on, see the unit tests.
 
 .. vale off
 
@@ -412,7 +412,7 @@ Same as `Get Campaign <#get-campaign>`_.
 
 .. vale off
 
-Clone a campaign
+Clone a Campaign
 ****************
 
 .. vale on
@@ -425,7 +425,7 @@ Clone a campaign
 
    $campaign = $campaignApi->cloneCampaign($campaignId);
 
-Clone an existing Campaign. To see more advanced example with Campaign events and so on, see the unit tests.
+Clone an existing Campaign. To see a more advanced example with Campaign events and so on, see the unit tests.
 
 .. vale off
 
@@ -460,7 +460,7 @@ Edit campaign
        'isPublished' => 0
    );
 
-   // Create new a Campaign of ID 1 isn't found?
+   // Create new a Campaign if ID 1 isn't found?
    $createIfNotFound = true;
 
    $campaign = $campaignApi->edit($id, $data, $createIfNotFound);
@@ -503,9 +503,9 @@ To edit a Campaign and create a new one if the Campaign isn't found:
 
 **Response**
 
-If ``PUT``, the expected response code is ``200`` if the Campaign got edited or ``201`` if created.
+If using ``PUT``, the expected response code is ``200`` if editing the Campaign, or ``201`` if creating a Campaign.
 
-If ``PATCH``, the expected response code is ``200``.
+If using ``PATCH``, the expected response code is ``200``.
 
 **Properties**
 
@@ -513,7 +513,7 @@ Same as `Get Campaign <#get-campaign>`_.
 
 .. vale off
 
-Delete campaign
+Delete Campaign
 ***************
 
 .. vale on
@@ -544,7 +544,7 @@ Same as `Get Campaign <#get-campaign>`_.
 
 .. vale off
 
-Add contact to a campaign
+Add Contact to a Campaign
 *************************
 
 .. vale on
@@ -581,7 +581,7 @@ Manually add a Contact to a specific Campaign.
 
 .. vale off
 
-Remove contact from a campaign
+Remove Contact from a Campaign
 ******************************
 
 .. vale on

@@ -17,7 +17,7 @@ You can interact with this API through the :xref:`Mautic API Library` as follows
    // ...
    $initAuth = new ApiAuth();
    $auth     = $initAuth->newAuth($settings);
-   $apiUrl   = "https://your-mautic.com";
+   $apiUrl   = "https://example.com";
    $api      = new MauticApi();
    $assetApi = $api->newApi("assets", $auth, $apiUrl);
 
@@ -27,12 +27,10 @@ You can interact with this API through the :xref:`Mautic API Library` as follows
    // Or use 'companyFields' for company fields:
    $fieldApi = $api->newApi("companyFields", $auth, $apiUrl);
 
-.. vale off
 
 Get field
 *********
 
-.. vale on
 
 .. code-block:: php
 
@@ -63,7 +61,7 @@ Get an individual field by ID.
        "isPublished":true,
        "dateAdded":"2016-11-10T13:02:52+00:00",
        "createdBy":1,
-       "createdByUser":"John Doe",
+       "createdByUser":"Sharru-Ukin Kumar",
        "dateModified":null,
        "modifiedBy":null,
        "modifiedByUser":null,
@@ -98,13 +96,13 @@ Get an individual field by ID.
      - Published state
    * - ``publishUp``
      - datetime/null
-     - Date/time when the field should get published
+     - Field publish date/time
    * - ``publishDown``
      - datetime/null
-     - Date/time the field should get u published
+     - Field unpublish date/time
    * - ``dateAdded``
      - ``datetime``
-     - Date/time field got created
+     - Field creation date/time
    * - ``createdBy``
      - int
      - ID of the User that created the field
@@ -113,7 +111,7 @@ Get an individual field by ID.
      - Name of the User that created the field
    * - ``dateModified``
      - datetime/null
-     - Date/time field was last modified
+     - Field modified date/time
    * - ``modifiedBy``
      - int
      - ID of the User that last modified the field
@@ -140,26 +138,26 @@ Get an individual field by ID.
      - Order number of the field
    * - ``object``
      - string
-     - Which object use the field. Contact or Company.
+     - Which object uses the field, Contact or Company
    * - ``defaultValue``
      - string
-     - Default value of the field.
+     - Default value of the field
    * - ``isRequired``
      - boolean
-     - ``true`` if this is a required field.
+     - ``true`` if this is a required field
    * - ``isPubliclyUpdatable``
      - boolean
-     - ``true`` if the field value can get changed from public requests. The tracking pixel query for example.
+     - ``true`` if the field value can be changed from public requests - the tracking pixel query for example
    * - ``isUniqueIdentifier``
      - boolean
-     - ``true`` if the field is unique identifier and so the Contacts should merge if the value of this field is the same.
+     - ``true`` if the field is a unique identifier, therefore Contacts should merge if the value of this field is the same
    * - ``properties``
      - array
      - Field options if the field type needs some. 
 
 .. vale off
 
-List contact fields
+List Contact fields
 *******************
 
 .. vale on
@@ -180,10 +178,10 @@ List contact fields
          "isPublished":true,
          "dateAdded":"2016-10-12T11:31:13+00:00",
          "createdBy":1,
-         "createdByUser":"John Doe",
+         "createdByUser":"Judith Czinege",
          "dateModified":"2016-10-12T11:31:30+00:00",
          "modifiedBy":1,
-         "modifiedByUser":"John Doe",
+         "modifiedByUser":"Judith Czinege",
          "id":100,
          "label":"Multiselect test",
          "alias":"multiselect_test",
@@ -223,19 +221,19 @@ List contact fields
    * - Name
      - Description
    * - ``search``
-     - String or search command to filter entities by.
+     - String or search command to filter entities by
    * - ``start``
-     - Starting row for the entities returned. Defaults to 0.
+     - Starting row for the entities returned, defaults to 0
    * - ``limit``
-     - Limit number of entities to return. Defaults to the system configuration for pagination, which defaults to 30.
+     - Limit number of entities to return, defaults to the system configuration for pagination - defaults to 30
    * - ``orderBy``
-     - Column to sort by. Can use any column listed in the response.
+     - Column to sort by, can use any column listed in the response
    * - ``orderByDir``
-     - Sort direction: ``asc`` or ``desc``.
+     - Sort direction: ``asc`` or ``desc``
    * - ``publishedOnly``
-     - Only return currently published entities.
+     - Only return currently published entities
    * - ``minimal``
-     - Return only array of entities without additional lists in it.
+     - Return only array of entities without additional lists in it
 
 
 .. vale off
@@ -252,7 +250,7 @@ List contact fields
 
 See JSON code example.
 
-**Field Properties**
+**Field properties**
 
 .. list-table::
    :header-rows: 1
@@ -268,13 +266,13 @@ See JSON code example.
      - Published state
    * - ``publishUp``
      - datetime/null
-     - Date/time when the field should get published
+     - Field publish date/time
    * - ``publishDown``
      - datetime/null
-     - Date/time the field should get unpublished
+     - Field unpublish date/time
    * - ``dateAdded``
      - ``datetime``
-     - Date/time field got created
+     - Field creation date/time
    * - ``createdBy``
      - int
      - ID of the User that created the field
@@ -283,7 +281,7 @@ See JSON code example.
      - Name of the User that created the field
    * - ``dateModified``
      - datetime/null
-     - Date/time field was last modified
+     - Field modified date/time
    * - ``modifiedBy``
      - int
      - ID of the User that last modified the field
@@ -310,22 +308,22 @@ See JSON code example.
      - Order number of the field
    * - ``object``
      - string
-     - Which object use the field. Contact or Company.
+     - Which object uses the field\ Contact or Company
    * - ``defaultValue``
      - string
-     - Default value of the field.
+     - Default value of the field
    * - ``isRequired``
      - boolean
-     - ``true`` if this is a required field.
+     - ``true`` if this is a required field
    * - ``isPubliclyUpdatable``
      - boolean
-     - ``true`` if the field value can get changed from public requests. The tracking pixel query for example.
+     - ``true`` if the field value can be changed from public requests - the tracking pixel query for example
    * - ``isUniqueIdentifier``
      - boolean
-     - ``true`` if the field is unique identifier and so the Contacts should merge if the value of this field is the same.
+     - ``true`` if the field is a unique identifier therefore Contacts should merge if the value of this field is the same
    * - ``properties``
      - array
-     - Field options if the field type needs some. 
+     - Field options if the field type needs some
 
 .. vale off
 
@@ -345,7 +343,7 @@ Create field
 
    $field = $fieldApi->create($data);
 
-**Multiselect Field**
+**Multiselect field**
 
 .. code-block:: php
 
@@ -381,7 +379,7 @@ Create a new field.
 
 ``POST /fields/contact/new`` or ``POST /fields/company/new``
 
-**POST Parameters**
+**POST parameters**
 
 .. list-table::
    :header-rows: 1
@@ -409,22 +407,22 @@ Create a new field.
      - Order number of the field
    * - ``object``
      - string
-     - Which object use the field. Contact or Company.
+     - Which object uses the field, Contact or Company
    * - ``defaultValue``
      - string
-     - Default value of the field.
+     - Default value of the field
    * - ``isRequired``
      - boolean
-     - ``true`` if this is a required field.
+     - ``true`` if this is a required field
    * - ``isPubliclyUpdatable``
      - boolean
-     - ``true`` if the field value can get changed from public requests. The tracking pixel query for example.
+     - ``true`` if the field value can be changed from public requests - the tracking pixel query for example
    * - ``isUniqueIdentifier``
      - boolean
-     - ``true`` if the field is unique identifier and so the Contacts should merge if the value of this field is the same.
+     - ``true`` if the field is unique identifier and so the Contacts should merge if the value of this field is the same
    * - ``properties``
      - array
-     - Field options if the field type needs some. 
+     - Field options if the field type needs some
 
 
 **Response**
@@ -452,7 +450,7 @@ Edit field
        'type' => 'text',
    );
 
-   // Create new a field of ID 1 isn't found?
+   // Create new a field if ID 1 isn't found?
    $createIfNotFound = true;
 
    $field = $fieldApi->edit($id, $data, $createIfNotFound);
@@ -504,29 +502,29 @@ To edit a field and create a new one if the field isn't found:
      - Order number of the field
    * - ``object``
      - string
-     - Which object use the field. Contact or Company.
+     - Which object uses the field, Contact or Company
    * - ``defaultValue``
      - string
-     - Default value of the field.
+     - Default value of the field
    * - ``isRequired``
      - boolean
-     - ``true`` if this is a required field.
+     - ``true`` if this is a required field
    * - ``isPubliclyUpdatable``
      - boolean
-     - ``true`` if the field value can get changed from public requests. The tracking pixel query for example.
+     - ``true`` if the field value can be changed from public requests - the tracking pixel query for example
    * - ``isUniqueIdentifier``
      - boolean
-     - ``true`` if the field is unique identifier and so the Contacts should merge if the value of this field is the same.
+     - ``true`` if the field is a unique identifier and therefore Contacts should merge if the value of this field is the same
    * - ``properties``
      - array
-     - Field options if the field type needs some. 
+     - Field options if the field type needs some.
 
 
 **Response**
 
-If ``PUT``, the expected response code is ``200`` if the field got edited or ``201`` if created.
+If using ``PUT``, the expected response code is ``200`` if editing the field or ``201`` if creating the field.
 
-If ``PATCH``, the expected response code is ``200``.
+If using ``PATCH``, the expected response code is ``200``.
 
 **Properties**
 
