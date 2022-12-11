@@ -17,7 +17,7 @@ You can interact with this API through the :xref:`Mautic API Library` as follows
    // ...
    $initAuth = new ApiAuth();
    $auth     = $initAuth->newAuth($settings);
-   $apiUrl   = "https://your-mautic.com";
+   $apiUrl   = "https://example.com";
    $api      = new MauticApi();
    $assetApi = $api->newApi("Assets", $auth, $apiUrl);
 

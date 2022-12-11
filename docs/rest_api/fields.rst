@@ -147,7 +147,7 @@ Get an individual field by ID.
      - ``true`` if this is a required field
    * - ``isPubliclyUpdatable``
      - boolean
-     - ``true`` if the field value can be changed from public requests - the tracking pixel query for example
+     - ``true`` if public requests can change the field value - the tracking pixel query for example
    * - ``isUniqueIdentifier``
      - boolean
      - ``true`` if the field is a unique identifier, therefore Contacts should merge if the value of this field is the same
@@ -317,7 +317,7 @@ See JSON code example.
      - ``true`` if this is a required field
    * - ``isPubliclyUpdatable``
      - boolean
-     - ``true`` if the field value can be changed from public requests - the tracking pixel query for example
+     - ``true`` if public requests can change the field value - the tracking pixel query for example
    * - ``isUniqueIdentifier``
      - boolean
      - ``true`` if the field is a unique identifier therefore Contacts should merge if the value of this field is the same
@@ -416,7 +416,7 @@ Create a new field.
      - ``true`` if this is a required field
    * - ``isPubliclyUpdatable``
      - boolean
-     - ``true`` if the field value can be changed from public requests - the tracking pixel query for example
+     - ``true`` if public requests can change the field value - the tracking pixel query for example
    * - ``isUniqueIdentifier``
      - boolean
      - ``true`` if the field is unique identifier and so the Contacts should merge if the value of this field is the same
@@ -511,7 +511,7 @@ To edit a field and create a new one if the field isn't found:
      - ``true`` if this is a required field
    * - ``isPubliclyUpdatable``
      - boolean
-     - ``true`` if the field value can be changed from public requests - the tracking pixel query for example
+     - ``true`` if public requests can change the field value - the tracking pixel query for example
    * - ``isUniqueIdentifier``
      - boolean
      - ``true`` if the field is a unique identifier and therefore Contacts should merge if the value of this field is the same
