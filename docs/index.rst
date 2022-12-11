@@ -90,7 +90,11 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    :caption: REST API
    :hidden:
 
+   rest_api/assets
+   rest_api/campaigns
+   rest_api/categories
    rest_api/contacts
+   rest_api/fields
    rest_api/reports
    rest_api/text_messages
 
