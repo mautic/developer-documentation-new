@@ -64,7 +64,7 @@ The Plugin's root bundle class should extend ``MauticPlugin\IntegrationsBundle\B
 
     namespace MauticPlugin\HelloWorldBundle;
 
-    use MauticPlugin\IntegrationsBundle\Bundle\AbstractPluginBundle;
+    use Mautic\IntegrationsBundle\Bundle\AbstractPluginBundle;
 
     class HelloWorldBundle extends AbstractPluginBundle
     {
