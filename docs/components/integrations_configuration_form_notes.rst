@@ -2,7 +2,7 @@
 
 :orphan:
 
-Integration configuration Form notes
+Integration configuration form notes
 ####################################
 
 The Integration framework lets developer define their custom messages for the Plugin's configuration Form.
