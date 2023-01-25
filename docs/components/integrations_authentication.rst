@@ -275,7 +275,6 @@ Basic auth
 
 Use the ``mautic.integrations.auth_provider.basic_auth`` service - ``\Mautic\IntegrationsBundle\Auth\Provider\BasicAuth\HttpFactory`` - to obtain a ``GuzzleHttp\ClientInterface`` that uses basic auth for all requests.
 
-
 To use the basic auth, create a credentials class that implements ``\Mautic\IntegrationsBundle\Auth\Provider\BasicAuth\CredentialsInterface``.
 
 .. php:class:: \Mautic\IntegrationsBundle\Auth\Provider\BasicAuth\CredentialsInterface
@@ -343,7 +342,7 @@ Yet to implement in the core.
 OAuth1a two legged
 ------------------
 
-OAuth1a two legged does not require a User to login as would three legged.
+OAuth1a two legged doesn't require a User to login as would three legged.
 
 .. code-block:: php
 
@@ -426,7 +425,6 @@ Client configuration
 --------------------
 
 Both OAuth2 factories leverage the ``\Mautic\IntegrationsBundle\Auth\Provider\AuthConfigInterface`` object to manage things such as configuring the signer (basic auth, ``post form data``, custom), token factory, token persistence, and token signer (bearer auth, basic auth, query string, custom). Use the appropriate interfaces as required for the use case (see the interfaces in ``app/bundles/IntegrationsBundle/Auth/Support/Oauth2/ConfigAccess``).
-
 
 See :xref:`Guzzle Oauth2 Subscriber` for additional details on configuring the credentials and token signers or creating custom token persistence and factories.
 
