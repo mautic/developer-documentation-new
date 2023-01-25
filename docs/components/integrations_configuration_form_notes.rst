@@ -2,8 +2,12 @@
 
 :orphan:
 
+.. vale off
+
 Integration configuration form notes
 ####################################
+
+.. vale on
 
 The Integration framework lets developer define their custom messages for the Plugin's configuration Form.
 
