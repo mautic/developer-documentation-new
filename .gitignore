@@ -2,3 +2,5 @@ build
 .idea
 __pycache__
 .DS_Store
+docs/code_samples_downloaded/*
+!docs/code_samples_downloaded/.gitkeep

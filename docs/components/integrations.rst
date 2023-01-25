@@ -5,10 +5,14 @@ Each Integration provides its unique name as registered with Mautic, an icon, an
 
 ----
 
+.. vale off
+
 Registering the integration
 ***************************
 
-All Integrations, whether using the config, auth, or sync interfaces, must have a class that registers itself with Mautic. The Integration should list on the ``/s/plugins`` page.
+.. vale on
+
+All Integrations, whether using the config, auth, or sync interfaces, must have a class that registers itself with Mautic. The Integration should list on the ``/s/plugins`` UI route.
 
 In the Plugin's ``Config/config.php``, register the Integration using the tag ``mautic.basic_integration``.
 
@@ -102,18 +106,25 @@ If the Integration has extra configuration settings for features unique to it:
 1. :ref:`Register the Integration<Register the Integration for configuration>` as an Integration that requires configuration options.
 2. Create a custom Symfony Form type for the features and return it as part of the :ref:`Config Form feature setting interface<ConfigFormFeatureSettingsInterface>`.
 
+.. vale off
 
 Integration sync engine
 ***********************
+
+.. vale on
 
 If the Integration syncs with Mautic's Contacts and/or Companies:
 
 1. Read about :ref:`the sync engine<Sync engine>`.
 
+.. vale off
+
 Integration Builders
 ********************
 
-If the Integration includes a Builder, Email or Landing Page:
+.. vale on
+
+If the Integration includes a Builder, Email, or Landing Page:
 
 1. :ref:`Register the Integration<Register the Integration as a builder>` as an Integration that provides a custom builder.
 2. Configure what featured builders the Integration supports (Mautic currently supports 'Email' and 'Landing Page' builders).
