@@ -3,10 +3,10 @@
 # Defining the exact version will make sure things don't break
 sphinx==5.3.0
 sphinx_rtd_theme==1.1.1
-readthedocs-sphinx-search==0.1.2
+readthedocs-sphinx-search==0.2.0
 rstcheck==6.1.1
 myst-parser==0.18.1 
 linkify-it-py==2.0.0
 esbonio==0.15.0
-attrs==22.1.0
+attrs==22.2.0
 
