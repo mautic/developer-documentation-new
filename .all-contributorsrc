@@ -13,6 +13,25 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "shinde-rahul",
+      "name": "Rahul Shinde",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1046788?v=4",
+      "profile": "https://github.com/shinde-rahul",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "dennisameling",
+      "name": "Dennis Ameling",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17739158?v=4",
+      "profile": "https://dennisameling.com",
+      "contributions": [
+        "doc",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -20,5 +39,6 @@
   "projectOwner": "mautic",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "angular"
 }
