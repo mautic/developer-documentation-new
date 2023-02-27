@@ -1,7 +1,7 @@
 Continuous Integration
 ######################
 
-Mautic runs several tests on every commit to ensure that the code is working as expected. These tests are run on :xref:`Github Actions`.
+Mautic runs several tests on every commit to ensure that the code is working as expected. These tests are run on :xref:`github_actions`.
 
 - :xref:`phpstan` for static analysis.
 - :xref:`phpunit` for unit, functional and integration tests.
