@@ -18,6 +18,7 @@ CCPA
 Citrix
 Clearbit
 CloudAMQP
+Codecov
 config
 Config
 Company(ies)
