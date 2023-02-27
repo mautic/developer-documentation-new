@@ -8,7 +8,7 @@ Mautic runs several tests on every commit to ensure that the code is working as 
 - :xref:`codecov` for code coverage reports and ensuring that the coverage isn't decreasing.
 - :xref:`rector` for additional code quality checks, for example that an unsupported Symfony or PHP syntax isn't used.
 - :xref:`php_cs_fixer` for checking that there is a unified code style across the codebase.
-- :xref:`twig_lint` Checker for checking that all Twig templates are valid.
+- :xref:`twig_lint` for checking that all Twig templates are valid.
 
 Example ``.github/workflows/tests.yml``
 ***************************************
@@ -154,9 +154,12 @@ This file creates the GitHub Action jobs based on the definitions in it. You can
 .. note::
    Replace ``plugins/HelloWorldBundle`` with the directory of your Plugin. The same value should be in ``extra.install-directory-name`` in ``composer.json``.
    Make sure that you name your default branch `main` and if not, update it in the file.
-   Also update the ``matrix`` to set the supported PHP and Mautic versions. Also, if you want to run the tests on MySql, MariaDB, or both.
+   Update the ``matrix`` to set the supported PHP and Mautic versions if you want to run the tests on MySQL, MariaDB, or both.
 
 Once you paste this file into the ``.github/workflows/tests.yml`` file and replace the ``PLUGIN_DIR`` environmental variable, you can commit it and push it to GitHub. GitHub creates the jobs automatically, and you can see them in the Actions tab of your repository.
+
+Adding the PHPUnit.xml file
+***************************
 
 At this point, the GitHub Action won't complete due to the missing ``phpunit.xml`` file. Create it in the root of your Plugin directory and paste the following content:
 
@@ -213,6 +216,9 @@ At this point, the GitHub Action won't complete due to the missing ``phpunit.xml
 
 .. note::
    Update the ``testsuite`` directories if you don't have this structure.
+
+Setting up Codecov
+******************
 
 At this point the checks should do their thing and point out all issues in your Plugin code. Once you fix them all you should find out that the Codecov report isn't uploading correctly. Here is how to make it work:
 
