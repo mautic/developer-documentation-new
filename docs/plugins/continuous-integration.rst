@@ -1,21 +1,21 @@
 Continuous Integration
 ######################
 
-Mautic runs several tests on every commit to ensure that the code is working as expected. These tests are run on :xref:`github_actions`.
+Mautic runs several tests on every commit to ensure that the code is working as expected using :xref:`GitHub Actions`.
 
 - :xref:`phpstan` for static analysis.
 - :xref:`phpunit` for unit, functional and integration tests.
-- :xref:`codecov` for code coverage reports and ensuring that the coverage is not decreasing.
-- :xref:`rector` for additional code quality checks, for example that an unsupported Symfony or PHP syntax is not used.
-- :xref:`php_cs_fixer` for checking that the code style is unifield across the codebase.
+- :xref:`codecov` for code coverage reports and ensuring that the coverage isn't decreasing.
+- :xref:`rector` for additional code quality checks, for example that an unsupported Symfony or PHP syntax isn't used.
+- :xref:`php_cs_fixer` for checking that the code style is unified across the codebase.
 - :xref:`twig_lint` Checker for checking that all Twig templates are valid.
 
 Example ``.github/workflows/tests.yml``
 ***************************************
 
-This file will create the GitHub Action jobs based on the definitions in it. The live example of this file and how the jobs look like can be seen in the :xref:`hello_world_plugin`.
+This file creates the GitHub Action jobs based on the definitions in it. You can find a live example of this file and how this works in the :xref:`hello_world_plugin`.
 
-.. code:: yml
+.. code:: yaml
 
    name: Mautic Plugin tests
 
@@ -152,13 +152,13 @@ This file will create the GitHub Action jobs based on the definitions in it. The
          path: var/logs/
 
 .. note::
-   Replace ``plugins/HelloWorldBundle`` with the directory where your plugin should be located. The same value should be in ``extra.install-directory-name`` in ``composer.json``.
-   Make sure that your main branch is called `main` and if not, update it in the file.
-   Also update the ``matrix`` to set the supported PHP and Mautic versions. Also if you want to run the tests on MySql, MariaDB or both.
+   Replace ``plugins/HelloWorldBundle`` with the directory of your Plugin. The same value should be in ``extra.install-directory-name`` in ``composer.json``.
+   Make sure that you name your default branch `main` and if not, update it in the file.
+   Also update the ``matrix`` to set the supported PHP and Mautic versions. Also, if you want to run the tests on MySql, MariaDB, or both.
 
-Once you paste this file into the ``.github/workflows/tests.yml`` file and replace the ``PLUGIN_DIR`` enviromental variable, you can commit it and push it to GitHub. The jobs will be created and you can see them in the Actions tab of your repository.
+Once you paste this file into the ``.github/workflows/tests.yml`` file and replace the ``PLUGIN_DIR`` environmental variable, you can commit it and push it to GitHub. GitHub will create the jobs automatically, and you can see them in the Actions tab of your repository.
 
-It will fail on the missing ``phpunit.xml`` file. Create it in the root of your plugin directory and paste the following content:
+At this point, the GitHub Action won't complete due to the missing ``phpunit.xml`` file. Create it in the root of your Plugin directory and paste the following content:
 
 .. code:: xml
 
@@ -212,13 +212,13 @@ It will fail on the missing ``phpunit.xml`` file. Create it in the root of your 
    </phpunit>
 
 .. note::
-   Update the testsuite directories if you don't have this structure.
+   Update the ``testsuite`` directories if you don't have this structure.
 
-At this point the checks should do their thing and point out all issues in your plugin code. Once you fix them all you should find out that the Codecov report is not uploading correctly. Here is how to make it work:
+At this point the checks should do their thing and point out all issues in your Plugin code. Once you fix them all you should find out that the Codecov report isn't uploading correctly. Here is how to make it work:
 
-1. The :xref:`codecov_gh_app` must be enabled for your repository in order to upload the coverage report.
-2. The app will give you an API key. Paste it into the secret variables as ``CODECOV_TOKEN`` in the GitHub repository settings.
-3. Since the plugin isn't in the root directory then we must tell it how to map the files from the report with the files in the repository. To do that, we need to create a ``codecov.yml`` file in the root of your plugin directory and paste the following content:
+1. You must enable the :xref:`codecov_gh_app` for your repository to upload the coverage report.
+2. The app provides you with an API key. Paste it into the secret variables as ``CODECOV_TOKEN`` in the GitHub repository settings.
+3. Since the Plugin isn't in the root directory then we must tell it how to map the files from the report with the files in the repository. To do that, we need to create a ``codecov.yml`` file in the root of your plugin directory and paste the following content:
 
 .. code:: yaml
 
