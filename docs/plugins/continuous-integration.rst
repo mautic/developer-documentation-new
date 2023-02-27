@@ -156,7 +156,7 @@ This file creates the GitHub Action jobs based on the definitions in it. You can
    Make sure that you name your default branch `main` and if not, update it in the file.
    Also update the ``matrix`` to set the supported PHP and Mautic versions. Also, if you want to run the tests on MySql, MariaDB, or both.
 
-Once you paste this file into the ``.github/workflows/tests.yml`` file and replace the ``PLUGIN_DIR`` environmental variable, you can commit it and push it to GitHub. GitHub will create the jobs automatically, and you can see them in the Actions tab of your repository.
+Once you paste this file into the ``.github/workflows/tests.yml`` file and replace the ``PLUGIN_DIR`` environmental variable, you can commit it and push it to GitHub. GitHub creates the jobs automatically, and you can see them in the Actions tab of your repository.
 
 At this point, the GitHub Action won't complete due to the missing ``phpunit.xml`` file. Create it in the root of your Plugin directory and paste the following content:
 
