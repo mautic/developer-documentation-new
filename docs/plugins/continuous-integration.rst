@@ -218,7 +218,7 @@ At this point the checks should do their thing and point out all issues in your 
 
 1. You must enable the :xref:`codecov_gh_app` for your repository to upload the coverage report.
 2. The app provides you with an API key. Paste it into the secret variables as ``CODECOV_TOKEN`` in the GitHub repository settings.
-3. Since the Plugin isn't in the root directory then we must tell it how to map the files from the report with the files in the repository. To do that, we need to create a ``codecov.yml`` file in the root of your plugin directory and paste the following content:
+3. Since the Plugin isn't in the root directory then you must tell it how to map the files from the report with the files in the repository. To do that, you need to create a ``codecov.yml`` file in the root of your Plugin directory and paste the following content:
 
 .. code:: yaml
 
@@ -228,4 +228,4 @@ At this point the checks should do their thing and point out all issues in your 
       - "/home/runner/work/plugin-helloworld/plugin-helloworld/plugins/HelloWorldBundle/::"
 
 .. note::
-   Update the path to match your plugin repository. The safest way to do it is to view the paths in the ``Coverage report`` step where the coverage XML is printed before it's sent to Codecov.
+   Update the path to match your Plugin repository. The safest way is to view the paths in the ``Coverage report`` step where Codecov prints the coverage XML before it's sent to Codecov.
