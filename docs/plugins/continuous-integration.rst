@@ -7,7 +7,7 @@ Mautic runs several tests on every commit to ensure that the code is working as 
 - :xref:`phpunit` for unit, functional and integration tests.
 - :xref:`codecov` for code coverage reports and ensuring that the coverage isn't decreasing.
 - :xref:`rector` for additional code quality checks, for example that an unsupported Symfony or PHP syntax isn't used.
-- :xref:`php_cs_fixer` for checking that the code style is unified across the codebase.
+- :xref:`php_cs_fixer` for checking that there is a unified code style across the codebase.
 - :xref:`twig_lint` Checker for checking that all Twig templates are valid.
 
 Example ``.github/workflows/tests.yml``
