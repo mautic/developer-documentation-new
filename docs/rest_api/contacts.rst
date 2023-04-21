@@ -475,7 +475,7 @@ Create Batch Contact
        'ipAddress' => $_SERVER['REMOTE_ADDR']
        ),
        array(
-           'firstname' => 'Rudolf',
+       'firstname' => 'Rudolf',
        'lastname'  => 'Große',
        'email'     => 'rudolf@example.com',
        'ipAddress' => $_SERVER['REMOTE_ADDR']
@@ -604,15 +604,18 @@ Edit Batch Contact
            'id'        => 1,
            'firstname' => 'Jim',
            'lastname'  => 'Contact',
+           'title'     => '', // This will be ignored because overwriteWithBlank is false by default
            'email'     => 'jim@example.com',
            'ipAddress' => $_SERVER['REMOTE_ADDR']
        ],
        [
-           'id'        => 1,
-           'firstname' => 'Ashish',
-           'lastname'  => 'Wallach',
-           'email'     => 'ashish@example.com',
-           'ipAddress' => $_SERVER['REMOTE_ADDR']
+           'overwriteWithBlank' => true, // This flag will allow to overwrite any field with a blank value
+           'id'                 => 2,
+           'firstname'          => 'Ashish',
+           'lastname'           => 'Wallach',
+           'title'              => '', // This will set the title to blank because overwriteWithBlank is true
+           'email'              => 'ashish@example.com',
+           'ipAddress'          => $_SERVER['REMOTE_ADDR']
        ]
    ];
 
