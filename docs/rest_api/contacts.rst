@@ -609,7 +609,7 @@ Edit Batch Contact
            'ipAddress' => $_SERVER['REMOTE_ADDR']
        ],
        [
-           'overwriteWithBlank' => true, // This flag will allow to overwrite any field with a blank value
+           'overwriteWithBlank' => true, // This flag will allow you to overwrite any field with a blank value
            'id'                 => 2,
            'firstname'          => 'Ashish',
            'lastname'           => 'Wallach',
