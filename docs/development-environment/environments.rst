@@ -28,7 +28,7 @@ By default the structure come with 3 environments
 ``.env.test.local``
 
 Mautic load default values filled in app/config/parameters.php file when the system is installed.
-These values can be override by .env structure.
+These values can be overridden by .env structure.
 
 Development environment:
 ==================
@@ -39,7 +39,7 @@ Development environment:
     APP_ENV=prod
     APP_DEBUG=0
 
-We recommend to create the ``.env.local``, this file will override the values in ``.env`` file.
+We recommend creating the ``.env.local``, this file will override the values in ``.env`` file.
 Example:
 
 .. code-block:: env
@@ -57,9 +57,9 @@ Example:
 Test environment:
 ==================
 
-In test environment we come with two files.
+In the test environment we come with two files.
 
-First one is default file ``.env.test`` that come with parameters to github deploy.
+The first one is the default file ``.env.test`` that comes with parameters to GitHub deploy.
 
 .. code-block:: env
 
@@ -74,7 +74,7 @@ First one is default file ``.env.test`` that come with parameters to github depl
     MAUTIC_ADMIN_USERNAME=admin
     MAUTIC_ADMIN_PASSWORD=mautic
 
-Second one, ``.env.test.local`` come with values to ddev test environment overriding ``.env.test`` vales .
+The second one, ``.env.test.local`` come with values to ddev test environment overriding ``.env.test`` values .
 We recommend that any changes be made to this file with its values.
 
 .. code-block:: env
