@@ -1,4 +1,4 @@
-Environments
+Setup
 #############
 
 Pre-requisites
