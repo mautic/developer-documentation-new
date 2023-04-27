@@ -8,7 +8,7 @@ Pre-requisites
 Installing Mautic is a simple three-step process:
 ==================
 
-1. Download the repository zip :ref:`https://github.com/mautic/mautic/archive/refs/heads/features.zip`  then extract the zip to your web root.
+1. Download the repository zip  :ref:`https://github.com/mautic/mautic/archive/refs/heads/features.zip`  then extract the zip to your web root.
 2. Run the composer install command to install the required packages.
 3. Open your browser and complete the installation through the web installer.
 
