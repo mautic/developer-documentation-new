@@ -1,5 +1,5 @@
 Environments
-#############
+############################################################
 
 Mautic is following the Symfony 4.4 environment conventions.
 https://symfony.com/doc/4.4/configuration/environments.html

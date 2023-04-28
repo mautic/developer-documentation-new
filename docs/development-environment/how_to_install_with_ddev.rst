@@ -1,12 +1,12 @@
 How to Install Mautic With ddev
-#############
+############################################################
 
-Pre-requisites
-==================
-1 - You should have ddev installed on your machine. If not, please follow the instructions here: https://ddev.readthedocs.io/en/stable/#installation
+Pre-requisites with ddev
+====================================================
+1. You should have ddev installed on your machine. If not, please follow the instructions here: https://ddev.readthedocs.io/en/stable/#installation
 
 Installing Mautic is a simple two-step process:
-==================
+========================================================================
 1. Clone this repository
 
 .. code-block:: bash
@@ -23,8 +23,9 @@ Installing Mautic is a simple two-step process:
 
 .. Note:: When you are prompted whether to install Mautic, choose yes.
 
-.. list-table::
+.. list-table:: Users and passwords
     :header-rows: 1
+
     * - Username
       - Password
     * - ``admin``

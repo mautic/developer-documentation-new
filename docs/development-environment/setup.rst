@@ -1,7 +1,7 @@
 Setup
 #############
 
-Pre-requisites
+Pre-requisites to setup
 ==================
 It is assumed that the system already has composer and git installed and configured.
 
@@ -28,6 +28,7 @@ You can also execute the install process from command line: * Add a local.php fi
     );
 
 * Execute the following command and add your own options:
+
 .. code-block:: bash
 
     php bin/console mautic:install http://your.mautic.instance
