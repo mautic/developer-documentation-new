@@ -1,4 +1,4 @@
-How to Install Mautic With DDEV
+How to install Mautic with DDEV
 ###############################
 
 Pre-requisites with DDEV

@@ -1,7 +1,7 @@
 Environments
 ############
 
-:xref:`Symfony 4 Environment Conventions`
+:xref:`Symfony 4 environment conventions`
 
 In all environments, Mautic loads the following files if they exist,
 the latter taking precedence over the former:
@@ -18,7 +18,7 @@ Real environment variables win over ``.env`` files.
 .. warning:: All secrets should add via environment variables or through other secret management.
 
 Run ``composer dump-env prod`` to compile .env files for production use (``requires symfony/flex >=1.2``).
-Read more about best practices at :xref:`Symfony 4 Best Practices Environment Variables`
+Read more about best practices at :xref:`Symfony 4 best practices environment variables`
 
 By default the structure come with 3 environments
 ``.env``
@@ -72,7 +72,7 @@ The first one is the default file ``.env.test`` that includes credentials used t
     MAUTIC_ADMIN_USERNAME=admin
     MAUTIC_ADMIN_PASSWORD=mautic
 
-The second one, ``.env.test.local`` includes values for the DDEV local development environment, overriding the ``.env.test`` values .
+The second one, ``.env.test.local`` includes values for the DDEV local development environment, overriding the ``.env.test`` values.
 It's recommended making any changes to this file with its values.
 
 .. code-block:: bash

@@ -1,4 +1,4 @@
-How to Install Mautic
+How to install Mautic
 #####################
 
 Pre-requisites

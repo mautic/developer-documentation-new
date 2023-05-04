@@ -1,6 +1,6 @@
 from . import link
 
-link_name = "Symfony 4 Environment Conventions"
+link_name = "Symfony 4 environment conventions"
 link_text = "Mautic follows the Symfony 4.4 environment conventions:"
 link_url = "https://symfony.com/doc/4.4/index.html" 
 

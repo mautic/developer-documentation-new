@@ -1,6 +1,6 @@
 from . import link
 
-link_name = "Symfony 4 Best Practices Environment Variables"
+link_name = "Symfony 4 best practices environment variables"
 link_text = "Read more about best practices at:"
 link_url = "https://symfony.com/doc/current/best_practices.html#use-environment-variables-for-infrastructure-configuration"
 
