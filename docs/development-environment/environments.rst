@@ -15,7 +15,7 @@ Real environment variables win over ``.env`` files.
 
 .. warning:: Don't define secrets in this file, or any other committed files. Set secrets via environment variables, or through other secret management tools.
 
-.. warning:: All secrets should be set via environment variables or through other secret management.
+.. warning:: All secrets should add via environment variables or through other secret management.
 
 Run ``composer dump-env prod`` to compile .env files for production use (``requires symfony/flex >=1.2``).
 Read more about best practices at :xref:`Symfony 4 Best Practices Environment Variables`
@@ -37,7 +37,7 @@ Development environment:
     APP_ENV=prod
     APP_DEBUG=0
 
-It's recommended to create the ``.env.local`` file.  This file overrides the values in ``.env`` file.
+It's recommended to create the ``.env.local`` file. This file overrides the values in ``.env`` file.
 Example:
 
 .. code-block:: bash

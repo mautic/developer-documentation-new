@@ -1,5 +1,5 @@
 How to Install Mautic
-############################################################
+#####################
 
 Pre-requisites
 ==============
@@ -8,8 +8,8 @@ Pre-requisites
 Installing Mautic is a simple three-step process:
 ==================================================
 
-1. Download the repository zip in matic github then extract the zip to your web root.
+1. Download the repository zip in Mautic GitHub then extract the zip to your web root.
 2. Run the ``composer install`` command to install the required packages.
 3. Open your browser and complete the installation through the web installer.
 
-If you get stuck, check our our general troubleshooting page. Still no joy? Join our lively Mautic Community for support and answers.
+If you get stuck, select the general troubleshooting section. Still no joy? Join lively Mautic Community for support and answers.
