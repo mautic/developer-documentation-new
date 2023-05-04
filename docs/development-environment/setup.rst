@@ -10,7 +10,10 @@ Steps
 1. To setup the developer environment, simply fork and clone the source from GitHub. Then Run composer install on the source.
 
 2. Open your browser and complete the installation through the Mautic installer.
-You can also execute the install process from command line: * Add a local.php file in app/config * Edit the local.php file using the following template (adapt to your own settings):
+You can also execute the install process from command line:
+
+* Add a ``local.php`` file in ``app/config``
+* Edit the ``local.php`` file using the following template (adapt to your own settings):
 
 .. code-block:: php
 
