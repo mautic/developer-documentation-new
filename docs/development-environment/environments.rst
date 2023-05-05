@@ -15,8 +15,6 @@ Real environment variables win over ``.env`` files.
 
 .. warning:: Don't define secrets in this file, or any other committed files. Set secrets via environment variables, or through other secret management tools.
 
-.. warning:: All secrets should add via environment variables or through other secret management.
-
 Run ``composer dump-env prod`` to compile .env files for production use (``requires symfony/flex >=1.2``).
 Read more about best practices at :xref:`Symfony 4 best practices environment variables`
 
