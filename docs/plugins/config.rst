@@ -561,7 +561,7 @@ Key each service with a unique name to all of Mautic, including other Plugins.
     * - ``tagArguments``
       - no
       - array
-      - Some tags have special arguments definable through an array of tagArguments. If using ``tag``, this should be a key/value pair of the arguments specific to the given tag. For example, ``['tag' => 'tag1', 'tagArguments' => ['tag1-key' => 'tag1-value'],],``. If using ``tags``, this should be an array of arrays keyed the same as the values of ``tags``. For example, ``['tags' => [ 'tag1', 'tag2'], 'tagArguments' => [['tag1-key' => 'tag1-value'],['tag2-key' => 'tag2-value'],],],``.
+      - Some tags have special arguments definable through an array of ``tagArguments``. If using ``tag``, this should be a key/value pair of the arguments specific to the given tag. For example, ``['tag' => 'tag1', 'tagArguments' => ['tag1-key' => 'tag1-value'],],``. If using ``tags``, this should be an array of arrays keyed the same as the values of ``tags``. For example, ``['tags' => [ 'tag1', 'tag2'], 'tagArguments' => [['tag1-key' => 'tag1-value'],['tag2-key' => 'tag2-value'],],],``.
     * - ``factory``
       - no
       - array

@@ -47,7 +47,7 @@ Response hooks
         },
     };
 
-.. Note:: This isn't called if an onResponse hook returns TRUE.
+.. Note:: This isn't called if an ``onResponse`` hook returns TRUE.
 
 .. js:method:: onResponseEnd()
 
@@ -72,4 +72,4 @@ Response hooks
         },
     };
 
-.. Note:: This isn't called if an onResponse hook returns TRUE or if the page redirects.
+.. Note:: This isn't called if an ``onResponse`` hook returns TRUE or if the page redirects.

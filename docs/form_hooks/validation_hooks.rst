@@ -37,7 +37,7 @@ Validation hooks
         },
     };
 
-.. Note:: This isn't called if an onValidate hook returns TRUE.
+.. Note:: This isn't called if an ``onValidate`` hook returns TRUE.
 
 
 .. js:method:: onValidateEnd()
