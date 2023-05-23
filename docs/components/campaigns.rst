@@ -99,8 +99,6 @@ Registering a Campaign Action
 Campaign Action definition
 ==========================
 
-.. vale on
-
 .. list-table::
     :header-rows: 1
 
@@ -157,8 +155,6 @@ Campaign Action definition
       - string
       - PHP template to customize the UI for this Event in the Contact's timeline.
 
-.. vale off
-
 Registering a Campaign Condition
 ********************************
 
@@ -207,8 +203,6 @@ Registering a Campaign Condition
 
 Campaign Condition definition
 =============================
-
-.. vale on
 
 .. list-table::
     :header-rows: 1
@@ -316,8 +310,6 @@ Registering a Campaign Decision
 
 Campaign Decision definition
 ============================
-
-.. vale on
 
 .. list-table::
     :header-rows: 1

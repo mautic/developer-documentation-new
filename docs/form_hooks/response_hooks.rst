@@ -71,5 +71,8 @@ Response hooks
             // do something custom
         },
     };
+.. vale off
 
 .. Note:: This isn't called if an ``onResponse`` hook returns TRUE or if the page redirects.
+    
+.. vale on
