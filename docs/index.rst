@@ -96,6 +96,7 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    rest_api/categories
    rest_api/contacts
    rest_api/fields
+   rest_api/notifications
    rest_api/reports
    rest_api/text_messages
 
