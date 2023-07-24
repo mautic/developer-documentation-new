@@ -5,6 +5,16 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
 
 .. toctree::
    :maxdepth: 2
+   :caption: Development Environment
+   :hidden:
+
+   development-environment/getting_started
+   development-environment/how_to_install_with_ddev
+   development-environment/setup
+   development-environment/environments
+
+.. toctree::
+   :maxdepth: 2
    :caption: Themes
    :hidden:
 
@@ -56,6 +66,7 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    plugins/installation
    plugins/data
    plugins/translations
+   plugins/continuous-integration
 
 .. toctree::
    :maxdepth: 2
@@ -95,6 +106,7 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    rest_api/categories
    rest_api/contacts
    rest_api/fields
+   rest_api/notifications
    rest_api/reports
    rest_api/text_messages
 
