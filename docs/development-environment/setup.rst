@@ -1,10 +1,13 @@
-Setup
-######
+How to install Mautic manually
+##############################
 
 Pre-requisites to setup
 =======================
 
 Mautic assumed that the system already has ``composer`` and ``git`` installed and configured.
+
+.. note:: 
+    If you get stuck, join the lively Mautic Community on :xref:`Mautic Slack` or the :xref:`Developer Forum` for support and answers. **Please first post in the forum**, then share the link in Slack, so others can learn from your question.
 
 Steps
 =====

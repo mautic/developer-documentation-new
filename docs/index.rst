@@ -9,9 +9,8 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    :hidden:
 
    development-environment/getting_started
-   development-environment/setup
-   development-environment/how_to_install
    development-environment/how_to_install_with_ddev
+   development-environment/setup
    development-environment/environments
 
 .. toctree::
