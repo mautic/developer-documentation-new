@@ -3,7 +3,9 @@ Development environment
 
 Introduction
 ============
-Mautic is a system based on Symfony and Doctrine.
+Mautic is a system based on the :xref:`Symfony framework` and :xref:`Doctrine`.
 
-Mautic follows the Symfony coding standards and best practices and uses the Symfony framework as a foundation for the application.
+Mautic uses the :xref:`Symfony framework` as a foundation for the application. 
+
+It follows the :xref:`Symfony coding standards` and :xref:`Symfony best practices`.
 
