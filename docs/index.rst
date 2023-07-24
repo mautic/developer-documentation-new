@@ -5,6 +5,17 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
 
 .. toctree::
    :maxdepth: 2
+   :caption: Development Environment
+   :hidden:
+
+   development-environment/getting_started
+   development-environment/setup
+   development-environment/how_to_install
+   development-environment/how_to_install_with_ddev
+   development-environment/environments
+
+.. toctree::
+   :maxdepth: 2
    :caption: Themes
    :hidden:
 
