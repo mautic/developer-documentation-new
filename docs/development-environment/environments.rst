@@ -15,8 +15,8 @@ Real environment variables win over ``.env`` files.
 
 .. warning:: Don't define secrets in this file, or any other committed files. Set secrets via environment variables, or through other secret management tools.
 
-Run ``composer dump-env prod`` to compile .env files for production use (``requires symfony/flex >=1.2``).
-Read more about best practices at :xref:`Symfony 4 best practices environment variables`
+Run ``composer dump-env prod`` to compile .env files for production use (``requires symfony/flex >=1.2``). Read more about 
+:xref:`Symfony 4 best practices environment variables`.
 
 By default the structure come with 3 environments
 ``.env``

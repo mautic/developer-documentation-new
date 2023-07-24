@@ -1,12 +1,15 @@
 How to install Mautic with DDEV
 ###############################
 
+.. note:: 
+    If you get stuck, join the lively Mautic Community on :xref:`Mautic Slack` or the :xref:`Developer Forum` for support and answers. **Please first post in the forum**, then share the link in Slack, so others can learn from your question.
+
 Pre-requisites with DDEV
 ========================
-1. You should have DDEV installed on your machine. If not, please follow the instructions here: https://ddev.readthedocs.io/en/stable/#installation
+1. You should have DDEV and Docker or Colima installed on your machine. If not, please follow the instructions here: :xref:`ddev install`
 
-Installing Mautic is a simple two-step process:
-===============================================
+Installing Mautic is a two-step process:
+========================================
 1. Clone this repository
 
 .. code-block:: bash
@@ -16,12 +19,11 @@ Installing Mautic is a simple two-step process:
 .. Note:: Clone the repository in the directory where you want to install Mautic.
 
 1. Install Mautic running DDEV.
+
 .. code-block:: bash
 
     cd mautic
     ddev start
-
-.. Note:: When asked if you want to install Mautic, choose yes.
 
 .. list-table:: Users and passwords
     :header-rows: 1
