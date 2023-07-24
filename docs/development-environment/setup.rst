@@ -8,13 +8,14 @@ Mautic assumed that the system already has ``composer`` and ``git`` installed an
 
 Steps
 =====
-1. To setup the developer environment, simply fork and clone the source from GitHub. Then Run ``composer install`` on the source.
+1. To setup the developer environment, fork and clone the source from GitHub as outlined in :doc:`/development-environment/how_to_install_with_ddev`. 
+2. Run ``composer install`` on the source.
+3. Open your browser and complete the installation through the Mautic installer.
 
-2. Open your browser and complete the installation through the Mautic installer.
-You can also execute the install process from command line:
+You can also run the install process from command line:
 
 * Add a ``local.php`` file in ``app/config``
-* Edit the ``local.php`` file using the following template (Mautic adapt to new local settings):
+* Edit the ``local.php`` file using the following template (Mautic adapts to new local settings):
 
 .. code-block:: php
 
@@ -31,8 +32,8 @@ You can also execute the install process from command line:
             'db_backup_prefix' => 'bak_',
     );
 
-* Execute the following command and add your own options:
+* Run the following command and add your own options:
 
 .. code-block:: bash
 
-    php bin/console mautic:install http://your.mautic.instance
+    php bin/console mautic:install https://mautic.example.com
