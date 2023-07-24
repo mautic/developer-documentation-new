@@ -26,8 +26,8 @@ By default the structure come with 3 environments
 Mautic loads default values filled in the ``app/config/parameters.php`` file at installation.
 These values can be overridden by the ``.env`` structure.
 
-Development environment:
-========================
+Development environment
+=======================
 ``.env`` come with two values:
 
 .. code-block:: bash
@@ -50,8 +50,8 @@ Example:
     MAUTIC_DB_PREFIX=...
     MAUTIC_TABLE_PREFIX=...
 
-Test environment:
-=================
+Test environment
+================
 
 In the test environment there are two files.
 
