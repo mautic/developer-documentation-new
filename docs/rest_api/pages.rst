@@ -1,5 +1,10 @@
+
+.. vale off
+
 Landing Pages API
 #################
+
+.. vale on
 
 Use this endpoint to obtain details on Mautic's Landing Pages.
 

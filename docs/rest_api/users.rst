@@ -432,7 +432,7 @@ To edit a User and create a new one if the User isn't found:
 
 **Response**
 
-If ``PUT``, the expected response code is ``200`` if the User was edited or ``201`` if created.
+If ``PUT``, the expected response code is ``200`` if editing a User or ``201`` if creating a new one.
 
 If ``PATCH``, the expected response code is ``200``.
 
