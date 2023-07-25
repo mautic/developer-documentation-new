@@ -141,7 +141,7 @@ Get an individual Company by ID.
      - Name of the User that last modified the Company
    * - ``fields``
      - array
-     - Custom fields for the Company
+     - Custom Fields for the Company
 
 .. vale off
 
@@ -285,7 +285,7 @@ Returns a list of Contact Companies available to the User. This list isn't filte
      - Name of the User that last modified the Company
    * - ``fields``
      - array
-     - Custom fields for the Company
+     - Custom Fields for the Company
 
 .. vale off
 
