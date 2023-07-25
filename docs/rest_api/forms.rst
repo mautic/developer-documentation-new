@@ -491,10 +491,10 @@ Edit Form
 
 Edit a new Form. Note that this supports ``PUT`` or ``PATCH`` depending on the desired behavior.
 
-Make sure that whenever you want to edit a Form field that you include the Form field id in the request. If you don't provide an ID for the Field, a new one gets created.
+Make sure that whenever you want to edit a Form Field that you include the Form Field id in the request. If you don't provide an ID for the Field, a new one gets created.
 
 **PUT** creates a Form if the given ID doesn't exist and clears all the Form information, adds the information from the request. Form Fields and actions also get deleted if not present in the request.
-**PATCH** fails if the Form with the given ID doesn't exist and updates the Form field values with the values Form the request.
+**PATCH** fails if the Form with the given ID doesn't exist and updates the Form Field values with the values Form the request.
 
 .. vale off
 
