@@ -106,10 +106,16 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    rest_api/categories
    rest_api/companies
    rest_api/contacts
+   rest_api/emails
    rest_api/fields
+   rest_api/files
    rest_api/forms
+   rest_api/marketing_messages
+   rest_api/notes
    rest_api/notifications
+   rest_api/pages
    rest_api/reports
+   rest_api/roles
    rest_api/text_messages
 
 Indices and tables
