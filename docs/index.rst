@@ -104,6 +104,7 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    rest_api/assets
    rest_api/campaigns
    rest_api/categories
+   rest_api/companies
    rest_api/contacts
    rest_api/fields
    rest_api/forms
