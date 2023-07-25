@@ -434,7 +434,7 @@ Create a new Form.
 
 **POST Parameters**
 
-Same as `Get Form <#get-form>`_. You can create or edit Form fields and actions via the Forms/actions arrays in the Form array.
+Same as `Get Form <#get-form>`_. You can create or edit Form Fields and actions via the Forms/actions arrays in the Form array.
 
 **Response**
 
@@ -493,7 +493,7 @@ Edit a new Form. Note that this supports ``PUT`` or ``PATCH`` depending on the d
 
 Make sure that whenever you want to edit a Form field that you include the Form field id in the request. If you don't provide an ID for the Field, a new one gets created.
 
-**PUT** creates a Form if the given ID doesn't exist and clears all the Form information, adds the information from the request. Form fields and actions also get deleted if not present in the request.
+**PUT** creates a Form if the given ID doesn't exist and clears all the Form information, adds the information from the request. Form Fields and actions also get deleted if not present in the request.
 **PATCH** fails if the Form with the given ID doesn't exist and updates the Form field values with the values Form the request.
 
 .. vale off
@@ -512,7 +512,7 @@ To edit a Form and create a new one if the Form isn't found:
 
 **POST Parameters**
 
-Same as `Get Form <#get-form>`_. You can create or edit Form fields and actions via the Forms/actions arrays in the Form array.
+Same as `Get Form <#get-form>`_. You can create or edit Form Fields and actions via the Forms/actions arrays in the Form array.
 
 **Response**
 
@@ -569,7 +569,7 @@ The following examples show how to delete fields with ID 56 and 59.
 
    $form = $formApi->deleteFields($formId, array(56, 59));
 
-Delete a Form fields.
+Delete a Form Fields.
 
 .. vale off
 
@@ -735,7 +735,7 @@ List Form Submissions
      - Simplified associative array of the Form containing id, name, alias and Category
    * - ``lead``
      - array
-     - Associative array of the Contact containing the core values as well as custom fields
+     - Associative array of the Contact containing the core values as well as Custom Fields
    * - ``dateSubmitted``
      - string
      - Date time string holding the ``UTC`` date and time when the submission took place
@@ -744,7 +744,7 @@ List Form Submissions
      - ``HTTP`` referrer info
    * - ``results``
      - array
-     - Associative array of the Form fields as the keys and submission values
+     - Associative array of the Form Fields as the keys and submission values
 
 .. vale off
 
