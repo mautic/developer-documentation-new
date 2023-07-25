@@ -246,6 +246,7 @@ Returns a list of Contact Companies available to the User. This list isn't filte
                "companynumber_of_employees":null,
                "companydescription":null
            }
+         }
        }
      }
    }
