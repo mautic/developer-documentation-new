@@ -783,6 +783,20 @@ Get Form Submission
    //...
    $form = $formApi->getSubmission($formId, $submissionId);
 
+Get an individual Form submission by ID.
+
+.. vale off
+
+**HTTP Request**
+
+.. vale on
+
+``GET /forms/FORM_ID/submissions/SUBMISSION_ID``
+
+**Response**
+
+``Expected Response Code: 200``
+
 .. code-block:: json
 
    {
@@ -827,22 +841,6 @@ Get Form Submission
        }
      }
    }
-
-Get an individual Form submission by ID.
-
-.. vale off
-
-**HTTP Request**
-
-.. vale on
-
-``GET /forms/FORM_ID/submissions/SUBMISSION_ID``
-
-**Response**
-
-``Expected Response Code: 200``
-
-See JSON code example.
 
 **Form Properties**
 
