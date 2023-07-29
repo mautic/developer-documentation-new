@@ -258,16 +258,16 @@ Edit Note
        'type' => 'general',
    );
 
-   // Create new a note of ID 1 isn't found?
+   // Create new a Note of ID 1 isn't found?
    $createIfNotFound = true;
 
    $note = $noteApi->edit($id, $data, $createIfNotFound);
 
-Edit a new note. Note that this supports PUT or PATCH depending on the desired behavior.
+Edit a new Note. This supports PUT or PATCH depending on the desired behavior.
 
-**PUT** creates a note if the given ID doesn't exist and clears all the note information, adds the information from the request.
+**PUT** creates a Note if the given ID doesn't exist and clears all the Note information, adds the information from the request.
 
-**PATCH** fails if the note with the given ID doesn't exist and updates the note field values with the values from the request.
+**PATCH** fails if the Note with the given ID doesn't exist and updates the Note field values with the values from the request.
 
 .. vale off
 
@@ -275,11 +275,11 @@ Edit a new note. Note that this supports PUT or PATCH depending on the desired b
 
 .. vale on
 
-To edit a note and return a 404 if the note isn't found:
+To edit a Note and return a 404 if the Note isn't found:
 
 ``PATCH /notes/ID/edit``
 
-To edit a note and create a new one if the note isn't found:
+To edit a Note and create a new one if the Note isn't found:
 
 ``PUT /notes/ID/edit``
 
@@ -299,12 +299,12 @@ To edit a note and create a new one if the note isn't found:
      - Note type
    * - ``datetime``
      - ``datetime``
-     - Date and time related to the note.
+     - Date and time related to the Note.
 
 
 **Response**
 
-If ``PUT``, the expected response code is ``200`` if editing the note or ``201`` if created.
+If ``PUT``, the expected response code is ``200`` if editing the Note or ``201`` if created.
 
 If ``PATCH``, the expected response code is ``200``.
 
@@ -325,7 +325,7 @@ Delete Note
 
    $note = $noteApi->delete($id);
 
-Delete a note.
+Delete a Note.
 
 .. vale off
 

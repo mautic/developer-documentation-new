@@ -377,7 +377,7 @@ Edit User
 
    $user = $userApi->edit($id, $data, $createIfNotFound);
 
-Edit a new User. User that this supports PUT or PATCH depending on the desired behavior.
+Edit a new User. Note that this supports PUT or PATCH depending on the desired behavior.
 
 **PUT** creates a User if the given ID doesn't exist and clears all the User information, adds the information from the request.
 

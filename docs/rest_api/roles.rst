@@ -16,7 +16,7 @@ You can interact with this API through the :xref:`Mautic API Library` as follows
    // ...
    $initAuth = new ApiAuth();
    $auth     = $initAuth->newAuth($settings);
-   $apiUrl   = "https://your-mautic.com";
+   $apiUrl   = "https://mautic.example.com";
    $api      = new MauticApi();
    $roleApi  = $api->newApi("roles", $auth, $apiUrl);
 
@@ -224,7 +224,7 @@ Create Role
 
    $data = array(
        'name' => 'API test role',
-       'description' => 'created via AIP',
+       'description' => 'created via API',
        'rawPermissions' => array (
            'email:emails' => 
            array (
@@ -289,7 +289,7 @@ Edit Role
    $id   = 1;
    $data = array(
        'name' => 'API test role',
-       'description' => 'created via AIP',
+       'description' => 'created via API',
        'rawPermissions' => array (
            'email:emails' => 
            array (
@@ -304,7 +304,7 @@ Edit Role
 
    $role = $roleApi->edit($id, $data, $createIfNotFound);
 
-Edit a new Role. Role that this supports PUT or PATCH depending on the desired behavior.
+Edit a new Role. Note that this supports PUT or PATCH depending on the desired behavior.
 
 **PUT** creates a Role if the given ID doesn't exist and clears all the Role information, adds the information from the request.
 **PATCH** fails if the Role with the given ID doesn't exist and updates the Role field values with the values from the request.

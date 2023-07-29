@@ -1,7 +1,7 @@
 Files
 #####
 
-This endpoint is useful for working with files of images and Assets.
+This endpoint is useful for working with files, which might include images and Assets.
 
 .. note::
 
