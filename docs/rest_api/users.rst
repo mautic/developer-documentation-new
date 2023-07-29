@@ -512,10 +512,10 @@ Check User Permissions
 .. code-block:: php
 
    <?php
-   $permission = array('user:users:create', 'user:users:edit');
-   $user = $userApi->checkPermission($id, $permission);
+   $permissions = ['user:users:create', 'user:users:edit'];
+   $user = $userApi->checkPermission($id, $permissions);
 
-Get a self User.
+Use this endpoint to validate whether a User has the provided permissions or not.
 
 .. vale off
 
@@ -523,7 +523,17 @@ Get a self User.
 
 .. vale on
 
-``GET /users/ID/permissioncheck``
+``POST /users/ID/permissioncheck``
+
+**POST Parameters**
+
+The ``POST`` body should contain a ``permissions`` property. The value can either be a string in case of a single permission or an array in case you want to validate multiple permissions:
+
+.. code-block:: json
+
+  {
+    "permissions": ["user:users:create", "user:users:edit"]
+  }
 
 **Response**
 
@@ -532,10 +542,10 @@ Get a self User.
 .. code-block:: json
 
    {
-     "user:users:create":true,
-     "user:users:edit":true
+     "user:users:create": true,
+     "user:users:edit": true
    }
 
 **Properties**
 
-array of requested permissions of string in case of just one
+This endpoint returns on object where the requested permissions, for example, ``user:users:create``, are the keys. Each entry has a boolean value, indicating whether the User has the permission or not.

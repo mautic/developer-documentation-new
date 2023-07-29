@@ -152,7 +152,7 @@ Get an individual Landing Page by ID.
      - Landing Page revision
    * - ``metaDescription``
      - string
-     - Meta description for the Landing Page's ``<head>``
+     - Meta description which gets rendered in the Landing Page's ``<head>`` element.
    * - ``redirectType``
      - int
      - If unpublished, redirect with 301 or 302
