@@ -106,6 +106,8 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    rest_api/categories
    rest_api/companies
    rest_api/contacts
+   rest_api/dashboard_widget_data
+   rest_api/dynamic_content
    rest_api/emails
    rest_api/fields
    rest_api/files
@@ -114,11 +116,14 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    rest_api/notes
    rest_api/notifications
    rest_api/pages
+   rest_api/point_actions
+   rest_api/point_triggers
    rest_api/reports
    rest_api/roles
    rest_api/segments
    rest_api/text_messages
    rest_api/users
+   rest_api/webhooks
 
 Indices and tables
 ==================
