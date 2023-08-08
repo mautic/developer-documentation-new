@@ -85,13 +85,13 @@ Get an individual Point Action by ID.
      - Description
    * - ``id``
      - int
-     - ID of the point
+     - ID of the Point Action
    * - ``name``
      - string
-     - Name of the point
+     - Name of the Point Action
    * - ``description``
      - string/null
-     - Description of the point
+     - Description of the Point Action
    * - ``category``
      - string
      - Category name
@@ -103,31 +103,31 @@ Get an individual Point Action by ID.
      - Published state
    * - ``publishUp``
      - datetime/null
-     - Point publish date/time
+     - Point Action publish date/time
    * - ``publishDown``
      - datetime/null
-     - Point unpublish date/time
+     - Point Action unpublish date/time
    * - ``dateAdded``
      - ``datetime``
-     - Point creation date/time
+     - Point Action creation date/time
    * - ``createdBy``
      - int
-     - ID of the User that created the point
+     - ID of the User that created the Point Action
    * - ``createdByUser``
      - string
-     - Name of the User that created the point
+     - Name of the User that created the Point Action
    * - ``dateModified``
      - datetime/null
-     - Date/time point was last modified
+     - Date/time Point Action was last modified
    * - ``modifiedBy``
      - int
-     - ID of the User that last modified the point
+     - ID of the User that last modified the Point Action
    * - ``modifiedByUser``
      - string
-     - Name of the User that last modified the point
+     - Name of the User that last modified the Point Action
    * - ``delta``
      - int
-     - The number of Points to assign to the Contact when executing this action
+     - The number of Points to assign to the Contact when executing this Point Action
    * - ``properties``
      - array
      - Configured properties for this Point Action
