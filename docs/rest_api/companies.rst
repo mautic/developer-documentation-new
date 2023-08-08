@@ -1,6 +1,5 @@
-
 Companies
-*********
+#########
 
 Use this endpoint to obtain details on Mautic's Companies or to manipulate Contact-Company memberships.
 

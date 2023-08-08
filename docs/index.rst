@@ -117,7 +117,12 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    rest_api/reports
    rest_api/roles
    rest_api/segments
+   rest_api/stages
+   rest_api/stats
+   rest_api/tags
    rest_api/text_messages
+   rest_api/themes
+   rest_api/tweets
    rest_api/users
 
 Indices and tables
