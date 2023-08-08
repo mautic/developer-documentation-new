@@ -1,7 +1,7 @@
 Dynamic Content
 ###############
 
-Use this endpoint to obtain details on Mautic's web Dynamic Content.
+Use this endpoint to obtain details on Mautic's Dynamic Web Content.
 
 **Using Mautic's API Library**
 
@@ -220,7 +220,7 @@ Create Dynamic Content
 
    $dynamicContent = $dynamicContentApi->create($data);
 
-Create a new dynamicContent.
+Create a new Dynamic Content.
 
 .. vale off
 
@@ -314,9 +314,9 @@ Edit Dynamic Content
 
    $dynamicContent = $dynamicContentApi->edit($id, $data, $createIfNotFound);
 
-Edit a new dynamicContent. Note that this supports PUT or PATCH depending on the desired behavior.
+Edit a new Dynamic Content. Note that this supports PUT or PATCH depending on the desired behavior.
 
-**PUT** creates a dynamicContent if the given ID doesn't exist and clears all the Dynamic Content information, adds the information from the request.
+**PUT** creates a Dynamic Content if the given ID doesn't exist and clears all the Dynamic Content information, adds the information from the request.
 **PATCH** fails if the Dynamic Content with the given ID doesn't exist and updates the Dynamic Content field values with the values from the request.
 
 .. vale off
@@ -325,11 +325,11 @@ Edit a new dynamicContent. Note that this supports PUT or PATCH depending on the
 
 .. vale on
 
-To edit a dynamicContent and return a 404 if the Dynamic Content isn't found:
+To edit a Dynamic Content and return a 404 if the Dynamic Content isn't found:
 
 ``PATCH /dynamiccontents/ID/edit``
 
-To edit a dynamicContent and create a new one if the Dynamic Content isn't found:
+To edit a Dynamic Content and create a new one if the Dynamic Content isn't found:
 
 ``PUT /dynamiccontents/ID/edit``
 
@@ -411,7 +411,7 @@ Delete Dynamic Content
 
    $dynamicContent = $dynamicContentApi->delete($id);
 
-Delete a dynamicContent.
+Delete a Dynamic Content.
 
 .. vale off
 

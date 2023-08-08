@@ -92,13 +92,13 @@ Get an individual Point Trigger by ID.
      - Description
    * - ``id``
      - int
-     - ID of the point
+     - ID of the Point Trigger
    * - ``name``
      - string
-     - Name of the point
+     - Name of the Point Trigger
    * - ``description``
      - string/null
-     - Description of the point
+     - Description of the Point Trigger
    * - ``category``
      - string
      - Category name
@@ -107,28 +107,28 @@ Get an individual Point Trigger by ID.
      - Published state
    * - ``publishUp``
      - datetime/null
-     - Point publish date/time
+     - Point Trigger publish date/time
    * - ``publishDown``
      - datetime/null
-     - Point unpublish date/time
+     - Point Trigger unpublish date/time
    * - ``dateAdded``
      - ``datetime``
-     - Point creation date/time
+     - Point Trigger creation date/time
    * - ``createdBy``
      - int
-     - ID of the User that created the point
+     - ID of the User that created the Point Trigger
    * - ``createdByUser``
      - string
-     - Name of the User that created the point
+     - Name of the User that created the Point Trigger
    * - ``dateModified``
      - datetime/null
-     - Date/time point was last modified
+     - Date/time Point Trigger was last modified
    * - ``modifiedBy``
      - int
-     - ID of the User that last modified the point
+     - ID of the User that last modified the Point Trigger
    * - ``modifiedByUser``
      - string
-     - Name of the User that last modified the point
+     - Name of the User that last modified the Point Trigger
    * - ``points``
      - int
      - The minimum number of Points before the trigger events get executed
