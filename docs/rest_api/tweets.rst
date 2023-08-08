@@ -89,13 +89,13 @@ Get an individual Tweet by ID.
      - Description
    * - ``id``
      - int
-     - ID of the tweet
+     - ID of the Tweet
    * - ``name``
      - string
-     - Title of the tweet
+     - Title of the Tweet
    * - ``text``
      - string
-     - Message of the tweet
+     - Message of the Tweet
    * - ``isPublished``
      - boolean
      - Published state
@@ -110,22 +110,22 @@ Get an individual Tweet by ID.
      - Tweet creation date/time
    * - ``createdBy``
      - int
-     - ID of the User that created the tweet
+     - ID of the User that created the Tweet
    * - ``createdByUser``
      - string
-     - Name of the User that created the tweet
+     - Name of the User that created the Tweet
    * - ``dateModified``
      - datetime/null
      - Date/time Tweet was last modified
    * - ``modifiedBy``
      - int
-     - ID of the User that last modified the tweet
+     - ID of the User that last modified the Tweet
    * - ``modifiedByUser``
      - string
-     - Name of the User that last modified the tweet
+     - Name of the User that last modified the Tweet
    * - ``language``
      - string
-     - Language locale of the tweet
+     - Language locale of the Tweet
    * - ``category``
      - null/object
      - Category
@@ -230,7 +230,7 @@ Create Tweet
 
    $tweet = $tweetApi->create($data);
 
-Create a new tweet.
+Create a new Tweet.
 
 .. vale off
 
@@ -250,13 +250,13 @@ Create a new tweet.
      - Description
    * - ``id``
      - int
-     - ID of the tweet
+     - ID of the Tweet
    * - ``name``
      - string
-     - Title of the tweet
+     - Title of the Tweet
    * - ``text``
      - string
-     - Message of the tweet
+     - Message of the Tweet
    * - ``url``
      - string
      - URL to go to when the Tweet gets clicked
@@ -271,7 +271,7 @@ Create a new tweet.
      - Tweet unpublish date/time
    * - language
      - string
-     - Language locale of the tweet
+     - Language locale of the Tweet
 
 
 **Response**
@@ -299,12 +299,12 @@ Edit Tweet
        'text' => 'This is my first Tweet created via API.',
    );
 
-   // Create new a Tweet of ID 1 isn't found?
+   // Create new a Tweet if ID 1 isn't found?
    $createIfNotFound = true;
 
    $tweet = $tweetApi->edit($id, $data, $createIfNotFound);
 
-Edit a new tweet. Note that this supports PUT or PATCH depending on the desired behavior.
+Edit a new Tweet. Note that this supports PUT or PATCH depending on the desired behavior.
 
 **PUT** creates a Tweet if the given ID doesn't exist and clears all the Tweet information, adds the information from the request.
 
@@ -334,13 +334,13 @@ To edit a Tweet and create a new one if the Tweet isn't found:
      - Description
    * - ``id``
      - int
-     - ID of the tweet
+     - ID of the Tweet
    * - ``name``
      - string
-     - Title of the tweet
+     - Title of the Tweet
    * - ``text``
      - string
-     - Message of the tweet
+     - Message of the Tweet
    * - ``url``
      - string
      - URL to go to when the Tweet gets clicked
@@ -355,7 +355,7 @@ To edit a Tweet and create a new one if the Tweet isn't found:
      - Tweet unpublish date/time
    * - ``language``
      - string
-     - Language locale of the tweet
+     - Language locale of the Tweet
 
 
 **Response**
@@ -381,7 +381,7 @@ Delete Tweet
 
    $tweet = $tweetApi->delete($id);
 
-Delete a tweet.
+Delete a Tweet.
 
 .. vale off
 

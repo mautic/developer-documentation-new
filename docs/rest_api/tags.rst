@@ -1,7 +1,7 @@
 Tags
 ####
 
-Use this endpoint to obtain details on Mautic's tags.
+Use this endpoint to obtain details on Mautic's Tags.
 
 **Using Mautic's API Library**
 
@@ -34,7 +34,7 @@ Get Tag
    //...
    $tag = $tagApi->get($id);
 
-Get an individual tag by ID.
+Get an individual Tag by ID.
 
 .. vale off
 
@@ -67,10 +67,10 @@ Get an individual tag by ID.
      - Description
    * - ``id``
      - int
-     - ID of the tag
+     - ID of the Tag
    * - `tag`
      - string
-     - Title of the tag
+     - Title of the Tag
 
 .. vale off
 
@@ -154,7 +154,7 @@ Create Tag
 
    $tag = $tagApi->create($data);
 
-Create a new tag.
+Create a new Tag.
 
 .. vale off
 
@@ -174,10 +174,10 @@ Create a new tag.
      - Description
    * - ``id``
      - int
-     - ID of the tag
+     - ID of the Tag
    * - ``tag``
      - string
-     - Title of the tag
+     - Title of the Tag
 
 
 **Response**
@@ -204,16 +204,16 @@ Edit Tag
        'tag' => 'Tag B',
    );
 
-   // Create new a tag of ID 1 isn't found?
+   // Create new a Tag if ID 1 isn't found?
    $createIfNotFound = true;
 
    $tag = $tagApi->edit($id, $data, $createIfNotFound);
 
-Edit a new tag. Note that this supports PUT or PATCH depending on the desired behavior.
+Edit a new Tag. Note that this supports PUT or PATCH depending on the desired behavior.
 
-**PUT** creates a tag if the given ID doesn't exist and clears all the tag information, adds the information from the request.
+**PUT** creates a Tag if the given ID doesn't exist and clears all the Tag information, adds the information from the request.
 
-**PATCH** fails if the tag with the given ID doesn't exist and updates the tag field values with the values from the request.
+**PATCH** fails if the Tag with the given ID doesn't exist and updates the Tag field values with the values from the request.
 
 .. vale off
 
@@ -221,11 +221,11 @@ Edit a new tag. Note that this supports PUT or PATCH depending on the desired be
 
 .. vale on
 
-To edit a tag and return a 404 if the tag isn't found:
+To edit a Tag and return a 404 if the Tag isn't found:
 
 ``PATCH /tags/ID/edit``
 
-To edit a tag and create a new one if the tag isn't found:
+To edit a Tag and create a new one if the Tag isn't found:
 
 ``PUT /tags/ID/edit``
 
@@ -239,15 +239,15 @@ To edit a tag and create a new one if the tag isn't found:
      - Description
    * - ``id``
      - int
-     - ID of the tag
+     - ID of the Tag
    * - ``tag``
      - string
-     - Title of the tag
+     - Title of the Tag
 
 
 **Response**
 
-If ``PUT``, the expected response code is ``200`` if editing a tag or ``201`` if creating a new one.
+If ``PUT``, the expected response code is ``200`` if editing a Tag or ``201`` if creating a new one.
 
 If ``PATCH``, the expected response code is ``200``.
 
@@ -268,7 +268,7 @@ Delete Tag
 
    $tag = $tagApi->delete($id);
 
-Delete a tag.
+Delete a Tag.
 
 .. vale off
 

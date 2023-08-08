@@ -21,7 +21,7 @@ You can interact with this API through the :xref:`Mautic API Library` as follows
 
 .. vale off
 
-Get theme
+Get Theme
 *********
 
 .. vale on
