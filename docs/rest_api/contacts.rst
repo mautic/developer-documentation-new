@@ -282,7 +282,7 @@ Here is an example of searching for existing Contacts by email address:
      ]
    ];
 
-Here is a URL-encoded version of searching contacts by email:
+Here is a URL-encoded version of searching Contacts by email address:
 ``GET https://[example.com]/api/contacts?where%5B0%5D%5Bcol%5D=email&where%5B0%5D%5Bexpr%5D=eq&where%5B0%5D%5Bval%5D=test%40email.com``
 
 You can find a list of available expressions on :xref:`Doctrine ORM's website<Doctrine ORM Query Builder>`.
