@@ -51,7 +51,7 @@ Plain HTTP requests
 
 .. vale on
 
-1. Combine the username and password of a Mautic user with a colon ``:``. For example, ``user:password``.
+1. Combine the username and password of a Mautic User with a colon ``:``. For example, ``user:password``.
 2. Base64 encode this value. For example, with ``echo -n 'user:password' | base64``. This outputs something like ``dXNlcjpwYXNzd29yZA==``.
 3. Add an Authorization header to each API request as ``Authorization: Basic dXNlcjpwYXNzd29yZA==``
 
@@ -190,7 +190,7 @@ Please store this data in a secure location and use it to authenticate API reque
 Refreshing tokens
 ^^^^^^^^^^^^^^^^^
 
-The response's ``expires_in`` is the number of seconds the access token is good for and may differ based on what you configured in Mautic. The code handling the authorization process should generate an expiration timestamp based on that value. For example ``<?php $expiration = time() + $response['expires_in']; ?>``. If the access token has expired, the ``refresh_token`` should be used to obtain a new access token.
+The response's ``expires_in`` is the number of seconds the access token is good for and may differ based on what you configured in Mautic. The code handling the authorization process should generate an expiration timestamp based on that value. For example ``<?php $expiration = time() + $response['expires_in']; ?>``. If the access token has expired, you can use the ``refresh_token`` to obtain a new access token.
 
 By default, the refresh token is valid for 14 days unless configured otherwise in Mautic.
 
