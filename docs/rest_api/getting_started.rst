@@ -11,6 +11,11 @@ Mautic provides several ``REST API`` endpoints that you can use. In the navigati
 
     Mautic has an API library available for PHP. You can :xref:`find it on GitHub<Mautic API Library>`.
 
+To get started easily, you can use Mautic's Postman collection:
+
+.. image:: https://run.pstmn.io/button.svg
+   :target: https://app.getpostman.com/run-collection/19345380-9b7bbddc-8a4d-437a-8fc2-42b0b9823883?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D19345380-9b7bbddc-8a4d-437a-8fc2-42b0b9823883%26entityType%3Dcollection%26workspaceId%3D2c328b62-2531-4e35-a6bc-0f2995ce2df3
+
 Authentication
 **************
 
