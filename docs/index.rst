@@ -101,9 +101,12 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    :caption: REST API
    :hidden:
 
+   .. Added the "Getting Started" and "Authentication" docs to the top for better visibility
+
    rest_api/getting_started
-   rest_api/assets
    rest_api/authentication
+
+   rest_api/assets
    rest_api/campaigns
    rest_api/categories
    rest_api/companies

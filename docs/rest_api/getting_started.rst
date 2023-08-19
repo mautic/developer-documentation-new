@@ -19,7 +19,7 @@ Mautic supports Basic Authentication and OAuth2. Please see :ref:`Authentication
 Error handling
 **************
 
-If an OAuth error is encountered, it'll be a JSON encoded array similar to:
+In case of OAuth errors, the response is a JSON encoded array similar to:
 
 .. code-block:: json
 
@@ -28,7 +28,7 @@ If an OAuth error is encountered, it'll be a JSON encoded array similar to:
         "error_description": "The access token provided has expired."
    }
 
-If a system error encountered, it'll be a JSON encoded array similar to:
+In case of system errors, the response is a JSON encoded array similar to:
 
 .. code-block:: json
 
@@ -39,12 +39,16 @@ If a system error encountered, it'll be a JSON encoded array similar to:
        }
    }
 
+.. vale off
+
 Mautic version check
 ********************
 
-In case your API service wants to support several Mautic versions with different features, you might need to check the version of Mautic you communicate with. Since Mautic 2.4.0 the version number is added to all API response headers. The header name is ``Mautic-Version``.
+.. vale on
 
-With Mautic's PHP API library you can get the Mautic version like this:
+In case your API service wants to support several Mautic versions with different features, you might need to validate the version of Mautic you communicate with. Since Mautic 2.4.0, the version number is in all API response headers. The header name is ``Mautic-Version``.
+
+With Mautic's PHP API library, you can get the Mautic version like this:
 
 .. code-block:: php
 
@@ -57,37 +61,34 @@ With Mautic's PHP API library you can get the Mautic version like this:
     // Get the version number from the response header:
     $version = $api->getMauticVersion();
 
-``$version`` will be in a semantic versioning format: ``[major].[minor].[patch]``. For example: ``2.4.0``. If you'll try it on the latest GitHub version, the version will have ``-dev`` at the end. Like ``2.5.1-dev``.
+``$version`` is in a semantic versioning format: ``[major].[minor].[patch]``. For example: ``2.4.0``. If you'll try it on the latest GitHub version, the version has ``-dev`` at the end. Like ``2.5.1-dev``.
 
+.. vale off
 
-API Rate limiter
-****************
+API Rate limiter cache
+**********************
 
-You can configure rate limiter cache in ``local.php``
-By default, filesystem is used as:
+.. vale on
+
+You can configure rate limiter cache in ``config/local.php``, which defaults to the filesystem:
 
 .. code-block:: php
 
     <?php
-    api_rate_limiter_cache => [ 
-        'type'      => 'file_system',
+
+    'api_rate_limiter_cache' => [ 
+        'adapter' => 'cache.adapter.filesystem',
     ],
 
-You can configure memcached server:
+You can also configure a ``memcached`` server for improved performance, like this:
 
 .. code-block:: php
 
     <?php
-    'api_rate_limiter_cache' => [
-        'memcached' => [
-            'servers' =>
-            [
-                [
-                'host' => 'localhost',
-                'port' => 11211
-                ]
-            ]
-        ]
-        ],
 
-Or whatever cache you want described in `Symfony cache documentation <https://symfony.com/doc/current/bundles/DoctrineCacheBundle/reference.html>`_.
+    'api_rate_limiter_cache' => [
+        'adapter'  => 'cache.adapter.memcached',
+        'provider' => 'memcached://memcached.local:12345'
+    ],
+
+For more examples of supported cache adapters, please visit the :xref:`Symfony Cache Documentation<Symfony Cache>`.

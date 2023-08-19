@@ -14,13 +14,42 @@ To get started quickly with Mautic's API, you can use Basic Authentication.
 
 After enabling Basic Authentication, you can use it in Mautic's API as follows:
 
-Using Mautic's API library
-==========================
+Using Mautic's API library with ``BasicAuth``
+=============================================
 
-TODO
+.. code-block:: php
 
-Plain http requests
+   <?php
+   
+   use GuzzleHttp\Client;
+   use Mautic\Auth\ApiAuth;
+   use Mautic\MauticApi;
+
+   // Initiate an HTTP Client
+   $httpClient = new Client([
+       'timeout'  => 10,
+   ]);
+
+   // Initiate the auth object
+   $settings = [
+       'userName' => 'YOUR_USERNAME',
+       'password' => 'YOUR_PASSWORD'
+   ];
+   $apiUrl = 'https://mautic.example.com';
+
+   $initAuth = new ApiAuth($httpClient);
+   $auth     = $initAuth->newAuth($settings, 'BasicAuth');
+
+   $api         = new MauticApi();
+   $contactsApi = $api->newApi('contacts', $auth, $apiUrl);
+   $contacts    = $contactsApi->getList();
+
+.. vale off
+
+Plain HTTP requests
 ===================
+
+.. vale on
 
 1. Combine the username and password of a Mautic user with a colon ``:``. For example, ``user:password``.
 2. Base64 encode this value. For example, with ``echo -n 'user:password' | base64``. This outputs something like ``dXNlcjpwYXNzd29yZA==``.
@@ -49,101 +78,102 @@ There are two main flows that Mautic supports:
    * - Name
      - Description
    * - Authorization code flow
-     - This flow is best if you want Users to log in with their own Mautic accounts. All actions taken will then be registered as if the user performed them in Mautic's UI.
+     - This flow is best if you want Users to log in with their own Mautic accounts. All actions taken get registered as if the User performed them in Mautic's UI.
    * - Client Credentials flow
-     - This flow is best for Machine-to-Machine, M2M, communications. For example, in cron jobs or other automations where no humans are involved. All actions taken will be registered as XXXXXX.
+     - This flow is best for Machine-to-Machine, M2M, communications. For example, in cron jobs that run on at fixed times of the day.
+       All actions get registered under the name that you provided in ``Settings > API Credentials``.
+       So if you called your API Credential ``Mautibot test``, Contacts created through the API show up as ``Contact was identified by Mautibot test [1]``, where ``[1]`` is the ID of the API Credential.
  
 
 Authorization code flow 
 ========================
 
-Using Mautic's API library
---------------------------
+Using Mautic's API library for the Authorization Code flow
+----------------------------------------------------------
 
 Mautic's API library has built-in support for the OAuth2 Authorization Code flow. You can use it as follows:
 
 .. code-block:: php
 
    <?php
+
    use Mautic\Auth\ApiAuth;
+
+   // This is needed for the API library to store the OAuth2 state in the $_SESSION
+   session_start();
 
    // $initAuth->newAuth() will accept an array of OAuth settings
    $settings = array(
-       'baseUrl'      => 'https://example.mautic.com',
+       'baseUrl'      => 'https://mautic.example.com',
        'version'      => 'OAuth2',
        'clientKey'    => '5ad6fa7asfs8fa7sdfa6sfas5fas6asdf8', // A Client Key can be created in Mautic's UI through the "API Credentials" menu item
        'clientSecret' => 'adf8asf7sf54asf3as4f5sf6asfasf97dd', // A Client Secret can be created in Mautic's UI through the "API Credentials" menu item
-       'callback'     => 'https://your-callback.com'
+       'callback'     => 'https://example.com/your-callback'
    );
 
    // Initiate the auth object
    $initAuth = new ApiAuth();
-   $auth     = $initAuth->newAuth($settings);
+   $auth     = $initAuth->newAuth($settings, 'OAuth');
 
-   // Initiate process for obtaining an access token; this will redirect the user to the authorize endpoint and/or set the tokens when the user is redirected back after granting authorization
-
+   // Initiate process for obtaining an access token; this method will redirect the user to the authorize endpoint and/or set the tokens when the user is redirected back after granting authorization
    if ($auth->validateAccessToken()) {
        if ($auth->accessTokenUpdated()) {
            $accessTokenData = $auth->getAccessTokenData();
 
-           //store access token data however you want
+           // store the access token data however you want
        }
    }
 
-Using plain OAuth2
-------------------
+Using plain OAuth2 for the Authorization Code flow
+--------------------------------------------------
 
 .. note::
 
-   The OAuth processes can be tricky. If possible, it's best to use an OAuth library for the language being used. If you're using PHP, Mautic recommends using the :xref:`Mautic API Library`.
+   The OAuth processes can be tricky. If possible, it's best to use an OAuth library for the language that's used. If you're using PHP, Mautic recommends using the :xref:`Mautic API Library`.
 
 Step one - obtain authorization code
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Redirect the user to the authorize endpoint ``/oauth/v2/authorize``:
+Redirect the User to the authorize endpoint ``/oauth/v2/authorize``:
 
 .. code-block:: console
 
-    GET /oauth/v2/authorize?
-       client_id=CLIENT_ID
-       &grant_type=authorization_code
-       &redirect_uri=https%3A%2F%2Fyour-redirect-uri.com%2Fcallback
-       &response_type=code
-       &state=UNIQUE_STATE_STRING
+    # NOTE: navigate to this URL in the browser as it renders the login form
+    https://mautic.example.com/oauth/v2/authorize?grant_type=authorization_code
+        &client_id=CLIENT_ID
+        &redirect_uri=https%3A%2F%2Fexample.com%2Fyour-callback
+        &response_type=code
+        &state=UNIQUE_STATE_STRING
     
     (note that the query has been wrapped for legibility)
 
 .. note:: 
 
-    The state is optional but recommended to prevent CSRF attacks. It should be a uniquely generated string and stored locally in session, cookie, etc. to be compared with the returned value.
+    The state is optional but recommended to prevent ``CSRF`` attacks. It should be a uniquely generated string and stored locally in a session, cookie, etc. so you can compare it with the returned value.
 
 .. note:: 
 
-    Note that the redirect_uri should be URL encoded.
+    Note that the ``redirect_uri`` should be URL encoded.
 
-The user will be prompted to login. Once they do, Mautic will redirect back to the URL specified in redirect_uri with a code appended to the query.
+This prompts the User to login. Once they do, Mautic redirects them back to the URL specified in the ``redirect_uri`` with a code appended to the query.
 
-It may look something like: `https://your-redirect-uri.com?code=UNIQUE_CODE_STRING&state=UNIQUE_STATE_STRING`
+It may look something like: ``https://example.com/your-callback?code=UNIQUE_CODE_STRING&state=UNIQUE_STATE_STRING``
 
-The state returned should be compared against the original to ensure nothing has been tampered with. 
+You should compare the returned ``state`` against the original to ensure the request wasn't tampered with. 
 
 Step two - replace with an access token
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Obtain the value of the code from Step One then immediately POST it back to the access token endpoint `oauth/v2/token` with:
+Obtain the value of the code from Step One, then immediately POST it back to the access token endpoint ``oauth/v2/token`` like so:
 
 .. code-block:: console
 
-  POST /oauth/v2/token
-    ?client_id=CLIENT_ID
-    &client_secret=CLIENT_SECRET
-    &grant_type=authorization_code
-    &redirect_uri=https%3A%2F%2Fyour-redirect-uri.com%2Fcallback
-    &code=UNIQUE_CODE_STRING
+    curl -X POST \
+         -H "Content-Type: application/x-www-form-urlencoded" \
+         -d "grant_type=authorization_code&client_id=CLIENT_ID&redirect_uri=https%3A%2F%2Fexample.com%2Fyour-callback&client_secret=CLIENT_SECRET&code=UNIQUE_CODE_STRING" \
+         https://mautic.example.com/oauth/v2/token
 
-    (note that the post body has been wrapped for legibility)
-
-The response returned should be a JSON encoded string:
+The response returned is a JSON encoded string:
 
 .. code-block:: json
 
@@ -160,32 +190,26 @@ Please store this data in a secure location and use it to authenticate API reque
 Refreshing tokens
 ^^^^^^^^^^^^^^^^^
 
-The response's ``expires_in`` is the number of seconds the access token is good for and may differ based on what is configured in Mautic. The code handling the authorization process should generate an expiration timestamp based on that value. For example ``<?php $expiration = time() + $response['expires_in']; ?>``. If the access token has expired, the refresh_token should be used to obtain a new access token.
+The response's ``expires_in`` is the number of seconds the access token is good for and may differ based on what you configured in Mautic. The code handling the authorization process should generate an expiration timestamp based on that value. For example ``<?php $expiration = time() + $response['expires_in']; ?>``. If the access token has expired, the ``refresh_token`` should be used to obtain a new access token.
 
-By default, the refresh token is valid for 14 days.
+By default, the refresh token is valid for 14 days unless configured otherwise in Mautic.
 
-
-* If your application requests a new access token using the refresh token within 14 days, no user interaction is needed. Your application gets both a new access token and a new refresh token (which is valid for another 14 days after it's issued);
-* If your application does not request a new token using the refresh token within 14 days, user interaction is required in order to get new tokens.
+* If your app requests a new access token using the refresh token within 14 days, there's no need for any User interaction. Your app gets both a new access token and a new refresh token, which is valid for another 14 days after it's issued;
+* If your app doesn't request a new token using the refresh token within 14 days, you'll need to start from Step One again and redirect the User to Mautic's login.
 
 The refresh token's expiration time is configurable through Mautic's Configuration. 
 
-.. note:: 
-    The application should monitor for a ``400 Bad Request`` response when requesting a new access token and redirect the user back through the authorization process.
+.. note::
+    The app should monitor for a ``400 Bad Request`` response when requesting a new access token and redirect the User back through the authorization process if that happens.
 
-
-To obtain a new access token, a POST should be made to the access token's endpoint ``oauth/v2/token`` using the ``refresh_token`` grant type.
+To obtain a new access token, you should do a POST call to the access token's endpoint ``oauth/v2/token`` using the ``refresh_token`` grant type, like so:
 
 .. code-block:: console
 
-    POST /oauth/v2/token
-       ?client_id=CLIENT_ID
-       &client_secret=CLIENT_SECRET
-       &grant_type=refresh_token
-       &refresh_token=REFRESH_TOKEN
-       &redirect_uri=https%3A%2F%2Fyour-redirect-uri.com%2Fcallback
-
-    (note that the post body has been wrapped for legibility)
+    curl -X POST \
+         -H "Content-Type: application/x-www-form-urlencoded" \
+         -d "grant_type=refresh_token&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&refresh_token=REFRESH_TOKEN" \
+         https://mautic.example.com/oauth/v2/token
 
 The response returned should be a JSON encoded string:
 
@@ -199,55 +223,35 @@ The response returned should be a JSON encoded string:
         "refresh_token": "REFRESH_TOKEN"
     }
 
-Client credentials flow
+.. vale off
+
+Client Credentials flow
 =======================
 
-Using Mautic's API library
---------------------------
+Using Mautic's API library for the Client Credentials flow
+----------------------------------------------------------
 
-Mautic's API library has built-in support for the OAuth2 Client Credentials flow. You can use it as follows:
+.. vale on
 
-.. code-block:: php
+.. warning:: 
 
-   <?php
-   use Mautic\Auth\ApiAuth;
+    Mautic's API library doesn't have support yet for this flow, but there's an open PR that adds support: https://github.com/mautic/api-library/pull/269
 
-   // $initAuth->newAuth() will accept an array of OAuth settings
-   $settings = array(
-       'baseUrl'      => 'https://example.mautic.com',
-       'version'      => 'OAuth2',
-       'clientKey'    => '5ad6fa7asfs8fa7sdfa6sfas5fas6asdf8', // A Client Key can be created in Mautic's UI through the "API Credentials" menu item
-       'clientSecret' => 'adf8asf7sf54asf3as4f5sf6asfasf97dd', // A Client Secret can be created in Mautic's UI through the "API Credentials" menu item
-       'callback'     => 'https://your-callback.com'
-   );
+.. vale off
 
-   // Initiate the auth object
-   $initAuth = new ApiAuth();
-   $auth     = $initAuth->newAuth($settings);
+Using plain OAuth2 for the Client Credentials flow
+--------------------------------------------------
 
-   // Initiate process for obtaining an access token; this will redirect the user to the authorize endpoint and/or set the tokens when the user is redirected back after granting authorization
+.. vale on
 
-   if ($auth->validateAccessToken()) {
-       if ($auth->accessTokenUpdated()) {
-           $accessTokenData = $auth->getAccessTokenData();
-
-           //store access token data however you want
-       }
-   }
-
-Using plain OAuth2
-------------------
-
-To obtain a new access token, a POST should be made to the access token's endpoint ``oauth/v2/token`` using the ``client_credentials`` grant type.
+To obtain a new access token, make a POST request to the access token's endpoint ``oauth/v2/token`` using the ``client_credentials`` grant type.
 
 .. code-block:: console
 
-    POST /oauth/v2/token
-      ?client_id=CLIENT_ID
-      &client_secret=CLIENT_SECRET
-      &grant_type=client_credentials
-
-    (note that the post body has been wrapped for legibility)
+    curl -X POST \
+         -H "Content-Type: application/x-www-form-urlencoded" \
+         -d "grant_type=client_credentials&client_id=CLIENT_ID&client_secret=CLIENT_SECRET" \
+         https://mautic.example.com/oauth/v2/token
 
 The response returned should be a JSON encoded string:
 
@@ -260,17 +264,21 @@ The response returned should be a JSON encoded string:
         "scope": ""
     }
 
+.. vale off
+
 Authenticating the API Request
 ==============================
 
-Authenticating the API request with OAuth2 is easy. Choose one of the following methods that is appropriate for the application's needs.
+.. vale on
 
-Authorization Header
+Authenticating the API request with OAuth2 is easy. Choose one of the following methods that's appropriate for the app's needs.
+
+Authorization header
 --------------------
 
-By using an authorization header, any request method can be authenticated.
+By using an authorization header, you can authenticate against all of Mautic's API endpoints.
 
-However, note that this method requires that the server Mautic is installed on passes headers to PHP or has access to the ``apache_request_headers()`` function. ``apache_request_headers()`` is not available to PHP running under fcgi. 
+However, note that this method requires that your Mautic server can pass headers to PHP or has access to the ``apache_request_headers()`` function. ``apache_request_headers()`` isn't available to PHP running under FastCGI. 
 
 .. code-block:: console
 
@@ -279,14 +287,15 @@ However, note that this method requires that the server Mautic is installed on p
 Other methods
 -------------
 
-You can also append the access token to the query or include it the POST body.
+You can also append the access token to the query or include it the POST body, but only when using ``x-www-form-unencoded``.
 
 .. code-block:: console
     
-    GET https://your-mautic.com/api/leads?access_token=ACCESS_TOKEN
+    GET https://mautic.example.com/api/leads?access_token=ACCESS_TOKEN
 
 .. code-block:: console
-    
-    POST https://your-mautic.com/api/leads/new
 
-    firstname=John&lastname=Smith&access_token=ACCESS_TOKEN
+    curl -X POST \
+         -H "Content-Type: application/x-www-form-urlencoded" \
+         -d "firstname=John&lastname=Smith&access_token=ACCESS_TOKEN" \
+         https://mautic.example.com.com/api/leads/new
