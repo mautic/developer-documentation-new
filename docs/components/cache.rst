@@ -1,7 +1,7 @@
 CACHE
 #####
 
-Symfony makes heavy use of a filesystem cache. Frequently clearing this cache will be required when developing for Mautic. By default, the cache is located in ``app/cache/ENV`` where ``ENV`` is the environment currently accessed (i.e. ``dev`` or ``prod``). To rebuild the cache, the ``ENV`` can just be deleted or run the Symfony command ``php app/console cache:clear --env=ENV``. If a specific environment is not passed to the command via ``--env=ENV``, the ``dev`` environment will be used by default.
+Symfony makes heavy use of a filesystem cache. Frequently clearing this cache will be required when developing for Mautic. By default, the cache is located in ``app/cache/ENV`` where ``ENV`` is the environment currently accessed (``dev`` or ``prod``). To rebuild the cache, the ``ENV`` can just be deleted or run the Symfony command ``php app/console cache:clear --env=ENV``. If a specific environment is not passed to the command via ``--env=ENV``, the ``dev`` environment will be used by default.
 
 In the ``dev`` environment, translations, views, and assets are not cached. However, changes to these files will require the cache to be cleared for them to take effect in the ``prod`` environment. Changes to Mautic config files, Symfony config files, etc., will require the cache to be cleared regardless of the environment.
 
