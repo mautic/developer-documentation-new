@@ -270,6 +270,21 @@ This design allows to add multiple conditions in the same request.
 If you aren't using PHP, here is URL-encoded version of the example:
 ``GET https://[example.com]/api/contacts?where%5B0%5D%5Bcol%5D=phone&where%5B0%5D%5Bexpr%5D=in&where%5B0%5D%5Bval%5D=444444444,888888888``
 
+Here is an example of searching for existing Contacts by email address:
+
+.. code-block:: php
+
+   $where = [
+     [
+       'col' => 'email',
+       'expr' => 'eq',
+       'val' => 'test@email.com',
+     ]
+   ];
+
+Here is a URL-encoded version of searching Contacts by email address:
+``GET https://[example.com]/api/contacts?where%5B0%5D%5Bcol%5D=email&where%5B0%5D%5Bexpr%5D=eq&where%5B0%5D%5Bval%5D=test%40email.com``
+
 You can find a list of available expressions on :xref:`Doctrine ORM's website<Doctrine ORM Query Builder>`.
 
 **Response**
