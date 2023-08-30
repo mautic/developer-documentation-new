@@ -160,7 +160,7 @@ Get an individual Email by ID.
      - The ``BCC`` Email address if it's different than the one in the Mautic configuration
    * - ``utmTags``
      - array
-     - Array of UTM params, all of which are of type string. Options are: utmSource, utmMedium, utmCampaign, utmContent
+     - Array of UTM parameters, all of which are of type string. Options are: utmSource, utmMedium, utmCampaign, utmContent
    * - ``isPublished``
      - boolean
      - Published state
@@ -447,10 +447,10 @@ Create a new Email.
      - The ``BCC`` Email address if it's different than the one in the Mautic configuration
    * - ``useOwnerAsMailer``
      - boolean
-     - Whether or not contact owner should be used as mailer. Defaults to TRUE
+     - Should Mautic use the Contact owner as the sender of the Email. Defaults to TRUE
    * - ``utmTags``
      - array
-     - Array of UTM params, all of which are of type string. Options are: utmSource, utmMedium, utmCampaign, utmContent
+     - Array of UTM parameters, all of which are of type string. Options are: utmSource, utmMedium, utmCampaign, utmContent
    * - ``isPublished``
      - boolean
      - Published state
@@ -601,10 +601,10 @@ To edit a Email and create a new one if the Email isn't found:
      - The ``BCC`` Email address if it's different than the one in the Mautic configuration
    * - ``useOwnerAsMailer``
      - boolean
-     - Whether or not contact owner should be used as mailer
+     - Should Mautic use the Contact owner as the sender of the Email
    * - ``utmTags``
      - array
-     - Array of UTM params, all of which are of type string. Options are: utmSource, utmMedium, utmCampaign, utmContent
+     - Array of UTM parameters, all of which are of type string. Options are: utmSource, utmMedium, utmCampaign, utmContent
    * - ``isPublished``
      - boolean
      - Published state
