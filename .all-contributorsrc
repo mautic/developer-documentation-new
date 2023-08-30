@@ -41,6 +41,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "Entrepositive",
+      "name": "Entrepositive",
+      "avatar_url": "https://avatars.githubusercontent.com/u/74878645?v=4",
+      "profile": "https://entrepositive.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
