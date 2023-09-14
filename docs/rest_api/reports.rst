@@ -310,6 +310,8 @@ Returns a list of Contact Reports available to the User. This list isn't filtera
      - string or null
      - Frequency for the scheduler
 
+.. vale off
+
 Create Report
 *************
 
@@ -364,7 +366,7 @@ Create a new Report.
      - Report title is one of the required fields
    * - ``source``
      - string
-     - Data source for the report. Available options: , assets, asset.downloads, campaign_lead_event_log, message.channel, emails, email.stats, forms, form.submissions, contact.dnc, contact.devices, contact.frequencyrules, contact.attribution.multi, contact.attribution.first, contact.attribution.last, lead.pointlog, leads, lead.utmTag, segment.log, segment.membership, group.score, companies, mobile_notifications, mobile_notifications.stats, pages, page.hits, video.hits
+     - Data source for the Report. Available options: ``assets, asset.downloads, campaign_lead_event_log, message.channel, emails, email.stats, forms, form.submissions, contact.dnc, contact.devices, contact.frequencyrules, contact.attribution.multi, contact.attribution.first, contact.attribution.last, lead.pointlog, leads, lead.utmTag, segment.log, segment.membership, group.score, companies, mobile_notifications, mobile_notifications.stats, pages, page.hits, video.hits``
    * - ``description``
      - string
      - A description of the Report.
@@ -373,16 +375,16 @@ Create a new Report.
      - A value of 0 or 1
    * - ``columns``
      - array
-     - Which columns to include in the report. The list of the reports is different for each data source. Please get the list from the UI by inspecting the form field. The columns must include the table alias. For example: l.id, l.email, l.firstname, l.lastname
+     - Which columns to include in the Report. The list of the Reports is different for each data source. Please get the list from the UI by inspecting the ``form`` field. The columns must include the table alias. For example: ``l.id, l.email, l.firstname, l.lastname``
    * - ``filters``
      - array
-     - A list of arrays defining filters. Each filter has the following keys: column, glue, value, dynamic, condition. The column must include the table alias. For example: l.id, l.email, l.firstname, l.lastname
+     - A list of arrays defining filters. Each filter has the following keys: column, glue, value, dynamic, condition. The column must include the table alias. For example: ``l.id, l.email, l.firstname, l.lastname``
    * - ``tableOrder``
      - array
-     - List of columns and their order. The column must include the table alias. For example: l.id, l.email, l.firstname, l.lastname. The order must be either ASC or DESC.
+     - List of columns and their order. The column must include the table alias. For example: ``l.id, l.email, l.firstname, l.lastname``. The order must be either ``ASC`` or ``DESC``.
    * - ``groupBy``
      - array
-     - List of columns to group by. The column must include the table alias. For example: l.id, l.email, l.firstname, l.lastname
+     - List of columns to group by. The column must include the table alias. For example: ``l.id, l.email, l.firstname, l.lastname``
 
 **Response**
 
@@ -441,7 +443,7 @@ Edit a new Report. Note that this supports PUT or PATCH depending on the desired
 
 .. vale on
 
-To edit a Reoirt and return a 404 if the Report isn't found:
+To edit a Report and return a 404 if the Report isn't found:
 
 ``PATCH /reports/ID/edit``
 
@@ -462,7 +464,7 @@ To edit a Report and create a new one if the Report isn't found:
      - Report title is one of the required fields
    * - ``source``
      - string
-     - Data source for the report. Available options: , assets, asset.downloads, campaign_lead_event_log, message.channel, emails, email.stats, forms, form.submissions, contact.dnc, contact.devices, contact.frequencyrules, contact.attribution.multi, contact.attribution.first, contact.attribution.last, lead.pointlog, leads, lead.utmTag, segment.log, segment.membership, group.score, companies, mobile_notifications, mobile_notifications.stats, pages, page.hits, video.hits
+     - Data source for the Report. Available options: ``assets, asset.downloads, campaign_lead_event_log, message.channel, emails, email.stats, forms, form.submissions, contact.dnc, contact.devices, contact.frequencyrules, contact.attribution.multi, contact.attribution.first, contact.attribution.last, lead.pointlog, leads, lead.utmTag, segment.log, segment.membership, group.score, companies, mobile_notifications, mobile_notifications.stats, pages, page.hits, video.hits``
    * - ``description``
      - string
      - A description of the Report.
@@ -471,16 +473,16 @@ To edit a Report and create a new one if the Report isn't found:
      - A value of 0 or 1
    * - ``columns``
      - array
-     - Which columns to include in the report. The list of the reports is different for each data source. Please get the list from the UI by inspecting the form field. The columns must include the table alias. For example: l.id, l.email, l.firstname, l.lastname
+     - Which columns to include in the Report. The list of the Reports is different for each data source. Please get the list from the UI by inspecting the ``form`` field. The columns must include the table alias. For example: ``l.id, l.email, l.firstname, l.lastname``
    * - ``filters``
      - array
-     - A list of arrays defining filters. Each filter has the following keys: column, glue, value, dynamic, condition. The column must include the table alias. For example: l.id, l.email, l.firstname, l.lastname
+     - A list of arrays defining filters. Each filter has the following keys: ``column, glue, value, dynamic, condition``. The column must include the table alias. For example: ``l.id, l.email, l.firstname, l.lastname``
    * - ``tableOrder``
      - array
-     - List of columns and their order. The column must include the table alias. For example: l.id, l.email, l.firstname, l.lastname. The order must be either ASC or DESC.
+     - List of columns and their order. The column must include the table alias. For example: ``l.id, l.email, l.firstname, l.lastname``. The order must be either ``ASC`` or ``DESC``.
    * - ``groupBy``
      - array
-     - List of columns to group by. The column must include the table alias. For example: l.id, l.email, l.firstname, l.lastname
+     - List of columns to group by. The column must include the table alias. For example: ``l.id, l.email, l.firstname, l.lastname``
 
 
 **Response**
