@@ -6,11 +6,11 @@ jobs:
   merge-branch:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: 'Prevent merging into development if the PR is not approved'
         if: github.event.review.state != 'approved'
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           script: |
             core.setFailed('The PR is not approved to be merged into development')
@@ -21,7 +21,7 @@ jobs:
           echo ${{ github.event.pull_request.number }} > ./pr/NR
       - name: 'Store the PR number if approved'
         if: github.event.review.state == 'approved'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: pr
           path: pr/

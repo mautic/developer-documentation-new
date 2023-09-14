@@ -60,13 +60,13 @@ This file creates the GitHub Action jobs based on the definitions in it. You can
 
       steps:
       - name: Checkout Mautic 4
-         uses: actions/checkout@v3
+         uses: actions/checkout@v4
          with:
          repository: mautic/mautic
          ref: ${{ matrix.mautic-versions }}
 
       - name: Checkout this plugin
-         uses: actions/checkout@v3
+         uses: actions/checkout@v4
          with:
          path: ${{ env.PLUGIN_DIR }}
 
