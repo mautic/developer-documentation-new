@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.11
 
 # Please keep version in sync with the version in .github/workflows/linting.yml for a consistent experience
 ENV VALE_VERSION=2.28.3
