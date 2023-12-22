@@ -68,7 +68,7 @@ The first one is the default file ``.env.test`` that includes credentials used t
     MAUTIC_TABLE_PREFIX=test_
     MAUTIC_ENV=test
     MAUTIC_ADMIN_USERNAME=admin
-    MAUTIC_ADMIN_PASSWORD=mautic
+    MAUTIC_ADMIN_PASSWORD=Maut1cR0cks!
 
 The second one, ``.env.test.local`` includes values for the DDEV local development environment, overriding the ``.env.test`` values.
 It's recommended making any changes to this file with its values.
