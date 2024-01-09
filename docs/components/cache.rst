@@ -15,7 +15,7 @@ Enables PSR-6 and PSR-16 caching. Check: `Symfony Cache Component <https://symfo
 Namespace versus tag
 ====================
 
-This bundle introduces tags to cache. All its adapters are fully tag aware which makes the use of namespace obsolete for daily use.
+This bundle introduces tags to the cache. All its adapters are fully tag aware which makes the use of namespace obsolete for daily use.
 
 Previously, if you wanted to keep control on cache section and did not want to hold the index of all keys to clear, you would have to use namespace.
 
