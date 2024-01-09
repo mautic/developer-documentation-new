@@ -101,16 +101,39 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    :caption: REST API
    :hidden:
 
+   .. Added the "Getting Started" and "Authentication" docs to the top for better visibility
+
+   rest_api/getting_started
+   rest_api/authentication
+
    rest_api/assets
    rest_api/campaigns
    rest_api/categories
    rest_api/companies
    rest_api/contacts
+   rest_api/dashboard_widget_data
+   rest_api/dynamic_content
+   rest_api/emails
    rest_api/fields
+   rest_api/files
    rest_api/forms
+   rest_api/marketing_messages
+   rest_api/notes
    rest_api/notifications
+   rest_api/pages
+   rest_api/point_actions
+   rest_api/point_triggers
    rest_api/reports
+   rest_api/roles
+   rest_api/segments
+   rest_api/stages
+   rest_api/stats
+   rest_api/tags
    rest_api/text_messages
+   rest_api/themes
+   rest_api/tweets
+   rest_api/users
+   rest_api/webhooks
 
 Indices and tables
 ==================
