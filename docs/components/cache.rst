@@ -7,7 +7,7 @@ In the ``dev`` environment, Mautic doesn't cache translations, views, and Assets
 
 The typical rule of thumb is, if Mautic isn't acting as you expect after making changes, try clearing your cache. If you get ``class could not be found`` or ``cannot redeclare class`` errors when using the ``cache:clear`` command, manually delete the ``var/cache/ENV`` folder then run the command and/or browse to the site to rebuild.
 
-Cache Bundle
+Cache bundle
 ------------
 
 Enables PSR-6 and PSR-16 caching. Check: `Symfony Cache Component <https://symfony.com/doc/current/components/cache.html>`_
