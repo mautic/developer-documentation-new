@@ -17,7 +17,7 @@ Namespace versus tag
 
 This bundle introduces tags to the cache. All its adapters are fully tag aware which makes the use of namespace obsolete for daily use.
 
-Previously, if you wanted to keep control on cache section and did not want to hold the index of all keys to clear, you would have to use namespace.
+Previously, if you wanted to keep control on cache section and didn't want to hold the index of all keys to clear, you would have to use namespace.
 
 Disadvantage of this approach is a new adapter being created for each namespace.
 
