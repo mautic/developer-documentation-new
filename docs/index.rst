@@ -2,7 +2,44 @@ Welcome to Mautic's developer documentation
 ===========================================
 
 .. note::
-    We are still working on bringing over some of the content from our old documentation, which you can find at [https://developer.mautic.org](https://developer.mautic.org). Please see the issue queue if you'd like to help with completing this work.
+    Work is ongoing bringing over some of the content from the old documentation, which you can find at :xref:`Mautic Developer Portal`. Please see the :xref:`Mautic Dev Docs Issues` if you'd like to help with completing this work.
+
+Welcome to the Mautic Developer Documentation. The documentation broadly covers building custom Plugins for Mautic which extends its features, building custom Themes, and how to integrate applications outside of Mautic using the REST API.
+
+This documentation has multiple versions for different releases of Mautic starting from Mautic 4.x - the switcher is in the bottom left which allows you to change between versions.
+
+Submitting code to Mautic
+*************************
+
+Development is open and available to any member of the Mautic community. All fixes and improvements happen through pull requests to the code on :xref:`Mautic's GitHub Repo`. This code is open source and publicly available.
+
+Read all about contributing to Mautic as a Developer in the :xref:`Mautic Developer Contribution Guide`.
+
+Read more about Mautic's :xref:`Mautic Code Governance` and the :xref:`Mautic Project Governance` model.
+
+Your code must follow the :xref:`Symfony coding standards`. You will find details about where Mautic deviates from these standards documented in the :doc:`/plugins/mautic_vs_symfony` section.
+
+Where to get help
+*****************
+
+The first place to ask for support is on the :xref:`Developer Forum` - this is where the Product Team monitors, and where most developers look out for posts they can assist with. There is also a Commercial forum if you have paid opportunities or are looking for work.
+
+General development chatter also happens in ``#dev`` on :xref:`Mautic Slack`, and anything to do with contributing - including the weekly Open Source Friday contribution sprints - happen in ``#t-product``.
+
+New major releases also have a dedicated space for discussion - for example ``#mautic-5`` and ``#mautic-6``.
+
+Several areas on the Community Portal could be of interest, including :xref:`Community Portal Roadmap` and the :xref:`Community Portal Product Team`.
+
+Supporting Mautic
+*****************
+
+There are several ways to support Mautic other than contributing with code.
+
+1. Help with testing bugs and features using Gitpod in the browser - head to the :xref:`Mautic Tester Docs`
+2. Help with improving the documentation on this site, and the :xref:`Mautic End User Docs`.
+3. :xref:`Contribute to Mautic` with other skills
+4. Become a :xref:`Become a Member of Mautic`
+5. Support Mautic on :xref:`Open Collective`
 
 .. toctree::
    :maxdepth: 2
@@ -114,6 +151,6 @@ Welcome to Mautic's developer documentation
 Indices and tables
 ==================
 
-* :ref:`genindex`
+* :ref:`genindex` 
 * :ref:`modindex`
 * :ref:`search`
