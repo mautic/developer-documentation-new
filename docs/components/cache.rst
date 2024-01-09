@@ -40,7 +40,7 @@ All you need to do now is to clear all tagged items:
 
     $cache->invalidateTags(['firstTag']);
 
-POOLS CLEARING
+Pools clearing
 ==============
 
 Removing cache items
