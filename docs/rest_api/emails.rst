@@ -70,6 +70,12 @@ Get an individual Email by ID.
        "fromName":null,
        "replyToAddress":null,
        "bccAddress":null,
+       "utmTags": {
+         "utmSource": "myUTMsource",
+         "utmMedium": "email",
+         "utmCampaign": "myUTMcampaign",
+         "utmContent": null
+       },
        "customHtml":"<h1>Hi there!<\/h1>",
        "plainText":null,
        "template":null,
@@ -152,6 +158,9 @@ Get an individual Email by ID.
    * - ``bccAddress``
      - string
      - The ``BCC`` Email address if it's different than the one in the Mautic configuration
+   * - ``utmTags``
+     - array
+     - Array of UTM parameters, all of which are of type string. Options are: utmSource, utmMedium, utmCampaign, utmContent
    * - ``isPublished``
      - boolean
      - Published state
@@ -314,6 +323,12 @@ List Emails
                "fromName":null,
                "replyToAddress":null,
                "bccAddress":null,
+               "utmTags": {
+                 "utmSource": "myUTMsource",
+                 "utmMedium": "email",
+                 "utmCampaign": "myUTMcampaign",
+                 "utmContent": null
+               },
                "customHtml":"<h1>Hi there!<\/h1>",
                "plainText":null,
                "template":null,
@@ -430,6 +445,12 @@ Create a new Email.
    * - ``bccAddress``
      - string
      - The ``BCC`` Email address if it's different than the one in the Mautic configuration
+   * - ``useOwnerAsMailer``
+     - boolean
+     - Should Mautic use the Contact owner as the sender of the Email. Defaults to TRUE
+   * - ``utmTags``
+     - array
+     - Array of UTM parameters, all of which are of type string. Options are: utmSource, utmMedium, utmCampaign, utmContent
    * - ``isPublished``
      - boolean
      - Published state
@@ -578,6 +599,12 @@ To edit a Email and create a new one if the Email isn't found:
    * - ``bccAddress``
      - string
      - The ``BCC`` Email address if it's different than the one in the Mautic configuration
+   * - ``useOwnerAsMailer``
+     - boolean
+     - Should Mautic use the Contact owner as the sender of the Email
+   * - ``utmTags``
+     - array
+     - Array of UTM parameters, all of which are of type string. Options are: utmSource, utmMedium, utmCampaign, utmContent
    * - ``isPublished``
      - boolean
      - Published state

@@ -309,3 +309,219 @@ Returns a list of Contact Reports available to the User. This list isn't filtera
    * - ``scheduleMonthFrequency``
      - string or null
      - Frequency for the scheduler
+
+.. vale off
+
+Create Report
+*************
+
+.. vale on
+
+.. code-block:: php
+
+   <?php
+
+   $data = [
+       'name'        => 'Segment Members',
+       'description' => 'This is my first Report created via API.',
+       'isPublished' => 1,
+       'source'      => 'segment.membership',
+       'columns'     => [
+           'l.id',
+           'l.email',
+           'l.firstname',
+           'l.lastname'
+       ],
+        'filters' => [
+          'column' => 'lll.leadlist_id',
+          'glue' => 'and',
+          'value' => '2',
+          'dynamic' => NULL,
+          'condition' => 'eq',
+        ],
+   ];
+
+   $report = $reportApi->create($data);
+
+Create a new Report.
+
+.. vale off
+
+**HTTP Request**
+
+.. vale on
+
+``POST /reports/new``
+
+**POST Parameters**
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``name``
+     - string
+     - Report title is one of the required fields
+   * - ``source``
+     - string
+     - Data source for the Report. Available options: ``assets, asset.downloads, campaign_lead_event_log, message.channel, emails, email.stats, forms, form.submissions, contact.dnc, contact.devices, contact.frequencyrules, contact.attribution.multi, contact.attribution.first, contact.attribution.last, lead.pointlog, leads, lead.utmTag, segment.log, segment.membership, group.score, companies, mobile_notifications, mobile_notifications.stats, pages, page.hits, video.hits``
+   * - ``description``
+     - string
+     - A description of the Report.
+   * - ``isPublished``
+     - int
+     - A value of 0 or 1
+   * - ``columns``
+     - array
+     - Which columns to include in the Report. The list of the Reports is different for each data source. Please get the list from the UI by inspecting the ``form`` field. The columns must include the table alias. For example: ``l.id, l.email, l.firstname, l.lastname``
+   * - ``filters``
+     - array
+     - A list of arrays defining filters. Each filter has the following keys: column, glue, value, dynamic, condition. The column must include the table alias. For example: ``l.id, l.email, l.firstname, l.lastname``
+   * - ``tableOrder``
+     - array
+     - List of columns and their order. The column must include the table alias. For example: ``l.id, l.email, l.firstname, l.lastname``. The order must be either ``ASC`` or ``DESC``.
+   * - ``groupBy``
+     - array
+     - List of columns to group by. The column must include the table alias. For example: ``l.id, l.email, l.firstname, l.lastname``
+
+**Response**
+
+``Expected Response Code: 201``
+
+**Properties**
+
+Same as `Get Report <#get-report>`_.
+
+.. vale off
+
+Edit Report
+*****************
+
+.. vale on
+
+.. code-block:: php
+
+   <?php
+
+   $id   = 1;
+   $data = [
+       'name'        => 'Segment Members',
+       'description' => 'This is my first Report created via API.',
+       'isPublished' => 1,
+       'source'      => 'segment.membership',
+       'columns'     => [
+           'l.id',
+           'l.email',
+           'l.firstname',
+           'l.lastname'
+       ],
+        'filters' => [
+          'column' => 'lll.leadlist_id',
+          'glue' => 'and',
+          'value' => '2',
+          'dynamic' => NULL,
+          'condition' => 'eq',
+        ],
+   ];
+
+   // Create new a Report of ID 1 isn't found?
+   $createIfNotFound = true;
+
+   $page = $reportApi->edit($id, $data, $createIfNotFound);
+
+Edit a new Report. Note that this supports PUT or PATCH depending on the desired behavior.
+
+**PUT** creates a Report if the given ID doesn't exist and clears all the Report information, adds the information from the request.
+
+**PATCH** fails if the Report with the given ID doesn't exist and updates the Report field values with the values from the request.
+
+.. vale off
+
+**HTTP Request**
+
+.. vale on
+
+To edit a Report and return a 404 if the Report isn't found:
+
+``PATCH /reports/ID/edit``
+
+To edit a Report and create a new one if the Report isn't found:
+
+``PUT /reports/ID/edit``
+
+**POST Parameters**
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``name``
+     - string
+     - Report title is one of the required fields
+   * - ``source``
+     - string
+     - Data source for the Report. Available options: ``assets, asset.downloads, campaign_lead_event_log, message.channel, emails, email.stats, forms, form.submissions, contact.dnc, contact.devices, contact.frequencyrules, contact.attribution.multi, contact.attribution.first, contact.attribution.last, lead.pointlog, leads, lead.utmTag, segment.log, segment.membership, group.score, companies, mobile_notifications, mobile_notifications.stats, pages, page.hits, video.hits``
+   * - ``description``
+     - string
+     - A description of the Report.
+   * - ``isPublished``
+     - int
+     - A value of 0 or 1
+   * - ``columns``
+     - array
+     - Which columns to include in the Report. The list of the Reports is different for each data source. Please get the list from the UI by inspecting the ``form`` field. The columns must include the table alias. For example: ``l.id, l.email, l.firstname, l.lastname``
+   * - ``filters``
+     - array
+     - A list of arrays defining filters. Each filter has the following keys: ``column, glue, value, dynamic, condition``. The column must include the table alias. For example: ``l.id, l.email, l.firstname, l.lastname``
+   * - ``tableOrder``
+     - array
+     - List of columns and their order. The column must include the table alias. For example: ``l.id, l.email, l.firstname, l.lastname``. The order must be either ``ASC`` or ``DESC``.
+   * - ``groupBy``
+     - array
+     - List of columns to group by. The column must include the table alias. For example: ``l.id, l.email, l.firstname, l.lastname``
+
+
+**Response**
+
+If ``PUT``, the expected response code is ``200`` if editing a Report or ``201`` if creating a new one.
+
+If ``PATCH``, the expected response code is ``200``.
+
+**Properties**
+
+Same as `Get Report <#get-report>`_.
+
+.. vale off
+
+Delete Report
+*******************
+
+.. vale on
+
+.. code-block:: php
+
+   <?php
+
+   $page = $reportApi->delete($id);
+
+Delete a Report.
+
+.. vale off
+
+**HTTP Request**
+
+.. vale on
+
+``DELETE /reports/ID/delete``
+
+**Response**
+
+``Expected Response Code: 200``
+
+**Properties**
+
+Same as `Get Report <#get-report>`_.
