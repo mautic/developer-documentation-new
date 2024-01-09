@@ -43,7 +43,7 @@ All you need to do now is to clear all tagged items:
 POOLS CLEARING
 ==============
 
-Removing Cache Items
+Removing cache items
 --------------------
 
 Cache Pools include methods to delete a cache item, some of them, or all of them. The most common is ``Psr\\Cache\\CacheItemPoolInterface::deleteItem``, which deletes the cache item identified by the given key.
