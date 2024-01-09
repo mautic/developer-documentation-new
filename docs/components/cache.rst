@@ -57,7 +57,7 @@ Use the ``Psr\\Cache\\CacheItemPoolInterface::deleteItems`` method to delete sev
 Configuration
 -------------
 
-Plugin comes preconfigured to utilize filesystem caching.
+Plugins come preconfigured to utilize filesystem caching.
 
 These are the default settings:
 
