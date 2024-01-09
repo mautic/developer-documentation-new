@@ -13,7 +13,7 @@ Cache bundle
 Enables PSR-6 and PSR-16 caching. Check: `Symfony Cache Component <https://symfony.com/doc/current/components/cache.html>`_
 
 Namespace versus tag
----------------------
+====================
 
 This bundle introduces tags to cache. All its adapters are fully tag aware which makes the use of namespace obsolete for daily use.
 
