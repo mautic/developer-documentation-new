@@ -1,7 +1,8 @@
 Welcome to Mautic's developer documentation
 ===========================================
 
-This is a work in progress. More to come soon. In the meantime, go to :xref:`Legacy Developer Docs` to view the developer documentation.
+.. note::
+    We are still working on bringing over some of the content from our old documentation, which you can find at [https://developer.mautic.org](https://developer.mautic.org). Please see the issue queue if you'd like to help with completing this work.
 
 .. toctree::
    :maxdepth: 2
