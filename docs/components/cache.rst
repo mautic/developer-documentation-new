@@ -5,7 +5,7 @@ Symfony makes heavy use of a filesystem cache. When developing for Mautic, clear
 
 In the ``dev`` environment, Mautic doesn't cache translations, views, and Assets. However, changes to these files require clearing the cache for them to take effect in the ``prod`` environment. Changes to Mautic config files, Symfony config files, etc., require clearing of the cache regardless of the environment.
 
-The typical rule of thumb is, if Mautic is not acting as you expect after making changes, try clearing your cache. If you get "class could not be found" or "cannot redeclare class" errors when using the ``cache:clear`` command, manually delete the ``app/cache/ENV`` folder then run the command and/or browse to the site to rebuild.
+The typical rule of thumb is, if Mautic isn't acting as you expect after making changes, try clearing your cache. If you get ``class could not be found`` or ``cannot redeclare class`` errors when using the ``cache:clear`` command, manually delete the ``var/cache/ENV`` folder then run the command and/or browse to the site to rebuild.
 
 Cache Bundle
 ------------
