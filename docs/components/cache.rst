@@ -19,7 +19,7 @@ This bundle introduces tags to the cache. All its adapters are fully tag aware w
 
 Previously, if you wanted to keep control on cache section and didn't want to hold the index of all keys to clear, you would have to use namespace.
 
-Disadvantage of this approach is a new adapter being created for each namespace.
+The main disadvantage of this approach is that Mautic creates a new adapter for each namespace.
 
 Symfony 3.4 Cache uses tag-aware adapters. If you want to clear all records related to your bundle or component, you just need to tag them.
 
