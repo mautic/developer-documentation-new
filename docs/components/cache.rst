@@ -10,7 +10,7 @@ The typical rule of thumb is, if Mautic isn't acting as you expect after making 
 Cache bundle
 ************
 
-Enables PSR-6 and PSR-16 caching. Check: `Symfony Cache Component <https://symfony.com/doc/current/components/cache.html>`_
+Enables PSR-6 and PSR-16 caching. Check :xref:`Symfony Cache Component`
 
 Namespace versus tag
 ====================
