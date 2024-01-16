@@ -31,7 +31,8 @@ Installing Mautic is a two-step process:
     * - Username
       - Password
     * - ``admin``
-      - ``mautic``
+      - ``Maut1cR0cks!``
     * - ``sales``
-      - ``mautic``
+      - ``Maut1cR0cks!``
 
+.. Note:: Versions of Mautic prior to 5.1 use the password ``mautic``
