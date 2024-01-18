@@ -5,6 +5,16 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
 
 .. toctree::
    :maxdepth: 2
+   :caption: Development Environment
+   :hidden:
+
+   development-environment/getting_started
+   development-environment/how_to_install_with_ddev
+   development-environment/setup
+   development-environment/environments
+
+.. toctree::
+   :maxdepth: 2
    :caption: Themes
    :hidden:
 
@@ -47,6 +57,7 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    :hidden:
 
    plugins/getting_started
+   plugins/autowiring
    plugins/mautic_vs_symfony
    plugins/dependencies
    plugins/event_listeners
@@ -55,10 +66,11 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    plugins/installation
    plugins/data
    plugins/translations
+   plugins/continuous-integration
 
 .. toctree::
    :maxdepth: 2
-   :caption: Components
+   :caption: Extending Mautic
    :hidden:
 
    components/api
@@ -71,6 +83,7 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    components/core
    components/emails
    components/forms
+   components/forms_advanced
    components/integrations
    components/ip_lookups
    components/landing_pages
@@ -79,10 +92,48 @@ This is a work in progress. More to come soon. In the meantime, go to :xref:`Leg
    components/queue
    components/reports
    components/security
-   components/sms
    components/tracking_script
    components/translator
    components/ui
+
+.. toctree::
+   :maxdepth: 2
+   :caption: REST API
+   :hidden:
+
+   .. Added the "Getting Started" and "Authentication" docs to the top for better visibility
+
+   rest_api/getting_started
+   rest_api/authentication
+
+   rest_api/assets
+   rest_api/campaigns
+   rest_api/categories
+   rest_api/companies
+   rest_api/contacts
+   rest_api/dashboard_widget_data
+   rest_api/dynamic_content
+   rest_api/emails
+   rest_api/fields
+   rest_api/files
+   rest_api/forms
+   rest_api/marketing_messages
+   rest_api/notes
+   rest_api/notifications
+   rest_api/pages
+   rest_api/point_actions
+   rest_api/point_triggers
+   rest_api/reports
+   rest_api/roles
+   rest_api/segments
+   rest_api/stages
+   rest_api/stats
+   rest_api/tags
+   rest_api/text_messages
+   rest_api/themes
+   rest_api/tweets
+   rest_api/users
+   rest_api/webhooks
 
 Indices and tables
 ==================

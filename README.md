@@ -1,6 +1,6 @@
 [![Documentation Status][RTD badge URL]][RTD URL]
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/mautic/developer-documentation-new)
@@ -20,6 +20,21 @@ For more background, our end goal, and to let us know if you want to help, pleas
 
 [![Link to YouTube video with explanation of the current developer documentation structure][YouTube video image]][YouTube video URL]
 
+## Adding a code sample
+
+Code samples get downloaded from GitHub to ensure that they're always up to date. If you want to add a new code sample, follow these two steps:
+
+1. Create a file in `docs/code_samples/` and add a permalink in there. Look at other files in that directory for examples. URLs should always start with `https://raw.githubusercontent.com/...` to ensure that Sphinx can download the file correctly.
+2. In any documentation file, add a `literalinclude` block to include the code, like so:
+
+```
+.. The link to this file is defined in docs/code_samples/helloworld_entity_world.py 
+.. literalinclude:: ../code_samples_downloaded/Entity_World.php
+    :language: php
+```
+
+Tip: downloaded files get cached in `docs/code_samples_downloaded` to prevent overloading GitHub with download requests. If you change the URL to a file, simply remove the cached file from `docs/code_samples_downloaded` and Sphinx automatically re-downloads it.
+
 ## Build documentation locally
 
 - [RST Syntax Cheatsheet][RST Cheatsheet]
@@ -34,7 +49,14 @@ The following provides instructions for how to build docs locally for visualizat
 4. CD into the docs directory `cd [path to this repo]/docs`
 5. Run `make html`
 6. This will generate HTML in docs/build/html. Setup a web server with the web root as docs/build/html or open docs/build/html/index.html in a browser.
- 
+
+## Troubleshooting
+
+If the build isn't working for some reason, here's some tips:
+
+- Try running the `make html` command in the terminal: `cd docs && make html`. This command normally provides a lot of additional context.
+- If the preview isn't working, click the `esbonio` section in the bottom right corner of the VS Code window. That rebuilds the docs and previews, and tells you if something is wrong.
+
 ### Vale
 Before pushing, run Vale and address suggestions and errors as applicable.
 1. Install [`vale`][Vale] 
@@ -47,6 +69,33 @@ You can automatically build changes to rst files using a file watcher.
 
 <img width="753" alt="Screen Shot 2021-10-06 at 15 52 06" src="https://user-images.githubusercontent.com/63312/136281761-204861f9-340a-4e3e-8ce5-e0584236303c.png">
 
+### Style guide
+
+Please consult Mautic's [`style-guide`][Style guide] before contributing to the documentation. Some rules get enforced through Vale.
+
+As a quick reference, here's the list of headings Mautic uses:
+
+```
+H1: ############
+H2: ****************
+H3: ============
+H4: ----------------
+H5: ~~~~~~~~~~~~
+```
+
+ <!-- vale off -->
+
+### Converting markdown to reStructuredText
+
+ <!-- vale on -->
+
+Mautic's documentation uses ``reStructuredText``, or ``.rst`` files. Luckily, there's converters available that help you convert ``.md`` to ``.rst`` files. Here's an example of ``m2r`` - this converter also converts tables into ``list-table`` directives properly.
+
+```
+pip install m2r
+# This creates a new file with the .rst extension:
+m2r my_markdown_file.md
+```
 
 [ReadTheDocs]: <https://readthedocs.org>
 [Legacy dev docs]: <https://github.com/mautic/developer-documentation>
@@ -60,6 +109,7 @@ You can automatically build changes to rst files using a file watcher.
 [Sphinx Template]: <https://github.com/readthedocs/sphinx_rtd_theme/tree/master/docs/demo>
 [Sphinx Demo]: <https://sphinx-rtd-theme.readthedocs.io/en/stable/demo/structure.html>
 [Vale]: <https://docs.errata.ai/vale/install>
+[Style Guide]: <https://contribute.mautic.org/education-team/technical-writing-styleguide>
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -68,9 +118,15 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
-  <tr>
-    <td align="center"><a href="https://robert-parker.me"><img src="https://avatars.githubusercontent.com/u/25473863?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Robert Parker</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=diaboloshogunate" title="Documentation">📖</a></td>
-  </tr>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://robert-parker.me"><img src="https://avatars.githubusercontent.com/u/25473863?v=4?s=100" width="100px;" alt="Robert Parker"/><br /><sub><b>Robert Parker</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=diaboloshogunate" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/shinde-rahul"><img src="https://avatars.githubusercontent.com/u/1046788?v=4?s=100" width="100px;" alt="Rahul Shinde"/><br /><sub><b>Rahul Shinde</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=shinde-rahul" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://dennisameling.com"><img src="https://avatars.githubusercontent.com/u/17739158?v=4?s=100" width="100px;" alt="Dennis Ameling"/><br /><sub><b>Dennis Ameling</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=dennisameling" title="Documentation">📖</a> <a href="https://github.com/mautic/developer-documentation-new/pulls?q=is%3Apr+reviewed-by%3Adennisameling" title="Reviewed Pull Requests">👀</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://www.growthclick.com"><img src="https://avatars.githubusercontent.com/u/9682900?v=4?s=100" width="100px;" alt="Tom McLellan"/><br /><sub><b>Tom McLellan</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=thmclellan" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://entrepositive.com"><img src="https://avatars.githubusercontent.com/u/74878645?v=4?s=100" width="100px;" alt="Entrepositive"/><br /><sub><b>Entrepositive</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=Entrepositive" title="Documentation">📖</a></td>
+    </tr>
+  </tbody>
 </table>
 
 <!-- markdownlint-restore -->

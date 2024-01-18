@@ -6,6 +6,10 @@ Autoloader
 autoloader
 Autowired
 autowired
+Autowiring
+autowiring
+autowire
+autowires
 bcc
 Beanstalkd
 Bing
@@ -18,6 +22,7 @@ CCPA
 Citrix
 Clearbit
 CloudAMQP
+Codecov
 config
 Config
 Company(ies)
@@ -105,6 +110,7 @@ SugarCRM
 Suhosin
 Symfony
 Todo
+tooltip
 Transifex
 TRUE
 true
@@ -122,3 +128,10 @@ www
 YAML
 Zapier
 Zoho
+middleware
+URIs
+false
+timeframe
+OAuth1a
+OAuth2
+Tooltip
