@@ -29,7 +29,7 @@ Event properties
       - :ref:`Contact object<webhooks/events/lead_post_save_new:Contact properties>`.
     * - ``company``
       - object
-      - :ref:`Company object<Company properties>`.
+      - :ref:`Company object<webhooks/events/company_post_save:Company properties>`.
     * - ``timestamp``
       - string
       - Date/time the event occurred in ISO 8601 format.
