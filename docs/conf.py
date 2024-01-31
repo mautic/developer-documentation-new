@@ -81,3 +81,8 @@ linkcheck_ignore = [
    # Incorrectly reported as 'Anchor "webhooks" not found' so ignoring this
    'https://docs.mautic.org/en/setup/cron-jobs#webhooks'
 ]
+
+linkcheck_anchors_ignore_for_url = [
+  # github anchors cause failures in make checklinks check
+  'https://github.com/mautic/mautic/.*'
+]
