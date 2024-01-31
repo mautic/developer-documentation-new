@@ -110,7 +110,7 @@ Enabled/auth tab
 
 .. vale on
 
-These interfaces provide the configuration options for authenticating with the third party service. Read more about how to use IntegrationsBundle's  :ref:`auth providers here<Authentication Providers>`.
+These interfaces provide the configuration options for authenticating with the third party service. Read more about how to use IntegrationsBundle's  :ref:`auth providers here<components/integrations_authentication:Authentication Providers>`.
 
 
 .. vale off

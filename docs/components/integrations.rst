@@ -93,9 +93,9 @@ Integration authentication
 
 If the Integration requires authentication with the third party service:
 
-1. :ref:`Register the Integration<Register the Integration for Authentication>` as an Integration that requires authentication options.
-2. Create a custom Symfony Form type for the required credentials and return it as part of the :ref:`config interface<ConfigFormAuthInterface>`.
-3. Create a custom service that builds and configures the Guzzle client required to authenticate and communicate with the third party service. Use an :ref:`existing supported factory or create a new one<Authentication Providers>`.
+1. :ref:`Register the Integration<components/integrations_authentication:Register the Integration for Authentication>` as an Integration that requires authentication options.
+2. Create a custom Symfony Form type for the required credentials and return it as part of the :ref:`config interface<components/integrations_configuration:ConfigFormAuthInterface>`.
+3. Create a custom service that builds and configures the Guzzle client required to authenticate and communicate with the third party service. Use an :ref:`existing supported factory or create a new one<components/integrations_authentication:Authentication Providers>`.
 
 Integration configuration
 *************************
@@ -103,8 +103,8 @@ Integration configuration
 
 If the Integration has extra configuration settings for features unique to it:
 
-1. :ref:`Register the Integration<Register the Integration for configuration>` as an Integration that requires configuration options.
-2. Create a custom Symfony Form type for the features and return it as part of the :ref:`Config Form feature setting interface<ConfigFormFeatureSettingsInterface>`.
+1. :ref:`Register the Integration<components/integrations_configuration:Register the Integration for configuration>` as an Integration that requires configuration options.
+2. Create a custom Symfony Form type for the features and return it as part of the :ref:`Config Form feature setting interface<components/integrations_configuration:ConfigFormFeatureSettingsInterface>`.
 
 .. vale off
 
@@ -115,7 +115,7 @@ Integration sync engine
 
 If the Integration syncs with Mautic's Contacts and/or Companies:
 
-1. Read about :ref:`the sync engine<Sync engine>`.
+1. Read about :ref:`the sync engine<components/integrations_sync:Sync engine>`.
 
 .. vale off
 
@@ -126,5 +126,5 @@ Integration Builders
 
 If the Integration includes a Builder, Email, or Landing Page:
 
-1. :ref:`Register the Integration<Register the Integration as a builder>` as an Integration that provides a custom builder.
+1. :ref:`Register the Integration<components/integrations_builder:Register the Integration as a builder>` as an Integration that provides a custom builder.
 2. Configure what featured builders the Integration supports (Mautic currently supports 'Email' and 'Landing Page' builders).

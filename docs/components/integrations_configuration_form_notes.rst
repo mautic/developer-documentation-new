@@ -18,17 +18,17 @@ The ``ConfigSupport`` class should implement the ``\Mautic\IntegrationsBundle\In
 .. php:method:: public function getAuthorizationNote(): ?Note
 
     :return: The message and type for Auth tab.
-    :returntype: :ref:`Note<Note Object>`
+    :returntype: :ref:`Note<components/integrations_configuration_form_notes:Note Object>`
 
 .. php:method:: public function getFeaturesNote(): ?Note
 
     :return: The message and type for Features tab.
-    :returntype: :ref:`Note<Note Object>`
+    :returntype: :ref:`Note<components/integrations_configuration_form_notes:Note Object>`
 
 .. php:method:: public function getFieldMappingNote(): ?Note
 
     :return: The message and type for Field Mapping tab.
-    :returntype: :ref:`Note<Note Object>`
+    :returntype: :ref:`Note<components/integrations_configuration_form_notes:Note Object>`
 
 _____
 

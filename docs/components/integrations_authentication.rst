@@ -666,7 +666,7 @@ OAuth2 three legged
 
 Three legged OAuth2 with the code grant is the most complex to implement because it involves redirecting the User to the third party service to authenticate then sent back to Mautic to initiate the access token process using a code returned in the request.
 
-The first step is to register the Integration as a :ref:`\\Mautic\\IntegrationsBundle\\Integration\\Interfaces\\AuthenticationInterface<Register the Integration for Authentication>`.
+The first step is to register the Integration as a :ref:`\\Mautic\\IntegrationsBundle\\Integration\\Interfaces\\AuthenticationInterface<components/integrations_authentication:Register the Integration for Authentication>`.
 The ``authenticateIntegration()`` method initiates the access token process using the ``code`` returned in the request after the User logs into the third-party service.
 
 .. vale off
@@ -703,7 +703,7 @@ This redirect URI can display in the UI by using :xref:`ConfigFormCallbackInterf
     }
 
 The trick here is that the ``Client``'s ``authenticate`` method configures a ``ClientInterface`` and then calls any valid API URL.
-The middleware initiates the access token process by making a call and storing it in the ``Integration`` entity's API keys through :ref:`TokenPersistenceFactory<Token Persistence>`.
+The middleware initiates the access token process by making a call and storing it in the ``Integration`` entity's API keys through :ref:`TokenPersistenceFactory<components/integrations_authentication:Token Persistence>`.
 Mautic recommends keeping the URL simple, like a checking version or fetching info for the authenticated User.
 
 Here is an example of a client, assuming that the User has already logged in and the code is in the request.

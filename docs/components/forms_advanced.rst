@@ -18,7 +18,7 @@ Custom Form types
 
 As stated in Symfony's documentation as referenced in the preceding section, Form type classes are the best way to go.
 Mautic makes it easy to register :xref:`Form type services<Symfony 4 custom Form field type>` through the bundle's config file.
-Refer to the :ref:`Service config items` section.
+Refer to the :ref:`plugins/config:Service config items` section.
 
 Data sanitizing
 ***************
