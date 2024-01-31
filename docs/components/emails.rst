@@ -437,7 +437,7 @@ This section is in progress. See  ``\Mautic\EmailBundle\Stats\Helper\StatHelperI
 .. vale off
 
 Testing Email transports
-########################
+************************
 
 .. vale on
   
