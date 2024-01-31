@@ -79,10 +79,7 @@ html_static_path = ['_static']
 # A little context on the reason for ignoring is greatly appreciated!
 linkcheck_ignore = [
    # Incorrectly reported as 'Anchor "webhooks" not found' so ignoring this
-   'https://docs.mautic.org/en/setup/cron-jobs#webhooks'
-]
-
-linkcheck_anchors_ignore_for_url = [
-  # github anchors cause failures in make checklinks check
-  'https://github.com/mautic/mautic/.*'
+   'https://docs.mautic.org/en/setup/cron-jobs#webhooks',
+   # github anchors cause failures, so do not check any github url with an anchor
+   r'^https://github.com/.*#.*'
 ]
