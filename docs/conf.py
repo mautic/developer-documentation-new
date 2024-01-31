@@ -83,3 +83,7 @@ linkcheck_ignore = [
    # github anchors cause failures, so do not check any github url with an anchor
    r'^https://github.com/.*#.*'
 ]
+
+# Ensure that autosectionlabel will produce unique names
+autosectionlabel_prefix_document = True
+# autosectionlabel_maxdepth = 1

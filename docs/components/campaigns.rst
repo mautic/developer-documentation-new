@@ -18,21 +18,21 @@ Mautic dispatches the Event ``\Mautic\CampaignBundle\CampaignEvents::CAMPAIGN_ON
   .. php:method:: public addAction(string $key, array $action)
 
       :param string $key: Unique key for the Action.
-      :param array $action: :ref:`Action definition<Campaign Action definition>`.
+      :param array $action: :ref:`Campaign definition <components/campaigns:Campaign Action definition>`.
 
       :returntype: void
 
   .. php:method:: public addCondition(string $key, array $condition)
 
       :param string $key: Unique key for the Condition.
-      :param array $condition: :ref:`Condition definition<Campaign Condition definition>`.
+      :param array $condition: :ref:`Condition definition <components/campaigns:Campaign Condition definition>`.
 
       :returntype: void
 
   .. php:method:: public addDecision(string $key, array $decision)
 
       :param string $key: Unique key for the Decision.
-      :param array $decision: :ref:`Decision definition<Campaign Decision definition>`.
+      :param array $decision: :ref:`Decision definition <components/campaigns:Campaign Decision definition>`.
 
       :returntype: void
 
