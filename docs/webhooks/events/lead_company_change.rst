@@ -26,7 +26,7 @@ Event properties
       - ``TRUE`` if Contact added to the Company. ``FALSE`` if removed.
     * - ``contact``
       - object
-      - :ref:`Contact object<Contact properties>`.
+      - :ref:`Contact object<webhooks/events/lead_post_save_new:Contact properties>`.
     * - ``company``
       - object
       - :ref:`Company object<Company properties>`.

@@ -1,7 +1,7 @@
 Translating Plugins
 ###################
 
-Plugins include their own translations in their ``Translations`` directories organized by locale. Currently, only :xref:`Core translations are supported through Transifex<Translating Mautic>`. See :ref:`Translator` for information on writing translations and using the Translator service in your Plugin.
+Plugins include their own translations in their ``Translations`` directories organized by locale. Currently, only :xref:`Core translations are supported through Transifex<Translating Mautic>`. See :ref:`components/translator:Translator` for information on writing translations and using the Translator service in your Plugin.
 
 .. note:: All Plugins must include a US English, en_US, translation.
 

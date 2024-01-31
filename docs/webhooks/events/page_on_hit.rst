@@ -51,7 +51,7 @@ Page visit properties
       - :ref:`Landing Page basic object<Landing Page basic properties>`.
     * - ``lead``
       - object
-      - :ref:`Contact object<Contact properties>`.
+      - :ref:`Contact object<webhooks/events/lead_post_save_new:Contact properties>`.
     * - ``ipAddress``
       - object
       - :ref:`IP address basic object<IP address basic properties>` for the Contact when they visited the Page.
@@ -137,4 +137,4 @@ Landing Page basic properties
       - API name for the Landing Page.
     * - ``category``
       - object
-      - :ref:`Category object<Category properties>`.
+      - :ref:`Category object<webhooks/events/email_on_send:Category properties>`.

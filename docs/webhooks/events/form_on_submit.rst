@@ -48,7 +48,7 @@ Submission properties
       - :ref:`Form basic object<Form basic properties>`.
     * - ``lead``
       - object
-      - :ref:`Contact object<Contact properties>`.
+      - :ref:`Contact object<webhooks/events/lead_post_save_new:Contact properties>`.
     * - ``trackingId``
       - string
       - Generated ID for the tracking session.
@@ -85,7 +85,7 @@ Form basic properties
       - API name for the Form
     * - ``category``
       - object
-      - :ref:`Category object<Category properties>`
+      - :ref:`Category object<webhooks/events/email_on_send:Category properties>`
 
 IP address basic properties
 ***************************
