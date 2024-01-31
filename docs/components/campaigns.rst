@@ -18,7 +18,7 @@ Mautic dispatches the Event ``\Mautic\CampaignBundle\CampaignEvents::CAMPAIGN_ON
   .. php:method:: public addAction(string $key, array $action)
 
       :param string $key: Unique key for the Action.
-      :param array $action: :ref:`Campaign definition <components/campaigns:Campaign Action definition>`.
+      :param array $action: :ref:`Action definition <components/campaigns:Campaign Action definition>`.
 
       :returntype: void
 
