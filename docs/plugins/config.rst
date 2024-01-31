@@ -42,7 +42,7 @@ Mautic recognizes the Plugin through the general config options.
 Routing config items
 ********************
 
-Routes define the URL paths that execute the specified controller action. Register routes with Mautic through the ``routes`` key in the Plugin's config. Define each route under one of Mautic's :ref:`supported firewalls<Routing firewalls>` with a uniquely identifying key and the :ref:`route's definition<Route definitions>`.
+Routes define the URL paths that execute the specified controller action. Register routes with Mautic through the ``routes`` key in the Plugin's config. Define each route under one of Mautic's :ref:`supported firewalls<plugins/config:Routing firewalls>` with a uniquely identifying key and the :ref:`route's definition<plugins/config:Route definitions>`.
 
 .. code-block:: php
 
@@ -193,7 +193,7 @@ Configure custom routes through writing a listener to the ``\Mautic\CoreBundle\C
 
 .. php:method:: getType()
 
-    :returns: The :ref:`route firewall<Routing firewalls>` for the given route collection.
+    :returns: The :ref:`route firewall<plugins/config:Routing firewalls>` for the given route collection.
     :returntype: string
 
 .. php:method:: getCollection()
@@ -317,7 +317,7 @@ Menu item definitions
 
 Define items in an ``items`` array along with ``priority`` or at the root of the menu's array.
 
-Key each item with its respective :ref:`language string key<Translating plugins>`.
+Key each item with its respective :ref:`language string key<plugins/translations:Translating plugins>`.
 
 .. list-table::
     :header-rows: 1
@@ -329,11 +329,11 @@ Key each item with its respective :ref:`language string key<Translating plugins>
     * - ``route``
       - conditional
       - string
-      - Name of the :ref:`Routing config items<Route definitions>` for this item. Leave undefined if the item is a placeholder for a sub-menu.
+      - Name of the :ref:`Routing config items<plugins/config:Route definitions>` for this item. Leave undefined if the item is a placeholder for a sub-menu.
     * - ``routeParameters``
       - no
       - array
-      - Key/value pairs of :ref:`path parameters<Route definitions>` for the given ``route``.
+      - Key/value pairs of :ref:`path parameters<plugins/config:Route definitions>` for the given ``route``.
     * - ``parent``
       - no
       - string
@@ -341,15 +341,15 @@ Key each item with its respective :ref:`language string key<Translating plugins>
     * - ``priority``
       - no
       - ``int``
-      - Determines the position of this item relative to it's sibling items. See :ref:`Menu item priority`.
+      - Determines the position of this item relative to it's sibling items. See :ref:`plugins/config:Menu item priority`.
     * - ``access``
       - no
       - string
-      - The :ref:`permission<Roles and permissions>` required to display this menu item. For example, ``category:categories:view`` or ``admin`` to restrict to only Administrators.
+      - The :ref:`permission<security-roles-and-permissions>` required to display this menu item. For example, ``category:categories:view`` or ``admin`` to restrict to only Administrators.
     * - ``checks``
       - no
       - array
-      - Define checks that must evaluate to ``TRUE`` to display the item. See :ref:`Menu item checks` for more details.
+      - Define checks that must evaluate to ``TRUE`` to display the item. See :ref:`plugins/config:Menu item checks` for more details.
     * - ``id``
       - no
       - string
@@ -513,7 +513,7 @@ For convenience, Mautic auto-tags services defined within specific keys.
       - Deprecated. Use service dependency injection instead.
     * - ``permissions``
       - ``mautic.permissions``
-      - Registers the service with Mautic's :ref:`permission service<Roles and permissions>`.
+      - Registers the service with Mautic's :ref:`permission service<security-roles-and-permissions>`.
     * - ``*`` or ``other``
       - n/a
       - You can use any other key you want to organize services in the config array. Note that this could risk incompatibility with a future version of Mautic if using something generic that Mautic starts to use as well.
@@ -553,11 +553,11 @@ Key each service with a unique name to all of Mautic, including other Plugins.
     * - ``tag``
       - no
       - string
-      - Define a :xref:`tag used by Symfony when compiling the container<Symfony 4 service tags>`. See :ref:`Mautic service tags` for Mautic specific tags.
+      - Define a :xref:`tag used by Symfony when compiling the container<Symfony 4 service tags>`. See :ref:`plugins/config:Mautic service tags` for Mautic specific tags.
     * - ``tags``
       - no
       - array
-      - An array of tags when there are more than one. See :ref:`Mautic service tags` for Mautic specific tags. This supersedes ``tag``.
+      - An array of tags when there are more than one. See :ref:`plugins/config:Mautic service tags` for Mautic specific tags. This supersedes ``tag``.
     * - ``tagArguments``
       - no
       - array
@@ -619,11 +619,11 @@ Mautic uses the follow tags to register services as described below.
       - none
       - Registers this service to handle webhooks from a :ref:`Text Message transport<Text Message transports>`.
     * - ``mautic.email_transport``
-      - Key/value pairs to configure fields required to authenticate with the transport's service. See :ref:`Email transports`.
-      - Registers the service as an :ref:`Email transport<Email transports>`.
+      - Key/value pairs to configure fields required to authenticate with the transport's service. See :ref:`components/emails:Email transports`.
+      - Registers the service as an :ref:`Email transport<components/emails:Email transports>`.
     * - ``mautic.email_stat_helper``
       - none
-      - Registers the service as a stat helper for Email charts. See :ref:`Email stat helpers`.
+      - Registers the service as a stat helper for Email charts. See :ref:`components/emails:Email stat helpers`.
 
 **Core tags**
 
@@ -635,7 +635,7 @@ Mautic uses the follow tags to register services as described below.
       - Description
     * - ``mautic.permissions``
       - none
-      - Registers the service as a permission object that must extend ``\Mautic\CoreBundle\Security\Permissions\AbstractPermissions``. See :ref:`Roles and permissions`. Services under the ``['services']['permissions']`` array do not require this.
+      - Registers the service as a permission object that must extend ``\Mautic\CoreBundle\Security\Permissions\AbstractPermissions``. See :ref:`security-roles-and-permissions`. Services under the ``['services']['permissions']`` array do not require this.
 
 **Integration tags**
 
@@ -647,19 +647,19 @@ Mautic uses the follow tags to register services as described below.
       - Description
     * - ``mautic.basic_integration``
       - none
-      - Registers the service as an :ref:`Integration<Integrations>`.
+      - Registers the service as an :ref:`Integration<components/integrations:Integrations>`.
     * - ``mautic.builder_integration``
       -  none
-      - Registers the service as a :ref:`Builder<Integration Builders>`.
+      - Registers the service as a :ref:`Builder<components/integrations:Integration Builders>`.
     * - ``mautic.authentication_integration``
       - none
-      - Registers the service to :ref:`authenticate with the Integration's service<Integration authentication>`.
+      - Registers the service to :ref:`authenticate with the Integration's service<components/integrations:Integration authentication>`.
     * - ``mautic.config_integration``
       - none
-      - Registers the service to :ref:`configure the Integration<Integration configuration>`.
+      - Registers the service to :ref:`configure the Integration<components/integrations:Integration configuration>`.
     * - ``mautic.sync_integration``
       - none
-      - Registers the service to :ref:`sync with Mautic objects with the Integration's service<Integration sync engine>`.
+      - Registers the service to :ref:`sync with Mautic objects with the Integration's service<components/integrations:Integration sync engine>`.
     * - ``mautic.sync.notification_handler``
       - none
       - Registers the service to handle :ref:`sync notifications<Sync notification handlers>`.
@@ -667,7 +667,7 @@ Mautic uses the follow tags to register services as described below.
 Category config items
 *********************
 
-Use ``categories`` to define Category types available to the Category manager. See :ref:`Categories`.
+Use ``categories`` to define Category types available to the Category manager. See :ref:`components/categories:Categories`.
 
 .. code-block:: php
 
@@ -684,7 +684,7 @@ Use ``categories`` to define Category types available to the Category manager. S
 Parameters config items
 ***********************
 
-Configure parameters that are consumable through Mautic's ``CoreParameterHelper``, passed into services with ``%mautic.key%``, or read from the environment via ``MAUTIC_KEY``. See :ref:`Configuration parameters` for more information.
+Configure parameters that are consumable through Mautic's ``CoreParameterHelper``, passed into services with ``%mautic.key%``, or read from the environment via ``MAUTIC_KEY``. See :ref:`components/config:Configuration parameters` for more information.
 
 .. code-block:: php
 
@@ -702,4 +702,4 @@ Configure parameters that are consumable through Mautic's ``CoreParameterHelper`
 
 .. note:: The default value must match the value's type for Mautic to typecast and transform appropriately. For example, if there isn't a specific default value to declare, define an empty array, ``[]``, for an array type; zero, ``0``, for an integer type; ``TRUE`` or ``FALSE`` for boolean types; and so forth. Services leveraging parameters should accept and handle ``NULL`` for integer and string types, excluding ``0``.
 
-.. note:: Parameters aren't exposed to the UI by default. See :ref:`Configuration` for more information.
+.. note:: Parameters aren't exposed to the UI by default. See :ref:`components/config:Configuration` for more information.

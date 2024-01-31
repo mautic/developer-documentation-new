@@ -36,7 +36,7 @@ Mautic uses directory paths that aren't typical in Symfony to make it distributa
     * - ``vendor/``
       - Contains Composer installed dependencies
 
-Mautic mostly uses Symfony's 2.x/3.x bundle structure for Core bundles in ``app\bundles\`` and custom Plugins in ``plugins\``. Read more about these :ref:`here<File and directory structure>`.
+Mautic mostly uses Symfony's 2.x/3.x bundle structure for Core bundles in ``app\bundles\`` and custom Plugins in ``plugins\``. Read more about these :ref:`here<plugins/structure:File and directory structure>`.
 
 PHP everything
 **************

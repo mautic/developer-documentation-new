@@ -396,7 +396,7 @@ You can find a list of available expressions on :xref:`Doctrine ORM's website<Do
 
 **Properties**
 
-Same as :ref:`Get Contact`.
+Same as :ref:`rest_api/contacts:Get Contact`.
 
 .. vale off
 
@@ -454,7 +454,7 @@ Create a new Contact.
 
 **Properties**
 
-Same as :ref:`Get Contact`.
+Same as :ref:`rest_api/contacts:Get Contact`.
 
 .. vale off
 
@@ -516,7 +516,7 @@ Create a batch of new Contacts.
 
 **Properties**
 
-Array of Contacts. Record is the same as :ref:`Get Contact`.
+Array of Contacts. Record is the same as :ref:`rest_api/contacts:Get Contact`.
 
 .. vale off
 
@@ -584,7 +584,7 @@ If ``PATCH``, the expected response code is ``200``.
 
 **Properties**
 
-Same as :ref:`Get Contact`.
+Same as :ref:`rest_api/contacts:Get Contact`.
 
 .. note:: In order to remove a tag from the Contact, add minus ``-`` before it. For example: ``tags: ['one', '-two']`` - sending this in request body will add tag ``one`` and remove tag ``two`` from Contact.
 
@@ -665,7 +665,7 @@ If ``PATCH``, the expected response code is ``200``.
 
 **Properties**
 
-Contacts array. Record same as :ref:`Get Contact`.
+Contacts array. Record same as :ref:`rest_api/contacts:Get Contact`.
 
 .. note:: In order to remove a tag from the Contact, add minus ``-`` before it. For example: ``tags: ['one', '-two']`` - sending this in request body will add tag ``one`` and remove tag ``two`` from Contact.
 
@@ -698,7 +698,7 @@ Delete a Contact.
 
 **Properties**
 
-Same as :ref:`Get Contact`.
+Same as :ref:`rest_api/contacts:Get Contact`.
 
 .. vale off
 
@@ -733,7 +733,7 @@ If you aren't using PHP, here is a URL example:
 
 **Properties**
 
-Contacts array. Record same as :ref:`Get Contact`.
+Contacts array. Record same as :ref:`rest_api/contacts:Get Contact`.
 
 .. vale off
 
@@ -830,7 +830,7 @@ To remove ``Do Not Contact`` entry from a Contact:
 
 **Response**
 
-Same as :ref:`Get Contact`.
+Same as :ref:`rest_api/contacts:Get Contact`.
 
 .. vale off
 
@@ -909,7 +909,7 @@ Mautic requires the parameter array. Each ``UTM`` tag entry is optional.
 
 **Response**
 
-Same as :ref:`Get Contact` with the added UTM Tags.
+Same as :ref:`rest_api/contacts:Get Contact` with the added UTM Tags.
 
 .. vale off
 
@@ -941,7 +941,7 @@ None required.
 
 **Response**
 
-Same as :ref:`Get Contact` without the removed UTM Tags.
+Same as :ref:`rest_api/contacts:Get Contact` without the removed UTM Tags.
 
 .. vale off
 

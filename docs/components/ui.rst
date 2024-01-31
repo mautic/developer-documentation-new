@@ -29,7 +29,7 @@ Mautic dispatches the Event ``\Mautic\CoreBundle\CoreEvents::VIEW_INJECT_CUSTOM_
 
 .. php:method:: public function addButton(array $button, $location = null, $route = null)
 
-    :param array[] $button: :ref:`Details for button<Button Array Format>`.
+    :param array[] $button: :ref:`Details for button<components/ui:Button Array Format>`.
     :param string $location: Location of the Button to be placed.
     :param string $route: Route.
 

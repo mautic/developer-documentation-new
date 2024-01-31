@@ -245,7 +245,7 @@ Mautic provides a few helper methods for common permission sets:
 
 **buildForm()**
 
-The ``buildForm()`` method appends the permission toggles to the Role's Form. See :ref:`Forms` for details on Form builders. Review the comments in the code sample.
+The ``buildForm()`` method appends the permission toggles to the Role's Form. See :ref:`components/forms:Forms` for details on Form builders. Review the comments in the code sample.
 
 There are complimentary helper methods for the common permission sets:
 

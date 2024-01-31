@@ -3,7 +3,7 @@ Translator
 
 Mautic leverages a decorated Symfony Translator service for translations.
 
-Visit :xref:`Translating Mautic` for information on how to translate Core. :ref:`Plugins must include their own translations<Translating plugins>`.
+Visit :xref:`Translating Mautic` for information on how to translate Core. :ref:`Plugins must include their own translations<plugins/translations:Translating plugins>`.
 
 Translation file and directory structure
 ****************************************
@@ -57,7 +57,7 @@ Translations are key/value pairs in the ``INI`` format. There is no hard and fas
 Using the Translator service
 ****************************
 
-Plugins have access to service by passing ``translator`` as :ref:`a service dependency<Service config items>`. Type-hint the argument in the service's construct with ``Symfony\Component\Translation\TranslatorInterface``.
+Plugins have access to service by passing ``translator`` as :ref:`a service dependency<plugins/config:Service config items>`. Type-hint the argument in the service's construct with ``Symfony\Component\Translation\TranslatorInterface``.
 
 In PHP templates, use ``$view['translator']`` to access the Translator service.
 
