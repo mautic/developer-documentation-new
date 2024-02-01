@@ -495,19 +495,16 @@ For convenience, Mautic auto-tags services defined within specific keys.
       - Description
     * - ``command`` or ``commands``
       - ``console.command``
-      - Registers the service with :xref:`Symfony as a console command<Symfony 4 console command tag>`.
+      - Registers the service with :xref:`Symfony as a console command<Symfony console command tag>`.
     * - ``controllers``
       - ``controller.service_arguments``
-      - Controllers are typically autowired by Symfony. However, you can register :xref:`controllers as services<Symfony 4 controller service arguments tag` to manage your own dependency injection rather than relying on Symfony's service container.
+      - Controllers are typically autowired by Symfony. However, you can register :xref:`controllers as services<Symfony controller service arguments tag` to manage your own dependency injection rather than relying on Symfony's service container.
     * - ``events``
       - ``kernel.event_subscriber``
-      - Registers the service with :xref:`Symfony as an event subscriber<Symfony 4 event subscriber tag>`.
+      - Registers the service with :xref:`Symfony as an event subscriber<Symfony event subscriber tag>`.
     * - ``forms``
       - ``form.type``
-      - Registers the service with :xref:`Symfony as a custom form field type<Symfony 4 custom form field type tag>`.
-    * - ``helpers``
-      - ``templating.helper``
-      - Registers the service with :xref:`Symfony as a PHP template helper<Symfony 4 PHP template helper tag>`. The service definition must include an ``alias``.
+      - Registers the service with :xref:`Symfony as a custom form field type<Symfony custom form field type tag>`.
     * - ``models``
       - ``mautic.model``
       - Deprecated. Use service dependency injection instead.
@@ -553,7 +550,7 @@ Key each service with a unique name to all of Mautic, including other Plugins.
     * - ``tag``
       - no
       - string
-      - Define a :xref:`tag used by Symfony when compiling the container<Symfony 4 service tags>`. See :ref:`plugins/config:Mautic service tags` for Mautic specific tags.
+      - Define a :xref:`tag used by Symfony when compiling the container<Symfony service tags>`. See :ref:`plugins/config:Mautic service tags` for Mautic specific tags.
     * - ``tags``
       - no
       - array
@@ -565,7 +562,7 @@ Key each service with a unique name to all of Mautic, including other Plugins.
     * - ``factory``
       - no
       - array
-      - Define a factory to create this service. For example, ``'factory' => ['@doctrine.orm.entity_manager', 'getRepository'],``. See :xref:`Symfony 4 factories`.
+      - Define a factory to create this service. For example, ``'factory' => ['@doctrine.orm.entity_manager', 'getRepository'],``. See :xref:`Symfony factories`.
     * - ``methodCalls``
       - no
       - array[]
@@ -573,7 +570,7 @@ Key each service with a unique name to all of Mautic, including other Plugins.
     * - ``decoratedService``
       - no
       - string
-      - Name of another service to override and decorate. The original service becomes available as ``thisServiceName.inner``  to this or others services. See :xref:`Symfony 4 service decoration`.
+      - Name of another service to override and decorate. The original service becomes available as ``thisServiceName.inner``  to this or others services. See :xref:`Symfony service decoration`.
     * - ``public``
       - no
       - boolean
@@ -581,15 +578,15 @@ Key each service with a unique name to all of Mautic, including other Plugins.
     * - ``synthetic``
       - no
       - boolean
-      - Configure the service as synthetic meaning it gets set during run time. See :xref:`Symfony 4 synthetic services`.
+      - Configure the service as synthetic meaning it gets set during run time. See :xref:`Symfony synthetic services`.
     * - ``file``
       - no
       - string
-      - Include the specified file prior to loading the service. Symfony uses PHP's ``require_once``. See :xref:`Symfony 4 requiring a file before loading a service`.
+      - Include the specified file prior to loading the service. Symfony uses PHP's ``require_once``. See :xref:`Symfony requiring a file before loading a service`.
     * - ``configurator``
       - no
       - array|string
-      - Callable to use as a configurator to configure the service after its instantiation. See :xref:`Symfony 4 service configurators`.
+      - Callable to use as a configurator to configure the service after its instantiation. See :xref:`Symfony service configurators`.
     * - ``abstract``
       - no
       - boolean

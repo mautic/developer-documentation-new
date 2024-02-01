@@ -2,7 +2,7 @@ Forms - advanced
 ################
 
 Sometimes you might have more complex requirements for your Forms. You might already be aware that Mautic builds upon the Symfony framework, so there's lots of Form-related features available to you.
-You can read more about this here: :xref:`Symfony 4 form classes`. This section highlights a few complex but common use cases:
+You can read more about this here: :xref:`Symfony form classes`. This section highlights a few complex but common use cases:
 
 - Custom Form Types that deviate from Symfony's wide array of standard Form types, like text fields, choice fields, etc.
 - Data sanitizing
@@ -17,7 +17,7 @@ Custom Form types
 .. vale on
 
 As stated in Symfony's documentation as referenced in the preceding section, Form type classes are the best way to go.
-Mautic makes it easy to register :xref:`Form type services<Symfony 4 custom Form field type>` through the bundle's config file.
+Mautic makes it easy to register :xref:`Form type services<Symfony custom Form field type>` through the bundle's config file.
 Refer to the :ref:`plugins/config:Service config items` section.
 
 Data sanitizing
@@ -25,7 +25,7 @@ Data sanitizing
 
 Form data isn't automatically sanitized. Mautic provides a Form event subscriber to handle this. 
 
-In your :xref:`Form type class<Symfony 4 form classes>`, register the ``Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber`` event subscriber. 
+In your :xref:`Form type class<Symfony form classes>`, register the ``Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber`` event subscriber.
  
 The array provided to ``CleanFormSubscriber`` should contain the names of the Form Fields as keys and the values the masks to use to sanitize the data. Any unspecified Form Field uses the ``clean`` mask by default.
 
@@ -66,12 +66,12 @@ Dynamic Form modification
 
 If you need to manipulate a Form based on submitted data, use a Form event listener.
 This is useful in cases like changing defined fields, adjust constraints, or changing select choices based on submitted values.
-Refer to Symfony's documentation on this: :xref:`Symfony 4 dynamic form modification`
+Refer to Symfony's documentation on this: :xref:`Symfony dynamic form modification`
 
 Data validation
 ***************
 
-Review Symfony's Form validation documentation for a general overview: :xref:`Symfony 4 form validation`
+Review Symfony's Form validation documentation for a general overview: :xref:`Symfony form validation`
 
 There are two common means of validating Form data.
 
@@ -81,7 +81,7 @@ Using entity static callback
 If the underlying data of a Form is an Entity object you can define a static method ``loadValidatorMetadata`` in the Entity class.
 This automatically gets called when Symfony is processing Form data.
 
-A Form can also use :xref:`validation_groups<Symfony 4 Form validation groups>` to change the order of data to validate or only validate if certain criteria is true.
+A Form can also use :xref:`validation_groups<Symfony 5 Form validation groups>` to change the order of data to validate or only validate if certain criteria is true.
 For example, only validate a password confirmation field if the first password field passes validation.
 When registering a validation group in the Form type class, you can use a static callback to determine what validation groups Symfony should use.
 
@@ -154,7 +154,7 @@ When registering a validation group in the Form type class, you can use a static
 Using constraints
 =================
 
-A :xref:`Form type service<Symfony 4 custom Form field type>` can also register :xref:`Constraints<Symfony 4 Form constraints>` when defining the Form Fields.
+A :xref:`Form type service<Symfony custom Form field type>` can also register :xref:`Constraints<Symfony Form constraints>` when defining the Form Fields.
 
 .. code-block:: php
 

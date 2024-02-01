@@ -126,7 +126,7 @@ Campaign Action definition
     * - ``formType``
       - no
       - string
-      - :xref:`Symfony form type class<Symfony 4 custom form field type tag>` for the Event's configuration.
+      - :xref:`Symfony form type class<Symfony custom form field type tag>` for the Event's configuration.
     * - ``formTypeOptions``
       - no
       - array
@@ -235,7 +235,7 @@ Campaign Condition definition
     * - ``formType``
       - no
       - string
-      - :xref:`Symfony form type class<Symfony 4 custom form field type tag>` for the Event's configuration.
+      - :xref:`Symfony form type class<Symfony custom form field type tag>` for the Event's configuration.
     * - ``formTypeOptions``
       - no
       - array
@@ -344,7 +344,7 @@ Campaign Decision definition
     * - ``formType``
       - no
       - string
-      - :xref:`Symfony form type class<Symfony 4 custom form field type tag>` for the Event's configuration.
+      - :xref:`Symfony form type class<Symfony custom form field type tag>` for the Event's configuration.
     * - ``formTypeOptions``
       - no
       - array
