@@ -24,6 +24,7 @@ jobs:
       with:
         # Please keep version in sync with the version in .gitpod.Dockerfile for a consistent experience
         version: 2.29.2
+        fail_on_error: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
