@@ -1,7 +1,7 @@
 Installing, upgrading, and uninstalling
 #######################################
 
-Mautic informs your Plugin when it gets installed or updated through the ``ON_PLUGIN_INSTALL`` and ``ON_PLUGIN_UPDATE`` events. This can be useful in scenarios where you need to set up certain data structures or do other configuration work. Note that there is currently no hook for when your Plugin gets uninstalled. If that's of interest, please feel free to :xref:`contribute that functionality<Contributing to Mautic>`.
+Mautic informs your Plugin when it gets installed or updated through the ``ON_PLUGIN_INSTALL`` and ``ON_PLUGIN_UPDATE`` events. This can be useful in scenarios where you need to set up certain data structures or do other configuration work. Note that there is currently no hook for when your Plugin gets uninstalled. If that's of interest, please feel free to :xref:`contribute that feature<Contributing to Mautic>`.
 
 .. note:: If your Plugin manages its own schema, Mautic recommends using :ref:`plugins/installation:database migrations` instead of the generic events mentioned earlier.
 
