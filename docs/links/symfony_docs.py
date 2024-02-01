@@ -1,6 +1,6 @@
 from . import link
 
-link_name = "Symfony 5 documentation"
+link_name = "Symfony documentation"
 link_text = "Symfony 5 documentation"
 link_url = "https://symfony.com/doc/5.x/index.html"
 

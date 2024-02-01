@@ -31,9 +31,9 @@ Here's an example ``composer.json`` file:
             "install-directory-name": "ExampleBundle"
         },
         "require": {
-            "php": ">=7.4.0 <8.1",
+            "php": ">=8.0 <8.1",
             "ext-zip": "^1.15",
-            "mautic/core-lib": "^4.0"
+            "mautic/core-lib": "^5.0"
         }
     }
 
@@ -58,13 +58,13 @@ When the ``composer.json`` is ready, follow the :xref:`Packagist` section direct
 Step 4: apply for the allowlist
 ===============================
 
-While the Mautic Marketplace is still in beta, you'll have to apply for the allowlist to show up in the Marketplace. The Marketplace moves from beta to stable with Mautic 4.2 in February 2022, after which the allowlist gets deprecated in favour of a blocklist. Please refer to the :doc:`./allowlist_what_and_why` page for more details.
+While the Mautic Marketplace is still in beta, you'll have to apply for the allowlist to show up in the Marketplace. Please refer to the :doc:`./allowlist_what_and_why` page for more details.
 
 Updating existing Plugins for usage with the Marketplace
 ********************************************************
 
 If you required ``mautic/composer-plugin`` in your plugin's dependencies in the past, please remove it. Support for Mautic plugins is now built into Composer, so you only have to set the type to ``mautic-plugin`` and Composer will automatically install your plugin into the ``plugins`` folder.
 
-Next to that, if you built your Plugin for Mautic 3 originally, please read the :xref:`UPGRADE-4.0.md guide` for the breaking changes in Mautic 4.
+Next to that, if you built your Plugin for Mautic 4 originally, please read the :xref:`UPGRADE_GUIDE` for the breaking changes in Mautic 5.
 
 When you're done, you can go back to the :ref:`marketplace/listing:Preparing your plugin for the Marketplace` section in this document and proceed from there.

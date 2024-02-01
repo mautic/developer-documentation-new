@@ -40,7 +40,7 @@ Translation domains organize translations into files. The following are defined 
     * - ``flashes``
       - Default domain for translations for the ``\Mautic\CoreBundle\Service\FlashBag`` service.
     * - ``validators``
-      - Default domain for constraint messages for validations in :xref:`Symfony form field types<Symfony 4 custom form field type tag>`.
+      - Default domain for constraint messages for validations in :xref:`Symfony form field types<Symfony custom form field type tag>`.
 
 Translation strings
 *******************
