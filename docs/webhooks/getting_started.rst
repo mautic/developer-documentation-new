@@ -1,4 +1,4 @@
-Getting started with webhooks
+Getting started with Webhooks
 #############################
 
 Webhooks are a universal way to send data about Contacts and their activity to a third party in either real-time - as the change/activity happens - or queued - sent in batches through background Cron jobs.

@@ -54,7 +54,7 @@ Translations are key/value pairs in the ``INI`` format. There is no hard and fas
     helloworld.form.world_select.tooltip="Note that most are visit at your own risk!"
     helloworld.moons.number_of_moons="{0}%world% has no moons|{1}%world% has one moon|]1,Inf[ %world% has %count% moons"
 
-Using the translator service
+Using the Translator service
 ****************************
 
 Plugins have access to service by passing ``translator`` as :ref:`a service dependency<plugins/config:Service config items>`. Type-hint the argument in the service's construct with ``Symfony\Component\Translation\TranslatorInterface``.

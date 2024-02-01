@@ -1,4 +1,4 @@
-Getting started with themes
+Getting started with Themes
 ###########################
 
 You can use Themes to create default content and layouts for Emails and Landing Pages written in the :xref:`Twig documentation`.

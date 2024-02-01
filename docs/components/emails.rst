@@ -518,7 +518,7 @@ Use the builder to do the following:
 - Complete the ``From Name`` & ``From Address``, ``BCC``, ``Reply-To``, ``Add Attachment``, ``custom headers``, and Click on ``Auto Generate`` to create a text version of the Email  
 - Save the Email and send a sample test, you should get everything you filled  
   
-Create a segment email
+Create a Segment Email
 ======================
 
 Go to Channels -> Emails -> New -> Segment Email -> Select Blank Theme  

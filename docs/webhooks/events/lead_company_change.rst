@@ -1,4 +1,4 @@
-Contact company subscription change event
+Contact Company subscription change event
 #########################################
 
 Triggered when Mautic adds or removes a Contact to/from a Company.
