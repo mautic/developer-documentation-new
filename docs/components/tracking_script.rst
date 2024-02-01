@@ -61,7 +61,7 @@ You can embed ``mtc.js`` in third party websites to manage communication between
        }
    }
 
-To inject custom JavaScript into ``mtc.js``, use an :ref:`Event Listener<Event listeners>` for the ``CoreEvents::BUILD_MAUTIC_JS`` event.
+To inject custom JavaScript into ``mtc.js``, use an :ref:`Event Listener<plugins/event_listeners:Event listeners>` for the ``CoreEvents::BUILD_MAUTIC_JS`` event.
 This event receives a ``Mautic\CoreBundle\Event\BuildJsEvent`` object where ``$event->appendJs($js, $sectionName);`` can be used to inject the script's code.
 
 .. warning:: Note that the code that triggers the tracking call to Mautic has a priority of -255. Thus, any listener to this event should use a priority greater than -255.

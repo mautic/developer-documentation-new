@@ -10,43 +10,46 @@ Registering Campaign Events
 
 Mautic dispatches the Event ``\Mautic\CampaignBundle\CampaignEvents::CAMPAIGN_ON_BUILD`` for Plugins to register their Campaign Actions, Conditions and Decisions. Listeners receive a ``Mautic\CampaignBundle\Events\CampaignBuilderEvent`` object. Register the Event using the appropriate ``add`` method as described below.
 
-.. php:class:: Mautic\CampaignBundle\Events\CampaignBuilderEvent
+.. php:namespace:: Mautic\CampaignBundle\Events
+.. php:class:: CampaignBuilderEvent
 
-.. php:method:: public addAction(string $key, array $action)
+  CampaignBuilderEvent class
 
-    :param string $key: Unique key for the Action.
-    :param array $action: :ref:`Action definition<Campaign Action definition>`.
+  .. php:method:: public addAction(string $key, array $action)
 
-    :returntype: void
+      :param string $key: Unique key for the Action.
+      :param array $action: :ref:`Action definition <components/campaigns:Campaign Action definition>`.
 
-.. php:method:: public addCondition(string $key, array $condition)
+      :returntype: void
 
-    :param string $key: Unique key for the Condition.
-    :param array $condition: :ref:`Condition definition<Campaign Condition definition>`.
+  .. php:method:: public addCondition(string $key, array $condition)
 
-    :returntype: void
+      :param string $key: Unique key for the Condition.
+      :param array $condition: :ref:`Condition definition <components/campaigns:Campaign Condition definition>`.
 
-.. php:method:: public addDecision(string $key, array $decision)
+      :returntype: void
 
-    :param string $key: Unique key for the Decision.
-    :param array $decision: :ref:`Decision definition<Campaign Decision definition>`.
+  .. php:method:: public addDecision(string $key, array $decision)
 
-    :returntype: void
+      :param string $key: Unique key for the Decision.
+      :param array $decision: :ref:`Decision definition <components/campaigns:Campaign Decision definition>`.
 
-.. php:method:: public getActions()
+      :returntype: void
 
-    :return: Array of registered Actions.
-    :returntype: array
+  .. php:method:: public getActions()
 
-.. php:method:: public getConditions()
+      :return: Array of registered Actions.
+      :returntype: array
 
-    :return: Array of registered Conditions.
-    :returntype: array
+  .. php:method:: public getConditions()
 
-.. php:method:: public getDecisions()
+      :return: Array of registered Conditions.
+      :returntype: array
 
-    :return: Array of registered Decisions.
-    :returntype: array
+  .. php:method:: public getDecisions()
+
+      :return: Array of registered Decisions.
+      :returntype: array
 
 .. vale off
 

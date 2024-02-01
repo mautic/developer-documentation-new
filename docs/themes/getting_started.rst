@@ -51,13 +51,13 @@ authorUrl
 features
     An array of strings that tells Mautic which features the Theme supports. Currently recognized values are:
 
-    ``email`` The Theme is compatible with the Email Builder. See :ref:`html/email.html.twig`.
+    ``email`` The Theme is compatible with the Email Builder. See :ref:`themes/getting_started:html/email.html.twig`.
 
-    ``form`` The Theme is compatible with the customizing Forms. See :ref:`html/form.html.twig`.
+    ``form`` The Theme is compatible with the customizing Forms. See :ref:`themes/getting_started:html/form.html.twig`.
 
-    ``page`` The Theme is compatible with the Page Builder. See :ref:`html/page.html.twig`.
+    ``page`` The Theme is compatible with the Page Builder. See :ref:`themes/getting_started:html/page.html.twig`.
 
-    A corresponding ``html/[feature].html.twig`` file is required for each feature supported. For example, if the Theme supports ``email``, then there should be a ``html/email.html.twig`` file. See :ref:`Twig files` more information on each feature.
+    A corresponding ``html/[feature].html.twig`` file is required for each feature supported. For example, if the Theme supports ``email``, then there should be a ``html/email.html.twig`` file. See :ref:`themes/getting_started:Twig files` more information on each feature.
 builder
     This contains an array of strings declaring which Builder the Theme supports. This currently only applies to Themes that support ``page`` or ``email``. By default, Themes without this line are only recognized by Mautic's legacy builder. New Themes built should declare the specific Builders it supports.
 
@@ -164,7 +164,7 @@ Mautic uses this file when accessing the form at /form/ID, embedding a Form in a
 
 This should output the variables ``message``, ``header``, and ``content``.
 
-See :ref:`Customizing forms` on how to customize Form fields.
+See :ref:`themes/forms:Customizing forms` on how to customize Form fields.
 
 .. code-block:: twig
 

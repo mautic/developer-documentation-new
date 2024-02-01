@@ -23,7 +23,7 @@ Event properties
       - Description
     * - ``contact``
       - object
-      - :ref:`Contact object<Contact properties>`.
+      - :ref:`Contact object<webhooks/events/lead_post_save_new:Contact properties>`.
     * - ``points``
       - object
       - Contains the original Points and the new Points for the Contact.

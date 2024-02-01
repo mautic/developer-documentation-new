@@ -12,17 +12,20 @@ In Mautic, custom Point Actions give a Contact `x` Points for doing a certain ac
 
 Mautic dispatches the Event ``\Mautic\PointBundle\PointEvents::POINT_ON_BUILD`` for Plugins to register their custom Point Action. Listeners receive a ``Mautic\PointBundle\Event\PointBuilderEvent`` object. Register the Event using the ``addAction`` method as described below.
 
-.. php:class:: Mautic\PointBundle\Event\PointBuilderEvent
+.. php:namespace:: Mautic\PointBundle\Event
+.. php:class:: PointBuilderEvent
 
-.. php:method:: public function addAction(string $key, array $action)
+  PointBuilderEvent class
 
-    :param string $key: Unique key for the Action.
-    :param array $action: :ref:`Action definition<Custom Point Action definition>`.
+  .. php:method:: public addAction(string $key, array $action)
 
-.. php:method:: public getActions()
+      :param string $key: Unique key for the Action.
+      :param array $action: :ref:`Action definition<components/points:Custom Point Action definition>`.
 
-    :return: Array of registered Actions.
-    :returntype: array
+  .. php:method:: public getActions()
+
+      :return: Array of registered Actions.
+      :returntype: array
 
 .. vale off
 
@@ -139,7 +142,7 @@ Mautic dispatches the Event ``\Mautic\PointBundle\PointEvents::TRIGGER_ON_BUILD`
 .. php:method:: public function addEvent(string $key, array $action)
 
     :param string $key: Unique key for the Action.
-    :param array $action: :ref:`Action definition<Custom Point Trigger definition>`.
+    :param array $action: :ref:`Action definition<components/points:Custom Point Trigger definition>`.
 
 .. php:method:: public getEvents()
 

@@ -25,7 +25,7 @@ Event properties
       - Description
     * - ``contact``
       - object
-      - :ref:`Contact object<Contact properties>`
+      - :ref:`Contact object<webhooks/events/lead_post_save_new:Contact properties>`
     * - ``timestamp``
       - string
       - Date/time the event occurred in ISO 8601 format.
@@ -77,22 +77,22 @@ Contact properties
       - Preferred image to display for the Contact. Defaults to ``gravatar``.
     * - ``fields``
       - object|array
-      -  Mautic groups fields by Field Groups keyed as one of ``core``, ``social``, ``personal``, and ``professional``. Each ``fieldGroup`` has an object of Fields keyed by the Field's API name. See :ref:`Custom Field object<Custom Field properties>` for each Field's properties. Note that this could be an object if there are Fields available. Otherwise, Mautic sets an empty array. For example, ``$firstname = $contact['fields']['core']['firstname']['value'];``.
+      -  Mautic groups fields by Field Groups keyed as one of ``core``, ``social``, ``personal``, and ``professional``. Each ``fieldGroup`` has an object of Fields keyed by the Field's API name. See :ref:`Custom Field object<webhooks/events/lead_post_save_new:Custom Field properties>` for each Field's properties. Note that this could be an object if there are Fields available. Otherwise, Mautic sets an empty array. For example, ``$firstname = $contact['fields']['core']['firstname']['value'];``.
     * - ``lastActive``
       - string|null
       - Date/time the Contact was last active in ISO 8601 format or null if it hasn't been active.
     * - ``owner``
       - object|null
-      - :ref:`User object<Owner properties>` or null if no Owner assigned.
+      - :ref:`User object<webhooks/events/lead_post_save_new:Owner properties>` or null if no Owner assigned.
     * - ``ipAddresses``
       - object
-      - :ref:`IP Address object<IP address properties>`.
+      - :ref:`IP Address object<webhooks/events/lead_post_save_new:IP address properties>`.
     * - ``tags``
       - object
-      - :ref:`Tag object<Tag properties>`.
+      - :ref:`Tag object<webhooks/events/lead_post_save_new:Tag properties>`.
     * - ``doNotContact``
       - array of objects
-      - Array of :ref:`Channel subscription objects<Channel subscription properties>`.
+      - Array of :ref:`Channel subscription objects<webhooks/events/lead_post_save_new:Channel subscription properties>`.
     * - ``frequencyRules``
       - array
       - Currently not populated for Webhooks.

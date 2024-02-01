@@ -23,10 +23,10 @@ Event properties
       - Description
     * - ``email``
       - object
-      - :ref:`Email object<Email properties>`
+      - :ref:`Email object<webhooks/events/email_on_send:Email properties>`
     * - ``contact``
       - object
-      - :ref:`Contact object<Contact properties>`
+      - :ref:`Contact object<webhooks/events/lead_post_save_new:Contact properties>`
     * - ``tokens``
       - object
       - Key/value pairs of personalized tokens and values for the Contact.
@@ -96,7 +96,7 @@ Email properties
       - Locale for the Email content.
     * - ``category``
       - object
-      - :ref:`Category object<Category properties>`
+      - :ref:`Category object<webhooks/events/email_on_send:Category properties>`
     * - ``fromAddress``
       - string|null
       - A custom from address if configured.
@@ -144,7 +144,7 @@ Email properties
       - Date/time for unpublishing the Email in ISO 8601 format. ``null`` to consider the Email published if now is after ``publishUp``, if applicable.
     * - ``assetAttachments``
       - array
-      - Array of :ref:`Asset objects<Asset properties>`.
+      - Array of :ref:`Asset objects<webhooks/events/email_on_send:Asset properties>`.
     * - ``variantStartDate``
       - string|null
       - Date/time the Email started to track A/B test statistics. ``null`` if the Email isn't part of an A/B test.
@@ -156,22 +156,22 @@ Email properties
       - The number of times read since the last edit to an A/B test Email.
     * - ``variantParent``
       - object|null
-      - :ref:`Email object<Email properties>`. The A test for an Email configured as an A/B test.
+      - :ref:`Email object<webhooks/events/email_on_send:Email properties>`. The A test for an Email configured as an A/B test.
     * - ``variantChildren``
       - array
-      - Array of  :ref:`Email objects<Email properties>`. The B, C, D, and so forth tests for an Email configured as an A/B test.
+      - Array of  :ref:`Email objects<webhooks/events/email_on_send:Email properties>`. The B, C, D, and so forth tests for an Email configured as an A/B test.
     * - ``translationParent``
       - object|null
-      - :ref:`Email object<Email properties>`. The main translation of an Email configured to be a translation of another.
+      - :ref:`Email object<webhooks/events/email_on_send:Email properties>`. The main translation of an Email configured to be a translation of another.
     * - ``translationChildren``
       - array
-      - Array of :ref:`Email objects<Email properties>`. The translations of an Email configured to be a translation of another.
+      - Array of :ref:`Email objects<webhooks/events/email_on_send:Email properties>`. The translations of an Email configured to be a translation of another.
     * - ``unsubscribeForm``
       - object|null
-      - :ref:`Unsubscribe Form object<Unsubscribe Form properties>`.
+      - :ref:`Unsubscribe Form object<webhooks/events/email_on_send:Unsubscribe Form properties>`.
     * - ``lists``
       - array
-      - :ref:`Segment object<Segment properties>`.
+      - :ref:`Segment object<webhooks/events/email_on_send:Segment properties>`.
     * - ``headers``
       - array
       - Key/value pairs of header templates configured for the Email.
@@ -233,7 +233,7 @@ Asset properties
       - Description of the Asset.
     * - ``category``
       - object
-      - :ref:`Category object<Category properties>`
+      - :ref:`Category object<webhooks/events/email_on_send:Category properties>`
     * - ``revision``
       - int
       - The number of edits of the Asset.
@@ -291,7 +291,7 @@ Segment properties
       - Description of the Segment.
     * - ``category``
       - object
-      - :ref:`Category object<Category properties>`
+      - :ref:`Category object<webhooks/events/email_on_send:Category properties>`
     * - ``createdByUser``
       - string
       - The name of the User that created the Segment.
@@ -306,7 +306,7 @@ Segment properties
       - ``TRUE`` if configured to display in the Preference Center for Contact Segments. ``FALSE`` otherwise.
     * - ``filters``
       - array
-      - Array of :ref:`Segment filter objects<Segment filter properties>`.
+      - Array of :ref:`Segment filter objects<webhooks/events/email_on_send:Segment filter properties>`.
 
 Segment filter properties
 *************************
@@ -366,7 +366,7 @@ Unsubscribe Form properties
       - Description of the Form.
     * - ``category``
       - object
-      - :ref:`Category object<Category properties>`
+      - :ref:`Category object<webhooks/events/email_on_send:Category properties>`
     * - ``createdByUser``
       - string
       - Name of the User that created the Form.
@@ -384,7 +384,7 @@ Unsubscribe Form properties
       - Cached rendered HTML for the Form.
     * - ``template``
       - string|null
-      - Custom Mautic Theme used to style the Preview page or customize Form fields. See :ref:`Customizing forms`.
+      - Custom Mautic Theme used to style the Preview page or customize Form fields. See :ref:`themes/forms:Customizing forms`.
     * - ``formType``
       - string
       - Applicable values are ``standalone`` or ``campaign``.
@@ -408,10 +408,10 @@ Unsubscribe Form properties
       - HTML attributes added to the <form> tag.
     * - ``fields``
       - array
-      - Array of :ref:`Unsubscribe Form field objects<Unsubscribe Form field properties>`
+      - Array of :ref:`Unsubscribe Form field objects<webhooks/events/email_on_send:Unsubscribe Form field properties>`
     * - ``actions``
       - array
-      - Array of :ref:`Unsubscribe Form action objects<Unsubscribe Form action properties>`
+      - Array of :ref:`Unsubscribe Form action objects<webhooks/events/email_on_send:Unsubscribe Form action properties>`
 
 .. vale off
 

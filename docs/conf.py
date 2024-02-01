@@ -79,5 +79,11 @@ html_static_path = ['_static']
 # A little context on the reason for ignoring is greatly appreciated!
 linkcheck_ignore = [
    # Incorrectly reported as 'Anchor "webhooks" not found' so ignoring this
-   'https://docs.mautic.org/en/setup/cron-jobs#webhooks'
+   'https://docs.mautic.org/en/setup/cron-jobs#webhooks',
+   # github anchors cause failures, so do not check any github url with an anchor
+   r'^https://github.com/.*#.*'
 ]
+
+# Ensure that autosectionlabel will produce unique names
+autosectionlabel_prefix_document = True
+# autosectionlabel_maxdepth = 1

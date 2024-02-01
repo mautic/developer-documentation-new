@@ -2,7 +2,7 @@ Listing a Plugin in the Marketplace
 ###################################
 
 .. note::
-    Do you already have a Plugin that you developed for previous versions of Mautic? Please see the :ref:`Updating existing Plugins for usage with the Marketplace` section below.
+    Do you already have a Plugin that you developed for previous versions of Mautic? Please see the :ref:`marketplace/listing:Updating existing Plugins for usage with the Marketplace` section below.
 
 Preparing your Plugin for the Marketplace
 *****************************************
@@ -67,4 +67,4 @@ If you required ``mautic/composer-plugin`` in your plugin's dependencies in the 
 
 Next to that, if you built your Plugin for Mautic 3 originally, please read the :xref:`UPGRADE-4.0.md guide` for the breaking changes in Mautic 4.
 
-When you're done, you can go back to the :ref:`Preparing your plugin for the Marketplace` section in this document and proceed from there.
+When you're done, you can go back to the :ref:`marketplace/listing:Preparing your plugin for the Marketplace` section in this document and proceed from there.

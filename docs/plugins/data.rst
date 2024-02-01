@@ -235,7 +235,7 @@ Plugin schema migrations
 
 Mautic Core uses :xref:`Doctrine migrations<Doctrine migrations bundle>` to manage schema changes. Plugins don't have access to this as migration files are in Core's ``migrations`` directory.
 
-Mautic provides a way for Plugins to manage their schema changes through the Integration bundle's ``\Mautic\IntegrationsBundle\Migration\Engine``. Mautic automatically handles migrations if the :ref:`Plugin's bundle class<File and directory structure>` extends ``Mautic\IntegrationsBundle\Bundle\AbstractPluginBundle``.
+Mautic provides a way for Plugins to manage their schema changes through the Integration bundle's ``\Mautic\IntegrationsBundle\Migration\Engine``. Mautic automatically handles migrations if the :ref:`Plugin's bundle class<plugins/structure:File and directory structure>` extends ``Mautic\IntegrationsBundle\Bundle\AbstractPluginBundle``.
 
 .. code-block:: php
 
