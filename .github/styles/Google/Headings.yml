@@ -24,3 +24,8 @@ exceptions:
   - Visual
   - VS
   - Windows
+  - PHPUnit.xml
+  - Continuous Integration
+  - Legacy Builder
+  - GrapesJS Builder
+  - Node.js

@@ -1,4 +1,4 @@
-Getting started with Themes
+Getting started with themes
 ###########################
 
 You can use Themes to create default content and layouts for Emails and Landing Pages written in the :xref:`Twig documentation`.
@@ -71,7 +71,7 @@ This file is mainly used as the Landing Page for when a Contact unsubscribes or 
 
 It requires echoing two variables: ``message`` and ``content``.
 
-``message`` contains the string message such as "You have been unsubscribed..."
+``message`` contains the string message such as "You have been unsubscribed."
 
 ``content`` is empty or contains the HTML of a Form associated with the Email as an unsubscribe Form.
 

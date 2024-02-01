@@ -17,7 +17,7 @@ Read all about contributing to Mautic as a Developer in the :xref:`Mautic Develo
 
 Read more about Mautic's :xref:`Mautic Code Governance` and the :xref:`Mautic Project Governance` model.
 
-Your code must follow the :xref:`Symfony coding standards`. You will find details about where Mautic deviates from these standards documented in the :doc:`/plugins/mautic_vs_symfony` section.
+Your code must follow the :xref:`Symfony coding standards`. You can find details about where Mautic deviates from these standards documented in the :doc:`/plugins/mautic_vs_symfony` section.
 
 Where to get help
 *****************

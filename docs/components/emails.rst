@@ -518,7 +518,7 @@ Use the builder to do the following:
 - Complete the ``From Name`` & ``From Address``, ``BCC``, ``Reply-To``, ``Add Attachment``, ``custom headers``, and Click on ``Auto Generate`` to create a text version of the Email  
 - Save the Email and send a sample test, you should get everything you filled  
   
-Create a Segment Email
+Create a segment email
 ======================
 
 Go to Channels -> Emails -> New -> Segment Email -> Select Blank Theme  
@@ -531,17 +531,17 @@ Use the builder to do the following:
 - Complete the ``From Name`` & ``From Address``, ``BCC``, ``Reply-To``, ``Add Attachment``, ``custom headers``, and Click on ``Auto Generate`` to create a text version of the Email  
 - Save the Email and send a sample test, you should get everything you filled  
   
-Send an individual Email
+Send an individual email
 ========================
 
 Go to the Contacts section and select a Contact, then click Send an Email. You should be able to send an Email directly to that specific Contact's Email address.  
   
-Send a Report Email
+Send a report email
 ===================
 
 Create a Report with any data and set it on a schedule, it should send an Email with the Report as an attachment  
   
-Other Email features
+Other email features
 ====================
 
 There are other places like Forget Password: they need to work as well. Please make sure you verify them. 

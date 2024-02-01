@@ -1,4 +1,4 @@
-Contact Channel subscription change event
+Contact channel subscription change event
 #########################################
 
 Triggered when Mautic changes a Contact's Channel subscription status.

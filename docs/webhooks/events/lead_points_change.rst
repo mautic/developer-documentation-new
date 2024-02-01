@@ -1,4 +1,4 @@
-Contact Points changed event
+Contact points changed event
 ############################
 
 Triggered when Mautic modifies a Contact's points.

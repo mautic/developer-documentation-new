@@ -16,7 +16,7 @@ If you're looking for our legacy developer documentation, please go to https://d
 We aim to move all aspects of the developer documentation to Read the Docs (with the exception of the REST API documentation).
 In the video below, [@dennisameling][dennisameling GH profile] explains how the documentation is currently structured and briefly touches upon current limitations we're running into.
 
-For more background, our end goal, and to let us know if you want to help, please check out [this issue][New docs background and goals]. Thanks in advance!
+For more background, our end goal, and to let us know if you want to help, please check out [this issue][New docs background and goals]. Thanks in advance.
 
 [![Link to YouTube video with explanation of the current developer documentation structure][YouTube video image]][YouTube video URL]
 
@@ -63,7 +63,7 @@ Before pushing, run Vale and address suggestions and errors as applicable.
 2. `vale .`
 
 ### PhpStorm/PyCharm File Watcher
-You can automatically build changes to rst files using a file watcher. 
+You can automatically build changes to `.rst` files using a file watcher. 
 1. Go to Preferences -> Tools -> File Watchers -> + button -> custom
 2. Configure the watcher as presented in the screenshot
 

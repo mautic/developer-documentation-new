@@ -1,4 +1,4 @@
-Getting started with Form hooks
+Getting started with form hooks
 ###############################
 
 You can use Mautic's support for Form hooks to enhance or customize the Form experience when embedded into your third party websites.

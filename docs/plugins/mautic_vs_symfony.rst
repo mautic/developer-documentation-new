@@ -78,7 +78,7 @@ Support for entity annotations
 ******************************
 By default, Mautic uses Doctrine's PHP driver instead of annotations which requires a ``public static function loadMetadata(ORM\ClassMetadata $metadata)`` method. However, Plugins can use annotations if desired but should use only annotations or only PHP ``loadMetadata``. A Plugin can't use a mix of both. See :ref:`plugins/data:Entities and schema` for more information.
 
-Firewalls and User access management
+Firewalls and user access management
 ************************************
 ``app/config/security.php`` lists Mautic's firewalls. For the most part, Mautic uses Symfony's standard way of registering firewalls and authentication with a means for Plugins to hook into the authentication process through listeners to the ``UserEvents::USER_PRE_AUTHENTICATION`` and ``UserEvents::USER_FORM_AUTHENTICATION`` events.
 
@@ -87,9 +87,9 @@ Mautic has its own permission system based on bitwise permissions and thus doesn
 Middlewares
 ***********
 
-Mautic leverages middlewares before booting Symfony, see ``app/middlewares``. For example, ``\Mautic\Middleware\Dev\IpRestrictMiddleware`` restricts IPs access to ``index_dev.php``.
+Mautic leverages middlewares before booting Symfony, see ``app/middlewares``. For example, ``\Mautic\Middleware\Dev\IpRestrictMiddleware`` restricts IP address access to ``index_dev.php``.
 
-Custom Translator
+Custom translator
 *****************
 
 Mautic has a custom translator that extends Symfony's ``Translator`` component and enables Mautic's distributable language package model. All Plugins and bundles should contain US English language strings by default. https://github.com/mautic/language-packer integrates with Transifex to create language packs stored in https://github.com/mautic/language-packs.
