@@ -5,11 +5,16 @@ on:
 jobs:
   prose:
     runs-on: ubuntu-latest
+    container:
+      image: dennisameling/python-vale:latest
     steps:
     - name: Checkout
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
+    - name: Install Python dependencies
+      run: pip install -r docs/requirements.txt
 
     - name: Vale
       uses: errata-ai/vale-action@reviewdog
