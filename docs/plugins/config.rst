@@ -1,11 +1,7 @@
 Config file
 ###########
 
-
-This Title Should Be An Error
-*****************************
-
-Mautic leverages a simple array based config file to register routes, menu items, services, Categories, and configuration parameters.
+Mautic leverages a simple array based config file to register routes, menu items, services, Categories, and configuration parameters and Infographics.
 
 General config items
 ********************
