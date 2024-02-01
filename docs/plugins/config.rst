@@ -614,10 +614,10 @@ Mautic uses the follow tags to register services as described below.
       - Description
     * - ``mautic.sms_transport``
       - ``['integrationAlias' => 'Name to display in the UI for this transport.']``
-      - Register this service as a :ref:`Text Message transport<Text Message transports>`.
+      - Register this service as a Text Message transport.
     * - ``mautic.sms_callback_handler``
       - none
-      - Registers this service to handle webhooks from a :ref:`Text Message transport<Text Message transports>`.
+      - Registers this service to handle webhooks from a Text Message transport.
     * - ``mautic.email_transport``
       - Key/value pairs to configure fields required to authenticate with the transport's service. See :ref:`components/emails:Email transports`.
       - Registers the service as an :ref:`Email transport<components/emails:Email transports>`.
@@ -662,7 +662,7 @@ Mautic uses the follow tags to register services as described below.
       - Registers the service to :ref:`sync with Mautic objects with the Integration's service<components/integrations:Integration sync engine>`.
     * - ``mautic.sync.notification_handler``
       - none
-      - Registers the service to handle :ref:`sync notifications<Sync notification handlers>`.
+      - Registers the service to handle sync notifications.
 
 Category config items
 *********************
