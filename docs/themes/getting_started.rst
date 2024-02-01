@@ -59,7 +59,7 @@ features
 
     A corresponding ``html/[feature].html.twig`` file is required for each feature supported. For example, if the Theme supports ``email``, then there should be a ``html/email.html.twig`` file. See :ref:`themes/getting_started:Twig files` more information on each feature.
 builder
-    This contains an array of strings declaring which Builder the Theme supports. This currently only applies to Themes that support ``page`` or ``email``. By default, Themes without this line are only recognized by Mautic's legacy builder. New Themes built should declare the specific Builders it supports.
+    This contains an array of strings declaring which Builder the Theme supports. This currently only applies to Themes that support ``page`` or ``email``. By default, Themes without this line are only recognized by Mautic's Legacy Builder. New Themes built should declare the specific Builders it supports.
 
 Twig files
 ==========
@@ -94,7 +94,7 @@ html/email.html.twig
 
 This file defines the base template when creating a new Email and should contain HTML suited for email clients.
 
-The GrapesJs Builder supports the :xref:`MJML email framework`.
+The GrapesJS Builder supports the :xref:`MJML email framework`.
 
 .. code-block:: html
 

@@ -614,7 +614,7 @@ Mautic uses the follow tags to register services as described below.
       - Register this service as a Text Message transport.
     * - ``mautic.sms_callback_handler``
       - none
-      - Registers this service to handle webhooks from a Text Message transport.
+      - Registers this service to handle Webhooks from a Text Message transport.
     * - ``mautic.email_transport``
       - Key/value pairs to configure fields required to authenticate with the transport's service. See :ref:`components/emails:Email transports`.
       - Registers the service as an :ref:`Email transport<components/emails:Email transports>`.

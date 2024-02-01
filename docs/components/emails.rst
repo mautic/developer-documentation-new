@@ -536,7 +536,7 @@ Send an individual email
 
 Go to the Contacts section and select a Contact, then click Send an Email. You should be able to send an Email directly to that specific Contact's Email address.  
   
-Send a report email
+Send a Report Email
 ===================
 
 Create a Report with any data and set it on a schedule, it should send an Email with the Report as an attachment  

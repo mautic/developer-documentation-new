@@ -2,15 +2,10 @@ extends: existence
 message: "Try to avoid using first-person plural like '%s'."
 link: 'https://developers.google.com/style/pronouns#personal-pronouns'
 level: warning
-ignorecase: false
+ignorecase: true
 tokens:
   - we
-  - We
   - we'(?:ve|re)
-  - We'(?:ve|re)
   - ours?
-  - Ours?
   - us
-  - Us
   - let's
-  - Let's

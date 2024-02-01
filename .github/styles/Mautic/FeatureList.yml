@@ -1,7 +1,7 @@
 extends: substitution
 message: "Is this referring to a Mautic feature? If so, use '%s' instead of '%s'."
 level: suggestion
-ignorecase: false
+ignorecase: true
 action:
   name: replace
 swap:
