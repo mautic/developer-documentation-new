@@ -2,14 +2,14 @@ AJAX
 allowlist
 Amazon SES
 Ameling
-Autoloader
 autoloader
-Autowired
-autowired
-Autowiring
-autowiring
+Autoloader
 autowire
+autowired
+Autowired
 autowires
+autowiring
+Autowiring
 bcc
 Beanstalkd
 Bing
@@ -23,25 +23,32 @@ Citrix
 Clearbit
 CloudAMQP
 Codecov
-config
-Config
 Company(ies)
 Composer
+Config
+config
 configurator
 ConnectWise
+Contact Points
+Continuous Integration
 Contribution(s)
 CORS
 cron
 Cron
 CTRL
 DDEV
-Do Not Contact
 DNC
+Do Not Contact
 Dripflow
 Dynamic Web Content
 FALSE
+false
+Firewalls
+firewalls
 Focus Item
 Focus Items
+Forms
+forms
 Froala
 Froogaloop
 gcm
@@ -50,12 +57,13 @@ GitBook
 GitHub
 Gitpod
 GMail
+GrapesJS Builder
 Grav
 Gravatar
 Hammerschmied
 href
-HTML
 html
+HTML
 http
 https
 HubSpot
@@ -65,6 +73,7 @@ infographics
 ISO
 JavaScript
 Joomla
+Legacy Builder
 Libre
 Licensor
 LinkedIn
@@ -72,6 +81,7 @@ Mailjet
 Marketing Messages
 Mautic
 MaxMind
+middleware
 Middlewares
 middlewares
 MJML
@@ -79,27 +89,40 @@ Multiselect
 multiselect
 MVP
 mysqldump
-namespace
 Namespace
+namespace
+Node.js
 noindex
 OAuth
+OAuth1a
+OAuth2
 Packagist
-PATCH
 patch
+PATCH
 PHP
+PhpStorm
+PHPUnit.xml
 Pipedrive
 Piwik
-POST
+Plugin
+Plugins
 post
+POST
 PUT
+PyCharm
 Rackspace
+Rahul
+Read the Docs
 Remarketing
+Report Email
 Salesforce
 SAML
 Schimpf
 SCP
+Segment Email
 SendGrid
 SES
+Shinde
 SMS
 SMTP
 SNS
@@ -109,9 +132,14 @@ sublicense
 SugarCRM
 Suhosin
 Symfony
+themes
+Themes
+timeframe
 Todo
 tooltip
+Tooltip
 Transifex
+Translator
 TRUE
 true
 Twilio
@@ -119,19 +147,15 @@ unassign
 unpublish
 Unpublish
 unsubscription
+URIs
 URL
 URLs
+US
 UTM
 Vtiger
+Webhooks
 Webmecanik
 www
 YAML
 Zapier
 Zoho
-middleware
-URIs
-false
-timeframe
-OAuth1a
-OAuth2
-Tooltip

@@ -22,5 +22,5 @@ Moving forward: roadmap
 ***********************
 
 - November 2021: release Mautic 4.1 with allowlist enabled for the Marketplace
-- TBD: Switch from allowlist to blocklist - all Plugins allowed except the ones that are incompatible or have security issues
+- TBD: switch from allowlist to blocklist - all Plugins allowed except the ones that are incompatible or have security issues
 

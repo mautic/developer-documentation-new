@@ -9,14 +9,14 @@
 
 This repository hosts the new developer documentation for Mautic on the [Read the Docs platform][ReadTheDocs]. Whenever a PR is merged, changes are deployed immediately to https://mautic-developer.readthedocs.io/
 
-If you're looking for our legacy developer documentation, please go to https://developer.mautic.org/ or the [GitHub repository][Legacy dev docs].
+If you're looking for the legacy developer documentation, please go to https://developer.mautic.org/ or the [GitHub repository][Legacy dev docs].
 
-## Migration of developer docs to Read the Docs
+## Migration of developer docs to 'Read the Docs'
 
-We aim to move all aspects of the developer documentation to Read the Docs (with the exception of the REST API documentation).
-In the video below, [@dennisameling][dennisameling GH profile] explains how the documentation is currently structured and briefly touches upon current limitations we're running into.
+The aim is to move all aspects of the developer documentation to Read the Docs (with the exception of the REST API documentation).
+In the video below, [@dennisameling][dennisameling GH profile] explains how the documentation is currently structured and briefly touches upon current limitations.
 
-For more background, our end goal, and to let us know if you want to help, please check out [this issue][New docs background and goals]. Thanks in advance!
+For more background, the end goal, and if you want to help, please see [this issue][New docs background and goals]. Thanks in advance.
 
 [![Link to YouTube video with explanation of the current developer documentation structure][YouTube video image]][YouTube video URL]
 
@@ -48,7 +48,7 @@ The following provides instructions for how to build docs locally for visualizat
 3. Install sphinx-rtd-theme `pip install sphinx-rtd-theme`
 4. CD into the docs directory `cd [path to this repo]/docs`
 5. Run `make html`
-6. This will generate HTML in docs/build/html. Setup a web server with the web root as docs/build/html or open docs/build/html/index.html in a browser.
+6. This generates HTML in docs/build/html. Setup a web server with the web root as docs/build/html or open docs/build/html/index.html in a browser.
 
 ## Troubleshooting
 
@@ -62,8 +62,8 @@ Before pushing, run Vale and address suggestions and errors as applicable.
 1. Install [`vale`][Vale] 
 2. `vale .`
 
-### PhpStorm/PyCharm File Watcher
-You can automatically build changes to rst files using a file watcher. 
+### PhpStorm & PyCharm file watcher
+You can automatically build changes to `.rst` files using a file watcher. 
 1. Go to Preferences -> Tools -> File Watchers -> + button -> custom
 2. Configure the watcher as presented in the screenshot
 

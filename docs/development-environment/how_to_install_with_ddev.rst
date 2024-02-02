@@ -20,10 +20,14 @@ Installing Mautic is a two-step process:
 
 1. Install Mautic running DDEV.
 
+.. vale off
+
 .. code-block:: bash
 
     cd mautic
     ddev start
+
+.. vale on
 
 .. list-table:: Users and passwords
     :header-rows: 1

@@ -1,8 +1,8 @@
-FROM python:3.10
+FROM python:3.11
 
 # Don't update to a higher version until this issue has been fixed: https://github.com/errata-ai/vale/issues/528
 # Please keep version in sync with the version in .github/workflows/linting.yml for a consistent experience
-ENV VALE_VERSION=2.20.2
+ENV VALE_VERSION=2.29.2
 
 WORKDIR /workspace
 

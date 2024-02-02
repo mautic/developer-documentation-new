@@ -435,7 +435,7 @@ Unsubscribe Form field properties
     * - ``label``
       - string
       - Label for the Form field.
-    * - showLabel
+    * - ``showLabel``
       - boolean
       - ``TRUE`` to display the label in the Form's HTML.
     * - ``type``

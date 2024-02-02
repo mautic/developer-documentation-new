@@ -558,7 +558,7 @@ Key each service with a unique name to all of Mautic, including other Plugins.
     * - ``tagArguments``
       - no
       - array
-      - Some tags have special arguments definable through an array of tagArguments. If using ``tag``, this should be a key/value pair of the arguments specific to the given tag. For example, ``['tag' => 'tag1', 'tagArguments' => ['tag1-key' => 'tag1-value'],],``. If using ``tags``, this should be an array of arrays keyed the same as the values of ``tags``. For example, ``['tags' => [ 'tag1', 'tag2'], 'tagArguments' => [['tag1-key' => 'tag1-value'],['tag2-key' => 'tag2-value'],],],``.
+      - Some tags have special arguments definable through an array of ``tagArguments``. If using ``tag``, this should be a key/value pair of the arguments specific to the given tag. For example, ``['tag' => 'tag1', 'tagArguments' => ['tag1-key' => 'tag1-value'],],``. If using ``tags``, this should be an array of arrays keyed the same as the values of ``tags``. For example, ``['tags' => [ 'tag1', 'tag2'], 'tagArguments' => [['tag1-key' => 'tag1-value'],['tag2-key' => 'tag2-value'],],],``.
     * - ``factory``
       - no
       - array
@@ -614,7 +614,7 @@ Mautic uses the follow tags to register services as described below.
       - Register this service as a Text Message transport.
     * - ``mautic.sms_callback_handler``
       - none
-      - Registers this service to handle webhooks from a Text Message transport.
+      - Registers this service to handle Webhooks from a Text Message transport.
     * - ``mautic.email_transport``
       - Key/value pairs to configure fields required to authenticate with the transport's service. See :ref:`components/emails:Email transports`.
       - Registers the service as an :ref:`Email transport<components/emails:Email transports>`.

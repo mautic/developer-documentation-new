@@ -1,7 +1,7 @@
 Legacy Builder
 ##############
 
-.. warning:: The legacy Builder is still available in Mautic 4 but planned to be deleted in the future. Refer to the :xref:`Builder documentation` for more information.
+.. warning:: The Legacy Builder is still available in Mautic 4 but planned to be deleted in the future. Refer to the :xref:`Builder documentation` for more information.
 
 Slots
 *****

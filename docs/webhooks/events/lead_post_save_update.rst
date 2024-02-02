@@ -14,4 +14,4 @@ Event type
 
 Event properties
 ****************
-See  :ref:`Lead Post Save <new_contact_event_properties>` event properties.
+See  :ref:`Lead post save <new_contact_event_properties>` event properties.

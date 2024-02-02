@@ -87,9 +87,9 @@ Mautic has its own permission system based on bitwise permissions and thus doesn
 Middlewares
 ***********
 
-Mautic leverages middlewares before booting Symfony, see ``app/middlewares``. For example, ``\Mautic\Middleware\Dev\IpRestrictMiddleware`` restricts IPs access to ``index_dev.php``.
+Mautic leverages middlewares before booting Symfony, see ``app/middlewares``. For example, ``\Mautic\Middleware\Dev\IpRestrictMiddleware`` restricts IP address access to ``index_dev.php``.
 
 Custom Translator
 *****************
 
-Mautic has a custom translator that extends Symfony's ``Translator`` component and enables Mautic's distributable language package model. All Plugins and bundles should contain US English language strings by default. https://github.com/mautic/language-packer integrates with Transifex to create language packs stored in https://github.com/mautic/language-packs.
+Mautic has a custom Translator that extends Symfony's ``Translator`` component and enables Mautic's distributable language package model. All Plugins and bundles should contain US English language strings by default. https://github.com/mautic/language-packer integrates with Transifex to create language packs stored in https://github.com/mautic/language-packs.
