@@ -3,7 +3,12 @@ Cache
 
 Symfony makes heavy use of a filesystem cache. When developing for Mautic, clearing the cache is a regular occurrence. By default, Mautic instances have the cache located in ``var/cache/ENV`` where ``ENV`` is the environment currently accessed (``dev`` or ``prod``). To rebuild the cache, delete the relevant ``ENV`` folder within the cache directory, or run the Symfony command ``php bin/console cache:clear --env=ENV``. If a specific environment isn't passed to the command via ``--env=ENV``, Mautic uses the ``dev`` environment by default.
 
-In the ``dev`` environment, Mautic doesn't cache translations, views, and Assets. However, changes to these files require clearing the cache for them to take effect in the ``prod`` environment. Changes to Mautic config files, Symfony config files, etc., require clearing of the cache regardless of the environment.
+
+.. vale off
+
+In the ``dev`` environment, Mautic doesn't cache translations, views, and assets. However, changes to these files require clearing the cache for them to take effect in the ``prod`` environment. Changes to Mautic config files, Symfony config files, etc., require clearing of the cache regardless of the environment.
+
+.. vale on
 
 The typical rule of thumb is, if Mautic isn't acting as you expect after making changes, try clearing your cache. If you get ``class could not be found`` or ``cannot redeclare class`` errors when using the ``cache:clear`` command, manually delete the ``var/cache/ENV`` folder then run the command and/or browse to the site to rebuild.
 
