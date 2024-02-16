@@ -41,6 +41,7 @@ From Symfony 3.4, the cache uses tag-aware adapters. If you want to clear all re
 All you need to do now is to clear all tagged items:
 
 .. code-block:: php
+
     $cache->invalidateTags(['firstTag']);
 Pools clearing
 ==============
