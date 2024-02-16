@@ -37,6 +37,7 @@ From Symfony 3.4, the cache uses tag-aware adapters. If you want to clear all re
     $item->set('yesa!!!');
     $item->tag(['firstTag', 'secondTag']);
     $item->expiresAfter(20000);
+    
 All you need to do now is to clear all tagged items:
 
 .. code-block:: php
