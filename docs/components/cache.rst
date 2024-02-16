@@ -75,6 +75,7 @@ They can be overridden in ``local.php`` like this:
     'cache_adapter'  => 'mautic.cache.adapter.redis',
     'cache_prefix'   => 'app_cache',
     'cache_lifetime' => 86400,
+
 Delivered adapters
 ------------------
 
