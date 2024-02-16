@@ -71,6 +71,7 @@ These are the default settings:
 They can be overridden in ``local.php`` like this:
 
 .. code-block:: php
+
     'cache_adapter'  => 'mautic.cache.adapter.redis',
     'cache_prefix'   => 'app_cache',
     'cache_lifetime' => 86400,
