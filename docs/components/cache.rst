@@ -87,6 +87,7 @@ Delivered adapters
             'serializer' => 'igbinary',
         ],
     ],
+    
 - ``mautic.cache.adapter.redis``
 
 Redis configuration in ``local.php``:
