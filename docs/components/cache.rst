@@ -64,6 +64,7 @@ Plugins come preconfigured to utilize filesystem caching.
 These are the default settings:
 
 .. code-block:: php
+
     'cache_adapter' => 'mautic.cache.adapter.filesystem',
     'cache_prefix' => 'app',
     'cache_lifetime' => 86400
