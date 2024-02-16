@@ -29,6 +29,7 @@ The main disadvantage of this approach is that Mautic creates a new adapter for 
 From Symfony 3.4, the cache uses tag-aware adapters. If you want to clear all records related to your Bundle or Component, you just need to tag them.
 
 .. code-block:: php
+
     /** @var CacheProvider $cache */
     $cache = $this->get('mautic.cache.provider');
     /** @var CacheItemInterface $item */
