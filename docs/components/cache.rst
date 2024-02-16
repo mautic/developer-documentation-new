@@ -109,6 +109,7 @@ Redis configuration in ``local.php``:
             'retry_interval' => 0,
         ],
     ],
+    
 In order to use another adapter, just set it up as a service.
 
 Clearing the cache
