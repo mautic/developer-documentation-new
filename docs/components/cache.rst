@@ -95,6 +95,7 @@ Delivered adapters
 Redis configuration in ``local.php``:
 
 .. code-block:: php
+
     'redis' => [
         'dsn' => 'redis://localhost',
         'options' => [
