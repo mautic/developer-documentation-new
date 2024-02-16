@@ -115,7 +115,7 @@ In order to use another adapter, just set it up as a service.
 Clearing the cache
 ------------------
 
-When the ``cache:clear`` command is run, Mautic's cache is cleared. The cache can be cleared by running:
+The ``cache:clear`` command clears Mautic's cache. Use this command:
 
 .. code-block:: bash
     bin/console mautic:cache:clear
