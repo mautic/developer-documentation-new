@@ -118,5 +118,6 @@ Clearing the cache
 The ``cache:clear`` command clears Mautic's cache. Use this command:
 
 .. code-block:: bash
+
     bin/console mautic:cache:clear
 
