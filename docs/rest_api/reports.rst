@@ -444,7 +444,7 @@ Create a new Report.
 
 **Properties**
 
-Same as `Get Report <#get-report>`_.
+Same as `List Reports <#list-reports>`_.
 
 .. vale off
 
@@ -557,7 +557,7 @@ If ``PATCH``, the expected response code is ``200``.
 
 **Properties**
 
-Same as `Get Report <#get-report>`_.
+Same as `List Reports <#list-reports>`_.
 
 .. vale off
 
@@ -588,6 +588,6 @@ Delete a Report.
 
 **Properties**
 
-Same as `List Report <#get-report>`_.
+Same as `List Reports <#list-reports>`_.
 
 .. vale off
