@@ -10,7 +10,7 @@ You can interact with this API through the :xref:`Mautic API Library` as follows
 .. code-block:: php
 
    <?php
-   use Mautic\MauticApi; 
+   use Mautic\MauticApi;
    use Mautic\Auth\ApiAuth;
 
    // ...
@@ -317,51 +317,51 @@ Create Report
 
 .. code-block:: php
 
-   <?php 
+   <?php
 
-   $data = array(
-   "name" => "New Report", 
-   "description" => "A new report", 
-   "system" => true, 
-   "isScheduled" => false, 
-   "source" => "email.stats", 
-   "columns" => array(
-         "es.date_sent", 
-         "es.date_read", 
-         "e.subject", 
-         "es.email_address", 
-         "e.id" 
-      ), 
-   "filters" => array(
+    $data = array(
+        "name" => "New Report",
+        "description" => "A new report",
+        "system" => true,
+        "isScheduled" => false,
+        "source" => "email.stats",
+        "columns" => array(
+            "es.date_sent",
+            "es.date_read",
+            "e.subject",
+            "es.email_address",
+            "e.id"
+        ),
+        "filters" => array(
             array(
-               "column" => "e.is_published", 
-               "condition" => "eq", 
-               "value" => "1" 
-            ) 
-         ), 
-   "tableOrder" => array(
-                  array(
-                     "column" => "es.date_sent", 
-                     "direction" => "ASC" 
-                  ) 
-               ), 
-   "graphs" => array (
-                        "mautic.email.graph.line.stats", 
-                        "mautic.email.graph.pie.ignored.read.failed", 
-                        "mautic.email.table.most.emails.read", 
-                        "mautic.email.table.most.emails.sent", 
-                        "mautic.email.table.most.emails.read.percent", 
-                        "mautic.email.table.most.emails.failed" 
-                     ), 
-   "groupBy" => null, 
-   "settings" => array(), 
-   "scheduleUnit" => null, 
-   "toAddress" => null, 
-   "scheduleDay" => null, 
-   "scheduleMonthFrequency" => null 
-); 
+                "column" => "e.is_published",
+                "condition" => "eq",
+                "value" => "1"
+            )
+        ),
+        "tableOrder" => array(
+            array(
+                "column" => "es.date_sent",
+                "direction" => "ASC"
+            )
+        ),
+        "graphs" => array(
+            "mautic.email.graph.line.stats",
+            "mautic.email.graph.pie.ignored.read.failed",
+            "mautic.email.table.most.emails.read",
+            "mautic.email.table.most.emails.sent",
+            "mautic.email.table.most.emails.read.percent",
+            "mautic.email.table.most.emails.failed"
+        ),
+        "groupBy" => null,
+        "settings" => array(),
+        "scheduleUnit" => null,
+        "toAddress" => null,
+        "scheduleDay" => null,
+        "scheduleMonthFrequency" => null
+    );
 
-   $report = $reportApi->create($data);
+    $report = $reportApi->create($data);
 
 Create a new Report.
 
@@ -392,6 +392,55 @@ Create a new Report.
 **Response**
 
 ``Expected Response Code: 201``
+
+.. code-block:: json
+
+   {
+    "report":
+        {
+            "id": 13,
+            "name": "Brand New Report",
+            "description": "A new report",
+            "system": true,
+            "isScheduled": true,
+            "source": "email.stats",
+            "columns": [
+                "es.date_sent",
+                "es.date_read",
+                "e.subject",
+                "es.email_address",
+                "e.id"
+            ],
+            "filters": [],
+            "tableOrder": [
+                {
+                    "column": "es.date_sent",
+                    "direction": "ASC"
+                }
+            ],
+            "graphs": [
+                "mautic.email.graph.line.stats",
+                "mautic.email.graph.pie.ignored.read.failed",
+                "mautic.email.table.most.emails.read",
+                "mautic.email.table.most.emails.sent",
+                "mautic.email.table.most.emails.read.percent",
+                "mautic.email.table.most.emails.failed"
+            ],
+            "groupBy": [],
+            "settings": {
+                "showGraphsAboveTable": null,
+                "showDynamicFilters": null,
+                "hideDateRangeFilter": null
+            },
+            "aggregators": [],
+            "scheduleUnit": "DAILY",
+            "toAddress": "test2@mailinator.com",
+            "scheduleDay": null,
+            "scheduleMonthFrequency": null
+        }
+    }
+
+**Report Properties**
 
 **Properties**
 
@@ -458,6 +507,53 @@ To edit a Report and create a new one if the Report isn't found:
 If using ``PUT``, the expected response code is ``200`` if editing the Report or ``201`` if creating the Report.
 
 If ``PATCH``, the expected response code is ``200``.
+
+.. code-block:: json
+
+   {
+    "report":
+        {
+            "id": 13,
+            "name": "Brand New Report",
+            "description": "A new report",
+            "system": true,
+            "isScheduled": true,
+            "source": "email.stats",
+            "columns": [
+                "es.date_sent",
+                "es.date_read",
+                "e.subject",
+                "es.email_address",
+                "e.id"
+            ],
+            "filters": [],
+            "tableOrder": [
+                {
+                    "column": "es.date_sent",
+                    "direction": "ASC"
+                }
+            ],
+            "graphs": [
+                "mautic.email.graph.line.stats",
+                "mautic.email.graph.pie.ignored.read.failed",
+                "mautic.email.table.most.emails.read",
+                "mautic.email.table.most.emails.sent",
+                "mautic.email.table.most.emails.read.percent",
+                "mautic.email.table.most.emails.failed"
+            ],
+            "groupBy": [],
+            "settings": {
+                "showGraphsAboveTable": null,
+                "showDynamicFilters": null,
+                "hideDateRangeFilter": null
+            },
+            "aggregators": [],
+            "scheduleUnit": "DAILY",
+            "toAddress": "test2@mailinator.com",
+            "scheduleDay": null,
+            "scheduleMonthFrequency": null
+        }
+    }
 
 **Properties**
 
