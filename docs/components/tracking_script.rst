@@ -98,25 +98,30 @@ JavaScript Form processing hooks
        }
    };
 
-If you wish to run additional code before or after submission of the Form, create a ``MauticFormCallback`` object.
-In the example code, replace ``replaceWithFormName`` with the name of your Form. 
+If you wish to run additional code before or after submission of the form, create a ``MauticFormCallback`` object.
+In the example code, replace ``replaceWithFormName`` with the name of your form. 
 
 ``onValidateEnd`` and ``onResponse`` are actions called by ``Form.customCallbackHandler``. 
 
 ``onValidate()``
 ================
 
-Called before default Form validation - use it to override the default Form validation.
+Called before built-in form validation.
+Implement this callback to override the built-in form validation logic.
 
-Return ``True`` to skip the default Form validation and continue with Form processing.
-Return ``False`` to skip the default Form validation and prevent the Form submission.
-Return ``null`` to execute default Form validation.
+Your callbacks return value determines how the form will be processed:
+
+1. Return ``True`` to skip the built-in form validation and **continue** with form processing.
+2. Return ``False`` to skip the built-in form validation and **prevent** the form submission.
+3. Return ``null`` to execute built-in form validation and let its logic determine whether to continue with or prevent the form submission.
+
+Returning ``True`` or ``False`` will skip the execution of `onValidateStart`.
 
 .. code-block:: js
 
    MauticFormCallback['replaceWithFormName'] = {
        onValidate: function () {
-           // before form validation
+           // executed before built-in form validation
            var formIsGood = True;
            var dontUpdate = False;
            if(dontUpdate){
@@ -132,29 +137,32 @@ Return ``null`` to execute default Form validation.
 ``onValidateStart()``
 =====================
 
-Called at the beginning of the default Form validation, this receives no values and a return value isn't required and isn't processed.
+Called at the beginning of the default form validation, this receives no values and a return value isn't required and isn't processed.
 
-.. warning:: onValidateStart may not get executed if the default Form validation gets handled during the ``onValidate`` callback.
+.. warning:: `onValidateStart` will not get executed if you add the ``onValidate`` callback and it returns ``True`` or ``False``.
 
 .. code-block:: js
 
    MauticFormCallback['replaceWithFormName'] = {
        onValidateStart: function () {
-            // before default validation
+            // executed before built-in form validation
        },
    };
 
 ``onValidateEnd(formValid)``
 ============================
 
-Called after all Form validations are complete - either the default validations and/or the ``onValidate`` callback - and before the Form gets submitted.
-Receives ``formValid`` to determine if the Form is valid. A return value isn't required and isn't processed.
+Called after all form validations are complete - either the default validations and/or the ``onValidate`` callback - and before the form gets submitted.
+Receives ``formValid`` to determine if the form is valid.
+
+If this callback returns ``False`` then this prevents submitting the form.
 
 .. code-block:: js
 
    MauticFormCallback['replaceWithFormName'] = {
        onValidateEnd: function (formValid) {
             // before form submit
+            // return False; // prevents submitting the form
        },
    };
 
@@ -193,8 +201,8 @@ Called to clear an existing error. Receives ``containerId`` with the id of the e
 ``onResponse(response)``
 ========================
 
-Called prior to default Form submission response processing. Receives ``response`` containing the Form submission response.
-Return ``True`` to skip the default Form submission response processing.
+Called prior to default form submission response processing. Receives ``response`` containing the form submission response.
+Return ``True`` to skip the default form submission response processing.
 
 .. code-block:: js
 
@@ -207,7 +215,7 @@ Return ``True`` to skip the default Form submission response processing.
 ``onResponseStart(response)``
 =============================
 
-Called at the beginning of the default Form submission response processing. Receives ``response`` containing the Form submission response.
+Called at the beginning of the default form submission response processing. Receives ``response`` containing the form submission response.
 Return value isn't required and isn't processed.
 
 .. warning:: onResponseStart may not get executed if the default response processing gets handled during the ``onResponse`` callback
@@ -231,7 +239,7 @@ Return value isn't required and isn't processed.
        },
    };
 
-Called at the end default Form submission response processing. Receives ``response`` containing the Form submission response.
+Called at the end default form submission response processing. Receives ``response`` containing the form submission response.
 Return value isn't required and isn't processed.
 
 .. warning:: onResponseEnd may not get executed if the default response processing gets handled during the ``onResponse`` callback
@@ -287,7 +295,7 @@ Called prior to default enabling of the submit button. Receives no values. Retur
 
 .. vale off
 
-Called prior to going to the next page in the Form. Useful to adjust the DOM prior to making the page visible.
+Called prior to going to the next page in the form. Useful to adjust the DOM prior to making the page visible.
 
 .. vale on
 
@@ -304,7 +312,7 @@ Called prior to going to the next page in the Form. Useful to adjust the DOM pri
 
 .. vale off
 
-Called prior to going back to a previous page in the Form. Useful to adjust the DOM prior to making the page visible.
+Called prior to going back to a previous page in the form. Useful to adjust the DOM prior to making the page visible.
 
 .. vale on
 
