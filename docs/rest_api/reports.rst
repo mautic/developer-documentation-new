@@ -10,7 +10,7 @@ You can interact with this API through the :xref:`Mautic API Library` as follows
 .. code-block:: php
 
    <?php
-   use Mautic\MauticApi;
+   use Mautic\MauticApi; 
    use Mautic\Auth\ApiAuth;
 
    // ...
@@ -309,3 +309,189 @@ Returns a list of Contact Reports available to the User. This list isn't filtera
    * - ``scheduleMonthFrequency``
      - string or null
      - Frequency for the scheduler
+
+Create Report
+***************
+
+.. vale on
+
+.. code-block:: php
+
+   <?php 
+
+   $data = array(
+   "name" => "New Report", 
+   "description" => "A new report", 
+   "system" => true, 
+   "isScheduled" => false, 
+   "source" => "email.stats", 
+   "columns" => array(
+         "es.date_sent", 
+         "es.date_read", 
+         "e.subject", 
+         "es.email_address", 
+         "e.id" 
+      ), 
+   "filters" => array(
+            array(
+               "column" => "e.is_published", 
+               "condition" => "eq", 
+               "value" => "1" 
+            ) 
+         ), 
+   "tableOrder" => array(
+                  array(
+                     "column" => "es.date_sent", 
+                     "direction" => "ASC" 
+                  ) 
+               ), 
+   "graphs" => array (
+                        "mautic.email.graph.line.stats", 
+                        "mautic.email.graph.pie.ignored.read.failed", 
+                        "mautic.email.table.most.emails.read", 
+                        "mautic.email.table.most.emails.sent", 
+                        "mautic.email.table.most.emails.read.percent", 
+                        "mautic.email.table.most.emails.failed" 
+                     ), 
+   "groupBy" => null, 
+   "settings" => array(), 
+   "scheduleUnit" => null, 
+   "toAddress" => null, 
+   "scheduleDay" => null, 
+   "scheduleMonthFrequency" => null 
+); 
+
+   $report = $reportApi->create($data);
+
+Create a new Report.
+
+.. vale off
+
+**HTTP Request**
+
+.. vale on
+
+``POST /reports/new``
+
+**POST parameters**
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``name``
+     - string
+     - The Report Name
+   * - ``description``
+     - string
+     - Description of the report
+
+
+**Response**
+
+``Expected Response Code: 201``
+
+**Properties**
+
+Same as `Get Report <#get-report>`_.
+
+.. vale off
+
+Edit Report
+*************
+
+.. vale on
+
+.. code-block:: php
+
+   <?php
+
+   $id   = 1;
+   $data = array(
+       'name' => 'Updated Report'
+   );
+
+   // Create new a Report if ID 1 isn't found?
+   $createIfNotFound = true;
+
+   $report = $reportApi->edit($id, $data, $createIfNotFound);
+
+Edit a new Report. Note that this supports PUT or PATCH depending on the desired behavior.
+
+**PUT** creates a Report if the given ID doesn't exist and clears all the Report information, adds the information from the request.
+**PATCH** fails if the Report with the given ID doesn't exist and updates the Report field values with the values from the request.
+
+.. vale off
+
+**HTTP Request**
+
+.. vale on
+
+To edit a Report and return a 404 if the Report isn't found:
+
+``PATCH /reports/ID/edit``
+
+To edit a Report and create a new one if the Report isn't found:
+
+``PUT /reports/ID/edit``
+
+**POST parameters**
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``name``
+     - string
+     - The Report Name
+   * - ``description``
+     - string
+     - Description of the report
+
+
+**Response**
+
+If using ``PUT``, the expected response code is ``200`` if editing the Report or ``201`` if creating the Report.
+
+If ``PATCH``, the expected response code is ``200``.
+
+**Properties**
+
+Same as `Get Report <#get-report>`_.
+
+.. vale off
+
+Delete Report
+***************
+
+.. vale on
+
+.. code-block:: php
+
+   <?php
+
+   $report = $reportApi->delete($id);
+
+Delete a Report.
+
+.. vale off
+
+**HTTP Request**
+
+.. vale on
+
+``DELETE /reports/ID/delete``
+
+**Response**
+
+``Expected Response Code: 200``
+
+**Properties**
+
+Same as `List Report <#get-report>`_.
+
+.. vale off
