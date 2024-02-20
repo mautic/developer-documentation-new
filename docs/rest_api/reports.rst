@@ -383,10 +383,52 @@ Create a new Report.
      - Description
    * - ``name``
      - string
-     - The Report Name
+     - The Report name
    * - ``description``
      - string
-     - Description of the report
+     - The Report description
+   * - ``system``
+     - boolean
+     - If true then the Report is visible to all Users. If ``false`` then only creator can see this Report
+   * - ``isScheduled``
+     - boolean
+     - Scheduled Reports send Report Emails as the User defines
+   * - ``source``
+     - string
+     - Report data source type
+   * - ``columns``
+     - array
+     - List of selected columns for this particular Report
+   * - ``filters``
+     - array
+     - Filters applied on this Report
+   * - ``tableOrder``
+     - array
+     - Ordering applied on this Report
+   * - ``graphs``
+     - array
+     - Graphs defined for this Report. API won't return graphs
+   * - ``groupBy``
+     - array
+     - Group by rules applied for this Report
+   * - ``settings``
+     - array
+     - Additional settings for the UI layout
+   * - ``aggregators``
+     - array
+     - Aggregation rules applied on this Report
+   * - ``scheduleUnit``
+     - string or null
+     - Unit for the scheduler
+   * - ``toAddress``
+     - string or null
+     - Email address for the scheduler
+   * - ``scheduleDay``
+     - string or null
+     - Day for the scheduler
+   * - ``scheduleMonthFrequency``
+     - string or null
+     - Frequency for the scheduler
 
 
 **Response**
@@ -496,10 +538,52 @@ To edit a Report and create a new one if the Report isn't found:
      - Description
    * - ``name``
      - string
-     - The Report Name
+     - The Report name
    * - ``description``
      - string
-     - Description of the report
+     - The Report description
+   * - ``system``
+     - boolean
+     - If true then the Report is visible to all Users. If ``false`` then only creator can see this Report
+   * - ``isScheduled``
+     - boolean
+     - Scheduled Reports send Report Emails as the User defines
+   * - ``source``
+     - string
+     - Report data source type
+   * - ``columns``
+     - array
+     - List of selected columns for this particular Report
+   * - ``filters``
+     - array
+     - Filters applied on this Report
+   * - ``tableOrder``
+     - array
+     - Ordering applied on this Report
+   * - ``graphs``
+     - array
+     - Graphs defined for this Report. API won't return graphs
+   * - ``groupBy``
+     - array
+     - Group by rules applied for this Report
+   * - ``settings``
+     - array
+     - Additional settings for the UI layout
+   * - ``aggregators``
+     - array
+     - Aggregation rules applied on this Report
+   * - ``scheduleUnit``
+     - string or null
+     - Unit for the scheduler
+   * - ``toAddress``
+     - string or null
+     - Email address for the scheduler
+   * - ``scheduleDay``
+     - string or null
+     - Day for the scheduler
+   * - ``scheduleMonthFrequency``
+     - string or null
+     - Frequency for the scheduler
 
 
 **Response**
