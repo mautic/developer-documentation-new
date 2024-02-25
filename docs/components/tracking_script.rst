@@ -295,7 +295,7 @@ Called prior to default enabling of the submit button. Receives no values. Retur
 
 .. vale off
 
-Called prior to going to the next page in the form. Useful to adjust the DOM prior to making the page visible.
+Called prior to going to the next page in the Form. Useful to adjust the DOM prior to making the page visible.
 
 .. vale on
 
