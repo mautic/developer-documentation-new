@@ -106,7 +106,7 @@ In the example code, replace ``replaceWithFormName`` with the name of your Form.
 ``onValidate()``
 ================
 
-Called before built-in form validation.
+Called before built-in Form validation.
 Implement this callback to override the built-in form validation logic.
 
 Your callback's return value determines the processing of the Form:
