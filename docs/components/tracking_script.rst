@@ -139,7 +139,7 @@ Returning ``True`` or ``False`` skips the execution of `onValidateStart`.
 
 Called at the beginning of the default Form validation, this receives no values and a return value isn't required and isn't processed.
 
-.. warning:: `onValidateStart` will not get executed if you add the ``onValidate`` callback and it returns ``True`` or ``False``.
+.. warning:: `onValidateStart` isn't executed if you add the ``onValidate`` callback and it returns ``True`` or ``False``.
 
 .. code-block:: js
 
