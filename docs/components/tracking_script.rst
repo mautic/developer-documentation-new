@@ -201,7 +201,7 @@ Called to clear an existing error. Receives ``containerId`` with the id of the e
 ``onResponse(response)``
 ========================
 
-Called prior to default form submission response processing. Receives ``response`` containing the form submission response.
+Called prior to default Form submission response processing. Receives ``response`` containing the Form submission response.
 Return ``True`` to skip the default Form submission response processing.
 
 .. code-block:: js
