@@ -107,7 +107,7 @@ In the example code, replace ``replaceWithFormName`` with the name of your Form.
 ================
 
 Called before built-in Form validation.
-Implement this callback to override the built-in form validation logic.
+Implement this callback to override the built-in Form validation logic.
 
 Your callback's return value determines the processing of the Form:
 
