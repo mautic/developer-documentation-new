@@ -215,7 +215,7 @@ Return ``True`` to skip the default Form submission response processing.
 ``onResponseStart(response)``
 =============================
 
-Called at the beginning of the default form submission response processing. Receives ``response`` containing the form submission response.
+Called at the beginning of the default Form submission response processing. Receives ``response`` containing the Form submission response.
 Return value isn't required and isn't processed.
 
 .. warning:: onResponseStart may not get executed if the default response processing gets handled during the ``onResponse`` callback
