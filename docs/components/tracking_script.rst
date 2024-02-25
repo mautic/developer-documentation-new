@@ -152,7 +152,7 @@ Called at the beginning of the default Form validation, this receives no values 
 ``onValidateEnd(formValid)``
 ============================
 
-Called after all form validations are complete - either the default validations and/or the ``onValidate`` callback - and before the form gets submitted.
+Called after all Form validations are complete - either the default validations and/or the ``onValidate`` callback - and before submitting the Form.
 Receives ``formValid`` to determine if the form is valid.
 
 If this callback returns ``False`` then this prevents submitting the form.
