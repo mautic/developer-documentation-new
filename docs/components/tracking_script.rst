@@ -121,7 +121,7 @@ Returning ``True`` or ``False`` skips the execution of `onValidateStart`.
 
    MauticFormCallback['replaceWithFormName'] = {
        onValidate: function () {
-           // executed before built-in form validation
+           // executed before built-in Form validation
            var formIsGood = True;
            var dontUpdate = False;
            if(dontUpdate){
