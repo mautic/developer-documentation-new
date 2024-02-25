@@ -202,7 +202,7 @@ Called to clear an existing error. Receives ``containerId`` with the id of the e
 ========================
 
 Called prior to default form submission response processing. Receives ``response`` containing the form submission response.
-Return ``True`` to skip the default form submission response processing.
+Return ``True`` to skip the default Form submission response processing.
 
 .. code-block:: js
 
