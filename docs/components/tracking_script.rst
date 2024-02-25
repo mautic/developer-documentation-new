@@ -155,7 +155,7 @@ Called at the beginning of the default Form validation, this receives no values 
 Called after all Form validations are complete - either the default validations and/or the ``onValidate`` callback - and before submitting the Form.
 Receives ``formValid`` to determine if the Form is valid.
 
-If this callback returns ``False`` then this prevents submitting the form.
+If this callback returns ``False`` then this prevents submitting the Form.
 
 .. code-block:: js
 
