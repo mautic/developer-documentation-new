@@ -109,7 +109,7 @@ In the example code, replace ``replaceWithFormName`` with the name of your form.
 Called before built-in form validation.
 Implement this callback to override the built-in form validation logic.
 
-Your callbacks return value determines how the form will be processed:
+Your callback's return value determines the processing of the Form:
 
 1. Return ``True`` to skip the built-in form validation and **continue** with form processing.
 2. Return ``False`` to skip the built-in form validation and **prevent** the form submission.
