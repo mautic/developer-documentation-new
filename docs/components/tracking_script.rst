@@ -98,7 +98,7 @@ JavaScript Form processing hooks
        }
    };
 
-If you wish to run additional code before or after submission of the form, create a ``MauticFormCallback`` object.
+If you wish to run additional code before or after submission of the Form, create a ``MauticFormCallback`` object.
 In the example code, replace ``replaceWithFormName`` with the name of your form. 
 
 ``onValidateEnd`` and ``onResponse`` are actions called by ``Form.customCallbackHandler``. 
