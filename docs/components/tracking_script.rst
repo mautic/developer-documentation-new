@@ -239,7 +239,7 @@ Return value isn't required and isn't processed.
        },
    };
 
-Called at the end default form submission response processing. Receives ``response`` containing the form submission response.
+Called at the end of the default Form submission response processing. Receives ``response`` containing the Form submission response.
 Return value isn't required and isn't processed.
 
 .. warning:: onResponseEnd may not get executed if the default response processing gets handled during the ``onResponse`` callback
