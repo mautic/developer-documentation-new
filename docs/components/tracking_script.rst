@@ -162,7 +162,7 @@ If this callback returns ``False`` then this prevents submitting the Form.
    MauticFormCallback['replaceWithFormName'] = {
        onValidateEnd: function (formValid) {
             // before form submit
-            // return False; // prevents submitting the form
+            // return False; // prevents submitting the Form
        },
    };
 
