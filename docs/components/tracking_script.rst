@@ -115,7 +115,7 @@ Your callback's return value determines the processing of the Form:
 2. Return ``False`` to skip the built-in Form validation and **prevent** the Form submission.
 3. Return ``null`` to execute built-in Form validation and let its logic determine whether to continue with or prevent the Form submission.
 
-Returning ``True`` or ``False`` will skip the execution of `onValidateStart`.
+Returning ``True`` or ``False`` skips the execution of `onValidateStart`.
 
 .. code-block:: js
 
