@@ -145,7 +145,7 @@ Called at the beginning of the default Form validation, this receives no values 
 
    MauticFormCallback['replaceWithFormName'] = {
        onValidateStart: function () {
-            // executed before built-in form validation
+            // executed before built-in Form validation
        },
    };
 
