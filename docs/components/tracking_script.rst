@@ -312,7 +312,7 @@ Called prior to going to the next page in the Form. Useful to adjust the DOM pri
 
 .. vale off
 
-Called prior to going back to a previous page in the form. Useful to adjust the DOM prior to making the page visible.
+Called prior to going back to a previous page in the Form. Useful to adjust the DOM prior to making the page visible.
 
 .. vale on
 
