@@ -10,7 +10,7 @@ In the ``dev`` environment, Mautic doesn't cache translations, views, and assets
 
 .. vale on
 
-The typical rule of thumb is, if Mautic isn't acting as you expect after making changes, try clearing your cache. If you get ``class could not be found`` or ``cannot redeclare class`` errors when using the ``cache:clear`` command, manually delete the ``var/cache/ENV`` folder - replacing ENV with the environment eg ``dev`` or ``prod`` - then run the command and/or browse to the site to rebuild.
+The typical rule of thumb is, if Mautic isn't acting as you expect after making changes, try clearing your cache. If you get ``class could not be found`` or ``cannot redeclare class`` errors when using the ``cache:clear`` command, manually delete the ``var/cache/ENV`` folder - replacing ENV with the environment e.g ``dev`` or ``prod`` - then run the command and/or browse to the site to rebuild.
 
 Cache bundle
 ************
@@ -78,6 +78,7 @@ They can be overridden in ``local.php`` like this:
 
 Delivered adapters
 ------------------
+.. vale off
 
 - ``mautic.cache.adapter.filesystem``
 - ``mautic.cache.adapter.memcached``
