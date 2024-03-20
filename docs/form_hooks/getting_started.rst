@@ -27,7 +27,7 @@ You can define hooks for multiple Forms using the API name of the Form as follow
 
 .. Note:: Define the Form hooks somewhere in the DOM before the code that loads the Form.
 
-You'll need to view the HTML of the Form to find it's API name. The easiest way to do this is to browse to the Form's details in Mautic then click the "Manual Copy" button. Look for the following in the second box:
+You'll need to view the HTML of the Form to find it's API name. The easiest way to do this is to browse to the Form's details in Mautic then click the "Self-hosted" button. Look for the following in the second box:
 
 .. code-block:: html
 
