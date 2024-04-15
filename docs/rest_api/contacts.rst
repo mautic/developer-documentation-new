@@ -1057,12 +1057,12 @@ To subtract Points from a Contact and return a 404 if the Contact isn't found:
 
 .. vale off
 
-Get All Contact Point Groups Scores
+Get all Contact Point Groups scores
 ***********************************
 
 .. vale on
 
-Get all Point Group scores for a specific contact.
+Get all Point Group scores for a specific Contact.
 
 .. vale off
 
@@ -1091,16 +1091,16 @@ Get all Point Group scores for a specific contact.
         ]
     }
 
-The response will contain a list of Point Group scores for the Contact.
+The response contains a list of Point Group scores for the Contact.
 
 .. vale off
 
-Get Single Contact Point Group Score
+Get single Contact Point Group score
 ************************************
 
 .. vale on
 
-Get the score for a specific Point Group for a contact.
+Get the score for a specific Point Group for a Contact.
 
 .. vale off
 
@@ -1126,7 +1126,7 @@ Get the score for a specific Point Group for a contact.
         }
     }
 
-The response will contain the score for the specified Point Group for the Contact.
+The response contains the score for the specified Point Group for the Contact.
 
 .. vale off
 
@@ -1135,7 +1135,7 @@ Add Contact Point Group Score
 
 .. vale on
 
-Add points to a specific Point Group for a contact.
+Add Points to a specific Point Group for a Contact.
 
 .. vale off
 
@@ -1174,16 +1174,16 @@ Add points to a specific Point Group for a contact.
         }
     }
 
-The response will indicate the success of adding points to the specified Point Group for the Contact.
+The response indicates the success of adding Points to the specified Point Group for the Contact.
 
 .. vale off
 
-Subtract Contact Point Group Score
+Subtract Contact Point Group score
 **********************************
 
 .. vale on
 
-Subtract points from a specific Point Group for a contact.
+Subtract Points from a specific Point Group for a Contact.
 
 .. vale off
 
@@ -1221,7 +1221,7 @@ Subtract points from a specific Point Group for a contact.
         }
     }
 
-The response will indicate the success of subtracting points from the specified Point Group for the Contact.
+The response indicates the success of subtracting Points from the specified Point Group for the Contact.
 
 .. vale off
 
@@ -1230,7 +1230,7 @@ Set Contact Point Group Score
 
 .. vale on
 
-Set the points for a specific Point Group for a contact.
+Set the Points for a specific Point Group for a Contact.
 
 .. vale off
 
@@ -1268,16 +1268,16 @@ Set the points for a specific Point Group for a contact.
         }
     }
 
-The response will indicate the success of setting the points for the specified Point Group for the Contact.
+The response indicates the success of setting the Points for the specified Point Group for the Contact.
 
 .. vale off
 
-Divide Contact Point Group Score
+Divide Contact Point Group score
 ********************************
 
 .. vale on
 
-Divide the points of a specific Point Group for a contact by a value.
+Divide the Points of a specific Point Group for a Contact by a value.
 
 .. vale off
 
@@ -1315,16 +1315,16 @@ Divide the points of a specific Point Group for a contact by a value.
         }
     }
 
-The response will indicate the success of dividing the points of the specified Point Group for the Contact by the specified value.
+The response indicates the success of dividing the Points of the specified Point Group for the Contact by the specified value.
 
 .. vale off
 
-Multiply Contact Point Group Score
+Multiply Contact Point Group score
 **********************************
 
 .. vale on
 
-Multiply the points of a specific Point Group for a contact by a value.
+Multiply the Points of a specific Point Group for a Contact by a value.
 
 .. vale off
 
@@ -1362,7 +1362,7 @@ Multiply the points of a specific Point Group for a contact by a value.
         }
     }
 
-The response will indicate the success of multiplying the points of the specified Point Group for the Contact by the specified value.
+The response indicates the success of multiplying the Points of the specified Point Group for the Contact by the specified value.
 
 
 .. vale off
