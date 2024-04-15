@@ -217,8 +217,6 @@ Create Point Group
 
    $pointGroup = $pointGroupApi->create($data);
 
-Create a new Point Group.
-
 .. vale off
 
 **HTTP Request**
@@ -270,8 +268,6 @@ Edit Point Group
    ];
 
    $pointGroup = $pointGroupApi->edit($id, $data);
-
-Edit a Point Group.
 
 .. vale off
 
