@@ -92,19 +92,19 @@ See JSON code example.
      - Date/time Point Group was created
    * - ``createdBy``
      - ``int``
-     - ID of the user that created the Point Group
+     - ID of the User that created the Point Group
    * - ``createdByUser``
      - ``string``
-     - Name of the user that created the Point Group
+     - Name of the User that created the Point Group
    * - ``dateModified``
      - ``datetime/null``
      - Date/time Point Group was last modified
    * - ``modifiedBy``
      - ``int``
-     - ID of the user that last modified the Point Group
+     - ID of the User that last modified the Point Group
    * - ``modifiedByUser``
      - ``string``
-     - Name of the user that last modified the Point Group
+     - Name of the User that last modified the Point Group
 
 .. vale off
 
@@ -184,19 +184,19 @@ See JSON code example.
      - Date/time Point Group was created
    * - ``createdBy``
      - ``int``
-     - ID of the user that created the Point Group
+     - ID of the User that created the Point Group
    * - ``createdByUser``
      - ``string``
-     - Name of the user that created the Point Group
+     - Name of the User that created the Point Group
    * - ``dateModified``
      - ``datetime/null``
      - Date/time Point Group was last modified
    * - ``modifiedBy``
      - ``int``
-     - ID of the user that last modified the Point Group
+     - ID of the User that last modified the Point Group
    * - ``modifiedByUser``
      - ``string``
-     - Name of the user that last modified the Point Group
+     - Name of the User that last modified the Point Group
 
 
 .. vale off
