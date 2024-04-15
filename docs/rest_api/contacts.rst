@@ -1055,6 +1055,259 @@ To subtract Points from a Contact and return a 404 if the Contact isn't found:
        "success": true
    }
 
+Get All Contact Point Groups Scores
+***********************************
+
+Get all Point Group scores for a specific contact.
+
+**HTTP Request**
+
+``GET /api/contacts/{leadId}/points/groups``
+
+**Response**
+
+``Expected Response Code: 200``
+
+.. code-block:: json
+
+    {
+        "total": 1,
+        "groupScores": [
+            {
+                "score": 21,
+                "group": {
+                    "id": 6,
+                    "name": "A"
+                }
+            }
+        ]
+    }
+
+The response will contain a list of Point Group scores for the Contact.
+
+Get Single Contact Point Group Score
+************************************
+
+Get the score for a specific Point Group for a contact.
+
+**HTTP Request**
+
+``GET /api/contacts/{leadId}/points/groups/{groupId}``
+
+**Response**
+
+``Expected Response Code: 200``
+
+.. code-block:: json
+
+    {
+        "groupScore": {
+            "score": 21,
+            "group": {
+                "id": 6,
+                "name": "A"
+            }
+        }
+    }
+
+The response will contain the score for the specified Point Group for the Contact.
+
+Add Contact Point Group Score
+*****************************
+
+Add points to a specific Point Group for a contact.
+
+**HTTP Request**
+
+``POST /api/contacts/{leadId}/points/groups/{groupId}/plus/{value}``
+
+**Data Parameters (optional)**
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Description
+   * - ``eventname``
+     - Name of the event
+   * - ``actionname``
+     - Name of the action
+
+**Response**
+
+``Expected Response Code: 200``
+
+.. code-block:: json
+
+    {
+        "groupScore": {
+            "score": 21,
+            "group": {
+                "id": 6,
+                "name": "A"
+            }
+        }
+    }
+
+The response will indicate the success of adding points to the specified Point Group for the Contact.
+
+Subtract Contact Point Group Score
+**********************************
+
+Subtract points from a specific Point Group for a contact.
+
+**HTTP Request**
+
+``POST /api/contacts/{leadId}/points/groups/{groupId}/minus/{value}``
+
+**Data Parameters (optional)**
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Description
+   * - ``eventname``
+     - Name of the event
+   * - ``actionname``
+     - Name of the action
+
+**Response**
+
+``Expected Response Code: 200``
+
+.. code-block:: json
+
+    {
+        "groupScore": {
+            "score": 21,
+            "group": {
+                "id": 6,
+                "name": "A"
+            }
+        }
+    }
+
+The response will indicate the success of subtracting points from the specified Point Group for the Contact.
+
+Set Contact Point Group Score
+*****************************
+
+Set the points for a specific Point Group for a contact.
+
+**HTTP Request**
+
+``POST /api/contacts/{leadId}/points/groups/{groupId}/set/{value}``
+
+**Data Parameters (optional)**
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Description
+   * - ``eventname``
+     - Name of the event
+   * - ``actionname``
+     - Name of the action
+
+**Response**
+
+``Expected Response Code: 200``
+
+.. code-block:: json
+
+    {
+        "groupScore": {
+            "score": 21,
+            "group": {
+                "id": 6,
+                "name": "A"
+            }
+        }
+    }
+
+The response will indicate the success of setting the points for the specified Point Group for the Contact.
+
+Divide Contact Point Group Score
+********************************
+
+Divide the points of a specific Point Group for a contact by a value.
+
+**HTTP Request**
+
+``POST /api/contacts/{leadId}/points/groups/{groupId}/divide/{value}``
+
+**Data Parameters (optional)**
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Description
+   * - ``eventname``
+     - Name of the event
+   * - ``actionname``
+     - Name of the action
+
+**Response**
+
+``Expected Response Code: 200``
+
+.. code-block:: json
+
+    {
+        "groupScore": {
+            "score": 21,
+            "group": {
+                "id": 6,
+                "name": "A"
+            }
+        }
+    }
+
+The response will indicate the success of dividing the points of the specified Point Group for the Contact by the specified value.
+
+Multiply Contact Point Group Score
+**********************************
+
+Multiply the points of a specific Point Group for a contact by a value.
+
+**HTTP Request**
+
+``POST /api/contacts/{leadId}/points/groups/{groupId}/times/{value}``
+
+**Data Parameters (optional)**
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Description
+   * - ``eventname``
+     - Name of the event
+   * - ``actionname``
+     - Name of the action
+
+**Response**
+
+``Expected Response Code: 200``
+
+.. code-block:: json
+
+    {
+        "groupScore": {
+            "score": 21,
+            "group": {
+                "id": 6,
+                "name": "A"
+            }
+        }
+    }
+
+The response will indicate the success of multiplying the points of the specified Point Group for the Contact by the specified value.
+
+
 .. vale off
 
 List Available Owners
