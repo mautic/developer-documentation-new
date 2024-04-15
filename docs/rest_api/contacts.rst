@@ -1055,12 +1055,20 @@ To subtract Points from a Contact and return a 404 if the Contact isn't found:
        "success": true
    }
 
+.. vale off
+
 Get All Contact Point Groups Scores
 ***********************************
 
+.. vale on
+
 Get all Point Group scores for a specific contact.
 
+.. vale off
+
 **HTTP Request**
+
+.. vale on
 
 ``GET /api/contacts/{leadId}/points/groups``
 
@@ -1085,12 +1093,20 @@ Get all Point Group scores for a specific contact.
 
 The response will contain a list of Point Group scores for the Contact.
 
+.. vale off
+
 Get Single Contact Point Group Score
 ************************************
 
+.. vale on
+
 Get the score for a specific Point Group for a contact.
 
+.. vale off
+
 **HTTP Request**
+
+.. vale on
 
 ``GET /api/contacts/{leadId}/points/groups/{groupId}``
 
@@ -1112,12 +1128,21 @@ Get the score for a specific Point Group for a contact.
 
 The response will contain the score for the specified Point Group for the Contact.
 
+.. vale off
+
 Add Contact Point Group Score
 *****************************
 
+.. vale on
+
 Add points to a specific Point Group for a contact.
 
+.. vale off
+
 **HTTP Request**
+
+.. vale on
+
 
 ``POST /api/contacts/{leadId}/points/groups/{groupId}/plus/{value}``
 
@@ -1151,12 +1176,20 @@ Add points to a specific Point Group for a contact.
 
 The response will indicate the success of adding points to the specified Point Group for the Contact.
 
+.. vale off
+
 Subtract Contact Point Group Score
 **********************************
 
+.. vale on
+
 Subtract points from a specific Point Group for a contact.
 
+.. vale off
+
 **HTTP Request**
+
+.. vale on
 
 ``POST /api/contacts/{leadId}/points/groups/{groupId}/minus/{value}``
 
@@ -1190,12 +1223,20 @@ Subtract points from a specific Point Group for a contact.
 
 The response will indicate the success of subtracting points from the specified Point Group for the Contact.
 
+.. vale off
+
 Set Contact Point Group Score
 *****************************
 
+.. vale on
+
 Set the points for a specific Point Group for a contact.
 
+.. vale off
+
 **HTTP Request**
+
+.. vale on
 
 ``POST /api/contacts/{leadId}/points/groups/{groupId}/set/{value}``
 
@@ -1229,12 +1270,20 @@ Set the points for a specific Point Group for a contact.
 
 The response will indicate the success of setting the points for the specified Point Group for the Contact.
 
+.. vale off
+
 Divide Contact Point Group Score
 ********************************
 
+.. vale on
+
 Divide the points of a specific Point Group for a contact by a value.
 
+.. vale off
+
 **HTTP Request**
+
+.. vale on
 
 ``POST /api/contacts/{leadId}/points/groups/{groupId}/divide/{value}``
 
@@ -1268,12 +1317,20 @@ Divide the points of a specific Point Group for a contact by a value.
 
 The response will indicate the success of dividing the points of the specified Point Group for the Contact by the specified value.
 
+.. vale off
+
 Multiply Contact Point Group Score
 **********************************
 
+.. vale on
+
 Multiply the points of a specific Point Group for a contact by a value.
 
+.. vale off
+
 **HTTP Request**
+
+.. vale on
 
 ``POST /api/contacts/{leadId}/points/groups/{groupId}/times/{value}``
 
