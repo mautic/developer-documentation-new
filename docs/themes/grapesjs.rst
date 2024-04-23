@@ -104,7 +104,7 @@ To create a Plugin for the GrapesJS Builder, you need to create a new Bundle in 
 
 Due to the ``export default``, you can use this Plugin in a fork, customizing the source files with ``import GrapesJSCustomPlugin from 'path'``. But this isn't required - you can also write a plain JS function as described in the :xref:`grapesjs-plugins` documentation.
 
-3. Add the Javascript file - compiled or source - to the ``AssetSubscriber`` of your plugin-bundle:
+3. Add the JavaScript file - compiled or source - to the ``AssetSubscriber`` of your Plugin bundle:
 
 .. code-block:: php
 
