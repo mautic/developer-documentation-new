@@ -47,7 +47,7 @@ This command will save you some time as it validates the Twig syntax:
 
 bin/console lint:twig plugins/MyBundle
 
-_Update MyBundle with your bundle name._
+.. note:: Update MyBundle with your bundle name.
 
 5. The Integration Class
 ----------------------
@@ -56,7 +56,7 @@ If you went ahead and deleted all services from config.php with a smile on your 
 
 $services->alias('mautic.integration.[MY_INTEGRAION]', \MauticPlugin\[MY_INTEGRAION]Bundle\Integration\[MY_INTEGRAION]Integration::class);
 
-_Replace `[MY_INTEGRAION]` with your plugin name._
+.. note:: Replace `[MY_INTEGRAION]` with your plugin name.
 
 6. Compiler passes
 ----------------
@@ -83,14 +83,14 @@ Your plugin should be working on Mautic 5 by now. But let's go further as Mautic
 
 Run `bin/rector process plugins/MyBundle` and review the changes.
 
-_Update MyBundle with your bundle name._
+.. note:: Update MyBundle with your bundle name.
 
 9. Automated code style
 ---------------------
 
 Another great way how to improve your plugin code base quality is to run the CS Fixer: `bin/php-cs-fixer fix plugins/MyBundle`.
 
-_Update MyBundle with your bundle name._
+.. note:: Update MyBundle with your bundle name.
 
 10. Static analysis
 ----------------
