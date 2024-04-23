@@ -21,6 +21,8 @@ To quickly check that all services are passing you may find this command faster 
 
 ``rm -rf var/cache && bin/console``
 
+.. note:: Ideally, you should be able to delete the whole ``services`` section from your ``config.php`` file. But do that as a cherry on top once you are sure everything is working. See step 5 that could get you stuck good. There may be others like it.
+
 3. config.php - controllers
 ---------------------------
 
