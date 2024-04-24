@@ -1,23 +1,23 @@
 Plugin upgrade from 4 to 5 step by step
-=========================================
+=======================================
 
-Here is a list of steps that most of the plugins will have to take to upgrade from Mautic 4 to Mautic 5. You should be able to get through each step, make a commit, move to the next one and once you are at finished you have upgraded your plugin.
+Here is a list of steps that most of the Plugins may need to take to upgrade from Mautic 4 to Mautic 5. You should be able to get through each step, make a commit, move to the next one and once you are at finished you have upgraded your Plugin.
 
 1. Continuous Integration
 -------------------------
 
 If you don't have CI configured, this is the time to do it. This is an optional step but it makes sense to do it at the beginning rather than later. Here's how to get it done: https://devdocs.mautic.org/en/5.x/plugins/continuous-integration.html
 
-In your PR add also PHP 8.1 and 8.2. And upgrade the Mautic version from 4.4 to 5.1. One more thing is that Mautic 5 have local.php in config/local.php instead of app/config/local.php so update that as well.
+In your PR add also PHP 8.1 and 8.2. And upgrade the Mautic version from 4.4 to 5.1. One more thing is that Mautic 5 have ``local.php`` in ``config/local.php`` instead of ``app/config/local.php`` so update that as well.
 
 2. Autowiring
 -------------
 
-Mautic 5 comes with autowiring which means developers will get way better developer experience and will be able to get things done faster.
+Mautic 5 comes with autowiring of PHP services which means the developer experience is way better and the code will shrink substantially.
 
 There is a great doc already written on this topic so get that setup and come back: https://devdocs.mautic.org/en/5.x/plugins/autowiring.html
 
-To quickly check that all services are passing you may find this command faster than refreshing the browser window:
+To quickly check that all services are wired and configured correctly you may find this command faster than refreshing the browser window:
 
 ``rm -rf var/cache && bin/console``
 
