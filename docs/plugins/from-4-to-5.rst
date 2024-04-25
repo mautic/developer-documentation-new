@@ -13,7 +13,7 @@ In your PR add also PHP 8.1 and 8.2. And upgrade the Mautic version from 4.4 to 
 2. Autowiring
 -------------
 
-Mautic 5 comes with autowiring of PHP services which means the developer experience is way better and the code will shrink substantially.
+Mautic 5 comes with autowiring of PHP services which means the developer experience is way better and the code size gets reduced.
 
 There is a great doc already written on this topic so get that setup and come back: https://devdocs.mautic.org/en/5.x/plugins/autowiring.html
 
@@ -49,7 +49,7 @@ In the controllers, you'll also have to update the view paths like this:
    - $this->renderView('MauticCoreBundle:Notification:flash_messages.html.php');
    + $this->renderView('@MauticCore/Notification/flash_messages.html.twig');
 
-This command will save you some time as it validates the Twig syntax:
+Running this command is faster than refreshing all the views in the browser. It validates the Twig syntax and can guide you through the process:
 
 ``bin/console lint:twig plugins/MyBundle``
 
@@ -58,7 +58,7 @@ This command will save you some time as it validates the Twig syntax:
 5. The Integration Class
 ------------------------
 
-If you went ahead and deleted all services from config.php with a smile on your face, you may find yourself in a pickle if you are using Mautic's Integration classes and interfaces. The inner workings of the IntegrationsBundle expects that your integration has a service key in a specific format. I bet this will be improved for Mautic 6, but for now add an alias to services.php:
+If you went ahead and deleted all services from config.php with a smile on your face, you may find yourself in a pickle if you are using Mautic's Integration classes and interfaces. The inner workings of the IntegrationsBundle expects that your integration has a service key in a specific format. This should be improved for Mautic 6, but for now add an alias to services.php:
 
 .. code:: php
    $services->alias('mautic.integration.[MY_INTEGRAION]', \MauticPlugin\[MY_INTEGRAION]Bundle\Integration\[MY_INTEGRAION]Integration::class);
@@ -78,7 +78,7 @@ If you plugin uses a compliler pass, you may have to double-check that it works 
 7. Getting container in tests
 -----------------------------
 
-This one will be a quick find and replace:
+This one is a quick find and replace:
 
 .. code:: diff
 
@@ -90,7 +90,7 @@ Notice you can also use FQCN instead of string service keys which is more conven
 8. Automated refactoring
 ------------------------
 
-Your plugin should be working on Mautic 5 by now. But let's go further as Mautic 5 uses PHP 8+ we can take advantage of the syntax. And Rector will help you to upgrade for you.
+Your plugin should be working on Mautic 5 by now. But let's go further as Mautic 5 uses PHP 8+ we can take advantage of the syntax. And Rector upgrade the code for you.
 
 Run ``bin/rector process plugins/MyBundle`` and review the changes.
 
@@ -106,11 +106,11 @@ Another great way how to improve your plugin code base quality is to run the CS 
 10. Static analysis
 -------------------
 
-PHPSTAN is another amazing tool that will find bugs for you. It's better to run it on the whole codebase including core Mautic so it's aware of all classes.
+PHPSTAN is another amazing tool that detects bugs for you. It's better to run it on the whole codebase including core Mautic so it's aware of all classes.
 
 Run ``composer phpstan``
 
-If your plugin has way too many PHPSTAN errors than you can handle right now, consider using [PHPSTAN baseline](https://phpstan.org/user-guide/baseline). It allows you to store your tech debt to a file and it will force you to write better code from now on. And you can reduce the baseline by small chunks every month to get to 0.
+If your plugin has way too many PHPSTAN errors than you can handle right now, consider using [PHPSTAN baseline](https://phpstan.org/user-guide/baseline). It allows you to store your tech debt to a single file and it forces you to write better code from now on. And you can reduce the baseline by small chunks every month to get to 0.
 
 Conclusion
 ----------
