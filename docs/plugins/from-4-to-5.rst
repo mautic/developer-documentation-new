@@ -33,12 +33,12 @@ config.php should be way lighter now when all services are gone after autowiring
    - 'controller' => 'CronfigBundle:Cronfig:index',
    + 'controller' => 'MauticPlugin\CronfigBundle\Controller\CronfigController::indexAction'
 
-Symfony 5 is way more explicit. We like that. You don't have to guess what the syntax is. It's basically just standard FQCN (Fully Qualified Class Name) with the full method name behind the 2 colons. You don't even need to call the controller method `*Action` anymore. Your choice.
+Symfony 5 is way more explicit. That's a good thing even if it's longer! You don't have to guess what the syntax is. It's basically just standard FQCN (Fully Qualified Class Name) with the full method name behind the 2 colons. You don't even need to call the controller method `*Action` anymore. Your choice.
 
-4. Rendering views
+4. Rendering Views
 ------------------
 
-As the PHP templating engine was removed from Symfony 5, Mautic had to switch to Twig. And your plugin must follow. Here is a helpful resource on how to migrate the `*.html.php` files to `*.html.twig` files:
+As the PHP templating engine was removed from Symfony 5, Mautic had to switch to Twig. And your Plugin must follow. Here is a helpful resource on how to migrate the `*.html.php` files to `*.html.twig` files:
 
 https://github.com/mautic/mautic/blob/5.x/UPGRADE-PHP-TO-TWIG-TEMPLATES.md
 
@@ -58,17 +58,17 @@ Running this command is faster than refreshing all the views in the browser. It 
 5. The Integration Class
 ------------------------
 
-If you went ahead and deleted all services from config.php with a smile on your face, you may find yourself in a pickle if you are using Mautic's Integration classes and interfaces. The inner workings of the IntegrationsBundle expects that your integration has a service key in a specific format. This should be improved for Mautic 6, but for now add an alias to services.php:
+If you went ahead and deleted all services from ``config.php`` with a smile on your face, you may find yourself in a pickle if you are using Mautic's Integration classes and interfaces. The inner workings of the IntegrationsBundle expects that your integration has a service key in a specific format. This should be improved for Mautic 6, but for now add an alias to ``services.php``:
 
 .. code:: php
    $services->alias('mautic.integration.[MY_INTEGRAION]', \MauticPlugin\[MY_INTEGRAION]Bundle\Integration\[MY_INTEGRAION]Integration::class);
 
-.. note:: Replace `[MY_INTEGRAION]` with your plugin name.
+.. note:: Replace `[MY_INTEGRAION]` with your Plugin name.
 
-6. Compiler passes
+6. Compiler Passes
 ------------------
 
-If you plugin uses a compliler pass, you may have to double-check that it works correctly. In many cases you may have to change the service alias with FQCN like so:
+If you Plugin uses a compiler pass, you may have to double-check that it works correctly. In many cases you may have to change the service alias with FQCN like so:
 
 .. code:: diff
 
@@ -87,23 +87,23 @@ This one is a quick find and replace:
 
 Notice you can also use FQCN instead of string service keys which is more convenient.
 
-8. Automated refactoring
+8. Automated Refactoring
 ------------------------
 
-Your plugin should be working on Mautic 5 by now. But let's go further as Mautic 5 uses PHP 8+ we can take advantage of the syntax. And Rector upgrade the code for you.
+Your Plugin should be working on Mautic 5 by now. Wouldn't it be great to shorten the code a little more? Mautic 5 uses PHP 8.0+ so can take advantage of the syntax. And Rector can upgrade the code for you.
 
 Run ``bin/rector process plugins/MyBundle`` and review the changes.
 
 .. note:: Update MyBundle with your bundle name.
 
-9. Automated code style
+9. Automated Code Style
 -----------------------
 
-Another great way how to improve your plugin code base quality is to run the CS Fixer: `bin/php-cs-fixer fix plugins/MyBundle`.
+Another great way how to improve your Plugin code base quality is to run the CS Fixer: `bin/php-cs-fixer fix plugins/MyBundle`.
 
 .. note:: Update MyBundle with your bundle name.
 
-10. Static analysis
+10. Static Analysis
 -------------------
 
 PHPSTAN is another amazing tool that detects bugs for you. It's better to run it on the whole codebase including core Mautic so it's aware of all classes.
@@ -115,4 +115,4 @@ If your plugin has way too many PHPSTAN errors than you can handle right now, co
 Conclusion
 ----------
 
-This list of steps is compiled by Mautic plugin developers for the Mautic plugin developers. If you find that some common problem isn't addressed here, please add it.
+This list of steps is compiled by Mautic Plugin developers for the Mautic Plugin developers. If you find that some common problem isn't addressed here, please add it.
