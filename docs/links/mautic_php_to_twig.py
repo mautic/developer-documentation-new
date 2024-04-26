@@ -1,6 +1,6 @@
 from . import link
 
-link_name = "PHP to Twig migration" 
+link_name = "PHP to Twig migrations" 
 link_text = "Upgrading PHP to Twig templates" 
 link_url = "https://github.com/mautic/mautic/blob/5.x/UPGRADE-PHP-TO-TWIG-TEMPLATES.md" 
 
