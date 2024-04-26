@@ -67,9 +67,9 @@ If you went ahead and deleted all services from ``config.php``, you may experien
 
 .. code:: php
 
-   $services->alias('mautic.integration.[MY_INTEGRAION]', \MauticPlugin\[MY_INTEGRAION]Bundle\Integration\[MY_INTEGRAION]Integration::class);
+   $services->alias('mautic.integration.[MY_INTEGRATION]', \MauticPlugin\[MY_INTEGRATION]Bundle\Integration\[MY_INTEGRATION]Integration::class);
 
-.. note:: Replace `[MY_INTEGRAION]` with your Plugin name.
+.. note:: Replace `[MY_INTEGRATION]` with your Plugin name.
 
 Compiler passes
 ------------------
