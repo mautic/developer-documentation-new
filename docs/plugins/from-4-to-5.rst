@@ -17,7 +17,7 @@ Mautic 5 comes with autowiring of PHP services which means the developer experie
 
 There is a great doc already written on this topic so get that setup and come back: https://devdocs.mautic.org/en/5.x/plugins/autowiring.html
 
-To quickly check that all services are wired and configured correctly you may find this command faster than refreshing the browser window:
+To quickly verify that the wiring of services is complete and configured correctly you may find this command faster than refreshing the browser window:
 
 ``rm -rf var/cache && bin/console``
 
