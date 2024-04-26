@@ -116,7 +116,7 @@ PHPSTAN is another amazing tool that detects bugs for you. It's better to run it
 
 Run ``composer phpstan``
 
-If your Plugin has more PHPSTAN errors than you can handle right now, consider using PHPSTAN baseline. It allows you to store your tech debt to a single file and it forces you to write better code from now on. And you can reduce the baseline by small chunks every month to get to 0.
+If your Plugin has more PHPSTAN errors than you can handle right now, consider using :xref:`PHPSTAN baseline`. It allows you to store your tech debt to a single file and it forces you to write better code from now on. And you can reduce the baseline by small chunks every month to get to 0.
 
 Conclusion
 ----------
