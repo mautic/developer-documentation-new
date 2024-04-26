@@ -6,7 +6,7 @@ Here is a list of steps that most of the Plugins may need to take to upgrade fro
 1) Continuous Integration
 -------------------------
 
-If you don't have CI configured, this is the time to do it. This is an optional step but it makes sense to do it at the beginning rather than later. Here's how to get it done: https://devdocs.mautic.org/en/5.x/plugins/continuous-integration.html
+If you don't have CI configured, this is the time to do it. This is an optional step but it makes sense to do it at the beginning rather than later. Here's how to get it done: :doc:`/plugins/continuous-integration`.
 
 In your PR add also support for PHP 8.1 and 8.2, and upgrade the Mautic version from 4.4 to 5.1. One more thing is that Mautic 5 have ``local.php`` in ``config/local.php`` instead of ``app/config/local.php`` so update that as well.
 
@@ -40,7 +40,7 @@ Symfony 5 is much more explicit. That's a good thing even if it's longer. You do
 
 As Symfony 5 removed the PHP templating engine, Mautic had to switch to Twig. Your Plugin must also update the any views from PHP to Twig. Here is a helpful resource on how to migrate the ``*.html.php`` files to ``*.html.twig`` files:
 
-https://github.com/mautic/mautic/blob/5.x/UPGRADE-PHP-TO-TWIG-TEMPLATES.md
+:xref:`PHP to Twig migration`
 
 In the controllers, you'll also have to update the view paths like this:
 
