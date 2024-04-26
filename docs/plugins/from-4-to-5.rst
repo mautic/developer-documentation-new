@@ -1,4 +1,4 @@
-Update plugins for Mautic 5
+Update Plugins for Mautic 5
 =======================================
 
 Here is a list of steps that most of the Plugins may need to take to upgrade from Mautic 4 to Mautic 5. You should be able to get through each step, make a commit, move to the next one and once you are at finished you have upgraded your Plugin.
