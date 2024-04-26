@@ -3,14 +3,14 @@ Update plugins for Mautic 5
 
 Here is a list of steps that most of the Plugins may need to take to upgrade from Mautic 4 to Mautic 5. You should be able to get through each step, make a commit, move to the next one and once you are at finished you have upgraded your Plugin.
 
-1) Continuous Integration
+Continuous Integration
 -------------------------
 
 If you don't have CI configured, this is the time to do it. This is an optional step but it makes sense to do it at the beginning rather than later. Here's how to get it done: :doc:`/plugins/continuous-integration`.
 
 In your PR add also support for PHP 8.1 and 8.2, and upgrade the Mautic version from 4.4 to 5.1. One more thing is that Mautic 5 have ``local.php`` in ``config/local.php`` instead of ``app/config/local.php`` so update that as well.
 
-2) Autowiring
+Autowiring
 -------------
 
 Mautic 5 comes with autowiring of PHP services which means the developer experience is much improved, and the code size is reduced.
@@ -23,7 +23,7 @@ To quickly verify that the wiring of services is complete and configured correct
 
   .. note:: Ideally, you should be able to delete the whole ``services`` section from your ``config.php`` file, but do that as a cherry on top once you are sure everything is working as the later steps in this process may yet cause you difficulties.
 
-3) config.php - controllers
+``config.php`` - controllers
 ---------------------------
 
 ``config.php`` should be much lighter now when all services are gone after autowiring is configured. There is one more thing to verify. The controllers are now defined with a different syntax. Here is an example:
@@ -35,7 +35,7 @@ To quickly verify that the wiring of services is complete and configured correct
 
 Symfony 5 is much more explicit. That's a good thing even if it's longer. You don't have to guess what the syntax is. It's basically just standard FQCN (Fully Qualified Class Name) with the full method name behind the 2 colons. You don't even need to call the controller method `*Action` any more.
 
-4) Rendering Views
+Rendering views
 ------------------
 
 As Symfony 5 removed the PHP templating engine, Mautic had to switch to Twig. Your Plugin must also update the any views from PHP to Twig. Here is a helpful resource on how to migrate the ``*.html.php`` files to ``*.html.twig`` files:
@@ -55,7 +55,9 @@ Running this command is faster than refreshing all the views in the browser. It 
 
 .. note:: Update MyBundle with your bundle name.
 
-5) The Integration Class
+.. vale off
+
+The Integration class
 ------------------------
 
 If you went ahead and deleted all services from ``config.php``, you may experience problems if you're using Mautic's Integration classes and interfaces. The inner workings of the IntegrationsBundle expects that your Integration has a service key in a specific format. Mautic 6 aims to improve this, but for now, add an alias to ``services.php``:
@@ -65,7 +67,7 @@ If you went ahead and deleted all services from ``config.php``, you may experien
 
 .. note:: Replace `[MY_INTEGRAION]` with your Plugin name.
 
-6) Compiler Passes
+Compiler passes
 ------------------
 
 If your Plugin uses a compiler pass, you may have to verify that it works correctly. In many cases you may have to change the service alias with FQCN like so:
@@ -75,7 +77,7 @@ If your Plugin uses a compiler pass, you may have to verify that it works correc
    - ->setDecoratedService('mautic.form.type.email', 'mautic.form.type.email.inner');
    + ->setDecoratedService(EmailType::class, 'mautic.form.type.email.inner')
 
-7) Getting container in tests
+Getting container in tests
 -----------------------------
 
 This one is a quick find and replace:
@@ -87,7 +89,7 @@ This one is a quick find and replace:
 
 Notice you can also use FQCN instead of string service keys which is more convenient.
 
-8) Automated Refactoring
+Automated refactoring
 ------------------------
 
 Your Plugin should be working on Mautic 5 by now. Wouldn't it be great to shorten the code a little more? Mautic 5 uses PHP 8.0+ so can take advantage of the syntax. Rector can upgrade the code for you.
@@ -96,14 +98,14 @@ Run ``bin/rector process plugins/MyBundle`` and review the changes.
 
 .. note:: Update MyBundle with your bundle name.
 
-9) Automated Code Style
+Automated code style
 -----------------------
 
 Another great way how to improve your Plugin code base quality is to run the CS Fixer: `bin/php-cs-fixer fix plugins/MyBundle`.
 
 .. note:: Update MyBundle with your bundle name.
 
-10) Static Analysis
+Static analysis
 -------------------
 
 PHPSTAN is another amazing tool that detects bugs for you. It's better to run it on the whole codebase including core Mautic, so it's aware of all classes.
