@@ -60,9 +60,13 @@ Running this command is faster than refreshing all the views in the browser. It 
 The Integration class
 ------------------------
 
+.. vale on
+
+
 If you went ahead and deleted all services from ``config.php``, you may experience problems if you're using Mautic's Integration classes and interfaces. The inner workings of the IntegrationsBundle expects that your Integration has a service key in a specific format. Mautic 6 aims to improve this, but for now, add an alias to ``services.php``:
 
 .. code:: php
+
    $services->alias('mautic.integration.[MY_INTEGRAION]', \MauticPlugin\[MY_INTEGRAION]Bundle\Integration\[MY_INTEGRAION]Integration::class);
 
 .. note:: Replace `[MY_INTEGRAION]` with your Plugin name.
@@ -101,7 +105,7 @@ Run ``bin/rector process plugins/MyBundle`` and review the changes.
 Automated code style
 -----------------------
 
-Another great way how to improve your Plugin code base quality is to run the CS Fixer: `bin/php-cs-fixer fix plugins/MyBundle`.
+Another great way how to improve your Plugin code base quality is to run the CS Fixer: ``bin/php-cs-fixer fix plugins/MyBundle``.
 
 .. note:: Update MyBundle with your bundle name.
 
