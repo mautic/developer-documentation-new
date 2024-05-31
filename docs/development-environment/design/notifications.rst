@@ -69,7 +69,7 @@ This displays a warning notification with an appropriate icon and color styling.
 Larger notification blocks without icons
 ----------------------------------------
 
-When a larger notification block is needed, for instance, to include headings or additional content, developers should use the ``alert`` class along with a column class that starts with the ``col-`` prefix. These notifications do not display an icon but have only a colored left border indicative of the notification type.
+When you need a larger notification block - for instance to include headings or additional content - developers should use the ``alert`` class along with a column class that starts with the ``col-`` prefix. These notifications don't display an icon but have only a colored left border indicative of the notification type.
 
 Example:
 
