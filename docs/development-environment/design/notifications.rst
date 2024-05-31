@@ -15,7 +15,7 @@ Notifications come in various forms, each serving a specific purpose within an a
 
 - **Toast notifications**: these are time-based messages that appear at the top of the screen and disappear after a short duration. They are used for brief messages that do not require user interaction.
 
-- **Actionable notifications**: these include interactive elements and require user interaction. They are styled similarly to inline or toast notifications but are more disruptive due to their interactive nature.
+- **Actionable notifications**: includes interactive elements and require user interaction. Styled similarly to inline or toast notifications, but more disruptive due to their interactive nature.
 
 Design
 ------
