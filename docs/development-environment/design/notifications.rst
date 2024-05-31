@@ -22,7 +22,7 @@ Design
 
 - Carefully examine the context in which notifications appear. Use them sparingly and only when they add value to the user experience.
 - Maintain consistency in the design and behavior of notifications across the app.
-- High-contrast notifications are used for critical messaging, while low-contrast notifications are less visually disruptive.
+- Be sure to use high-contrast notifications for critical messaging, as low-contrast notifications are less visually disruptive.
 
 Content
 -------
