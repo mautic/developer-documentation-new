@@ -11,7 +11,7 @@ Understanding notification variants
 
 Notifications come in various forms, each serving a specific purpose within an app:
 
-- **Inline notifications**: these are integrated into task flows to inform users about the status of an action or system changes. They are typically placed at the top of the content area or near the relevant item.
+- **Inline notifications**: integrated into task flows to inform users about the status of an action or system changes. Mautic displays these at the top of the content area or near the relevant item.
 
 - **Toast notifications**: these are time-based messages that appear at the top of the screen and disappear after a short duration. Mautic displays these as brief messages that don't require user interaction.
 
