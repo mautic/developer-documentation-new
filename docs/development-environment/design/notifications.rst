@@ -54,7 +54,7 @@ For standard notifications that include an icon, developers should use a ``<div>
 - ``.alert-warning`` for warnings
 - ``.alert-danger`` for errors
 
-Each class corresponds to a specific icon and color that is automatically applied using CSS logic.
+Each class corresponds to a specific icon and color that's automatically applied using CSS logic.
 
 Example:
 
