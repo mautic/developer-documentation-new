@@ -27,7 +27,7 @@ Design
 Content
 -------
 
-- Notifications should be concise and to the point, with a short and descriptive title. The body content should be limited to one or two sentences.
+- Notifications should be concise and to the point, with a short and descriptive title. Limit the body content to one or two sentences.
 
 Actions
 -------
