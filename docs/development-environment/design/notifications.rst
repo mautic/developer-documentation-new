@@ -39,7 +39,7 @@ Accessibility
 -------------
 
 - Notifications should be accessible and not rely solely on color to convey status, as this can be problematic for users with color blindness, so use additional HTML attributes according to the notification type.
-- Toast notifications with interactive content should not automatically disappear to remain WCAG 2.1 compliant.
+- Toast notifications with interactive content shouldn't automatically disappear to remain WCAG 2.1 compliant.
 
 Using notification components
 =============================
