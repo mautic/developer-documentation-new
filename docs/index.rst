@@ -146,6 +146,7 @@ There are several ways to support Mautic other than contributing with code.
    rest_api/contacts
    rest_api/fields
    rest_api/notifications
+   rest_api/point_groups
    rest_api/reports
    rest_api/text_messages
 
