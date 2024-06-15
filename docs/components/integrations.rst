@@ -87,6 +87,10 @@ The ``HelloWorldIntegration`` needs to implement ``\Mautic\IntegrationsBundle\In
         }
     }
 
+.. note:: 
+    `HelloWorldIntegration::NAME` must only contain letters (a-zA-Z).
+
+
 
 Integration authentication
 **************************
