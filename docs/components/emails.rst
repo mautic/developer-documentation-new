@@ -23,7 +23,7 @@ Registering custom tokens in builders
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Registering tokens leverages the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_BUILD`` event.
-The event is dispatched before displaying the email builder form to allow adding of tokens.
+The event is dispatched before displaying the email builder form, to allow adding of tokens.
 
 An event listener receives the ``Mautic\EmailBundle\Event\EmailBuilderEvent``.
 Use its ``$event->addToken($token, $htmlContent)`` to add your token.
