@@ -83,6 +83,15 @@ In order for the custom Point Action to work, add something like the following i
     
     $this->getModel('point')->triggerAction('helloworld.action', $event->getHit());
 
+This triggers the custom Point Action for the currently tracked Contact. If you need to perform the Point Action on another Contact you have to pass the Contact's object when invoking ``triggerAction``:
+
+.. code-block:: php
+    
+    <?php
+    
+    $this->getModel('point')->triggerAction('helloworld.action', $event->getHit());
+
+
 .. vale off
 
 Custom Point Action definition
