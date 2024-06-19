@@ -22,7 +22,7 @@ Email token capabilities consist of two parts: registering your custom tokens an
 Registering custom tokens in builders
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Registering tokens leverage the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_BUILD`` event.
+Registering tokens leverages the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_BUILD`` event.
 The event is dispatched before displaying the email builder form to allow adding of tokens.
 
 An event listener receives the ``Mautic\EmailBundle\Event\EmailBuilderEvent``.
