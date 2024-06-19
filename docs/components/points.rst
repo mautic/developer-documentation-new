@@ -89,7 +89,7 @@ This triggers the custom Point Action for the currently tracked Contact. If you 
     
     <?php
     
-    $this->getModel('point')->triggerAction('helloworld.action', $event->getHit());
+    $this->getModel('point')->triggerAction('helloworld.action', $event->getHit(), null, $someOtherLead);
 
 
 .. vale off
