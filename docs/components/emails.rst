@@ -20,7 +20,7 @@ They get replaced by Dynamic Content once the Email gets sent or viewed in the b
 Email token capabilities consist of two parts: registering your custom tokens and rendering them.
 
 Registering custom tokens in builders
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Registering tokens leverages the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_BUILD`` event.
 The event is dispatched before displaying the email builder form, to allow adding of tokens.
@@ -28,20 +28,21 @@ The event is dispatched before displaying the email builder form, to allow addin
 An event listener receives the ``Mautic\EmailBundle\Event\EmailBuilderEvent``.
 Use its ``$event->addToken($token, $htmlContent)`` to add your token.
 
-.. Note:: You can either hard code your tokens textual description in ``$htmlContent`` or use a translatable string.
+.. Note::
+    You can either hard code your tokens textual description in ``$htmlContent`` or use a translatable string.
 
 Rendering custom tokens
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 Registering tokens leverage the
 - ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_SEND`` event when the email is sent or the
-- ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_SEND`` event when the email is rendered for viewing in a browser, i.e., after the Lead clicked the ``{webview_url}`` link.
+- ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_DISPLAY`` event when the email is rendered for viewing in a browser, i.e., after the Lead clicked the ``{webview_url}`` link.
 
 An event listener receives in both cases the ``Mautic\EmailBundle\Event\EmailSendEvent``.
 You can replace a custom token using the events ``$event->addToken($token, $contentToReplaceToken)``.
 
 
-Example
+Basic Token Replacement
 ^^^^^^^
 
 .. code-block:: PHP
@@ -72,7 +73,8 @@ Example
       }
     }
 
-.. Note:: If you need more complex replacing you can use the event's ``$event->getContent()`` and ``$event->setContent()`` methods. See the example in the following section.
+.. Note::
+    If you need more complex replacing you can use the event's ``$event->getContent()`` and ``$event->setContent()`` methods. See the example in the following section.
 
 
 Email A/B testing
@@ -83,7 +85,7 @@ While Mautic supports :xref:`A/B testing` out of the box, you might have more co
 - ``$event->addAbTestWinnerCriteria()`` allows you to do exactly that. Using your custom logic, you can decide the winner of such criteria. An example is shown below.
 - ``$event->setAbTestResults()`` is where you set the actual A/B test results. More details are in the code example below.
 
-Example
+A/B Testing Example
 ^^^^^^^
 
 .. code-block:: PHP
