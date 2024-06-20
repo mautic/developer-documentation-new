@@ -32,7 +32,7 @@ Use its ``$event->addToken($token, $htmlContent)`` to add your token.
     You can either hard code your tokens textual description in ``$htmlContent`` or use a translatable string.
 
 Rendering custom tokens
-^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Registering tokens leverage the
 - ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_SEND`` event when the email is sent or the
