@@ -38,7 +38,7 @@ Registering tokens leverage the
 - ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_SEND`` event when the email is rendered for viewing in a browser, i.e., after the Lead clicked the ``{webview_url}`` link.
 
 An event listener receives in both cases the ``Mautic\EmailBundle\Event\EmailSendEvent``.
-Replacing a custom token is as easy as using the events ``$event->addToken($token, $contentToReplaceToken)``.
+You can replace a custom token using the events ``$event->addToken($token, $contentToReplaceToken)``.
 
 
 Example
