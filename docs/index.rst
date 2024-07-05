@@ -53,6 +53,13 @@ There are several ways to support Mautic other than contributing with code.
 
 .. toctree::
    :maxdepth: 2
+   :caption: Design and UX
+   :hidden:
+
+   design/feedback
+
+.. toctree::
+   :maxdepth: 2
    :caption: Themes
    :hidden:
 
