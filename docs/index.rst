@@ -53,6 +53,13 @@ There are several ways to support Mautic other than contributing with code.
 
 .. toctree::
    :maxdepth: 2
+   :caption: Design and UX
+   :hidden:
+
+   design/accordion
+
+.. toctree::
+   :maxdepth: 2
    :caption: Themes
    :hidden:
 
@@ -153,6 +160,6 @@ There are several ways to support Mautic other than contributing with code.
 Indices and tables
 ==================
 
-* :ref:`genindex` 
+* :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
