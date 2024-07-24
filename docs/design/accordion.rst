@@ -4,7 +4,7 @@ Accordion Component
 Introduction
 ------------
 
-The Accordion component allows developers to create collapsible sections within their Mautic templates. This component is useful for organizing content into expandable and collapsible panels, enhancing the user experience by making large amounts of content more manageable.
+The Accordion component allows developers to create collapsible sections within their Mautic templates. This Component is useful for organizing content into expandable and collapsible panels, enhancing the user experience by making large amounts of content more manageable.
 
 Template Structure
 ------------------
@@ -36,11 +36,13 @@ Define the content you want to include in the accordion. For example, if you wan
 .. note::
    For instance, you can loop over form fields or any other data to generate the content dynamically.
 
-Include the accordion.html.twig template in your main template and pass an array of items. Each item should have:
+Include the ``accordion.html.twig`` template in your main template and pass an array of items. Each item should have:
 
 - ``id``: A unique identifier.
 - ``title``: The title of the accordion item.
-- ``padding_inline``: (Optional) Boolean to control padding within the content. Defaults to true if not defined.
+.. vale off
+- ``padding_inline``: (Optional) Boolean to control padding within the content. Defaults to true if not defined. 
+.. vale on
 - ``content``: The content to be displayed when the item is expanded.
 
 Example:

@@ -5,5 +5,7 @@
     "esbonio.sphinx.confDir": "${workspaceFolder}/docs",
     "restructuredtext.pythonRecommendation.disabled": true,
     "restructuredtext.preview.name": "sphinx",
-    "gitlens.showWhatsNewAfterUpgrades": false
+    "gitlens.showWhatsNewAfterUpgrades": false,
+    "vale.valeCLI.path": "/usr/local/bin/vale",
+    
 }
