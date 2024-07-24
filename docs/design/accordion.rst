@@ -14,14 +14,18 @@ The Accordion Component allows developers to create collapsible sections within 
 Template structure
 ------------------
 
-This accordion component is defined in the ``accordion.html.twig`` template. It uses a list structure (``<ul>``) where each item (``<li>``) represents an accordion panel. Each panel consists of a heading and a collapsible content section.
+The ``accordion.html.twig`` template defines this accordion component. The template employs a list structure ``<ul>`` where each item ``<li>`` represents an accordion panel. Each panel consists of a heading and a collapsible content section.
 
-Key features
+.. vale off
+
+Key Features
 ^^^^^^^^^^^^
 
-- Each accordion item can be expanded or collapsed by clicking on the heading.
+.. vale on
+
+- Clicking on the heading expands or collapses each accordion item.
 - The component includes ARIA attributes to improve accessibility.
-- The content of each accordion panel can be customized using Twig variables.
+- You can customize the content of each accordion panel using Twig variables.
 
 .. vale off
 
@@ -43,14 +47,14 @@ Define the content you want to include in the accordion. For example, if you wan
    {% endset %}
 
 .. note::
-   For instance, you can loop over form fields or any other data to generate the content dynamically.
+   For instance, you can loop over Form fields or any other data to generate the content dynamically.
 
 Include the ``accordion.html.twig`` template in your main template and pass an array of items. Each item should have:
 
 - ``id``: a unique identifier.
 - ``title``: the title of the accordion item.
 - ``padding_inline``: (Optional) boolean to control padding within the content. Defaults to true if not defined. 
-- ``content``: the content to be displayed when the item is expanded.
+- ``content``: the content displays when the item expands.
 
 Example:
 
@@ -67,7 +71,7 @@ Example:
        ]
    } %}
 
-While defining a ``set`` block separately is not strictly necessary, it can be helpful to ensure that operations relying on Twig functions keep working correctly. The ``set`` block allows you to predefine complex content or operations, making your template cleaner and more maintainable.
+While defining a ``set`` block separately isn't strictly necessary, it can be helpful to ensure that operations relying on Twig functions keep working correctly. The ``set`` block allows you to predefine complex content or operations, making your template cleaner and more maintainable.
 
 .. vale off
 
@@ -99,11 +103,11 @@ Automatic CSS handling
 When using the Component, all necessary CSS styles are automatically handled for you. This means that the Component comes pre-styled with classes such as ``accordion-heading``, ``accordion-wrapper``, and ``accordion-content``, ensuring a consistent and visually appealing appearance out of the box.
 
 - The Component includes predefined CSS classes that manage the layout, spacing, and interactive elements of the accordion.
-- You do not need to add any extra CSS to make the accordion functional and visually appealing.
+- You don't need to add any extra CSS to make the accordion function and look visually appealing.
 - It uses the existing Bootstrap function for collapsing panels.
 - Avoid overriding these classes in your own CSS.
 
-The accordion is designed to be easy to implement, with all essential CSS styles already in place. This allows you to focus on integrating and using the component without worrying about additional styling.
+The design of the accordion makes it easy to implement, with all essential CSS styles already in place. This allows you to focus on integrating and using the component without worrying about additional styling.
 
 Complete example
 ----------------
