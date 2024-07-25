@@ -105,7 +105,7 @@ In this example, the template displays a message indicating that no Segments are
 Why?
 ----
 
-It ensures a uniform presentation of "no results" messages across the platform, providing consistency in the User experience. Its flexibility allows use in various situations, from empty lists to graphs without data, adapting to different contexts. The optional link makes the template actionable, guiding the User to actions that can resolve the "no results" situation, promoting engagement and problem resolution. Additionally, support for internationalization translates messages into different languages, making the platform more globally accessible.
+It ensures a uniform presentation of 'no results' messages across the platform, providing consistency in the User experience. Its flexibility allows use in various situations, from empty lists to graphs without data, adapting to different contexts. The optional link makes the template actionable, guiding the User to actions that can resolve the 'no results' situation, promoting engagement and problem resolution. Additionally, support for internationalization translates messages into different languages, making the platform more globally accessible.
 
 Best practices
 --------------
