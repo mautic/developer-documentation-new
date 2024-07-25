@@ -27,7 +27,7 @@ When encountering situations where data is absent, follow these guidelines:
 
 - Replace empty areas or zeroed metrics with explanatory messages. For example:
   
-  "There is no information about the devices used yet. This happens automatically when Users interact with your Campaigns."
+  'There is no information about the devices used yet. This happens automatically when Users interact with your Campaigns.'
   
 - Include clear call to actions that guide the User on how to proceed. For example:
   
