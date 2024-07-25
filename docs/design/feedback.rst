@@ -31,7 +31,7 @@ When encountering situations where data is absent, follow these guidelines:
   
 - Include clear call to actions that guide the User on how to proceed. For example:
   
-  "No Email activity? Start sending some Campaigns to populate this data!"
+  'No Email activity? Start sending some Campaigns to populate this data!'
   
 - If the lack of data is due to incomplete configuration, provide direct guidance:
   
