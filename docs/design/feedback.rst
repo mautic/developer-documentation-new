@@ -35,7 +35,7 @@ When encountering situations where data is absent, follow these guidelines:
   
 - If the lack of data is due to incomplete configuration, provide direct guidance:
   
-  "It looks like device tracking isn't enabled. Go to settings to enable it."
+  'It looks like device tracking isn't active. Go to settings to turn it on.'
   
 - Help Users understand the value of the missing data:
   
