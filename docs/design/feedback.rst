@@ -21,7 +21,7 @@ Visibility ensures that Users are aware of all available functionalities, even w
 Practical implementation
 ------------------------
 
-The practical implementation of these guidelines in Mautic goes beyond simply avoiding blank screens. It involves creating a conversation with the User, anticipating their needs, and guiding them with minimal workload. Every informative message, call to action (CTA), or configuration tip serves as a contextual mini-tutorial, educating Users about the platform's capabilities while helping them overcome obstacles.
+The practical implementation of these guidelines in Mautic goes beyond simply avoiding blank screens. It involves creating a conversation with the User, anticipating their needs, and guiding them with minimal workload. Every informative message, call to action, or configuration tip serves as a contextual mini-tutorial, educating Users about the platform's capabilities while helping them overcome obstacles.
 
 When encountering situations where data is absent, follow these guidelines:
 
@@ -29,7 +29,7 @@ When encountering situations where data is absent, follow these guidelines:
   
   "There is no information about the devices used yet. This happens automatically when Users interact with your Campaigns."
   
-- Include clear CTAs that guide the User on how to proceed. For example:
+- Include clear Call To Actions that guide the User on how to proceed. For example:
   
   "No Email activity? Start sending some Campaigns to populate this data!"
   
@@ -116,4 +116,4 @@ This approach aligns with modern User experience (UX) design best practices. It 
 
 Clear messages and specific guidance reduce the number of support tickets related to User confusion or "missing" functionalities. Additionally, standardizing the handling of empty or inactive states across the platform creates a more consistent and maintainable codebase.
 
-It's essential to note that, while general guidelines exist, customize implementation for each specific context. A message that works well for empty Email metrics might not be appropriate for a Campaign Report without data. Think critically about the specific context of each implementation and adapt the messages and CTAs accordingly.
+It's essential to note that, while general guidelines exist, customize implementation for each specific context. A message that works well for empty Email metrics might not be appropriate for a Campaign Report without data. Think critically about the specific context of each implementation and adapt the messages and Call to Actions accordingly.
