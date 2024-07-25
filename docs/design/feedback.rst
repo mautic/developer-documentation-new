@@ -47,7 +47,7 @@ This approach not only improves immediate usability but also accelerates Users' 
 
 .. vale off
 
-"No Results" template
+'No Results' template
 ---------------------
 
 .. vale on
