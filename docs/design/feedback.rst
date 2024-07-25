@@ -73,12 +73,11 @@ Parameters
 
 The template accepts the following parameters:
 
+.. vale off
+
 - **tip** (required): display a translation string that contains the main message.
 - **link** (optional): a translation string for the link/button text.
 - **href** (optional): use the ``URL`` for navigation when clicking the link.
-
-.. vale off
-
 - **onclick** (optional): JavaScript function to be executed when the link is clicked.
 
 .. vale on
