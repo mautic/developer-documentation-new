@@ -16,7 +16,7 @@ The principles of visibility, transparency, and guidance Form the foundation of 
 - **Transparency**: communicate that information is missing.
 - **Guidance**: provide instructions on how to obtain or enable the necessary data.
 
-Visibility ensures that Users are aware of all available functionalities, even when they're not active or populated. Transparency builds trust by clearly explaining why certain information might be missing. Guidance empowers Users by providing clear paths for action and improvement. Together, these principles transform Points of frustration into solutions, helping marketing professionals complete their tasks.
+Visibility ensures that Users are aware of all available functionalities, even when they're not active or populated. Transparency builds trust by clearly explaining why certain information might be missing. Guidance empowers Users by providing clear paths for action and improvement. Together, these principles transform moments of frustration into solutions, helping marketing professionals complete their tasks.
 
 Practical implementation
 ------------------------
