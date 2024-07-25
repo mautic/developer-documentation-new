@@ -114,6 +114,6 @@ To maximize the effectiveness of this template, it's important to follow some be
 
 This approach aligns with modern User experience (UX) design best practices. It incorporates principles of informative design, immediate feedback, and contextual guidance. Providing relevant information and actions at the exact moment and place where the User needs them creates an interface that not only reacts to User actions but anticipates and meets their needs.
 
-Clear messages and specific guidance reduce the number of support tickets related to User confusion or "missing" functionalities. Additionally, standardizing the handling of empty or inactive states across the platform creates a more consistent and maintainable codebase.
+Clear messages and specific guidance reduce the number of support tickets related to User confusion or 'missing' functionalities. Additionally, standardizing the handling of empty or inactive states across the platform creates a more consistent and maintainable codebase.
 
 It's essential to note that, while general guidelines exist, customize implementation for each specific context. A message that works well for empty Email metrics might not be appropriate for a Campaign Report without data. Think critically about the specific context of each implementation and adapt the messages and Call to Actions accordingly.
