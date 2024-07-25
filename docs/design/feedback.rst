@@ -1,18 +1,22 @@
+.. vale off
+
 Providing effective user feedback
 =================================
 
-When developing features, it's crucial to ensure that Users receive clear feedback and guidance when certain information or data is not available. Instead of simply hiding tabs or displaying zeroed metrics, for example, adopt a proactive approach to inform and guide Users.
+.. vale on
+
+When developing features, it's crucial to ensure that Users receive clear feedback and guidance when certain information or data isn't available. Instead of simply hiding tabs or displaying zeroed metrics, for example, adopt a proactive approach to inform and guide Users.
 
 Fundamental principles
 ----------------------
 
-The principles of visibility, transparency, and guidance form the foundation of an intuitive and informative User experience.
+The principles of visibility, transparency, and guidance Form the foundation of an intuitive and informative User experience.
 
 - **Visibility**: keep all functionalities visible, even when there is no data available.
 - **Transparency**: communicate that information is missing.
 - **Guidance**: provide instructions on how to obtain or enable the necessary data.
 
-Visibility ensures that Users are aware of all available functionalities, even when they are not active or populated. Transparency builds trust by clearly explaining why certain information might be missing. Guidance empowers Users by providing clear paths for action and improvement. Together, these principles transform Points of frustration into solutions, helping marketing professionals complete their tasks.
+Visibility ensures that Users are aware of all available functionalities, even when they're not active or populated. Transparency builds trust by clearly explaining why certain information might be missing. Guidance empowers Users by providing clear paths for action and improvement. Together, these principles transform Points of frustration into solutions, helping marketing professionals complete their tasks.
 
 Practical implementation
 ------------------------
@@ -31,7 +35,7 @@ When encountering situations where data is absent, follow these guidelines:
   
 - If the lack of data is due to incomplete configuration, provide direct guidance:
   
-  "It looks like device tracking is not enabled. Go to settings to enable it."
+  "It looks like device tracking isn't enabled. Go to settings to enable it."
   
 - Help Users understand the value of the missing data:
   
@@ -39,7 +43,7 @@ When encountering situations where data is absent, follow these guidelines:
   
 - Use icons, colors, or visual elements to indicate areas that need attention.
 
-This approach not only improves immediate usability but also accelerates Users' learning curve, leading to more sophisticated use of the platform over time. Users do not feel "stuck" when encountering areas without data, but are instead motivated to explore and fill those gaps.
+This approach not only improves immediate usability but also accelerates Users' learning curve, leading to more sophisticated use of the platform over time. Users don't feel "stuck" when encountering areas without data, but are instead motivated to explore and fill those gaps.
 
 .. vale off
 
@@ -69,9 +73,9 @@ Parameters
 
 The template accepts the following parameters:
 
-- **tip** (required): a translation string that contains the main message to be displayed.
+- **tip** (required): display a translation string that contains the main message.
 - **link** (optional): a translation string for the link/button text.
-- **href** (optional): ``URL`` for navigation when the link is clicked.
+- **href** (optional): use the ``URL`` for navigation when clicking the link.
 
 .. vale off
 
@@ -82,7 +86,7 @@ The template accepts the following parameters:
 Functionality
 -------------
 
-The template checks if `tip` is defined. If not, nothing renders. If `tip` is present, a `div` with the class `alert alert-info` is created, containing the translated message. If `link` is defined, and at least one of `href` or ``onclick`` is also present, a link is added below the main message. The link can be configured to navigate to a new page ``href`` or execute a JavaScript function ``onclick``.
+The template checks if `tip` is defined. If not, nothing renders. If `tip` is present, create a `div` with the class `alert alert-info` that contains the translated message. If `link` is defined and at least one of `href` or ``onclick`` is present, add a link below the main message. Configure the link to navigate to a new page with ``href`` or execute a JavaScript function with ``onclick``.
 
 Usage example
 -------------
@@ -102,12 +106,12 @@ In this example, the template displays a message indicating that no Segments are
 Why?
 ----
 
-It ensures a uniform presentation of "no results" messages across the platform, providing consistency in the User experience. Its flexibility allows it to be used in various situations, from empty lists to graphs without data, adapting to different contexts. The optional link makes the template actionable, guiding the User to actions that can resolve the "no results" situation, promoting engagement and problem resolution. Additionally, support for internationalization allows messages to be translated into different languages, making the platform more globally accessible.
+It ensures a uniform presentation of "no results" messages across the platform, providing consistency in the User experience. Its flexibility allows use in various situations, from empty lists to graphs without data, adapting to different contexts. The optional link makes the template actionable, guiding the User to actions that can resolve the "no results" situation, promoting engagement and problem resolution. Additionally, support for internationalization translates messages into different languages, making the platform more globally accessible.
 
 Best practices
 --------------
 
-To maximize the effectiveness of this template, it's important to follow some best practices. Always provide a clear and informative message in the `tip` parameter, ensuring that the User understands the current situation. When appropriate, include a link to an action that can help the User resolve the "no results" situation, promoting a more interactive and solution-oriented experience. It's crucial to use specific messages for each context, avoiding generic texts like "No results found," which may not provide useful information to the User. Finally, ensure that all strings used are included in the translation files, guaranteeing a consistent experience in all supported languages.
+To maximize the effectiveness of this template, it's important to follow some best practices. Always provide a clear and informative message in the `tip` parameter, ensuring that the User understands the current situation. When appropriate, include a link to an action that can help the User resolve the "no results" situation, promoting a more interactive and solution-oriented experience. It's crucial to use specific messages for each context, avoiding generic texts like "No results found," which may not provide useful information to the User. Finally, include all strings in the translation files to guarantee a consistent experience in all supported languages.
 
 This approach aligns with modern User experience (UX) design best practices. It incorporates principles of informative design, immediate feedback, and contextual guidance. Providing relevant information and actions at the exact moment and place where the User needs them creates an interface that not only reacts to User actions but anticipates and meets their needs.
 
