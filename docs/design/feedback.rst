@@ -10,7 +10,7 @@ When developing features, it's crucial to ensure that Users receive clear feedba
 Fundamental principles
 ----------------------
 
-The principles of visibility, transparency, and guidance Form the foundation of an intuitive and informative User experience.
+The principles of visibility, transparency, and guidance form the foundation of an intuitive and informative user experience.
 
 - **Visibility**: keep all functionalities visible, even when there is no data available.
 - **Transparency**: communicate that information is missing.
