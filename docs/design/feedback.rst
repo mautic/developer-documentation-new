@@ -1,16 +1,16 @@
 Providing effective user feedback
 =================================
 
-When developing features, it's crucial to ensure that Users receive clear feedback and guidance when certain information or data is not available. Instead of simply hiding tabs or displaying zeroed metrics, for example, we should adopt a proactive approach to inform and guide Users.
+When developing features, it's crucial to ensure that Users receive clear feedback and guidance when certain information or data is not available. Instead of simply hiding tabs or displaying zeroed metrics, for example, adopt a proactive approach to inform and guide Users.
 
 Fundamental principles
 ----------------------
 
 The principles of visibility, transparency, and guidance form the foundation of an intuitive and informative User experience.
 
-- **Visibility**: Keep all functionalities visible, even when there is no data available.
-- **Transparency**: Communicate that information is missing.
-- **Guidance**: Provide instructions on how to obtain or enable the necessary data.
+- **Visibility**: keep all functionalities visible, even when there is no data available.
+- **Transparency**: communicate that information is missing.
+- **Guidance**: provide instructions on how to obtain or enable the necessary data.
 
 Visibility ensures that Users are aware of all available functionalities, even when they are not active or populated. Transparency builds trust by clearly explaining why certain information might be missing. Guidance empowers Users by providing clear paths for action and improvement. Together, these principles transform Points of frustration into solutions, helping marketing professionals complete their tasks.
 
@@ -23,7 +23,7 @@ When encountering situations where data is absent, follow these guidelines:
 
 - Replace empty areas or zeroed metrics with explanatory messages. For example:
   
-  "We don't have any information about the devices used yet. This will happen automatically when Users interact with your Campaigns."
+  "There is no information about the devices used yet. This happens automatically when Users interact with your Campaigns."
   
 - Include clear CTAs that guide the User on how to proceed. For example:
   
@@ -35,18 +35,22 @@ When encountering situations where data is absent, follow these guidelines:
   
 - Help Users understand the value of the missing data:
   
-  "Device information helps optimize your Campaigns for different platforms. Once we have this data, you'll see detailed analytics here."
+  "Device information helps optimize your Campaigns for different platforms. Once this data becomes available, see detailed analytics here."
   
 - Use icons, colors, or visual elements to indicate areas that need attention.
 
 This approach not only improves immediate usability but also accelerates Users' learning curve, leading to more sophisticated use of the platform over time. Users do not feel "stuck" when encountering areas without data, but are instead motivated to explore and fill those gaps.
 
+.. vale off
+
 "No Results" template
 ---------------------
 
+.. vale on
+
 Mautic includes a reusable template for displaying informative messages when no results are available. This template offers a consistent and flexible way to provide User feedback, with options for additional actions.
 
-Template Structure
+Template structure
 ------------------
 
 .. code-block:: twig
@@ -65,15 +69,20 @@ Parameters
 
 The template accepts the following parameters:
 
-- **tip** (required): A translation string that contains the main message to be displayed.
-- **link** (optional): A translation string for the link/button text.
-- **href** (optional): URL for navigation when the link is clicked.
+- **tip** (required): a translation string that contains the main message to be displayed.
+- **link** (optional): a translation string for the link/button text.
+- **href** (optional): ``URL`` for navigation when the link is clicked.
+
+.. vale off
+
 - **onclick** (optional): JavaScript function to be executed when the link is clicked.
+
+.. vale on
 
 Functionality
 -------------
 
-The template checks if `tip` is defined. If not, nothing will be rendered. If `tip` is present, a `div` with the class `alert alert-info` is created, containing the translated message. If `link` is defined, and at least one of `href` or `onclick` is also present, a link will be added below the main message. The link can be configured to navigate to a new page (`href`) or execute a JavaScript function (`onclick`).
+The template checks if `tip` is defined. If not, nothing renders. If `tip` is present, a `div` with the class `alert alert-info` is created, containing the translated message. If `link` is defined, and at least one of `href` or ``onclick`` is also present, a link is added below the main message. The link can be configured to navigate to a new page ``href`` or execute a JavaScript function ``onclick``.
 
 Usage example
 -------------
@@ -88,7 +97,7 @@ To use this template in your code, you can include it as follows:
         'href': '{{ path('Mautic_segment_action', {'objectAction': 'new'}) }}'
     }) }}
 
-In this example, the template will display a message indicating that no Segments are available, with a link to create a new Segment.
+In this example, the template displays a message indicating that no Segments are available, with a link to create a new Segment.
 
 Why?
 ----
@@ -100,8 +109,8 @@ Best practices
 
 To maximize the effectiveness of this template, it's important to follow some best practices. Always provide a clear and informative message in the `tip` parameter, ensuring that the User understands the current situation. When appropriate, include a link to an action that can help the User resolve the "no results" situation, promoting a more interactive and solution-oriented experience. It's crucial to use specific messages for each context, avoiding generic texts like "No results found," which may not provide useful information to the User. Finally, ensure that all strings used are included in the translation files, guaranteeing a consistent experience in all supported languages.
 
-This approach aligns with modern User experience (UX) design best practices. It incorporates principles of informative design, immediate feedback, and contextual guidance. By providing relevant information and actions at the exact moment and place where the User needs them, we are creating an interface that not only reacts to User actions but anticipates and meets their needs.
+This approach aligns with modern User experience (UX) design best practices. It incorporates principles of informative design, immediate feedback, and contextual guidance. Providing relevant information and actions at the exact moment and place where the User needs them creates an interface that not only reacts to User actions but anticipates and meets their needs.
 
-Clear messages and specific guidance can reduce the number of support tickets related to User confusion or "missing" functionalities. Additionally, by standardizing how we handle empty or inactive states across the platform, we create a more consistent and maintainable codebase.
+Clear messages and specific guidance reduce the number of support tickets related to User confusion or "missing" functionalities. Additionally, standardizing the handling of empty or inactive states across the platform creates a more consistent and maintainable codebase.
 
-It's essential to note that, while we have general guidelines, implementation should be customized for each specific context. A message that works well for empty Email metrics might not be appropriate for a Campaign report without data. Think critically about the specific context of each implementation and adapt the messages and CTAs accordingly.
+It's essential to note that, while general guidelines exist, customize implementation for each specific context. A message that works well for empty Email metrics might not be appropriate for a Campaign Report without data. Think critically about the specific context of each implementation and adapt the messages and CTAs accordingly.
