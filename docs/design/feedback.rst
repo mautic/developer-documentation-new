@@ -29,7 +29,7 @@ When encountering situations where data is absent, follow these guidelines:
   
   "There is no information about the devices used yet. This happens automatically when Users interact with your Campaigns."
   
-- Include clear Call To Actions that guide the User on how to proceed. For example:
+- Include clear call to actions that guide the User on how to proceed. For example:
   
   "No Email activity? Start sending some Campaigns to populate this data!"
   
