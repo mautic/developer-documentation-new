@@ -43,7 +43,7 @@ When encountering situations where data is absent, follow these guidelines:
   
 - Use icons, colors, or visual elements to indicate areas that need attention.
 
-This approach not only improves immediate usability but also accelerates Users' learning curve, leading to more sophisticated use of the platform over time. Users don't feel "stuck" when encountering areas without data, but are instead motivated to explore and fill those gaps.
+This approach not only improves immediate usability but also accelerates the Users' learning curve, leading to more sophisticated use of the platform over time. Users don't feel 'stuck' when encountering areas without data, but are instead motivated to explore and fill those gaps.
 
 .. vale off
 
