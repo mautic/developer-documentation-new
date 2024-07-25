@@ -116,4 +116,4 @@ This approach aligns with modern User experience (UX) design best practices. It 
 
 Clear messages and specific guidance reduce the number of support tickets related to User confusion or 'missing' functionalities. Additionally, standardizing the handling of empty or inactive states across the platform creates a more consistent and maintainable codebase.
 
-It's essential to note that, while general guidelines exist, customize implementation for each specific context. A message that works well for empty Email metrics might not be appropriate for a Campaign Report without data. Think critically about the specific context of each implementation and adapt the messages and Call to Actions accordingly.
+It's essential to note that, while general guidelines exist, customize implementation for each specific context. A message that works well for empty Email metrics might not be appropriate for a Campaign Report without data. Think critically about the specific context of each implementation and adapt the messages and call to actions accordingly.
