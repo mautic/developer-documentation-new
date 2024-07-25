@@ -85,7 +85,7 @@ The template accepts the following parameters:
 Functionality
 -------------
 
-The template checks if `tip` is defined. If not, nothing renders. If `tip` is present, create a `div` with the class `alert alert-info` that contains the translated message. If `link` is defined and at least one of `href` or ``onclick`` is present, add a link below the main message. Configure the link to navigate to a new page with ``href`` or execute a JavaScript function with ``onclick``.
+If you've defined ``tip``, a ``div`` with the class ``alert alert-info`` that contains the translated message displays, if not then nothing renders. If you've defined `link` and at least one of ``href`` or ``onclick``, a link below the main message displays. Configure the link to navigate to a new page with ``href`` or execute a JavaScript function with ``onclick``.
 
 Usage example
 -------------
