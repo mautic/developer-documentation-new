@@ -39,7 +39,7 @@ When encountering situations where data is absent, follow these guidelines:
   
 - Help Users understand the value of the missing data:
   
-  "Device information helps optimize your Campaigns for different platforms. Once this data becomes available, see detailed analytics here."
+  'Device information helps optimize your Campaigns for different platforms. Once this data becomes available, see detailed analytics here.'
   
 - Use icons, colors, or visual elements to indicate areas that need attention.
 
