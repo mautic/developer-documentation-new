@@ -4,9 +4,9 @@ Utilities
 Introduction
 ------------
 
-Mautic offers a set of CSS utility classes designed to facilitate efficient implementation of flexible layouts using CSS Flexbox. These utilities provide a systematic approach to constructing responsive and dynamic new areas for its user interface, enabling you to rapidly prototype and build complex layouts while minimizing custom CSS.
+Mautic offers a set of CSS utility classes designed to facilitate efficient implementation of flexible layouts using CSS flexbox. These utilities provide a systematic approach to constructing responsive and dynamic new areas for its user interface, enabling you to rapidly prototype and build complex layouts while minimizing custom CSS.
 
-The utility classes seek to encompass a great spectrum of Flexbox properties, including:
+The utility classes seek to encompass a great spectrum of glexbox properties, including:
 
 - Display settings
 - Flex direction
@@ -29,8 +29,10 @@ This documentation is structured to provide a clear understanding of each utilit
 The following sections detail the individual utility classes, their usage, and advanced implementation strategies. This resource is intended for front-end developers seeking to leverage Flexbox efficiently in their projects.
 
 
-Abbreviation Keys
+Abbreviation keys
 ----------------
+
+.. vale off
 
 - **d**: display
 - **fd**: flex-direction
@@ -44,8 +46,12 @@ Abbreviation Keys
 - **fb**: flex-basis
 - **fo**: order
 
-Flex Container Properties
+.. vale on
+
+Flex container properties
 -------------------------
+
+.. vale off
 
 - ``.d-flex``: Sets an element to be a flex container by setting its display property to flex. It allows the direct children of the element to be laid out in a flex context.
 - ``.fd-row``: Sets the direction of the flex items in the container to a row. The items are laid out from left to right.
@@ -94,6 +100,8 @@ Flex Container Properties
 - ``.gap-2``: Sets the gap between flex items to 2px.
 - ``.gap-1``: Sets the gap between flex items to 1px.
 - ``.gap-0``: Sets the gap between flex items to 0px.
+
+.. vale on
 
 Responsive Variations
 ---------------------
