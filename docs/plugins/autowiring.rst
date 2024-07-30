@@ -197,5 +197,5 @@ Dependency Injection in Controllers
 
 .. vale on
 
-Controllers can classic Dependency Injection but also :xref:`action_based_di` if you need the dependency in just one action. For the new controllers consider :xref:`invokable_controllers`.
+Controllers can use classic Dependency Injection or :xref:`action_based_di`. If the dependency is needed in only a single action, it's recommended to use the latter. For new controllers, consider :xref:`invokable_controllers`.
 
