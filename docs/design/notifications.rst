@@ -1,7 +1,7 @@
 Notifications
 =============
 
-Notifications are a critical component of user experience (UX) in digital products, serving as a bridge between the system and the user. They should enhance, not detract from, the user experience, assisting users in achieving their goals and providing immediate, relevant feedback. This guide synthesizes best practices from the Carbon Design System and industry standards to help developers create effective and user-friendly notifications.
+Notifications are a critical Component of user experience (UX) in digital products, serving as a bridge between the system and the User. They should enhance, not detract from, the user experience, assisting Users in achieving their goals and providing immediate, relevant feedback. This guide synthesizes best practices from the Carbon Design System and industry standards to help developers create effective and user-friendly notifications.
 
 Notification types and their use
 ================================
@@ -11,16 +11,16 @@ Understanding notification variants
 
 Notifications come in various forms, each serving a specific purpose within an app:
 
-- **Inline notifications**: integrated into task flows to inform users about the status of an action or system changes. Mautic displays these at the top of the content area or near the relevant item.
+- **Inline notifications**: integrated into task flows to inform Users about the status of an action or system changes. Mautic displays these at the top of the content area or near the relevant item.
 
 - **Toast notifications**: these are time-based messages that appear at the top of the screen and disappear after a short duration. Mautic displays these as brief messages that don't require user interaction.
 
-- **Actionable notifications**: includes interactive elements and require user interaction. Styled similarly to inline or toast notifications, but more disruptive due to their interactive nature.
+- **Actionable notifications**: includes interactive elements and require User interaction. Styled similarly to inline or toast notifications, but more disruptive due to their interactive nature.
 
 Design
 ------
 
-- Carefully examine the context in which notifications appear. Use them sparingly and only when they add value to the user experience.
+- Carefully examine the context in which notifications appear. Use them sparingly and only when they add value to the User experience.
 - Maintain consistency in the design and behavior of notifications across the app.
 - Be sure to use high-contrast notifications for critical messaging, as low-contrast notifications are less visually disruptive.
 
@@ -32,13 +32,13 @@ Content
 Actions
 -------
 
-- Limit actionable notifications to one action per notification to avoid overwhelming the user.
-- Inline notifications should persist until dismissed by the user or resolved through an action. Toast notifications can time out but should also include a close button.
+- Limit actionable notifications to one action per notification to avoid overwhelming the User.
+- Inline notifications should persist until dismissed by the User or resolved through an action. Toast notifications can time out but should also include a close button.
 
 Accessibility
 -------------
 
-- Notifications should be accessible and not rely solely on color to convey status, as this can be problematic for users with color blindness, so use additional HTML attributes according to the notification type.
+- Notifications should be accessible and not rely solely on color to convey status, as this can be problematic for Users with color blindness, so use additional HTML attributes according to the notification type.
 - Toast notifications with interactive content shouldn't automatically disappear to remain WCAG 2.1 compliant.
 
 Using notification components
