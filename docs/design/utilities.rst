@@ -113,7 +113,7 @@ Responsive variations
 
 The utilities follow a mobile-first responsive design principle, becoming active at specific minimum screen sizes. You create these responsive variations by appending ``-sm``, ``-md``, or ``-lg`` to the end of the utility class name.
 
-- Base utility (no suffix): applies to all screen sizes
+- Base utility no suffix: applies to all screen sizes
 - ``-sm`` suffix: Applies from the small breakpoint and up
 - ``-md`` suffix: Applies from the medium breakpoint and up
 - ``-lg`` suffix: Applies from the large breakpoint and up
