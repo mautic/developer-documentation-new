@@ -1,12 +1,12 @@
 Utilities
-===============================
+=========
 
 Introduction
 ------------
 
-Mautic offers a set of CSS utility classes designed to facilitate efficient implementation of flexible layouts using CSS flexbox. These utilities provide a systematic approach to constructing responsive and dynamic new areas for its user interface, enabling you to rapidly prototype and build complex layouts while minimizing custom CSS.
+Mautic offers a set of CSS utility classes designed to facilitate efficient implementation of flexible layouts using CSS flex-box. These utilities provide a systematic approach to constructing responsive and dynamic new areas for its user interface, enabling you to rapidly prototype and build complex layouts while minimizing custom CSS.
 
-The utility classes seek to encompass a great spectrum of glexbox properties, including:
+The utility classes seek to encompass a great spectrum of flex-box properties, including:
 
 - Display settings
 - Flex direction
@@ -15,18 +15,23 @@ The utility classes seek to encompass a great spectrum of glexbox properties, in
 - Spacing and gap management
 - Item ordering
 
-Key Aspects
+Key aspects
 ^^^^^^^^^^^^
 
-1. **Abbreviated Nomenclature**: Class names follow a logical, short and easy-to-remember convention.
-2. **Most Common Uses Coverage**: Utilities address the full range of Flexbox properties and behaviors.
-3. **Responsive Design**: Includes variations for different viewport sizes, enabling fine-grained control over layout across devices.
-4. **Composability**: Classes can be combined to create sophisticated layout patterns.
-5. **Consistent Spacing**: Standardized options for managing padding, margin and gap properties.
+1. **Abbreviated Nomenclature**: class names follow a logical, short and easy-to-remember convention.
+2. **Most Common Uses Coverage**: utilities address the full range of flex-box properties and behaviors.
+3. **Responsive Design**: includes variations for different view port sizes, enabling fine-grained control over layout across devices.
+.. vale off
 
-This documentation is structured to provide a clear understanding of each utility class, its function, and its application. It includes practical examples and best practices for combining utilities to achieve complex layout requirements.
+4. **Composability**: classes can be combined to create sophisticated layout patterns.
 
-The following sections detail the individual utility classes, their usage, and advanced implementation strategies. This resource is intended for front-end developers seeking to leverage Flexbox efficiently in their projects.
+.. vale on
+
+5. **Consistent Spacing**: standardized options for managing padding, margin and gap properties.
+
+This documentation is structured to provide a clear understanding of each utility class, its function, and its app. It includes practical examples and best practices for combining utilities to achieve complex layout requirements.
+
+The following sections detail the individual utility classes, their usage, and advanced implementation strategies. This resource is intended for front-end developers seeking to leverage flex-box efficiently in their projects.
 
 
 Abbreviation keys
@@ -103,10 +108,10 @@ Flex container properties
 
 .. vale on
 
-Responsive Variations
+Responsive variations
 ---------------------
 
-The utilities follow a mobile-first responsive design principle. Each responsive variation is associated with a minimum screen size at which it becomes active. These variations are created by appending ``-sm``, ``-md``, or ``-lg`` to the end of the utility class name.
+The utilities follow a mobile-first responsive design principle, becoming active at specific minimum screen sizes. You create these responsive variations by appending ``-sm``, ``-md``, or ``-lg`` to the end of the utility class name.
 
 - Base utility (no suffix): Applies to all screen sizes
 - ``-sm`` suffix: Applies from the small breakpoint and up
@@ -120,13 +125,13 @@ For example:
 - ``.d-flex-md`` applies from the medium breakpoint and up
 - ``.d-flex-lg`` applies from the large breakpoint and up
 
-This approach allows for progressive enhancement of layouts as the viewport size increases, providing fine-grained control over the responsiveness of your design.
+This approach allows for progressive enhancement of layouts as the view-port size increases, providing fine-grained control over the responsiveness of your design.
 
 
-Usage Examples
+Usage examples
 --------------
 
-To illustrate how these utilities can be used in practice, let's add some example scenarios:
+Here are some example scenarios that illustrate how to use these utilities in practice:
 
 .. code-block:: html
 
@@ -148,7 +153,7 @@ This example creates a flex container with items spread across the container and
 
 This example creates a vertical stack of items that stretch to fill the container's width, with a 10px gap between them.
 
-Combining Utilities
+Combining utilities
 -------------------
 
 It's worth noting that these utilities can be combined to create complex layouts. For example:
@@ -166,37 +171,41 @@ This combination creates a flex container that:
 - Centers items both horizontally and vertically
 - Has a 15px gap between items
 
-Padding and Margin Utilities
+Padding and margin utilities
 ============================
 
 The CSS utility classes for padding and margin provide a comprehensive set of options for controlling spacing within your layouts. These utilities follow a consistent naming convention and offer a range of predefined sizes, including pixel values and variable-based spacing.
 
-Naming Convention
+Naming convention
 -----------------
 
 The utility classes use the following prefixes:
 
-- ``pa-``: Padding all sides
-- ``pt-``: Padding top
-- ``pr-``: Padding right
-- ``pb-``: Padding bottom
-- ``pl-``: Padding left
-- ``ma-``: Margin all sides
-- ``mt-``: Margin top
-- ``mr-``: Margin right
-- ``mb-``: Margin bottom
-- ``ml-``: Margin left
+- ``pa-``: padding all sides
+- ``pt-``: padding top
+- ``pr-``: padding right
+- ``pb-``: padding bottom
+- ``pl-``: padding left
+- ``ma-``: margin all sides
+- ``mt-``: margin top
+- ``mr-``: margin right
+- ``mb-``: margin bottom
+- ``ml-``: margin left
 
-Size Options
+Size options
 ------------
 
 The utilities offer the following size options:
+
+.. vale off
 
 1. Pixel-based sizes: 0, 1, 2, 3, 4, 5, 10, 15, 20 pixels
 2. Variable-based sizes: 8, 12, 16, 24, 32, 40, 48, 64, 80, 96, 160 pixels (using CSS variables)
 3. Named sizes: xs (5px), sm (10px), md (15px), lg (20px), xl (32px)
 
-Usage Examples
+.. vale on
+
+Usage examples
 --------------
 
 .. code-block:: html
@@ -207,14 +216,14 @@ Usage Examples
     <div class="ma-lg">Margin 20px on all sides</div>
     <div class="mt-32 mb-32">Margin 32px on top and bottom</div>
 
-Variable-based Sizes
+Variable-based sizes
 --------------------
 
-Some utilities use CSS variables for spacing, allowing for easy theming and consistent spacing across your application:
+Some utilities use CSS variables for spacing, allowing for easy theming and consistent spacing across your app:
 
 - ``var(--spacing-03)`` to ``var(--spacing-13)``
 
-These correspond to specific pixel values (e.g., ``var(--spacing-03)`` is 8px, ``var(--spacing-13)`` is 160px).
+These correspond to specific pixel values (for example, ``var(--spacing-03)`` is 8px, ``var(--spacing-13)`` is 160px).
 
 .. note::
    All padding and margin utilities use the ``!important`` declaration to ensure they take precedence over other styles. Use these utilities judiciously to maintain the integrity of your CSS architecture.
