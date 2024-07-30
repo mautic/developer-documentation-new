@@ -8,7 +8,7 @@ Tile component documentation
 Overview
 --------
 
-The Tile Component is a versatile, reusable UI element. It's designed to be flexible and adaptable, capable of serving a variety of functions in a User interface. The Tile component can be used to display content, act as a clickable or selectable element, or even house an icon.
+The Tile Component is a versatile, reusable UI element. It's designed to be flexible and adaptable, capable of serving a variety of functions in a User interface. The Tile Component displays content, acts as a clickable or selectable element, and houses an icon.
 
 It's designed to group related information in flexible containers and can contain text, images, and/or a block of color. The usage guidance for the Tile Component is intentionally high-level, focusing specifically on the tile's structure and responsiveness to the grid. It lacks pre-set styles for the content, allowing for the display of a wide variety of content. This flexibility makes tiles suitable for various use cases, such as displaying feature highlights, providing navigation options, or presenting data summaries, including information, getting started guides, how-to guides, and more.
 
