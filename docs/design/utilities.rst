@@ -4,7 +4,7 @@ Utilities
 Introduction
 ------------
 
-Mautic offers a set of CSS utility classes designed to facilitate efficient implementation of flexible layouts using CSS flex-box. These utilities provide a systematic approach to constructing responsive and dynamic new areas for its user interface, enabling you to rapidly prototype and build complex layouts while minimizing custom CSS.
+Mautic offers a set of CSS utility classes designed to facilitate efficient implementation of flexible layouts using CSS flex-box. These utilities provide a systematic approach to constructing responsive and dynamic new areas for its User interface, enabling you to rapidly prototype and build complex layouts while minimizing custom CSS.
 
 The utility classes seek to encompass a great spectrum of flex-box properties, including:
 
@@ -23,15 +23,15 @@ Key aspects
 3. **Responsive Design**: includes variations for different view port sizes, enabling fine-grained control over layout across devices.
 .. vale off
 
-4. **Composability**: classes can be combined to create sophisticated layout patterns.
+4. **Composability**: you can combine classes to create sophisticated layout patterns.
 
 .. vale on
 
 5. **Consistent Spacing**: standardized options for managing padding, margin and gap properties.
 
-This documentation is structured to provide a clear understanding of each utility class, its function, and its app. It includes practical examples and best practices for combining utilities to achieve complex layout requirements.
+This documentation clearly explains each utility class, its function, and its app. It includes practical examples and best practices for combining utilities to achieve complex layout requirements.
 
-The following sections detail the individual utility classes, their usage, and advanced implementation strategies. This resource is intended for front-end developers seeking to leverage flex-box efficiently in their projects.
+The following sections detail the individual utility classes, their usage, and advanced implementation strategies. This resource helps front-end developers efficiently leverage flex-box in their projects.
 
 
 Abbreviation keys
@@ -113,7 +113,7 @@ Responsive variations
 
 The utilities follow a mobile-first responsive design principle, becoming active at specific minimum screen sizes. You create these responsive variations by appending ``-sm``, ``-md``, or ``-lg`` to the end of the utility class name.
 
-- Base utility (no suffix): Applies to all screen sizes
+- Base utility (no suffix): applies to all screen sizes
 - ``-sm`` suffix: Applies from the small breakpoint and up
 - ``-md`` suffix: Applies from the medium breakpoint and up
 - ``-lg`` suffix: Applies from the large breakpoint and up
@@ -156,7 +156,7 @@ This example creates a vertical stack of items that stretch to fill the containe
 Combining utilities
 -------------------
 
-It's worth noting that these utilities can be combined to create complex layouts. For example:
+Note that you can combine these utilities to create complex layouts. For example:
 
 .. code-block:: html
 
