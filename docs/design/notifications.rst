@@ -81,3 +81,95 @@ Example:
     </div>
 
 This creates a more substantial notification block with a heading and paragraph, distinguished by a yellow left border for a warning but without an accompanying icon.
+
+
+Notifications for the notifications panel
+=========================================
+
+Notifications under the panel are managed through the ``NotificationModel`` class, which is defined in ``NotificationModel.php``.
+
+.. note::
+
+   The notification template is defined in ``notification.html.twig``.
+
+Creating a notification
+-----------------------
+
+To create a notification, use the ``addNotification`` method of the ``NotificationModel`` class. This method accepts several parameters to customize the notification:
+
+.. code-block:: php
+
+   $notificationModel->addNotification(
+       $message,
+       $type,
+       $isRead,
+       $header,
+       $iconClass,
+       $datetime,
+       $user,
+       $deduplicateValue,
+       $deduplicateDateTimeFrom
+   );
+
+.. note::
+
+   All notifications must have a header string defined.
+
+Parameters:
+^^^^^^^^^^^
+
+- ``$message`` (string): The main content of the notification.
+- ``$type`` (string|null): Identifies the source and style of the notification (optional).
+- ``$isRead`` (bool): Indicates if the notification has been read (default: true).
+- ``$header`` (string|null): The header text for the notification (required).
+- ``$iconClass`` (string|null): CSS class for the notification icon (e.g., 'ri-eye-line').
+- ``$datetime`` (\\DateTime|null): Creation date of the notification.
+- ``$user`` (User|null): User object associated with the notification (defaults to current user).
+- ``$deduplicateValue`` (string|null): Used to prevent duplicate notifications within a specified timeframe.
+- ``$deduplicateDateTimeFrom`` (\\DateTime|null): Customizes the deduplication timeframe.
+
+.. note::
+
+   The header should only contain the translation string; Twig will handle the translation.
+
+
+Notification types
+------------------
+
+The ``$type`` parameter determines the visual style of the notification:
+
+- ``'success'``: Green alert with success icon
+- ``'info'``: Blue alert with info icon
+- ``'warning'``: Yellow alert with warning icon
+- ``'error'``: Red alert with error icon
+- ``''`` (empty string): Default style without colors and icon
+
+Example usage
+-------------
+
+Here's an example of how to create a notification when a contact export is scheduled:
+
+.. code-block:: php
+
+   public function onContactExportScheduled(ContactExportSchedulerEvent $event): void
+   {
+       /** @var User $user */
+       $user    = $event->getContactExportScheduler()->getUser();
+       $message = $this->translator->trans('mautic.lead.export.being.prepared', ['%user_email%' => $user->getEmail()]);
+
+       $this->notificationModel->addNotification(
+           $message,
+           'info',
+           false,
+           'mautic.lead.export.being.prepared.header',
+           null,
+           null,
+           $user
+       );
+   }
+
+This use case showcases how the NotificationModel can be integrated into event-driven processes within Mautic.
+In this example, the addNotification method is called with specific parameters tailored to the contact export scenario. The $message parameter is handled using the translator service to generate a localized message. This approach is used specifically because the notification needs to include the user's email address in the message. The translation key 'mautic.lead.export.being.prepared' is used with a parameter %user_email%, which is then replaced with the actual email of the user who scheduled the export. This method allows for dynamic content insertion into the translated string.
+If we didn't need to include the user's email in the message, we could have simply used a normal translation string without the need for parameter replacement.
+
+The other parameters in the addNotification call are equally important. The 'info' type is used to style the notification as an informational alert, which is appropriate for a status update on a scheduled task. The false value for $isRead ensures that the notification appears as unread, drawing the user's attention to this new information. The header, like the message, uses a translation key ('mautic.lead.export.being.prepared.header') to maintain language consistency. The null values for icon class and datetime indicate that default values will be used for these optional parameters. Finally, by passing the $user object, the notification is specifically associated with the user who initiated the export, ensuring it appears in their personal notification panel.
