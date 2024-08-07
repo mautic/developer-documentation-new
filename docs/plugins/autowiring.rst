@@ -197,6 +197,5 @@ Dependency Injection in Controllers
 
 .. vale on
 
-Controllers are still using the container to get dependencies. Refactoring of the other services to use proper dependency injection is complete already, so this is the next project. The goal is to use :xref:`action_based_di` and for the new controllers consider :xref:`invokable_controllers`.
+Controllers can use classic Dependency Injection or :xref:`action_based_di`. If you need the dependency for only a single action, use the latter option. For new controllers, consider :xref:`invokable_controllers`.
 
-The problem with Mautic controllers are that there are many layers of abstraction. These abstractions must move to their own services to make the controllers as light as possible.
