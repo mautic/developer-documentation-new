@@ -39,7 +39,7 @@ Accessibility
 -------------
 
 - Notifications should be accessible and not rely solely on color to convey status, as this can be problematic for Users with color blindness, so use additional HTML attributes according to the notification type.
-- Toast notifications with interactive content shouldn't automatically disappear to remain WCAG 2.1 compliant.
+- Toast notifications with interactive content shouldn't automatically disappear to remain Web Content Accessibility Guidelines 2.1 compliant.
 
 .. vale off
 
@@ -124,15 +124,15 @@ Parameters:
 
 .. vale of
 
-- ``$message`` (string): the main content of the notification.
-- ``$type`` (string|null): identifies the source and style of the notification (optional).
+- ``$message`` string: the main content of the notification.
+- ``$type`` string|null: identifies the source and style of the notification (optional).
 - ``$isRead`` (boolean): indicates if the system has marked the notification as read (default: true).
-- ``$header`` (string|null): the header text for the notification (required).
-- ``$iconClass`` (string|null): CSS class for the notification icon (for example, 'ri-eye-line').
-- ``$datetime`` (\\DateTime|null): creation date of the notification.
-- ``$user`` (User|null): the User object associated with the notification defaults to the current User.
-- ``$deduplicateValue`` (string|null): used to prevent duplicate notifications within a specified timeframe.
-- ``$deduplicateDateTimeFrom`` (\\DateTime|null): customizes the ``deduplication timeframe``.
+- ``$header`` string|null: the header text for the notification (required).
+- ``$iconClass`` string|null: CSS class for the notification icon (for example, 'ri-eye-line').
+- ``$datetime`` \\DateTime|null: creation date of the notification.
+- ``$user`` User|null: the User object associated with the notification defaults to the current User.
+- ``$deduplicateValue`` string|null: used to prevent duplicate notifications within a specified timeframe.
+- ``$deduplicateDateTimeFrom`` \\DateTime|null: customizes the ``deduplication timeframe``.
 
 .. vale on
 
@@ -151,7 +151,7 @@ The ``$type`` parameter determines the visual style of the notification:
 - ``'info'``: blue alert with info icon
 - ``'warning'``: yellow alert with warning icon
 - ``'error'``: red alert with error icon
-- ``''`` (empty string): default style without colors and icon
+- ``''`` empty string: default style without colors and icon
 
 .. vale on
 
