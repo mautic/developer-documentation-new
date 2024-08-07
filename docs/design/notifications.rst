@@ -128,7 +128,7 @@ Parameters:
 - ``$datetime`` (\\DateTime|null): creation date of the notification.
 - ``$user`` (User|null): User object associated with the notification (defaults to current user).
 - ``$deduplicateValue`` (string|null): used to prevent duplicate notifications within a specified timeframe.
-- ``$deduplicateDateTimeFrom`` (\\DateTime|null): customizes the `deduplication` timeframe.
+- ``$deduplicateDateTimeFrom`` (\\DateTime|null): customizes the ``deduplication timeframe``.
 
 .. vale on
 
@@ -176,7 +176,7 @@ Here's an example of how to create a notification when a Contact export is sched
    }
 
 This use case showcases how the NotificationModel can be integrated into event-driven processes within Mautic.
-This example calls the addNotification method with specific parameters tailored to the Contact export scenario. The Translator service handles the ``$message`` parameter to generate a localized message. This approach includes the User's Email address in the notification message. The system uses the translation key ``mautic.lead.export.being.prepared`` with the parameter ``%user_email%``, replacing it with the actual Email of the User who scheduled the export. This method allows for dynamic content insertion into the translated string.
+This example calls the ``addNotification`` method with specific parameters tailored to the Contact export scenario. The Translator service handles the ``$message`` parameter to generate a localized message. This approach includes the User's Email address in the notification message. The system uses the translation key ``mautic.lead.export.being.prepared`` with the parameter ``%user_email%``, replacing it with the actual Email of the User who scheduled the export. This method allows for dynamic content insertion into the translated string.
 If the User's Email wasn't necessary in the message, a normal translation string could have been used without parameter replacement.
 
-The other parameters in the addNotification call are equally important. The system styles the notification as an informational alert using the ``info`` type, which is appropriate for a status update on a scheduled task. The false value for ``$isRead`` ensures that the notification appears as unread, drawing the User's attention to this new information. The header, like the message, uses a translation key ``mautic.lead.export.being.prepared.header`` to maintain language consistency. Null values for the icon class and ``datetime`` mean that the system will use default values for these optional parameters. Finally, by passing the $user object, the notification is specifically associated with the user who initiated the export, ensuring it appears in their personal notification panel.
+The other parameters in the ``addNotification`` call are equally important. The system styles the notification as an informational alert using the ``info`` type, which is appropriate for a status update on a scheduled task. The false value for ``$isRead`` ensures that the notification appears as unread, drawing the User's attention to this new information. The header, like the message, uses a translation key ``mautic.lead.export.being.prepared.header`` to maintain language consistency. Null values for the icon class and ``datetime`` mean that the system will use default values for these optional parameters. Finally, by passing the $user object, the notification is specifically associated with the user who initiated the export, ensuring it appears in their personal notification panel.
