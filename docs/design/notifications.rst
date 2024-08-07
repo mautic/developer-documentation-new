@@ -1,7 +1,7 @@
 Notifications
 =============
 
-Notifications are a critical Component of user experience (UX) in digital products, serving as a bridge between the system and the User. They should enhance, not detract from, the user experience, assisting Users in achieving their goals and providing immediate, relevant feedback. This guide synthesizes best practices from the Carbon Design System and industry standards to help developers create effective and user-friendly notifications.
+Notifications are a critical Component of User experience (UX) in digital products, serving as a bridge between the system and the User. They should enhance, not detract from, the User experience, assisting Users in achieving their goals and providing immediate, relevant feedback. This guide synthesizes best practices from the Carbon Design System and industry standards to help developers create effective and User-friendly notifications.
 
 Notification types and their use
 ================================
@@ -13,7 +13,7 @@ Notifications come in various forms, each serving a specific purpose within an a
 
 - **Inline notifications**: integrated into task flows to inform Users about the status of an action or system changes. Mautic displays these at the top of the content area or near the relevant item.
 
-- **Toast notifications**: these are time-based messages that appear at the top of the screen and disappear after a short duration. Mautic displays these as brief messages that don't require user interaction.
+- **Toast notifications**: these are time-based messages that appear at the top of the screen and disappear after a short duration. Mautic displays these as brief messages that don't require User interaction.
 
 - **Actionable notifications**: includes interactive elements and require User interaction. Styled similarly to inline or toast notifications, but more disruptive due to their interactive nature.
 
@@ -118,15 +118,19 @@ To create a notification, use the ``addNotification`` method of the ``Notificati
 Parameters:
 ^^^^^^^^^^^
 
-- ``$message`` (string): The main content of the notification.
-- ``$type`` (string|null): Identifies the source and style of the notification (optional).
-- ``$isRead`` (bool): Indicates if the notification has been read (default: true).
-- ``$header`` (string|null): The header text for the notification (required).
-- ``$iconClass`` (string|null): CSS class for the notification icon (e.g., 'ri-eye-line').
-- ``$datetime`` (\\DateTime|null): Creation date of the notification.
+.. vale of
+
+- ``$message`` (string): the main content of the notification.
+- ``$type`` (string|null): identifies the source and style of the notification (optional).
+- ``$isRead`` (boolean): indicates if the notification has been read (default: true).
+- ``$header`` (string|null): the header text for the notification (required).
+- ``$iconClass`` (string|null): CSS class for the notification icon (for example, 'ri-eye-line').
+- ``$datetime`` (\\DateTime|null): creation date of the notification.
 - ``$user`` (User|null): User object associated with the notification (defaults to current user).
-- ``$deduplicateValue`` (string|null): Used to prevent duplicate notifications within a specified timeframe.
-- ``$deduplicateDateTimeFrom`` (\\DateTime|null): Customizes the deduplication timeframe.
+- ``$deduplicateValue`` (string|null): used to prevent duplicate notifications within a specified timeframe.
+- ``$deduplicateDateTimeFrom`` (\\DateTime|null): customizes the `deduplication` timeframe.
+
+.. vale on
 
 .. note::
 
@@ -137,17 +141,20 @@ Notification types
 ------------------
 
 The ``$type`` parameter determines the visual style of the notification:
+.. vale off
 
-- ``'success'``: Green alert with success icon
-- ``'info'``: Blue alert with info icon
-- ``'warning'``: Yellow alert with warning icon
-- ``'error'``: Red alert with error icon
-- ``''`` (empty string): Default style without colors and icon
+- ``'success'``: green alert with success icon
+- ``'info'``: blue alert with info icon
+- ``'warning'``: yellow alert with warning icon
+- ``'error'``: red alert with error icon
+- ``''`` (empty string): default style without colors and icon
+
+.. vale on
 
 Example usage
 -------------
 
-Here's an example of how to create a notification when a contact export is scheduled:
+Here's an example of how to create a notification when a Contact export is scheduled:
 
 .. code-block:: php
 
@@ -169,7 +176,7 @@ Here's an example of how to create a notification when a contact export is sched
    }
 
 This use case showcases how the NotificationModel can be integrated into event-driven processes within Mautic.
-In this example, the addNotification method is called with specific parameters tailored to the contact export scenario. The $message parameter is handled using the translator service to generate a localized message. This approach is used specifically because the notification needs to include the user's email address in the message. The translation key 'mautic.lead.export.being.prepared' is used with a parameter %user_email%, which is then replaced with the actual email of the user who scheduled the export. This method allows for dynamic content insertion into the translated string.
-If we didn't need to include the user's email in the message, we could have simply used a normal translation string without the need for parameter replacement.
+This example calls the addNotification method with specific parameters tailored to the Contact export scenario. The Translator service handles the ``$message`` parameter to generate a localized message. This approach includes the User's Email address in the notification message. The system uses the translation key ``mautic.lead.export.being.prepared`` with the parameter ``%user_email%``, replacing it with the actual Email of the User who scheduled the export. This method allows for dynamic content insertion into the translated string.
+If the User's Email wasn't necessary in the message, a normal translation string could have been used without parameter replacement.
 
-The other parameters in the addNotification call are equally important. The 'info' type is used to style the notification as an informational alert, which is appropriate for a status update on a scheduled task. The false value for $isRead ensures that the notification appears as unread, drawing the user's attention to this new information. The header, like the message, uses a translation key ('mautic.lead.export.being.prepared.header') to maintain language consistency. The null values for icon class and datetime indicate that default values will be used for these optional parameters. Finally, by passing the $user object, the notification is specifically associated with the user who initiated the export, ensuring it appears in their personal notification panel.
+The other parameters in the addNotification call are equally important. The system styles the notification as an informational alert using the ``info`` type, which is appropriate for a status update on a scheduled task. The false value for ``$isRead`` ensures that the notification appears as unread, drawing the User's attention to this new information. The header, like the message, uses a translation key ``mautic.lead.export.being.prepared.header`` to maintain language consistency. Null values for the icon class and ``datetime`` mean that the system will use default values for these optional parameters. Finally, by passing the $user object, the notification is specifically associated with the user who initiated the export, ensuring it appears in their personal notification panel.
