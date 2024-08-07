@@ -1,7 +1,7 @@
 Notifications
 =============
 
-Notifications are a critical Component of User experience (UX) in digital products, serving as a bridge between the system and the User. They should enhance, not detract from, the User experience, assisting Users in achieving their goals and providing immediate, relevant feedback. This guide synthesizes best practices from the Carbon Design System and industry standards to help developers create effective and User-friendly notifications.
+Notifications are a critical part of User experience (UX) in digital products, serving as a bridge between the system and the User. They should enhance, not detract from, the experience, assisting Users in achieving their goals and providing immediate, relevant feedback.
 
 Notification types and their use
 ================================
