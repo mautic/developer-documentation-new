@@ -150,6 +150,13 @@ There are several ways to support Mautic other than contributing with code.
    rest_api/reports
    rest_api/text_messages
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Testing
+   :hidden:
+
+   testing/e2e_test_suite
+
 Indices and tables
 ==================
 
