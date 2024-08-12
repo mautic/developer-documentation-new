@@ -125,7 +125,7 @@ Use the following command to generate a new file:
 
     bin/codecept generate:cest acceptance <TestName>
 
-This command will create a file named ``TestSuiteNameCest.php`` inside the ``tests/Acceptance`` directory.
+This creates a ``TestSuiteNameCest.php`` file in ``tests/Acceptance``.
 
 2. Define Test Scenarios:
 
@@ -239,7 +239,7 @@ For more detailed internal debug information, use:
 View tests in the browser
 =========================
 
-You can watch your tests being run in an automated browser by visiting the following URL: ``https://mautic.ddev.site:7900/``.
+You can watch your tests run in an automated browser by visiting the following URL: ``https://mautic.ddev.site:7900/``.
 
 ``noVNC`` Access:
 
