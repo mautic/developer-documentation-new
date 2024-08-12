@@ -1,8 +1,8 @@
 
-End to End Test Suite
+End to end test suite
 #####################
 
-This test suite is designed to ensure that new pull requests do not break any functionality in Mautic and that the overall quality of the application is maintained. The suite is built using Codeception, a popular PHP testing framework, and Selenium for browser automation.
+This test suite ensures that new pull requests don't break any features in Mautic and helps maintain the overall quality of the application. It uses Codeception, a popular PHP testing framework, and Selenium for browser automation.
 
 .. vale off
 
@@ -22,7 +22,7 @@ This guide assumes that your Mautic project is already installed and running on 
 
 2. Start DDEV:
 
-Ensure DDEV is installed on your system. Start the DDEV environment with:
+Ensure you have installed DDEV on your system. Start the DDEV environment with:
 
 .. code-block:: bash
 
@@ -129,7 +129,7 @@ This command will create a file named TestSuiteNameCest.php inside the tests/Acc
 
 2. Define Test Scenarios: Open the generated Cest file and define your test scenarios. Each method within the class represents a different scenario. Use Codeception's built-in assertions and helper functions to verify the expected outcomes. Here’s a simple example:
 
-.. code-block:: php
+.. code-block:: PHP
 
     <?php
 
@@ -246,4 +246,4 @@ noVNC Access:
 Contributing
 ************
 
-Contributions to the test suite are welcome! Please follow the guidelines for submitting pull requests.
+Contributions to the test suite are welcome. Please follow the guidelines for submitting pull requests.
