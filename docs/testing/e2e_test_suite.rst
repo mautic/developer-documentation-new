@@ -2,7 +2,7 @@
 End to end test suite
 #####################
 
-This test suite ensures that new pull requests don't break any features in Mautic and helps maintain the overall quality of the application. It uses Codeception, a popular PHP testing framework, and Selenium for browser automation.
+This test suite ensures that new pull requests don't break any features in Mautic and helps maintain the overall quality of the app. It uses Codeception, a popular PHP testing framework, and Selenium for browser automation.
 
 .. vale off
 
@@ -45,7 +45,7 @@ Configuring the test environment
 
 .. vale on
 
-In acceptance tests, your tests interact with the application through a web server, using the same database as the application. To avoid modifying the actual application database during tests, you should configure a separate test database. This setup ensures that the test environment does not affect your production data and allows for isolated testing.
+In acceptance tests, your tests interact with the app through a web server, using the same database as the app. To avoid modifying the actual app database during tests, you should configure a separate test database. This setup ensures that the test environment doesn't affect your production data and allows for isolated testing.
 
 Whenever you need to run the tests, make sure to update ``.env.local`` to enable test mode.
 
@@ -117,9 +117,9 @@ Writing and Running Tests
 Writing tests
 =============
 
-Writing tests in Codeception involves creating Cest files within the tests/Acceptance directory. Each Cest file contains a class with methods that define the test scenarios.
+Writing tests in Codeception involves creating files within the tests/Acceptance directory. Each file contains a class with methods that define the test scenarios.
 
-1. Create a New Test File: Use the following command to generate a new Cest file:
+1. Create a New Test File: Use the following command to generate a new file:
 
 .. code-block:: bash
 
@@ -127,7 +127,7 @@ Writing tests in Codeception involves creating Cest files within the tests/Accep
 
 This command will create a file named TestSuiteNameCest.php inside the tests/Acceptance directory.
 
-2. Define Test Scenarios: Open the generated Cest file and define your test scenarios. Each method within the class represents a different scenario. Use Codeception's built-in assertions and helper functions to verify the expected outcomes. Here’s a simple example:
+2. Define Test Scenarios: Open the generated file and define your test scenarios. Each method within the class represents a different scenario. Use Codeception's built-in assertions and helper functions to verify the expected outcomes. Here’s a simple example:
 
 .. code-block:: PHP
 
