@@ -22,6 +22,7 @@ CCPA
 Citrix
 Clearbit
 CloudAMQP
+Codeception
 Codecov
 Company(ies)
 Composer
