@@ -7,7 +7,7 @@ This test suite ensures that new pull requests don't break any features in Mauti
 .. vale off
 
 Setup
-**********
+******
 
 .. vale on
 
@@ -75,13 +75,13 @@ Mautic uses the ``db`` database for production and ``test`` database for running
 
 .. vale off
 
-Acceptance Tests Structure
+Acceptance tests structure
 **************************
 
 .. vale on
 
-All tests are located in the tests/ directory, with codeception.yml in the root directory. The tests use WebDriver and Db modules, with configurations specified in acceptance.suite.yml. 
-Tests are executed in real browsers using the W3C WebDriver protocol, with Selenium managing browser interactions.
+The directory tests/ contains all tests, with ``codeception.yml`` in the root directory. The tests use WebDriver and Db modules, with configurations specified in ``acceptance.suite.yml``.
+Codeception runs the tests in real browsers using the W3C WebDriver protocol, with Selenium managing browser interactions.
 
 Here’s an overview of tests directory structure:
 
@@ -100,34 +100,36 @@ Here’s an overview of tests directory structure:
      - Contains output from tests in case of failures. This includes snapshots of the browser in JPEG format and generated HTML reports for troubleshooting.
    * - ``_support/``
      - 
-       - ``AcceptanceTester.php``: Contains login logic that runs before each test.
-       - ``Helper/``: Stores custom helper functions. For example, DbHelper.php automates the process of generating SQL dump files and populating the database. It prepares the database from scratch if no dump file exists and exports a SQL file for future use.
-       - ``Page/``: Stores UI locators for each page. Avoid hard-coding complex CSS or XPath locators in tests; instead, use PageObject classes.
-       - ``Step/``: Contains step objects that group common functionalities for tests.
+       - ``AcceptanceTester.php``: contains login logic that runs before each test.
+       - ``Helper/``: stores custom helper functions. For example, ``DbHelper.php`` automates the process of generating SQL dump files and populating the database. It prepares the database from scratch if no dump file exists, and exports a SQL file for future use.
+       - ``Page/``: stores UI locators for each page. Avoid hard-coding complex CSS or XPath locators in tests; instead, use PageObject classes.
+       - ``Step/``: contains step objects that group common functionalities for tests.
    * - ``acceptance/``
      - Contains acceptance tests.
 
-.. vale off
 
-Writing and Running Tests
+Writing and running tests
 **************************
 
-.. vale on
 
 Writing tests
 =============
 
-Writing tests in Codeception involves creating files within the tests/Acceptance directory. Each file contains a class with methods that define the test scenarios.
+Writing tests in Codeception involves creating files within the ``tests/Acceptance`` directory. Each file contains a class with methods that define the test scenarios.
 
-1. Create a New Test File: Use the following command to generate a new file:
+1. Create a New Test File:
+
+Use the following command to generate a new file:
 
 .. code-block:: bash
 
     bin/codecept generate:cest acceptance <TestName>
 
-This command will create a file named TestSuiteNameCest.php inside the tests/Acceptance directory.
+This command will create a file named ``TestSuiteNameCest.php`` inside the ``tests/Acceptance`` directory.
 
-2. Define Test Scenarios: Open the generated file and define your test scenarios. Each method within the class represents a different scenario. Use Codeception's built-in assertions and helper functions to verify the expected outcomes. Here’s a simple example:
+2. Define Test Scenarios:
+
+Open the generated file and define your test scenarios. Each method within the class represents a different scenario. Use Codeception's built-in assertions and helper functions to verify the expected outcomes. Here’s an example:
 
 .. code-block:: PHP
 
@@ -161,13 +163,13 @@ This command will create a file named TestSuiteNameCest.php inside the tests/Acc
 
 Organize your tests by using PageObject and StepObject classes. This keeps your tests clean and maintainable by separating locators and test steps into reusable components.
 
-- Generate PageObject with:
+- Generate a page object with:
 
 .. code-block:: bash
 
     bin/codecept generate:pageobject acceptance ExamplePage
 
-This will create an ExamplePage.php file in /tests/Support/Page/.
+This creates an ``ExamplePage.php`` file in ``/tests/Support/Page/Acceptance``.
 
 - Generate step objects with:
 
@@ -175,50 +177,50 @@ This will create an ExamplePage.php file in /tests/Support/Page/.
 
     bin/codecept generate:stepobject acceptance Example
 
-This will create an Example.php file in/tests/Support/Step/Acceptance.
+This creates an ``Example.php`` file in ``/tests/Support/Step/Acceptance``.
 
-Running Tests
+Running tests
 =============
 
-You can start tests using the run command provided by Codeception. Here are different ways to run your tests:
+You can start tests using the ``run`` command provided by Codeception. Here are different ways to run your tests:
 
-**Run All Tests**
+**Run all tests**
 
 .. code-block:: bash
 
     bin/codecept run
 
-**Run All Acceptance Tests**
+**Run all acceptance tests**
 
 .. code-block:: bash
 
     bin/codecept run acceptance
 
-**Run a Specific Test File**
+**Run a specific test file**
 
-If you need to run a specific test file, such as ContactManagementCest, use:
+If you need to run a specific test file, such as ``ContactManagementCest``, use:
 
 .. code-block:: bash
 
     bin/codecept run acceptance ContactManagementCest
 
-**Run a Specific Test Scenario**
+**Run a specific test scenario**
 
-To execute a specific scenario within a test file, you can specify the test method like this:
+To run a specific scenario within a test file, you can specify the test method like this:
 
 .. code-block:: bash
 
     bin/codecept run acceptance ContactManagementCest:createContactFromForm
 
-View Test Results
+View test results
 =================
 
-After running the tests, the results will be displayed in the terminal. Additionally, any failures will generate snapshots and HTML reports in the _output directory, which you can use for debugging.
+After running the tests, the results are displayed in the terminal. Additionally, any failures generate snapshots and HTML reports in the ``_output`` directory, which you can use for debugging.
 
-Additional Options
+Additional options
 ==================
 
-**Print Steps:**
+**Print steps:**
 
 To see a step-by-step breakdown of the test execution, use:
 
@@ -226,7 +228,7 @@ To see a step-by-step breakdown of the test execution, use:
 
     bin/codecept run acceptance ContactManagementCest --steps
 
-**Verbose Output**
+**Verbose output**
 
 For more detailed internal debug information, use:
 
@@ -234,12 +236,12 @@ For more detailed internal debug information, use:
 
     bin/codecept run acceptance ContactManagementCest -vvv
 
-View Tests in the Browser
+View tests in the browser
 =========================
 
-You can watch your tests being executed in an automated browser by visiting the following URL: https://mautic.ddev.site:7900/
+You can watch your tests being run in an automated browser by visiting the following URL: ``https://mautic.ddev.site:7900/``.
 
-noVNC Access:
+``noVNC`` Access:
 
 ``Password: secret``
 
