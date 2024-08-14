@@ -4,12 +4,8 @@ End to end test suite
 
 This test suite ensures that new pull requests don't break any features in Mautic and helps maintain the overall quality of the app. It uses Codeception, a popular PHP testing framework, and Selenium for browser automation.
 
-.. vale off
-
 Setup
 ******
-
-.. vale on
 
 This guide assumes that your Mautic project is already installed and running on DDEV. If not, follow these steps:
 
@@ -38,12 +34,8 @@ For detailed steps, refer to the Mautic documentation.
 
 The ``codeception.yml`` and ``tests/acceptance.suite.yml`` configurations are already in place.
 
-.. vale off
-
 Configuring the test environment
 *********************************
-
-.. vale on
 
 In acceptance tests, your tests interact with the app through a web server, using the same database as the app. To avoid modifying the actual app database during tests, you should configure a separate test database. This setup ensures that the test environment doesn't affect your production data and allows for isolated testing.
 
@@ -73,12 +65,8 @@ Ensure that your ``.env.test.local`` file contains the correct credentials for t
 
 Mautic uses the ``db`` database for production and ``test`` database for running tests.
 
-.. vale off
-
 Acceptance tests structure
 **************************
-
-.. vale on
 
 The directory tests/ contains all tests, with ``codeception.yml`` in the root directory. The tests use WebDriver and Db modules, with configurations specified in ``acceptance.suite.yml``.
 Codeception runs the tests in real browsers using the W3C WebDriver protocol, with Selenium managing browser interactions.
