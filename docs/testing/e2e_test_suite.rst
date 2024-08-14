@@ -236,4 +236,4 @@ You can watch your tests run in an automated browser by visiting the following U
 Contributing
 ************
 
-Contributions to the test suite are welcome. Please follow the guidelines for submitting pull requests.
+Contributions to the test suite are welcome. Please follow the guidelines for submitting pull requests, as outlined in the :xref:`Mautic Tester Docs`.
