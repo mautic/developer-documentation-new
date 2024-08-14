@@ -100,7 +100,6 @@ OAuth2
 Packagist
 patch
 PATCH
-php
 PHP
 PhpStorm
 PHPUnit.xml
