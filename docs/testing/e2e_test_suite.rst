@@ -105,7 +105,7 @@ Writing tests
 
 Writing tests in Codeception involves creating files within the ``tests/Acceptance`` directory. Each file contains a class with methods that define the test scenarios.
 
-1. Create a New Test File:
+1. Create a New Test File
 
 Use the following command to generate a new file:
 
@@ -115,7 +115,7 @@ Use the following command to generate a new file:
 
 This creates a ``TestSuiteNameCest.php`` file in ``tests/Acceptance``.
 
-2. Define Test Scenarios:
+2. Define Test Scenarios
 
 Open the generated file and define your test scenarios. Each method within the class represents a different scenario. Use Codeception's built-in assertions and helper functions to verify the expected outcomes. Here’s an example:
 
@@ -147,7 +147,7 @@ Open the generated file and define your test scenarios. Each method within the c
         }
     }
 
-3. Utilize PageObjects and StepObjects:
+3. Utilize PageObjects and StepObjects
 
 Organize your tests by using PageObject and StepObject classes. This keeps your tests clean and maintainable by separating locators and test steps into reusable components.
 
