@@ -22,6 +22,7 @@ CCPA
 Citrix
 Clearbit
 CloudAMQP
+Codeception
 Codecov
 Company(ies)
 Composer
@@ -156,6 +157,7 @@ Vtiger
 Webhooks
 Webmecanik
 www
+XPath
 YAML
 Zapier
 Zoho
