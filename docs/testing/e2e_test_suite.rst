@@ -203,7 +203,7 @@ To run a specific scenario within a test file, you can specify the test method l
 View test results
 =================
 
-After running the tests, the results are displayed in the terminal. Additionally, any failures generate snapshots and HTML reports in the ``_output`` directory, which you can use for debugging.
+After running the tests, Codeception returns the results in the terminal. Additionally, any failures generate snapshots and HTML reports in the ``_output`` directory, which you can use for debugging.
 
 Additional options
 ==================
