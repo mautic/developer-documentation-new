@@ -11,29 +11,33 @@ Sentence-style capitalization is the preferred method for UI text elements due t
 
 When using sentence-case capitalization, only capitalize the initial letter of the first word in the text and other words that require capitalization, such as proper nouns.
 
-For example, labels in a Form would be written as "First name" and "Email address." This approach should be applied consistently across all UI text elements, unless the name is a product or service name, or is trademarked.
+For example, you would write labels in a Form as "First name" and "Email address." Apply this approach consistently across all UI text elements, except when the text is a product or service name, or trademarked.
 
 Examples:
+
+.. vale off
 
 - Analyse your lead generation chart with Marketing Insights.
 - Automate your marketing Campaigns.
 
+.. vale on
+
 Avoid title case capitalization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Title (or headline) case capitalization is a style where the first letter of most words is capitalized, excluding articles, conjunctions, or prepositions unless they're the first or last word in the sentence or phrase.
+Title or headline case capitalization involves capitalizing the first letter of most words, excluding articles, conjunctions, or prepositions unless they're the first or last word in the sentence or phrase.
 
 However, this approach presents several challenges in practical implementation:
 
 - It requires all content creators within an organization to understand and consistently apply complex grammatical rules regarding word capitalization.
-- It often relies on subjective interpretations of what constitutes "important" or "special" words, which can lead to inconsistencies if not clearly communicated or understood across the organization.
+- It often relies on subjective interpretations of what constitutes "important" or "special" words, which leads to inconsistencies if not clearly communicated or understood across the organization.
 - Moreover, title case can impede reading speed and comprehension, as it makes it more difficult for readers to distinguish between proper nouns and common nouns.
 
-These factors combined make title case a less desirable option for many User interface and content design scenarios, particularly when clarity and ease of reading are prioritized.
+These factors combined make title case less desirable in many user interface and content design scenarios, especially when prioritizing clarity and ease of reading.
 
-**Do:** Automate your marketing Campaigns
+**Do:** automate your marketing Campaigns
 
-**Avoid:** Automate your marketing Campaigns
+**Avoid:** automate your marketing Campaigns
 
 Avoid all caps capitalization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -467,14 +471,14 @@ If space permits, combine Learn more with meaningful text that describes the con
 Log in
 ^^^^^^
 
-Enters a site or application. This choice typically opens a Form for entry of credentials. Also used on the submission button after Users enter their credentials.
+Enters a site or app. This choice typically opens a Form for entry of credentials. Also used on the submission button after Users enter their credentials.
 
 Use instead of Sign in. This is to make it visually distinct from Sign up. These options are often side by side and the different words allow for quick recognition. Compare Log out.
 
 Log out
 ^^^^^^^
 
-Exits an application or site.
+Exits an app or site.
 
 Use instead of Sign out. Compare Log in.
 
@@ -771,8 +775,8 @@ Quick list
 - **Import**: transforms data or objects from an external source.
 - **Insert**: adds an element at a particular position in an ordered view.
 - **Learn more**: opens additional, highly contextual information.
-- **Log in**: enters a site or application, typically opening a Form for credential entry.
-- **Log out**: exits an application or site.
+- **Log in**: enters a site or app, typically opening a Form for credential entry.
+- **Log out**: exits an app or site.
 - **Move**: transfers an object from one container, such as a folder, activity, or page, to another.
 - **Move to trash**: performs a soft delete by moving a file or object to an area where it can be permanently deleted or recovered later.
 - **OK**: confirms an action or completes the current task. Use specific labels like Save or Close when available.
@@ -792,5 +796,5 @@ Quick list
 - **Submit an idea**: opens a window for submitting feedback or ideas, used as link text in support widgets.
 - **Top**: returns to the top of the page.
 - **Undo**: reverts to the state before recent changes, applicable to data changes.
-- **Update**: applies settings from a dialog to an object, like updatingContact preferences in Mautic.
+- **Update**: applies settings from a dialog to an object, like ``updatingContact`` preferences in Mautic.
 - **Upload**: transfers a file from a local to a remote system
