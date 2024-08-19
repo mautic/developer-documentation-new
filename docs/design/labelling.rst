@@ -4,7 +4,7 @@ Guidelines for labelling the Mautic interface
 Capitalization
 --------------
 
-Use sentence–case capitalization
+Use sentence—case capitalization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Sentence-style capitalization is the preferred method for UI text elements due to its readability and efficiency. This style, which is predominantly lowercase, makes it easy for readers to distinguish between common nouns and proper nouns, and is generally considered the quickest form to read.
@@ -29,7 +29,7 @@ However, this approach presents several challenges in practical implementation:
 - It often relies on subjective interpretations of what constitutes "important" or "special" words, which can lead to inconsistencies if not clearly communicated or understood across the organization.
 - Moreover, title case can impede reading speed and comprehension, as it makes it more difficult for readers to distinguish between proper nouns and common nouns.
 
-These factors combined make title case a less desirable option for many user interface and content design scenarios, particularly when clarity and ease of reading are prioritized.
+These factors combined make title case a less desirable option for many User interface and content design scenarios, particularly when clarity and ease of reading are prioritized.
 
 **Do:** Automate your marketing campaigns
 
@@ -37,14 +37,21 @@ These factors combined make title case a less desirable option for many user int
 
 Avoid all caps capitalization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. vale off
 
 All caps (or uppercase) capitalization means every letter is capitalized. This style is slower to read, especially for longer text, because individual letter shapes are less distinguishable due to their uniform height and lack of ascenders or descenders.
+
+.. vale on
 
 It also typically requires more space in the UI per letter compared to sentence case. Additionally, it makes it difficult for readers to distinguish between proper nouns and common nouns. For example, product names are easily distinguishable from features in regular text, but these distinctions take longer when the text is in all caps.
 
 **Do:** Get started with Mautic to automate your marketing workflows and enhance customer engagement.
 
+.. vale off
+
 **Avoid:** GET STARTED WITH MAUTIC TO AUTOMATE YOUR MARKETING WORKFLOWS AND ENHANCE CUSTOMER ENGAGEMENT.
+
+.. vale on
 
 When to use capital letters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -52,7 +59,7 @@ When to use capital letters
 Capital letters are reserved for:
 
 - Official, trademarked products or services, unless they intentionally use a lowercase initial, such as the iPhone.
-- Initialisms (e.g., FBI, CIA) or acronyms (e.g., NASA, UNESCO).
+- Initialisms (for example, FBI, CIA) or acronyms (for example, NASA, UNESCO).
 - Names of people.
 - Names of countries or places.
 - UI labels that are capitalized.
@@ -74,10 +81,14 @@ Capitalizing proper nouns
 
 The names of people, places, and products are proper nouns and therefore all take initial capitals. Examples of proper nouns are:
 
+.. vale off
+
 - Ruth Cheesley
 - Mautic Conference Europe 2024
 - São Paulo, Brazil
 - Microsoft Copilot
+
+.. vale on
 
 Capitalizing abbreviations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -99,9 +110,9 @@ Capitalize a word only if it begins a sentence, phrase, or UI element name. To e
 
 Examples:
 
-**Do:** You can use a global policy to apply changes to all users.
+**Do:** You can use a global policy to apply changes to all Users.
 
-**Avoid:** You can use a Global Policy to apply changes to all users
+**Avoid:** You can use a Global Policy to apply changes to all Users
 
 
 Simple writing
@@ -115,19 +126,19 @@ Choose the simplest term suitable for your audience; for instance, use "fast" in
 .. tip::
    Create a terminology list for your product that includes preferred words and those to avoid. This tool aids consistency, especially when multiple people are writing copy.
 
-Respect users' time by making content quick and easy to read. Trim content to as few words as possible without being terse. It's advisable to avoid terms of politeness, such as "please" and "thank you," in a UI, as they may be inappropriate or offensive in some cultural contexts.
+Respect Users' time by making content quick and easy to read. Trim content to as few words as possible without being terse. It's advisable to avoid terms of politeness, such as "please" and "thank you," in a UI, as they may be inappropriate or offensive in some cultural contexts.
 
 Use simple present tense
 ------------------------
 
-Use simple verbs and tenses, and keep sentences concise, friendly, and punchy. Focus on the user's context to make content relevant. The more familiar you are with their situation, the better you can communicate effectively with fewer words. When using past or future tense, prefer straightforward verb forms over those with "have," "has," "had," "been," "should," "would," and "will."
+Use simple verbs and tenses, and keep sentences concise, friendly, and punchy. Focus on the User's context to make content relevant. The more familiar you are with their situation, the better you can communicate effectively with fewer words. When using past or future tense, prefer straightforward verb forms over those with "have," "has," "had," "been," "should," "would," and "will."
 
 Conversational style
 --------------------
 
-To set the appropriate tone and conversation level, imagine the user engaging with the product as if in a dialogue. The interaction between words, imagery, and actions forms this conversation, creating a back-and-forth on the screen between the user and the product.
+To set the appropriate tone and conversation level, imagine the User engaging with the product as if in a dialogue. The interaction between words, imagery, and actions forms this conversation, creating a back-and-forth on the screen between the User and the product.
 
-The conversational level depends on the user's journey stage and the task they are performing. The most conversational content typically appears in the "discover, try, and buy" phases, while error messages often require brevity.
+The conversational level depends on the User's journey stage and the task they're performing. The most conversational content typically appears in the "discover, try, and buy" phases, while error messages often require brevity.
 
 Regardless of the conversational level, writing should always be simple, clear, and easy to understand, maintaining a friendly, human, and inviting tone. Use everyday language instead of jargon, and choose short words for faster reading rather than long, impressive-sounding ones.
 
@@ -138,16 +149,16 @@ While a formal tone is often suitable for technical and business writing, a more
 
 Examples:
 
-**Do:** Your campaign was sent successfully!
+**Do:** Your campaign was sent successfully !
 
 **Avoid:** An error occurred during the process!!
 
 Terms of politeness
 -------------------
 
-These terms are often overused and can convey an inappropriate tone for technical material, as they are perceived differently across cultures. Use terms like "please" and "thank you" thoughtfully.
+These terms are often overused and can convey an inappropriate tone for technical material, as they're perceived differently across cultures. Use terms like "please" and "thank you" thoughtfully.
 
-For example, you might say, "The Mautic installation process might take a few minutes. Please wait." Use politeness in a UI only when the user is experiencing an inconvenience.
+For example, you might say, "The Mautic installation process might take a few minutes. Please wait." Use politeness in a UI only when the User is experiencing an inconvenience.
 
 For instance, avoid saying, "Please configure your email settings to access advanced features," as it can be unnecessary.
 
@@ -198,24 +209,24 @@ Examples:
 
 **Also do:** "Try refining your search criteria to find the desired results."
 
-Use the first person in headings or labels specific to the user, such as "My preferences" or "My notifications." However, switch to second person in explanatory text, like "Your notifications are updated every hour."
+Use the first person in headings or labels specific to the User, such as "My preferences" or "My notifications." However, switch to second person in explanatory text, like "Your notifications are updated every hour."
 
 Use the first person (we, our) to refer to the organization when appropriate, such as in requests for personal information where the user benefits from knowing why the information is needed.
 
-Example: "Why do we need your contact details?"
+Example: "Why do we need your Contact details?"
 
 Active and passive voice
 ------------------------
 
-The active voice is direct and emphasizes the subject of the sentence. The subject clearly "acts upon" the verb (hence, "active"). For example, "John ate the apple". In situations where either voice will work, generally choose the active voice for more directness.
+The active voice is direct and emphasizes the subject of the sentence. The subject clearly "acts upon" the verb (hence, "active"). For example, "John ate the apple." In situations where either voice will work, generally choose the active voice for more directness.
 
 Examples:
 
-**Do:** Next, the user updates the profile settings.
+**Do:** Next, the User updates the profile settings.
 
 Use active voice when appropriate.
 
-**Avoid:** Next, the profile settings are updated by the user.
+**Avoid:** Next, the profile settings are updated by the User.
 
 Avoid passive voice when active voice suffices.
 
@@ -241,9 +252,9 @@ A
 Add
 ^^^
 
-Takes an existing object and uses it in a new context (for example, adds an item to the cart, adds a user to a group, or adds a document to a folder).
+Takes an existing object and uses it in a new context (for example, adds an item to the cart, adds a User to a group, or adds a document to a folder).
 
-Where appropriate, combine add with the object (for example, Add user or Add role). Compare Create, Insert, New, and Upload.
+Where appropriate, combine add with the object (for example, Add User or Add role). Compare Create, Insert, New, and Upload.
 
 Apply
 ^^^^^
@@ -255,7 +266,7 @@ Use instead of Save changes. Compare Save and Save as.
 Approve
 ^^^^^^^
 
-Indicates the user agrees. In a business process, typically initiates the next step.
+Indicates the User agrees. In a business process, typically initiates the next step.
 
 Compare Reject.
 
@@ -265,14 +276,14 @@ B
 Back
 ^^^^
 
-Returns the user to the previous step in a sequence of steps, such as in a wizard.
+Returns the User to the previous step in a sequence of steps, such as in a wizard.
 
 Use instead of Previous. Compare Next and Finish.
 
 Browse
 ^^^^^^
 
-Assists the user in selecting a file (for example, on a button or link next to an entry field). Typically opens a secondary window where the user can locate and select the desired directory and file.
+Assists the User in selecting a file (for example, on a button or link next to an entry field). Typically opens a secondary window where the user can locate and select the desired directory and file.
 
 C
 -
@@ -282,7 +293,7 @@ Cancel
 
 Stops the current action and closes the dialog.
 
-Warn the user of any possible negative consequences of stopping an action from progressing, such as data corruption. Compare Reset.
+Warn the User of any possible negative consequences of stopping an action from progressing, such as data corruption. Compare Reset.
 
 Clear
 ^^^^^
@@ -310,12 +321,12 @@ Create
 
 Makes a new object from scratch (for example, creates a calendar event or creates a new document).
 
-In scenarios where the user needs to supply some details or settings as part of the create process, use new to initiate the action and create to apply the user-supplied details or settings to the new object. Compare Add, Copy, Insert, and New.
+In scenarios where the User needs to supply some details or settings as part of the create process, use new to initiate the action and create to apply the user-supplied details or settings to the new object. Compare Add, Copy, Insert, and New.
 
 Customize
 ^^^^^^^^^
 
-Allow a user to make desired changes.
+Allow a User to make desired changes.
 
 D
 -
@@ -337,7 +348,7 @@ Use as link text only for the specific link that points to the product documenta
 Done
 ^^^^
 
-Indicates that the user has finished working in an environment (for example, editing templates) and wants to return to where he or she came from.
+Indicates that the User has finished working in an environment (for example, editing templates) and wants to return to where he or she came from.
 
 Compare Close and Finish.
 
@@ -373,7 +384,7 @@ Compare Move to trash.
 Export
 ^^^^^^
 
-Saves data in a different format external to the system. Typically opens a secondary window for the user to specify the file type and destination (for example, storing table data as a set of comma-separated values).
+Saves data in a different format external to the system. Typically opens a secondary window for the User to specify the file type and destination (for example, storing table data as a set of comma-separated values).
 
 Compare Import.
 
@@ -407,7 +418,7 @@ G
 Get help
 ^^^^^^^^
 
-Opens a search field from which the user can search for help information.
+Opens a search field from which the User can search for help information.
 
 Use only as link text on the console menu bar. Compare Docs and Learn more.
 
@@ -417,7 +428,7 @@ H
 Hide
 ^^^^
 
-Removes an element that was previously shown (for example, enables the user to hide details or descriptions).
+Removes an element that was previously shown (for example, enables the User to hide details or descriptions).
 
 Compare Show.
 
@@ -427,16 +438,16 @@ I
 Import
 ^^^^^^
 
-Transforms data or objects from an external source. Typically opens a secondary window for the user to locate the external source.
+Transforms data or objects from an external source. Typically opens a secondary window for the User to locate the external source.
 
-Context: Creating a new table based on comma-separated values contained in a separate file. Compare Export.
+Context: creating a new table based on comma-separated values contained in a separate file. Compare Export.
 
 Insert
 ^^^^^^
 
 Adds an element at a particular position in an ordered view.
 
-Context: Adding a picture to the body of a document or inserting a record into a table. Compare Add and New
+Context: adding a picture to the body of a document or inserting a record into a table. Compare Add and New
 
 L
 -
@@ -449,14 +460,14 @@ Do not use Launch; use Start.
 Learn more
 ^^^^^^^^^^
 
-Opens additional, highly contextual information. Insert at the end of inline text or hover text where more information follows but does not fit in the current context.
+Opens additional, highly contextual information. Insert at the end of inline text or hover text where more information follows but doesn't fit in the current context.
 
-If space permits, combine Learn more with meaningful text that describes the content you're pointing to. For example, if your user needs some best practices to manage apps in multiple regions, you could use Learn more about regions.
+If space permits, combine Learn more with meaningful text that describes the content you're pointing to. For example, if your User needs some best practices to manage apps in multiple regions, you could use Learn more about regions.
 
 Log in
 ^^^^^^
 
-Enters a site or application. This choice typically opens a form for entry of credentials. Also used on the submission button after users enter their credentials.
+Enters a site or application. This choice typically opens a form for entry of credentials. Also used on the submission button after Users enter their credentials.
 
 Use instead of Sign in. This is to make it visually distinct from Sign up. These options are often side by side and the different words allow for quick recognition. Compare Log out.
 
@@ -480,7 +491,7 @@ Move to trash
 
 A soft delete. Moves a file or object to an area from where it can later be permanently deleted or recovered.
 
-Use instead of Delete if it is possible for the user to recover the objects. Compare Empty trash.
+Use instead of Delete if it is possible for the User to recover the objects. Compare Empty trash.
 
 N
 -
@@ -490,12 +501,12 @@ New
 
 Starts the creation of a new object. New either creates the object immediately or opens a dialog or set of fields where the user can enter properties.
 
-Combine new with the object to create (for example, New user or New column). Compare Add, Copy, Create, Insert, and Save as.
+Combine new with the object to create (for example, New User or New column). Compare Add, Copy, Create, Insert, and Save as.
 
 Next
 ^^^^
 
-Advances the user to the next step in a sequence of steps, such as in a wizard.
+Advances the User to the next step in a sequence of steps, such as in a wizard.
 
 Compare Back and Finish.
 
@@ -517,8 +528,12 @@ Play
 
 Starts audio, video, or an animation.
 
+.. vale off
+
 Post
 ^^^^
+
+.. vale on
 
 Adds a new comment to an online community or adds status to a log or record.
 
@@ -547,14 +562,18 @@ Likely used only as a tooltip on an icon button. Compare Undo.
 Refresh
 ^^^^^^^
 
+.. vale off
+
 Reloads the view of an object when the displayed view has become unsynchronized with the source.
+
+.. vale on
 
 Likely used only as a tooltip on an icon button.
 
 Reject
 ^^^^^^
 
-Indicates the user does not approve. In a business process, typically blocks the process from proceeding to the next step.
+Indicates the User doesn't approve. In a business process, typically blocks the process from proceeding to the next step.
 
 Compare Approve.
 
@@ -563,7 +582,7 @@ Remove
 
 Removes an object from the current context but the object is not destroyed as a result of the action (for example, removes a user from a group or removes an item from the cart).
 
-Where appropriate, combine Remove with the object that will be removed (for example, Remove user or Remove role). Compare Clear and Delete.
+Where appropriate, combine Remove with the object that will be removed (for example, Remove User or Remove role). Compare Clear and Delete.
 
 Reply
 ^^^^^
@@ -573,7 +592,7 @@ Indicates or completes a response to an email or a comment.
 Reset
 ^^^^^
 
-Reverts values back to their last saved state. The last saved state includes the values stored the last time the user clicked Apply. Does not close the dialog or window.
+Reverts values back to their last saved state. The last saved state includes the values stored the last time the User clicked Apply. Doesn't close the dialog or window.
 
 Compare Cancel, Restore, Restore defaults, and Undo.
 
@@ -611,14 +630,14 @@ S
 Save
 ^^^^
 
-Saves pending modifications made to a file or document. Does not close the window or panel.
+Saves pending modifications made to a file or document. Doesn't close the window or panel.
 
 Compare Apply.
 
 Save as
 ^^^^^^^
 
-Creates a new object based on the state of the object currently being viewed. The user names the new object and typically identifies its location.
+Creates a new object based on the state of the object currently being viewed. The User names the new object and typically identifies its location.
 
 Search
 ^^^^^^
@@ -654,7 +673,7 @@ Compare Hide.
 Sign up
 ^^^^^^^
 
-Creates a user account or registers a user in a system.
+Creates a User account or registers a User in a system.
 
 Use instead of Register.
 
@@ -695,7 +714,7 @@ U
 Undo
 ^^^^
 
-Reverts to the state before the most recent changes made by the user. Repeated use successively reverts to prior states in reverse chronological order. Applies to changes in data and not to changes made to the view.
+Reverts to the state before the most recent changes made by the User. Repeated use successively reverts to prior states in reverse chronological order. Applies to changes in data and not to changes made to the view.
 
 Not all actions, such as Save, can be undone. Compare Redo, Reset, and Restore.
 
@@ -725,51 +744,53 @@ Presents additional information or properties for the object
 Quick list
 ==========
 
-- **Add**: Incorporates an existing object into a new context, such as adding a contact to a Mautic segment.
-- **Apply**: Saves changes without closing the dialog, affecting future system behavior.
-- **Approve**: Indicates user agreement, typically moving to the next step in a business process.
-- **Back**: Returns the user to the previous step, such as in a setup wizard. Use instead of Previous.
-- **Browse**: Assists in selecting a file, often opening a secondary window for locating and selecting a directory or file.
-- **Cancel**: Stops the current action and closes the dialog.
-- **Clear**: Removes all fields or selections, often re-establishing default values for controls like radio buttons. Combine with the object when appropriate, such as Clear fields or Clear all.
-- **Close**: Closes the current page or window, like closing a secondary window with online help.
-- **Copy**: Creates new instances of selected objects in a specific destination. Combine with the object being copied or the destination, like Copy to clipboard.
-- **Create**: Makes a new object from scratch, such as creating a calendar event.
-- **Customize**: Allows a user to make desired changes.
-- **Delete**: Destroys an existing object, like deleting a file from a directory. Combine with the object when appropriate, such as Delete column.
-- **Docs**: Opens a separate window containing the landing page for product documentation.
-- **Done**: Indicates the user has finished working in an environment and wants to return to the previous location.
-- **Download**: Transfers a file from a remote system to a local system.
-- **Drop**: Use when referring to dropping a database table.
-- **Edit**: Allows data or values to be changed.
-- **Empty trash**: Permanently deletes all files or objects in a trash container.
-- **Export**: Saves data in a different format external to the system.
-- **Filter**: Shortens a list to objects matching the filter criteria.
-- **Find**: Moves the cursor to the next element matching specified criteria.
-- **Finish**: Indicates completion of a series of steps, such as in a wizard.
-- **Get help**: Opens a search field for help information.
-- **Hide**: Removes an element that was previously shown.
-- **Import**: Transforms data or objects from an external source.
-- **Insert**: Adds an element at a particular position in an ordered view.
-- **Learn more**: Opens additional, highly contextual information.
-- **Log in**: Enters a site or application, typically opening a form for credential entry.
-- **Log out**: Exits an application or site.
-- **Move**: Transfers an object from one container, such as a folder, activity, or page, to another.
-- **Move to trash**: Performs a soft delete by moving a file or object to an area where it can be permanently deleted or recovered later.
-- **OK**: Confirms an action or completes the current task. Use specific labels like Save or Close when available.
-- **Play**: Starts audio, video, or an animation.
-- **Post**: Adds a new comment to a community or updates a status log.
-- **Preview**: Displays how content will appear with formatting before publishing.
-- **Save**: Saves modifications to a file or document without closing the window.
-- **Search**: Returns objects matching specified criteria within a defined set, such as a Mautic contact list.
-- **Select**: Chooses data from a table.
-- **Send**: Transfers information to a recipient or destination.
-- **Show**: Reveals previously hidden objects, like showing additional contact details in Mautic.
-- **Sign up**: Creates a user account or registers a user in a system.
-- **Sort**: Organizes a list or table column, useful for segmenting contacts in Mautic.
-- **Start**: Deploys an app or service to its environment for use.
-- **Submit an idea**: Opens a window for submitting feedback or ideas, used as link text in support widgets.
-- **Top**: Returns to the top of the page.
-- **Undo**: Reverts to the state before recent changes, applicable to data changes.
-- **Update**: Applies settings from a dialog to an object, like updating contact preferences in Mautic.
-- **Upload**: Transfers a file from a local to a remote system
+- **Add**: incorporates an existing object into a new context, such as adding a Contact to a Mautic segment.
+- **Apply**: saves changes without closing the dialog, affecting future system behavior.
+- **Approve**: indicates User agreement, typically moving to the next step in a business process.
+- **Back**: returns the User to the previous step, such as in a setup wizard. Use instead of Previous.
+- **Browse**: assists in selecting a file, often opening a secondary window for locating and selecting a directory or file.
+- **Cancel**: stops the current action and closes the dialog.
+- **Clear**: removes all fields or selections, often re-establishing default values for controls like radio buttons. Combine with the object when appropriate, such as Clear fields or Clear all.
+- **Close**: closes the current page or window, like closing a secondary window with online help.
+- **Copy**: creates new instances of selected objects in a specific destination. Combine with the object being copied or the destination, like Copy to clipboard.
+- **Create**: makes a new object from scratch, such as creating a calendar event.
+- **Customize**: allows a User to make desired changes.
+- **Delete**: destroys an existing object, like deleting a file from a directory. Combine with the object when appropriate, such as Delete column.
+- **Docs**: opens a separate window containing the landing page for product documentation.
+- **Done**: indicates the User has finished working in an environment and wants to return to the previous location.
+- **Download**: transfers a file from a remote system to a local system.
+- **Drop**: use when referring to dropping a database table.
+- **Edit**: allows data or values to be changed.
+- **Empty trash**: permanently deletes all files or objects in a trash container.
+- **Export**: saves data in a different format external to the system.
+- **Filter**: shortens a list to objects matching the filter criteria.
+- **Find**: moves the cursor to the next element matching specified criteria.
+- **Finish**: indicates completion of a series of steps, such as in a wizard.
+- **Get help**: opens a search field for help information.
+- **Hide**: removes an element that was previously shown.
+- **Import**: transforms data or objects from an external source.
+- **Insert**: adds an element at a particular position in an ordered view.
+- **Learn more**: opens additional, highly contextual information.
+- **Log in**: enters a site or application, typically opening a form for credential entry.
+- **Log out**: exits an application or site.
+- **Move**: transfers an object from one container, such as a folder, activity, or page, to another.
+- **Move to trash**: performs a soft delete by moving a file or object to an area where it can be permanently deleted or recovered later.
+- **OK**: confirms an action or completes the current task. Use specific labels like Save or Close when available.
+- **Play**: starts audio, video, or an animation.
+.. vale off
+- **Post**: adds a new comment to a community or updates a status log.
+.. vale on
+- **Preview**: displays how content will appear with formatting before publishing.
+- **Save**: saves modifications to a file or document without closing the window.
+- **Search**: returns objects matching specified criteria within a defined set, such as a Mautic Contact list.
+- **Select**: chooses data from a table.
+- **Send**: transfers information to a recipient or destination.
+- **Show**: reveals previously hidden objects, like showing additional Contact details in Mautic.
+- **Sign up**: creates a User account or registers a User in a system.
+- **Sort**: organizes a list or table column, useful for segmenting Contacts in Mautic.
+- **Start**: deploys an app or service to its environment for use.
+- **Submit an idea**: opens a window for submitting feedback or ideas, used as link text in support widgets.
+- **Top**: returns to the top of the page.
+- **Undo**: reverts to the state before recent changes, applicable to data changes.
+- **Update**: applies settings from a dialog to an object, like updatingContact preferences in Mautic.
+- **Upload**: transfers a file from a local to a remote system
