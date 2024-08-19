@@ -105,6 +105,7 @@ There are several ways to support Mautic other than contributing with code.
    plugins/data
    plugins/translations
    plugins/continuous-integration
+   plugins/from-4-to-5
 
 .. toctree::
    :maxdepth: 2
@@ -145,8 +146,16 @@ There are several ways to support Mautic other than contributing with code.
    rest_api/contacts
    rest_api/fields
    rest_api/notifications
+   rest_api/point_groups
    rest_api/reports
    rest_api/text_messages
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Testing
+   :hidden:
+
+   testing/e2e_test_suite
 
 Indices and tables
 ==================
