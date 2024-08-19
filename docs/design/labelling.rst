@@ -7,21 +7,21 @@ Capitalization
 Use sentence—case capitalization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Sentence-style capitalization is the preferred method for UI text elements due to its readability and efficiency. This style, which is predominantly lowercase, makes it easy for readers to distinguish between common nouns and proper nouns, and is generally considered the quickest form to read.
+Sentence-style capitalization is the preferred method for UI text elements due to its readability and efficiency. This style, which is predominantly lowercase, makes it easy for readers to distinguish between common nouns and proper nouns, and is generally considered the quickest Form to read.
 
 When using sentence-case capitalization, only capitalize the initial letter of the first word in the text and other words that require capitalization, such as proper nouns.
 
-For example, labels in a form would be written as "First name" and "Email address". This approach should be applied consistently across all UI text elements, unless the name is a product or service name, or is trademarked.
+For example, labels in a Form would be written as "First name" and "Email address." This approach should be applied consistently across all UI text elements, unless the name is a product or service name, or is trademarked.
 
 Examples:
 
 - Analyse your lead generation chart with Marketing Insights.
-- Automate your marketing campaigns.
+- Automate your marketing Campaigns.
 
 Avoid title case capitalization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Title (or headline) case capitalization is a style where the first letter of most words is capitalized, excluding articles, conjunctions, or prepositions (unless they are the first or last word in the sentence or phrase).
+Title (or headline) case capitalization is a style where the first letter of most words is capitalized, excluding articles, conjunctions, or prepositions unless they're the first or last word in the sentence or phrase.
 
 However, this approach presents several challenges in practical implementation:
 
@@ -31,7 +31,7 @@ However, this approach presents several challenges in practical implementation:
 
 These factors combined make title case a less desirable option for many User interface and content design scenarios, particularly when clarity and ease of reading are prioritized.
 
-**Do:** Automate your marketing campaigns
+**Do:** Automate your marketing Campaigns
 
 **Avoid:** Automate your marketing Campaigns
 
@@ -467,7 +467,7 @@ If space permits, combine Learn more with meaningful text that describes the con
 Log in
 ^^^^^^
 
-Enters a site or application. This choice typically opens a form for entry of credentials. Also used on the submission button after Users enter their credentials.
+Enters a site or application. This choice typically opens a Form for entry of credentials. Also used on the submission button after Users enter their credentials.
 
 Use instead of Sign in. This is to make it visually distinct from Sign up. These options are often side by side and the different words allow for quick recognition. Compare Log out.
 
@@ -613,7 +613,7 @@ Compare Restore.
 Restore defaults
 ^^^^^^^^^^^^^^^^
 
-Sets form values to the default settings.
+Sets Form values to the default settings.
 
 Compare Reset and Undo.
 
@@ -721,7 +721,7 @@ Not all actions, such as Save, can be undone. Compare Redo, Reset, and Restore.
 Update
 ^^^^^^
 
-Label for a button in a dialog or form for editing an object. The settings in the dialog are applied to the object when it is updated.
+Label for a button in a dialog or Form for editing an object. The settings in the dialog are applied to the object when it is updated.
 
 Compare Edit.
 
@@ -771,7 +771,7 @@ Quick list
 - **Import**: transforms data or objects from an external source.
 - **Insert**: adds an element at a particular position in an ordered view.
 - **Learn more**: opens additional, highly contextual information.
-- **Log in**: enters a site or application, typically opening a form for credential entry.
+- **Log in**: enters a site or application, typically opening a Form for credential entry.
 - **Log out**: exits an application or site.
 - **Move**: transfers an object from one container, such as a folder, activity, or page, to another.
 - **Move to trash**: performs a soft delete by moving a file or object to an area where it can be permanently deleted or recovered later.
