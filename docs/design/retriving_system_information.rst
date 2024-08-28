@@ -47,7 +47,7 @@ For example, to display the API OAuth2 access token lifetime:
 Finding available parameters
 ----------------------------
 
-All available configuration parameters are located in the ``/config/local.php`` file once you save the global configuration form for the first time. This file contains the complete list of settings that are accessible using ``configGetParameter``.
+The ``/config/local.php`` file contains available configuration parameters, once you save the global configuration form for the first time. This file contains the complete list of settings that are accessible using ``configGetParameter``.
 
 Identifying parameter names
 ---------------------------
