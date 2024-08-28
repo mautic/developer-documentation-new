@@ -13,3 +13,6 @@ vscode:
     - errata-ai.vale-server
     - eamodio.gitlens
     - trond-snekvik.simple-rst
+
+ports:
+  - port: 3000
