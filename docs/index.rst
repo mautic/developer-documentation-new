@@ -57,6 +57,7 @@ There are several ways to support Mautic other than contributing with code.
    :hidden:
 
    design/accordion
+   design/retrieving_system_settings
 
 .. toctree::
    :maxdepth: 2
@@ -156,6 +157,13 @@ There are several ways to support Mautic other than contributing with code.
    rest_api/point_groups
    rest_api/reports
    rest_api/text_messages
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Testing
+   :hidden:
+
+   testing/e2e_test_suite
 
 Indices and tables
 ==================
