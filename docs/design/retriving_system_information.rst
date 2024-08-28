@@ -15,7 +15,7 @@ To retrieve a setting, use the ``configGetParameter`` function with the paramete
 Display conditions
 ------------------
 
-You can use ``configGetParameter`` in conditional statements to control the display of content based on configuration settings:
+Use ``configGetParameter`` in conditional statements to control the display of content based on configuration settings:
 
 .. code-block:: twig
 
@@ -32,7 +32,7 @@ To directly display a configuration value in your template, use the following sy
 
    {{ configGetParameter('parameter_name') }}
 
-You can also define the default value as a second parameter:
+It's also possible to define the default value as a second parameter:
 
 .. code-block:: twig
 
@@ -47,7 +47,7 @@ For example, to display the API OAuth2 access token lifetime:
 Finding available parameters
 ----------------------------
 
-All available configuration parameters can be found in the ``/config/local.php`` file once you save the global configuration form for the first time. This file contains the complete list of settings that can be accessed using ``configGetParameter``.
+All available configuration parameters are located in the ``/config/local.php`` file once you save the global configuration form for the first time. This file contains the complete list of settings that are accessible using ``configGetParameter``.
 
 Identifying parameter names
 ---------------------------
@@ -56,7 +56,7 @@ To find the correct parameter name for a specific setting:
 
 1. Inspect the HTML of the setting field in the Mautic interface.
 2. Look for the ``name`` attribute of the input field.
-3. The parameter name will be the last part of the ``name`` attribute value.
+3. The parameter name is the last part of the ``name`` attribute value.
 
 For example, if you see:
 
@@ -70,6 +70,6 @@ Additional information
 ----------------------
 
 - Be cautious when displaying sensitive configuration data in templates.
-- Always consider providing default values when using configuration parameters to handle cases where the setting might not be defined.
+- Always consider providing default values when using configuration parameters to handle cases where the setting aren't defined.
 
 Using the ``configGetParameter`` function in Twig, you can create new interactive experiences in Mautic.
