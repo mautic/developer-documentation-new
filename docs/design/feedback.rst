@@ -5,7 +5,7 @@ Providing effective user feedback
 
 .. vale on
 
-When developing features, it's crucial to ensure that Users receive clear feedback and guidance when certain information or data isn't available. Instead of simply hiding tabs or displaying zeroed metrics, for example, adopt a proactive approach to inform and guide Users.
+When developing features, it's crucial to ensure that Users receive clear feedback and guidance when certain information or data isn't available. Instead of hiding tabs or displaying zeroed metrics, for example, adopt a proactive approach to inform and guide Users.
 
 Fundamental principles
 ----------------------
