@@ -64,7 +64,6 @@ Additional information
 ----------------------
 
 - Be cautious when displaying sensitive configuration data in templates.
-- Avoid excessive use of ``configGetParameter`` in loops or frequently rendered templates to prevent performance issues.
 - Always consider providing default values when using configuration parameters to handle cases where the setting might not be defined.
 
 Using the ``configGetParameter`` function in Twig, you can create new interactive experiences in Mautic.
