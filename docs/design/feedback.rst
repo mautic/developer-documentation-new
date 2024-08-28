@@ -12,7 +12,7 @@ Fundamental principles
 
 The principles of visibility, transparency, and guidance form the foundation of an intuitive and informative user experience.
 
-- **Visibility**: keep all functionalities visible, even when there is no data available.
+- **Visibility**: keep all functionalities visible, even when there's no data available.
 - **Transparency**: communicate that information is missing.
 - **Guidance**: provide instructions on how to obtain the data or activate the necessary settings.
 
