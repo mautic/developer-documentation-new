@@ -32,6 +32,12 @@ To directly display a configuration value in your template, use the following sy
 
    {{ configGetParameter('parameter_name') }}
 
+You can also define the default value as a second parameter:
+
+.. code-block:: twig
+
+   {{ configGetParameter('parameter_name', 'default value') }}
+
 For example, to display the API OAuth2 access token lifetime:
 
 .. code-block:: twig
