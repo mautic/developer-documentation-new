@@ -21,7 +21,7 @@ Visibility ensures that Users are aware of all available functionalities, even w
 Practical implementation
 ------------------------
 
-The practical implementation of these guidelines in Mautic goes beyond simply avoiding blank screens. It involves creating a conversation with the User, anticipating their needs, and guiding them with minimal workload. Every informative message, call to action, or configuration tip serves as a contextual mini-tutorial, educating Users about the platform's capabilities while helping them overcome obstacles.
+The practical implementation of these guidelines in Mautic goes beyond avoiding blank screens. It involves creating a conversation with the User, anticipating their needs, and guiding them with minimal workload. Every informative message, call to action, or configuration tip serves as a contextual mini-tutorial, educating Users about the platform's capabilities while helping them overcome obstacles.
 
 When encountering situations where data is absent, follow these guidelines:
 
