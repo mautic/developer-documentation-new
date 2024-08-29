@@ -41,7 +41,7 @@ In acceptance tests, your tests interact with the app through a web server, usin
 
 Whenever you need to run the tests, make sure to update ``.env.local`` to enable test mode.
 
-1. Edit .env.local:
+1. Edit ``.env.local``:
 
 Set the environment to test mode.
 
