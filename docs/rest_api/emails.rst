@@ -1,8 +1,8 @@
 Emails
 ######
 
-Use this endpoint to obtain details, create, update or delete Mautic’s
-emails.
+Use this endpoint to obtain details, create, update, or delete Mautic’s
+Emails.
 
 .. code-block:: php
 
@@ -104,9 +104,9 @@ Get Email
      }
    }
 
-Get an individual email by ID.
+Get an individual Email by ID.
 
-HTTP Request
+HTTP request
 ^^^^^^^^^^^^
 
 ``GET /emails/ID``
@@ -120,111 +120,111 @@ See JSON code example.
 
 **Email Properties**
 
-+--------------+--------------+----------------------------------------+
-| Name         | Type         | Description                            |
-+==============+==============+========================================+
-| id           | int          | ID of the email                        |
-+--------------+--------------+----------------------------------------+
-| name         | string       | Internal name of the email             |
-+--------------+--------------+----------------------------------------+
-| subject      | stringl      | Subject of the email                   |
-+--------------+--------------+----------------------------------------+
-| fromAddress  | string       | The from email address if it’s         |
-|              |              | different than the one in the Mautic   |
-|              |              | configuration                          |
-+--------------+--------------+----------------------------------------+
-| fromName     | string       | The from name if it’s different than   |
-|              |              | the one in the Mautic configuration    |
-+--------------+--------------+----------------------------------------+
-| re           | string       | The reply to email address if it’s     |
-| plyToAddress |              | different than the one in the Mautic   |
-|              |              | configuration                          |
-+--------------+--------------+----------------------------------------+
-| bccAddress   | string       | The BCC email address if it’s          |
-|              |              | different than the one in the Mautic   |
-|              |              | configuration                          |
-+--------------+--------------+----------------------------------------+
-| isPublished  | bool         | Published state                        |
-+--------------+--------------+----------------------------------------+
-| publishUp    | d            | Date/time when the email should be     |
-|              | atetime/null | published                              |
-+--------------+--------------+----------------------------------------+
-| publishDown  | d            | Date/time the email should be un       |
-|              | atetime/null | published                              |
-+--------------+--------------+----------------------------------------+
-| dateAdded    | datetime     | Date/time email was created            |
-+--------------+--------------+----------------------------------------+
-| createdBy    | int          | ID of the user that created the email  |
-+--------------+--------------+----------------------------------------+
-| c            | string       | Name of the user that created the      |
-| reatedByUser |              | email                                  |
-+--------------+--------------+----------------------------------------+
-| dateModified | d            | Date/time email was last modified      |
-|              | atetime/null |                                        |
-+--------------+--------------+----------------------------------------+
-| modifiedBy   | int          | ID of the user that last modified the  |
-|              |              | email                                  |
-+--------------+--------------+----------------------------------------+
-| mo           | string       | Name of the user that last modified    |
-| difiedByUser |              | the email                              |
-+--------------+--------------+----------------------------------------+
-| language     | string       | Language locale of the email           |
-+--------------+--------------+----------------------------------------+
-| readCount    | int          | Total email read count                 |
-+--------------+--------------+----------------------------------------+
-| sentCount    | int          | Total email sent count                 |
-+--------------+--------------+----------------------------------------+
-| revision     | int          | Email revision                         |
-+--------------+--------------+----------------------------------------+
-| customHtml   | string       | The HTML content of the email          |
-+--------------+--------------+----------------------------------------+
-| plainText    | string       | The plain text content of the email    |
-+--------------+--------------+----------------------------------------+
-| template     | string       | The name of the template used as the   |
-|              |              | base for the email                     |
-+--------------+--------------+----------------------------------------+
-| emailType    | string       | If it is a segment (former list) email |
-|              |              | or template email. Possible values are |
-|              |              | ‘list’ and ‘template’                  |
-+--------------+--------------+----------------------------------------+
-| transla      | array        | Array of Page entities for             |
-| tionChildren |              | translations of this landing page      |
-+--------------+--------------+----------------------------------------+
-| trans        | object       | The parent/main page if this is a      |
-| lationParent |              | translation                            |
-+--------------+--------------+----------------------------------------+
-| vari         | int          | Sent count since variantStartDate      |
-| antSentCount |              |                                        |
-+--------------+--------------+----------------------------------------+
-| vari         | int          | Read count since variantStartDate      |
-| antReadCount |              |                                        |
-+--------------+--------------+----------------------------------------+
-| var          | array        | Array of Email entities for variants   |
-| iantChildren |              | of this landing email                  |
-+--------------+--------------+----------------------------------------+
-| v            | object       | The parent/main email if this is a     |
-| ariantParent |              | variant (A/B test)                     |
-+--------------+--------------+----------------------------------------+
-| var          | array        | The properties of the A/B test         |
-| iantSettings |              |                                        |
-+--------------+--------------+----------------------------------------+
-| vari         | d            | The date/time the A/B test began       |
-| antStartDate | atetime/null |                                        |
-+--------------+--------------+----------------------------------------+
-| category     | object/null  | Category information                   |
-+--------------+--------------+----------------------------------------+
-| uns          | int          | Id of the form displayed in the        |
-| ubscribeForm |              | unsubscribe page                       |
-+--------------+--------------+----------------------------------------+
-| dy           | object       | Dynamic content configuration          |
-| namicContent |              |                                        |
-+--------------+--------------+----------------------------------------+
-| lists        | array        | Array of segment IDs which should be   |
-|              |              | added to the segment email             |
-+--------------+--------------+----------------------------------------+
-| asse         | array        | asset IDs Array for email attachment   |
-| tAttachments |              |                                        |
-+--------------+--------------+----------------------------------------+
++----------------------+--------------+----------------------------------------+
+| Name                 | Type         | Description                            |
++======================+==============+========================================+
+| ``id``               | int          | ID of the Email                        |
++----------------------+--------------+----------------------------------------+
+| ``name``             | string       | Internal name of the email             |
++----------------------+--------------+----------------------------------------+
+| ``subject``          | string       | Subject of the Email                   |
++----------------------+--------------+----------------------------------------+
+| ``fromAddress``      | string       | The from email address if it's         |
+|                      |              | different than the one in the Mautic   |
+|                      |              | configuration                          |
++----------------------+--------------+----------------------------------------+
+| ``fromName``         | string       | The from name if it's different than   |
+|                      |              | the one in the Mautic configuration    |
++----------------------+--------------+----------------------------------------+
+| ``replyToAddress``   | string       | The reply to email address if it's     |
+|                      |              | different than the one in the Mautic   |
+|                      |              | configuration                          |
++----------------------+--------------+----------------------------------------+
+| ``bccAddress``       | string       | The BCC email address if it's          |
+|                      |              | different than the one in the Mautic   |
+|                      |              | configuration                          |
++----------------------+--------------+----------------------------------------+
+| ``isPublished``      | boolean      | Published state                        |
++----------------------+--------------+----------------------------------------+
+| ``publishUp``        | datetime/null| Date/time when the email should be     |
+|                      |              | published                              |
++----------------------+--------------+----------------------------------------+
+| ``publishDown``      | datetime/null| Date/time the email should be un       |
+|                      |              | published                              |
++----------------------+--------------+----------------------------------------+
+| ``dateAdded``        | datetime     | Date/time email was created            |
++----------------------+--------------+----------------------------------------+
+| ``createdBy``        | int          | ID of the user that created the email  |
++----------------------+--------------+----------------------------------------+
+| ``createdByUser``    | string       | Name of the user that created the      |
+|                      |              | email                                  |
++----------------------+--------------+----------------------------------------+
+| ``dateModified``     | datetime/null| Date/time email was last modified      |
+|                      |              |                                        |
++----------------------+--------------+----------------------------------------+
+| ``modifiedBy``       | int          | ID of the user that last modified the  |
+|                      |              | email                                  |
++----------------------+--------------+----------------------------------------+
+| ``modifiedByUser``   | string       | Name of the user that last modified    |
+|                      |              | the email                              |
++----------------------+--------------+----------------------------------------+
+| ``language``         | string       | Language locale of the email           |
++----------------------+--------------+----------------------------------------+
+| ``readCount``        | int          | Total email read count                 |
++----------------------+--------------+----------------------------------------+
+| ``sentCount``        | int          | Total email sent count                 |
++----------------------+--------------+----------------------------------------+
+| ``revision``         | int          | Email revision                         |
++----------------------+--------------+----------------------------------------+
+| ``customHtml``       | string       | The HTML content of the email          |
++----------------------+--------------+----------------------------------------+
+| ``plainText``        | string       | The plain text content of the email    |
++----------------------+--------------+----------------------------------------+
+| ``template``         | string       | The name of the template used as the   |
+|                      |              | base for the email                     |
++----------------------+--------------+----------------------------------------+
+| ``emailType``        | string       | If it is a segment (former list) email |
+|                      |              | or template email. Possible values are |
+|                      |              | list and template                      |
++----------------------+--------------+----------------------------------------+
+| ``translationChildren``| array      | Array of Page entities for             |
+|                      |              | translations of this landing page      |
++----------------------+--------------+----------------------------------------+
+| ``translationParent``| object       | The parent/main page if this is a      |
+|                      |              | translation                            |
++----------------------+--------------+----------------------------------------+
+| ``variantSentCount`` | int          | Sent count since variantStartDate      |
+|                      |              |                                        |
++----------------------+--------------+----------------------------------------+
+| ``variantReadCount`` | int          | Read count since variantStartDate      |
+|                      |              |                                        |
++----------------------+--------------+----------------------------------------+
+| ``variantChildren``  | array        | Array of Email entities for variants   |
+|                      |              | of this landing email                  |
++----------------------+--------------+----------------------------------------+
+| ``variantParent``    | object       | The parent/main email if this is a     |
+|                      |              | variant (A/B test)                     |
++----------------------+--------------+----------------------------------------+
+| ``variantSettings``  | array        | The properties of the A/B test         |
+|                      |              |                                        |
++----------------------+--------------+----------------------------------------+
+| ``variantStartDate`` | datetime/null| The date/time the A/B test began       |
+|                      |              |                                        |
++----------------------+--------------+----------------------------------------+
+| ``category``         | object/null  | Category information                   |
++----------------------+--------------+----------------------------------------+
+| ``unsubscribeForm``  | int          | Id of the form displayed in the        |
+|                      |              | unsubscribe page                       |
++----------------------+--------------+----------------------------------------+
+| ``dynamicContent``   | object       | Dynamic content configuration          |
+|                      |              |                                        |
++----------------------+--------------+----------------------------------------+
+| ``lists``            | array        | Array of segment IDs which should be   |
+|                      |              | added to the segment email             |
++----------------------+--------------+----------------------------------------+
+| ``assetAttachments`` | array        | asset IDs Array for email attachment   |
+|                      |              |                                        |
++----------------------+--------------+----------------------------------------+
 
 List Emails
 ~~~~~~~~~~~
@@ -314,7 +314,7 @@ List Emails
 
 .. _http-request-1:
 
-HTTP Request
+HTTP request
 ^^^^^^^^^^^^
 
 ``GET /emails``
@@ -324,22 +324,22 @@ HTTP Request
 +------------------+---------------------------------------------------+
 | Name             | Description                                       |
 +==================+===================================================+
-| search           | String or search command to filter entities by.   |
+| ``search``       | String or search command to filter entities by.   |
 +------------------+---------------------------------------------------+
-| start            | Starting row for the entities returned. Defaults  |
+| ``start``        | Starting row for the entities returned. Defaults  |
 |                  | to 0.                                             |
 +------------------+---------------------------------------------------+
-| limit            | Limit number of entities to return. Defaults to   |
+| ``limit``        | Limit number of entities to return. Defaults to   |
 |                  | the system configuration for pagination (30).     |
 +------------------+---------------------------------------------------+
-| orderBy          | Column to sort by. Can use any column listed in   |
+| ``orderBy``      | Column to sort by. Can use any column listed in   |
 |                  | the response.                                     |
 +------------------+---------------------------------------------------+
-| orderByDir       | Sort direction: asc or desc.                      |
+| ``orderByDir``   | Sort direction: asc or desc.                      |
 +------------------+---------------------------------------------------+
-| publishedOnly    | Only return currently published entities.         |
+| ``publishedOnly``| Only return currently published entities.         |
 +------------------+---------------------------------------------------+
-| minimal          | Return only array of entities without additional  |
+| ``minimal``      | Return only array of entities without additional  |
 |                  | lists in it.                                      |
 +------------------+---------------------------------------------------+
 
@@ -375,99 +375,102 @@ Create a new email.
 
 .. _http-request-2:
 
-HTTP Request
+HTTP request
 ^^^^^^^^^^^^
 
 ``POST /emails/new``
 
 **Post Parameters**
 
-+--------------+--------------+----------------------------------------+
-| Name         | Type         | Description                            |
-+==============+==============+========================================+
-| id           | int          | ID of the email                        |
-+--------------+--------------+----------------------------------------+
-| name         | string       | Internal name of the email             |
-+--------------+--------------+----------------------------------------+
-| subject      | stringl      | Subject of the email                   |
-+--------------+--------------+----------------------------------------+
-| fromAddress  | string       | The from email address if it’s         |
-|              |              | different than the one in the Mautic   |
-|              |              | configuration                          |
-+--------------+--------------+----------------------------------------+
-| fromName     | string       | The from name if it’s different than   |
-|              |              | the one in the Mautic configuration    |
-+--------------+--------------+----------------------------------------+
-| re           | string       | The reply to email address if it’s     |
-| plyToAddress |              | different than the one in the Mautic   |
-|              |              | configuration                          |
-+--------------+--------------+----------------------------------------+
-| bccAddress   | string       | The BCC email address if it’s          |
-|              |              | different than the one in the Mautic   |
-|              |              | configuration                          |
-+--------------+--------------+----------------------------------------+
-| isPublished  | bool         | Published state                        |
-+--------------+--------------+----------------------------------------+
-| publishUp    | d            | Date/time when the email should be     |
-|              | atetime/null | published                              |
-+--------------+--------------+----------------------------------------+
-| publishDown  | d            | Date/time the email should be un       |
-|              | atetime/null | published                              |
-+--------------+--------------+----------------------------------------+
-| language     | string       | Language locale of the email           |
-+--------------+--------------+----------------------------------------+
-| readCount    | int          | Total email read count                 |
-+--------------+--------------+----------------------------------------+
-| sentCount    | int          | Total email sent count                 |
-+--------------+--------------+----------------------------------------+
-| revision     | int          | Email revision                         |
-+--------------+--------------+----------------------------------------+
-| customHtml   | string       | The HTML content of the email          |
-+--------------+--------------+----------------------------------------+
-| plainText    | string       | The plain text content of the email    |
-+--------------+--------------+----------------------------------------+
-| template     | string       | The name of the template used as the   |
-|              |              | base for the email                     |
-+--------------+--------------+----------------------------------------+
-| emailType    | string       | If it is a segment (former list) email |
-|              |              | or template email. Possible values are |
-|              |              | ‘list’ and ‘template’                  |
-+--------------+--------------+----------------------------------------+
-| transla      | array        | Array of Page entities for             |
-| tionChildren |              | translations of this landing page      |
-+--------------+--------------+----------------------------------------+
-| trans        | object       | The parent/main page if this is a      |
-| lationParent |              | translation                            |
-+--------------+--------------+----------------------------------------+
-| vari         | int          | Sent count since variantStartDate      |
-| antSentCount |              |                                        |
-+--------------+--------------+----------------------------------------+
-| vari         | int          | Read count since variantStartDate      |
-| antReadCount |              |                                        |
-+--------------+--------------+----------------------------------------+
-| var          | array        | Array of Email entities for variants   |
-| iantChildren |              | of this landing email                  |
-+--------------+--------------+----------------------------------------+
-| v            | object       | The parent/main email if this is a     |
-| ariantParent |              | variant (A/B test)                     |
-+--------------+--------------+----------------------------------------+
-| var          | array        | The properties of the A/B test         |
-| iantSettings |              |                                        |
-+--------------+--------------+----------------------------------------+
-| vari         | d            | The date/time the A/B test began       |
-| antStartDate | atetime/null |                                        |
-+--------------+--------------+----------------------------------------+
-| category     | object/null  | Category information                   |
-+--------------+--------------+----------------------------------------+
-| uns          | int          | Id of the form displayed in the        |
-| ubscribeForm |              | unsubscribe page                       |
-+--------------+--------------+----------------------------------------+
-| dy           | object       | Dynamic content configuration          |
-| namicContent |              |                                        |
-+--------------+--------------+----------------------------------------+
-| lists        | array        | Array of segment IDs which should be   |
-|              |              | added to the segment email             |
-+--------------+--------------+----------------------------------------+
++----------------------+--------------+----------------------------------------+
+| Name                 | Type         | Description                            |
++----------------------+--------------+----------------------------------------+
+| ``id``               | int          | ID of the Email                        |
++----------------------+--------------+----------------------------------------+
+| ``name``             | string       | Internal name of the email             |
++----------------------+--------------+----------------------------------------+
+| ``subject``          | string       | Subject of the Email                   |
++----------------------+--------------+----------------------------------------+
+| ``fromAddress``      | string       | The from email address if it's         |
+|                      |              | different than the one in the Mautic   |
+|                      |              | configuration                          |
++----------------------+--------------+----------------------------------------+
+| ``fromName``         | string       | The from name if it's different than   |
+|                      |              | the one in the Mautic configuration    |
++----------------------+--------------+----------------------------------------+
+| ``replyToAddress``   | string       | The reply to email address if it's     |
+|                      |              | different than the one in the Mautic   |
+|                      |              | configuration                          |
++----------------------+--------------+----------------------------------------+
+| ``bccAddress``       | string       | The BCC email address if it's          |
+|                      |              | different than the one in the Mautic   |
+|                      |              | configuration                          |
++----------------------+--------------+----------------------------------------+
+| ``isPublished``      | boolean      | Published state                        |
++----------------------+--------------+----------------------------------------+
+| ``publishUp``        | datetime/null| Date/time when the email should be     |
+|                      |              | published                              |
++----------------------+--------------+----------------------------------------+
+| ``publishDown``      | datetime/null| Date/time the email should be un       |
+|                      |              | published                              |
++----------------------+--------------+----------------------------------------+
+| ``language``         | string       | Language locale of the email           |
++----------------------+--------------+----------------------------------------+
+| ``readCount``        | int          | Total email read count                 |
++----------------------+--------------+----------------------------------------+
+| ``sentCount``        | int          | Total email sent count                 |
++----------------------+--------------+----------------------------------------+
+| ``revision``         | int          | Email revision                         |
++----------------------+--------------+----------------------------------------+
+| ``customHtml``       | string       | The HTML content of the email          |
++----------------------+--------------+----------------------------------------+
+| ``plainText``        | string       | The plain text content of the email    |
++----------------------+--------------+----------------------------------------+
+| ``template``         | string       | The name of the template used as the   |
+|                      |              | base for the email                     |
++----------------------+--------------+----------------------------------------+
+| ``emailType``        | string       | If it is a segment (former list) email |
+|                      |              | or template email. Possible values are |
+|                      |              | list and template                      |
++----------------------+--------------+----------------------------------------+
+| ``translationChildren``| array      | Array of Page entities for             |
+|                      |              | translations of this landing page      |
++----------------------+--------------+----------------------------------------+
+| ``translationParent``| object       | The parent/main page if this is a      |
+|                      |              | translation                            |
++----------------------+--------------+----------------------------------------+
+| ``variantSentCount`` | int          | Sent count since variantStartDate      |
+|                      |              |                                        |
++----------------------+--------------+----------------------------------------+
+| ``variantReadCount`` | int          | Read count since variantStartDate      |
+|                      |              |                                        |
++----------------------+--------------+----------------------------------------+
+| ``variantChildren``  | array        | Array of Email entities for variants   |
+|                      |              | of this landing email                  |
++----------------------+--------------+----------------------------------------+
+| ``variantParent``    | object       | The parent/main email if this is a     |
+|                      |              | variant (A/B test)                     |
++----------------------+--------------+----------------------------------------+
+| ``variantSettings``  | array        | The properties of the A/B test         |
+|                      |              |                                        |
++----------------------+--------------+----------------------------------------+
+| ``variantStartDate`` | datetime/null| The date/time the A/B test began       |
+|                      |              |                                        |
++----------------------+--------------+----------------------------------------+
+| ``category``         | object/null  | Category information                   |
++----------------------+--------------+----------------------------------------+
+| ``unsubscribeForm``  | int          | Id of the form displayed in the        |
+|                      |              | unsubscribe page                       |
++----------------------+--------------+----------------------------------------+
+| ``dynamicContent``   | object       | Dynamic content configuration          |
+|                      |              |                                        |
++----------------------+--------------+----------------------------------------+
+| ``lists``            | array        | Array of segment IDs which should be   |
+|                      |              | added to the segment email             |
++----------------------+--------------+----------------------------------------+
+| ``assetAttachments`` | array        | asset IDs Array for email attachment   |
+|                      |              |                                        |
++----------------------+--------------+----------------------------------------+
 
 .. _response-2:
 
@@ -508,7 +511,7 @@ email field values with the values form the request.
 
 .. _http-request-3:
 
-HTTP Request
+HTTP request
 ^^^^^^^^^^^^
 
 To edit a email and return a 404 if the email is not found:
@@ -521,92 +524,92 @@ To edit a email and create a new one if the email is not found:
 
 **Post Parameters**
 
-+--------------+--------------+----------------------------------------+
-| Name         | Type         | Description                            |
-+==============+==============+========================================+
-| id           | int          | ID of the email                        |
-+--------------+--------------+----------------------------------------+
-| name         | string       | Internal name of the email             |
-+--------------+--------------+----------------------------------------+
-| subject      | stringl      | Subject of the email                   |
-+--------------+--------------+----------------------------------------+
-| fromAddress  | string       | The from email address if it’s         |
-|              |              | different than the one in the Mautic   |
-|              |              | configuration                          |
-+--------------+--------------+----------------------------------------+
-| fromName     | string       | The from name if it’s different than   |
-|              |              | the one in the Mautic configuration    |
-+--------------+--------------+----------------------------------------+
-| re           | string       | The reply to email address if it’s     |
-| plyToAddress |              | different than the one in the Mautic   |
-|              |              | configuration                          |
-+--------------+--------------+----------------------------------------+
-| bccAddress   | string       | The BCC email address if it’s          |
-|              |              | different than the one in the Mautic   |
-|              |              | configuration                          |
-+--------------+--------------+----------------------------------------+
-| isPublished  | bool         | Published state                        |
-+--------------+--------------+----------------------------------------+
-| publishUp    | d            | Date/time when the email should be     |
-|              | atetime/null | published                              |
-+--------------+--------------+----------------------------------------+
-| publishDown  | d            | Date/time the email should be un       |
-|              | atetime/null | published                              |
-+--------------+--------------+----------------------------------------+
-| language     | string       | Language locale of the email           |
-+--------------+--------------+----------------------------------------+
-| readCount    | int          | Total email read count                 |
-+--------------+--------------+----------------------------------------+
-| sentCount    | int          | Total email sent count                 |
-+--------------+--------------+----------------------------------------+
-| revision     | int          | Email revision                         |
-+--------------+--------------+----------------------------------------+
-| customHtml   | string       | The HTML content of the email          |
-+--------------+--------------+----------------------------------------+
-| plainText    | string       | The plain text content of the email    |
-+--------------+--------------+----------------------------------------+
-| template     | string       | The name of the template used as the   |
-|              |              | base for the email                     |
-+--------------+--------------+----------------------------------------+
-| emailType    | string       | If it is a segment (former list) email |
-|              |              | or template email. Possible values are |
-|              |              | ‘list’ and ‘template’                  |
-+--------------+--------------+----------------------------------------+
-| transla      | array        | Array of Page entities for             |
-| tionChildren |              | translations of this landing page      |
-+--------------+--------------+----------------------------------------+
-| trans        | object       | The parent/main page if this is a      |
-| lationParent |              | translation                            |
-+--------------+--------------+----------------------------------------+
-| vari         | int          | Sent count since variantStartDate      |
-| antSentCount |              |                                        |
-+--------------+--------------+----------------------------------------+
-| vari         | int          | Read count since variantStartDate      |
-| antReadCount |              |                                        |
-+--------------+--------------+----------------------------------------+
-| var          | array        | Array of Email entities for variants   |
-| iantChildren |              | of this landing email                  |
-+--------------+--------------+----------------------------------------+
-| v            | object       | The parent/main email if this is a     |
-| ariantParent |              | variant (A/B test)                     |
-+--------------+--------------+----------------------------------------+
-| var          | array        | The properties of the A/B test         |
-| iantSettings |              |                                        |
-+--------------+--------------+----------------------------------------+
-| vari         | d            | The date/time the A/B test began       |
-| antStartDate | atetime/null |                                        |
-+--------------+--------------+----------------------------------------+
-| category     | object/null  | Category information                   |
-+--------------+--------------+----------------------------------------+
-| uns          | int          | Id of the form displayed in the        |
-| ubscribeForm |              | unsubscribe page                       |
-+--------------+--------------+----------------------------------------+
-| dy           | object       | Dynamic content configuration          |
-| namicContent |              |                                        |
-+--------------+--------------+----------------------------------------+
-| lists        | array        | Array of segment IDs which should be   |
-|              |              | added to the segment email             |
-+--------------+--------------+----------------------------------------+
++------------------------+--------------+----------------------------------------+
+| Name                   | Type         | Description                            |
++------------------------+--------------+----------------------------------------+
+| ``id``                 | int          | ID of the Email                        |
++------------------------+--------------+----------------------------------------+
+| ``name``               | string       | Internal name of the Email             |
++------------------------+--------------+----------------------------------------+
+| ``subject``            | string       | Subject of the Email                   |
++------------------------+--------------+----------------------------------------+
+| ``fromAddress``        | string       | The from email address if it's         |
+|                        |              | different than the one in the Mautic   |
+|                        |              | configuration                          |
++------------------------+--------------+----------------------------------------+
+| ``fromName``           | string       | The from name if it's different than   |
+|                        |              | the one in the Mautic configuration    |
++------------------------+--------------+----------------------------------------+
+| ``replyToAddress``     | string       | The reply to email address if it's     |
+|                        |              | different than the one in the Mautic   |
+|                        |              | configuration                          |
++------------------------+--------------+----------------------------------------+
+| ``bccAddress``         | string       | The BCC email address if it's          |
+|                        |              | different than the one in the Mautic   |
+|                        |              | configuration                          |
++------------------------+--------------+----------------------------------------+
+| ``isPublished``        | boolean      | Published state                        |
++------------------------+--------------+----------------------------------------+
+| ``publishUp``          | datetime/null| Date/time when the email should be     |
+|                        |              | published                              |
++------------------------+--------------+----------------------------------------+
+| ``publishDown``        | datetime/null| Date/time the email should be un       |
+|                        |              | published                              |
++------------------------+--------------+----------------------------------------+
+| ``language``           | string       | Language locale of the email           |
++------------------------+--------------+----------------------------------------+
+| ``readCount``          | int          | Total email read count                 |
++------------------------+--------------+----------------------------------------+
+| ``sentCount``          | int          | Total email sent count                 |
++------------------------+--------------+----------------------------------------+
+| ``revision``           | int          | Email revision                         |
++------------------------+--------------+----------------------------------------+
+| ``customHtml``         | string       | The HTML content of the email          |
++------------------------+--------------+----------------------------------------+
+| ``plainText``          | string       | The plain text content of the email    |
++------------------------+--------------+----------------------------------------+
+| ``template``           | string       | The name of the template used as the   |
+|                        |              | base for the email                     |
++------------------------+--------------+----------------------------------------+
+| ``emailType``          | string       | If it is a segment (former list) email |
+|                        |              | or template email. Possible values are |
+|                        |              | list and template                      |
++------------------------+--------------+----------------------------------------+
+| ``translationChildren``| array        | Array of Page entities for             |
+|                        |              | translations of this landing page      |
++------------------------+--------------+----------------------------------------+
+| ``translationParent``  | object       | The parent/main page if this is a      |
+|                        |              | translation                            |
++------------------------+--------------+----------------------------------------+
+| ``variantSentCount``   | int          | Sent count since variantStartDate      |
+|                        |              |                                        |
++------------------------+--------------+----------------------------------------+
+| ``variantReadCount``   | int          | Read count since variantStartDate      |
+|                        |              |                                        |
++------------------------+--------------+----------------------------------------+
+| ``variantChildren``    | array        | Array of Email entities for variants   |
+|                        |              | of this landing email                  |
++------------------------+--------------+----------------------------------------+
+| ``variantParent``      | object       | The parent/main email if this is a     |
+|                        |              | variant (A/B test)                     |
++------------------------+--------------+----------------------------------------+
+| ``variantSettings``    | array        | The properties of the A/B test         |
+|                        |              |                                        |
++------------------------+--------------+----------------------------------------+
+| ``variantStartDate``   | datetime/null| The date/time the A/B test began       |
+|                        |              |                                        |
++------------------------+--------------+----------------------------------------+
+| ``category``           | object/null  | Category information                   |
++------------------------+--------------+----------------------------------------+
+| ``unsubscribeForm``    | int          | Id of the form displayed in the        |
+|                        |              | unsubscribe page                       |
++------------------------+--------------+----------------------------------------+
+| ``dynamicContent``     | object       | Dynamic content configuration          |
+|                        |              |                                        |
++------------------------+--------------+----------------------------------------+
+| ``lists``              | array        | Array of segment IDs which should be   |
+|                        |              | added to the segment email             |
++------------------------+--------------+----------------------------------------+
 
 .. _response-3:
 
@@ -635,7 +638,7 @@ Delete a email.
 
 .. _http-request-4:
 
-HTTP Request
+HTTP request
 ^^^^^^^^^^^^
 
 ``DELETE /emails/ID/delete``
@@ -668,7 +671,7 @@ Asset <https://github.com/mautic/developer-documentation/blob/master/source/incl
 
 .. _http-request-5:
 
-HTTP Request
+HTTP request
 ^^^^^^^^^^^^
 
 ``POST /emails/ID/contact/CONTACT_ID/send``
@@ -710,7 +713,7 @@ Send a segment email to linked segment(s).
 
 .. _http-request-6:
 
-HTTP Request
+HTTP request
 ^^^^^^^^^^^^
 
 ``POST /emails/ID/send``
@@ -740,7 +743,7 @@ received a reply. It will also mark an email send stat as read.
 
 .. _http-request-7:
 
-HTTP Request
+HTTP request
 ^^^^^^^^^^^^
 
 ``POST /emails/reply/TRACKING_HASH``
