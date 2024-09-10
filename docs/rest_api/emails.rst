@@ -125,66 +125,66 @@ See JSON code example.
 +======================+==============+========================================+
 | ``id``               | int          | ID of the Email                        |
 +----------------------+--------------+----------------------------------------+
-| ``name``             | string       | Internal name of the email             |
+| ``name``             | string       | Internal name of the Email             |
 +----------------------+--------------+----------------------------------------+
 | ``subject``          | string       | Subject of the Email                   |
 +----------------------+--------------+----------------------------------------+
-| ``fromAddress``      | string       | The from email address if it's         |
+| ``fromAddress``      | string       | The from Email address if it's         |
 |                      |              | different than the one in the Mautic   |
 |                      |              | configuration                          |
 +----------------------+--------------+----------------------------------------+
 | ``fromName``         | string       | The from name if it's different than   |
 |                      |              | the one in the Mautic configuration    |
 +----------------------+--------------+----------------------------------------+
-| ``replyToAddress``   | string       | The reply to email address if it's     |
+| ``replyToAddress``   | string       | The reply to Email address if it's     |
 |                      |              | different than the one in the Mautic   |
 |                      |              | configuration                          |
 +----------------------+--------------+----------------------------------------+
-| ``bccAddress``       | string       | The BCC email address if it's          |
+| ``bccAddress``       | string       | The BCC Email address if it's          |
 |                      |              | different than the one in the Mautic   |
 |                      |              | configuration                          |
 +----------------------+--------------+----------------------------------------+
 | ``isPublished``      | boolean      | Published state                        |
 +----------------------+--------------+----------------------------------------+
-| ``publishUp``        | datetime/null| Date/time when the email should be     |
+| ``publishUp``        | datetime/null| Date/time when the Email should be     |
 |                      |              | published                              |
 +----------------------+--------------+----------------------------------------+
-| ``publishDown``      | datetime/null| Date/time the email should be un       |
+| ``publishDown``      | datetime/null| Date/time the Email should be un       |
 |                      |              | published                              |
 +----------------------+--------------+----------------------------------------+
-| ``dateAdded``        | datetime     | Date/time email was created            |
+| ``dateAdded``        | datetime     | Date/time Email was created            |
 +----------------------+--------------+----------------------------------------+
-| ``createdBy``        | int          | ID of the user that created the email  |
+| ``createdBy``        | int          | ID of the user that created the Email  |
 +----------------------+--------------+----------------------------------------+
 | ``createdByUser``    | string       | Name of the user that created the      |
-|                      |              | email                                  |
+|                      |              | Email                                  |
 +----------------------+--------------+----------------------------------------+
-| ``dateModified``     | datetime/null| Date/time email was last modified      |
+| ``dateModified``     | datetime/null| Date/time Email was last modified      |
 |                      |              |                                        |
 +----------------------+--------------+----------------------------------------+
 | ``modifiedBy``       | int          | ID of the user that last modified the  |
-|                      |              | email                                  |
+|                      |              | Email                                  |
 +----------------------+--------------+----------------------------------------+
 | ``modifiedByUser``   | string       | Name of the user that last modified    |
-|                      |              | the email                              |
+|                      |              | the Email                              |
 +----------------------+--------------+----------------------------------------+
-| ``language``         | string       | Language locale of the email           |
+| ``language``         | string       | Language locale of the Email           |
 +----------------------+--------------+----------------------------------------+
-| ``readCount``        | int          | Total email read count                 |
+| ``readCount``        | int          | Total Email read count                 |
 +----------------------+--------------+----------------------------------------+
-| ``sentCount``        | int          | Total email sent count                 |
+| ``sentCount``        | int          | Total Email sent count                 |
 +----------------------+--------------+----------------------------------------+
 | ``revision``         | int          | Email revision                         |
 +----------------------+--------------+----------------------------------------+
-| ``customHtml``       | string       | The HTML content of the email          |
+| ``customHtml``       | string       | The HTML content of the Email          |
 +----------------------+--------------+----------------------------------------+
-| ``plainText``        | string       | The plain text content of the email    |
+| ``plainText``        | string       | The plain text content of the Email    |
 +----------------------+--------------+----------------------------------------+
 | ``template``         | string       | The name of the template used as the   |
-|                      |              | base for the email                     |
+|                      |              | base for the Email                     |
 +----------------------+--------------+----------------------------------------+
-| ``emailType``        | string       | If it is a segment (former list) email |
-|                      |              | or template email. Possible values are |
+| ``EmailType``        | string       | If it is a segment (former list) Email |
+|                      |              | or template Email. Possible values are |
 |                      |              | list and template                      |
 +----------------------+--------------+----------------------------------------+
 | ``translationChildren``| array      | Array of Page entities for             |
@@ -200,9 +200,9 @@ See JSON code example.
 |                      |              |                                        |
 +----------------------+--------------+----------------------------------------+
 | ``variantChildren``  | array        | Array of Email entities for variants   |
-|                      |              | of this landing email                  |
+|                      |              | of this landing Email                  |
 +----------------------+--------------+----------------------------------------+
-| ``variantParent``    | object       | The parent/main email if this is a     |
+| ``variantParent``    | object       | The parent/main Email if this is a     |
 |                      |              | variant (A/B test)                     |
 +----------------------+--------------+----------------------------------------+
 | ``variantSettings``  | array        | The properties of the A/B test         |
@@ -220,9 +220,9 @@ See JSON code example.
 |                      |              |                                        |
 +----------------------+--------------+----------------------------------------+
 | ``lists``            | array        | Array of segment IDs which should be   |
-|                      |              | added to the segment email             |
+|                      |              | added to the segment Email             |
 +----------------------+--------------+----------------------------------------+
-| ``assetAttachments`` | array        | asset IDs Array for email attachment   |
+| ``assetAttachments`` | array        | asset IDs Array for Email attachment   |
 |                      |              |                                        |
 +----------------------+--------------+----------------------------------------+
 
@@ -371,7 +371,7 @@ Create Email
 
    $email = $emailApi->create($data);
 
-Create a new email.
+Create a new Email.
 
 .. _http-request-2:
 
@@ -387,50 +387,50 @@ HTTP request
 +----------------------+--------------+----------------------------------------+
 | ``id``               | int          | ID of the Email                        |
 +----------------------+--------------+----------------------------------------+
-| ``name``             | string       | Internal name of the email             |
+| ``name``             | string       | Internal name of the Email             |
 +----------------------+--------------+----------------------------------------+
 | ``subject``          | string       | Subject of the Email                   |
 +----------------------+--------------+----------------------------------------+
-| ``fromAddress``      | string       | The from email address if it's         |
+| ``fromAddress``      | string       | The from Email address if it's         |
 |                      |              | different than the one in the Mautic   |
 |                      |              | configuration                          |
 +----------------------+--------------+----------------------------------------+
 | ``fromName``         | string       | The from name if it's different than   |
 |                      |              | the one in the Mautic configuration    |
 +----------------------+--------------+----------------------------------------+
-| ``replyToAddress``   | string       | The reply to email address if it's     |
+| ``replyToAddress``   | string       | The reply to Email address if it's     |
 |                      |              | different than the one in the Mautic   |
 |                      |              | configuration                          |
 +----------------------+--------------+----------------------------------------+
-| ``bccAddress``       | string       | The BCC email address if it's          |
+| ``bccAddress``       | string       | The BCC Email address if it's          |
 |                      |              | different than the one in the Mautic   |
 |                      |              | configuration                          |
 +----------------------+--------------+----------------------------------------+
 | ``isPublished``      | boolean      | Published state                        |
 +----------------------+--------------+----------------------------------------+
-| ``publishUp``        | datetime/null| Date/time when the email should be     |
+| ``publishUp``        | datetime/null| Date/time when the Email should be     |
 |                      |              | published                              |
 +----------------------+--------------+----------------------------------------+
-| ``publishDown``      | datetime/null| Date/time the email should be un       |
+| ``publishDown``      | datetime/null| Date/time the Email should be un       |
 |                      |              | published                              |
 +----------------------+--------------+----------------------------------------+
-| ``language``         | string       | Language locale of the email           |
+| ``language``         | string       | Language locale of the Email           |
 +----------------------+--------------+----------------------------------------+
-| ``readCount``        | int          | Total email read count                 |
+| ``readCount``        | int          | Total Email read count                 |
 +----------------------+--------------+----------------------------------------+
-| ``sentCount``        | int          | Total email sent count                 |
+| ``sentCount``        | int          | Total Email sent count                 |
 +----------------------+--------------+----------------------------------------+
 | ``revision``         | int          | Email revision                         |
 +----------------------+--------------+----------------------------------------+
-| ``customHtml``       | string       | The HTML content of the email          |
+| ``customHtml``       | string       | The HTML content of the Email          |
 +----------------------+--------------+----------------------------------------+
-| ``plainText``        | string       | The plain text content of the email    |
+| ``plainText``        | string       | The plain text content of the Email    |
 +----------------------+--------------+----------------------------------------+
 | ``template``         | string       | The name of the template used as the   |
-|                      |              | base for the email                     |
+|                      |              | base for the Email                     |
 +----------------------+--------------+----------------------------------------+
-| ``emailType``        | string       | If it is a segment (former list) email |
-|                      |              | or template email. Possible values are |
+| ``emailType``        | string       | If it is a segment (former list) Email |
+|                      |              | or template Email. Possible values are |
 |                      |              | list and template                      |
 +----------------------+--------------+----------------------------------------+
 | ``translationChildren``| array      | Array of Page entities for             |
@@ -446,9 +446,9 @@ HTTP request
 |                      |              |                                        |
 +----------------------+--------------+----------------------------------------+
 | ``variantChildren``  | array        | Array of Email entities for variants   |
-|                      |              | of this landing email                  |
+|                      |              | of this landing Email                  |
 +----------------------+--------------+----------------------------------------+
-| ``variantParent``    | object       | The parent/main email if this is a     |
+| ``variantParent``    | object       | The parent/main Email if this is a     |
 |                      |              | variant (A/B test)                     |
 +----------------------+--------------+----------------------------------------+
 | ``variantSettings``  | array        | The properties of the A/B test         |
@@ -466,9 +466,9 @@ HTTP request
 |                      |              |                                        |
 +----------------------+--------------+----------------------------------------+
 | ``lists``            | array        | Array of segment IDs which should be   |
-|                      |              | added to the segment email             |
+|                      |              | added to the segment Email             |
 +----------------------+--------------+----------------------------------------+
-| ``assetAttachments`` | array        | asset IDs Array for email attachment   |
+| ``assetAttachments`` | array        | asset IDs Array for Email attachment   |
 |                      |              |                                        |
 +----------------------+--------------+----------------------------------------+
 
@@ -501,24 +501,24 @@ Edit Email
 
    $email = $emailApi->edit($id, $data, $createIfNotFound);
 
-Edit a new email. Note that this supports PUT or PATCH depending on the
+Edit a new Email. Note that this supports PUT or PATCH depending on the
 desired behavior.
 
-**PUT** creates a email if the given ID does not exist and clears all
-the email information, adds the information from the request. **PATCH**
-fails if the email with the given ID does not exist and updates the
-email field values with the values form the request.
+**PUT** creates a Email if the given ID does not exist and clears all
+the Email information, adds the information from the request. **PATCH**
+fails if the Email with the given ID does not exist and updates the
+Email field values with the values form the request.
 
 .. _http-request-3:
 
 HTTP request
 ^^^^^^^^^^^^
 
-To edit a email and return a 404 if the email is not found:
+To edit a Email and return a 404 if the Email is not found:
 
 ``PATCH /emails/ID/edit``
 
-To edit a email and create a new one if the email is not found:
+To edit a Email and create a new one if the Email is not found:
 
 ``PUT /emails/ID/edit``
 
@@ -533,46 +533,46 @@ To edit a email and create a new one if the email is not found:
 +------------------------+--------------+----------------------------------------+
 | ``subject``            | string       | Subject of the Email                   |
 +------------------------+--------------+----------------------------------------+
-| ``fromAddress``        | string       | The from email address if it's         |
+| ``fromAddress``        | string       | The from Email address if it's         |
 |                        |              | different than the one in the Mautic   |
 |                        |              | configuration                          |
 +------------------------+--------------+----------------------------------------+
 | ``fromName``           | string       | The from name if it's different than   |
 |                        |              | the one in the Mautic configuration    |
 +------------------------+--------------+----------------------------------------+
-| ``replyToAddress``     | string       | The reply to email address if it's     |
+| ``replyToAddress``     | string       | The reply to Email address if it's     |
 |                        |              | different than the one in the Mautic   |
 |                        |              | configuration                          |
 +------------------------+--------------+----------------------------------------+
-| ``bccAddress``         | string       | The BCC email address if it's          |
+| ``bccAddress``         | string       | The BCC Email address if it's          |
 |                        |              | different than the one in the Mautic   |
 |                        |              | configuration                          |
 +------------------------+--------------+----------------------------------------+
 | ``isPublished``        | boolean      | Published state                        |
 +------------------------+--------------+----------------------------------------+
-| ``publishUp``          | datetime/null| Date/time when the email should be     |
+| ``publishUp``          | datetime/null| Date/time when the Email should be     |
 |                        |              | published                              |
 +------------------------+--------------+----------------------------------------+
-| ``publishDown``        | datetime/null| Date/time the email should be un       |
+| ``publishDown``        | datetime/null| Date/time the Email should be un       |
 |                        |              | published                              |
 +------------------------+--------------+----------------------------------------+
-| ``language``           | string       | Language locale of the email           |
+| ``language``           | string       | Language locale of the Email           |
 +------------------------+--------------+----------------------------------------+
-| ``readCount``          | int          | Total email read count                 |
+| ``readCount``          | int          | Total Email read count                 |
 +------------------------+--------------+----------------------------------------+
-| ``sentCount``          | int          | Total email sent count                 |
+| ``sentCount``          | int          | Total Email sent count                 |
 +------------------------+--------------+----------------------------------------+
 | ``revision``           | int          | Email revision                         |
 +------------------------+--------------+----------------------------------------+
-| ``customHtml``         | string       | The HTML content of the email          |
+| ``customHtml``         | string       | The HTML content of the Email          |
 +------------------------+--------------+----------------------------------------+
-| ``plainText``          | string       | The plain text content of the email    |
+| ``plainText``          | string       | The plain text content of the Email    |
 +------------------------+--------------+----------------------------------------+
 | ``template``           | string       | The name of the template used as the   |
-|                        |              | base for the email                     |
+|                        |              | base for the Email                     |
 +------------------------+--------------+----------------------------------------+
-| ``emailType``          | string       | If it is a segment (former list) email |
-|                        |              | or template email. Possible values are |
+| ``emailType``          | string       | If it is a segment (former list) Email |
+|                        |              | or template Email. Possible values are |
 |                        |              | list and template                      |
 +------------------------+--------------+----------------------------------------+
 | ``translationChildren``| array        | Array of Page entities for             |
@@ -588,9 +588,9 @@ To edit a email and create a new one if the email is not found:
 |                        |              |                                        |
 +------------------------+--------------+----------------------------------------+
 | ``variantChildren``    | array        | Array of Email entities for variants   |
-|                        |              | of this landing email                  |
+|                        |              | of this landing Email                  |
 +------------------------+--------------+----------------------------------------+
-| ``variantParent``      | object       | The parent/main email if this is a     |
+| ``variantParent``      | object       | The parent/main Email if this is a     |
 |                        |              | variant (A/B test)                     |
 +------------------------+--------------+----------------------------------------+
 | ``variantSettings``    | array        | The properties of the A/B test         |
@@ -608,7 +608,7 @@ To edit a email and create a new one if the email is not found:
 |                        |              |                                        |
 +------------------------+--------------+----------------------------------------+
 | ``lists``              | array        | Array of segment IDs which should be   |
-|                        |              | added to the segment email             |
+|                        |              | added to the segment Email             |
 +------------------------+--------------+----------------------------------------+
 
 .. _response-3:
@@ -616,7 +616,7 @@ To edit a email and create a new one if the email is not found:
 Response
 ^^^^^^^^
 
-If ``PUT``, the expected response code is ``200`` if the email was
+If ``PUT``, the expected response code is ``200`` if the Email was
 edited or ``201`` if created.
 
 If ``PATCH``, the expected response code is ``200``.
@@ -663,7 +663,7 @@ Send Email to Contact
 
    $email = $emailApi->sendToContact($emailId, $contactId);
 
-Send a predefined email to existing contact.
+Send a predefined Email to existing contact.
 
 Assets can be referenced for attaching documents (either ids of existing
 assets or ids returned by the `Create
@@ -681,7 +681,7 @@ HTTP request
 ================ ===== ========================
 Name             Type  Description
 ================ ===== ========================
-tokens           array Array of tokens in email
+tokens           array Array of tokens in Email
 assetAttachments array Array of asset ids
 ================ ===== ========================
 
@@ -709,7 +709,7 @@ Send Email to Segment
 
    $email = $emailApi->send($id);
 
-Send a segment email to linked segment(s).
+Send a segment Email to linked segment(s).
 
 .. _http-request-6:
 
@@ -735,11 +735,11 @@ Response
        "failedCount": 0
    }
 
-Create a reply to a send email send row
+Create a reply to a send Email send row
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This endpoint can create a record that a specific email stat row
-received a reply. It will also mark an email send stat as read.
+This endpoint can create a record that a specific Email stat row
+received a reply. It will also mark an Email send stat as read.
 
 .. _http-request-7:
 
@@ -748,7 +748,7 @@ HTTP request
 
 ``POST /emails/reply/TRACKING_HASH``
 
-Tracking hash is created as unique hash for each email send stat record.
+Tracking hash is created as unique hash for each Email send stat record.
 
 .. _response-7:
 
