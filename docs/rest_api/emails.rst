@@ -1,7 +1,7 @@
 Emails
 ######
 
-Use this endpoint to obtain details, create, update, or delete Mautic’s
+Use this endpoint to obtain details, create, update, or delete Mautic's
 Emails.
 
 .. code-block:: php
@@ -144,13 +144,13 @@ See JSON code example.
 |                      |              | different than the one in the Mautic   |
 |                      |              | configuration                          |
 +----------------------+--------------+----------------------------------------+
-| ``isPublished``      | boolean      | Published state                        |
+| ``isPublished``      | boolean      | Available for use state                |
 +----------------------+--------------+----------------------------------------+
 | ``publishUp``        | datetime/null| Date/time when the Email should be     |
-|                      |              | published                              |
+|                      |              | available                              |
 +----------------------+--------------+----------------------------------------+
-| ``publishDown``      | datetime/null| Date/time the Email should be un       |
-|                      |              | published                              |
+| ``publishDown``      | datetime/null| Date/time the Email should be          |
+|                      |              | unavailable                              |
 +----------------------+--------------+----------------------------------------+
 | ``dateAdded``        | datetime     | Date/time Email was created            |
 +----------------------+--------------+----------------------------------------+
@@ -224,6 +224,9 @@ See JSON code example.
 +----------------------+--------------+----------------------------------------+
 | ``assetAttachments`` | array        | asset IDs Array for Email attachment   |
 |                      |              |                                        |
++----------------------+--------------+----------------------------------------+
+| ``grapesjsbuilder``  | array        | ``customMjml`` key along with MJML     |
+|                      |              |   content for email based on MJML.     |
 +----------------------+--------------+----------------------------------------+
 
 List Emails
@@ -337,7 +340,7 @@ HTTP request
 +------------------+---------------------------------------------------+
 | ``orderByDir``   | Sort direction: asc or desc.                      |
 +------------------+---------------------------------------------------+
-| ``publishedOnly``| Only return currently published entities.         |
+| ``publishedOnly``| Only return currently available entities.         |
 +------------------+---------------------------------------------------+
 | ``minimal``      | Return only array of entities without additional  |
 |                  | lists in it.                                      |
@@ -406,13 +409,13 @@ HTTP request
 |                      |              | different than the one in the Mautic   |
 |                      |              | configuration                          |
 +----------------------+--------------+----------------------------------------+
-| ``isPublished``      | boolean      | Published state                        |
+| ``isPublished``      | boolean      | Available state                        |
 +----------------------+--------------+----------------------------------------+
 | ``publishUp``        | datetime/null| Date/time when the Email should be     |
-|                      |              | published                              |
+|                      |              | available                              |
 +----------------------+--------------+----------------------------------------+
-| ``publishDown``      | datetime/null| Date/time the Email should be un       |
-|                      |              | published                              |
+| ``publishDown``      | datetime/null| Date/time the Email should be          |
+|                      |              | unavailable                            |
 +----------------------+--------------+----------------------------------------+
 | ``language``         | string       | Language locale of the Email           |
 +----------------------+--------------+----------------------------------------+
@@ -470,6 +473,9 @@ HTTP request
 +----------------------+--------------+----------------------------------------+
 | ``assetAttachments`` | array        | asset IDs Array for Email attachment   |
 |                      |              |                                        |
++----------------------+--------------+----------------------------------------+
+| ``grapesjsbuilder``  | array        | ``customMjml`` key along with MJML     |
+|                      |              |   content for email based on MJML.     |
 +----------------------+--------------+----------------------------------------+
 
 .. _response-2:
@@ -548,13 +554,13 @@ To edit a Email and create a new one if the Email is not found:
 |                        |              | different than the one in the Mautic   |
 |                        |              | configuration                          |
 +------------------------+--------------+----------------------------------------+
-| ``isPublished``        | boolean      | Published state                        |
+| ``isPublished``        | boolean      | Available state                        |
 +------------------------+--------------+----------------------------------------+
 | ``publishUp``          | datetime/null| Date/time when the Email should be     |
-|                        |              | published                              |
+|                        |              | available                              |
 +------------------------+--------------+----------------------------------------+
-| ``publishDown``        | datetime/null| Date/time the Email should be un       |
-|                        |              | published                              |
+| ``publishDown``        | datetime/null| Date/time the Email should be          |
+|                        |              | unavailable                            |
 +------------------------+--------------+----------------------------------------+
 | ``language``           | string       | Language locale of the Email           |
 +------------------------+--------------+----------------------------------------+
