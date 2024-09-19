@@ -161,7 +161,7 @@ While a formal tone is often suitable for technical and business writing, a more
 
 Examples:
 
-**Do:** Your campaign was sent successfully !
+**Do:** Your campaign was sent successfully!
 
 **Avoid:** An error occurred during the process!!
 
