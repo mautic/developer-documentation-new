@@ -71,7 +71,7 @@ When to use capital letters
 Only use capital letters for:
 
 - Official, trademarked products or services, unless they intentionally use a lowercase initial, such as the iPhone.
-- Initialisms (for example, FBI, CIA) or acronyms (for example, NASA, UNESCO).
+- Initialisms - for example, FBI, CIA - or acronyms - for example, NASA, UNESCO.
 - Names of people.
 - Names of countries or places.
 - UI labels that are capitalized.
