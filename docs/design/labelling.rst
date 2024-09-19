@@ -15,7 +15,11 @@ Sentence-style capitalization is the preferred method for UI text elements due t
 
 When using sentence-case capitalization, only capitalize the initial letter of the first word in the text and other words that require capitalization, such as proper nouns.
 
-For example, you would write labels in a Form as "First name" and "Email address." Apply this approach consistently across all UI text elements, except when the text is a product or service name, or trademarked.
+.. vale off
+
+For example, you would write labels in a form as "First name" and "Email address." Apply this approach consistently across all UI text elements, except when the text is a product or service name, or trademarked.
+
+.. vale on
 
 Examples:
 
