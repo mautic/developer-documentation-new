@@ -281,21 +281,21 @@ Add
 
 Takes an existing object and uses it in a new context (for example, adds an item to the cart, adds a User to a group, or adds a document to a folder).
 
-Where appropriate, combine add with the object (for example, Add User or Add role). See also Create, Insert, New, and Upload.
+Where appropriate, combine add with the object (for example, Add User or Add role). See also :ref:`Create`, :ref:`Insert`, :ref:`New`, and :ref:`Upload`.
 
 Apply
 ^^^^^
 
 Saves changes without closing the dialog. These properties often affect subsequent system behavior.
 
-Use instead of Save changes. See also Save and Save as.
+Use instead of Save changes. See also :ref:`Save` and :ref:`Save as`.
 
 Approve
 ^^^^^^^
 
-Indicates the User agrees. In a business process, typically initiates the next step.
+Indicates the User agrees. Tipically initiates the next step.
 
-See also Reject.
+See also :ref:`Reject`.
 
 B
 -
@@ -305,7 +305,7 @@ Back
 
 Returns the User to the previous step in a sequence of steps, such as in a wizard.
 
-Use instead of Previous. See also Next and Finish.
+Use instead of Previous. See also :ref:`Next` and :ref:`Finish`.
 
 Browse
 ^^^^^^
@@ -320,35 +320,35 @@ Cancel
 
 Stops the current action and closes the dialog.
 
-Warn the User of any possible negative consequences of stopping an action from progressing, such as data corruption. See also Reset.
+Warn the User of any possible negative consequences of stopping an action from progressing, such as data corruption. See also :ref:`Reset`.
 
 Clear
 ^^^^^
 
 This action clears all the fields or selections. Also deletes the contents of a document, such as a log. Typically the default selection or value is re-established for controls that always have a selection or value, such as radio buttons.
 
-Where appropriate, combine clear with the object (for example, Clear fields or Clear all). See also Delete and Remove.
+Where appropriate, combine clear with the object (for example, Clear fields or Clear all). See also :ref:`Delete` and :ref:`Remove`.
 
 Close
 ^^^^^
 
 Closes the current page or window (for example, closing a secondary window containing online help).
 
-Do not use Close alongside OK or Cancel actions. See also Cancel and Done.
+Do not use Close alongside OK or Cancel actions. See also :ref:`Cancel` and :ref:`Done`.
 
 Copy
 ^^^^
 
 Creates new instances of the selected objects in a specific destination.
 
-Combine Copy with the object being copied (for example, Copy folder) or the destination (for example, Copy to clipboard) if there are multiple possibilities. See also New.
+Combine Copy with the object being copied (for example, Copy folder) or the destination (for example, Copy to clipboard) if there are multiple possibilities. See also :ref:`New`.
 
 Create
 ^^^^^^
 
 Makes a new object from scratch (for example, creates a calendar event or creates a new document).
 
-In scenarios where the User needs to supply some details or settings as part of the create process, use new to initiate the action and create to apply the user-supplied details or settings to the new object. See also Add, Copy, Insert, and New.
+In scenarios where the User needs to supply some details or settings as part of the create process, use new to initiate the action and create to apply the user-supplied details or settings to the new object. See also :ref:`Add`, :ref:`Copy`, :ref:`Insert`, and :ref:`New`.
 
 Customize
 ^^^^^^^^^
@@ -363,35 +363,35 @@ Delete
 
 Destroys an existing object so that it no longer exists (for example, deletes a file from a directory or deletes a value from a table cell).
 
-Where appropriate, combine Delete with the object (for example, Delete column or Delete row). See also Clear and Remove.
+Where appropriate, combine Delete with the object (for example, Delete column or Delete row). See also :ref:`Clear` and :ref:`Remove`.
 
 Docs
 ^^^^
 
 Opens a separate window containing the landing page for the product documentation.
 
-Use as link text only for the specific link that points to the product documentation from the console menu bar. See also Learn more.
+Use as link text only for the specific link that points to the product documentation from the console menu bar. See also :ref:`Learn more`.
 
 Done
 ^^^^
 
 Indicates that the User has finished working in an environment (for example, editing templates) and wants to return to where he or she came from.
 
-See also Close and Finish.
+See also :ref:`Close` and :ref:`Finish`.
 
 Download
 ^^^^^^^^
 
 Transfers a file from a remote system to a local system.
 
-See also Upload.
+See also :ref:`Upload`.
 
 Drop
 ^^^^
 
 Use only when referring to dropping a database table.
 
-In other scenarios, use Clear, Delete, or Remove.
+In other scenarios, use :ref:`Clear`, :ref:`Delete`, or :ref:`Remove`.
 
 E
 -
@@ -406,14 +406,14 @@ Empty trash
 
 Permanently deletes all files or objects that have been placed into a trash container.
 
-See also Move to trash.
+See also :ref:`Move to trash`.
 
 Export
 ^^^^^^
 
 Saves data in a different format external to the system. Typically opens a secondary window for the User to specify the file type and destination (for example, storing table data as a set of comma-separated values).
 
-See also Import.
+See also :ref:`Import`.
 
 F
 -
@@ -423,21 +423,21 @@ Filter
 
 Shortens a list to objects that match the filter criteria.
 
-See also Find and Search.
+See also :ref:`Find` and :ref:`Search`.
 
 Find
 ^^^^
 
 Moves the cursor to the next element matching the specified criteria (for example, view the next occurrence of a specific word within an email message).
 
-See also Filter and Search.
+See also :ref:`Filter` and :ref:`Search`.
 
 Finish
 ^^^^^^
 
 Indicates completion of a series of steps, such as in a wizard.
 
-See also Done.
+See also :ref:`Done`.
 
 G
 -
@@ -447,7 +447,7 @@ Get help
 
 Opens a search field from which the User can search for help information.
 
-Use only as link text on the console menu bar. See also Docs and Learn more.
+Use only as link text on the console menu bar. See also :ref:`Docs` and :ref:`Learn more`.
 
 H
 -
@@ -457,7 +457,7 @@ Hide
 
 Removes an element that was previously shown (for example, enables the User to hide details or descriptions).
 
-See also Show.
+See also :ref:`Show`.
 
 I
 -
@@ -467,14 +467,14 @@ Import
 
 Transforms data or objects from an external source. Typically opens a secondary window for the User to locate the external source.
 
-Context: creating a new table based on comma-separated values contained in a separate file. See also Export.
+Context: creating a new table based on comma-separated values contained in a separate file. See also :ref:`Export`.
 
 Insert
 ^^^^^^
 
 Adds an element at a particular position in an ordered view.
 
-Context: adding a picture to the body of a document or inserting a record into a table. See also Add and New
+Context: adding a picture to the body of a document or inserting a record into a table. See also :ref:`Add` and :ref:`New`.
 
 L
 -
@@ -482,7 +482,7 @@ L
 Launch
 ^^^^^^
 
-Do not use Launch; use Start.
+Do not use Launch; use :ref:`Start`.
 
 Learn more
 ^^^^^^^^^^
@@ -496,14 +496,14 @@ Log in
 
 Enters a site or app. This choice typically opens a Form for entry of credentials. Also used on the submission button after Users enter their credentials.
 
-Use instead of Sign in. This is to make it visually distinct from Sign up. These options are often side by side and the different words allow for quick recognition. See also Log out.
+Use instead of Sign in. This is to make it visually distinct from Sign up. These options are often side by side and the different words allow for quick recognition. See also :ref:`Log out`.
 
 Log out
 ^^^^^^^
 
 Exits an app or site.
 
-Use instead of Sign out. See also Log in.
+Use instead of Sign out. See also :ref:`Log in`.
 
 M
 -
@@ -518,7 +518,7 @@ Move to trash
 
 A soft delete. Moves a file or object to an area from where it can later be permanently deleted or recovered.
 
-Use instead of Delete if it is possible for the User to recover the objects. See also Empty trash.
+Use instead of Delete if it is possible for the User to recover the objects. See also :ref:`Empty trash`.
 
 N
 -
@@ -528,14 +528,14 @@ New
 
 Starts the creation of a new object. New either creates the object immediately or opens a dialog or set of fields where the user can enter properties.
 
-Combine new with the object to create (for example, New User or New column). See also Add, Copy, Create, Insert, and Save as.
+Combine new with the object to create (for example, New User or New column). See also :ref:`Add`, :ref:`Copy`, :ref:`Create`, :ref:`Insert`, and :ref:`Save as`.
 
 Next
 ^^^^
 
 Advances the User to the next step in a sequence of steps, such as in a wizard.
 
-See also Back and Finish.
+See also :ref:`Back` and :ref:`Finish`.
 
 O
 -
@@ -564,7 +564,7 @@ Post
 
 Adds a new comment to an online community or adds status to a log or record.
 
-If you are editing an existing comment, use Save instead.
+If you are editing an existing comment, use :ref:`Save` instead.
 
 Preview
 ^^^^^^^
@@ -584,7 +584,7 @@ Redo
 
 Redoes an undo action.
 
-Likely used only as a tooltip on an icon button. See also Undo.
+Likely used only as a tooltip on an icon button. See also :ref:`Undo`.
 
 Refresh
 ^^^^^^^
@@ -602,14 +602,14 @@ Reject
 
 Indicates the User doesn't approve. In a business process, typically blocks the process from proceeding to the next step.
 
-See also Approve.
+See also :ref:`Approve`.
 
 Remove
 ^^^^^^
 
 Removes an object from the current context but the object is not destroyed as a result of the action (for example, removes a user from a group or removes an item from the cart).
 
-Where appropriate, combine Remove with the object that will be removed (for example, Remove User or Remove role). See also Clear and Delete.
+Where appropriate, combine Remove with the object that will be removed (for example, Remove User or Remove role). See also :ref:`Clear` and :ref:`Delete`.
 
 Reply
 ^^^^^
@@ -621,28 +621,28 @@ Reset
 
 Reverts values back to their last saved state. The last saved state includes the values stored the last time the User clicked Apply. Doesn't close the dialog or window.
 
-See also Cancel, Restore, Restore defaults, and Undo.
+See also :ref:`Cancel`, :ref:`Restore`, :ref:`Restore defaults`, and :ref:`Undo`.
 
 Restore
 ^^^^^^^
 
 Brings a file back after deletion, corruption, or similar event.
 
-See also Reset.
+See also :ref:`Reset`.
 
 Restore all
 ^^^^^^^^^^^
 
 Completes a restore operation on all files or objects in a given system or container.
 
-See also Restore.
+See also :ref:`Restore`.
 
 Restore defaults
 ^^^^^^^^^^^^^^^^
 
 Sets Form values to the default settings.
 
-See also Reset and Undo.
+See also :ref:`Reset` and :ref:`Undo`.
 
 Run
 ^^^
@@ -659,7 +659,7 @@ Save
 
 Saves pending modifications made to a file or document. Doesn't close the window or panel.
 
-See also Apply.
+See also :ref:`Apply`.
 
 Save as
 ^^^^^^^
@@ -671,7 +671,7 @@ Search
 
 Returns all objects (for example, files, names, or documents) within a defined set (for example, in a folder, directory, database, or the internet) that match some specified criteria.
 
-See also Filter and Find.
+See also :ref:`Filter` and :ref:`Find`.
 
 Select
 ^^^^^^
@@ -683,7 +683,7 @@ Select all
 
 Adds all objects in the view to the selection set or checks all checkboxes.
 
-See also Clear.
+See also :ref:`Clear`.
 
 Send
 ^^^^
@@ -695,14 +695,14 @@ Show
 
 Reveals an object that was previously hidden (for example, shows descriptions or shows further details).
 
-See also Hide.
+See also :ref:`Hide`.
 
 Sign up
 ^^^^^^^
 
 Creates a User account or registers a User in a system.
 
-Use instead of Register.
+Use instead of :ref:`Register`.
 
 Sort
 ^^^^
@@ -721,9 +721,7 @@ Use instead of Launch.
 Submit an idea
 ^^^^^^^^^^^^^^
 
-Opens a separate window containing the IBM Cloud Ideas portal.
-
-Use only as link text on the Support widget from the console menu bar.
+Opens a window or modal to submit feedback using external tool or resource.
 
 T
 -
@@ -743,21 +741,21 @@ Undo
 
 Reverts to the state before the most recent changes made by the User. Repeated use successively reverts to prior states in reverse chronological order. Applies to changes in data and not to changes made to the view.
 
-Not all actions, such as Save, can be undone. See also Redo, Reset, and Restore.
+Not all actions, such as Save, can be undone. See also :ref:`Redo`, :ref:`Reset`, and :ref:`Restore`.
 
 Update
 ^^^^^^
 
 Label for a button in a dialog or Form for editing an object. The settings in the dialog are applied to the object when it is updated.
 
-See also Edit.
+See also :ref:`Edit`.
 
 Upload
 ^^^^^^
 
 Transfers a file from a local system to a remote system.
 
-See also Download.
+See also :ref:`Download`
 
 V
 -
