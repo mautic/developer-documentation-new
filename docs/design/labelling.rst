@@ -43,9 +43,13 @@ However, this approach presents several challenges in practical implementation:
 
 These factors combined make title case less desirable in many user interface and content design scenarios, especially when prioritizing clarity and ease of reading.
 
-**Do:** automate your marketing Campaigns
+.. vale off
 
-**Avoid:** automate your marketing Campaigns
+**Do:** Automate your marketing campaigns
+
+**Avoid:** Automate your Marketing Campaigns
+
+.. vale on
 
 Avoid all caps capitalization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -122,10 +126,13 @@ Capitalize a word only if it begins a sentence, phrase, or UI element name. To e
 
 Examples:
 
-**Do:** You can use a global policy to apply changes to all Users.
+.. vale off
 
-**Avoid:** You can use a Global Policy to apply changes to all Users
+**Do:** You can use a global policy to apply changes to all users.
 
+**Avoid:** You can use a Global Policy to apply changes to all users
+
+.. vale on
 
 Simple writing
 ==============
@@ -135,10 +142,7 @@ Use simple words and sentences
 
 Choose the simplest term suitable for your audience; for instance, use "fast" instead of "expeditious" and "start" instead of "commence." Be concise by keeping sentences short and straightforward, and remove wordy or redundant phrases.
 
-.. tip::
-   Create a terminology list for your product that includes preferred words and those to avoid. This tool aids consistency, especially when multiple people are writing copy.
-
-Respect Users' time by making content quick and easy to read. Trim content to as few words as possible without being terse. It's advisable to avoid terms of politeness, such as "please" and "thank you," in a UI, as they may be inappropriate or offensive in some cultural contexts.
+Respect people's time by making content quick and easy to read. Trim content to as few words as possible without being terse. It's advisable to avoid terms of politeness, such as "please" and "thank you," in a UI, as they may be inappropriate or offensive in some cultural contexts.
 
 Use simple present tense
 ------------------------
@@ -161,9 +165,13 @@ While a formal tone is often suitable for technical and business writing, a more
 
 Examples:
 
+.. vale off
+
 **Do:** Your campaign was sent successfully!
 
 **Avoid:** An error occurred during the process!!
+
+.. vale on
 
 Terms of politeness
 -------------------
@@ -223,9 +231,13 @@ Examples:
 
 Use the first person in headings or labels specific to the User, such as "My preferences" or "My notifications." However, switch to second person in explanatory text, like "Your notifications are updated every hour."
 
-Use the first person (we, our) to refer to the organization when appropriate, such as in requests for personal information where the user benefits from knowing why the information is needed.
+Use the first person (we, our) to refer to the Mautic project or team when appropriate, such as in requests for personal information where the user benefits from knowing why the information is needed.
 
-Example: "Why do we need your Contact details?"
+.. vale off
+
+Example: "Why do we need your contact details?"
+
+.. vale on
 
 Active and passive voice
 ------------------------
@@ -248,10 +260,13 @@ The passive voice can create a more natural tone in certain contexts. For exampl
 
 Examples:
 
+.. vale off
+
 **Do:** The report needs to be generated.
 
 **Avoid:** Someone needs to generate the report
 
+.. vale on
 
 Action labels
 =============
@@ -266,21 +281,21 @@ Add
 
 Takes an existing object and uses it in a new context (for example, adds an item to the cart, adds a User to a group, or adds a document to a folder).
 
-Where appropriate, combine add with the object (for example, Add User or Add role). Compare Create, Insert, New, and Upload.
+Where appropriate, combine add with the object (for example, Add User or Add role). See also Create, Insert, New, and Upload.
 
 Apply
 ^^^^^
 
 Saves changes without closing the dialog. These properties often affect subsequent system behavior.
 
-Use instead of Save changes. Compare Save and Save as.
+Use instead of Save changes. See also Save and Save as.
 
 Approve
 ^^^^^^^
 
 Indicates the User agrees. In a business process, typically initiates the next step.
 
-Compare Reject.
+See also Reject.
 
 B
 -
@@ -290,7 +305,7 @@ Back
 
 Returns the User to the previous step in a sequence of steps, such as in a wizard.
 
-Use instead of Previous. Compare Next and Finish.
+Use instead of Previous. See also Next and Finish.
 
 Browse
 ^^^^^^
@@ -305,35 +320,35 @@ Cancel
 
 Stops the current action and closes the dialog.
 
-Warn the User of any possible negative consequences of stopping an action from progressing, such as data corruption. Compare Reset.
+Warn the User of any possible negative consequences of stopping an action from progressing, such as data corruption. See also Reset.
 
 Clear
 ^^^^^
 
 This action clears all the fields or selections. Also deletes the contents of a document, such as a log. Typically the default selection or value is re-established for controls that always have a selection or value, such as radio buttons.
 
-Where appropriate, combine clear with the object (for example, Clear fields or Clear all). Compare Delete and Remove.
+Where appropriate, combine clear with the object (for example, Clear fields or Clear all). See also Delete and Remove.
 
 Close
 ^^^^^
 
 Closes the current page or window (for example, closing a secondary window containing online help).
 
-Do not use Close alongside OK or Cancel actions. Compare Cancel and Done.
+Do not use Close alongside OK or Cancel actions. See also Cancel and Done.
 
 Copy
 ^^^^
 
 Creates new instances of the selected objects in a specific destination.
 
-Combine Copy with the object being copied (for example, Copy folder) or the destination (for example, Copy to clipboard) if there are multiple possibilities. Compare New.
+Combine Copy with the object being copied (for example, Copy folder) or the destination (for example, Copy to clipboard) if there are multiple possibilities. See also New.
 
 Create
 ^^^^^^
 
 Makes a new object from scratch (for example, creates a calendar event or creates a new document).
 
-In scenarios where the User needs to supply some details or settings as part of the create process, use new to initiate the action and create to apply the user-supplied details or settings to the new object. Compare Add, Copy, Insert, and New.
+In scenarios where the User needs to supply some details or settings as part of the create process, use new to initiate the action and create to apply the user-supplied details or settings to the new object. See also Add, Copy, Insert, and New.
 
 Customize
 ^^^^^^^^^
@@ -348,28 +363,28 @@ Delete
 
 Destroys an existing object so that it no longer exists (for example, deletes a file from a directory or deletes a value from a table cell).
 
-Where appropriate, combine Delete with the object (for example, Delete column or Delete row). Compare Clear and Remove.
+Where appropriate, combine Delete with the object (for example, Delete column or Delete row). See also Clear and Remove.
 
 Docs
 ^^^^
 
 Opens a separate window containing the landing page for the product documentation.
 
-Use as link text only for the specific link that points to the product documentation from the console menu bar. Compare Learn more.
+Use as link text only for the specific link that points to the product documentation from the console menu bar. See also Learn more.
 
 Done
 ^^^^
 
 Indicates that the User has finished working in an environment (for example, editing templates) and wants to return to where he or she came from.
 
-Compare Close and Finish.
+See also Close and Finish.
 
 Download
 ^^^^^^^^
 
 Transfers a file from a remote system to a local system.
 
-Compare Upload.
+See also Upload.
 
 Drop
 ^^^^
@@ -391,14 +406,14 @@ Empty trash
 
 Permanently deletes all files or objects that have been placed into a trash container.
 
-Compare Move to trash.
+See also Move to trash.
 
 Export
 ^^^^^^
 
 Saves data in a different format external to the system. Typically opens a secondary window for the User to specify the file type and destination (for example, storing table data as a set of comma-separated values).
 
-Compare Import.
+See also Import.
 
 F
 -
@@ -408,21 +423,21 @@ Filter
 
 Shortens a list to objects that match the filter criteria.
 
-Compare Find and Search.
+See also Find and Search.
 
 Find
 ^^^^
 
 Moves the cursor to the next element matching the specified criteria (for example, view the next occurrence of a specific word within an email message).
 
-Compare Filter and Search.
+See also Filter and Search.
 
 Finish
 ^^^^^^
 
 Indicates completion of a series of steps, such as in a wizard.
 
-Compare Done.
+See also Done.
 
 G
 -
@@ -432,7 +447,7 @@ Get help
 
 Opens a search field from which the User can search for help information.
 
-Use only as link text on the console menu bar. Compare Docs and Learn more.
+Use only as link text on the console menu bar. See also Docs and Learn more.
 
 H
 -
@@ -442,7 +457,7 @@ Hide
 
 Removes an element that was previously shown (for example, enables the User to hide details or descriptions).
 
-Compare Show.
+See also Show.
 
 I
 -
@@ -452,14 +467,14 @@ Import
 
 Transforms data or objects from an external source. Typically opens a secondary window for the User to locate the external source.
 
-Context: creating a new table based on comma-separated values contained in a separate file. Compare Export.
+Context: creating a new table based on comma-separated values contained in a separate file. See also Export.
 
 Insert
 ^^^^^^
 
 Adds an element at a particular position in an ordered view.
 
-Context: adding a picture to the body of a document or inserting a record into a table. Compare Add and New
+Context: adding a picture to the body of a document or inserting a record into a table. See also Add and New
 
 L
 -
@@ -481,14 +496,14 @@ Log in
 
 Enters a site or app. This choice typically opens a Form for entry of credentials. Also used on the submission button after Users enter their credentials.
 
-Use instead of Sign in. This is to make it visually distinct from Sign up. These options are often side by side and the different words allow for quick recognition. Compare Log out.
+Use instead of Sign in. This is to make it visually distinct from Sign up. These options are often side by side and the different words allow for quick recognition. See also Log out.
 
 Log out
 ^^^^^^^
 
 Exits an app or site.
 
-Use instead of Sign out. Compare Log in.
+Use instead of Sign out. See also Log in.
 
 M
 -
@@ -503,7 +518,7 @@ Move to trash
 
 A soft delete. Moves a file or object to an area from where it can later be permanently deleted or recovered.
 
-Use instead of Delete if it is possible for the User to recover the objects. Compare Empty trash.
+Use instead of Delete if it is possible for the User to recover the objects. See also Empty trash.
 
 N
 -
@@ -513,14 +528,14 @@ New
 
 Starts the creation of a new object. New either creates the object immediately or opens a dialog or set of fields where the user can enter properties.
 
-Combine new with the object to create (for example, New User or New column). Compare Add, Copy, Create, Insert, and Save as.
+Combine new with the object to create (for example, New User or New column). See also Add, Copy, Create, Insert, and Save as.
 
 Next
 ^^^^
 
 Advances the User to the next step in a sequence of steps, such as in a wizard.
 
-Compare Back and Finish.
+See also Back and Finish.
 
 O
 -
@@ -569,7 +584,7 @@ Redo
 
 Redoes an undo action.
 
-Likely used only as a tooltip on an icon button. Compare Undo.
+Likely used only as a tooltip on an icon button. See also Undo.
 
 Refresh
 ^^^^^^^
@@ -587,14 +602,14 @@ Reject
 
 Indicates the User doesn't approve. In a business process, typically blocks the process from proceeding to the next step.
 
-Compare Approve.
+See also Approve.
 
 Remove
 ^^^^^^
 
 Removes an object from the current context but the object is not destroyed as a result of the action (for example, removes a user from a group or removes an item from the cart).
 
-Where appropriate, combine Remove with the object that will be removed (for example, Remove User or Remove role). Compare Clear and Delete.
+Where appropriate, combine Remove with the object that will be removed (for example, Remove User or Remove role). See also Clear and Delete.
 
 Reply
 ^^^^^
@@ -606,28 +621,28 @@ Reset
 
 Reverts values back to their last saved state. The last saved state includes the values stored the last time the User clicked Apply. Doesn't close the dialog or window.
 
-Compare Cancel, Restore, Restore defaults, and Undo.
+See also Cancel, Restore, Restore defaults, and Undo.
 
 Restore
 ^^^^^^^
 
 Brings a file back after deletion, corruption, or similar event.
 
-Compare Reset.
+See also Reset.
 
 Restore all
 ^^^^^^^^^^^
 
 Completes a restore operation on all files or objects in a given system or container.
 
-Compare Restore.
+See also Restore.
 
 Restore defaults
 ^^^^^^^^^^^^^^^^
 
 Sets Form values to the default settings.
 
-Compare Reset and Undo.
+See also Reset and Undo.
 
 Run
 ^^^
@@ -644,7 +659,7 @@ Save
 
 Saves pending modifications made to a file or document. Doesn't close the window or panel.
 
-Compare Apply.
+See also Apply.
 
 Save as
 ^^^^^^^
@@ -656,7 +671,7 @@ Search
 
 Returns all objects (for example, files, names, or documents) within a defined set (for example, in a folder, directory, database, or the internet) that match some specified criteria.
 
-Compare Filter and Find.
+See also Filter and Find.
 
 Select
 ^^^^^^
@@ -668,7 +683,7 @@ Select all
 
 Adds all objects in the view to the selection set or checks all checkboxes.
 
-Compare Clear.
+See also Clear.
 
 Send
 ^^^^
@@ -680,7 +695,7 @@ Show
 
 Reveals an object that was previously hidden (for example, shows descriptions or shows further details).
 
-Compare Hide.
+See also Hide.
 
 Sign up
 ^^^^^^^
@@ -728,21 +743,21 @@ Undo
 
 Reverts to the state before the most recent changes made by the User. Repeated use successively reverts to prior states in reverse chronological order. Applies to changes in data and not to changes made to the view.
 
-Not all actions, such as Save, can be undone. Compare Redo, Reset, and Restore.
+Not all actions, such as Save, can be undone. See also Redo, Reset, and Restore.
 
 Update
 ^^^^^^
 
 Label for a button in a dialog or Form for editing an object. The settings in the dialog are applied to the object when it is updated.
 
-Compare Edit.
+See also Edit.
 
 Upload
 ^^^^^^
 
 Transfers a file from a local system to a remote system.
 
-Compare Download.
+See also Download.
 
 V
 -
@@ -797,12 +812,12 @@ Quick list
 - **Search**: returns objects matching specified criteria within a defined set, such as a Mautic Contact list.
 - **Select**: chooses data from a table.
 - **Send**: transfers information to a recipient or destination.
-- **Show**: reveals previously hidden objects, like showing additional Contact details in Mautic.
+- **Show**: reveals previously hidden objects, like showing additional Contact details.
 - **Sign up**: creates a User account or registers a User in a system.
-- **Sort**: organizes a list or table column, useful for segmenting Contacts in Mautic.
+- **Sort**: organizes a list or table column, useful for segmenting Contacts.
 - **Start**: deploys an app or service to its environment for use.
 - **Submit an idea**: opens a window for submitting feedback or ideas, used as link text in support widgets.
 - **Top**: returns to the top of the page.
 - **Undo**: reverts to the state before recent changes, applicable to data changes.
-- **Update**: applies settings from a dialog to an object, like ``updatingContact`` preferences in Mautic.
+- **Update**: applies settings from a dialog to an object, like updating Contact preferences in Mautic.
 - **Upload**: transfers a file from a local to a remote system
