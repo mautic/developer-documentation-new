@@ -68,7 +68,7 @@ It also typically requires more space in the UI per letter compared to sentence 
 When to use capital letters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Capital letters are reserved for:
+Only use capital letters for:
 
 - Official, trademarked products or services, unless they intentionally use a lowercase initial, such as the iPhone.
 - Initialisms (for example, FBI, CIA) or acronyms (for example, NASA, UNESCO).
