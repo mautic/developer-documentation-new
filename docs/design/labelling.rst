@@ -7,7 +7,11 @@ Capitalization
 Use sentence—case capitalization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Sentence-style capitalization is the preferred method for UI text elements due to its readability and efficiency. This style, which is predominantly lowercase, makes it easy for readers to distinguish between common nouns and proper nouns, and is generally considered the quickest Form to read.
+.. vale off
+
+Sentence-style capitalization is the preferred method for UI text elements due to its readability and efficiency. This style, which is predominantly lowercase, makes it easy for readers to distinguish between common nouns and proper nouns, and is generally considered the quickest form to read.
+
+.. vale on
 
 When using sentence-case capitalization, only capitalize the initial letter of the first word in the text and other words that require capitalization, such as proper nouns.
 
