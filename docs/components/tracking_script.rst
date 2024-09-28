@@ -106,17 +106,22 @@ In the example code, replace ``replaceWithFormName`` with the name of your Form.
 ``onValidate()``
 ================
 
-Called before default Form validation - use it to override the default Form validation.
+Called before built-in Form validation.
+Implement this callback to override the built-in Form validation logic.
 
-Return ``True`` to skip the default Form validation and continue with Form processing.
-Return ``False`` to skip the default Form validation and prevent the Form submission.
-Return ``null`` to execute default Form validation.
+Your callback's return value determines the processing of the Form:
+
+1. Return ``True`` to skip the built-in Form validation and **continue** with Form processing.
+2. Return ``False`` to skip the built-in Form validation and **prevent** the Form submission.
+3. Return ``null`` to execute built-in Form validation and let its logic determine whether to continue with or prevent the Form submission.
+
+Returning ``True`` or ``False`` skips the execution of `onValidateStart`.
 
 .. code-block:: js
 
    MauticFormCallback['replaceWithFormName'] = {
        onValidate: function () {
-           // before form validation
+           // executed before built-in Form validation
            var formIsGood = True;
            var dontUpdate = False;
            if(dontUpdate){
@@ -134,27 +139,30 @@ Return ``null`` to execute default Form validation.
 
 Called at the beginning of the default Form validation, this receives no values and a return value isn't required and isn't processed.
 
-.. warning:: onValidateStart may not get executed if the default Form validation gets handled during the ``onValidate`` callback.
+.. warning:: `onValidateStart` isn't executed if you add the ``onValidate`` callback and it returns ``True`` or ``False``.
 
 .. code-block:: js
 
    MauticFormCallback['replaceWithFormName'] = {
        onValidateStart: function () {
-            // before default validation
+            // executed before built-in Form validation
        },
    };
 
 ``onValidateEnd(formValid)``
 ============================
 
-Called after all Form validations are complete - either the default validations and/or the ``onValidate`` callback - and before the Form gets submitted.
-Receives ``formValid`` to determine if the Form is valid. A return value isn't required and isn't processed.
+Called after all Form validations are complete - either the default validations and/or the ``onValidate`` callback - and before submitting the Form.
+Receives ``formValid`` to determine if the Form is valid.
+
+If this callback returns ``False`` then this prevents submitting the Form.
 
 .. code-block:: js
 
    MauticFormCallback['replaceWithFormName'] = {
        onValidateEnd: function (formValid) {
             // before form submit
+            // return False; // prevents submitting the Form
        },
    };
 
@@ -231,7 +239,7 @@ Return value isn't required and isn't processed.
        },
    };
 
-Called at the end default Form submission response processing. Receives ``response`` containing the Form submission response.
+Called at the end of the default Form submission response processing. Receives ``response`` containing the Form submission response.
 Return value isn't required and isn't processed.
 
 .. warning:: onResponseEnd may not get executed if the default response processing gets handled during the ``onResponse`` callback
