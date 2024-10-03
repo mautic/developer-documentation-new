@@ -32,6 +32,15 @@
         "doc",
         "review"
       ]
+    },
+    {
+      "login": "ifeoluwafavour",
+      "name": "Ife",
+      "avatar_url": "https://avatars.githubusercontent.com/u/64481442?v=4",
+      "profile": "http://ifeoluwafavour.hashnode.dev",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -40,5 +49,6 @@
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true,
-  "commitConvention": "angular"
+  "commitConvention": "angular",
+  "commitType": "docs"
 }
