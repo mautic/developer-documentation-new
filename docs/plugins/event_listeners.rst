@@ -56,7 +56,7 @@ The easiest way to listen to various events is to use an event subscriber. Read 
 
 Plugin event subscribers can extend ``\Mautic\CoreBundle\EventListener\CommonSubscriber`` which gives access to commonly used dependencies and also allows registering the subscriber service through the config file for the bundle. See :ref:`plugins/config:Service config items` for more information on registering event services. 
     
-Available Events
+Available events
 ----------------
 There are many events available throughout Mautic. Depending on the desired functionality, look at the core bundle's *Event.php file in the root of the bundle.  For example, Lead related events are defined and described in ``app\bundles\LeadBundle\LeadEvents.php``. The final classes provide the names of the events to listen to.  Always use the event constants to ensure future changes to event names will not break the plugin.
 
