@@ -64,7 +64,7 @@ There are many events available throughout Mautic. Depending on what you're tryi
 
 Custom Events
 -------------
-A plugin can create and dispatch its own events. 
+A Plugin can create and dispatch its own events. 
 
 Custom events require the following:
 
