@@ -68,7 +68,7 @@ A Plugin can create and dispatch its own events.
 
 Custom events require the following:
 
-1) The class defining the available events for the plugin using a ``final class`` with constants.
+1) The class defining the available events for the Plugin using a ``final class`` with constants.
 
 .. code-block:: php
 
