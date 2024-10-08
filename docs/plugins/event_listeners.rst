@@ -62,7 +62,7 @@ Available events
 
 There are many events available throughout Mautic. Depending on what you're trying to implement, look at the ``*Event.php`` for the core bundle, located in the root of the bundle. For example, the ``app\bundles\LeadBundle\LeadEvents.php`` file defines and describes events relating to Contacts. The final classes provide the names of the events to listen to. Always use the event constants to ensure future changes to event names won't break the Plugin.
 
-Custom Events
+Custom events
 -------------
 A Plugin can create and dispatch its own events. 
 
