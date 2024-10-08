@@ -94,7 +94,7 @@ Custom events require the following:
     // ...
 
 
-2) The Event class that is received by the listeners. This class should extend ``Symfony\Component\EventDispatcher\Event``. It will be created when the event is dispatched and should have any information listeners need to act on it.
+2) The Event class that is received by the listeners. This class should extend ``Symfony\Component\EventDispatcher\Event``. It's created when the event is dispatched and should have any information listeners need to act on it.
 
 .. code-block:: php
 
