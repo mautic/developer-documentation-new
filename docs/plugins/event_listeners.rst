@@ -60,7 +60,7 @@ Available events
 ----------------
 
 
-There are many events available throughout Mautic. Depending on the desired functionality, look at the core bundle's *Event.php file in the root of the bundle.  For example, Lead related events are defined and described in ``app\bundles\LeadBundle\LeadEvents.php``. The final classes provide the names of the events to listen to.  Always use the event constants to ensure future changes to event names will not break the plugin.
+There are many events available throughout Mautic. Depending on what you're trying to implement, look at the ``*Event.php`` for the core bundle, located in the root of the bundle. For example, the ``app\bundles\LeadBundle\LeadEvents.php`` file defines and describes events relating to Contacts. The final classes provide the names of the events to listen to. Always use the event constants to ensure future changes to event names won't break the Plugin.
 
 Custom Events
 -------------
