@@ -58,6 +58,7 @@ Plugin event subscribers can extend ``\Mautic\CoreBundle\EventListener\CommonSub
     
 Available events
 ----------------
+
 There are many events available throughout Mautic. Depending on the desired functionality, look at the core bundle's *Event.php file in the root of the bundle.  For example, Lead related events are defined and described in ``app\bundles\LeadBundle\LeadEvents.php``. The final classes provide the names of the events to listen to.  Always use the event constants to ensure future changes to event names will not break the plugin.
 
 Custom Events
