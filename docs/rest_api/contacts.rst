@@ -247,7 +247,7 @@ Get a list of Contacts.
    * - ``order``
      - An array of advanced order statements
    * - ``select``
-     - An array of fields to include in the lead data, ID is required. If not provided, all fields are returned.
+     - An array of fields aliases to include in the lead data, ID is required. If not provided, all fields are returned.
 
 
 Advanced filtering
