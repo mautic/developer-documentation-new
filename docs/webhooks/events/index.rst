@@ -1,6 +1,6 @@
 Webhook events and payloads
 ===========================
-Webhook events are specific actions that occur in the system, such as when a Contact is added or when a Form is submitted. When an event occurs, a payload containing data about the event is sent to the registered Webhook URL. 
+Webhook events are specific actions that occur in the system, such as when a Contact creates a new account. When an event occurs, Mautic sends a payload containing data about the event to the registered Webhook URL. 
 
 Below is a list of documented events with their event types and the structure of their payloads:
 
