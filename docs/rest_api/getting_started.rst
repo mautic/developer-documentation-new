@@ -96,4 +96,4 @@ You can also configure a ``memcached`` server for improved performance, like thi
         'provider' => 'memcached://memcached.local:12345'
     ],
 
-For more examples of supported cache adapters, please visit the `Symfony Cache Documentation <https://symfony.com/doc/current/cache.html>`_.
+For more examples of supported cache adapters, please visit the :xref:`Symfony Cache Documentation`.
