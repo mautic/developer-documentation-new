@@ -8,7 +8,7 @@ This approach enhances security and provides a tailored experience for each User
 Using the ``securityIsGranted`` function
 ------------------------------------
 
-To display elements conditionally based on user permissions, use the securityIsGranted function in Twig templates. The securityIsGranted function checks if the current user has the specified permission and returns a boolean value indicating whether the permission is granted or not.
+To display elements conditionally based on User permissions, use the ``securityIsGranted`` function in Twig templates. The ``securityIsGranted`` function checks if the current User has the specified permission and returns a boolean value indicating whether the permission is granted or not.
 
 Here's the basic syntax:
 
