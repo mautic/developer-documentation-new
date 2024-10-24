@@ -18,14 +18,14 @@ Here's the basic syntax:
        <!-- Content to display if the user has the specified permission -->
    {% endif %}
 
-In this structure, 'permission:string' represents the specific permission being checked for. Mautic uses a hierarchical permission system, in the format of 'bundle:level:permission'.
+In this structure, ``permission:string`` represents the specific permission being checked for. Mautic uses a hierarchical permission system, in the format of ``bundle:level:permission``.
 
-Displaying a user invitation link as example
+Displaying a User invitation link as example
 --------------------------------------------
 
-Let's examine a practical example of how to use this function to display a link for inviting new users to the platform. This link should only be visible to users who have the permission to create new user accounts.
+  Let's examine a practical example of how to use this function to display a link for inviting new Users to the platform. This link should only be visible to Users who have the permission to create new User accounts.
 
-In this example, we're using the securityIsGranted function to check if the current user has the 'user:users:create' permission. This permission string is structured to indicate that we're checking for the ability to create new users within the user management system.
+In this example, we're using the ``securityIsGranted`` function to check if the current User has the ``user:users:create`` permission. This permission string is structured to indicate that we're checking for the ability to create new Users within the User management system.
 
 .. code-block:: twig
 
@@ -38,9 +38,9 @@ In this example, we're using the securityIsGranted function to check if the curr
        </li>
    {% endif %}
 
-If the current user has the user:users:create permission, the code inside the if block will be rendered, displaying the link to invite new users. The link is created using the path function, which generates a URL based on the specified route (mautic_user_action) and any additional parameters ({objectAction: 'new'}).
+If the current User has the ``user:users:create`` permission, the code inside the if block is rendered, displaying the link to invite new users. The path function creates the link, which generates a URL based on the specified route (``mautic_user_action```) and any additional parameters (``{objectAction: 'new'}``).
 
-The 'mautic.user.profile.invite'|trans expression is used to translate the text "Invite your team" using Mautic's translation system. This ensures that the text is displayed in the appropriate language based on the user's locale settings.
+The ``'mautic.user.profile.invite'|trans`` expression is used to translate the text 'Invite your team' using Mautic's translation system. This ensures that the text is displayed in the appropriate language based on the user's locale settings.
 
 This not only prevents unauthorized access but also keeps the interface clean and relevant for each user's role.
 
@@ -51,26 +51,26 @@ Locating defined permissions
 
 Mautic organizes its permissions on a per-bundle basis. Each bundle typically defines its own set of permissions in a dedicated PHP file. The standard location for these permission definitions is:
 
-[BundleName]/Security/[BundleName]Permissions.php
+``[BundleName]/Security/[BundleName]Permissions.php``
 
 For example:
 
-- User permissions: UserBundle/Security/UserPermissions.php
-- Email permissions: EmailBundle/Security/EmailPermissions.php
-- SMS permissions: SmsBundle/Security/SmsPermissions.php
+- User permissions: ``UserBundle/Security/UserPermissions.php``
+- Email permissions: ``EmailBundle/Security/EmailPermissions.php``
+- SMS permissions: ``SmsBundle/Security/SmsPermissions.php``
 
-These PHP files contain classes that extend AbstractPermissions and define the specific permissions available for that bundle. They usually include methods for building the permission matrix and checking individual permissions.
+These PHP files contain classes that extend ``AbstractPermissions`` and define the specific permissions available for that bundle. They usually include methods for building the permission matrix and checking individual permissions.
 
 Examining permission files
 --------------------------
 
 When opening one of these permission files, they'll typically find:
 
-- A definePermissions method that outlines all available permissions for the bundle.
-- Constants defining permission levels (e.g., LEVEL_VIEW, LEVEL_EDIT, LEVEL_FULL).
-- Methods for checking specific permissions (e.g., canViewUsers, canEditEmails).
+- A ``definePermissions`` method that outlines all available permissions for the bundle.
+- Constants defining permission levels (for example, ``LEVEL_VIEW, LEVEL_EDIT, LEVEL_FULL``).
+- Methods for checking specific permissions (for example, ``canViewUsers``, ``canEditEmails``).
 
-For example, in the UserPermissions.php file, the UserPermissions class defines the available permissions for the UserBundle using a more structured approach. Let's go through the important parts:
+For example, in the ``UserPermissions.php`` file, the ``UserPermissions`` class defines the available permissions for the ``UserBundle`` using a more structured approach. Let's go through the important parts:
 
 .. code-block:: php
 
@@ -86,16 +86,16 @@ For example, in the UserPermissions.php file, the UserPermissions class defines 
 
 In this example, the profile key represents the permission category, and the nested array defines the specific permission levels for actions like editing the username, email, position, name, and having full access to the user profile.
 
-To use these permission keys with the securityIsGranted function in Twig templates, construct the appropriate permission string. The permission string follows the format: [bundle]:[level]:[permission].
+To use these permission keys with the ``securityIsGranted`` function in Twig templates, construct the appropriate permission string. The permission string follows the format: ``[bundle]:[level]:[permission]``.
 
 Map the permission keys from the UserPermissions class to the corresponding permission strings:
 
-- editusername => user:profile:editusername
-- editemail => user:profile:editemail
+- ``editusername`` => ``user:profile:editusername``
+- ``editemail`` => ``user:profile:editemail``
 - ``editposition`` => ``user:profile:editposition``
 - ``editname`` => ``user:profile:editname``
-- full => user:profile:full
+- ``full`` => ``user:profile:full``
 
-In each if statement, the securityIsGranted function is used with the corresponding permission string. If the current user has the specified permission, the code inside the if block will be executed, displaying the relevant form fields for editing the user profile information.
+In each if statement, the ``securityIsGranted`` function is used with the corresponding permission string. If the current user has the specified permission, the code inside the if block will be executed, displaying the relevant form fields for editing the user profile information.
 
 For more information, refer to the Security documentation.
