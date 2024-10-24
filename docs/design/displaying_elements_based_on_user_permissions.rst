@@ -3,7 +3,7 @@ Displaying elements based on User permissions
 
 In Mautic, it's possible to control the visibility of elements on the user interface based on the User's permissions. This allows for showing or hiding certain features, links, or sections depending on the User's Role and the permissions associated with that Role.
 
-This approach enhances security and provides a tailored experience for each user based on their role and access level.
+This approach enhances security and provides a tailored experience for each User based on their role and access level.
 
 Using the securityIsGranted function
 ------------------------------------
