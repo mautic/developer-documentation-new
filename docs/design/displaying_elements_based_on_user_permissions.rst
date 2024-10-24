@@ -92,7 +92,7 @@ Map the permission keys from the UserPermissions class to the corresponding perm
 
 - editusername => user:profile:editusername
 - editemail => user:profile:editemail
-- editposition => user:profile:editposition
+- ``editposition`` => ``user:profile:editposition``
 - editname => user:profile:editname
 - full => user:profile:full
 
