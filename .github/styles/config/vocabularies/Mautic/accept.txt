@@ -109,6 +109,8 @@ Plugin
 Plugins
 post
 POST
+ProTip
+ProTips
 PUT
 PyCharm
 Rackspace
