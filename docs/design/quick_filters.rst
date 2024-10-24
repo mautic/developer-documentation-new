@@ -6,7 +6,7 @@ Quick filters provide an efficient way to search using existing search commands.
 Implementation overview
 -----------------------
 
-Quick filters are implemented using a combination of JavaScript and Twig templates. The process involves three main components:
+Mautic implements quick filters using a combination of JavaScript and Twig templates. The process involves three main components:
 
 1. JavaScript function for applying the filter
 2. Twig template for rendering filter buttons
@@ -38,7 +38,7 @@ This function performs the following actions:
 Twig template
 -------------
 
-The quick filter buttons are rendered using a Twig template:
+Mautic renders the quick filter buttons using a Twig template:
 
 .. code-block:: twig
 
@@ -85,12 +85,12 @@ To add quick filters to a list view, include the ``list_toolbar.html.twig`` temp
 Quick filter options
 --------------------
 
-Each quick filter is defined as an associative array with the following keys:
+You define each quick filter as an associative array with the following keys:
 
-- ``search``: The search query to be applied
-- ``label``: The displayed text for the filter button
-- ``tooltip``: The tooltip text shown on hover
-- ``icon``: The CSS class for the icon displayed on the button
+- ``search``: the search query to apply
+- ``label``: the displayed text for the filter button
+- ``tooltip``: the tooltip text shown on hover
+- ``icon``: the CSS class for the icon displayed on the button
 
 Multiple quick filters
 ----------------------
