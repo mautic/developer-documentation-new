@@ -9,24 +9,84 @@ There are multiple ways to extend the way Mautic works with Emails. This documen
 - Email transport/Email providers
 - Email stat helpers
 
-Email tokens and A/B testing
-----------------------------
+.. Note:: Extending generally works by hooking into events using event listeners or subscribers. Read more about :doc:`listeners and subscribers</plugins/event_listeners>`.
+
+Email tokens
+------------
 
 Email tokens are placeholders that you can insert into an Email.
 They get replaced by Dynamic Content once the Email gets sent or viewed in the browser.
 
-You can find examples of both Email token handling and A/B testing in the code example below.
-Both leverage the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_BUILD`` event. Read more about :doc:`listeners and subscribers</plugins/event_listeners>`.
-
 Email token capabilities consist of two parts: registering your custom tokens and rendering them.
 
-- ``$event->addToken($uniqueId, $htmlContent)`` allows you to show the Email token in the email builder, so that users can easily add the token to their emails.
-- ``$event->getContent()`` and ``$event->setContent()`` are used for replacing the Email token with actual Dynamic Content once the Email gets send or viewed in the browser.
+Registering custom tokens in builders
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Registering tokens leverages the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_BUILD`` event.
+The event is dispatched before displaying the email builder form, to allow adding of tokens.
+
+An event listener receives the ``Mautic\EmailBundle\Event\EmailBuilderEvent``.
+Use its ``$event->addToken($token, $htmlContent)`` to add your token.
+
+.. Note::
+    You can either hard code your tokens textual description in ``$htmlContent`` or use a translatable string.
+
+Rendering custom tokens
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Registering tokens leverage the
+- ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_SEND`` event when the email is sent or the
+- ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_DISPLAY`` event when the email is rendered for viewing in a browser, i.e., after the Lead clicked the ``{webview_url}`` link.
+
+An event listener receives in both cases the ``Mautic\EmailBundle\Event\EmailSendEvent``.
+You can replace a custom token using the events ``$event->addToken($token, $contentToReplaceToken)``.
+
+
+Basic Token Replacement
+^^^^^^^
+
+.. code-block:: PHP
+
+    <?php
+    
+    // plugins/HelloWorldBundle/EventListener/EmailSubscriber.php
+    class EmailSubscriber implements EventSubscriberInterface
+    {
+    
+      public static function getSubscribedEvents(): array
+      {
+        return [
+          EmailEvents::EMAIL_ON_BUILD => ['onEmailBuild', 0],
+          EmailEvents::EMAIL_ON_SEND => ['onEmailGenerate', 0],
+          EmailEvents::EMAIL_ON_DISPLAY => ['onEmailGenerate', 0],
+        ];
+      }
+    
+      public function onEmailBuild(EmailBuilderEvent $event): void
+      {
+        $event->addToken('{my_custom_token}', 'My Custom Token');
+      }
+    
+      public function onEmailGenerate(EmailSendEvent $event): void
+      {
+        $event->addToken('{my_custom_token}', 'Hello <b>World!</b>');
+      }
+    }
+
+.. Note::
+    If you need more complex replacing you can use the event's ``$event->getContent()`` and ``$event->setContent()`` methods. See the example in the following section.
+
+
+Email A/B testing
+-----------------
 
 While Mautic supports :xref:`A/B testing` out of the box, you might have more complex needs to determine A/B test winner criteria.
 
 - ``$event->addAbTestWinnerCriteria()`` allows you to do exactly that. Using your custom logic, you can decide the winner of such criteria. An example is shown below.
 - ``$event->setAbTestResults()`` is where you set the actual A/B test results. More details are in the code example below.
+
+A/B Testing Example
+^^^^^^^
 
 .. code-block:: PHP
 
