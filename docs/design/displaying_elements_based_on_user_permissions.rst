@@ -5,7 +5,7 @@ In Mautic, it's possible to control the visibility of elements on the user inter
 
 This approach enhances security and provides a tailored experience for each User based on their role and access level.
 
-Using the securityIsGranted function
+Using the ``securityIsGranted`` function
 ------------------------------------
 
 To display elements conditionally based on user permissions, use the securityIsGranted function in Twig templates. The securityIsGranted function checks if the current user has the specified permission and returns a boolean value indicating whether the permission is granted or not.
