@@ -43,6 +43,7 @@ All you need to do now is to clear all tagged items:
 .. code-block:: php
 
     $cache->invalidateTags(['firstTag']);
+
 Pools clearing
 ==============
 
@@ -54,6 +55,7 @@ Cache Pools include methods to delete a cache item, some of them, or all of them
 .. code-block:: php
 
     $isDeleted = $cache->deleteItem('user_'.$userId);
+
 Use the ``Psr\\Cache\\CacheItemPoolInterface::deleteItems`` method to delete several cache items simultaneously - it returns true only if all the items have been deleted, even when any or some of them don't exist.
 
 Configuration
@@ -68,6 +70,7 @@ These are the default settings:
     'cache_adapter' => 'mautic.cache.adapter.filesystem',
     'cache_prefix' => 'app',
     'cache_lifetime' => 86400
+
 They can be overridden in ``local.php`` like this:
 
 .. code-block:: php
@@ -84,6 +87,7 @@ Delivered adapters
 - ``mautic.cache.adapter.memcached``
 
 .. code-block:: php
+    
     'memcached' => [
         'servers' => ['memcached://localhost'],
         'options' => [
