@@ -1,10 +1,10 @@
 Retrieving Mautic settings in Twig
-=============================================
+##################################
 
 Mautic allows you to access configuration settings directly in Twig templates using the ``configGetParameter`` function. This feature is particularly useful for creating display conditions or showing existing data in your templates.
 
 Basic usage
------------
+***********
 
 To retrieve a setting, use the ``configGetParameter`` function with the parameter name as its argument:
 
@@ -13,7 +13,7 @@ To retrieve a setting, use the ``configGetParameter`` function with the paramete
    {{ configGetParameter('parameter_name') }}
 
 Display conditions
-------------------
+==================
 
 Use ``configGetParameter`` in conditional statements to control the display of content based on configuration settings:
 
@@ -24,7 +24,7 @@ Use ``configGetParameter`` in conditional statements to control the display of c
    {% endif %}
 
 Displaying configuration values
--------------------------------
+===============================
 
 To directly display a configuration value in your template, use the following syntax:
 
@@ -45,12 +45,12 @@ For example, to display the API OAuth2 access token lifetime:
    API OAuth2 Access Token Lifetime: {{ configGetParameter('api_oauth2_access_token_lifetime') }}
 
 Finding available parameters
-----------------------------
+============================
 
 The ``/config/local.php`` file contains available configuration parameters, once you save the global configuration form for the first time. This file contains the complete list of settings that are accessible using ``configGetParameter``.
 
 Identifying parameter names
----------------------------
+===========================
 
 To find the correct parameter name for a specific setting:
 
@@ -67,7 +67,7 @@ For example, if you see:
 The corresponding parameter name would be ``api_oauth2_access_token_lifetime``.
 
 Additional information
-----------------------
+**********************
 
 - Be cautious when displaying sensitive configuration data in templates.
 - Always consider providing default values when using configuration parameters to handle cases where the setting aren't defined.
