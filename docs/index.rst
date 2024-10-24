@@ -147,6 +147,8 @@ There are several ways to support Mautic other than contributing with code.
    :caption: REST API
    :hidden:
 
+   rest_api/getting_started
+   rest_api/authentication
    rest_api/assets
    rest_api/campaigns
    rest_api/categories
