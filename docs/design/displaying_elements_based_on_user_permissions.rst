@@ -93,7 +93,7 @@ Map the permission keys from the UserPermissions class to the corresponding perm
 - editusername => user:profile:editusername
 - editemail => user:profile:editemail
 - ``editposition`` => ``user:profile:editposition``
-- editname => user:profile:editname
+- ``editname`` => ``user:profile:editname``
 - full => user:profile:full
 
 In each if statement, the securityIsGranted function is used with the corresponding permission string. If the current user has the specified permission, the code inside the if block will be executed, displaying the relevant form fields for editing the user profile information.
