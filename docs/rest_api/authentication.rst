@@ -44,12 +44,9 @@ Using Mautic's API library with ``BasicAuth``
    $contactsApi = $api->newApi('contacts', $auth, $apiUrl);
    $contacts    = $contactsApi->getList();
 
-.. vale off
 
 Plain HTTP requests
 ===================
-
-.. vale on
 
 1. Combine the username and password of a Mautic User with a colon ``:``. For example, ``user:password``.
 2. Base64 encode this value. For example, with ``echo -n 'user:password' | base64``. This outputs something like ``dXNlcjpwYXNzd29yZA==``.
@@ -80,12 +77,12 @@ There are two main flows that Mautic supports:
    * - Authorization code flow
      - This flow is best if you want Users to log in with their own Mautic accounts. All actions taken get registered as if the User performed them in Mautic's UI.
    * - Client Credentials flow
-     - This flow is best for Machine-to-Machine, M2M, communications. For example, in cron jobs that run on at fixed times of the day.
+     - This flow is best for Machine-to-Machine, M2M, communications. For example, in Cron jobs that run on at fixed times of the day.
        All actions get registered under the name that you provided in ``Settings > API Credentials``.
        So if you called your API Credential ``Mautibot test``, Contacts created through the API show up as ``Contact was identified by Mautibot test [1]``, where ``[1]`` is the ID of the API Credential.
  
 
-Authorization code flow 
+Authorization Code flow 
 ========================
 
 Using Mautic's API library for the Authorization Code flow
@@ -223,7 +220,6 @@ The response returned should be a JSON encoded string:
         "refresh_token": "REFRESH_TOKEN"
     }
 
-.. vale off
 
 Client Credentials flow
 =======================
@@ -231,18 +227,13 @@ Client Credentials flow
 Using Mautic's API library for the Client Credentials flow
 ----------------------------------------------------------
 
-.. vale on
-
 .. warning:: 
 
     Mautic's API library doesn't have support yet for this flow, but there's an open PR that adds support: https://github.com/mautic/api-library/pull/269
 
-.. vale off
 
 Using plain OAuth2 for the Client Credentials flow
 --------------------------------------------------
-
-.. vale on
 
 To obtain a new access token, make a POST request to the access token's endpoint ``oauth/v2/token`` using the ``client_credentials`` grant type.
 
@@ -264,12 +255,9 @@ The response returned should be a JSON encoded string:
         "scope": ""
     }
 
-.. vale off
 
 Authenticating the API Request
 ==============================
-
-.. vale on
 
 Authenticating the API request with OAuth2 is easy. Choose one of the following methods that's appropriate for the app's needs.
 
