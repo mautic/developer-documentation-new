@@ -39,8 +39,12 @@ In case of system errors, the response is a JSON encoded array similar to:
        }
    }
 
+.. vale off
+
 Mautic version check
 ********************
+
+.. vale on
 
 In case your API service wants to support several Mautic versions with different features, you might need to validate the version of Mautic you communicate with. Since Mautic 2.4.0, the version number is in all API response headers. The header name is ``Mautic-Version``.
 
@@ -59,7 +63,7 @@ With Mautic's PHP API library, you can get the Mautic version like this:
 
 ``$version`` is in a semantic versioning format: ``[major].[minor].[patch]``. For example: ``2.4.0``. If you'll try it on the latest GitHub version, the version has ``-dev`` at the end. Like ``2.5.1-dev``.
 
-API Rate limiter cache
+API rate limiter cache
 **********************
 
 You can configure rate limiter cache in ``config/local.php``, which defaults to the filesystem:

@@ -39,14 +39,17 @@ Using Mautic's API library with ``BasicAuth``
 
    $initAuth = new ApiAuth($httpClient);
    $auth     = $initAuth->newAuth($settings, 'BasicAuth');
-
+   
    $api         = new MauticApi();
    $contactsApi = $api->newApi('contacts', $auth, $apiUrl);
    $contacts    = $contactsApi->getList();
-
+   
+.. vale off
 
 Plain HTTP requests
 ===================
+
+.. vale on
 
 1. Combine the username and password of a Mautic User with a colon ``:``. For example, ``user:password``.
 2. Base64 encode this value. For example, with ``echo -n 'user:password' | base64``. This outputs something like ``dXNlcjpwYXNzd29yZA==``.
@@ -129,7 +132,7 @@ Using plain OAuth2 for the Authorization Code flow
    The OAuth processes can be tricky. If possible, it's best to use an OAuth library for the language that's used. If you're using PHP, Mautic recommends using the :xref:`Mautic API Library`.
 
 Step one - obtain authorization code
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Redirect the User to the authorize endpoint ``/oauth/v2/authorize``:
 
@@ -159,7 +162,7 @@ It may look something like: ``https://example.com/your-callback?code=UNIQUE_CODE
 You should compare the returned ``state`` against the original to ensure the request wasn't tampered with. 
 
 Step two - replace with an access token
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Obtain the value of the code from Step One, then immediately POST it back to the access token endpoint ``oauth/v2/token`` like so:
 
@@ -185,7 +188,7 @@ The response returned is a JSON encoded string:
 Please store this data in a secure location and use it to authenticate API requests.
 
 Refreshing tokens
-^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~
 
 The response's ``expires_in`` is the number of seconds the access token is good for and may differ based on what you configured in Mautic. The code handling the authorization process should generate an expiration timestamp based on that value. For example ``<?php $expiration = time() + $response['expires_in']; ?>``. If the access token has expired, you can use the ``refresh_token`` to obtain a new access token.
 
@@ -220,6 +223,7 @@ The response returned should be a JSON encoded string:
         "refresh_token": "REFRESH_TOKEN"
     }
 
+.. vale off
 
 Client Credentials flow
 =======================
@@ -227,13 +231,18 @@ Client Credentials flow
 Using Mautic's API library for the Client Credentials flow
 ----------------------------------------------------------
 
+.. vale on
+
 .. warning:: 
 
-    Mautic's API library doesn't have support yet for this flow, but there's an open PR that adds support: https://github.com/mautic/api-library/pull/269
+    Mautic's API library doesn't have support yet for this flow, but there's an open PR that adds support: :xref:`Client Credentials Support`
 
+.. vale off
 
 Using plain OAuth2 for the Client Credentials flow
 --------------------------------------------------
+
+.. vale on
 
 To obtain a new access token, make a POST request to the access token's endpoint ``oauth/v2/token`` using the ``client_credentials`` grant type.
 
@@ -256,7 +265,7 @@ The response returned should be a JSON encoded string:
     }
 
 
-Authenticating the API Request
+Authenticating the API request
 ==============================
 
 Authenticating the API request with OAuth2 is easy. Choose one of the following methods that's appropriate for the app's needs.
