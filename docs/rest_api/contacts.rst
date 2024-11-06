@@ -246,6 +246,8 @@ Get a list of Contacts.
      - An array of advanced where conditions
    * - ``order``
      - An array of advanced order statements
+   * - ``select``
+     - An array of field aliases to include in the Contact data, with ID a mandatory field. Mautic returns all fields if it's not provided.
 
 
 Advanced filtering
