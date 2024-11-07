@@ -57,7 +57,7 @@ The easiest way to listen to various events is to use an event subscriber. Read 
 Plugin event subscribers can extend ``\Mautic\CoreBundle\EventListener\CommonSubscriber`` which gives access to commonly used dependencies and also allows registering the subscriber service through the config file for the bundle. See :ref:`plugins/config:Service config items` for more information on registering event services. 
     
 Available events
-----------------
+****************
 
 
 
