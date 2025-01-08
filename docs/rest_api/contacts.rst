@@ -2081,9 +2081,9 @@ Get Activity events for all Contacts
      - Date from filter. Must be type of ``\DateTime`` for the PHP API Library and in format ``Y-m-d H:i:s`` for HTTP param
    * - ``filters[dateTo]``
      - Date to filter. Must be type of ``\DateTime`` for the PHP API Library and in format ``Y-m-d H:i:s`` for HTTP param
-   * - ``orderBy``
+   * - ``order[0]``
      - Column to sort by. Can use any column listed in the response.
-   * - ``orderByDir``
+   * - ``order[1]``
      - Sort direction: ``asc`` or ``desc``.
    * - ``page``
      - What ``page`` number to load
