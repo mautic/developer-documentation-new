@@ -1,6 +1,6 @@
 [![Documentation Status][RTD badge URL]][RTD URL]
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/mautic/developer-documentation-new)
@@ -125,6 +125,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://dennisameling.com"><img src="https://avatars.githubusercontent.com/u/17739158?v=4?s=100" width="100px;" alt="Dennis Ameling"/><br /><sub><b>Dennis Ameling</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=dennisameling" title="Documentation">📖</a> <a href="https://github.com/mautic/developer-documentation-new/pulls?q=is%3Apr+reviewed-by%3Adennisameling" title="Reviewed Pull Requests">👀</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://ifeoluwafavour.hashnode.dev"><img src="https://avatars.githubusercontent.com/u/64481442?v=4?s=100" width="100px;" alt="Ife"/><br /><sub><b>Ife</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=ifeoluwafavour" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://incodit.com"><img src="https://avatars.githubusercontent.com/u/6416992?v=4?s=100" width="100px;" alt="Balbinder Sumbria"/><br /><sub><b>Balbinder Sumbria</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=sumbria" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Hugo-Prossaird"><img src="https://avatars.githubusercontent.com/u/176997845?v=4?s=100" width="100px;" alt="Hugo-Prossaird"/><br /><sub><b>Hugo-Prossaird</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=Hugo-Prossaird" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
