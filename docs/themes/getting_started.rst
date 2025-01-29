@@ -240,7 +240,7 @@ Mautic uses Packagist to distribute Themes and Plugins. There are certain steps 
     }
   }
 
-1. Ensure that you add a ``close_pull_requests.yml`` file in the ``.github/workflows`` directory of your Theme repository. This file automatically close pull requests opened in the Theme repository. Please review other Themes for examples.
+1. Ensure that you add a ``close_pull_requests.yml`` file in the ``.github/workflows`` folder of your Theme. This file automatically close pull requests opened in the Theme repository. Please review other Themes for examples.
 
 2. Ensure that you add your Theme to, or create, the following files:
   
