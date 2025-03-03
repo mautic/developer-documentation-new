@@ -1,14 +1,10 @@
-.. vale off
-
 Providing effective user feedback
-=================================
-
-.. vale on
+#################################
 
 When developing features, it's crucial to ensure that Users receive clear feedback and guidance when certain information or data isn't available. Instead of hiding tabs or displaying zeroed metrics, for example, adopt a proactive approach to inform and guide Users.
 
 Fundamental principles
-----------------------
+**********************
 
 The principles of visibility, transparency, and guidance form the foundation of an intuitive and informative user experience.
 
@@ -19,7 +15,7 @@ The principles of visibility, transparency, and guidance form the foundation of 
 Visibility ensures that Users are aware of all available functionalities, even when they're not active or populated. Transparency builds trust by clearly explaining why certain information might be missing. Guidance empowers Users by providing clear paths for action and improvement. Together, these principles transform moments of frustration into solutions, helping marketing professionals complete their tasks.
 
 Practical implementation
-------------------------
+************************
 
 The practical implementation of these guidelines in Mautic goes beyond avoiding blank screens. It involves creating a conversation with the User, anticipating their needs, and guiding them with minimal workload. Every informative message, call to action, or configuration tip serves as a contextual mini-tutorial, educating Users about the platform's capabilities while helping them overcome obstacles.
 
@@ -45,17 +41,15 @@ When encountering situations where data is absent, follow these guidelines:
 
 This approach not only improves immediate usability but also accelerates the Users' learning curve, leading to more sophisticated use of the platform over time. Users don't feel 'stuck' when encountering areas without data, but are instead motivated to explore and fill those gaps.
 
-.. vale off
-
 'No Results' template
----------------------
-
-.. vale on
+*********************
 
 Mautic includes a reusable template for displaying informative messages when no results are available. This template offers a consistent and flexible way to provide User feedback, with options for additional actions.
 
 Template structure
-------------------
+==================
+
+The 'No Results' template is a Twig template:
 
 .. code-block:: twig
 
@@ -73,14 +67,10 @@ Parameters
 
 The template accepts the following parameters:
 
-.. vale off
-
-- **tip** (required): display a translation string that contains the main message.
-- **link** (optional): a translation string for the link/button text.
-- **href** (optional): use the ``URL`` for navigation when clicking the link.
-- **onclick** (optional): JavaScript function to be executed when the link is clicked.
-
-.. vale on
+- ``tip`` - required: display a translation string that contains the main message.
+- ``link`` - optional: a translation string for the link/button text.
+- ``href`` - optional: use the ``URL`` for navigation when clicking the link.
+- ``onclick`` - optional: JavaScript function to be executed when the link is clicked.
 
 Functionality
 -------------
@@ -102,13 +92,13 @@ To use this template in your code, you can include it as follows:
 
 In this example, the template displays a message indicating that no Segments are available, with a link to create a new Segment.
 
-Why?
-----
+Why provide a uniform message in the absence of results?
+--------------------------------------------------------
 
 It ensures a uniform presentation of 'no results' messages across the platform, providing consistency in the User experience. Its flexibility allows use in various situations, from empty lists to graphs without data, adapting to different contexts. The optional link makes the template actionable, guiding the User to actions that can resolve the 'no results' situation, promoting engagement and problem resolution. Additionally, support for internationalization translates messages into different languages, making the platform more globally accessible.
 
-Best practices
---------------
+Best practices for using the 'No Results' template
+--------------------------------------------------
 
 To maximize the effectiveness of this template, it's important to follow some best practices. Always provide a clear and informative message in the ``tip`` parameter, ensuring that the User understands the current situation. When appropriate, include a link to an action that can help the User resolve the 'no results' situation, promoting a more interactive and solution-oriented experience. It's crucial to use specific messages for each context, avoiding generic texts like 'No results found,' which may not provide useful information to the User. Finally, include all strings in the translation files to guarantee a consistent experience in all supported languages.
 
