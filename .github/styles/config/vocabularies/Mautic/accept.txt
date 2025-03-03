@@ -25,6 +25,7 @@ CloudAMQP
 Codeception
 Codecov
 Company(ies)
+Composability
 Composer
 Config
 config
