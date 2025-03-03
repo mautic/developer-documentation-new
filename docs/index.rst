@@ -55,8 +55,11 @@ There are several ways to support Mautic other than contributing with code.
    :maxdepth: 2
    :caption: Design and UX
    :hidden:
-
+   
    design/tiles
+   design/utilities
+   design/notifications
+   design/retrieving_system_information
 
 .. toctree::
    :maxdepth: 2
@@ -157,9 +160,16 @@ There are several ways to support Mautic other than contributing with code.
    rest_api/reports
    rest_api/text_messages
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Testing
+   :hidden:
+
+   testing/e2e_test_suite
+
 Indices and tables
 ==================
 
-* :ref:`genindex` 
+* :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
