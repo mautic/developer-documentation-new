@@ -56,6 +56,7 @@ There are several ways to support Mautic other than contributing with code.
    :caption: Design and UX
    :hidden:
 
+   design/notifications
    design/retrieving_system_information
 
 .. toctree::
