@@ -44,44 +44,93 @@ Abbreviation keys
 - ``fo``: order
 
 Flex container properties
-=========================
+*************************
+
+Display properties
+==================
 
 - ``.d-flex``: Sets an element to be a flex container by setting its display property to flex. It allows the direct children of the element to be laid out in a flex context.
+
+Direction properties
+====================
+
 - ``.fd-row``: Sets the direction of the flex items in the container to a row. The items are laid out from left to right.
 - ``.fd-row-reverse``: Sets the direction of the flex items in the container to a row, but in reverse. The items are laid out from right to left.
 - ``.fd-column``: Sets the direction of the flex items in the container to a column. The items are laid out from top to bottom.
 - ``.fd-column-reverse``: Sets the direction of the flex items in the container to a column, but in reverse. The items are laid out from bottom to top.
+
+Wrap properties
+===============
+
 - ``.fw-wrap``: Allows the flex items to wrap onto multiple lines if there isn't enough room for them on one line.
 - ``.fw-nowrap``: Prevents the flex items from wrapping onto multiple lines, even if there isn't enough room for them on one line.
 - ``.fw-wrap-reverse``: Allows the flex items to wrap onto multiple lines if there isn't enough room for them on one line, but in reverse.
+
+Justify properties
+==================
+
 - ``.jc-start``: Aligns the flex items along the start of the main axis. In a row direction, this is the left edge, and in a column direction, this is the top edge.
 - ``.jc-end``: Aligns the flex items along the end of the main axis. In a row direction, this is the right edge, and in a column direction, this is the bottom edge.
 - ``.jc-center``: Aligns the flex items along the center of the main axis.
 - ``.jc-space-between``: Evenly distributes the flex items along the main axis, with the first item at the start and the last item at the end.
 - ``.jc-space-around``: Evenly distributes the flex items along the main axis, with equal space around each item.
 - ``.jc-space-evenly``: Evenly distributes the flex items along the main axis, with equal space between each item, including the first and last items.
+
+Align properties
+================
+
+Align items
+-----------
+
 - ``.ai-start``: Aligns the flex items along the start of the cross axis. In a row direction, this is the top edge, and in a column direction, this is the left edge.
 - ``.ai-end``: Aligns the flex items along the end of the cross axis. In a row direction, this is the bottom edge, and in a column direction, this is the right edge.
 - ``.ai-center``: Aligns the flex items along the center of the cross axis.
 - ``.ai-baseline``: Aligns the flex items along their baseline. The baseline is the line upon which the letters in a line of text would rest.
 - ``.ai-stretch``: Stretches the flex items to fill the container along the cross axis.
+
+Align content
+-------------
+
 - ``.ac-start``: Aligns the lines of flex items along the start of the cross axis when there is extra space in the cross axis.
 - ``.ac-end``: Aligns the lines of flex items along the end of the cross axis when there is extra space in the cross axis.
 - ``.ac-center``: Aligns the lines of flex items along the center of the cross axis when there is extra space in the cross axis.
 - ``.ac-space-between``: Evenly distributes the lines of flex items along the cross axis, with the first line at the start and the last line at the end, when there is extra space in the cross axis.
 - ``.ac-space-around``: Evenly distributes the lines of flex items along the cross axis, with equal space around each line, when there is extra space in the cross axis.
 - ``.ac-stretch``: Stretches the lines of flex items to fill the container along the cross axis when there is extra space in the cross axis.
+
+Align self
+----------
+
 - ``.as-start``: Aligns a single flex item along the start of the cross axis.
 - ``.as-end``: Aligns a single flex item along the end of the cross axis.
 - ``.as-center``: Aligns a single flex item along the center of the cross axis.
 - ``.as-baseline``: Aligns a single flex item along the baseline.
 - ``.as-stretch``: Stretches a single flex item to fill the container along the cross axis.
+
+Flex item properties
+=====================
+
+Flex grow properties
+--------------------
+
 - ``.fg-1``: Sets the flex grow factor of a flex item to 1. This means the item will grow to fill any remaining space in the container.
 - ``.fg-0``: Sets the flex grow factor of a flex item to 0. This means the item will not grow to fill any remaining space in the container.
+
+Flex shrink properties
+----------------------
+
 - ``.fs-1``: Sets the flex shrink factor of a flex item to 1. This means the item can shrink if necessary to fit into the container.
 - ``.fs-0``: Sets the flex shrink factor of a flex item to 0. This means the item cannot shrink to fit into the container.
+
+Flex basis properties
+---------------------
+
 - ``.fb-auto``: Sets the flex basis of a flex item to auto. This means the browser will calculate the size of the item based on its content.
 - ``.fb-0``: Sets the flex basis of a flex item to 0. This means the item will have a size of 0 before any growing or shrinking takes place.
+
+Flex order properties
+---------------------
+
 - ``.fo-auto``: Sets the order of a flex item to auto. This means the item will be laid out in the order it appears in the source code.
 - ``.fo-0``, ``.fo-1``, ``.fo-2``, ``.fo-3``, ``.fo-4``, ``.fo-5``: Sets the order of a flex item to the specified number. This means the item will be laid out in that order, regardless of where it appears in the source code.
 - ``.gap-20``, ``.gap-lg``: Sets the gap between flex items to 20px.
@@ -95,7 +144,7 @@ Flex container properties
 - ``.gap-0``: Sets the gap between flex items to 0px.
 
 Responsive variations
----------------------
+=====================
 
 The utilities follow a mobile-first responsive design principle, becoming active at specific minimum screen sizes. You create these responsive variations by appending ``-sm``, ``-md``, or ``-lg`` to the end of the utility class name.
 
