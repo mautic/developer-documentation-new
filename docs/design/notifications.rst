@@ -144,6 +144,7 @@ Notification types
 ==================
 
 The ``$type`` parameter determines the visual style of the notification:
+
 .. vale off
 
 - ``'success'``: green alert with success icon
@@ -179,7 +180,21 @@ Here's how to create a notification when you schedule a Contact export:
    }
 
 This use case shows how to integrate the NotificationModel into event-driven processes within Mautic.
-This example calls the ``addNotification`` method with specific parameters tailored to the Contact export scenario. The Translator service handles the ``$message`` parameter to generate a localized message. This approach includes the User's Email address in the notification message. The system uses the translation key ``mautic.lead.export.being.prepared`` with the parameter ``%user_email%``, replacing it with the actual Email of the User who scheduled the export. This method allows for dynamic content insertion into the translated string.
-If the User's Email weren't needed in the message, the system could have used a normal translation string without parameter replacement.
 
-The other parameters in the ``addNotification`` call are equally important. The system styles the notification as an informational alert using the ``info`` type, which is appropriate for a status update on a scheduled task. The false value for ``$isRead`` ensures that the notification appears as unread, drawing the User's attention to this new information. The header, like the message, uses a translation key ``mautic.lead.export.being.prepared.header`` to maintain language consistency. Null values for the icon class and ``datetime`` mean that the system uses default values for these optional parameters. Finally, by passing the ``$user`` object, the notification is specifically associated with the user who initiated the export, ensuring it appears in their personal notification panel.
+It calls the ``addNotification`` method with specific parameters tailored to the Contact export scenario. The Translator service handles the ``$message`` parameter to generate a localized message. 
+
+This approach includes the User's Email address in the notification message. The system uses the translation key ``mautic.lead.export.being.prepared`` with the parameter ``%user_email%``, replacing it with the actual Email of the User who scheduled the export. 
+
+This method allows for dynamic content insertion into the translated string. If the User's Email weren't needed in the message, the system could have used a normal translation string without parameter replacement.
+
+The other parameters in the ``addNotification`` call are equally important. 
+
+The system styles the notification as an informational alert using the ``info`` type, which is appropriate for a status update on a scheduled task. 
+
+The false value for ``$isRead`` ensures that the notification appears as unread, drawing the User's attention to this new information. 
+
+The header, like the message, uses a translation key ``mautic.lead.export.being.prepared.header`` to maintain language consistency. 
+
+Null values for the icon class and ``datetime`` mean that the system uses default values for these optional parameters. 
+
+Finally, by passing the ``$user`` object, the notification is specifically associated with the User who initiated the export, ensuring it appears in their personal notification panel.
