@@ -1,8 +1,8 @@
 Utilities
-=========
+#########
 
 Introduction
-------------
+************
 
 Mautic offers a set of CSS utility classes designed to facilitate efficient implementation of flexible layouts using CSS flex-box. These utilities provide a systematic approach to constructing responsive and dynamic new areas for its User interface, enabling you to rapidly prototype and build complex layouts while minimizing custom CSS.
 
@@ -16,47 +16,35 @@ The utility classes seek to encompass a great spectrum of flex-box properties, i
 - Item ordering
 
 Key aspects
-^^^^^^^^^^^^
+***********
 
 1. **Abbreviated Nomenclature**: class names follow a logical, short and easy-to-remember convention.
 2. **Most Common Uses Coverage**: utilities address the full range of flex-box properties and behaviors.
 3. **Responsive Design**: includes variations for different view port sizes, enabling fine-grained control over layout across devices.
-.. vale off
-
 4. **Composability**: you can combine classes to create sophisticated layout patterns.
-
-.. vale on
-
 5. **Consistent Spacing**: standardized options for managing padding, margin and gap properties.
 
 This documentation clearly explains each utility class, its function, and its app. It includes practical examples and best practices for combining utilities to achieve complex layout requirements.
 
 The following sections detail the individual utility classes, their usage, and advanced implementation strategies. This resource helps front-end developers efficiently leverage flex-box in their projects.
 
-
 Abbreviation keys
-----------------
+=================
 
-.. vale off
-
-- **d**: display
-- **fd**: flex-direction
-- **fw**: flex-wrap
-- **jc**: justify-content
-- **ai**: align-items
-- **ac**: align-content
-- **as**: align-self
-- **fg**: flex-grow
-- **fs**: flex-shrink
-- **fb**: flex-basis
-- **fo**: order
-
-.. vale on
+- **``d``**: display
+- **``fd``**: flex-direction
+- **``fw``**: flex-wrap
+- **``jc``**: justify-content
+- **``ai``**: align-items
+- **``ac``**: align-content
+- **``as``**: align-self
+- **``fg``**: flex-grow
+- **``fs``**: flex-shrink
+- **``fb``**: flex-basis
+- **``fo``**: order
 
 Flex container properties
--------------------------
-
-.. vale off
+=========================
 
 - ``.d-flex``: Sets an element to be a flex container by setting its display property to flex. It allows the direct children of the element to be laid out in a flex context.
 - ``.fd-row``: Sets the direction of the flex items in the container to a row. The items are laid out from left to right.
@@ -106,8 +94,6 @@ Flex container properties
 - ``.gap-1``: Sets the gap between flex items to 1px.
 - ``.gap-0``: Sets the gap between flex items to 0px.
 
-.. vale on
-
 Responsive variations
 ---------------------
 
@@ -128,8 +114,8 @@ For example:
 This approach allows for progressive enhancement of layouts as the view-port size increases, providing fine-grained control over the responsiveness of your design.
 
 
-Usage examples
---------------
+Responsive examples
+===================
 
 Here are some example scenarios that illustrate how to use these utilities in practice:
 
@@ -154,7 +140,7 @@ This example creates a flex container with items spread across the container and
 This example creates a vertical stack of items that stretch to fill the container's width, with a 10px gap between them.
 
 Combining utilities
--------------------
+===================
 
 Note that you can combine these utilities to create complex layouts. For example:
 
@@ -172,12 +158,12 @@ This combination creates a flex container that:
 - Has a 15px gap between items
 
 Padding and margin utilities
-============================
+****************************
 
 The CSS utility classes for padding and margin provide a comprehensive set of options for controlling spacing within your layouts. These utilities follow a consistent naming convention and offer a range of predefined sizes, including pixel values and variable-based spacing.
 
 Naming convention
------------------
+=================
 
 The utility classes use the following prefixes:
 
@@ -193,7 +179,7 @@ The utility classes use the following prefixes:
 - ``ml-``: margin left
 
 Size options
-------------
+============
 
 The utilities offer the following size options:
 
@@ -205,8 +191,8 @@ The utilities offer the following size options:
 
 .. vale on
 
-Usage examples
---------------
+Padding and margin examples
+===========================
 
 .. code-block:: html
 
@@ -217,13 +203,13 @@ Usage examples
     <div class="mt-32 mb-32">Margin 32px on top and bottom</div>
 
 Variable-based sizes
---------------------
+====================
 
 Some utilities use CSS variables for spacing, allowing for easy theming and consistent spacing across your app:
 
 - ``var(--spacing-03)`` to ``var(--spacing-13)``
 
-These correspond to specific pixel values (for example, ``var(--spacing-03)`` is 8px, ``var(--spacing-13)`` is 160px).
+These correspond to specific pixel values - for example, ``var(--spacing-03)`` is 8px, ``var(--spacing-13)`` is 160px.
 
 .. note::
    All padding and margin utilities use the ``!important`` declaration to ensure they take precedence over other styles. Use these utilities judiciously to maintain the integrity of your CSS architecture.
