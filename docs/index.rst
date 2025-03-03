@@ -56,7 +56,7 @@ There are several ways to support Mautic other than contributing with code.
    :caption: Design and UX
    :hidden:
 
-   design/retrieving_system_settings
+   design/retrieving_system_information
 
 .. toctree::
    :maxdepth: 2
