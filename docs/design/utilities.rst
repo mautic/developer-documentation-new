@@ -31,17 +31,17 @@ The following sections detail the individual utility classes, their usage, and a
 Abbreviation keys
 =================
 
-- **``d``**: display
-- **``fd``**: flex-direction
-- **``fw``**: flex-wrap
-- **``jc``**: justify-content
-- **``ai``**: align-items
-- **``ac``**: align-content
-- **``as``**: align-self
-- **``fg``**: flex-grow
-- **``fs``**: flex-shrink
-- **``fb``**: flex-basis
-- **``fo``**: order
+- ``d``: display
+- ``fd``: flex-direction
+- ``fw``: flex-wrap
+- ``jc``: justify-content
+- ``ai``: align-items
+- ``ac``: align-content
+- ``as``: align-self
+- ``fg``: flex-grow
+- ``fs``: flex-shrink
+- ``fb``: flex-basis
+- ``fo``: order
 
 Flex container properties
 =========================
