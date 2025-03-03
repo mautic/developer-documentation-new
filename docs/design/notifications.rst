@@ -43,7 +43,7 @@ Accessibility
 
 .. vale off
 
-Using notification Components
+Using notification components
 *****************************
 
 .. vale on
