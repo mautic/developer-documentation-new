@@ -57,6 +57,7 @@ There are several ways to support Mautic other than contributing with code.
    :hidden:
 
    design/accordion
+   design/availability
    design/feedback
    design/labelling
    design/notifications
