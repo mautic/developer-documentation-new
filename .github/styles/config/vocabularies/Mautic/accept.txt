@@ -2,6 +2,7 @@ AJAX
 allowlist
 Amazon SES
 Ameling
+ascenders
 autoloader
 Autoloader
 autowire
@@ -25,6 +26,7 @@ CloudAMQP
 Codeception
 Codecov
 Company(ies)
+Composability
 Composer
 Config
 config
@@ -48,8 +50,6 @@ Firewalls
 firewalls
 Focus Item
 Focus Items
-Forms
-forms
 Froala
 Froogaloop
 gcm
@@ -71,6 +71,8 @@ HubSpot
 IDP
 IMAP
 infographics
+Initialisms
+initialisms
 ISO
 JavaScript
 Joomla
@@ -138,7 +140,6 @@ Themes
 timeframe
 Todo
 tooltip
-Tooltip
 Transifex
 Translator
 TRUE
