@@ -1,10 +1,10 @@
 ProTip template to enhancing user experience
-============================================
+############################################
 
 The ProTip template is a powerful feature that displays helpful tips to Users, guiding them on how to use the platform like a pro. This template uses Twig. Here's how this template works and how to effectively use it in Mautic.
 
-Template structure and functionality
-------------------------------------
+Twig template for ProTips
+*************************
 
 The ProTip template conditionally renders a tip when provided. Here's a breakdown of its key components:
 
@@ -30,8 +30,8 @@ To include a ProTip in Mautic, use the following syntax:
 
     {{ include('@MauticCore/Helper/protip.html.twig', {tip: 'mautic.core.protip.contacts.view'}) }}
 
-In this example, it includes the ProTip template, and a translation key (``mautic.core.protip.contacts.view``) is passed as the tip content. This specific tip informs Users about using the ``V`` key to switch between card and table views.
+In this example, it includes the ProTip template and passes a translation key - ``mautic.core.protip.contacts.view`` - as the tip content. This specific tip informs Users about using the ``V`` key to switch between card and table views.
 
-The use of a translation key instead of a hard-coded string allows for easy localization of tips. It also promotes consistency across Mautic, as the same tip can be reused in multiple places by referencing its key.
+The use of a translation key instead of a hard-coded string allows for easy localization of tips. It also promotes consistency across Mautic, as it's possible to reuse the same tip in multiple places by referencing its key.
 
 Use the ProTip template to enhance the user experience of Mautic. These tips provide contextual help, highlighting shortcuts and features that Users might otherwise overlook. It's important to keep tips concise, relevant, and actionable to maximize their effectiveness in guiding Users to become 'Power Users'.
