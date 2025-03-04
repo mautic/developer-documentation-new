@@ -2,6 +2,7 @@ AJAX
 allowlist
 Amazon SES
 Ameling
+ascenders
 autoloader
 Autoloader
 autowire
@@ -49,10 +50,6 @@ Firewalls
 firewalls
 Focus Item
 Focus Items
-Form
-form
-Forms
-forms
 Froala
 Froogaloop
 gcm
@@ -74,6 +71,8 @@ HubSpot
 IDP
 IMAP
 infographics
+Initialisms
+initialisms
 ISO
 JavaScript
 Joomla
@@ -141,7 +140,6 @@ Themes
 timeframe
 Todo
 tooltip
-Tooltip
 Transifex
 Translator
 TRUE
