@@ -278,6 +278,8 @@ Users depend on consistent labels for common actions to navigate interfaces effe
 A
 =
 
+.. _add:
+
 Add
 ---
 
@@ -285,12 +287,16 @@ Takes an existing object and uses it in a new context - for example, adds an ite
 
 Where appropriate, combine add with the object - for example, Add User or Add role. See also :ref:`Create`, :ref:`Insert`, :ref:`New`, and :ref:`Upload`.
 
+.. _apply:
+
 Apply
 -----
 
 Saves changes without closing the dialog. These properties often affect subsequent system behavior.
 
-Use instead of Save changes. See also :ref:`Save` and :ref:`Save as`.
+Use instead of Save changes. See also :ref:`Save` and :ref:`save-as`.
+
+.. _approve:
 
 Approve
 -------
@@ -302,12 +308,16 @@ See also :ref:`Reject`.
 B
 =
 
+.. _back:
+
 Back
 ----
 
 Returns the User to the previous step in a sequence of steps, such as in a wizard.
 
 Use instead of Previous. See also :ref:`Next` and :ref:`Finish`.
+
+.. _browse:
 
 Browse
 ------
@@ -317,12 +327,16 @@ Assists the User in selecting a file - for example, on a button or link next to 
 C
 =
 
+.. _cancel:
+
 Cancel
 ------
 
 Stops the current action and closes the dialog.
 
 Warn the User of any possible negative consequences of stopping an action from progressing, such as data corruption. See also :ref:`Reset`.
+
+.. _clear:
 
 Clear
 -----
@@ -331,12 +345,16 @@ This action clears all the fields or selections. Also deletes the contents of a 
 
 Where appropriate, combine clear with the object - for example, Clear fields or Clear all. See also :ref:`Delete` and :ref:`Remove`.
 
+.. _close:
+
 Close
 -----
 
 Closes the current page or window - for example, closing a secondary window containing online help.
 
 Don't use Close alongside OK or Cancel actions. See also :ref:`Cancel` and :ref:`Done`.
+
+.. _copy:
 
 Copy
 ----
@@ -345,12 +363,16 @@ Creates new instances of the selected objects in a specific destination.
 
 Combine Copy with the object copied - for example, Copy folder - or the destination - for example, Copy to clipboard - if there are multiple possibilities. See also :ref:`New`.
 
+.. _create:
+
 Create
 ------
 
 Makes a new object from scratch - for example, creates a calendar event or creates a new document.
 
 In scenarios where the User needs to supply some details or settings as part of the create process, use new to initiate the action and create to apply the user-supplied details or settings to the new object. See also :ref:`Add`, :ref:`Copy`, :ref:`Insert`, and :ref:`New`.
+
+.. _customize:
 
 Customize
 ---------
@@ -360,6 +382,8 @@ Allow a User to make desired changes.
 D
 =
 
+.. _delete:
+
 Delete
 ------
 
@@ -367,12 +391,16 @@ Destroys an existing object so that it no longer exists - for example, deletes a
 
 Where appropriate, combine Delete with the object - for example, Delete column or Delete row. See also :ref:`Clear` and :ref:`Remove`.
 
+.. _docs:
+
 Docs
 ----
 
 Opens a separate window containing the product documentation.
 
-Use as link text only for the specific link that points to the product documentation from the console menu bar. See also :ref:`Learn more`.
+Use as link text only for the specific link that points to the product documentation from the console menu bar. See also :ref:`learn-more`.
+
+.. _done:
 
 Done
 ----
@@ -381,12 +409,16 @@ Indicates that the User has finished working in an environment - for example, ed
 
 See also :ref:`Close` and :ref:`Finish`.
 
+.. _download:
+
 Download
 --------
 
 Transfers a file from a remote system to a local system.
 
 See also :ref:`Upload`.
+
+.. _drop:
 
 Drop
 ----
@@ -398,17 +430,23 @@ In other scenarios, use :ref:`Clear`, :ref:`Delete`, or :ref:`Remove`.
 E
 =
 
+.. _edit:
+
 Edit
 ----
 
 Allows the changing of data or values.
+
+.. _empty-trash:
 
 Empty trash
 -----------
 
 Permanently deletes all files or objects placed into a trash container.
 
-See also :ref:`Move to trash`.
+See also :ref:`move-to-trash`.
+
+.. _export:
 
 Export
 ------
@@ -420,6 +458,8 @@ See also :ref:`Import`.
 F
 =
 
+.. _filter:
+
 Filter
 ------
 
@@ -427,12 +467,16 @@ Shortens a list to objects that match the filter criteria.
 
 See also :ref:`Find` and :ref:`Search`.
 
+.. _find:
+
 Find
 ----
 
 Moves the cursor to the next element matching the specified criteria - for example, view the next occurrence of a specific word within an Email message.
 
 See also :ref:`Filter` and :ref:`Search`.
+
+.. _finish:
 
 Finish
 ------
@@ -444,15 +488,19 @@ See also :ref:`Done`.
 G
 =
 
+.. _get-help:
+
 Get help
 --------
 
 Opens a search field from which the User can search for help information.
 
-Use only as link text on the console menu bar. See also :ref:`Docs` and :ref:`Learn more`.
+Use only as link text on the console menu bar. See also :ref:`Docs` and :ref:`learn-more`.
 
 H
 =
+
+.. _hide:
 
 Hide
 ----
@@ -464,12 +512,16 @@ See also :ref:`Show`.
 I
 =
 
+.. _import:
+
 Import
 ------
 
 Transforms data or objects from an external source. Typically opens a secondary window for the User to locate the external source.
 
 Context: creating a new table based on comma-separated values contained in a separate file. See also :ref:`Export`.
+
+.. _insert:
 
 Insert
 ------
@@ -481,10 +533,14 @@ Context: adding a picture to the body of a document or inserting a record into a
 L
 =
 
+.. _launch:
+
 Launch
 ------
 
 Don't use Launch, use :ref:`Start`.
+
+.. _learn-more:
 
 Learn more
 ----------
@@ -493,44 +549,56 @@ Opens additional, highly contextual information. Insert at the end of inline tex
 
 If space permits, combine Learn more with meaningful text that describes the content you're pointing to. For example, if your User needs some best practices to manage apps in multiple regions, you could use Learn more about regions.
 
+.. _log-in:
+
 Log in
 ------
 
 Enters a site or app. This choice typically opens a Form for entry of credentials. Also used on the submission button after Users enter their credentials.
 
-Use instead of Sign in. This is to make it visually distinct from Sign up. These options are often side by side and the different words allow for quick recognition. See also :ref:`Log out`.
+Use instead of Sign in. This is to make it visually distinct from Sign up. These options are often side by side and the different words allow for quick recognition. See also :ref:`log-out`.
+
+.. _log-out:
 
 Log out
 -------
 
 Exits an app or site.
 
-Use instead of Sign out. See also :ref:`Log in`.
+Use instead of Sign out. See also :ref:`log-in`.
 
 M
 =
+
+.. _move:
 
 Move
 ----
 
 Transfers an object from one container - for example, folder, activity, or page - to another.
 
+.. _move-to-trash:
+
 Move to trash
 -------------
 
 A soft delete. Moves a file or object to an area from where it can later be permanently deleted or recovered.
 
-Use instead of Delete if it's possible for the User to recover the objects. See also :ref:`Empty trash`.
+Use instead of Delete if it's possible for the User to recover the objects. See also :ref:`empty-trash`.
 
 N
 =
+
+.. _new:
 
 New
 ---
 
 Starts the creation of a new object. New either creates the object immediately or opens a dialog or set of fields where the User can enter properties.
 
-Combine new with the object to create - for example, New User or New column. See also :ref:`Add`, :ref:`Copy`, :ref:`Create`, :ref:`Insert`, and :ref:`Save as`.
+Combine new with the object to create - for example, New User or New column. See also :ref:`Add`, :ref:`Copy`, :ref:`Create`, :ref:`Insert`, and :ref:`save-as`.
+
+.. _next:
 
 Next
 ----
@@ -544,6 +612,8 @@ O
 
 .. vale off
 
+.. _ok:
+
 OK
 --
 
@@ -556,12 +626,16 @@ Best practice is to use a label corresponding to the specific action - for examp
 P
 =
 
+.. _play:
+
 Play
 ----
 
 Starts audio, video, or an animation.
 
 .. vale off
+
+.. _post:
 
 Post
 ----
@@ -572,10 +646,14 @@ Adds a new comment to an online community or adds status to a log or record.
 
 If you are editing an existing comment, use :ref:`Save` instead.
 
+.. _preview:
+
 Preview
 -------
 
 Shows how an object or content appears with formatting applied before publishing or distributing the content. Alternatively, provides an incomplete display of an existing object without leaving the current context.
+
+.. _print:
 
 Print
 -----
@@ -585,12 +663,16 @@ Sends a copy of the currently selected object or the object in view to the print
 R
 =
 
+.. _redo:
+
 Redo
 ----
 
 Redoes an undo action.
 
 Likely used only as a tooltip on an icon button. See also :ref:`Undo`.
+
+.. _refresh:
 
 Refresh
 -------
@@ -599,12 +681,16 @@ Reloads the view of an object when displaying outdated data in the view.
 
 Likely used only as a tooltip on an icon button.
 
+.. _reject:
+
 Reject
 ------
 
 Indicates the User doesn't approve. In a business process, typically blocks the process from proceeding to the next step.
 
 See also :ref:`Approve`.
+
+.. _remove:
 
 Remove
 ------
@@ -613,17 +699,23 @@ Removes an object from the current context but the object isn't destroyed as a r
 
 Where appropriate, combine Remove with relevant object - for example, Remove User or Remove role. See also :ref:`Clear` and :ref:`Delete`.
 
+.. _reply:
+
 Reply
 -----
 
 Indicates or completes a response to an Email or a comment.
+
+.. _reset:
 
 Reset
 -----
 
 Reverts values back to their last saved state. The last saved state includes the values stored the last time the User clicked Apply. Doesn't close the dialog or window.
 
-See also :ref:`Cancel`, :ref:`Restore`, :ref:`Restore defaults`, and :ref:`Undo`.
+See also :ref:`Cancel`, :ref:`Restore`, :ref:`restore-defaults`, and :ref:`Undo`.
+
+.. _restore:
 
 Restore
 -------
@@ -632,6 +724,8 @@ Brings a file back after deletion, corruption, or similar event.
 
 See also :ref:`Reset`.
 
+.. _restore-all:
+
 Restore all
 -----------
 
@@ -639,12 +733,16 @@ Completes a restore operation on all files or objects in a given system or conta
 
 See also :ref:`Restore`.
 
+.. _restore-defaults:
+
 Restore defaults
 ----------------
 
 Sets Form values to the default settings.
 
 See also :ref:`Reset` and :ref:`Undo`.
+
+.. _run:
 
 Run
 ---
@@ -656,6 +754,8 @@ Use Run instead of Execute.
 S
 =
 
+.. _save:
+
 Save
 ----
 
@@ -663,10 +763,14 @@ Saves pending modifications made to a file or document. Doesn't close the window
 
 See also :ref:`Apply`.
 
+.. _save-as:
+
 Save as
 -------
 
-Creates a new object based on the state of the object currently being viewed. The User names the new object and typically identifies its location.
+Creates a new object based on the state of the current object. The User names the new object and typically identifies its location.
+
+.. _search:
 
 Search
 ------
@@ -675,10 +779,14 @@ Returns all objects - for example, files, names, or documents - within a defined
 
 See also :ref:`Filter` and :ref:`Find`.
 
+.. _select:
+
 Select
 ------
 
 Selects data from a table.
+
+.. _select-all:
 
 Select all
 ----------
@@ -687,10 +795,14 @@ Adds all objects in the view to the selection set or checks all checkboxes.
 
 See also :ref:`Clear`.
 
+.. _send:
+
 Send
 ----
 
 Transfers an Email or other information to the recipient or destination.
+
+.. _show:
 
 Show
 ----
@@ -699,12 +811,16 @@ Reveals an object that was previously hidden - for example, shows descriptions o
 
 See also :ref:`Hide`.
 
+.. _sign-up:
+
 Sign up
 -------
 
 Creates a User account or registers a User in a system.
 
-Use instead of :ref:`Register`.
+Use instead of Register.
+
+.. _sort:
 
 Sort
 ----
@@ -713,12 +829,16 @@ Sorts a list or table column.
 
 Likely used only as a tooltip on an icon button. Used without 'ascending' or 'descending' only if providing the order to a screen reader in the code for accessibility.
 
+.. _start:
+
 Start
 -----
 
 Deploy an app or service to its development or production environment for use.
 
 Use instead of Launch.
+
+.. _submit-an-idea:
 
 Submit an idea
 --------------
@@ -727,6 +847,8 @@ Opens a window or modal to submit feedback using external tool or resource.
 
 T
 =
+
+.. _top:
 
 Top
 ---
@@ -738,6 +860,8 @@ Use instead of Back to top.
 U
 =
 
+.. _undo:
+
 Undo
 ----
 
@@ -745,12 +869,16 @@ Reverts to the state before the most recent changes made by the User. Repeated u
 
 Not all actions, such as Save, can be undone. See also :ref:`Redo`, :ref:`Reset`, and :ref:`Restore`.
 
+.. _update:
+
 Update
 ------
 
 Label for a button in a dialog or Form for editing an object. Settings applied during the update process.
 
 See also :ref:`Edit`.
+
+.. _upload:
 
 Upload
 ------
@@ -761,6 +889,8 @@ See also :ref:`Download`
 
 V
 =
+
+.. _view-details:
 
 View details
 ------------
