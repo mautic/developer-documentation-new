@@ -1,12 +1,12 @@
-Disabling interface elements
-=======================================
+Depicting availability of interface elements
+############################################
 
 The state of interface elements is a crucial aspect of user interface design, providing visual feedback and preventing interaction when certain actions aren't allowed.
 
-Disabling tabs
---------------
+Working with tabs
+*****************
 
-We use the following CSS code to style disabled tabs:
+We use the following CSS code to style tabs which are not available for interaction:
 
 .. code-block:: css
 
@@ -22,12 +22,12 @@ We use the following CSS code to style disabled tabs:
 
 This CSS accomplishes the following:
 
-* Sets the cursor to ``not-allowed`` for disabled tabs, indicating that interaction is prohibited.
-* Changes the text color to a predefined disabled state color.
-* Modifies the background color of the tab to visually represent its disabled state.
+* Sets the cursor to ``not-allowed`` for tabs which can't be interacted with, indicating that interaction is prohibited.
+* Changes the text color to a predefined inactive state color.
+* Modifies the background color of the tab to visually represent its inactive state.
 * Prevent click events on the tab using ``pointer-events: none``.
 
-To dynamically disable tabs, we use JavaScript to add or remove the ``disabled`` class. Here's an example function:
+To dynamically deactivate tabs, we use JavaScript to add or remove the ``disabled`` class. Here's an example function:
 
 .. code-block:: javascript
 
@@ -46,10 +46,10 @@ This function:
 * Checks the state of a checkbox - ``#role_isAdmin_0``.
 * Adds or removes the ``disabled`` class from the permissions tab based on the checkbox state.
 
-To implement disabled states for tabs:
+To implement inactive states for tabs:
 
 1. Assign unique IDs to your tab elements.
 2. Use JavaScript to toggle the ``disabled`` class on the appropriate ``<li>`` elements.
 
 .. note::
-   Always use disabled states instead of hiding elements.
+   Always use inactive states instead of hiding elements.
