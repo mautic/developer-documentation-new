@@ -771,6 +771,8 @@ Presents additional information or properties for the object
 Quick list
 **********
 
+.. vale off
+
 - **Add**: incorporates an existing object into a new context, such as adding a Contact to a Mautic Segment.
 - **Apply**: saves changes without closing the dialog, affecting future system behavior.
 - **Approve**: indicates User agreement, typically moving to the next step in a business process.
@@ -804,13 +806,7 @@ Quick list
 - **Move to trash**: performs a soft delete by moving a file or object to an area where it can be permanently deleted or recovered later.
 - **OK**: confirms an action or completes the current task. Use specific labels like Save or Close when available.
 - **Play**: starts audio, video, or an animation.
-
-.. vale off
-
 - **Post**: adds a new comment to a community or updates a status log.
-  
-.. vale on
-
 - **Preview**: displays how content appears with formatting before publishing.
 - **Save**: saves modifications to a file or document without closing the window.
 - **Search**: returns objects matching specified criteria within a defined set, such as a Mautic Contact list.
@@ -825,3 +821,5 @@ Quick list
 - **Undo**: reverts to the state before recent changes, applicable to data changes.
 - **Update**: applies settings from a dialog to an object, like updating Contact preferences in Mautic.
 - **Upload**: transfers a file from a local to a remote system
+
+.. vale on
