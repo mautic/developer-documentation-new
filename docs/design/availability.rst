@@ -6,7 +6,7 @@ The state of interface elements is a crucial aspect of user interface design, pr
 Working with tabs
 *****************
 
-We use the following CSS code to style tabs which are not available for interaction:
+Mautic uses the following CSS code to style tabs which aren't available for interaction:
 
 .. code-block:: css
 
@@ -27,7 +27,7 @@ This CSS accomplishes the following:
 * Modifies the background color of the tab to visually represent its inactive state.
 * Prevent click events on the tab using ``pointer-events: none``.
 
-To dynamically deactivate tabs, we use JavaScript to add or remove the ``disabled`` class. Here's an example function:
+To dynamically deactivate tabs, use JavaScript to add or remove the ``disabled`` class. Here's an example function:
 
 .. code-block:: javascript
 
