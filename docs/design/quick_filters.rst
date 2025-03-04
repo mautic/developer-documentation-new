@@ -1,10 +1,10 @@
 Quick filters for searches
-==========================
+##########################
 
 Quick filters provide an efficient way to search using existing search commands. This documentation outlines how to create and implement new quick filters for Mautic searches.
 
 Implementation overview
------------------------
+***********************
 
 Mautic implements quick filters using a combination of JavaScript and Twig templates. The process involves three main components:
 
@@ -13,7 +13,7 @@ Mautic implements quick filters using a combination of JavaScript and Twig templ
 3. Array of PHP code for defining filter options
 
 JavaScript functionality
-------------------------
+========================
 
 The ``Mautic.listQuickFilter`` function is responsible for applying the quick filter:
 
@@ -36,7 +36,7 @@ This function performs the following actions:
 3. Simulates an Enter key press to trigger the search
 
 Twig template
--------------
+=============
 
 Mautic renders the quick filter buttons using a Twig template:
 
@@ -61,7 +61,7 @@ Mautic renders the quick filter buttons using a Twig template:
 This template iterates through the provided quick filters and creates clickable labels for each one on the toolbar.
 
 Implementing quick filters
---------------------------
+==========================
 
 To add quick filters to a list view, include the ``list_toolbar.html.twig`` template and pass the ``quickFilters`` option:
 
@@ -83,7 +83,7 @@ To add quick filters to a list view, include the ``list_toolbar.html.twig`` temp
    }) }}
 
 Quick filter options
---------------------
+====================
 
 You define each quick filter as an associative array with the following keys:
 
@@ -93,7 +93,7 @@ You define each quick filter as an associative array with the following keys:
 - ``icon``: the CSS class for the icon displayed on the button
 
 Multiple quick filters
-----------------------
+======================
 
 You can define multiple quick filters by adding more items to the ``quickFilters`` array:
 
