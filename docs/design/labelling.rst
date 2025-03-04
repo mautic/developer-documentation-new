@@ -124,7 +124,7 @@ Examples:
 
 .. vale off
 
-**Do:** You can use a _global policy_ to apply changes to all users.
+**Do:** You can use a *global policy* to apply changes to all users.
 
 **Avoid:** You can use a Global Policy to apply changes to all users
 
@@ -804,9 +804,13 @@ Quick list
 - **Move to trash**: performs a soft delete by moving a file or object to an area where it can be permanently deleted or recovered later.
 - **OK**: confirms an action or completes the current task. Use specific labels like Save or Close when available.
 - **Play**: starts audio, video, or an animation.
+
 .. vale off
+
 - **Post**: adds a new comment to a community or updates a status log.
+  
 .. vale on
+
 - **Preview**: displays how content appears with formatting before publishing.
 - **Save**: saves modifications to a file or document without closing the window.
 - **Search**: returns objects matching specified criteria within a defined set, such as a Mautic Contact list.
