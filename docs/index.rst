@@ -60,6 +60,7 @@ There are several ways to support Mautic other than contributing with code.
    design/feedback
    design/labelling
    design/notifications
+   design/quick_filters
    design/retrieving_system_information
    design/tiles
    design/utilities
