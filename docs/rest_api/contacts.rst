@@ -246,6 +246,8 @@ Get a list of Contacts.
      - An array of advanced where conditions
    * - ``order``
      - An array of advanced order statements
+   * - ``select``
+     - An array of field aliases to include in the Contact data, with ID a mandatory field. Mautic returns all fields if it's not provided.
 
 
 Advanced filtering
@@ -2081,9 +2083,9 @@ Get Activity events for all Contacts
      - Date from filter. Must be type of ``\DateTime`` for the PHP API Library and in format ``Y-m-d H:i:s`` for HTTP param
    * - ``filters[dateTo]``
      - Date to filter. Must be type of ``\DateTime`` for the PHP API Library and in format ``Y-m-d H:i:s`` for HTTP param
-   * - ``orderBy``
+   * - ``order[0]``
      - Column to sort by. Can use any column listed in the response.
-   * - ``orderByDir``
+   * - ``order[1]``
      - Sort direction: ``asc`` or ``desc``.
    * - ``page``
      - What ``page`` number to load
