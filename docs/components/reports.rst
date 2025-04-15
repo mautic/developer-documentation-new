@@ -23,19 +23,37 @@ Column Definition
 
 Each column array can include the following properties:
 
-+-------------+-----------+--------+---------------------------------------------------------------+
-| Key         | Required? | Type   | Description                                                   |
-+=============+===========+========+===============================================================+
-| ``label``   | Yes       | string | The language string for the column                            |
-+-------------+-----------+--------+---------------------------------------------------------------+
-| ``type``    | Yes       | string | Column data type (e.g. ``int``, ``text``)                     |
-+-------------+-----------+--------+---------------------------------------------------------------+
-| ``alias``   | No        | string | Alias for the returned value, useful with SQL formulas        |
-+-------------+-----------+--------+---------------------------------------------------------------+
-| ``formula`` | No        | string | SQL formula instead of a column (e.g. ``SUBSTRING_INDEX(...)``) |
-+-------------+-----------+--------+---------------------------------------------------------------+
-| ``link``    | No        | string | Route name to turn value into a hyperlink                     |
-+-------------+-----------+--------+---------------------------------------------------------------+
+.. vale on
+
+.. list-table::
+    :header-rows: 1
+
+    * - Key
+      - Required?
+      - Type
+      - Description
+    * - ``label``
+      - REQUIRED
+      - string
+      - The language string for the column.
+    * - type
+      - REQUIRED
+      - string
+      - Column type.
+    * - alias
+      - OPTIONAL
+      - string
+      - An alias for the returned value. Useful in conjuction with ``formula``.
+    * - formula
+      - OPTIONAL
+      - string
+      - SQL formula instead of a column. e.g. ``SUBSTRING_INDEX(e.type, \'.\', 1)``.
+    * - link
+      - OPTIONAL
+      - string
+      - Route name to convert the value into a hyperlink. Used usually with an ID of an Entity. The route must accept ``objectAction`` and ``objectId`` parameters.
+
+.. vale off
 
 Filter Definition
 -----------------
@@ -44,22 +62,35 @@ Filters are optional. If not defined, Mautic will default to using the column de
 
 Additional filter keys include:
 
-+-------------+-----------+--------+-------------------------------------------------------------+
-| Key         | Required? | Type   | Description                                                 |
-+=============+===========+========+=============================================================+
-| ``list``    | No        | array  | Dropdown options when type is ``select`` (e.g. ``earth`` => ``Earth``) |
-+-------------+-----------+--------+-------------------------------------------------------------+
-| ``operators`` | No      | array  | Custom list of allowed filter operators                     |
-+-------------+-----------+--------+-------------------------------------------------------------+
+.. vale on
 
-Generating the QueryBuilder
+.. list-table::
+    :header-rows: 1
+
+    * - Key
+      - Required?
+      - Type
+      - Description
+    * - list
+      - OPTIONAL
+      - array
+      - Used when ``type`` is select for a filter. Provides the dropdown options for a select input. Format should be ``value => label``.
+    * - operators
+      - OPTIONAL
+      - array
+      - Custom list of operators to allow for this filter. See ``Mautic\ReportBundle\Builder\MauticReportBuilder::OPERATORS`` for a examples.
+
+.. vale off
+
+Generate the QueryBuilder
 ---------------------------
 
-Use the ``ReportEvents::REPORT_ON_GENERATE`` event to define how the report data is retrieved.
+The ``ReportEvents::REPORT_ON_GENERATE`` event is dispatched when a report is to be generated and displayed. In this function, the plugin should define the ``QueryBuilder`` object used to generate the table data.
 
-- Use ``$event->checkContext()`` to check if the report belongs to this subscriber.
-- Use Doctrine's DBAL QueryBuilder via ``$event->getQueryBuilder()``.
-- Join commonly used relationships using helper methods like ``addCategoryLeftJoin()``.
+Use ``$event->checkContext()`` to determine if the report requested is the subscribers report.
+
+Note that the ``ReportEvents::REPORT_ON_GENERATE`` event should use Doctrine’s DBAL layer QueryBuilder obtained via ``$qb = $event->getQueryBuilder();``.
+There are a number of helper functions to append joins for commonly used relationships such as category, leads, ip address, etc. Refer to the ``ReportGeneratorEvent`` class for more details.
 
 Generating Graphs
 -----------------
