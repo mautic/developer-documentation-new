@@ -704,19 +704,21 @@ Configure parameters that are consumable through Mautic's ``CoreParameterHelper`
 
 Custom config parameters
 ************************
-Mautic plugins can define custom configuration parameters for use within their code. These parameters are typically stored in ``app/config/local.php``, and their default values should be defined in the plugin’s own config file to ensure stability and avoid errors.
+You can define custom configuration parameters in your plugin to support configurable features, such as enabling or disabling functionality.
 
-To prevent Symfony from throwing errors during cache compilation, or when accessing parameters directly from the container without checking for existence, always define custom parameters in the `plugin’s config file <https://devdocs.mautic.org/en/latest/plugins/config.html#parameters-config-items>`_. This guarantees the parameter exists and has a fallback value.
+Mautic plugins allow you to define these parameters for use within your plugin’s code. Store these parameters in ``app/config/local.php``, and define their default values in the plugin’s own config file to ensure stability and avoid errors. 
 
-To add these configuration options in the Configuration page, you’ll need:
+To avoid errors during cache compilation or when accessing parameters directly from the container without checking for their existence, always define custom parameters in the `plugin’s config file <https://devdocs.mautic.org/en/latest/plugins/config.html#parameters-config-items>`_. This guarantees that the parameter exists and has a fallback value.
 
-- An `event subscriber <https://devdocs.mautic.org/en/latest/plugins/event_listeners.html>`_ to register the configuration,
-- A `form type <https://devdocs.mautic.org/en/latest/components/forms.html>`_ that defines the fields, and
+To add these configuration options in the configuration page, you’ll need:
+
+- An `event subscriber <https://devdocs.mautic.org/en/latest/plugins/event_listeners.html>`_ to register the configuration.
+- A `form type <https://devdocs.mautic.org/en/latest/components/forms.html>`_ that defines the fields.
 - A specific view for rendering the form.
 
 .. note::
 
-   To translate the plugin’s tab label in the Configuration form, include a translation key like ``mautic.config.tab.helloworld_config`` in the plugin’s ``messages.ini`` file. Replace ``helloworld_config`` with the formAlias used when registering the form in the event subscriber.
+   To translate the plugin’s tab label in the configuration form, include a translation key like ``mautic.config.tab.helloworld_config`` in the plugin’s ``messages.ini`` file. Replace ``helloworld_config`` with the ``formAlias`` used when registering the form in the event subscriber.
 
 
 Config event subscriber
@@ -793,15 +795,15 @@ Subscribed events
 The event subscriber listens to the following events:
 
 - ``ConfigEvents::CONFIG_ON_GENERATE``:
-  This event is dispatched when the configuration form is built, allowing the plugin to inject its own tab and configuration options.
+  This event is dispatched when the configuration form is built. This allows the plugin to inject its own tab and configuration options.
 
 - ``ConfigEvents::CONFIG_PRE_SAVE``:
-  This event is triggered before the form values are rendered and saved to the ``local.php`` file. It gives the plugin an opportunity to clean up or manipulate the data before it is written.
+  This event is triggered before the form values are rendered and saved to the ``local.php`` file. This allows the plugin to clean up or modify the data before writing it to ``local.php``.
 
-Handling configuration generation
+Generate plugin configuration
 ---------------------------------
 
-To register the plugin’s configuration details during the ``ConfigEvents::CONFIG_ON_GENERATE`` event, the plugin must call the ``addForm()`` method on the ``ConfigBuilderEvent`` object. The method expects an array with the following elements:
+To register plugin’s configuration details during the ``ConfigEvents::CONFIG_ON_GENERATE event``, call the ``addForm()`` method on the ``ConfigBuilderEvent`` object. The method expects an array with the following elements:
 
 .. list-table::
     :header-rows: 1
@@ -813,23 +815,23 @@ To register the plugin’s configuration details during the ``ConfigEvents::CONF
     * - ``formTheme``
       - The view that formats the configuration form elements, e.g., ``HelloWorldBundle:FormTheme\Config``.
     * - ``parameters``
-      - An array of custom config elements. You can use ``$event->getParametersFromConfig('HelloWorldBundle')`` to retrieve them from the plugin’s config file.
+      - An array of custom configuration elements. ``Use $event->getParametersFromConfig('HelloWorldBundle')`` to retrieve them from the plugin’s configuration file.
 
-Manipulating configuration before save
+Modify configuration before saving
 --------------------------------------
 
-To manipulate or clean up the form data before it is saved, use the ``ConfigEvents::CONFIG_PRE_SAVE`` event. This event is triggered just before the values are saved into the ``local.php`` file. It allows the plugin to adjust the values before they are written.
+To modify the form data before saving, use the ``ConfigEvents::CONFIG_PRE_SAVE event``. This  event is triggered just before values are saved to the ``local.php`` file, allowing the plugin to adjust them.
 
-Registering the subscriber
+Register the event subscriber
 --------------------------
 
-Remember that the subscriber must be registered through the plugin’s configuration in the ``services[events]`` `section <https://devdocs.mautic.org/en/latest/plugins/config.html#service-config-items>`_. This ensures that the plugin listens for the events and reacts accordingly.
+Register the subscriber through the plugin’s configuration in the ``services[events]`` `section <https://devdocs.mautic.org/en/latest/plugins/config.html#service-config-items>`_. This ensures that the plugin listens for the events and reacts accordingly.
 
 
 Config form
 =============
 
-The form type is used to generate the form fields in the main configuration form. Refer to the `Forms documentation <https://devdocs.mautic.org/en/latest/components/forms.html>`_ for more information on using form types.
+The form type is used to generate the form fields in the main configuration form. See the `Forms documentation <https://devdocs.mautic.org/en/latest/components/forms.html>`_ for more information about using form types.
 
 Remember that the form type must be registered through the plugin’s config in the ``services[forms]`` `section <https://devdocs.mautic.org/en/latest/plugins/config.html#service-config-items>`_
 .
