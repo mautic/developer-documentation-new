@@ -1,24 +1,26 @@
 Reports
 #######
-To add and render custom reports in Mautic, your plugin needs to listen to three events:
+To add and render custom Reports in Mautic, your Plugin needs to listen to three events:
 
 - ``\Mautic\ReportBundle\ReportEvents::REPORT_ON_BUILD``
 - ``ReportEvents::REPORT_ON_GENERATE``
 - ``ReportEvents::REPORT_ON_GRAPH_GENERATE``
 
-This guide walks you through defining a custom report, generating report data, and rendering graphs.
+This guide walks you through defining a custom Report, generating Report data, and rendering graphs.
 
+.. vale off
 Defining the Report
 -------------------
 
+.. vale on
 Use the ``ReportEvents::REPORT_ON_BUILD`` event to define:
 
-- The report context
+- The Report context
 - Available columns
-- Available filters (defaults to columns)
+- Available filters - defaults to columns
 - Available graphs
 
-Column Definition
+Column definition
 -----------------
 
 Each column array can include the following properties:
@@ -43,11 +45,11 @@ Each column array can include the following properties:
     * - alias
       - OPTIONAL
       - string
-      - An alias for the returned value. Useful in conjuction with ``formula``.
+      - An alias for the returned value. Useful in conjunction with ``formula``.
     * - formula
       - OPTIONAL
       - string
-      - SQL formula instead of a column. e.g. ``SUBSTRING_INDEX(e.type, \'.\', 1)``.
+      - SQL formula instead of a column. for example. ``SUBSTRING_INDEX(e.type, \'.\', 1)``.
     * - link
       - OPTIONAL
       - string
@@ -58,11 +60,10 @@ Each column array can include the following properties:
 Filter Definition
 -----------------
 
-Filters are optional. If not defined, Mautic will default to using the column definitions. However, filters can provide additional options such as dropdown select lists.
+.. vale on
+Filters are optional. If you don't define them, the system defaults to using the column definitions. However, filters can provide additional options such as dropdown select lists.
 
 Additional filter keys include:
-
-.. vale on
 
 .. list-table::
     :header-rows: 1
@@ -85,11 +86,10 @@ Additional filter keys include:
 Generate the QueryBuilder
 ---------------------------
 
-The ``ReportEvents::REPORT_ON_GENERATE`` event is dispatched when a report is to be generated and displayed. In this function, the plugin should define the ``QueryBuilder`` object used to generate the table data.
+The system dispatches the ``ReportEvents::REPORT_ON_GENERATE`` event when it needs to generate and display a report. In this function, the plugin defines the QueryBuilder object used to generate the table data.
+Call ``$event->checkContext()`` to determine if the requested report is the subscriber's report.
 
-Use ``$event->checkContext()`` to determine if the report requested is the subscribers report.
-
-Note that the ``ReportEvents::REPORT_ON_GENERATE`` event should use Doctrine’s DBAL layer QueryBuilder obtained via ``$qb = $event->getQueryBuilder();``.
+Use Doctrine’s DBAL layer QueryBuilder for the ``ReportEvents::REPORT_ON_GENERATE`` event by obtaining it with ``$qb = $event->getQueryBuilder();``.
 There are a number of helper functions to append joins for commonly used relationships such as category, leads, ip address, etc. Refer to the ``ReportGeneratorEvent`` class for more details.
 
 Generating Graphs
@@ -106,11 +106,11 @@ For supported chart types and options, refer to the ``ChartQuery`` and ``LineCha
 Example: HelloWorld Report Subscriber
 -------------------------------------
 
-Below is an example plugin file located at::
+Below is an example Plugin file located at::
 
     plugins\HelloWorldBundle\EventListener\ReportSubscriber.php
 
-This file subscribes to report events and provides custom logic for adding new tables, columns, filters, and graphs.
+This file subscribes to Report events and provides custom logic for adding new tables, columns, filters, and graphs.
 
 .. code-block:: php
 
