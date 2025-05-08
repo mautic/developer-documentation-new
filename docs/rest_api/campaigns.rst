@@ -1,4 +1,3 @@
-
 Campaigns
 #########
 
@@ -541,6 +540,90 @@ Delete a Campaign.
 **Properties**
 
 Same as `Get Campaign <#get-campaign>`_.
+
+.. vale off
+
+Export Campaign
+***************
+
+.. vale on
+
+This endpoint allows you to export a specific Mautic campaign's data. The data is returned as a JSON file or a ZIP archive containing the JSON file and associated assets.
+
+**HTTP Request**
+
+``GET https://{*your-mautic-domain*}/api/campaigns/export/<*campaign_id*>``
+
+The final part of the URL, ``<*campaign_id*>``, specifies the ID of the campaign to be exported.
+
+**Headers**
+
+=================  ===========================
+Header             Description
+=================  ===========================
+``Authorization``  Bearer *<access_token>*
+=================  ===========================
+
+**Example Request (cURL)**
+
+.. code-block:: bash
+
+   curl --location 'https://{*your-mautic-domain*}/api/campaigns/export/<*campaign_id*>' \
+   --header 'Authorization: Bearer *<your_actual_access_token>*' \
+
+
+(Replace ``<*campaign_id*>`` with the actual campaign ID you wish to export.) 
+
+.. vale off
+
+**Response**
+
+.. vale on
+
+``Expected Response Code: 200
+Content-Type: application/json``
+
+The response body will be the campaign data, either as a direct JSON payload or a ZIP file. The ``Content-Type`` header in the response will indicate the format (e.g., ``application/json`` or ``application/zip``).
+
+.. vale off
+
+Import Campaign
+*************************
+
+.. vale on
+
+This endpoint allows you to import a Mautic campaign from a previously exported JSON or ZIP file.
+
+.. vale off
+
+**HTTP Request**
+
+.. vale on
+
+``POST https://{*your-mautic-domain*}/api/campaigns/import``
+
+**Headers**
+
+=================  ===================================
+Header             Description
+=================  ===================================
+``Authorization``  Bearer *<access_token>*
+``Content-Type``   ``application/json`` or ``application/zip``
+=================  ===================================
+
+**Request Body**
+
+*   **If sending JSON data:** Provide the raw JSON payload directly in the request body.
+*   **If sending a ZIP file:** Upload the ZIP file using form-data.
+
+.. vale off
+
+**Response**
+
+.. vale on
+
+``Expected Response Code: 200`` (or 201 Created, depending on API behavior)
+
 
 .. vale off
 
