@@ -916,7 +916,7 @@ Example Request (cURL):
    --header 'Authorization: Bearer *<your_actual_access_token>*' \
    --data ''
 
-:download:`Example campaign JSON file </docs/components/images/campaign-sample.json>`
+:download:`Example campaign JSON file <images/campaign-sample.json>`
 
 
 Importing a campaign

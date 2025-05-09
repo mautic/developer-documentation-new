@@ -552,7 +552,7 @@ This endpoint allows you to export a specific Mautic campaign's data. The data i
 
 **HTTP Request**
 
-``GET https://{*your-mautic-domain*}/api/campaigns/export/<*campaign_id*>``
+``GET /campaigns/export/<*campaign_id*>``
 
 The final part of the URL, ``<*campaign_id*>``, specifies the ID of the campaign to be exported.
 
@@ -600,7 +600,7 @@ This endpoint allows you to import a Mautic campaign from a previously exported 
 
 .. vale on
 
-``POST https://{*your-mautic-domain*}/api/campaigns/import``
+``POST /campaigns/import``
 
 **Headers**
 
@@ -622,7 +622,7 @@ Header             Description
 
 .. vale on
 
-``Expected Response Code: 200`` (or 201 Created, depending on API behavior)
+``Expected Response Code: 200`` (or 201 Created, depending on API behaviour)
 
 
 .. vale off
