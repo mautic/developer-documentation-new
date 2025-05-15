@@ -549,20 +549,13 @@ Export Campaign
 .. vale on
 
 This endpoint allows you to export a specific Mautic campaign's data. The data is returned as a JSON file or a ZIP archive containing the JSON file and associated assets.
+Refer to `REST API Authentication <https://developer.mautic.org/?php#basic-authentication>`_ for authentication details.
 
 **HTTP Request**
 
 ``GET /campaigns/export/<*campaign_id*>``
 
 The final part of the URL, ``<*campaign_id*>``, specifies the ID of the campaign to be exported.
-
-**Headers**
-
-=================  ===========================
-Header             Description
-=================  ===========================
-``Authorization``  Bearer *<access_token>*
-=================  ===========================
 
 **Example Request (cURL)**
 
@@ -592,7 +585,8 @@ Import Campaign
 
 .. vale on
 
-This endpoint allows you to import a Mautic campaign from a previously exported JSON or ZIP file.
+This endpoint allows you to import a Mautic campaign from a previously exported JSON or ZIP file. Refer to `REST API Authentication <https://developer.mautic.org/?php#basic-authentication>`_ for authentication details.
+
 
 .. vale off
 
@@ -607,7 +601,6 @@ This endpoint allows you to import a Mautic campaign from a previously exported 
 =================  ===================================
 Header             Description
 =================  ===================================
-``Authorization``  Bearer *<access_token>*
 ``Content-Type``   ``application/json`` or ``application/zip``
 =================  ===================================
 

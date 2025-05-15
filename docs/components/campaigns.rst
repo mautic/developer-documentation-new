@@ -860,7 +860,7 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
 Exporting a campaign
 ********************
 
-Mautic's export functionality provides campaign structures in formats that can be easily imported back into Mautic with the import feature. This helps ensure your marketing assets remain portable and preserved, expecially if you are working across many Mautic instances and domains.
+Mautic's export functionality provides campaign structures in formats that can be easily imported back into Mautic with the import feature. This helps ensure your marketing assets remain portable and preserved, especially if you are working across many Mautic instances and domains.
 
 Mautic exports all data related to your campaign to a structured JSON file, complete with any files and assets required. The resulting files are archived to a zip file that is saved to your browser.
 
@@ -870,7 +870,7 @@ The export command can be called from the command line or via the API as well as
 Exporting via Command line
 ==========================
 
-First, copy the campaign zip file into the correct place to be imported into Mautic.
+First, copy the campaign zip file into the correct place to be imported into Mautic. (The below assumes you have installed via Docker Compose and you are running Mautic locally. Use the appropriate file copying mechanism - for example SFTP or SCP - for your environment.)
 
 .. code-block:: bash
 
@@ -887,34 +887,27 @@ Options:
 =====================  ============================================================
 Option                 Description
 =====================  ============================================================
-``--entity=campaign``  Specifies the entity type being imported (e.g. campaign)
+``--entity=campaign``  Specifies the entity type being imported (for example, campaign)
 ``--file``             Path to the file you want to import (ZIP)
-``--user=``            User ID to associate with the import process (e.g. 1 (admin))
+``--user=``            User ID to associate with the import process (for example, 1 (admin))
 =====================  ============================================================
 
 Exporting via API
 =================
 
 Endpoint:
-``GET https://{*your-mautic-domain*}/api/campaigns/export/{*<campaign_id>*}``
+``POST https://{your-mautic-domain}/api/campaigns/export/{*<campaign_id>*}``
 
 The final part of the URL, ``{*<campaign_id>*}``, specifies the ID of the campaign to be exported.
 
-Headers:
-
-=================  ===========================
-Header             Description
-=================  ===========================
-``Authorization``  Bearer *<access_token>*
-=================  ===========================
+Please see `REST API Authentication <https://developer.mautic.org/?php#basic-authentication>`_ for authentication details.
 
 Example Request (cURL):
 
 .. code-block:: bash
 
    curl --location 'https://{*your-mautic-domain*}/api/campaigns/export/{*<campaign_id>*}' \
-   --header 'Authorization: Bearer *<your_actual_access_token>*' \
-   --data ''
+      --data ''
 
 :download:`Example campaign JSON file <images/campaign-sample.json>`
 
@@ -927,7 +920,7 @@ Mautic allows you to import campaigns using JSON files that were previously expo
 During the import process, Mautic performs the following actions:
 
 *   Verifies that the importing user has the necessary permissions and access to all relevant entities.
-*   Checks if all plugins and other dependencies required by the campaign are present in the current Mautic instance.
+*   Checks if all Plugins and other dependencies required by the campaign are present in the current Mautic instance.
 *   Identifies any ID conflicts with existing entities. If conflicts are found, Mautic will prompt you to either update the existing entities or create new ones.
 *   Creates the campaign along with all its related entities to ensure it functions correctly after import.
 
@@ -936,7 +929,7 @@ You can trigger the import command from the command line or via API.
 Importing via Command line
 ==========================
 
-First, copy the campaign data ZIP file to your DDEV container:
+First, copy the campaign data ZIP file to your DDEV container or the appropriate location for your environment. (The below assumes you have installed using Docker Compose; you may require SFTP or SCP for your environment.):
 
 .. code-block:: bash
 
@@ -963,13 +956,13 @@ Importing via API
 
 Endpoint:
 ``POST https://{your-mautic-domain}/api/campaigns/import``
+Refer to `REST API Authentication <https://developer.mautic.org/?php#basic-authentication>`_ for authentication details.
 
 Headers:
 
 =================  ===================================
 Header             Description
 =================  ===================================
-``Authorization``  Bearer *<access_token>*
 ``Content-Type``   ``application/json`` or ``application/zip``
 =================  ===================================
 
