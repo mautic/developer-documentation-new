@@ -704,51 +704,48 @@ Configure parameters that are consumable through Mautic's ``CoreParameterHelper`
 
 Custom config parameters
 ************************
-You can define custom configuration parameters in your plugin to support configurable features, such as enabling or disabling functionality.
+You can define custom configuration parameters in your Plugin to support configurable features, such as enabling or disabling functions.
 
-Mautic plugins allow you to define these parameters for use within your plugin’s code. Store these parameters in ``app/config/local.php``, and define their default values in the plugin’s own config file to ensure stability and avoid errors. 
+Mautic Plugins allow you to define these parameters for use within your Plugin’s code. Store these parameters in ``config/local.php``, and define their default values in the Plugin’s own config file to ensure stability and avoid errors. 
 
-To avoid errors during cache compilation or when accessing parameters directly from the container without checking for their existence, always define custom parameters in the `plugin’s config file <https://devdocs.mautic.org/en/latest/plugins/config.html#parameters-config-items>`_. This guarantees that the parameter exists and has a fallback value.
+To avoid errors during cache compilation or when accessing parameters directly from the container without checking for their existence, always define custom parameters in the :ref:`plugins/config:Parameters config items`. This guarantees that the parameter exists and has a fallback value.
 
-To add these configuration options in the configuration page, you’ll need:
+To add these configuration options in Mautic's configuration section, you’ll need:
 
-- An `event subscriber <https://devdocs.mautic.org/en/latest/plugins/event_listeners.html>`_ to register the configuration.
-- A `form type <https://devdocs.mautic.org/en/latest/components/forms.html>`_ that defines the fields.
+- An :doc:`event subscriber </plugins/event_listeners>` to register the configuration.
+- A :doc:`Form type </components/forms>` that defines the fields. 
 - A specific view for rendering the form.
 
 .. note::
 
-   To translate the plugin’s tab label in the configuration form, include a translation key like ``mautic.config.tab.helloworld_config`` in the plugin’s ``messages.ini`` file. Replace ``helloworld_config`` with the ``formAlias`` used when registering the form in the event subscriber.
+   To translate the Plugin’s tab label in the configuration form, include a translation key like ``mautic.config.tab.helloworld_config`` in the Plugin’s ``messages.ini`` file. Replace ``helloworld_config`` with the ``formAlias`` used when registering the form in the event subscriber.
 
 
 Config event subscriber
 =======================
 
-This allows plugins to interact with Mautic's configuration events. It listens to two important events: ``ConfigEvents::CONFIG_ON_GENERATE`` and ``ConfigEvents::CONFIG_PRE_SAVE``.
+This allows Plugins to interact with Mautic's configuration events. It listens to two important events: ``ConfigEvents::CONFIG_ON_GENERATE`` and ``ConfigEvents::CONFIG_PRE_SAVE``.
 
-The following code example demonstrates how the event subscriber is structured in a plugin.
+The following code example shows how a Plugin structures its event subscriber.
 
 .. code-block:: php
 
     <?php
-    // plugins/HelloWorldBundle/EventListener/ConfigSubscriber.php
+
+    declare(strict_types=1);
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
-
     use Mautic\ConfigBundle\Event\ConfigEvent;
-    use Mautic\CoreBundle\EventListener\CommonSubscriber;
     use Mautic\ConfigBundle\ConfigEvents;
     use Mautic\ConfigBundle\Event\ConfigBuilderEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-    /**
-     * Class ConfigSubscriber
-     */
-    class ConfigSubscriber extends CommonSubscriber
+    final class ConfigSubscriber extends EventSubscriberInterface
     {
         /**
-         * @return array
+         * @return mixed[]
          */
-        static public function getSubscribedEvents()
+        static public function getSubscribedEvents(): array
         {
             return [
                 ConfigEvents::CONFIG_ON_GENERATE => ['onConfigGenerate', 0],
@@ -756,10 +753,7 @@ The following code example demonstrates how the event subscriber is structured i
             ];
         }
 
-        /**
-         * @param ConfigBuilderEvent $event
-         */
-        public function onConfigGenerate(ConfigBuilderEvent $event)
+        public function onConfigGenerate(ConfigBuilderEvent $event): void
         {
             $event->addForm(
                 [
@@ -770,19 +764,14 @@ The following code example demonstrates how the event subscriber is structured i
             );
         }
 
-        /**
-         * @param ConfigEvent $event
-         */
-        public function onConfigSave(ConfigEvent $event)
+        public function onConfigSave(ConfigEvent $event): void
         {
             /** @var array $values */
             $values = $event->getConfig();
-
             // Manipulate the values
             if (!empty($values['helloworld_config']['custom_config_option'])) {
                 $values['helloworld_config']['custom_config_option'] = htmlspecialchars($values['helloworld_config']['custom_config_option']);
             }
-
             // Set updated values 
             $event->setConfig($values);
         }
@@ -795,15 +784,15 @@ Subscribed events
 The event subscriber listens to the following events:
 
 - ``ConfigEvents::CONFIG_ON_GENERATE``:
-  This event is dispatched when the configuration form is built. This allows the plugin to inject its own tab and configuration options.
+  Mautic dispatches this event when it builds the configuration form. This allows the Plugin to inject its own tab and configuration options.
 
 - ``ConfigEvents::CONFIG_PRE_SAVE``:
-  This event is triggered before the form values are rendered and saved to the ``local.php`` file. This allows the plugin to clean up or modify the data before writing it to ``local.php``.
+  Mautic triggers this event before it renders the form values and saves them to the ``local.php`` file. This allows the Plugin to clean up or modify the data before writing it to ``local.php``.
 
 Generate plugin configuration
----------------------------------
-
-To register plugin’s configuration details during the ``ConfigEvents::CONFIG_ON_GENERATE event``, call the ``addForm()`` method on the ``ConfigBuilderEvent`` object. The method expects an array with the following elements:
+-----------------------------
+.. vale on
+To register Plugin’s configuration details during the ``ConfigEvents::CONFIG_ON_GENERATE event``, call the ``addForm()`` method on the ``ConfigBuilderEvent`` object. The method expects an array with the following elements:
 
 .. list-table::
     :header-rows: 1
@@ -813,33 +802,33 @@ To register plugin’s configuration details during the ``ConfigEvents::CONFIG_O
     * - ``formAlias``
       - The alias of the form type class that defines the expected form elements.
     * - ``formTheme``
-      - The view that formats the configuration form elements, e.g., ``HelloWorldBundle:FormTheme\Config``.
+      - The view that formats the configuration form elements, for example, ``HelloWorldBundle:FormTheme\Config``.
     * - ``parameters``
       - An array of custom configuration elements. ``Use $event->getParametersFromConfig('HelloWorldBundle')`` to retrieve them from the plugin’s configuration file.
+.. vale off
 
 Modify configuration before saving
---------------------------------------
+----------------------------------
 
-To modify the form data before saving, use the ``ConfigEvents::CONFIG_PRE_SAVE event``. This  event is triggered just before values are saved to the ``local.php`` file, allowing the plugin to adjust them.
+To modify the form data before saving, use the ``ConfigEvents::CONFIG_PRE_SAVE event``. This  event is triggered just before values are saved to the ``local.php`` file, allowing the Plugin to adjust them.
 
 Register the event subscriber
---------------------------
+-----------------------------
 
-Register the subscriber through the plugin’s configuration in the ``services[events]`` `section <https://devdocs.mautic.org/en/latest/plugins/config.html#service-config-items>`_. This ensures that the plugin listens for the events and reacts accordingly.
+Register the subscriber through the Plugin’s configuration in the ``services[events]`` in :ref:`plugins/config:Service config items`. This ensures that the plugin listens for the events and reacts accordingly.
 
 
 Config form
-=============
+===========
 
-The form type is used to generate the form fields in the main configuration form. See the `Forms documentation <https://devdocs.mautic.org/en/latest/components/forms.html>`_ for more information about using form types.
+The form type is used to generate the form fields in the main configuration form. See the :doc:`Forms documentation</components/forms>` for more information about using form types.
 
-Remember that the form type must be registered through the plugin’s config in the ``services[forms]`` `section <https://devdocs.mautic.org/en/latest/plugins/config.html#service-config-items>`_
+Remember that the form type must be registered through the Plugin’s config in the ``services[forms]`` in :ref:`plugins/config:Service config items`
 .
 
-Below is an example of a form type class that adds a custom configuration option to the plugin's configuration form.
+Below is an example of a form type class that adds a custom configuration option to the Plugin's configuration form.
 
 .. code-block:: php
-
     <?php
     // plugins/HelloWorldBundle/Form/Type/ConfigType.php
 
@@ -848,66 +837,49 @@ Below is an example of a form type class that adds a custom configuration option
     use Symfony\Component\Form\AbstractType;
     use Symfony\Component\Form\FormBuilderInterface;
 
-    /**
-     * Class ConfigType
-     */
-    class ConfigType extends AbstractType
+    final class ConfigType extends AbstractType
     {
         /**
-         * @param FormBuilderInterface $builder
-         * @param array                $options
+         * @param mixed[] $options
          */
-        public function buildForm(FormBuilderInterface $builder, array $options)
+        public function buildForm(FormBuilderInterface $builder, array $options): void
         {
             $builder->add(
                 'custom_config_option',
                 'text',
-                array(
+                [
                     'label' => 'plugin.helloworld.config.custom_config_option',
                     'data'  => $options['data']['custom_config_option'],
-                    'attr'  => array(
+                    'attr'  => [
                         'tooltip' => 'plugin.helloworld.config.custom_config_option_tooltip'
-                    )
-                )
+                    ]
+                ]
             );
-        }
-
-        /**
-         * {@inheritdoc}
-         */
-        public function getName()
-        {
-            return 'helloworld_config';
         }
     }
 
 Config template
-=============
+===============
 
-Registering a form theme as ``HelloWorldBundle:FormTheme\Config`` in the event listener tells the ConfigBundle to look in the HelloWorldBundle’s ``Views/FormTheme/Config`` folder for templates. Specifically, it will look for a template named ``_config_{formAlias}_widget.html.php``, where ``{formAlias}`` is the same as the ``formAlias`` set in the plugin’s ``ConfigEvents::CONFIG_ON_GENERATE`` event listener.
+Registering a form theme as ``HelloWorldBundle:FormTheme\Config`` in the event listener tells the ConfigBundle to look in the HelloWorldBundle’s ``Resources/views/FormTheme/Config`` folder for templates. Specifically, it will look for a template named ``_config_{formAlias}_widget.html.twig``, where ``{formAlias}`` is the same as the ``formAlias`` set in the Plugin’s ``ConfigEvents::CONFIG_ON_GENERATE`` event listener.
 
 The template should be structured in a panel format to match the rest of the configuration UI.
 
 Below is an example of how the template should be structured:
 
-.. code-block:: php
-
-    <?php
-    // plugins/HelloWorldBundle/Views/FormTheme/Config/_config_helloworld_config_widget.html.php
-
-    ?>
-
+.. code-block:: twig  
+    {# plugins/HelloWorldBundle/Views/FormTheme/Config/_config_helloworld_config_widget.html.twig #}  
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title"><?php echo $view['translator']->trans('mautic.config.tab.helloworld_config'); ?></h3>
+            <h3 class="panel-title">{{ 'mautic.config.tab.helloworld_config'|trans }}</h3> 
         </div>
-        <div class="panel-body">
-            <?php foreach ($form->children as $f): ?>
-                <div class="row">
-                    <div class="col-md-6">
-                        <?php echo $view['form']->row($f); ?>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
+        <div class="panel-body">  
+            {% for field in form.children %}  
+                <div class="row">  
+                    <div class="col-md-6">  
+                        {{ form_row(field) }}  
+                    </div>  
+                </div>  
+            {% endfor %}  
+        </div>  
+    </div>  
