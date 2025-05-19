@@ -123,6 +123,7 @@ There are several ways to support Mautic other than contributing with code.
    plugins/translations
    plugins/continuous-integration
    plugins/from-4-to-5
+   plugins/mvc
 
 .. toctree::
    :maxdepth: 2
