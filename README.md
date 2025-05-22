@@ -1,4 +1,4 @@
-[![Documentation Status][RTD badge URL]][RTD URL] [![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
+[![Documentation Status][RTD badge URL]][RTD URL] [![All Contributors](https://img.shields.io/github/all-contributors/mautic/developer-documentation-new?color=ee8449&style=flat-square)](#contributors)
 
 # Mautic developer documentation (new)
 
