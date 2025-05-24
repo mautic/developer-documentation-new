@@ -101,18 +101,18 @@ Delivered adapters
 
 Redis configuration in ``local.php``:
 
-.. code-block:: php
-
-    'redis' => [
-        'dsn' => 'redis://localhost',
-        'options' => [
+.. code-block:: PHP
+    
+    'cache_adapter_redis' => [
+        'dsn' => 'redis://localhost:6379/0',
+        'options' => array(
             'lazy' => false,
             'persistent' => 0,
             'persistent_id' => null,
             'timeout' => 30,
             'read_timeout' => 0,
-            'retry_interval' => 0,
-        ],
+            'retry_interval' => 0
+        ),
     ],
     
 In order to use another adapter, just set it up as a service.
