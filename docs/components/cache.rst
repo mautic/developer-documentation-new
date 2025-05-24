@@ -105,14 +105,14 @@ Redis configuration in ``local.php``:
     
     'cache_adapter_redis' => [
         'dsn' => 'redis://localhost:6379/0',
-        'options' => array(
+        'options' => [
             'lazy' => false,
             'persistent' => 0,
             'persistent_id' => null,
             'timeout' => 30,
             'read_timeout' => 0,
             'retry_interval' => 0
-        ),
+        ],
     ],
     
 In order to use another adapter, just set it up as a service.
