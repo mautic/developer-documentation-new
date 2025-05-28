@@ -122,7 +122,7 @@ Get an individual Stage by ID.
 .. vale off
 
 List Contact Stages
-************
+*********************
 
 .. vale on
 
@@ -227,7 +227,7 @@ List Contact Stages
 .. vale off
 
 Create Stage
-************
+**************
 
 Create a new stage.
 
@@ -282,7 +282,7 @@ Same as `Get Stage <#get-stage>`_.
 .. vale off
 
 Edit Stage
-**********
+************
 
 .. vale on
 
@@ -350,7 +350,7 @@ Same as `Get Stage <#get-stage>`_.
 .. vale off
 
 Delete Stage
-************
+**************
 
 .. vale on
 
@@ -381,7 +381,7 @@ Same as `Get Stage <#get-stage>`_.
 .. vale off
 
 Add Contact to a Stage
-************
+************************
 
 .. vale on
 
@@ -418,7 +418,7 @@ Manually add a contact to a specific stage.
 .. vale off
 
 Remove Contact from a Stage
-************
+*****************************
 
 .. vale on
 
