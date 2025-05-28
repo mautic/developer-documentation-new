@@ -1,7 +1,7 @@
 Stages
 #######
 
-Use this endpoint to obtain details on Mautic’s contact stages.
+Use this endpoint to obtain details on Mautic’s Contact Stages.
 
 .. code-block:: php
 
@@ -81,25 +81,25 @@ Get an individual Stage by ID.
      - ID of the Stage
    * - ``isPublished``
      - boolean
-     - Whether the stage is published
+     - Whether the Stage is published
    * - ``dateAdded``
      - datetime
-     - Date/time stage was created
+     - Date/time Stage was created
    * - ``createdBy``
      - int
-     - ID of the user that created the stage
+     - ID of the user that created the Stage
    * - ``createdByUser``
      - string
-     - Name of the user that created the stage
+     - Name of the user that created the Stage
    * - ``dateModified``
      - datetime/null
-     - Date/time stage was last modified
+     - Date/time Stage was last modified
    * - ``modifiedBy``
      - int
-     - ID of the user that last modified the stage
+     - ID of the user that last modified the Stage
    * - ``modifiedByUser``
      - string
-     - Name of the user that last modified the stage
+     - Name of the user that last modified the Stage
    * - ``name``
      - string`
      - Stage name
