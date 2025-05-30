@@ -1,26 +1,28 @@
 Stages
 #######
 
-Use this endpoint to obtain details on Mautic’s Contact Stages.
+Use this API to manage and retrieve details about contact stages in Mautic.
 
-.. code-block:: php
+.. .. code-block:: php
 
-    <?php
-    use Mautic\MauticApi;
-    use Mautic\Auth\ApiAuth;
+..     <?php
+..     use Mautic\MauticApi;
+..     use Mautic\Auth\ApiAuth;
 
-    // ...
-    $initAuth = new ApiAuth();
-    $auth     = $initAuth->newAuth($settings);
-    $apiUrl   = "https://your-mautic.com";
-    $api      = new MauticApi();
-    $stageApi = $api->newApi("stages", $auth, $apiUrl);
+..     // ...
+..     $initAuth = new ApiAuth();
+..     $auth     = $initAuth->newAuth($settings);
+..     $apiUrl   = "https://your-mautic.com";
+..     $api      = new MauticApi();
+..     $stageApi = $api->newApi("stages", $auth, $apiUrl);
 
 
 .. vale off
 
 Get a Stage
 ************
+
+Get a specific Stage by ID.
 
 .. vale on
 
@@ -30,10 +32,6 @@ Get a Stage
 
    //...
    $stage = $stageApi->get($id);
-
-
-
-Get an individual Stage by ID.
 
 .. vale off
 
@@ -78,51 +76,53 @@ Get an individual Stage by ID.
      - Description
    * - ``id``
      - int
-     - ID of the Stage
+     - The ID of the Stage.
    * - ``isPublished``
      - boolean
-     - Whether the Stage is published
+     - Whether the Stage is published.
    * - ``dateAdded``
      - datetime
-     - Date/time Stage was created
+     - The date or time the Stage was created.
    * - ``createdBy``
      - int
-     - ID of the user that created the Stage
+     - The ID of the user that created the Stage.
    * - ``createdByUser``
      - string
-     - Name of the user that created the Stage
+     - The name of the user that created the Stage.
    * - ``dateModified``
      - datetime/null
-     - Date/time Stage was last modified
+     - The date and time, the Stage was last modified.
    * - ``modifiedBy``
      - int
-     - ID of the user that last modified the Stage
+     - The ID of the user that last modified the Stage.
    * - ``modifiedByUser``
      - string
-     - Name of the user that last modified the Stage
+     - The name of the user that last modified the Stage.
    * - ``name``
-     - string`
-     - Stage name
+     - string
+     - The name of the Stage.
    * - ``category``
      - int
-     - Stage category ID
+     - The category ID of the Stage category.
    * - ``description``
      - string
-     - Stage description
+     - The description of the Stage.
    * - ``weight``
      - int
-     - Stage's weight
+     - The weight of the Stage.
    * - ``publishUp``
      - datetime
-     - Date/time stage should be published
+     - The date and time the Stage should be published.
    * - ``publishDown``
      - datetime
-     - Date/time stage should be unpublished
+     - The date and time, the stage should be unpublished.
 
 .. vale off
 
 List Contact Stages
 *********************
+
+Get a list of all stages.
 
 .. vale on
 
@@ -150,7 +150,7 @@ List Contact Stages
   {
   "total": 4,
   "stages": [
-    {
+      {
         "id": 47,
         "isPublished": 1,
         "dateAdded": "2015-07-21T12:27:12-05:00",
@@ -165,10 +165,9 @@ List Contact Stages
         "weight": 0,
         "publishUp": "2015-07-21T14:12:03-05:00",
         "publishDown": "2015-07-21T14:12:03-05:00"
-    },
-    ...
-  ]
-}
+      },
+    ]
+  }
 
 **Stage Properties**
 
@@ -180,49 +179,49 @@ List Contact Stages
      - Description
    * - ``total``
      - int
-     - Count of all stages
+     - The total number of all the Stages.
    * - ``id``
      - int
-     - ID of the stage
+     - The ID of the Stage.
    * - ``isPublished``
      - boolean
-     - Whether the stage is published
+     - Whether the stage is published.
    * - ``dateAdded``
      - datetime
-     - Date/time stage was created
+     - The date and time the Stage was created.
    * - ``createdBy``
      - int
-     - ID of the user that created the stage
+     - The ID of the user that created the Stage.
    * - ``createdByUser``
      - string
-     - Name of the user that created the stage
+     - The name of the user that created the Stage.
    * - ``dateModified``
      - datetime
-     - Date/time stage was last modified
+     - The date and time the Stage was last modified.
    * - ``modifiedBy``
      - int
-     - ID of the user that last modified the stage
+     - The ID of the user that last modified the Stage.
    * - ``modifiedByUser``
      - string
-     - Name of the user that last modified the stage
+     - The name of the user that last modified the Stage.
    * - ``name``
-     - string`
-     - Stage name
+     - string
+     - The name of the Stage.
    * - ``category``
      - int
-     - Stage category ID
+     - The category ID of the Stage.
    * - ``description``
      - string
-     - Stage description
+     - The description of the Stage.
    * - ``weight``
      - int
-     - Stage's weight
+     - The weight of the Stage.
    * - ``publishUp``
      - datetime
-     - Date/time stage should be published
+     - The date and time the Stage should be published.
    * - ``publishDown``
      - datetime
-     - Date/time stage should be unpublished
+     - The date and time the Stage should be unpublished.
 
 .. vale off
 
@@ -260,15 +259,20 @@ Create a new stage.
    :header-rows: 1
 
    * - Name
+     - Type
      - Description
    * - ``name``
-     - Stage name is the only required field
+     - String
+     - Stage name is the only required field.
    * - ``weight``
      - int
+     - The weight of the Stage.
    * - ``description``
+     - string
      - A description of the stage.
    * - ``isPublished``
-     - A value of 0 or 1
+     - boolean
+     - Whether the Stage is published.
 
 
 **Response**
@@ -277,16 +281,71 @@ Create a new stage.
 
 **Properties**
 
-Same as `Get Stage <#get-stage>`_.
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``id``
+     - int
+     - The ID of the Stage.
+   * - ``isPublished``
+     - boolean
+     - Whether the Stage is published.
+   * - ``dateAdded``
+     - datetime
+     - The date or time the Stage was created.
+   * - ``createdBy``
+     - int
+     - The ID of the user that created the Stage.
+   * - ``createdByUser``
+     - string
+     - The name of the user that created the Stage.
+   * - ``dateModified``
+     - datetime/null
+     - The date and time, the Stage was last modified.
+   * - ``modifiedBy``
+     - int
+     - The ID of the user that last modified the Stage.
+   * - ``modifiedByUser``
+     - string
+     - The name of the user that last modified the Stage.
+   * - ``name``
+     - string
+     - The name of the Stage.
+   * - ``category``
+     - int
+     - The category ID of the Stage category.
+   * - ``description``
+     - string
+     - The description of the Stage.
+   * - ``weight``
+     - int
+     - The weight of the Stage.
+   * - ``publishUp``
+     - datetime
+     - The date and time the Stage should be published.
+   * - ``publishDown``
+     - datetime
+     - The date and time, the stage should be unpublished.
 
 .. vale off
+
 
 Edit Stage
 ************
 
+Use this endpoint to update a Stage by ID. You can use either PUT or PATCH:
+
+Use **PUT** to replace the stage if it exists, or create a new one if it doesn’t.
+
+Use **PATCH** to update the stage if it exists. If the stage doesn’t exist, Mautic returns a 404 error.
+
 .. vale on
 
 .. code-block:: php
+
   <?php
 
   $id   = 1;
@@ -299,23 +358,13 @@ Edit Stage
   $createIfNotFound = true;
 
   $stage = $stageApi->edit($id, $data, $createIfNotFound);
-
-Edit a new Stage. Note that this supports PUT or PATCH depending on the desired behavior.
-
-**PUT** creates a stage if the given ID does not exist and clears all the stage information, adds the information from the request. 
-**PATCH** fails if the stage with the given ID does not exist and updates the stage field values with the values form the request.
-
 .. vale off
+
 
 **HTTP Request**
 
 .. vale on
-
-To edit a Stage and return a 404 if the Stage isn't found:
-
 ``PATCH /stages/ID/edit``
-
-To edit a Asset and create a new one if the Asset isn't found:
 
 ``PUT /stages/ID/edit``
 
@@ -327,30 +376,84 @@ To edit a Asset and create a new one if the Asset isn't found:
    * - Name
      - Description
    * - ``name``
-     - Stage name is the only required field
+     - string
+     - Stage name is the only required field.
    * - ``alias``
-     - Name alias generated automatically if not set
+     - string
+     - Name alias generated automatically if not set.
    * - ``description``
+     - string
      - A description of the stage.
    * - ``isPublished``
-     - A value of 0 or 1.
+     - boolean
+     - Whether the Stage is published.
    * - ``weight``
      - int
+     - 
 
 **Response**
 
-If ``PUT``\ , the expected response code if editing the Asset is ``200`` or ``201`` if created.
+If ``PUT``\ , the expected response code is ``200`` or ``201`` if created.
 
 If using ``PATCH``\ , the expected response code is ``200``.
 
 **Properties**
 
-Same as `Get Stage <#get-stage>`_.
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``id``
+     - int
+     - The ID of the Stage.
+   * - ``isPublished``
+     - boolean
+     - Whether the Stage is published.
+   * - ``dateAdded``
+     - datetime
+     - The date or time the Stage was created.
+   * - ``createdBy``
+     - int
+     - The ID of the user that created the Stage.
+   * - ``createdByUser``
+     - string
+     - The name of the user that created the Stage.
+   * - ``dateModified``
+     - datetime/null
+     - The date and time, the Stage was last modified.
+   * - ``modifiedBy``
+     - int
+     - The ID of the user that last modified the Stage.
+   * - ``modifiedByUser``
+     - string
+     - The name of the user that last modified the Stage.
+   * - ``name``
+     - string
+     - The name of the Stage.
+   * - ``category``
+     - int
+     - The category ID of the Stage category.
+   * - ``description``
+     - string
+     - The description of the Stage.
+   * - ``weight``
+     - int
+     - The weight of the Stage.
+   * - ``publishUp``
+     - datetime
+     - The date and time the Stage should be published.
+   * - ``publishDown``
+     - datetime
+     - The date and time, the stage should be unpublished.
 
 .. vale off
 
 Delete Stage
 **************
+
+Delete a stage by its ID.
 
 .. vale on
 
@@ -359,8 +462,6 @@ Delete Stage
   <?php
 
   $stage = $stageApi->delete($id);
-
-Delete a stage.
 
 .. vale off
 
@@ -376,12 +477,60 @@ Delete a stage.
 
 **Properties**
 
-Same as `Get Stage <#get-stage>`_.
+.. list-table::
+   :header-rows: 1
+   * - Name
+     - Type
+     - Description
+   * - ``id``
+     - int
+     - The ID of the Stage.
+   * - ``isPublished``
+     - boolean
+     - Whether the Stage is published.
+   * - ``dateAdded``
+     - datetime
+     - The date or time the Stage was created.
+   * - ``createdBy``
+     - int
+     - The ID of the user that created the Stage.
+   * - ``createdByUser``
+     - string
+     - The name of the user that created the Stage.
+   * - ``dateModified``
+     - datetime/null
+     - The date and time, the Stage was last modified.
+   * - ``modifiedBy``
+     - int
+     - The ID of the user that last modified the Stage.
+   * - ``modifiedByUser``
+     - string
+     - The name of the user that last modified the Stage.
+   * - ``name``
+     - string
+     - The name of the Stage.
+   * - ``category``
+     - int
+     - The category ID of the Stage category.
+   * - ``description``
+     - string
+     - The description of the Stage.
+   * - ``weight``
+     - int
+     - The weight of the Stage.
+   * - ``publishUp``
+     - datetime
+     - The date and time the Stage should be published.
+   * - ``publishDown``
+     - datetime
+     - The date and time, the Stage should be unpublished.
 
 .. vale off
 
 Add Contact to a Stage
 ************************
+
+You can manually add a contact to a specific Stage.
 
 .. vale on
 
@@ -394,16 +543,13 @@ Add Contact to a Stage
   if (!isset($response['success'])) {
     // handle error
   }
-
-Manually add a contact to a specific stage.
-
 .. vale off
 
 **HTTP Request**
 
 .. vale on
 
-``POST /stages/STAGE_ID/contact/CONTACT_ID/add``
+``POST/stages/STAGE_ID/contact/CONTACT_ID/add``
 
 **Response**
 
@@ -420,6 +566,8 @@ Manually add a contact to a specific stage.
 Remove Contact from a Stage
 *****************************
 
+You can manually remove a contact from a specific Stage.
+
 .. vale on
 
 .. code-block:: php
@@ -431,9 +579,6 @@ Remove Contact from a Stage
   if (!isset($response['success'])) {
     // handle error
   }
-
-Manually remove a contact from a specific stage.
-
 .. vale off
 
 **HTTP Request**
