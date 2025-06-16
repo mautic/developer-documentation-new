@@ -88,7 +88,7 @@ Delivered adapters
 
 .. code-block:: php
     
-    'memcached' => [
+    'cache_adapter_memcached' => [
         'servers' => ['memcached://localhost'],
         'options' => [
             'compression' => true,
