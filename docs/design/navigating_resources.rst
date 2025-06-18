@@ -3,11 +3,11 @@ Views
 
 Views in Mautic use a consistent naming pattern to help you organize and locate templates efficiently.
 
-- list: This is the table view, where the list of objects is displayed. These are high level pages (for example, Contacts, Campaigns, etc)
-- details: This is the view for a single object (for example, a Contact profile)
-- form: This is the form view, where the form for creating or editing a single object is displayed (for example, the New Contact page)
+- list: View and manage all objects in a table format, such as contacts or campaigns. This page provides an overview and allows you to take actions on multiple items.
+- details: Access detailed information about a single object, such as a contact profile. You see all available data and related actions for the specific item.
+- form: Enter or update information for a single object, such as creating or editing a contact. You fill in required fields and submit your changes.
 
-These templates might have parts splitted into different files, for example, the list template might have a ``_list.html.twig`` file for the table and a ``_list_actions.html.twig`` file for the actions.
+These templates might have parts splitted into different files, for example, the list template might have a ``_list.html.twig`` file for the table and a ``_list_actions.html.twig`` file for actions.
 Details templates might have an associated Details folder with files for each tab contents to help with organization and maintainability.
 
 Platform templates
@@ -81,28 +81,30 @@ When naming templates, it's important to follow the same naming pattern used by 
 
 Names must indicate the part of the UI they're responsible for.
 
-Before, the naming standard worked this way (example):
+Template naming and organization best practices
+"""""""""""""""""""""""""""""""""""""""""""""""
 
-The folder ``@MauticPage/Page/`` had these files:
+Use consistent and descriptive naming for your templates to make them easy to locate and understand. Organize related partial templates into subfolders to improve clarity, especially when a single view includes multiple partials.
+
+Previous template organizations often placed partial templates in the same folder as their parent view, using a leading underscore to identify partials. For example, the ``@MauticPage/Page/`` folder included:
 - list.html.twig
 - form.html.twig
 - details.html.twig
 - _list.html.twig
 
-_list.html.twig was a partial template included in list.html.twig at the same folder level, used to render a table for the list of pages in the list view. 
-Names usually started with an underscore to indicate it was a partial template.
+The file ``_list.html.twig`` served as a partial for rendering tables within the list view.
 
-Now, the folder ``@MauticPage/Page/`` would have this structure:
+With the current standard, group all partials for a specific view inside a subfolder named after the parent template. Rename partials to follow a clear pattern, and remove the leading underscore. For instance, in ``@MauticPage/Page/``, organize files as follows:
 - list.html.twig
 - form.html.twig
 - details.html.twig
 - List/list--table.html.twig
 
-_list.html.twig was renamed to list--table.html.twig and moved to the List subfolder. The new organization standard involves creating a subfolder to group partial elements from different views. This makes it easier to find and understand the purpose of each template when searching files in IDEs, mainly when a single view has dozens of partial templates.
+Move the partial ``_list.html.twig`` to ``List/list--table.html.twig``. This approach organizes partials for the list view under the ``List`` subfolder, making it easier to locate and understand their context.
 
-Other examples:
-- For tabs, you can use names such as ``Details/details--tab-overview.html.twig``
-- For modules, create a folder named ``@MauticBundle/Modules/`` (considering full path app/bundles/[Name]Bundle/Resources/views/Modules/) and use names such as ``module--preview.html.twig``
+Apply similar patterns to other UI elements. For example, organize tab partials as ``Details/details--tab-overview.html.twig`` within a ``Details`` subfolder. For module templates, create a ``Modules`` folder under the appropriate bundle, such as ``app/bundles/[Name]Bundle/Resources/views/Modules/``, and use descriptive names like ``module--preview.html.twig``.
+
+Consistent and descriptive naming conventions help you and your team quickly find and identify templates, improving maintainability and collaboration.
 
 .. note::
 
