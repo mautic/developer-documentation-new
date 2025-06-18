@@ -1,7 +1,7 @@
 Views
 =====
 
-Views in Mautic follow a common naming pattern.
+Views in Mautic use a consistent naming pattern to help you organize and locate templates efficiently.
 
 - list: This is the table view, where the list of objects is displayed. These are high level pages (for example, Contacts, Campaigns, etc)
 - details: This is the view for a single object (for example, a Contact profile)
@@ -13,39 +13,39 @@ Details templates might have an associated Details folder with files for each ta
 Platform templates
 ------------------
 
-There are several Twig templates available on the platform code to help developers streamline developemnt.
+Mautic provides several Twig templates to help you streamline development and maintain consistency. Templates are organized by their purpose and functionality.
 
-These templates are organized in folders depending on their purpose and functionality.
+You will find these main folders:
 
-The main folders are:
+- ``@MauticCore/Helper`` contains templates for common tasks, such as rendering buttons for page actions.
+- ``@MauticCore/Components`` includes templates that implement design patterns from the design system for a wide variety of content.
+- ``@MauticCore/Modules`` provides templates that combine Components for specific content types, such as using tile components to display statistics.
 
-- ``@MauticCore/Helper``: Templates that help with common tasks (rendering buttons for page actions, for example)
-- ``@MauticCore/Components``: Templates that implement design patterns coming from the design system, suitable for any kind of content
-- ``@MauticCore/Modules``: Templates that can be reused across several bundles for specific types of contents, built on top of Components (for example, to render a stats panel by using tile components)
-
-Module folders can also be found within specific bundles. These folders contain templates that are specific to the bundle they are in, and are not reusable across other bundles. 
+You will also find module folders inside specific bundles for templates unique to that bundle. These templates are not intended for reuse across other bundles.
 
 .. note::
 
-   Always use platform templates for existing components to avoid code duplication and to ensure consistency across the platform. 
+   Use existing platform templates to maintain consistency and reduce code duplication.
 
 Modifying templates
 ^^^^^^^^^^^^^^^^^^^
 
-Using attributes
-""""""""""""""""
+Allowing custom attributes
+""""""""""""""""""""""""""
 
-Before considering adding, removing or changing variables from a template, check if your needs could be addressed by allowing custom attributes if the template doesn't support it yet.
+Before you add, remove, or change variables in a template, first check whether you can accomplish your goal by supporting custom attributes. Many Mautic templates already allow you to pass custom attributes, which lets you adapt behavior or appearance without changing the template’s structure. This approach works well when you need to integrate with JavaScript libraries such as Bootstrap.
 
-For example:
+You can allow custom attributes by adding this snippet to your template:
 
 .. code-block:: twig
 
-    {% if attributes is defined and attributes is not empty %}{% for attr_key, attr_value in attributes %}{{ attr_key }}="{{ attr_value }}" {% endfor %}{% endif %}
+    {% if attributes is defined and attributes is not empty %}
+        {% for attr_key, attr_value in attributes %}
+            {{ attr_key }}="{{ attr_value }}" 
+        {% endfor %}
+    {% endif %}
 
-This snippet allows you to pass custom attributes to the template, which can be used to modify the behavior or appearance of the component. It's a common pattern in Mautic templates and is used in several platform templates, becoming useful for integrating with JS libraries such as Bootstrap. 
-
-When including your template, you could pass the attributes as follows:
+When you include your template, pass the attributes as follows:
 
 .. code-block:: twig
 
@@ -58,20 +58,21 @@ When including your template, you could pass the attributes as follows:
             'data-header': 'Modal Title'
         }
     } %}
-        
-Changing existing structure from templates
-""""""""""""""""""""""""""""""""""""""
 
-Templates were created to power functionalities across the entire platform. You might find that a template is being applied more than 60 times in different scenarios across the UI. If you change a variable being used by a template, it will affect all the places where it is being used. 
+Changing template structure
+"""""""""""""""""""""""""""
 
-Your options are:
-1. Refactor or update all the places where it is being used to ensure they work with the new structure. 
-2. Create a new template if you have a really good reason to do so and use it instead of the old one, adding a deprecation notice to the old template. 
-3. Check if adding a custom attribute to the template would be enough to address your needs. 
+Templates power features throughout the platform. When you change a variable or structure in a template, you affect every place that uses it. Consider the impact before making changes.
+
+You have several options:
+
+1. Update all usages to work with the new structure.
+2. Create a new template with your changes, and add a deprecation notice to the old template. Use the new template instead of the original.
+3. Add support for custom attributes if that satisfies your needs.
 
 .. note::
 
-   Avoid creating custom HTML when a template is available. If a pull request is adding a button using raw HTML, reviewers must request changes to use a platform template instead. 
+   Use a platform template instead of custom HTML whenever possible. If a pull request adds a button with raw HTML, reviewers require you to switch to a platform template.
 
 Naming and organization of templates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -105,4 +106,4 @@ Other examples:
 
 .. note::
 
-   You'll find that the new organization standard is not yet applied to all templates. This is a work in progress and will be completed in the future.
+   Mautic is actively updating templates to follow this organization standard. Some templates still use the older structure, and the transition will continue over time.
