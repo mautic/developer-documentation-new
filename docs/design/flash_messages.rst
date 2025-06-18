@@ -6,6 +6,8 @@ Flash messages are temporary notifications that appear at the top of the page to
 Backend (PHP) implementation
 ****************************
 
+Add your translation strings to ``{bundle}/Translations/en_US/flashes.ini``:
+
 **In controllers:**
 
 .. code-block:: php
@@ -23,16 +25,12 @@ The first parameter is the translation key, the second is an array of parameters
 Frontend (JavaScript) implementation
 ************************************
 
-1. **Add translation strings**
-
-Add your translation strings to ``{bundle}/Translations/en_US/messages.ini`` (or the relevant locale/domain):
+Add your translation strings to ``{bundle}/Translations/en_US/javascript.ini``:
 
 .. code-block:: ini
 
    mautic.core.notice.my_success_message="Success message here!"
    mautic.core.error.my_error_message="Error message here!"
-
-2. **Create and display translated flash messages**
 
 Create the flash message using one of these helper functions:
 - Mautic.addFlashMessage(message) - Generic flash message
