@@ -1,7 +1,7 @@
 Stages
 #######
 
-Use this API to manage and retrieve details about Contact stages in Mautic.
+Use this API to manage and retrieve details about Contact Stages in Mautic.
 
 .. .. code-block:: php
 
