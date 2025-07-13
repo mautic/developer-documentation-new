@@ -2,6 +2,7 @@ AJAX
 allowlist
 Amazon SES
 Ameling
+ascenders
 autoloader
 Autoloader
 autowire
@@ -22,8 +23,10 @@ CCPA
 Citrix
 Clearbit
 CloudAMQP
+Codeception
 Codecov
 Company(ies)
+Composability
 Composer
 Config
 config
@@ -47,8 +50,6 @@ Firewalls
 firewalls
 Focus Item
 Focus Items
-Forms
-forms
 Froala
 Froogaloop
 gcm
@@ -70,6 +71,8 @@ HubSpot
 IDP
 IMAP
 infographics
+Initialisms
+initialisms
 ISO
 JavaScript
 Joomla
@@ -108,6 +111,8 @@ Plugin
 Plugins
 post
 POST
+ProTip
+ProTips
 PUT
 PyCharm
 Rackspace
@@ -137,7 +142,6 @@ Themes
 timeframe
 Todo
 tooltip
-Tooltip
 Transifex
 Translator
 TRUE
@@ -156,6 +160,7 @@ Vtiger
 Webhooks
 Webmecanik
 www
+XPath
 YAML
 Zapier
 Zoho

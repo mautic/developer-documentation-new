@@ -32,6 +32,10 @@ To add a custom Form Field, use the ``$event->addFormField($identifier, $paramet
       - Required
       - string
       - View template used to render the ``formType``, for example ``HelloWorldBundle:SubscribedEvents\FormField:customfield.html.php``
+    * - ``help``
+      - Optional
+      - string
+      - The language string for providing a help text below the form element.
     * - ``formTypeOptions``
       - Optional
       - array
