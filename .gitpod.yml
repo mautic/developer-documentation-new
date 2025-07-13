@@ -11,3 +11,6 @@ vscode:
     - lextudio.restructuredtext@190.1.4 # See https://github.com/mautic/user-documentation/pull/334#issuecomment-2405922370 before upgrading.    - errata-ai.vale-server
     - eamodio.gitlens
     - trond-snekvik.simple-rst
+
+ports:
+  - port: 3000
