@@ -88,7 +88,7 @@ Delivered adapters
 
 .. code-block:: php
     
-    'memcached' => [
+    'cache_adapter_memcached' => [
         'servers' => ['memcached://localhost'],
         'options' => [
             'compression' => true,
@@ -101,17 +101,17 @@ Delivered adapters
 
 Redis configuration in ``local.php``:
 
-.. code-block:: php
-
-    'redis' => [
-        'dsn' => 'redis://localhost',
+.. code-block:: PHP
+    
+    'cache_adapter_redis' => [
+        'dsn' => 'redis://localhost:6379/0',
         'options' => [
             'lazy' => false,
             'persistent' => 0,
             'persistent_id' => null,
             'timeout' => 30,
             'read_timeout' => 0,
-            'retry_interval' => 0,
+            'retry_interval' => 0
         ],
     ],
     
