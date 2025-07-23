@@ -97,3 +97,88 @@ The API controller should extend ``Mautic\ApiBundle\Controller\CommonApiControll
             return $this->handleView($worlds);
         }
     }
+
+----
+
+.. vale off
+
+API-aware entity locking
+****************************
+
+.. vale on
+
+Mautic supports locking for API-editable entities, such as Emails, to prevent overwriting changes while a user is actively editing the entity in the UI.
+
+This is useful when:
+
+- You want the API to respect the locking behavior already in place in the UI.
+- You want to return a `409 Conflict` when a record is locked.
+
+.. vale off
+
+Enable API lock for a model
+============================
+
+.. vale on
+
+To make an entity model API-lock-aware:
+
+1. Implement the interface:
+
+.. code-block:: php
+
+    use Mautic\ApiBundle\Model\ApiLockAwareInterface;
+
+    class MyEntityModel implements ApiLockAwareInterface
+    {
+        // ...
+    }
+
+2. Use the trait to reuse locking logic:
+
+.. code-block:: php
+
+    use Mautic\ApiBundle\Model\ApiEntityLockTrait;
+
+    class MyEntityModel implements ApiLockAwareInterface
+    {
+        use ApiEntityLockTrait;
+
+        // Optional: Override `isApiLocked()` if you need custom behavior
+    }
+
+This ensures your model will be checked by the API when editing.
+
+Behind the scenes, the API controller checks:
+
+.. code-block:: php
+
+    if ($this->model instanceof ApiLockAwareInterface && $this->model->isApiLocked($entity)) {
+        ....
+    }
+
+.. vale off
+
+Error message
+=============
+
+.. vale on
+
+When an entity is locked, the API returns:
+
+.. code-block:: json
+
+    {
+      "errors": [
+        {
+          "message": "{Entity} is currently checked out by {User} (on {Date} at {Time}).",
+          "code": 409,
+          "details": {
+            "checkedOutBy": "{User}",
+            "checkedOut": "{Date} {Time}"
+          }
+        }
+      ]
+    }
+
+This format helps client apps identify locked records and avoid overwriting.
