@@ -1,0 +1,8 @@
+RUN apt update || true
+RUN apt install -y build-essential python3.11-venv
+RUN apt remove pipx
+RUN curl -sSL https://github.com/pypa/pipx/releases/latest/download/pipx.pyz -o /usr/local/bin/pipx
+RUN chmod +x /usr/local/bin/pipx
+
+RUN pipx install --global sphinx
+RUN pipx install --force --global --include-deps sphinx-rtd-theme
