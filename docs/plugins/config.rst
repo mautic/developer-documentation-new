@@ -22,6 +22,7 @@ Mautic recognizes the Plugin through the general config options.
 
 .. list-table::
     :header-rows: 1
+    :widths: 15 15 40 
 
     * - Key
       - Type
@@ -99,6 +100,7 @@ The following firewalls are available to routes.
 
 .. list-table::
     :header-rows: 1
+    :widths: 15 20 65 
 
     * - Key
       - URL prefix
@@ -127,8 +129,11 @@ Route definitions
 
 Route definitions define the route's method, path, controller, parameters, and others defined below.
 
+
+
 .. list-table::
     :header-rows: 1
+    :widths: 28 20 25 60
 
     * - Key
       - Is required?
@@ -170,6 +175,7 @@ Mautic defaults the following route definitions if not declared otherwise by the
 
 .. list-table::
     :header-rows: 1
+    :widths: 15 20 50
 
     * - Parameter
       - Default value
@@ -290,6 +296,7 @@ There are currently four menus built into Mautic.
 
 .. list-table::
     :header-rows: 1
+    :widths: 25 50
 
     * - Key
       - Description
@@ -321,6 +328,7 @@ Key each item with its respective :ref:`language string key<plugins/translations
 
 .. list-table::
     :header-rows: 1
+    :widths: 25 15 25 50 
 
     * - Key
       - Is required?
@@ -489,6 +497,7 @@ For convenience, Mautic auto-tags services defined within specific keys.
 
 .. list-table::
     :header-rows: 1
+    :widths: 15 15 50 
 
     * - Key
       - Tag
@@ -522,6 +531,7 @@ Key each service with a unique name to all of Mautic, including other Plugins.
 
 .. list-table::
     :header-rows: 1
+    :widths: 25 17 15 50
 
     * - Key
       - Is required?
@@ -605,6 +615,7 @@ Mautic uses the follow tags to register services as described below.
 
 .. list-table::
     :header-rows: 1
+    :widths: 35 27 50 
 
     * - Tag
       - Supported tag arguments
@@ -626,6 +637,7 @@ Mautic uses the follow tags to register services as described below.
 
 .. list-table::
     :header-rows: 1
+    :widths: 25 15 50 
 
     * - Tag
       - Supported tag arguments
@@ -638,6 +650,7 @@ Mautic uses the follow tags to register services as described below.
 
 .. list-table::
     :header-rows: 1
+    :widths: 40 20 50 
 
     * - Tag
       - Supported tag arguments
@@ -704,6 +717,7 @@ Configure parameters that are consumable through Mautic's ``CoreParameterHelper`
 
 Custom config parameters
 ************************
+
 You can define custom configuration parameters in your Plugin to support configurable features, such as enabling or disabling functions.
 
 Mautic Plugins allow you to define these parameters for use within your Plugin’s code. Store these parameters in ``config/local.php``, and define their default values in the Plugin’s own config file to ensure stability and avoid errors. 
@@ -796,6 +810,7 @@ To register Plugin’s configuration details during the ``ConfigEvents::CONFIG_O
 
 .. list-table::
     :header-rows: 1
+    :widths: 15 50 
 
     * - Key
       - Description
@@ -829,6 +844,7 @@ Remember that the form type must be registered through the Plugin’s config in 
 Below is an example of a form type class that adds a custom configuration option to the Plugin's configuration form.
 
 .. code-block:: php
+
     <?php
     // plugins/HelloWorldBundle/Form/Type/ConfigType.php
 
@@ -868,6 +884,7 @@ The template should be structured in a panel format to match the rest of the con
 Below is an example of how the template should be structured:
 
 .. code-block:: twig  
+
     {# plugins/HelloWorldBundle/Views/FormTheme/Config/_config_helloworld_config_widget.html.twig #}  
     <div class="panel panel-primary">
         <div class="panel-heading">
