@@ -201,12 +201,8 @@ Configure custom routes through writing a listener to the ``\Mautic\CoreBundle\C
 
 .. php:method:: getType()
 
-.. vale off
-
     :returns: The :ref:`route firewall<plugins/config:Routing firewalls>` for the given route collection.
     :returntype: string
-
-.. vale on
 
 .. php:method:: getCollection()
 
