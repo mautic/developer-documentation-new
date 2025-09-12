@@ -815,43 +815,43 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
 
 .. php:class:: Mautic\CampaignBundle\Events\DecisionEvent
 
-.. php:method:: public checkContext(string $eventType)
+    .. php:method:: public checkContext(string $eventType)
 
-    Checks if the given Event type matches the Event executed or evaluated. This is useful if listeners for different Campaign Events are listening to the same name defined as ``eventName`` in the Event's definition.
+        Checks if the given Event type matches the Event executed or evaluated. This is useful if listeners for different Campaign Events are listening to the same name defined as ``eventName`` in the Event's definition.
 
-    :return: ``TRUE`` if the context matches.
-    :returntype: bool
+        :return: ``TRUE`` if the context matches.
+        :returntype: bool
 
-.. php:method:: public getEventConfig()
+    .. php:method:: public getEventConfig()
 
-    Use the returned ``AbstractEventAccessor`` object to access properties configured for this Event.
+        Use the returned ``AbstractEventAccessor`` object to access properties configured for this Event.
 
-    :return: Object to fetch the configuration options for the Campaign Event.
-    :returntype: \\Mautic\\CampaignBundle\\EventCollector\\Accessor\\Event\\AbstractEventAccessor
+        :return: Object to fetch the configuration options for the Campaign Event.
+        :returntype: \\Mautic\\CampaignBundle\\EventCollector\\Accessor\\Event\\AbstractEventAccessor
 
-.. php:method:: public getLog()
+    .. php:method:: public getLog()
 
-    :return: The ``LeadEventLog`` object for the Condition.
-    :returntype: \\Mautic\\CampaignBundle\\Entity\\LeadEventLog
+        :return: The ``LeadEventLog`` object for the Condition.
+        :returntype: \\Mautic\\CampaignBundle\\Entity\\LeadEventLog
 
-.. php:method:: public getPassthrough()
+    .. php:method:: public getPassthrough()
 
-    Access context data set by ``RealTimeExecutioner::execute()``.
+        Access context data set by ``RealTimeExecutioner::execute()``.
 
-    :return: Returns whatever was set as the second argument to ``RealTimeExecutioner::execute()``.
-    :returntype: mixed
+        :return: Returns whatever was set as the second argument to ``RealTimeExecutioner::execute()``.
+        :returntype: mixed
 
-.. php:method:: public setAsApplicable()
+    .. php:method:: public setAsApplicable()
 
-    Call this if the Decision is applicable to the action taken by the Contact which instructs the Campaign Engine to execute or schedule Events connected into this Decision's "action" (left) path.
+        Call this if the Decision is applicable to the action taken by the Contact which instructs the Campaign Engine to execute or schedule Events connected into this Decision's "action" (left) path.
 
-    :returntype: void
+        :returntype: void
 
-.. php:method:: public setChannel(string $channel[, $channelId = null)
+    .. php:method:: public setChannel(string $channel[, $channelId = null)
 
-    Set the Channel to attribute to the Event.
+        Set the Channel to attribute to the Event.
 
-    :param string $channel: Name of the Channel this Event relates to. For example, ``email``, ``page``, ``form``, and so forth.
-    :param mixed $channelId: ID of the Channel entity.
+        :param string $channel: Name of the Channel this Event relates to. For example, ``email``, ``page``, ``form``, and so forth.
+        :param mixed $channelId: ID of the Channel entity.
 
-    :returntype: void
+        :returntype: void
