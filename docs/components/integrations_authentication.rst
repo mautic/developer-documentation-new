@@ -165,15 +165,15 @@ To use the parameter based API key, create a credentials class that implements `
 
 .. php:class:: \Mautic\IntegrationsBundle\Auth\Provider\ApiKey\Credentials\ParameterCredentialsInterface
 
-.. php:method:: public function getKeyName(): string;
+    .. php:method:: public function getKeyName(): string;
 
-    :return: Key name.
-    :returntype: string
+        :return: Key name.
+        :returntype: string
 
-.. php:method:: public function getApiKey(): ?string;
+    .. php:method:: public function getApiKey(): ?string;
 
-    :return: API key or null.
-    :returntype: ?string
+        :return: API key or null.
+        :returntype: ?string
 
 Find the code snippet as follows,
 
