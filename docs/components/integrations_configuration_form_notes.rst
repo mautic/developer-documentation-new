@@ -41,19 +41,19 @@ Note Object
 
 .. php:class:: \Mautic\IntegrationsBundle\DTO\Note
 
-.. php:attr:: public note;
+    .. php:attr:: public note;
 
-.. php:attr:: public type;
+    .. php:attr:: public type;
 
-.. php:method:: public function getNote(): string
+    .. php:method:: public function getNote(): string
 
-    :return: The string to display.
-    :returntype: string
+        :return: The string to display.
+        :returntype: string
 
-.. php:method:: public function getType(): string
+    .. php:method:: public function getType(): string
 
-    :return: The note type, this helps annotate the note.
-    :returntype: string
+        :return: The note type, this helps annotate the note.
+        :returntype: string
 
 The following code snippet shows the use of ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormNotesInterface``.
 
