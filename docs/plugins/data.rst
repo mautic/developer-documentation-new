@@ -291,64 +291,64 @@ Define migrations in the Plugin's ``Migrations`` directory. The file and class n
 
 .. php:class:: Mautic\IntegrationsBundle\Migration\AbstractMigration
 
-.. php:attr:: protected tablePrefix
+    .. php:attr:: protected tablePrefix
 
-    Mautic's configured database table prefix.
+        Mautic's configured database table prefix.
 
-.. php:method:: protected abstract isApplicable(Schema $schema)
+    .. php:method:: protected abstract isApplicable(Schema $schema)
 
-    :param Doctrine\\DBAL\\Schema\\Schema $schema: Use the ``Schema`` object to evaluate Mautic's current schema.
+        :param Doctrine\\DBAL\\Schema\\Schema $schema: Use the ``Schema`` object to evaluate Mautic's current schema.
 
-    :returns: Return ``FALSE`` to skip this migration. Otherwise, ``TRUE``.
-    :returntype: bool
+        :returns: Return ``FALSE`` to skip this migration. Otherwise, ``TRUE``.
+        :returntype: bool
 
-.. php:method:: protected abstract up()
+    .. php:method:: protected abstract up()
 
-    Define the SQL queries through :php:meth:`addSql`.
+        Define the SQL queries through :php:meth:`addSql`.
 
-    :returntype: void
+        :returntype: void
 
-.. php:method:: protected addSql(string $sql)
+    .. php:method:: protected addSql(string $sql)
 
-    :param string $sql: SQL query to execute. Prefix table and index names with :php:attr:`tablePrefix` or use :php:meth:`concatPrefix`.
+        :param string $sql: SQL query to execute. Prefix table and index names with :php:attr:`tablePrefix` or use :php:meth:`concatPrefix`.
 
-    :returntype: void
+        :returntype: void
 
-.. php:method:: protected columnsToString(array $columns)
+    .. php:method:: protected columnsToString(array $columns)
 
-    :param array $columns: Array of column names.
+        :param array $columns: Array of column names.
 
-    :return: Returns a comma separated value list from the values given in the array. For example, ``$this->columnsToString(['a', 'b', 'c'])`` will return ``'a,b,c'``.
-    :returntype: string
+        :return: Returns a comma separated value list from the values given in the array. For example, ``$this->columnsToString(['a', 'b', 'c'])`` will return ``'a,b,c'``.
+        :returntype: string
 
-.. php:method:: protected concatPrefix(string $name)
+    .. php:method:: protected concatPrefix(string $name)
 
-    Prefixes the given name with the configured table prefix.
+        Prefixes the given name with the configured table prefix.
 
-    :param string $name: Name of column or index to prefix.
+        :param string $name: Name of column or index to prefix.
 
-    :return: Prefixed name.
-    :returntype: string
+        :return: Prefixed name.
+        :returntype: string
 
-.. php:method:: protected generateAlterTableForeignKeyStatement(string $table, array $columns, string $referenceTable, array $referenceColumns[, string $suffix = ''])
+    .. php:method:: protected generateAlterTableForeignKeyStatement(string $table, array $columns, string $referenceTable, array $referenceColumns[, string $suffix = ''])
 
-    Generates full SQL statement to add a new foreign key to a table.
+        Generates full SQL statement to add a new foreign key to a table.
 
-    :param string $table: Name of the current table without the table prefix.
-    :param array $columns: Array of columns for the current table.
-    :param string $referenceTable: Name of the referenced table without the table prefix.
-    :param array $referenceColumns: Array of columns for the referenced table.
-    :param string $suffix: String to append to the query such as ``ON DELETE CASCADE``.
+        :param string $table: Name of the current table without the table prefix.
+        :param array $columns: Array of columns for the current table.
+        :param string $referenceTable: Name of the referenced table without the table prefix.
+        :param array $referenceColumns: Array of columns for the referenced table.
+        :param string $suffix: String to append to the query such as ``ON DELETE CASCADE``.
 
-    :return: SQL statement for adding a new foreign key.
-    :returntype: string
+        :return: SQL statement for adding a new foreign key.
+        :returntype: string
 
-.. php:method:: protected generateIndexStatement(string $table, array $columns)
+    .. php:method:: protected generateIndexStatement(string $table, array $columns)
 
-    Generates an ``INDEX`` statement to be used within a ``CREATE TABLE`` or ``ALTER TABLE`` statement to create an index.
+        Generates an ``INDEX`` statement to be used within a ``CREATE TABLE`` or ``ALTER TABLE`` statement to create an index.
 
-    :param string $table: Name of the table where the index will be added.
-    :param array $columns: Array of columns to included in the index.
+        :param string $table: Name of the table where the index will be added.
+        :param array $columns: Array of columns to included in the index.
 
-    :return: ``INDEX {tableName} ($columns...)`` statement
-    :returntype: string
+        :return: ``INDEX {tableName} ($columns...)`` statement
+        :returntype: string
