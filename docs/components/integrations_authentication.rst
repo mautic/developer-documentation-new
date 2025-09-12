@@ -279,15 +279,15 @@ To use the basic auth, create a credentials class that implements ``\Mautic\Inte
 
 .. php:class:: \Mautic\IntegrationsBundle\Auth\Provider\BasicAuth\CredentialsInterface
 
-.. php:method:: public function getUsername(): ?string;
+    .. php:method:: public function getUsername(): ?string;
 
-    :return: User name.
-    :returntype: ?string
+        :return: User name.
+        :returntype: ?string
 
-.. php:method:: public function getPassword(): ?string;
+    .. php:method:: public function getPassword(): ?string;
 
-    :return: Password.
-    :returntype: ?string
+        :return: Password.
+        :returntype: ?string
 
 Find the code snippet as follows,
 
