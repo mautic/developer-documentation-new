@@ -197,22 +197,22 @@ Configure custom routes through writing a listener to the ``\Mautic\CoreBundle\C
 
 .. php:class:: Mautic\CoreBundle\Event\RouteEvent
 
-.. php:method:: getType()
+  .. php:method:: getType()
 
-    :returns: The :ref:`route firewall<plugins/config:Routing firewalls>` for the given route collection.
-    :returntype: string
+      :returns: The :ref:`route firewall<plugins/config:Routing firewalls>` for the given route collection.
+      :returntype: string
 
-.. php:method:: getCollection()
+  .. php:method:: getCollection()
 
-    :returns: Returns a RouteCollection object that can be used to manually define custom routes.
-    :returntype: \\Symfony\\Component\\Routing\\RouteCollection
+      :returns: Returns a RouteCollection object that can be used to manually define custom routes.
+      :returntype: \\Symfony\\Component\\Routing\\RouteCollection
 
-.. php:method:: addRoutes(string $path)
+  .. php:method:: addRoutes(string $path)
 
-    Load custom routes through a resource file such as yaml or XML.
+      Load custom routes through a resource file such as yaml or XML.
 
-    :param string $path: Path to the resource file. For example, ``@FMElfinderBundle/Resources/config/routing.yaml``.
-    :returntype: void
+      :param string $path: Path to the resource file. For example, ``@FMElfinderBundle/Resources/config/routing.yaml``.
+      :returntype: void
 
 Debugging routes
 ================
