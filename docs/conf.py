@@ -45,11 +45,11 @@ release = '3.0.0'
 # ones.
 extensions = [
    'xref',
-   'phpdomain',
    'code_samples_ext',
    'sphinx_rtd_theme',
    'sphinx.ext.viewcode',
    'sphinx.ext.autosectionlabel',
+   'sphinxcontrib.phpdomain',
 ]
 
 # Add any paths that contain templates here, relative to this directory.

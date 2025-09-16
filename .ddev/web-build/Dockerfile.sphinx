@@ -5,4 +5,4 @@ RUN curl -sSL https://github.com/pypa/pipx/releases/latest/download/pipx.pyz -o 
 RUN chmod +x /usr/local/bin/pipx
 
 RUN pipx install --global sphinx
-RUN pipx install --force --global --include-deps sphinx-rtd-theme
+RUN pipx inject --global sphinx sphinxcontrib-phpdomain sphinx-rtd-theme
