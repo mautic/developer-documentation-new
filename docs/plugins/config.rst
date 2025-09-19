@@ -43,11 +43,7 @@ Mautic recognizes the Plugin through the general config options.
 Routing config items
 ********************
 
-.. vale off
-
 Routes define the URL paths that execute the specified controller action. Register routes with Mautic through the ``routes`` key in the Plugin's config. Define each route under one of Mautic's :ref:`supported firewalls<plugins/config:Routing firewalls>` with a uniquely identifying key and the :ref:`route's definition<plugins/config:Route definitions>`.
-
-.. vale on
 
 .. code-block:: php
 
@@ -325,8 +321,6 @@ Menu item definitions
 
 Define items in an ``items`` array along with ``priority`` or at the root of the menu's array.
 
-.. vale off
-
 Key each item with its respective :ref:`language string key<plugins/translations:Translating plugins>`.
 
 .. list-table::
@@ -369,8 +363,6 @@ Key each item with its respective :ref:`language string key<plugins/translations
       - no
       - string
       - Font Awesome class to set the icon for the menu item.
-
-.. vale on
 
 Menu item checks
 ----------------
@@ -427,11 +419,7 @@ Supported checks are ``parameters``, ``request``, and ``integration``.
 
     // ...
 
-.. vale off
-
 Of course, you can also combine multiple checks. All must evaluate to TRUE to display the item.
-
-.. vale on
 
 .. code-block:: php
 
@@ -504,8 +492,6 @@ Service types
 
 For convenience, Mautic auto-tags services defined within specific keys.
 
-.. vale off
-
 .. list-table::
     :header-rows: 1
     :widths: 15 15 50 
@@ -535,14 +521,10 @@ For convenience, Mautic auto-tags services defined within specific keys.
       - n/a
       - You can use any other key you want to organize services in the config array. Note that this could risk incompatibility with a future version of Mautic if using something generic that Mautic starts to use as well.
 
-.. vale on
-
 Service definitions
 ===================
 
 Key each service with a unique name to all of Mautic, including other Plugins.
-
-.. vale off
 
 .. list-table::
     :header-rows: 1
@@ -620,8 +602,6 @@ Key each service with a unique name to all of Mautic, including other Plugins.
       - no
       - boolean
       - Define the service with lazy loading. Symfony ignores this until Mautic addresses https://forum.mautic.org/t/supporty-symfony-lazy-services/21923.
-
-.. vale on
 
 Mautic service tags
 -------------------
@@ -707,7 +687,6 @@ Use ``categories`` to define Category types available to the Category manager. S
 
     // ...
 
-
 Parameters config items
 ***********************
 
@@ -726,11 +705,9 @@ Configure parameters that are consumable through Mautic's ``CoreParameterHelper`
 
     // ...
 
-
 .. note:: The default value must match the value's type for Mautic to typecast and transform appropriately. For example, if there isn't a specific default value to declare, define an empty array, ``[]``, for an array type; zero, ``0``, for an integer type; ``TRUE`` or ``FALSE`` for boolean types; and so forth. Services leveraging parameters should accept and handle ``NULL`` for integer and string types, excluding ``0``.
 
 .. note:: Parameters aren't exposed to the UI by default. See :ref:`components/config:Configuration` for more information.
-
 
 Custom config parameters
 ************************
@@ -738,8 +715,6 @@ Custom config parameters
 You can define custom configuration parameters in your Plugin to support configurable features, such as enabling or disabling functions.
 
 Mautic Plugins allow you to define these parameters for use within your Plugin’s code. Store these parameters in ``config/local.php``, and define their default values in the Plugin’s own config file to ensure stability and avoid errors.
-
-.. vale off
 
 To avoid errors during cache compilation or when accessing parameters directly from the container without checking for their existence, always define custom parameters in the :ref:`plugins/config:Parameters config items`. This guarantees that the parameter exists and has a fallback value.
 
@@ -749,18 +724,12 @@ To add these configuration options in Mautic's configuration section, you’ll n
 - A :doc:`Form type </components/forms>` that defines the fields. 
 - A specific view for rendering the form.
 
-.. vale on
-
 .. note::
 
    To translate the Plugin’s tab label in the configuration form, include a translation key like ``mautic.config.tab.helloworld_config`` in the Plugin’s ``messages.ini`` file. Replace ``helloworld_config`` with the ``formAlias`` used when registering the form in the event subscriber.
 
-.. vale off
-
 Config event subscriber
 =======================
-
-.. vale on
 
 This allows Plugins to interact with Mautic's configuration events. It listens to two important events: ``ConfigEvents::CONFIG_ON_GENERATE`` and ``ConfigEvents::CONFIG_PRE_SAVE``.
 
@@ -843,7 +812,6 @@ To register Plugin’s configuration details during the ``ConfigEvents::CONFIG_O
       - The view that formats the configuration form elements, for example, ``HelloWorldBundle:FormTheme\Config``.
     * - ``parameters``
       - An array of custom configuration elements. ``Use $event->getParametersFromConfig('HelloWorldBundle')`` to retrieve them from the plugin’s configuration file.
-.. vale off
 
 Modify configuration before saving
 ----------------------------------
@@ -854,7 +822,6 @@ Register the event subscriber
 -----------------------------
 
 Register the subscriber through the Plugin’s configuration in the ``services[events]`` in :ref:`plugins/config:Service config items`. This ensures that the plugin listens for the events and reacts accordingly.
-
 
 Config form
 ===========
