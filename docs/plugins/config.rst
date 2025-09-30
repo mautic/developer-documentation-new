@@ -129,8 +129,6 @@ Route definitions
 
 Route definitions define the route's method, path, controller, parameters, and others defined below.
 
-
-
 .. list-table::
     :header-rows: 1
     :widths: 28 20 25 60
@@ -287,7 +285,6 @@ Plugins define items for Mautic's varying menus through the ``menu`` config arra
     ],
 
     // ...
-
 
 Available menus
 ===============
@@ -690,7 +687,6 @@ Use ``categories`` to define Category types available to the Category manager. S
 
     // ...
 
-
 Parameters config items
 ***********************
 
@@ -709,18 +705,16 @@ Configure parameters that are consumable through Mautic's ``CoreParameterHelper`
 
     // ...
 
-
 .. note:: The default value must match the value's type for Mautic to typecast and transform appropriately. For example, if there isn't a specific default value to declare, define an empty array, ``[]``, for an array type; zero, ``0``, for an integer type; ``TRUE`` or ``FALSE`` for boolean types; and so forth. Services leveraging parameters should accept and handle ``NULL`` for integer and string types, excluding ``0``.
 
 .. note:: Parameters aren't exposed to the UI by default. See :ref:`components/config:Configuration` for more information.
-
 
 Custom config parameters
 ************************
 
 You can define custom configuration parameters in your Plugin to support configurable features, such as enabling or disabling functions.
 
-Mautic Plugins allow you to define these parameters for use within your Plugin’s code. Store these parameters in ``config/local.php``, and define their default values in the Plugin’s own config file to ensure stability and avoid errors. 
+Mautic Plugins allow you to define these parameters for use within your Plugin’s code. Store these parameters in ``config/local.php``, and define their default values in the Plugin’s own config file to ensure stability and avoid errors.
 
 To avoid errors during cache compilation or when accessing parameters directly from the container without checking for their existence, always define custom parameters in the :ref:`plugins/config:Parameters config items`. This guarantees that the parameter exists and has a fallback value.
 
@@ -733,7 +727,6 @@ To add these configuration options in Mautic's configuration section, you’ll n
 .. note::
 
    To translate the Plugin’s tab label in the configuration form, include a translation key like ``mautic.config.tab.helloworld_config`` in the Plugin’s ``messages.ini`` file. Replace ``helloworld_config`` with the ``formAlias`` used when registering the form in the event subscriber.
-
 
 Config event subscriber
 =======================
@@ -791,7 +784,6 @@ The following code example shows how a Plugin structures its event subscriber.
         }
     }
 
-
 Subscribed events
 -----------------
 
@@ -803,9 +795,9 @@ The event subscriber listens to the following events:
 - ``ConfigEvents::CONFIG_PRE_SAVE``:
   Mautic triggers this event before it renders the form values and saves them to the ``local.php`` file. This allows the Plugin to clean up or modify the data before writing it to ``local.php``.
 
-Generate plugin configuration
+Generate Plugin configuration
 -----------------------------
-.. vale on
+
 To register Plugin’s configuration details during the ``ConfigEvents::CONFIG_ON_GENERATE event``, call the ``addForm()`` method on the ``ConfigBuilderEvent`` object. The method expects an array with the following elements:
 
 .. list-table::
@@ -820,7 +812,6 @@ To register Plugin’s configuration details during the ``ConfigEvents::CONFIG_O
       - The view that formats the configuration form elements, for example, ``HelloWorldBundle:FormTheme\Config``.
     * - ``parameters``
       - An array of custom configuration elements. ``Use $event->getParametersFromConfig('HelloWorldBundle')`` to retrieve them from the plugin’s configuration file.
-.. vale off
 
 Modify configuration before saving
 ----------------------------------
@@ -831,7 +822,6 @@ Register the event subscriber
 -----------------------------
 
 Register the subscriber through the Plugin’s configuration in the ``services[events]`` in :ref:`plugins/config:Service config items`. This ensures that the plugin listens for the events and reacts accordingly.
-
 
 Config form
 ===========
