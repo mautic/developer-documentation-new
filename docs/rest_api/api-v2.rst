@@ -4,7 +4,7 @@ Mautic API v2
 A quick overview
 ****************
 
-Mautic introduces a powerful new REST (Representational State Transfer) API built on the robust **API Platform** framework.
+Mautic introduces a powerful new REST API built on the robust **API Platform** framework.
 This modern API provides a more flexible, standardized, and well-documented way to interact with your Mautic data.
 
 ----
@@ -20,7 +20,7 @@ Once you authenticate, you can start making requests to this endpoint to interac
 
 ----
 
-Api documentation and discovery
+API documentation and discovery
 *******************************
 
 The new Mautic API is self-documenting.
@@ -32,5 +32,5 @@ You can even use this interface to test API calls directly from your browser.
 
 The API supports modern features such as:
 
-* **Pagination:** results are paginated by default for efficient data retrieval.
-* **Multiple Data Formats:** The API supports various data formats, including JSON-LD, standard JSON and text/HTML.
+* **Pagination:** the API paginates results by default for efficient data retrieval.
+* **Multiple Data Formats:** the API supports various data formats, including JSON-LD, standard JSON and text/HTML.
