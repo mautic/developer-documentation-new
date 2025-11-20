@@ -120,6 +120,7 @@ There are several ways to support Mautic other than contributing with code.
    plugins/event_listeners
    plugins/installation
    plugins/data
+   plugins/roles_and_permissions
    plugins/translations
    plugins/continuous-integration
    plugins/from-4-to-5
