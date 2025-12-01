@@ -128,7 +128,7 @@ After you forked the repository, you need to clone it. Cloning means making a co
 >
 > The Mautic Developer Documentation contains multiple branches that represent specific versions of Mautic. You should clone each branch into its own dedicated folder and make your changes within the appropriate folder.
 >
-> So, for example, when you need to make documentation changes for Mautic version 5, clone the branch `5.x` and save it in a folder. You can name the folder anything you want, but it's best to reflect the branch name. For example, use name like `dev-docs-5`.
+> So, for example, when you need to make documentation changes for Mautic version 5, clone the branch `5.x` and save it in a foldWith code editor, such aer. You can name the folder anything you want, but it's best to reflect the branch name. For example, use a name like `dev-docs-5`.
 
 Follow the steps below to clone your forked repository:
 
@@ -362,7 +362,7 @@ There are three ways to work on changes for the Mautic User Documentation:
 
 1. Directly on GitHub
 2. With [GitHub Codespaces](https://github.com/features/codespaces) on your browser
-3. With code editor, such as [VS Code](https://code.visualstudio.com/), on your local machine — **recommended**
+3. With a code editor, such as [VS Code](https://code.visualstudio.com/), on your local machine — **recommended**
 
 ### 1. On GitHub
 
@@ -706,9 +706,10 @@ Code samples get downloaded from GitHub to ensure that they're always up to date
 
 ## Updating contents and UI images
 
-To update the documentation contents and Mautic user interface (UI) images, you need to install and review Mautic to ensure accuracy.
+To update the documentation contents and Mautic user interface (UI) images, you need to read instructions in the following pages in the Community Handbook:
 
-Please read the [Tester](https://contribute.mautic.org/en/latest/contributing/tester.html) page in the community handbook for complete instructions on installing Mautic.
+- [Contributing to Mautic’s documentation](https://contribute.mautic.org/en/latest/contributing/contributing_docs_rst.html) page and follow the style guide when working with the contents.
+- [Tester](https://contribute.mautic.org/en/latest/contributing/tester.html) page for complete instructions on installing Mautic to update UI images.
 
 ## Credit
 
@@ -716,4 +717,4 @@ These contributing guidelines are adapted from [OpenSource-Communities/intro](ht
 
 ---
 
-Thank you for contributing to the improvement of the Mautic Developer Documentation.
+Thank you for contributing to improving the Mautic Developer Documentation.
