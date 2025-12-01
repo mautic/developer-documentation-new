@@ -33,6 +33,7 @@ Contributions are always welcome, no matter how large or small, or at whatever s
   - [Create a new link](#create-a-new-link)
   - [Check broken links](#check-broken-links)
 - [Working with Vale](#working-with-vale)
+- [Adding a code sample](#adding-a-code-sample)
 - [Updating contents and UI images](#updating-contents-and-ui-images)
 - [Credit](#credit)
 
@@ -685,6 +686,23 @@ Your changes must follow Mautic's style guide. To ensure that the changes are co
 >
 > - Ensure that you wrap the sentences that you'd like Vale to skip with both `.. vale off` and `.. vale on` statements, in order. Failing to do so results in Vale lint skipping the rest of the contents.
 > - Don't add statements to skip lint, unless necessary. If you're uncertain, it's best not to wrap them in the statements and let the team review and provide suggestions.
+
+## Adding a code sample
+
+Code samples get downloaded from GitHub to ensure that they're always up to date. If you want to add a new code sample, follow these two steps:
+
+1. Create a file in `docs/code_samples/` and add a permalink in there. Look at other files in that directory for examples. URLs should always start with `https://raw.githubusercontent.com/...` to ensure that Sphinx can download the file correctly.
+2. In any documentation file, add a `literalinclude` block to include the code, like so:
+
+   ```rst
+   .. The link to this file is defined in docs/code_samples/helloworld_entity_world.py 
+   .. literalinclude:: ../code_samples_downloaded/Entity_World.php
+       :language: php
+   ```
+
+> [!TIP]
+>
+> Downloaded files get cached in `docs/code_samples_downloaded` to prevent overloading GitHub with download requests. If you change the URL to a file, simply remove the cached file from `docs/code_samples_downloaded` and Sphinx automatically re-downloads it.
 
 ## Updating contents and UI images
 
