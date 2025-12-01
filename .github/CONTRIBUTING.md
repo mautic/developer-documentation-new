@@ -128,7 +128,7 @@ After you forked the repository, you need to clone it. Cloning means making a co
 >
 > The Mautic Developer Documentation contains multiple branches that represent specific versions of Mautic. You should clone each branch into its own dedicated folder and make your changes within the appropriate folder.
 >
-> So, for example, when you need to make documentation changes for Mautic version 5, clone the branch `5.x` and save it in a foldWith code editor, such aer. You can name the folder anything you want, but it's best to reflect the branch name. For example, use a name like `dev-docs-5`.
+> So, for example, when you need to make documentation changes for Mautic version 5, clone the branch `5.x` and save it in a folder. You can name the folder anything you want, but it's best to reflect the branch name. For example, use a name like `dev-docs-5`.
 
 Follow the steps below to clone your forked repository:
 
@@ -689,24 +689,73 @@ Your changes must follow Mautic's style guide. To ensure that the changes are co
 
 ## Adding a code sample
 
-Code samples get downloaded from GitHub to ensure that they're always up to date. If you want to add a new code sample, follow these two steps:
+Code samples get downloaded from GitHub to ensure that they're always up to date. If you want to add a new code sample, follow these steps:
 
-1. Create a file in `docs/code_samples/` and add a permalink in there. Look at other files in that directory for examples. URLs should always start with `https://raw.githubusercontent.com/...` to ensure that Sphinx can download the file correctly.
-2. In any documentation file, add a `literalinclude` block to include the code, like so:
+1. Create a `.py` file in the `docs/code_samples/` folder. For example: `helloworld_entity_world.py`.
 
-   ```rst
-   .. The link to this file is defined in docs/code_samples/helloworld_entity_world.py 
-   .. literalinclude:: ../code_samples_downloaded/Entity_World.php
+2. Copy and paste the template below:
+
+   ```python
+   from . import _main_code_sample
+
+   # Output file name must be unique!
+   output_file_name = "OUTPUT_FILE_NAME.php"
+   # Ensure that the URL always starts with https://raw.githubusercontent.com/...
+   url = "https://raw.githubusercontent.com/mautic/REPOSITORY-NAME/BRANCH-NAME/FOLDER-NAME/FILE_NAME.php" 
+
+   _main_code_sample.code_samples.update({output_file_name: (url)})
+   ```
+
+3. Change `OUTPUT_FILE_NAME.php` to a unique file name using two or more words separated by an underscore. For example: `entity_world.php`.
+
+4. Change `https://raw.githubusercontent.com/mautic/REPOSITORY_NAME/BRANCH-NAME/FOLDER-NAME/FILE_NAME.php` to the URL of the code sample file on GitHub. 
+
+   **Important:** URLs to the code sample should always start with `https://raw.githubusercontent.com/...` to ensure that Sphinx can download the file correctly. You also need to remove `/blob` from the original URL.
+
+   For instance, the code example that you want to provide is available in the `plugin-helloworld` repository with this URL:
+   
+   ```text
+   https://github.com/mautic/plugin-helloworld/blob/mautic-4/Entity/World.php
+   ```
+   
+   Then, the code sample URL should be:
+   
+   ```text
+   https://raw.githubusercontent.com/mautic/plugin-helloworld/mautic-4/Entity/World.php
+   ```
+
+   Here's the complete example:
+
+   ```python
+   from . import _main_code_sample
+
+   output_file_name = "helloworld_entity_world.py"
+   url = "https://raw.githubusercontent.com/mautic/plugin-helloworld/mautic-4/Entity/World.php"
+
+   _main_code_sample.code_samples.update({output_file_name: (url)})
+   ```
+
+5. In the documentation RST file where you need to add the code sample, add a `literalinclude` block to include the code:
+
+   ```python
+   .. literalinclude:: ../code_samples_downloaded/OUTPUT_FILE_NAME.php
        :language: php
    ```
 
-> [!TIP]
+   Here's an example:
+
+   ```python
+   .. literalinclude:: ../code_samples_downloaded/entity_world.php
+       :language: php
+   ```
+
+> [!NOTE]
 >
-> Downloaded files get cached in `docs/code_samples_downloaded` to prevent overloading GitHub with download requests. If you change the URL to a file, simply remove the cached file from `docs/code_samples_downloaded` and Sphinx automatically re-downloads it.
+> If you change the URL to a file, delete the cached file from `docs/code_samples/__pycache__` and run `ddev build-docs`. Sphinx automatically re-downloads it.
 
 ## Updating contents and UI images
 
-To update the documentation contents and Mautic user interface (UI) images, you need to read instructions in the following pages in the Community Handbook:
+To update the documentation contents and Mautic user interface (UI) images, you need to read the instructions in the following pages in the Community Handbook:
 
 - [Contributing to Mautic’s documentation](https://contribute.mautic.org/en/latest/contributing/contributing_docs_rst.html) page and follow the style guide when working with the contents.
 - [Tester](https://contribute.mautic.org/en/latest/contributing/tester.html) page for complete instructions on installing Mautic to update UI images.
