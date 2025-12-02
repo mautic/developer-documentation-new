@@ -9,6 +9,12 @@ If you're looking for the legacy developer documentation, please go to https://d
 [ReadTheDocs]: <https://readthedocs.org>
 [Legacy dev docs]: <https://github.com/mautic/developer-documentation>
 
+## Contributing 🤝
+
+All kinds of contributions are encouraged. For complete information on how to contribute to the Mautic developer documentation (new) repository, please read the [Contributing Guidelines](.github/CONTRIBUTING.md).
+
+All contributors are required to abide by our [Code of Conduct](https://mautic.org/code-of-conduct/).
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
