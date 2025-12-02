@@ -362,21 +362,6 @@ Model example
         }
     }
 
-Registering Model Classes
--------------------------
-Register Models as ``model`` :ref:`services`. The service name must follow the format:
-
-``mautic.UNIQUE_BUNDLE_IDENTIFIER.model.MODEL_IDENTIFIER``
-
-- ``UNIQUE_BUNDLE_IDENTIFIER``: any unique name for your Plugin or bundle
-- ``MODEL_IDENTIFIER``: a name unique within the bundle
-
-Register the model in the preceding example as:"
-
-``mautic.helloworld.model.contact``
-
-This allows Mautic’s helper functions to retrieve the model using the `getModel()` method.
-
 Base Model Classes
 ------------------
 
