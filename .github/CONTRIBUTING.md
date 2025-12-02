@@ -88,7 +88,7 @@ PRs are always welcome. However, before working on changes, you must ensure that
 
 ### After submitting a PR
 
-1. Ensure that all checks pass. If you see the linting build or prose failed, try to debug and fix it until all of them pass. If you have questions or need help, feel free to tag the `@mautic/education-team-leaders` in the comment.
+1. Ensure that all checks pass. If the linting build or prose fails, debug and fix it until all pass. If you have questions or need help, feel free to tag the `@mautic/education-team-leaders` in the comment.
 2. Please don't DM maintainers on Slack to review or ask feedback and questions about your PR.
 
    If you'd like feedback or ask questions about your PR, tag `@mautic/education-team-leaders` in the comment of your PR or use the `#t-education` channel on Slack. That way, not only maintainers, but the community can help you get unstuck. The team always receives a notification whenever an incoming PR is submitted. If you haven't received a review within a week, you can tag them in the PR comments to ask for an estimated review time.
