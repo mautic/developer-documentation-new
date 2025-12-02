@@ -281,7 +281,7 @@ Once you've pushed your changes, you are ready to create a PR. To do so:
 
 Say you need to update the documentation for version `7.0`. By mistake, you create a new branch from branch `5.x` and work on this branch. Or you correctly apply your changes based on branch `7.0`, but when you create the PR, you forgot to set the base branch to `7.0`.
 
-If this happens, the Education Team maintainers request that you rebase your PR. You can either [rebase your PR](https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase) or create a new PR and use [git cherry-pick](https://www.atlassian.com/git/tutorials/cherry-pick) to incorporate your commits as follows:
+If this happens, the Education Team requests that you rebase your PR. You can either [rebase your PR](https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase) or create a new PR and use [git cherry-pick](https://www.atlassian.com/git/tutorials/cherry-pick) to incorporate your commits as follows:
 
 1. In your code editor, [create a new branch](#create-a-new-branch) and make sure that you base your new branch on the branch that you need to work on.
 2. On GitHub, go to your PR and close your PR by clicking the 'Close pull request' button at the bottom.
@@ -755,10 +755,11 @@ Code samples get downloaded from GitHub to ensure that they're always up to date
 
 ## Updating contents and UI images
 
-To update the documentation and Mautic user interface (UI) images, please read and follow the instructions provided in the Community Handbook:
+To update the documentation and the user interface (UI) images for Mautic, please follow the instructions outlined in the Community Handbook:
 
-- [Contributing to Mautic’s documentation](https://contribute.mautic.org/en/latest/contributing/contributing_docs_rst.html) page and follow the style guide when working with the contents.
-- [Tester](https://contribute.mautic.org/en/latest/contributing/tester.html) page for complete instructions on installing Mautic to update UI images.
+- Visit the [Contributing to Mautic’s Documentation](https://contribute.mautic.org/en/latest/contributing/contributing_docs_rst.html) page and adhere to the style guide while working on the content.
+
+- Refer to the [Tester](https://contribute.mautic.org/en/latest/contributing/tester.html) page for comprehensive instructions on installing Mautic to update the UI images.
 
 ## Credit
 
