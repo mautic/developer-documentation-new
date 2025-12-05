@@ -50,11 +50,11 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 
 - When you contribute to the project for the first time, please consider checking the [good first issue](https://github.com/mautic/developer-documentation-new/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22good%20first%20issue%22) or [help wanted](https://github.com/mautic/developer-documentation-new/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22help%20wanted%22) labels.
 
-- If you wish to work on an open issue, please comment on the issue, and a maintainer will assign it to you.
+- If you wish to work on an open issue, please comment on the issue, and wait to be assigned by a maintainer.
 
   If an issue isn't assigned, it's assumed to be available for anyone to work on. So, ensure that you're assigned to an issue **before** beginning work to avoid conflicts.
 
-  **Note:** Please don't ask maintainers to assign you to another issue before you have finished working on yours and created a PR.
+  **Note:** please don't ask maintainers to assign you to another issue before you have finished working on yours and created a PR.
 
 - Please don't ask maintainers to assign you to an issue that already has someone assigned to it. If the assigned issue hasn't been addressed for a while and you're interested in working on it, leave a comment to ask about its status and progress.
 
@@ -118,7 +118,7 @@ To fork this repository:
 
 4. Click the green 'Create fork' button at the bottom.
 
-   ![An uncheck state option to copy only default branch and a create fork button on GitHub](../assets/images/uncheck_option_and_create_fork_button_github.png)
+   ![A check box with the removed check to copy only default branch and a create fork button on GitHub](../assets/images/uncheck_option_and_create_fork_button_github.png)
 
 ### Clone the repository
 
@@ -158,7 +158,7 @@ Follow the steps below to clone your forked repository:
 
 ### Create a new branch
 
-Before making changes, ensure that you create a new branch and work on it. You don't want to directly work on the default — such as `main` — or any other base branch, because you won't be able to work on lots of things at the same time. If you make all those changes on one branch, you can't separate them and merge only one change at a time.
+Before making changes, ensure that you create a new branch and work on it. You don't want to directly work on the default - such as `main` - or any other base branch, because you won't be able to work on lots of things at the same time. If you make all those changes on one branch, you can't separate them and merge only one change at a time.
 
 #### Ensure the correct base branch
 
