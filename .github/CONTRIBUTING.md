@@ -114,7 +114,7 @@ To fork this repository:
 
    ![Choose fork owner on GitHub](../assets/images/choose_fork_owner_github.png)
 
-3. Uncheck the option of 'Copy the DEFAULT-BRANCH-NAME branch only' because later on, you want to be able to clone multiple branches.
+3. Remove the check in option of 'Copy the DEFAULT-BRANCH-NAME branch only' because later on, you want to be able to clone multiple branches.
 
 4. Click the green 'Create fork' button at the bottom.
 
