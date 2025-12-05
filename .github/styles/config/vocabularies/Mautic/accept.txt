@@ -71,6 +71,7 @@ html
 HTML
 http
 https
+HTTPS
 HubSpot
 IDP
 IMAP
