@@ -1,8 +1,8 @@
 [![Documentation Status][RTD badge URL]][RTD URL] [![All Contributors](https://img.shields.io/github/all-contributors/mautic/developer-documentation-new?color=ee8449&style=flat-square)](#contributors)
 
-# Mautic developer documentation (new)
+# Mautic developer documentation
 
-This repository hosts the new developer documentation for Mautic on the [Read the Docs platform][ReadTheDocs]. Whenever a PR is merged, changes are deployed immediately to https://devdocs.mautic.org/.
+This repository hosts the new developer documentation for Mautic on the [Read the Docs platform][ReadTheDocs]. Builds take a few minutes to run before changes show on  https://devdocs.mautic.org following the merging of a PR. Each PR has a GitHub Action which spins up a temporary environment for reviewing the changes.
 
 If you're looking for the legacy developer documentation, please go to https://developer.mautic.org/ or the [GitHub repository][Legacy dev docs].
 
@@ -11,9 +11,9 @@ If you're looking for the legacy developer documentation, please go to https://d
 
 ## Contributing 🤝
 
-All kinds of contributions are encouraged. For complete information on how to contribute to the Mautic developer documentation (new) repository, please read the [Contributing Guidelines](.github/CONTRIBUTING.md).
+Mautic actively encourages all kinds of contributions. For complete information on how to contribute to the Mautic developer documentation repository, please read the [Contributing Guidelines](.github/CONTRIBUTING.md).
 
-All contributors are required to abide by our [Code of Conduct](https://mautic.org/code-of-conduct/).
+All contributors must abide by the Mautic [Code of Conduct](https://mautic.org/code-of-conduct/).
 
 ## Contributors ✨
 
