@@ -4,7 +4,7 @@
 
 This repository hosts the new developer documentation for Mautic on the [Read the Docs platform][ReadTheDocs]. Builds take a few minutes to run before changes show on  https://devdocs.mautic.org following the merging of a PR. Each PR has a GitHub Action which spins up a temporary environment for reviewing the changes.
 
-If you're looking for the legacy developer documentation, please go to https://developer.mautic.org/ or the [GitHub repository][Legacy dev docs].
+If you're looking for the legacy developer documentation, please go to https://developer.mautic.org/ or the [GitHub repository][Legacy dev docs]. This still exists because we have some changes which haven't yet been ported over to the new documentation here - if you'd like to help, please check the [contribution guidelines](.github/CONTRIBUTING.md).
 
 [ReadTheDocs]: <https://readthedocs.org>
 [Legacy dev docs]: <https://github.com/mautic/developer-documentation>
