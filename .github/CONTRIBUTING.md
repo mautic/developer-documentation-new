@@ -691,24 +691,25 @@ Your changes must follow Mautic's style guide. To ensure that the changes are co
 
 Code samples get downloaded from GitHub to ensure that they're always up to date. If you want to add a new code sample, follow these steps:
 
-1. Create a `.py` file in the `docs/code_samples/` folder. For example: `helloworld_entity_world.py`.
+1. In your terminal, run the command below depending on your working environment:
 
-2. Copy and paste the template below:
+   If you work with Codespaces:
 
-   ```python
-   from . import _main_code_sample
-
-   # Output file name must be unique!
-   output_file_name = "OUTPUT_FILE_NAME.php"
-   # Ensure that the URL always starts with https://raw.githubusercontent.com/...
-   url = "https://raw.githubusercontent.com/mautic/REPOSITORY-NAME/BRANCH-NAME/FOLDER-NAME/FILE_NAME.php" 
-
-   _main_code_sample.code_samples.update({output_file_name: (url)})
+   ```bash
+   make code-sample
    ```
 
-3. Change `OUTPUT_FILE_NAME.php` to a unique file name using two or more words separated by an underscore. For example: `entity_world.php`.
+   If you work locally with DDEV:
 
-4. Change `https://raw.githubusercontent.com/mautic/REPOSITORY_NAME/BRANCH-NAME/FOLDER-NAME/FILE_NAME.php` to the URL of the code sample file on GitHub. 
+   ```bash
+   ddev exec make code-sample
+   ```
+
+2. Input the answer to all prompts:
+
+   - **Enter a Unique File Name (with .php suffix):** The unique name of the file that links to the code sample on GitHub with `.php` suffix.
+   - **Enter the URL to the file (should start with https://raw.githubusercontent.com/...):** The link to the file that consists of a code sample on GitHub.
+   - **Enter the .py file name (use_lower_case_and_underscore of link name):** The name of the code sample file.
 
    **Important:** URLs to the code sample should always start with `https://raw.githubusercontent.com/...` to ensure that Sphinx can download the file correctly. You also need to remove `/blob` from the original URL.
 
@@ -724,21 +725,18 @@ Code samples get downloaded from GitHub to ensure that they're always up to date
    https://raw.githubusercontent.com/mautic/plugin-helloworld/mautic-4/Entity/World.php
    ```
 
-   Here's the complete example:
+   Here's a complete example of how to fill out prompts:
 
-   ```python
-   from . import _main_code_sample
-
-   output_file_name = "helloworld_entity_world.py"
-   url = "https://raw.githubusercontent.com/mautic/plugin-helloworld/mautic-4/Entity/World.php"
-
-   _main_code_sample.code_samples.update({output_file_name: (url)})
+   ```bash
+   Enter a Unique File Name (with .php suffix):  entity_world.php
+   Enter the URL to the file (should start with https://raw.githubusercontent.com/...):  https://raw.githubusercontent.com/mautic/plugin-helloworld/mautic-4/Entity/World.php
+   Enter the .py file name (use_lower_case_and_underscore of link name):  helloworld_entity_world
    ```
 
-5. In the documentation RST file where you need to add the code sample, add a `literalinclude` block to include the code:
+3. In the documentation RST file where you need to add the code sample, add a `literalinclude` block to include the code:
 
    ```python
-   .. literalinclude:: ../code_samples_downloaded/OUTPUT_FILE_NAME.php
+   .. literalinclude:: ../code_samples_downloaded/UNIQUE_FILE_NAME.php
        :language: php
    ```
 
