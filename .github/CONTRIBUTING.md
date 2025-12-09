@@ -66,7 +66,11 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 
   However, the Education Team needs to triage the issue before you can work on it. If you wish to work on the issue you submitted, please inform and tag the `@mautic/education-team-leaders` in the comment.
 
+<!-- vale off -->
+
 ## Pull requests (PRs)
+
+<!-- vale on -->
 
 PRs are always welcome. However, before working on changes, you must ensure that **you are assigned** to an existing issue and **link your work to the issue in your PR**.
 
@@ -168,7 +172,7 @@ Before making changes, ensure that you create a new branch and work on it. You d
 
 Before you create a new branch, you must ensure that you're on the branch that you need to base your changes on. Here's how to do it:
 
-1. In the bottom left of your VS Code, look at the branch tab — it has a git branch symbol with a branch name. It should indicate the branch you need to base your changes on.
+1. In the bottom left of your VS Code, look at the branch tab – it has a git branch symbol with a branch name. It should indicate the branch you need to base your changes on.
 
    ![Branch tab at the bottom left of VS Code](../assets/images/bottom_branch_tab_vscode.png)
    
@@ -190,7 +194,7 @@ There are two ways to create a new branch:
 
    To create a new branch with Git source control:
 
-   1. Click the branch tab — it has a git branch symbol with a branch name — at the bottom left of your VS Code. It opens a dropdown menu at the top.
+   1. Click the branch tab – it has a git branch symbol with a branch name – at the bottom left of your VS Code. It opens a dropdown menu at the top.
 
    2. Click 'Create new branch...'
 
@@ -216,7 +220,7 @@ There are two ways to push your changes to the remote repository:
 
 1. **With Git Source Control in VS Code**
 
-   1. On the left panel, click the 'Source Control' — resembles the git branches icon.
+   1. On the left panel, click the 'Source Control' – resembles the git branches icon.
 
       ![Source control icon on VS Code](../assets/images/git_source_control_vscode.png)
 
@@ -239,7 +243,7 @@ There are two ways to push your changes to the remote repository:
 2. **On terminal**
 
    1. Run `git status`. It provides you with file paths of the files you've worked on. You can later copy these paths for the next step.
-   2. Add the file path(s) that hold your changes to the 'stage' phase by running this command:
+   2. Add the file paths that hold your changes to the 'stage' phase by running this command:
 
       ```bash
       git add file-path-1 file-path-2
@@ -312,7 +316,7 @@ If this happens, the Education Team requests that you rebase your PR. You can ei
    git cherry-pick a1b2c3d4e5f678901234567890abcdef12345678
    ```
 
-6. If there are merge conflicts, resolve them before continuing. Once you've resolved them, you need to add the file(s) to the stage phase and continue the process:
+6. If there are merge conflicts, resolve them before continuing. Once you've resolved them, you need to add the files to the stage phase and continue the process:
 
    ```bash
    git add .
