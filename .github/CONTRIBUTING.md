@@ -141,7 +141,7 @@ Follow the steps below to clone your forked repository:
 
    ![Repositories option from a dropdown menu on GitHub](../assets/images/repositories_option_github.png)
 
-3. Open your forked user-documentation repository. The URL should have your username. For example: `https://github.com/YOUR-GITHUB-USERNAME/developer-documentation-new`.
+3. Open your forked developer-documentation-new repository. The URL should have your username. For example: `https://github.com/YOUR-GITHUB-USERNAME/developer-documentation-new`.
 4. Click the green 'Code' button on top.
 5. Select 'HTTPS' and copy the URL.
 
