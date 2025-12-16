@@ -8,7 +8,7 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 
 - [Communication expectation](#communication-expectation)
 - [Issues](#issues)
-- [Pull requests (PRs)](#pull-requests-prs)
+- [Pull requests](#pull-requests)
   - [Before submitting a PR](#before-submitting-a-pr)
   - [Submitting a PR](#submitting-a-pr)
   - [After submitting a PR](#after-submitting-a-pr)
@@ -50,25 +50,19 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 
 - When you contribute to the project for the first time, please consider checking the [good first issue](https://github.com/mautic/developer-documentation-new/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22good%20first%20issue%22) or [help wanted](https://github.com/mautic/developer-documentation-new/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22help%20wanted%22) labels.
 
-- If you wish to work on an open issue, please comment on the issue, and wait to be assigned by a maintainer.
+- If you want to work on an open issue, please comment on it so a maintainer can assign it to you.
 
   If an issue isn't assigned, it's assumed to be available for anyone to work on. So, ensure that you're assigned to an issue **before** beginning work to avoid conflicts.
 
-- Please don't ask maintainers to assign you to:
+- Don’t ask maintainers to assign you to another issue before you finish working on your current one and create a PR. Also, avoid requesting assignment to an issue that already has someone assigned. However, if the assignee hasn’t addressed the issue for a while and you’re interested in working on it, leave a comment to ask about its status and progress.
 
-   - Another issue before you have finished working on yours and created a PR.
-
-   - An issue that already has someone assigned to it.
-   
-      If the assigned issue hasn't been addressed for a while and you're interested in working on it, leave a comment to ask about its status and progress.
-
-- Did you spot a typo, missing instructions, or have an idea for enhancing the Mautic Developer Documentation? You can [create an issue](https://github.com/mautic/developer-documentation-new/issues/new/choose) to address it.
+- Did you spot a typo, missing instructions, or have an idea for enhancing the Mautic developer documentation? You can [create an issue](https://github.com/mautic/developer-documentation-new/issues/new/choose) to address it.
 
   However, the Education Team needs to triage the issue before you can work on it. If you wish to work on the issue you submitted, please inform and tag the `@mautic/education-team-leaders` in the comment.
 
-## Pull requests (PRs)
+## Pull requests
 
-PRs are always welcome. However, before working on changes, you must ensure that **you are assigned** to an existing issue and **link your work to the issue in your PR**.
+Pull requests - PRs - are always welcome. However, before working on changes, you must ensure that **you are assigned** to an existing issue and **link your work to the issue in your PR**.
 
 ### Before submitting a PR
 
@@ -82,7 +76,7 @@ PRs are always welcome. However, before working on changes, you must ensure that
 
    - **A title**. The PR title must describe the changes you made. For example: `Add getting started page to API documentation`.
    - **A description**. A clear description can help PR reviewers understand the changes you made in your PR. It's always good to walk through the process of how a reviewer can test your changes.
-   - **A related issue**. [Link the issue number](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) that you worked on and add a keyword of 'Closes', 'Fixes', or 'Resolves' in front of it. For example, `Closes #123`, `Fixes #234`, etc. You can find the issue number right next to the issue's title. Linking the issue number automatically closes it once your PR is merged.
+   - **A related issue**. [Link the issue number](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) that you worked on and add a keyword of 'Closes', 'Fixes', or 'Resolves' in front of it. For example, `Closes #123`, `Fixes #234`, etc. You can find the issue number right next to the issue's title. When you link the issue number, the issue automatically closes once a maintainer merges your PR.
 
 3. Provide screenshots for visual changes if necessary.
 
@@ -92,7 +86,7 @@ PRs are always welcome. However, before working on changes, you must ensure that
 
 ### After submitting a PR
 
-1. Ensure that all checks pass. If the linting build or prose fails, debug and fix it until all pass. If you have questions or need help, feel free to tag the `@mautic/education-team-leaders` in the comment.
+1. Ensure that all checks pass. If the linting build or prose fails, debug and fix it until all passes. If you have questions or need help, feel free to tag the `@mautic/education-team-leaders` in the comment.
 2. Please don't DM maintainers on Slack to review or ask feedback and questions about your PR.
 
    If you'd like feedback or ask questions about your PR, tag `@mautic/education-team-leaders` in the comment of your PR or use the `#t-education` channel on Slack. That way, not only maintainers, but the community can help you get unstuck. The team always receives a notification whenever an incoming PR is submitted. If you haven't received a review within a week, you can tag them in the PR comments to ask for an estimated review time.
@@ -118,11 +112,11 @@ To fork this repository:
 
    ![Choose fork owner on GitHub](../assets/images/choose_fork_owner_github.png)
 
-3. Remove the check in option of 'Copy the DEFAULT-BRANCH-NAME branch only' because later on, you want to be able to clone multiple branches.
+3. Deselect the 'Copy the DEFAULT-BRANCH-NAME branch only' checkbox so you can clone multiple base branches.
 
 4. Click the green 'Create fork' button at the bottom.
 
-   ![A check box with the removed check to copy only default branch and a create fork button on GitHub](../assets/images/uncheck_option_and_create_fork_button_github.png)
+   ![A deselected checkbox to choose the option to copy only the default branch and a create fork button on GitHub](../assets/images/uncheck_option_and_create_fork_button_github.png)
 
 ### Clone the repository
 
@@ -130,7 +124,7 @@ After you forked the repository, you need to clone it. Cloning means copying a r
 
 > [!IMPORTANT]
 >
-> The Mautic Developer Documentation contains multiple branches that represent specific versions of Mautic. You should clone each branch into its own dedicated folder and make your changes within the appropriate folder.
+> The Mautic developer documentation contains multiple branches that represent specific versions of Mautic. You should clone each branch into its own dedicated folder and make your changes within the appropriate folder.
 >
 > So, for example, when you need to make documentation changes for Mautic version 5, clone the branch `5.x` and save it in a folder. You can name the folder anything you want, but it's best to reflect the branch name. For example, use a name like `dev-docs-5`.
 
@@ -162,13 +156,13 @@ Follow the steps below to clone your forked repository:
 
 ### Create a new branch
 
-Before making changes, ensure that you create a new branch and work on it. You don't want to directly work on the default - such as `main` - or any other base branch, because you won't be able to work on lots of things at the same time. If you make all those changes on one branch, you can't separate them and merge only one change at a time.
+Before making changes, ensure that you create a new branch and work on it. You don't want to directly work on the default branch, such as `main` or any other base branch, because you won't be able to work on lots of things at the same time. If you make all those changes on one branch, you can't separate them and merge only one change at a time.
 
 #### Ensure the correct base branch
 
 Before you create a new branch, you must ensure that you're on the branch that you need to base your changes on. Here's how to do it:
 
-1. In the bottom left of your VS Code, look at the branch tab — it has a git branch symbol with a branch name. It should indicate the branch you need to base your changes on.
+1. In the bottom left of your VS Code, look at the branch tab that has a git branch symbol with a branch name. It should indicate the branch you need to base your changes on.
 
    ![Branch tab at the bottom left of VS Code](../assets/images/bottom_branch_tab_vscode.png)
    
@@ -186,13 +180,13 @@ There are two ways to create a new branch:
 
 1. **With Git Source Control in VS Code**
 
-   Working with [Git source control](https://code.visualstudio.com/docs/sourcecontrol/overview?originUrl=%2Fdocs%2Fsourcecontrol%2Fintro-to-git) in VS Code is more comfortable if you're not technical and prefer a Graphical User Interface (GUI) over a terminal.
+   Working with [Git source control](https://code.visualstudio.com/docs/sourcecontrol/overview?originUrl=%2Fdocs%2Fsourcecontrol%2Fintro-to-git) in VS Code is more comfortable if you're not technical and prefer a Graphical User Interface - GUI - over a terminal.
 
    To create a new branch with Git source control:
 
-   1. Click the branch tab — it has a git branch symbol with a branch name — at the bottom left of your VS Code. It opens a dropdown menu at the top.
+   1. Click the branch tab that has a git branch symbol with a branch name at the bottom left of your VS Code. It opens a dropdown menu at the top.
 
-   2. Click 'Create new branch...'
+   2. Click the 'Create new branch...' option.
 
       ![Create a new branch option in a dropdown menu on VS Code](../assets/images/create_a_new_branch_vscode.png)
 
@@ -216,11 +210,11 @@ There are two ways to push your changes to the remote repository:
 
 1. **With Git Source Control in VS Code**
 
-   1. On the left panel, click the 'Source Control' — resembles the git branches icon.
+   1. On the left panel, click the 'Source Control' that resembles the git branches icon.
 
       ![Source control icon on VS Code](../assets/images/git_source_control_vscode.png)
 
-   2. Click the '+' icon next to the name of the file to move it to the 'stage' phase. It means you're adding this file as 'ready' to commit.
+   2. Click the '+' icon next to the name of the file to move it to the staging area. It means you're adding this file as 'ready' to commit.
 
    3. After you add all the files that you want to commit, add a commit message describing the changes you made. For example, `fix broken links`.
 
@@ -239,13 +233,13 @@ There are two ways to push your changes to the remote repository:
 2. **On terminal**
 
    1. Run `git status`. It provides you with file paths of the files you've worked on. You can later copy these paths for the next step.
-   2. Add the file path(s) that hold your changes to the 'stage' phase by running this command:
+   2. Add the file paths that hold your changes to the staging area by running this command:
 
       ```bash
       git add file-path-1 file-path-2
       ```
 
-   3. Commit your changes with this command:
+   3. Commit your changes with the following command:
 
       ```bash
       git commit -m "your message"
@@ -265,7 +259,7 @@ Once you've pushed your changes, you are ready to create a PR. To do so:
 
 1. Go to [https://github.com/mautic/developer-documentation-new](https://github.com/mautic/developer-documentation-new) and click the green button that prompts you to create a PR.
 
-2. **This step is crucial.** Each branch contains documentation for a specific version of Mautic. You must base your PR on the branch that corresponds to the version you are modifying. If you don't, your changes may apply to the wrong version of the documentation. For instance, if you're making updates for the documentation version `5.x`, you must base your PR on the `5.x` branch.
+2. **This step is crucial.** Each branch contains documentation for a specific version of Mautic. You must base your PR on the branch that corresponds to the version you are modifying. If you don't, your changes may apply to the wrong version of the documentation. For instance, if you're making updates for the documentation version `7.0`, you must base your PR on the `7.0` branch, and so on.
 
     At the top, you should see several dropdown menus: 'base repository', 'base', 'head repository', and 'compare'.
 
@@ -279,40 +273,57 @@ Once you've pushed your changes, you are ready to create a PR. To do so:
 
 > [!IMPORTANT]
 >
-> If you mistakenly based your PR on the wrong branch or selected the wrong branch when creating a PR, as in step 2, follow the steps in the next "[Git cherry-pick](#git-cherry-pick)" section.
+> When a maintainer asks you to rebase your PR because you based it on the wrong branch or selected the incorrect base branch while creating the PR, you can close your PR and create a new one using [Git cherry-pick](#git-cherry-pick).
 
 #### Git cherry-pick
 
-Say you need to update the documentation for version `7.0`. By mistake, you create a new branch from branch `5.x` and work on this branch. Or you correctly apply your changes based on branch `7.0`, but when you create the PR, you forgot to set the base branch to `7.0`.
+In Git, cherry-picking means copying a commit and adding it to another branch.
 
-If this happens, the Education Team requests that you rebase your PR. You can either [rebase your PR](https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase) or create a new PR and use [git cherry-pick](https://www.atlassian.com/git/tutorials/cherry-pick) to incorporate your commits as follows:
+To cherry-pick, please follow the steps outlined below:
 
-1. In your code editor, [create a new branch](#create-a-new-branch) and make sure that you base your new branch on the branch that you need to work on.
-2. On GitHub, go to your PR and close your PR by clicking the 'Close pull request' button at the bottom.
+1. Go to your forked repository on GitHub and click the 'Sync fork' button. If you need to update your branch with the latest state of the original repository, you should see and click the green 'Update branch' button.
+
+   ![Sync fork and Update branch buttons on GitHub](../assets/images/sync-fork-update-branch-buttons-github.png)
+
+2. In your code editor, make sure you are in the correct folder version of the cloned repository and that the base branch is up to date by running the following command:
+
+   ```bash
+   git pull
+   ```
+
+3. Ensure you have the commits you need for cherry-picking by fetching all remote new files, commits, and branches that you don't have yet on your local machine. To do so, run:
+
+   ```bash
+   git fetch origin
+   ```
+
+4. [Create a new branch](#create-a-new-branch).
+
+5. Navigate to your PR on GitHub and close it by clicking the 'Close pull request' button located at the bottom of the page.
 
    ![Close pull request button on GitHub](../assets/images/close_pr_button_github.png)
 
-3. Click the 'Commits' tab at the top. You should see the list of your commits.
+6. After closing the PR, click the 'Commits' tab at the top. You should see the list of your commits.
 
    ![Commits tab and list of commits on GitHub](../assets/images/commits_tab_github.png)
 
-4. Click the copy icon next to the hash to copy the full SHA value. If you have multiple commits, start at the top and work through to the end.
+7. Click the copy icon next to the hash to copy the full SHA - Secure Hash Algorithm - value. If you have multiple commits, start at the top and work through to the end.
 
    ![Copy icon button to copy the full SHA value on GitHub](../assets/images/copy_full_sha_github.png)
 
-5. In your terminal, run this command:
+8. In your terminal, run this command:
 
    ```bash
-   git cherry-pick commit-hash          
+   git cherry-pick COMMIT-HASH
    ```
 
-   Change the `commit-hash` with the full SHA value that you've copied. Here's an example:
+   Change the `COMMIT-HASH` with the full SHA value that you've copied. Here's an example:
 
    ```bash
    git cherry-pick a1b2c3d4e5f678901234567890abcdef12345678
    ```
 
-6. If there are merge conflicts, resolve them before continuing. Once you've resolved them, you need to add the file(s) to the stage phase and continue the process:
+9. If there are merge conflicts, resolve them before continuing. Once you've resolved them, you need to add the files to the staging area and continue the process:
 
    ```bash
    git add .
@@ -351,14 +362,14 @@ If this happens, the Education Team requests that you rebase your PR. You can ei
    git commit --allow-empty
    ```
 
-7. [Push your changes](#push-changes-to-the-remote-repository) to the remote repository.
-8. [Create a new PR](#create-a-pr). Ensure you change the base branch to the appropriate version branch before clicking the 'Create pull request' button.
+10. [Push your changes](#push-changes-to-the-remote-repository) to the remote repository.
+11. [Create a new PR](#create-a-pr) and change the base branch to the correct version branch before clicking 'Create pull request' button.
 
 ## Getting started
 
-We built this project with [Sphinx](https://www.sphinx-doc.org/en/master/) and host it on the [Read the Docs platform](https://readthedocs.org).
+Mautic built this project with [Sphinx](https://www.sphinx-doc.org/en/master/) and hosts it on [Read the Docs](https://readthedocs.org).
 
-The `docs/` directory contains the content, written in [reStructuredText (RST)](https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html).
+The `docs/` directory contains the content, written in [reStructuredText - RST](https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html).
 
 ---
 
@@ -366,7 +377,7 @@ There are three ways to work on changes for the Mautic User Documentation:
 
 1. Directly on GitHub
 2. With [GitHub Codespaces](https://github.com/features/codespaces) on your browser
-3. With a code editor, such as [VS Code](https://code.visualstudio.com/), on your local machine — **recommended**
+3. With a code editor, such as [VS Code](https://code.visualstudio.com/), on your local machine - **recommended**
 
 ### 1. On GitHub
 
@@ -384,7 +395,7 @@ To work directly on GitHub, follow the steps below:
 
 3. Follow the instructions to commit the changes.
 4. Select to commit to a new branch. Call the branch something relative to what you are updating.
-5. [Create a PR](#create-a-pr). Read the "[Submitting a PR](#submitting-a-pr)" section about all info that you need to include in your PR.
+5. [Create a PR](#create-a-pr). Read the "[Submitting a PR](#submitting-a-pr)" section about all the information that you need to include in your PR.
 
 ### 2. GitHub Codespaces
 
@@ -426,7 +437,7 @@ Using GitHub Codespaces lets you quickly spin up the project in the cloud. For a
 
    ![Highlight Codespaces tab, plus icon, and Create codepace on main at GitHub](../assets/images/codespaces_tab_github.png)
 
-6. Wait until the codespace finishes building. Once it's finished, the build prompt closes, the README preview opens — you can close this preview, and the `postCreateCommand` runs. Please wait until it finishes doing its job.
+6. Wait for the codespace to finish building. Once complete, the build prompt closes, and the README preview opens. You can close this preview after it appears. Next, the `postCreateCommand` runs, so please wait until it finishes its task.
 
    ![Screenshot of postCreateCommand running in terminal](../assets/images/postcreatecommand_on_terminal.png)
 7. [Create a new branch](#create-a-new-branch) to work on your changes.
@@ -448,8 +459,8 @@ Using GitHub Codespaces lets you quickly spin up the project in the cloud. For a
 1. Ensure that you're in the `docs/` directory.
 2. Run `make html`. It generates the `build` folder.
 
-   **Tip:** If you get `make: *** No rule to make target 'html'.  Stop.` error message after running the `make html` command, you should check if you're in the correct directory. You must be in the `docs/` directory to run this command.
-3. Click the preview button — resembles a book and a magnifying glass — at the top to trigger Esbonio, a tool used for live preview. A tab opens, but the preview won't work. You can safely close this tab.
+   **Tip:** if you get `make: *** No rule to make target 'html'.  Stop.` error message after running the `make html` command, make sure you're in the correct directory. You must be in the `docs/` directory to execute this command successfully.
+3. Click the preview button that resembles a book and a magnifying glass at the top to trigger Esbonio, a tool used for live preview. A tab opens, but the preview won't work. You can safely close this tab.
 
    ![Highlight preview button on the top bar of VS Code on codespace](../assets/images/preview_button_vscode_codespace.png)
 
@@ -508,7 +519,7 @@ If you're ready to push your changes to the remote repository and create a PR, p
 
 To work locally, you first need to install these on your machine:
 
-1. **VS Code (recommended) or your preferred IDE**
+1. **VS Code - recommended - or your preferred IDE**
 
    If you haven't, [download and install VS Code](https://code.visualstudio.com/download) on your computer.
 
@@ -516,13 +527,13 @@ To work locally, you first need to install these on your machine:
 
    Mautic uses [DDEV](https://ddev.com) to simplify local development and testing of documentation updates. Go to the [Get Started](https://ddev.com/get-started/) page on their website for instructions to install DDEV on your local machine.
 
-   **For Windows users**: you can install and run DDEV on [traditional Windows](https://ddev.readthedocs.io/en/stable/#system-requirements-traditional-windows). However, using [Windows Subsystem for Linux 2 (WSL2)](https://learn.microsoft.com/en-us/windows/wsl/about) provides faster, better performance. If you're new to WSL, follow the instructions on the [DDEV blog](https://ddev.com/blog/watch-new-windows-installer/) to install and set up WSL and DDEV.
+   **For Windows users**: you can install and run DDEV on [traditional Windows](https://ddev.readthedocs.io/en/stable/#system-requirements-traditional-windows). However, using [Windows Subsystem for Linux 2 - WSL2](https://learn.microsoft.com/en-us/windows/wsl/about) provides faster, better performance. If you're new to WSL, follow the instructions on the [DDEV blog](https://ddev.com/blog/watch-new-windows-installer/) to install and set up WSL and DDEV.
 
 3. **Vale**
 
    Mautic uses [Vale](https://vale.sh/) to maintain style guide consistency across the docs. Go to the "[Install](https://vale.sh/docs/install)" page on the official docs to install Vale on your computer.
 
-4. **GitHub CLI (Optional)**
+4. **GitHub CLI - optional**
 
    You can [download and install GitHub CLI](https://cli.github.com/) on your computer if you'd like. It could save you time to work on your GitHub workflow with GitHub CLI, particularly if you want to assist with code reviews.
 
@@ -585,7 +596,7 @@ In this section, you can find the commands you need to work with links. Ensure y
 
 ### Create a new link
 
-When you need to add a link, you can do so by running the command below — depending on where you work on your changes — in the terminal.
+Depending on where you work on your changes, when you need to add a link, run the command below in the terminal.
 
 If you work with Codespaces:
 
@@ -601,14 +612,15 @@ ddev exec make link
 
 Then input the answer to all prompts:
 
-- **Enter a Unique Link Name:** The name of the link.
-- **Enter the link text the user sees:** The link that appears on the website.
-- **Enter the URL:** The link URL.
-- **Enter the .py file name (use_lower_case_and_underscore of link name):** The name of the file.
+- **Enter a Unique Link Name:** the name of the link.
+- **Enter the link text the user sees:** the link that appears on the website.
+- **Enter the URL:** the link URL.
+- **Enter the .py file name (use_lower_case_and_underscore of link name):** the name of the file.
 
 <br />
 
 > [!TIP]
+>
 > Ensure that all entries are clear and general so that anyone working on this project can easily search for and reuse them.
 
 <br />
@@ -624,7 +636,7 @@ Enter the .py file name (use_lower_case_and_underscore of link name): mautic_dev
 
 ### Check broken links
 
-To prevent build failures, ensure there are no broken links. You can check the links by following the instructions below, depending on where you work on your changes, in the terminal.
+To avoid build failures, make sure there are no broken links. You can verify the links by following the instructions below, based on where you are making changes in the terminal.
 
 If you work with Codespaces:
 
@@ -688,7 +700,7 @@ Your changes must follow Mautic's style guide. To ensure that the changes are co
 
 > [!IMPORTANT]
 >
-> - Ensure that you wrap the sentences that you'd like Vale to skip with both `.. vale off` and `.. vale on` statements, in order. Failing to do so results in Vale lint skipping the rest of the contents.
+> - Wrap the sentences you want Vale to skip with both `.. vale off` and `.. vale on` statements in that order. If you fail to do this, Vale skips the remaining contents.
 > - Don't add statements to skip lint, unless necessary. If you're uncertain, it's best not to wrap them in the statements and let the team review and provide suggestions.
 
 ## Adding a code sample
@@ -757,7 +769,7 @@ Code samples get downloaded from GitHub to ensure that they're always up to date
 
 ## Updating contents and UI images
 
-To update the documentation and the user interface (UI) images for Mautic, please follow the instructions outlined in the Community Handbook:
+To update the documentation and the user interface - UI - images for Mautic, please follow the instructions outlined in the Community Handbook:
 
 - Visit the [Contributing to Mautic’s Documentation](https://contribute.mautic.org/en/latest/contributing/contributing_docs_rst.html) page and adhere to the style guide while working on the content.
 
@@ -769,4 +781,4 @@ These contributing guidelines are adapted from [OpenSource-Communities/intro](ht
 
 ---
 
-Thank you for contributing to improving the Mautic Developer Documentation.
+Thank you for contributing to improving the Mautic developer documentation.
