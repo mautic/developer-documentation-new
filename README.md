@@ -2,16 +2,16 @@
 
 # Mautic developer documentation
 
-This repository hosts the new developer documentation for Mautic on the [Read the Docs platform][ReadTheDocs]. Builds take a few minutes to run before changes show on  https://devdocs.mautic.org following the merging of a PR. Each PR has a GitHub Action which spins up a temporary environment for reviewing the changes.
+This repository hosts the new developer documentation for Mautic on [Read the Docs][ReadTheDocs]. Builds take a few minutes to run before changes show on https://devdocs.mautic.org following the merging of a PR. Each PR has a GitHub Action that spins up a temporary environment for reviewing the changes.
 
-If you're looking for the legacy developer documentation, please go to https://developer.mautic.org/ or the [GitHub repository][Legacy dev docs]. This still exists because we have some changes which haven't yet been ported over to the new documentation here - if you'd like to help, please check the [contribution guidelines](.github/CONTRIBUTING.md).
+If you're seeking the legacy developer documentation, please visit the [GitHub repository][Legacy dev docs]. The legacy repository is still available because some changes have not yet been transferred to the new documentation. If you'd like to contribute, please review the [contribution guidelines](.github/CONTRIBUTING.md).
 
 [ReadTheDocs]: <https://readthedocs.org>
 [Legacy dev docs]: <https://github.com/mautic/developer-documentation>
 
 ## Contributing 🤝
 
-Mautic actively encourages all kinds of contributions. For complete information on how to contribute to the Mautic developer documentation repository, please read the [Contributing Guidelines](.github/CONTRIBUTING.md).
+Mautic actively encourages all kinds of contributions. For complete information on how to contribute to this repository, please read the [Contributing Guidelines](.github/CONTRIBUTING.md).
 
 All contributors must abide by the Mautic [Code of Conduct](https://mautic.org/code-of-conduct/).
 
