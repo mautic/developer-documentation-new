@@ -41,7 +41,7 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 
 ## Communication expectation
 
-1. Always leave a detailed description in the pull request (PR). Leave nothing ambiguous for the reviewers.
+1. Always leave a detailed description in the pull request. Leave nothing ambiguous for the reviewers.
 2. Provide screenshots for visual changes.
 3. Always review your code first. Be sure to run the project locally and test it thoroughly before requesting a review.
 4. Communicate in the GitHub repository first before Slack. Whether it's in the issue or the PR, keeping the lines of communication open and visible to everyone on the team helps everyone around you.
@@ -67,7 +67,7 @@ Pull requests - PRs - are always welcome. However, before working on changes, yo
 ### Before submitting a PR
 
 1. Ensure that you work on your changes in a new branch on your fork. Create one branch for each task you work on.
-2. Run and check your changes locally. Ensure that everything functions as intended.
+2. Make sure to run your changes locally and verify that everything is functioning as intended.
 
 ### Submitting a PR
 
@@ -389,7 +389,7 @@ To work directly on GitHub, follow the steps below:
 
    ![Screenshot of community handbook with a red box highlighting the Edit on GitHub button](../assets/images/edit_on_github.png)
 
-2. Click the edit button — which resembles a pencil — and make the necessary changes.
+2. Click the edit button that resembles a pencil, and make the necessary changes.
 
    ![Screenshot of community handbook with a red box highlighting the Edit on GitHub button](../assets/images/edit_button_github.png)
 
