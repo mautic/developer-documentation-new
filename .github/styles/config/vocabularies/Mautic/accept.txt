@@ -48,6 +48,7 @@ DNC
 Do Not Contact
 Dripflow
 Dynamic Web Content
+Esbonio
 FALSE
 false
 Firewalls
@@ -126,6 +127,7 @@ Read the Docs
 rebase
 Remarketing
 Report Email
+RST
 Salesforce
 SAML
 Schimpf
@@ -133,6 +135,7 @@ SCP
 Segment Email
 SendGrid
 SES
+SHA
 Shinde
 SMS
 SMTP
@@ -165,6 +168,7 @@ UTM
 Vtiger
 Webhooks
 Webmecanik
+WSL
 www
 XPath
 YAML
