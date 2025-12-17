@@ -64,12 +64,20 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 
 Pull requests - PRs - are always welcome. However, before working on changes, you must ensure that a maintainer **assigns you** to an existing issue, and always **link your work to the issue in your PR**.
 
+<!-- vale off -->
+
 ### Before submitting a PR
+
+<!-- vale on -->
 
 1. Ensure that you work on your changes in a new branch on your fork. Create one branch for each task you work on.
 2. Make sure to run your changes locally and verify that everything is functioning as intended.
 
+<!-- vale off -->
+
 ### Submitting a PR
+
+<!-- vale on -->
 
 1. Ensure that you address one issue in one PR. If you work on multiple issues, work on them separately and create one PR to address each issue.
 2. Make sure you give clear information about your changes in your PR:
@@ -80,18 +88,34 @@ Pull requests - PRs - are always welcome. However, before working on changes, yo
 
 3. Provide screenshots for visual changes if necessary.
 
+<!-- Turning off vale for Spell out 'TIP' warning -->
+
+<!-- vale off -->
+
 > [!TIP]
 >
 > Refer to [PR #369](https://github.com/mautic/mautic-community-handbook/pull/369) in the Mautic Community Handbook for an example of a well-documented PR.
 
+<!-- vale on -->
+
+<!-- vale off -->
+
 ### After submitting a PR
 
+<!-- vale on -->
+
 1. Ensure that all checks pass. If the linting build or prose fails, debug and fix it until all passes. If you have questions or need help, feel free to tag the `@mautic/education-team-leaders` in the comment.
+
+<!-- vale off -->
+
 2. Please don't DM maintainers on Slack to review or ask feedback and questions about your PR.
 
    If you'd like feedback or ask questions about your PR, tag `@mautic/education-team-leaders` in the comment of your PR or use the `#t-education` channel on Slack. That way, not only maintainers, but the community can help you get unstuck. The team always receives a notification on new PR creation. If you haven't received a review within a week, you can tag them in the PR comments to ask for an estimated review time.
 
+<!-- vale on -->
+
 3. Keep your branch up to date while waiting for review.
+
 4. Respond and address the reviewer's feedback. Please don't request a review until you've addressed all feedback.
 
 ## Contributing workflow
@@ -112,6 +136,8 @@ To fork this repository:
 
    ![Fork button on GitHub](../assets/images/fork_button_github.png)
 
+<!-- vale on -->
+
 2. Choose your username in the 'Owner *' dropdown menu. **Don't select an organization here. Always choose your personal account**; otherwise, maintainers can't collaborate or fix issues in your PR.
 
    ![Choose fork owner on GitHub](../assets/images/choose_fork_owner_github.png)
@@ -121,8 +147,6 @@ To fork this repository:
 4. Click the green 'Create fork' button at the bottom.
 
    ![A deselected checkbox to choose the option to copy only the default branch and a create fork button on GitHub](../assets/images/uncheck_option_and_create_fork_button_github.png)
-
-<!-- vale on -->
 
 ### Clone the repository
 
@@ -192,7 +216,7 @@ There are two ways to create a new branch:
 
    1. Click the branch tab that has a git branch symbol with a branch name at the bottom left of your VS Code. It opens a dropdown menu at the top.
 
-   2. Click the 'Create new branch...' option.
+   2. Click the 'Create new branch' option.
 
       ![Create a new branch option in a dropdown menu on VS Code](../assets/images/create_a_new_branch_vscode.png)
 
@@ -259,11 +283,17 @@ There are two ways to push your changes to the remote repository:
       git push -u origin YOUR-BRANCH-NAME
       ```
 
+<!-- vale off -->
+
 ### Create a PR
+
+<!-- vale on -->
 
 Once you've pushed your changes, you are ready to create a PR. To do so:
 
 1. Go to [https://github.com/mautic/developer-documentation-new](https://github.com/mautic/developer-documentation-new) and click the green button that prompts you to create a PR.
+
+<!-- vale off -->
 
 2. **This step is crucial.** Each branch contains documentation for a specific version of Mautic. You must base your PR on the branch that corresponds to the version you are modifying. If you don't, your changes may apply to the wrong version of the documentation. For instance, if you're making updates for the documentation version `7.0`, you must base your PR on the `7.0` branch, and so on.
 
@@ -272,6 +302,8 @@ Once you've pushed your changes, you are ready to create a PR. To do so:
     Click the 'base: BRANCH-NAME'. It should open a dropdown menu. Select the base branch to the branch that your PR modifies.
 
     ![Highlight of PR base branch on GitHub](../assets/images/change_pr_base_branch_github.png)
+
+<!-- vale on -->
 
 3. Fill in the PR template. Please read the "[Submitting a PR](#submitting-a-pr)" section for all the information you need to include in your PR for the reviewers.
 
