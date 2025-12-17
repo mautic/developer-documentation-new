@@ -26,8 +26,6 @@ CloudAMQP
 Codeception
 Codecov
 codespace
-Codespace
-codespaces
 Codespaces
 Company(ies)
 Composability
