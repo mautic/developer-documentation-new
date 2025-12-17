@@ -9,29 +9,29 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 - [Communication expectation](#communication-expectation)
 - [Issues](#issues)
 - [Pull requests](#pull-requests)
-  - [Before submitting a PR](#before-submitting-a-pr)
-  - [Submitting a PR](#submitting-a-pr)
-  - [After submitting a PR](#after-submitting-a-pr)
+   - [Before submitting a PR](#before-submitting-a-pr)
+   - [Submitting a PR](#submitting-a-pr)
+   - [After submitting a PR](#after-submitting-a-pr)
 - [Contributing workflow](#contributing-workflow)
-  - [Forking the repository](#forking-the-repository)
-  - [Clone the repository](#clone-the-repository)
-  - [Create a new branch](#create-a-new-branch)
-    - [Ensure the correct base branch](#ensure-the-correct-base-branch)
-    - [Ways to create a new branch](#ways-to-create-a-new-branch)
-  - [Push changes to the remote repository](#push-changes-to-the-remote-repository)
-  - [Create a PR](#create-a-pr)
-    - [Git cherry-pick](#git-cherry-pick)
+   - [Forking the repository](#forking-the-repository)
+   - [Clone the repository](#clone-the-repository)
+   - [Create a new branch](#create-a-new-branch)
+      - [Ensure the correct base branch](#ensure-the-correct-base-branch)
+      - [Ways to create a new branch](#ways-to-create-a-new-branch)
+   - [Push changes to the remote repository](#push-changes-to-the-remote-repository)
+   - [Create a PR](#create-a-pr)
+      - [Git cherry-pick](#git-cherry-pick)
 - [Getting started](#getting-started)
-  - [1. On GitHub](#1-on-github)
-  - [2. GitHub Codespaces](#2-github-codespaces)
-    - [Setting up a codespace](#setting-up-a-codespace)
-    - [Live preview on codespace](#live-preview-on-codespace)
-  - [3. Local development](#3-local-development)
-    - [Prerequisite](#prerequisite)
-    - [Setting up local environment](#setting-up-local-environment)
+   - [1. On GitHub](#1-on-github)
+   - [2. Local development](#2-local-development)
+      - [Prerequisite](#prerequisite)
+      - [Setting up local environment](#setting-up-local-environment)
+   - [3. GitHub Codespaces](#3-github-codespaces)
+      - [Setting up a codespace](#setting-up-a-codespace)
+      - [Live preview on codespace](#live-preview-on-codespace)
 - [Working with links](#working-with-links)
-  - [Create a new link](#create-a-new-link)
-  - [Check broken links](#check-broken-links)
+   - [Create a new link](#create-a-new-link)
+   - [Check broken links](#check-broken-links)
 - [Working with Vale](#working-with-vale)
 - [Adding a code sample](#adding-a-code-sample)
 - [Updating contents and UI images](#updating-contents-and-ui-images)
@@ -376,8 +376,8 @@ The `docs/` directory contains the content, written in [reStructuredText - RST](
 There are three ways to work on changes for the Mautic User Documentation:
 
 1. Directly on GitHub
-2. With [GitHub Codespaces](https://github.com/features/codespaces) on your browser
-3. With a code editor, such as [VS Code](https://code.visualstudio.com/), on your local machine - **recommended**
+2. With a code editor, such as [VS Code](https://code.visualstudio.com/), on your local machine - **recommended**
+3. With [GitHub Codespaces](https://github.com/features/codespaces) on your browser
 
 ### 1. On GitHub
 
@@ -397,9 +397,86 @@ To work directly on GitHub, follow the steps below:
 4. Select to commit to a new branch. Call the branch something relative to what you are updating.
 5. [Create a PR](#create-a-pr). Read the "[Submitting a PR](#submitting-a-pr)" section about all the information that you need to include in your PR.
 
-### 2. GitHub Codespaces
+### 2. Local development
 
-Using GitHub Codespaces lets you quickly spin up the project in the cloud. For a smooth process, use the Chrome or Firefox browser to work with Codespaces.
+#### Prerequisite
+
+To work locally, you first need to install these on your machine:
+
+1. **VS Code - recommended - or your preferred IDE**
+
+   If you haven't, [download and install VS Code](https://code.visualstudio.com/download) on your computer.
+
+2. **DDEV**
+
+   Mautic uses [DDEV](https://ddev.com) to simplify local development and testing of documentation updates. Go to the [Get Started](https://ddev.com/get-started/) page on their website for instructions to install DDEV on your local machine.
+
+   **For Windows users**: you can install and run DDEV on [traditional Windows](https://ddev.readthedocs.io/en/stable/#system-requirements-traditional-windows). However, using [Windows Subsystem for Linux 2 - WSL2](https://learn.microsoft.com/en-us/windows/wsl/about) provides faster, better performance. If you're new to WSL, follow the instructions on the [DDEV blog](https://ddev.com/blog/watch-new-windows-installer/) to install and set up WSL and DDEV.
+
+3. **Vale**
+
+   Mautic uses [Vale](https://vale.sh/) to maintain style guide consistency across the docs. Go to the "[Install](https://vale.sh/docs/install)" page on the official docs to install Vale on your computer.
+
+4. **GitHub CLI - optional**
+
+   You can [download and install GitHub CLI](https://cli.github.com/) on your computer if you'd like. It could save you time to work on your GitHub workflow with GitHub CLI, particularly if you want to assist with code reviews.
+
+#### Setting up local environment
+
+1. [Fork](#forking-the-repository) this repository to your own GitHub account.
+2. Go to your forked repository on GitHub.
+3. [Clone](#clone-the-repository) your forked repository.
+4. Navigate into the project directory by running:
+
+   ```bash
+   cd developer-documentation-new
+   ```
+
+   Replace `developer-documentation-new` with the name of the project you provided. For example, `dev-docs-5`, `dev-docs-7`, etc.
+
+5. [Create a new branch](#create-a-new-branch) to work on your changes.
+6. Start the DDEV environment with this command:
+
+   ```bash
+   ddev start
+   ```
+
+7. Go to the `docs/` directory:
+
+   ```bash
+   cd docs
+   ```
+
+8. Find the folder and file that you want to work on.
+9. Make changes and ensure that the changes you made follow Mautic's style guide by running the Vale lint. Please read the "[Working with Vale](#working-with-vale)" section to use Vale. Use the live preview to ensure everything works as intended in real time.
+10. Build the project by running:
+
+    ```bash
+    ddev build-docs
+    ```
+
+11. Run the below command to view your changes live on your browser:
+
+    ```bash
+    ddev launch
+    ```
+
+   DDEV uses the folder name as the project name. This command automatically opens your browser and navigates to `https://FOLDER-NAME.ddev.site/`.
+
+<br />
+
+> [!TIP]
+>
+> - Every time you make changes, run `ddev build-docs` and refresh the page in your browser to see the changes.
+> - If you don't see the configuration take effect, run `ddev restart` to restart the project.
+
+<br />
+
+If you're ready to push your changes to the remote repository and create a PR, please read the "[Push changes to the remote repository](#push-changes-to-the-remote-repository)" and "[Create a PR](#create-a-pr)" sections.
+
+### 3. GitHub Codespaces
+
+To get the best experience, work locally whenever possible. However, if that’s not possible, you can quickly set up the project in the cloud using GitHub Codespaces. For a smooth process, use the Chrome or Firefox browser to work with Codespaces.
 
 <details>
   <summary><strong>Tips to maximize free tier of Codespaces</strong></summary>
@@ -508,83 +585,6 @@ Using GitHub Codespaces lets you quickly spin up the project in the cloud. For a
 > - Always refresh the page to view the new changes you have applied.
 > - All commands only work within the `docs/`directory. If you're unable to run a command, verify that you're in the correct directory.
 > - Read the "[Troubleshooting live preview](#troubleshooting-live-preview)" section if you encounter any issues with the live preview in the codespace.
-
-<br />
-
-If you're ready to push your changes to the remote repository and create a PR, please read the "[Push changes to the remote repository](#push-changes-to-the-remote-repository)" and "[Create a PR](#create-a-pr)" sections.
-
-### 3. Local development
-
-#### Prerequisite
-
-To work locally, you first need to install these on your machine:
-
-1. **VS Code - recommended - or your preferred IDE**
-
-   If you haven't, [download and install VS Code](https://code.visualstudio.com/download) on your computer.
-
-2. **DDEV**
-
-   Mautic uses [DDEV](https://ddev.com) to simplify local development and testing of documentation updates. Go to the [Get Started](https://ddev.com/get-started/) page on their website for instructions to install DDEV on your local machine.
-
-   **For Windows users**: you can install and run DDEV on [traditional Windows](https://ddev.readthedocs.io/en/stable/#system-requirements-traditional-windows). However, using [Windows Subsystem for Linux 2 - WSL2](https://learn.microsoft.com/en-us/windows/wsl/about) provides faster, better performance. If you're new to WSL, follow the instructions on the [DDEV blog](https://ddev.com/blog/watch-new-windows-installer/) to install and set up WSL and DDEV.
-
-3. **Vale**
-
-   Mautic uses [Vale](https://vale.sh/) to maintain style guide consistency across the docs. Go to the "[Install](https://vale.sh/docs/install)" page on the official docs to install Vale on your computer.
-
-4. **GitHub CLI - optional**
-
-   You can [download and install GitHub CLI](https://cli.github.com/) on your computer if you'd like. It could save you time to work on your GitHub workflow with GitHub CLI, particularly if you want to assist with code reviews.
-
-#### Setting up local environment
-
-1. [Fork](#forking-the-repository) this repository to your own GitHub account.
-2. Go to your forked repository on GitHub.
-3. [Clone](#clone-the-repository) your forked repository.
-4. Navigate into the project directory by running:
-
-   ```bash
-   cd developer-documentation-new
-   ```
-
-   Replace `developer-documentation-new` with the name of the project you provided. For example, `dev-docs-5`, `dev-docs-7`, etc.
-
-5. [Create a new branch](#create-a-new-branch) to work on your changes.
-6. Start the DDEV environment with this command:
-
-   ```bash
-   ddev start
-   ```
-
-7. Go to the `docs/` directory:
-
-   ```bash
-   cd docs
-   ```
-
-8. Find the folder and file that you want to work on.
-9. Make changes and ensure that the changes you made follow Mautic's style guide by running the Vale lint. Please read the "[Working with Vale](#working-with-vale)" section to use Vale. Use the live preview to ensure everything works as intended in real time.
-10. Build the project by running:
-
-    ```bash
-    ddev build-docs
-    ```
-
-11. Run the below command to view your changes live on your browser:
-
-    ```bash
-    ddev launch
-    ```
-
-   DDEV uses the folder name as the project name. This command automatically opens your browser and navigates to `https://FOLDER-NAME.ddev.site/`.
-
-<br />
-
-> [!TIP]
->
-> - Every time you make changes, run `ddev build-docs` and refresh the page in your browser to see the changes.
-> - If you don't see the configuration take effect, run `ddev restart` to restart the project.
 
 <br />
 
