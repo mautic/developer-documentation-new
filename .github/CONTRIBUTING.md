@@ -62,7 +62,7 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 
 ## Pull requests
 
-Pull requests - PRs - are always welcome. However, before working on changes, you must ensure that **you are assigned** to an existing issue and **link your work to the issue in your PR**.
+Pull requests - PRs - are always welcome. However, before working on changes, you must ensure that a maintainer **assigns you** to an existing issue, and always **link your work to the issue in your PR**.
 
 ### Before submitting a PR
 
@@ -89,7 +89,7 @@ Pull requests - PRs - are always welcome. However, before working on changes, yo
 1. Ensure that all checks pass. If the linting build or prose fails, debug and fix it until all passes. If you have questions or need help, feel free to tag the `@mautic/education-team-leaders` in the comment.
 2. Please don't DM maintainers on Slack to review or ask feedback and questions about your PR.
 
-   If you'd like feedback or ask questions about your PR, tag `@mautic/education-team-leaders` in the comment of your PR or use the `#t-education` channel on Slack. That way, not only maintainers, but the community can help you get unstuck. The team always receives a notification whenever an incoming PR is submitted. If you haven't received a review within a week, you can tag them in the PR comments to ask for an estimated review time.
+   If you'd like feedback or ask questions about your PR, tag `@mautic/education-team-leaders` in the comment of your PR or use the `#t-education` channel on Slack. That way, not only maintainers, but the community can help you get unstuck. The team always receives a notification on new PR creation. If you haven't received a review within a week, you can tag them in the PR comments to ask for an estimated review time.
 
 3. Keep your branch up to date while waiting for review.
 4. Respond and address the reviewer's feedback. Please don't request a review until you've addressed all feedback.
