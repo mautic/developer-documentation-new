@@ -142,7 +142,11 @@ To fork this repository:
 
    ![Choose fork owner on GitHub](../assets/images/choose_fork_owner_github.png)
 
+<!-- vale off -->
+
 3. Deselect the 'Copy the DEFAULT-BRANCH-NAME branch only' checkbox so you can clone multiple base branches.
+
+<!-- vale on -->
 
 4. Click the green 'Create fork' button at the bottom.
 
@@ -337,7 +341,7 @@ To cherry-pick, please follow the steps outlined below:
 
 4. [Create a new branch](#create-a-new-branch).
 
-5. Navigate to your PR on GitHub and close it by clicking the 'Close pull request' button located at the bottom of the page.
+5. Navigate to your PR on GitHub and close it by clicking the 'Close pull request' button located at the bottom.
 
    ![Close pull request button on GitHub](../assets/images/close_pr_button_github.png)
 
@@ -401,6 +405,7 @@ To cherry-pick, please follow the steps outlined below:
    ```
 
 10. [Push your changes](#push-changes-to-the-remote-repository) to the remote repository.
+
 11. [Create a new PR](#create-a-pr) and change the base branch to the correct version branch before clicking 'Create pull request' button.
 
 ## Getting started
@@ -417,25 +422,39 @@ There are three ways to work on changes for the Mautic User Documentation:
 2. With a code editor, such as [VS Code](https://code.visualstudio.com/), on your local machine - **recommended**
 3. With [GitHub Codespaces](https://github.com/features/codespaces) on your browser
 
+<!-- vale off -->
+
 ### 1. On GitHub
 
-Making changes directly on GitHub is suitable for minor changes, such as fixing a typo. For bigger and more complex changes, please use GitHub Codespaces or work locally.
+<!-- vale on -->
+
+Making changes directly on GitHub is suitable for minor changes, such as fixing a typo. For bigger and more complex changes, please work locally or use GitHub Codespaces.
 
 To work directly on GitHub, follow the steps below:
+
+<!-- vale off -->
 
 1. Click the 'Edit on GitHub' button on the top right of the page where you noticed the mistake. It takes you to the correct resource on GitHub.
 
    ![Screenshot of community handbook with a red box highlighting the Edit on GitHub button](../assets/images/edit_on_github.png)
+
+<!-- vale on -->
 
 2. Click the edit button that resembles a pencil, and make the necessary changes.
 
    ![Screenshot of community handbook with a red box highlighting the Edit on GitHub button](../assets/images/edit_button_github.png)
 
 3. Follow the instructions to commit the changes.
+
 4. Select to commit to a new branch. Call the branch something relative to what you are updating.
+
 5. [Create a PR](#create-a-pr). Read the "[Submitting a PR](#submitting-a-pr)" section about all the information that you need to include in your PR.
 
+<!-- vale off -->
+
 ### 2. Local development
+
+<!-- vale off -->
 
 #### Prerequisite
 
@@ -444,6 +463,8 @@ To work locally, you first need to install these on your machine:
 1. **VS Code - recommended - or your preferred IDE**
 
    If you haven't, [download and install VS Code](https://code.visualstudio.com/download) on your computer.
+
+<!-- vale off -->
 
 2. **DDEV**
 
@@ -458,6 +479,8 @@ To work locally, you first need to install these on your machine:
 4. **GitHub CLI - optional**
 
    You can [download and install GitHub CLI](https://cli.github.com/) on your computer if you'd like. It could save you time to work on your GitHub workflow with GitHub CLI, particularly if you want to assist with code reviews.
+
+<!-- vale on -->
 
 #### Setting up local environment
 
@@ -503,16 +526,24 @@ To work locally, you first need to install these on your machine:
 
 <br />
 
+<!-- vale off -->
+
 > [!TIP]
 >
 > - Every time you make changes, run `ddev build-docs` and refresh the page in your browser to see the changes.
 > - If you don't see the configuration take effect, run `ddev restart` to restart the project.
 
+<!-- vale on -->
+
 <br />
 
 If you're ready to push your changes to the remote repository and create a PR, please read the "[Push changes to the remote repository](#push-changes-to-the-remote-repository)" and "[Create a PR](#create-a-pr)" sections.
 
+<!-- vale off -->
+
 ### 3. GitHub Codespaces
+
+<!-- vale on -->
 
 To get the best experience, work locally whenever possible. However, if that’s not possible, you can quickly set up the project in the cloud using GitHub Codespaces. For a smooth process, use the Chrome or Firefox browser to work with Codespaces.
 
@@ -548,16 +579,22 @@ To get the best experience, work locally whenever possible. However, if that’s
    ![Highlight branch dropdown menu on GitHub](../assets/images/switch_branch_github.png)
 
 4. Click the green 'Code' button and select the 'Codespaces' tab.
+
+<!-- vale off -->
+
 5. Click the green 'Create codespace on BRANCH-NAME' or '+' button to create a new codespace. It automatically sets up the project and opens VS Code.
 
    ![Highlight Codespaces tab, plus icon, and Create codespace on main at GitHub](../assets/images/codespaces_tab_github.png)
 
+<!-- vale on -->
+
 6. Wait for the codespace to finish building. Once complete, the build prompt closes, and the README preview opens. You can close this preview after it appears. Next, the `postCreateCommand` runs, so please wait until it finishes its task.
 
    ![Screenshot of postCreateCommand running in terminal](../assets/images/postcreatecommand_on_terminal.png)
+
 7. [Create a new branch](#create-a-new-branch) to work on your changes.
 
-   **Info:** Once you create a new branch, it automatically switches to your new branch. If you haven't seen the branch changes in your terminal, run `git status`, and you should see your branch name.
+   **Info:** once you create a new branch, it automatically switches to your new branch. If you haven't seen the branch changes in your terminal, run `git status`, and you should see your branch name.
 
 8. Go to the `docs/` directory:
 
@@ -591,7 +628,7 @@ To get the best experience, work locally whenever possible. However, if that’s
 
   <br />
   <p><strong>Troubleshooting #1</strong></p>
-  <p>If you can't see your changes in the live preview, try refreshing the page.</p>
+  <p>If you can't see your changes in the live preview, try refreshing the browser tab.</p>
 
   <p><strong>Troubleshooting #2</strong></p>
   <p>If refreshing doesn't work, try to:</p>
@@ -604,7 +641,7 @@ To get the best experience, work locally whenever possible. However, if that’s
   </ol>
 
   <p><strong>Troubleshooting #3</strong></p>
-  <p>If the above steps fail:</p>
+  <p>If the previous steps fail:</p>
   <ol>
     <li>Close VS Code and the live preview browsers.</li>
     <li>Go to <a href="https://github.com/codespaces" target="_blank">https://github.com/codespaces</a>.</li>
@@ -618,11 +655,15 @@ To get the best experience, work locally whenever possible. However, if that’s
 
 <br />
 
+<!-- vale off -->
+
 > [!TIP]
 >
 > - Always refresh the page to view the new changes you have applied.
 > - All commands only work within the `docs/`directory. If you're unable to run a command, verify that you're in the correct directory.
 > - Read the "[Troubleshooting live preview](#troubleshooting-live-preview)" section if you encounter any issues with the live preview in the codespace.
+
+<!-- vale on -->
 
 <br />
 
@@ -650,16 +691,24 @@ ddev exec make link
 
 Then input the answer to all prompts:
 
+<!-- vale off -->
+
 - **Enter a Unique Link Name:** the name of the link.
 - **Enter the link text the user sees:** the link that appears on the website.
 - **Enter the URL:** the link URL.
 - **Enter the .py file name (use_lower_case_and_underscore of link name):** the name of the file.
 
+<!-- vale on -->
+
 <br />
+
+<!-- vale off -->
 
 > [!TIP]
 >
 > Ensure that all entries are clear and general so that anyone working on this project can easily search for and reuse them.
+
+<!-- vale on -->
 
 <br />
 
@@ -698,7 +747,11 @@ You should see a list of links. Find the broken link and fix it. Here's an examp
 
 <!-- vale on -->
 
+<!-- vale off -->
+
 ## Working with Vale
+
+<!-- vale on -->
 
 Your changes must follow Mautic's style guide. To ensure that the changes are consistent with the style guide, in your terminal:
 
@@ -747,13 +800,13 @@ Your changes must follow Mautic's style guide. To ensure that the changes are co
 > - Wrap the sentences you want Vale to skip with both `.. vale off` and `.. vale on` statements in that order. If you fail to do this, Vale skips the remaining contents.
 > - Don't add statements to skip lint, unless necessary. If you're uncertain, it's best not to wrap them in the statements and let the team review and provide suggestions.
 
+<!-- vale off -->
+
 ## Adding a code sample
 
+<!-- vale on -->
+
 Code samples get downloaded from GitHub to ensure that they're always up to date. If you want to add a new code sample, follow these steps:
-
-<!-- Turning off Vale for Use 'PHP' instead of 'php' error in point 2 -->
-
-<!-- vale off -->
 
 1. In your terminal, run the command below depending on your working environment:
 
@@ -768,6 +821,10 @@ Code samples get downloaded from GitHub to ensure that they're always up to date
    ```bash
    ddev exec make code-sample
    ```
+
+<!-- Turning off Vale for Use 'PHP' instead of 'php' error -->
+
+<!-- vale off -->
 
 2. Input the answer to all prompts:
 
@@ -819,15 +876,15 @@ Code samples get downloaded from GitHub to ensure that they're always up to date
 
 ## Updating contents and UI images
 
-To update the documentation and the user interface - UI - images for Mautic, please follow the instructions outlined in the Community Handbook:
+To update the documentation and the User Interface - UI - images for Mautic, please follow the instructions outlined in the Community Handbook:
 
-- Visit the [Contributing to Mautic’s Documentation](https://contribute.mautic.org/en/latest/contributing/contributing_docs_rst.html) page and adhere to the style guide while working on the content.
+- Visit the [Contributing to Mautic’s Documentation](https://contribute.mautic.org/en/latest/contributing/contributing_docs_rst.html) and adhere to the style guide while working on the content.
 
-- Refer to the [Tester](https://contribute.mautic.org/en/latest/contributing/tester.html) page for comprehensive instructions on installing Mautic to update the UI images.
+- Refer to the [Tester](https://contribute.mautic.org/en/latest/contributing/tester.html) section for comprehensive instructions on installing Mautic to update the UI images.
 
 ## Credit
 
-These contributing guidelines are adapted from [OpenSource-Communities/intro](https://github.com/OpenSource-Communities/intro/blob/main/contributing/CONTRIBUTING.md) repository.
+Mautic adapted these contributing guidelines from [OpenSource-Communities/intro](https://github.com/OpenSource-Communities/intro/blob/main/contributing/CONTRIBUTING.md) repository.
 
 ---
 
