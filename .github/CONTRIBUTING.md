@@ -510,9 +510,9 @@ To get the best experience, work locally whenever possible. However, if that’s
    ![Highlight branch dropdown menu on GitHub](../assets/images/switch_branch_github.png)
 
 4. Click the green 'Code' button and select the 'Codespaces' tab.
-5. Click the green 'Create codespace on BRANCH-NAME' or '+' button to create a new codespace. Codespace automatically sets up the project and opens Visual Studio Code.
+5. Click the green 'Create codespace on BRANCH-NAME' or '+' button to create a new codespace. It automatically sets up the project and opens VS Code.
 
-   ![Highlight Codespaces tab, plus icon, and Create codepace on main at GitHub](../assets/images/codespaces_tab_github.png)
+   ![Highlight Codespaces tab, plus icon, and Create codespace on main at GitHub](../assets/images/codespaces_tab_github.png)
 
 6. Wait for the codespace to finish building. Once complete, the build prompt closes, and the README preview opens. You can close this preview after it appears. Next, the `postCreateCommand` runs, so please wait until it finishes its task.
 
@@ -562,7 +562,7 @@ To get the best experience, work locally whenever possible. However, if that’s
     <li>Delete the <code>build</code> folder in the <code>docs</code> directory.</li>
     <li>Refresh your codespace browser.</li>
     <li>Ensure that you're in the <code>docs/</code> directory.</li>
-    <li>Follow the steps in the <a href="#live-preview-on-codespace">Live Preview on Codespace</a> section.</li>
+    <li>Follow the steps in the <a href="#live-preview-on-codespace">Live Preview on codespace</a> section.</li>
   </ol>
 
   <p><strong>Troubleshooting #3</strong></p>
@@ -570,11 +570,11 @@ To get the best experience, work locally whenever possible. However, if that’s
   <ol>
     <li>Close VS Code and the live preview browsers.</li>
     <li>Go to <a href="https://github.com/codespaces" target="_blank">https://github.com/codespaces</a>.</li>
-    <li>At the bottom, you should see a list of your codespaces.</li>
+    <li>At the bottom, you should see a list of your projects on Codespaces.</li>
     <li>Click the three dots icon on the right of your project's codespace.</li>
     <li>Click 'Stop codespace'.</li>
     <li>Re-open the codespace by clicking its name.</li>
-    <li>Follow the steps in the <a href="#live-preview-on-codespace">Live Preview on Codespace</a> section.</li>
+    <li>Follow the steps in the <a href="#live-preview-on-codespace">Live Preview on codespace</a> section.</li>
   </ol>
 </details>
 
@@ -652,7 +652,13 @@ ddev exec make checklinks
 
 You should see a list of links. Find the broken link and fix it. Here's an example of a broken link:
 
+<!-- Turning off Vale for Use 'URL' instead of 'url' and Use 'HTML' instead of 'html' errors -->
+
+<!-- vale off -->
+
 ![Example of a broken link with error message: (contributing/contributing_docs_rst: line  198) broken    https://sublime-and-sphinx-guide.readthedocs.io/en/latest/references.html#add-link-make-command - 404 Client Error: Not Found for url: https://sublime-and-sphinx-guide.readthedocs.io/en/latest/references.html](../assets/images/broken_link_example.png)
+
+<!-- vale on -->
 
 ## Working with Vale
 
