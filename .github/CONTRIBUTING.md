@@ -104,6 +104,10 @@ Forking this repository is the first step you need to take before proceeding. Fo
 
 To fork this repository:
 
+<!-- Turning off Vale for Use 'Mautic' instead of 'mautic' error -->
+
+<!-- vale off -->
+
 1. In the main page of [mautic/developer-documentation-new](https://github.com/mautic/developer-documentation-new), click the 'Fork' button at the top.
 
    ![Fork button on GitHub](../assets/images/fork_button_github.png)
@@ -117,6 +121,8 @@ To fork this repository:
 4. Click the green 'Create fork' button at the bottom.
 
    ![A deselected checkbox to choose the option to copy only the default branch and a create fork button on GitHub](../assets/images/uncheck_option_and_create_fork_button_github.png)
+
+<!-- vale on -->
 
 ### Clone the repository
 
@@ -220,7 +226,7 @@ There are two ways to push your changes to the remote repository:
 
    4. Click the 'Commit' button.
 
-      ![Highlight plus icon to stage files, commit message input, and commit button at Source Control at VS Code](../assets/images/stage_and_commit_source_control_vscode.png)
+      ![Highlight plus icon to add files to the staging area, commit message input, and commit button at Source Control at VS Code](../assets/images/stage_and_commit_source_control_vscode.png)
 
    5. Click the 'Publish Branch', which opens a dropdown menu.
 
@@ -713,6 +719,10 @@ Your changes must follow Mautic's style guide. To ensure that the changes are co
 
 Code samples get downloaded from GitHub to ensure that they're always up to date. If you want to add a new code sample, follow these steps:
 
+<!-- Turning off Vale for Use 'PHP' instead of 'php' error in point 2 -->
+
+<!-- vale off -->
+
 1. In your terminal, run the command below depending on your working environment:
 
    If you work with Codespaces:
@@ -768,6 +778,8 @@ Code samples get downloaded from GitHub to ensure that they're always up to date
    .. literalinclude:: ../code_samples_downloaded/entity_world.php
        :language: php
    ```
+
+<!-- vale on -->
 
 > [!NOTE]
 >
