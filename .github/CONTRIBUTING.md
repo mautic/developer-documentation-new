@@ -480,6 +480,10 @@ To work locally, you first need to install these on your machine:
 
    You can [download and install GitHub CLI](https://cli.github.com/) on your computer if you'd like. It could save you time to work on your GitHub workflow with GitHub CLI, particularly if you want to assist with code reviews.
 
+> [!TIP]
+>
+> If you'd rather watch a video on setting up the local environment, you can find the [short tutorial on YouTube](https://www.youtube.com/watch?v=Hnzp-aJ4NWA). Otherwise, you can follow the instructions provided in the next section.
+
 <!-- vale on -->
 
 #### Setting up local environment
