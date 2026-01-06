@@ -436,13 +436,13 @@ To work directly on GitHub, follow the steps below:
 
 1. Click the 'Edit on GitHub' button on the top right of the page where you noticed the mistake. It takes you to the correct resource on GitHub.
 
-   ![Screenshot of community handbook with a red box highlighting the Edit on GitHub button](../assets/images/edit_on_github.png)
+   ![Screenshot of community handbook with a red box highlighting the Edit on GitHub button](../assets/images/edit-on-github.png)
 
 <!-- vale on -->
 
 2. Click the edit button that resembles a pencil, and make the necessary changes.
 
-   ![Screenshot of community handbook with a red box highlighting the Edit on GitHub button](../assets/images/edit_button_github.png)
+   ![Screenshot of community handbook with a red box highlighting the Edit on GitHub button](../assets/images/edit-button-github.png)
 
 3. Follow the instructions to commit the changes.
 
@@ -594,7 +594,7 @@ To get the best experience, work locally whenever possible. However, if that’s
 
 6. Wait for the codespace to finish building. Once complete, the build prompt closes, and the README preview opens. You can close this preview after it appears. Next, the `postCreateCommand` runs, so please wait until it finishes its task.
 
-   ![Screenshot of postCreateCommand running in terminal](../assets/images/postcreatecommand_on_terminal.png)
+   ![Screenshot of postCreateCommand running in terminal](../assets/images/postcreatecommand-on-terminal.png)
 
 7. [Create a new branch](#create-a-new-branch) to work on your changes.
 
