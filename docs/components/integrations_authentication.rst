@@ -165,15 +165,15 @@ To use the parameter based API key, create a credentials class that implements `
 
 .. php:class:: \Mautic\IntegrationsBundle\Auth\Provider\ApiKey\Credentials\ParameterCredentialsInterface
 
-.. php:method:: public function getKeyName(): string;
+    .. php:method:: public function getKeyName(): string;
 
-    :return: Key name.
-    :returntype: string
+        :return: Key name.
+        :returntype: string
 
-.. php:method:: public function getApiKey(): ?string;
+    .. php:method:: public function getApiKey(): ?string;
 
-    :return: API key or null.
-    :returntype: ?string
+        :return: API key or null.
+        :returntype: ?string
 
 Find the code snippet as follows,
 
@@ -221,15 +221,15 @@ To use the header based API key, create a credentials class that implements ``\M
 
 .. php:class:: \Mautic\IntegrationsBundle\Auth\Provider\ApiKey\Credentials\HeaderCredentialsInterface
 
-.. php:method:: public function getKeyName(): string;
+    .. php:method:: public function getKeyName(): string;
 
-    :return: Key name.
-    :returntype: string
+        :return: Key name.
+        :returntype: string
 
-.. php:method:: public function getApiKey(): ?string;
+    .. php:method:: public function getApiKey(): ?string;
 
-    :return: API key or null.
-    :returntype: ?string
+        :return: API key or null.
+        :returntype: ?string
 
 Find the code snippet as follows,
 
@@ -279,15 +279,15 @@ To use the basic auth, create a credentials class that implements ``\Mautic\Inte
 
 .. php:class:: \Mautic\IntegrationsBundle\Auth\Provider\BasicAuth\CredentialsInterface
 
-.. php:method:: public function getUsername(): ?string;
+    .. php:method:: public function getUsername(): ?string;
 
-    :return: User name.
-    :returntype: ?string
+        :return: User name.
+        :returntype: ?string
 
-.. php:method:: public function getPassword(): ?string;
+    .. php:method:: public function getPassword(): ?string;
 
-    :return: Password.
-    :returntype: ?string
+        :return: Password.
+        :returntype: ?string
 
 Find the code snippet as follows,
 
