@@ -41,20 +41,20 @@ The ``HelloWorldIntegration`` needs to implement ``\Mautic\IntegrationsBundle\In
 
 .. php:class:: \Mautic\IntegrationsBundle\Integration\BasicIntegration
 
-.. php:method:: public function getName(): string;
+    .. php:method:: public function getName(): string;
 
-    :return: Return the Integration's name.
-    :returntype: string
+        :return: Return the Integration's name.
+        :returntype: string
 
-.. php:method:: public function getDisplayName(): string;
+    .. php:method:: public function getDisplayName(): string;
 
-    :return: Return the Integration's display name.
-    :returntype: string
+        :return: Return the Integration's display name.
+        :returntype: string
 
-.. php:method:: public function getIcon(): string;
+    .. php:method:: public function getIcon(): string;
 
-    :return: Get the path to the Integration's icon.
-    :returntype: string
+        :return: Get the path to the Integration's icon.
+        :returntype: string
 
 
 
