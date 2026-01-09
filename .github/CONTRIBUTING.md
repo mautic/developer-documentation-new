@@ -325,7 +325,7 @@ To cherry-pick, please follow the steps outlined below:
 
 1. Go to your forked repository on GitHub and click the 'Sync fork' button. If you need to update your branch with the latest state of the original repository, you should see and click the green 'Update branch' button.
 
-   ![Sync fork and Update branch buttons on GitHub](../assets/images/sync-fork-update-branch-buttons-github.png)
+   ![Sync fork and Update branch buttons on GitHub](../assets/images/sync_fork_update_branch_buttons_github.png)
 
 2. In your code editor, make sure you are in the correct folder version of the cloned repository and that the base branch is up to date by running the following command:
 
