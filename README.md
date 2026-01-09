@@ -1,110 +1,20 @@
 [![Documentation Status][RTD badge URL]][RTD URL] [![All Contributors](https://img.shields.io/github/all-contributors/mautic/developer-documentation-new?color=ee8449&style=flat-square)](#contributors)
 
-# Mautic developer documentation (new)
+# Mautic developer documentation
 
-This repository hosts the new developer documentation for Mautic on the [Read the Docs platform][ReadTheDocs]. Whenever a PR is merged, changes are deployed immediately to https://mautic-developer.readthedocs.io/
+This repository hosts the new developer documentation for Mautic on [Read the Docs][ReadTheDocs]. Builds take a few minutes to run before changes show on https://devdocs.mautic.org following the merging of a PR. Each PR has a GitHub Action that spins up a temporary environment for reviewing the changes.
 
-If you're looking for the legacy developer documentation, please go to https://developer.mautic.org/ or the [GitHub repository][Legacy dev docs].
-
-## Migration of developer docs to 'Read the Docs'
-
-The aim is to move all aspects of the developer documentation to Read the Docs (with the exception of the REST API documentation).
-In the video below, [@dennisameling][dennisameling GH profile] explains how the documentation is currently structured and briefly touches upon current limitations.
-
-For more background, the end goal, and if you want to help, please see [this issue][New docs background and goals]. Thanks in advance.
-
-[![Link to YouTube video with explanation of the current developer documentation structure][YouTube video image]][YouTube video URL]
-
-## Adding a code sample
-
-Code samples get downloaded from GitHub to ensure that they're always up to date. If you want to add a new code sample, follow these two steps:
-
-1. Create a file in `docs/code_samples/` and add a permalink in there. Look at other files in that directory for examples. URLs should always start with `https://raw.githubusercontent.com/...` to ensure that Sphinx can download the file correctly.
-2. In any documentation file, add a `literalinclude` block to include the code, like so:
-
-```
-.. The link to this file is defined in docs/code_samples/helloworld_entity_world.py 
-.. literalinclude:: ../code_samples_downloaded/Entity_World.php
-    :language: php
-```
-
-Tip: downloaded files get cached in `docs/code_samples_downloaded` to prevent overloading GitHub with download requests. If you change the URL to a file, simply remove the cached file from `docs/code_samples_downloaded` and Sphinx automatically re-downloads it.
-
-## Build documentation locally
-
-- [RST Syntax Cheatsheet][RST Cheatsheet]
-- [Sphinx Demo][Sphinx Demo]
-- [Sphinx Syntax][Sphinx Template]
-
-The following provides instructions for how to build docs locally for visualization without pushing to the remote:
-
-1. Install Python 3 for your OS if not already installed
-2. Install Sphinx `pip install sphinx`
-3. Install sphinx-rtd-theme `pip install sphinx-rtd-theme`
-4. CD into the docs directory `cd [path to this repo]/docs`
-5. Run `make html`
-6. This generates HTML in docs/build/html. Setup a web server with the web root as docs/build/html or open docs/build/html/index.html in a browser.
-
-## Troubleshooting
-
-If the build isn't working for some reason, here's some tips:
-
-- Try running the `make html` command in the terminal: `cd docs && make html`. This command normally provides a lot of additional context.
-- If the preview isn't working, click the `esbonio` section in the bottom right corner of the VS Code window. That rebuilds the docs and previews, and tells you if something is wrong.
-
-### Vale
-Before pushing, run Vale and address suggestions and errors as applicable.
-1. Install [`vale`][Vale] 
-2. `vale .`
-
-### PhpStorm & PyCharm file watcher
-You can automatically build changes to `.rst` files using a file watcher. 
-1. Go to Preferences -> Tools -> File Watchers -> + button -> custom
-2. Configure the watcher as presented in the screenshot
-
-<img width="753" alt="Screen Shot 2021-10-06 at 15 52 06" src="https://user-images.githubusercontent.com/63312/136281761-204861f9-340a-4e3e-8ce5-e0584236303c.png">
-
-### Style guide
-
-Please consult Mautic's [`style-guide`][Style guide] before contributing to the documentation. Some rules get enforced through Vale.
-
-As a quick reference, here's the list of headings Mautic uses:
-
-```
-H1: ############
-H2: ****************
-H3: ============
-H4: ----------------
-H5: ~~~~~~~~~~~~
-```
-
- <!-- vale off -->
-
-### Converting markdown to reStructuredText
-
- <!-- vale on -->
-
-Mautic's documentation uses ``reStructuredText``, or ``.rst`` files. Luckily, there's converters available that help you convert ``.md`` to ``.rst`` files. Here's an example of ``m2r`` - this converter also converts tables into ``list-table`` directives properly.
-
-```
-pip install m2r
-# This creates a new file with the .rst extension:
-m2r my_markdown_file.md
-```
+If you're seeking the legacy developer documentation, please visit the [GitHub repository][Legacy dev docs]. The legacy repository is still available because some changes have not yet been transferred to the new documentation. If you'd like to contribute, please review the [contribution guidelines](.github/CONTRIBUTING.md).
 
 [ReadTheDocs]: <https://readthedocs.org>
 [Legacy dev docs]: <https://github.com/mautic/developer-documentation>
-[dennisameling GH profile]: <https://github.com/dennisameling>
-[New docs background and goals]: <https://github.com/mautic/developer-documentation-new/issues/2>
-[YouTube video image]: <https://img.youtube.com/vi/O3zXdKLznPQ/0.jpg>
-[YouTube video URL]: <https://www.youtube.com/watch?v=O3zXdKLznPQ>
-[RTD badge URL]: <https://readthedocs.org/projects/mautic-developer/badge/?version=latest>
-[RTD URL]: <https://mautic-developer.readthedocs.io/en/latest/?badge=latest>
-[RST Cheatsheet]: <https://github.com/ralsina/rst-cheatsheet/blob/master/rst-cheatsheet.rst>
-[Sphinx Template]: <https://github.com/readthedocs/sphinx_rtd_theme/tree/master/docs/demo>
-[Sphinx Demo]: <https://sphinx-rtd-theme.readthedocs.io/en/stable/demo/structure.html>
-[Vale]: <https://docs.errata.ai/vale/install>
-[Style Guide]: <https://contribute.mautic.org/education-team/technical-writing-styleguide>
+
+## Contributing 🤝
+
+Mautic actively encourages all kinds of contributions. For complete information on how to contribute to this repository, please read the [Contributing Guidelines](.github/CONTRIBUTING.md).
+
+All contributors must abide by the Mautic [Code of Conduct](https://mautic.org/code-of-conduct/).
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -131,4 +41,4 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome.
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind are welcome.
