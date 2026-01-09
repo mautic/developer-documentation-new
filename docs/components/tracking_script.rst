@@ -91,10 +91,10 @@ JavaScript Form processing hooks
    }
    MauticFormCallback['replaceWithFormName'] = {
        onValidateEnd: function (formValid) {
-            // before form submit
+            // before Form submit
        },
        onResponse: function (response) { 
-            // after form submit
+            // after Form submit
        }
    };
 
@@ -161,7 +161,7 @@ If this callback returns ``False`` then this prevents submitting the Form.
 
    MauticFormCallback['replaceWithFormName'] = {
        onValidateEnd: function (formValid) {
-            // before form submit
+            // before Form submit
             // return False; // prevents submitting the Form
        },
    };
@@ -208,7 +208,7 @@ Return ``True`` to skip the default Form submission response processing.
 
    MauticFormCallback['replaceWithFormName'] = {
        onResponse: function (response) {
-            // called to process the response to the form submission
+            // called to process the response to the Form submission
        },
    };
 
@@ -224,7 +224,7 @@ Return value isn't required and isn't processed.
 
    MauticFormCallback['replaceWithFormName'] = {
        onResponseStart: function (response) {
-            // called to process the response to the form submission
+            // called to process the response to the Form submission
        },
    };
 
@@ -235,7 +235,7 @@ Return value isn't required and isn't processed.
 
    MauticFormCallback['replaceWithFormName'] = {
        onResponseEnd: function (response) {
-            // called to process the response to the form submission
+            // called to process the response to the Form submission
        },
    };
 
