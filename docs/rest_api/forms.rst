@@ -154,7 +154,7 @@ Get an individual Form by ID.
      - Alias/slug of the Form
    * - ``formType``
      - string
-     - Type of the Form (``standalone`` or ``campaign``)
+     - Type of the Form - ``standalone`` or ``campaign``
    * - ``cachedHtml``
      - string
      - Cached HTML of the Form
@@ -178,10 +178,10 @@ Get an individual Form by ID.
      - Progressive profiling limit
    * - ``postAction``
      - string
-     - Action to take after form submission (``return``, ``redirect``, ``message``)
+     - Action to take after form submission - ``return``, ``redirect``, or ``message``
    * - ``postActionProperty``
      - string/null
-     - Additional property for post action (URL for redirect, message for message)
+     - Additional property for post action - URL for redirect, message for message
    * - ``publishUp``
      - datetime/null
      - Date/time when the Form should be published
@@ -241,7 +241,7 @@ Get an individual Form by ID.
      - Alias/name of the Field
    * - ``type``
      - string
-     - Type of the Field (``text``, ``email``, ``select``, ``textarea``, etc.)
+     - Type of the Field, for example ``text``, ``email``, ``select``, ``textarea``
    * - ``defaultValue``
      - string/null
      - Default value of the Field
@@ -298,7 +298,7 @@ Get an individual Form by ID.
      - Contact/Company field the Form field maps to
    * - ``mappedObject``
      - string
-     - Object the Field maps to (``contact`` or ``company``)
+     - Object the Field maps to - ``contact`` or ``company``
 
 **Form Action Properties**
 
@@ -313,7 +313,7 @@ Get an individual Form by ID.
      - ID of the Action
    * - ``type``
      - string
-     - Type of the Action (``email``, ``lead.changetags``, ``lead.pointschange``, etc.)
+     - Type of the Action, for example ``email``, ``lead.changetags``, ``lead.pointschange``
    * - ``name``
      - string
      - Name of the Action
@@ -490,7 +490,7 @@ Create a new Form.
      - Alias/slug of the Form (auto-generated if not provided)
    * - ``formType``
      - string
-     - Type of the Form (``standalone`` or ``campaign``)
+     - Type of the Form - ``standalone`` or ``campaign``
    * - ``template``
      - string
      - Template to use for the Form
@@ -511,7 +511,7 @@ Create a new Form.
      - Progressive profiling limit
    * - ``postAction``
      - string
-     - Action after form submission (``return``, ``redirect``, ``message``)
+     - Action after form submission - ``return``, ``redirect``, or ``message``
    * - ``postActionProperty``
      - string
      - Additional property for post action
@@ -623,7 +623,7 @@ To edit a Form and create a new one if the Form isn't found:
      - Alias/slug of the Form
    * - ``formType``
      - string
-     - Type of the Form (``standalone`` or ``campaign``)
+     - Type of the Form - ``standalone`` or ``campaign``
    * - ``template``
      - string
      - Template to use for the Form
@@ -644,7 +644,7 @@ To edit a Form and create a new one if the Form isn't found:
      - Progressive profiling limit
    * - ``postAction``
      - string
-     - Action after form submission (``return``, ``redirect``, ``message``)
+     - Action after form submission - ``return``, ``redirect``, or ``message``
    * - ``postActionProperty``
      - string
      - Additional property for post action

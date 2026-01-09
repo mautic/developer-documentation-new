@@ -160,12 +160,18 @@ There are several ways to support Mautic other than contributing with code.
    rest_api/assets
    rest_api/campaigns
    rest_api/categories
+   rest_api/companies
    rest_api/contacts
+   rest_api/emails
    rest_api/fields
+   rest_api/forms
    rest_api/notifications
    rest_api/point_groups
    rest_api/reports
+   rest_api/segments
    rest_api/text_messages
+   rest_api/users
+   rest_api/webhooks
 
 .. toctree::
    :maxdepth: 2

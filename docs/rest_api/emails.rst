@@ -156,7 +156,7 @@ Get an individual Email by ID.
      - Custom HTML content of the Email
    * - ``emailType``
      - string
-     - Type of the Email (``list``, ``template``)
+     - Type of the Email - ``list`` or ``template``
    * - ``publishUp``
      - datetime/null
      - Date/time when the Email should be published
@@ -412,7 +412,7 @@ Create a new Email.
      - Custom HTML content of the Email
    * - ``emailType``
      - string
-     - Type of the Email (``list`` or ``template``)
+     - Type of the Email - ``list`` or ``template``
    * - ``publishUp``
      - datetime
      - Date/time when the Email should be published
@@ -480,7 +480,7 @@ Edit Email
 
    $email = $emailApi->edit($id, $data, $createIfNotFound);
 
-Edit a new Email. Note that this supports PUT or PATCH depending on the desired behavior.
+Edit an existing Email. Note that this supports PUT or PATCH depending on the desired behavior.
 
 **PUT** creates an Email if the given ID doesn't exist and clears all the Email information, adds the information from the request.
 **PATCH** fails if the Email with the given ID doesn't exist and updates the Email field values with the values from the request.
@@ -545,7 +545,7 @@ To edit an Email and create a new one if the Email isn't found:
      - Custom HTML content of the Email
    * - ``emailType``
      - string
-     - Type of the Email (``list`` or ``template``)
+     - Type of the Email - ``list`` or ``template``
    * - ``publishUp``
      - datetime
      - Date/time when the Email should be published

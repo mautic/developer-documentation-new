@@ -355,7 +355,7 @@ Edit Segment
 
    $segment = $segmentApi->edit($id, $data, $createIfNotFound);
 
-Edit a new Segment. Note that this supports PUT or PATCH depending on the desired behavior.
+Edit an existing Segment. Note that this supports PUT or PATCH depending on the desired behavior.
 
 **PUT** creates a Segment if the given ID doesn't exist and clears all the Segment information, adds the information from the request.
 **PATCH** fails if the Segment with the given ID doesn't exist and updates the Segment field values with the values from the request.
@@ -670,16 +670,16 @@ Segments use filters to define which Contacts should be included. Filters suppor
      - Logic operator to connect with previous filter: ``and`` or ``or``
    * - ``field``
      - string
-     - Contact field to filter on (e.g., ``email``, ``firstname``, ``points``)
+     - Contact field to filter on, for example ``email``, ``firstname``, ``points``
    * - ``object``
      - string
      - Object type, typically ``lead`` for Contact fields
    * - ``type``
      - string
-     - Field type (e.g., ``text``, ``number``, ``email``, ``date``, ``select``)
+     - Field type, for example ``text``, ``number``, ``email``, ``date``, ``select``
    * - ``operator``
      - string
-     - Comparison operator (e.g., ``=``, ``!=``, ``like``, ``!like``, ``gt``, ``gte``, ``lt``, ``lte``, ``in``, ``!in``)
+     - Comparison operator, for example ``=``, ``!=``, ``like``, ``!like``, ``gt``, ``gte``, ``lt``, ``lte``, ``in``, ``!in``
    * - ``properties``
      - object
      - Additional filter properties including the ``filter`` value

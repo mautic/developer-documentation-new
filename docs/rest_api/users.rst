@@ -350,7 +350,7 @@ Edit User
 
    $user = $userApi->edit($id, $data, $createIfNotFound);
 
-Edit a new User. Note that this supports PUT or PATCH depending on the desired behavior.
+Edit an existing User. Note that this supports PUT or PATCH depending on the desired behavior.
 
 - **PUT** creates a User if the given ID does not exist and clears all the User information, adds the information from the request. User username and password cannot be changed via PUT.
 - **PATCH** fails if the User with the given ID does not exist and updates the User field values with the values from the request. User username and password cannot be changed via PATCH.
@@ -740,7 +740,7 @@ Error Responses
      - Description
    * - ``400``
      - Bad Request
-     - Invalid data provided (e.g., weak password, duplicate username/email)
+     - Invalid data provided, for example weak password or duplicate username/email
    * - ``401``
      - Unauthorized
      - Authentication required or weak password detected

@@ -207,7 +207,7 @@ List Companies
    * - start
      - Starting row for the entities returned. Defaults to 0.
    * - limit
-     - Limit number of entities to return. Defaults to the system configuration for pagination (30).
+     - Limit number of entities to return. Defaults to the system configuration for pagination, default of 30.
    * - orderBy
      - Column to sort by. Can use any column listed in the response.
    * - orderByDir
@@ -281,7 +281,7 @@ Create a new Company.
      - Description
    * - companyname
      - string
-     - Company name (required)
+     - Company name - required
    * - companyemail
      - string
      - Company email address
@@ -317,7 +317,7 @@ Create a new Company.
      - Company description
    * - isPublished
      - boolean
-     - Published state (default: 1)
+     - Published state, defaults to 1
    * - owner
      - int
      - ID of a Mautic user to assign this company to
@@ -352,7 +352,7 @@ Edit Company
 
    $company = $companyApi->edit($id, $data, $createIfNotFound);
 
-Edit a new Company. Note that this supports PUT or PATCH depending on the desired behavior.
+Edit an existing Company. Note that this supports PUT or PATCH depending on the desired behavior.
 
 **PUT** creates a Company if the given ID does not exist and clears all the Company information, adds the information from the request.
 **PATCH** fails if the Company with the given ID does not exist and updates the Company field values with the values from the request.

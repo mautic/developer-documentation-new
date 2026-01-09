@@ -107,7 +107,7 @@ Get an individual Webhook by ID.
      - Secret used for webhook authentication/verification
    * - ``eventsOrderbyDir``
      - string/null
-     - Order direction for events (ASC or DESC), null means use global default
+     - Order direction for events - ASC or DESC, null means use global default
    * - ``isPublished``
      - boolean
      - Published state
@@ -291,7 +291,7 @@ Create a new Webhook.
      - Date/time when the webhook should be unpublished
    * - ``eventsOrderbyDir``
      - string
-     - Order direction for events (ASC or DESC)
+     - Order direction for events - ASC or DESC
    * - ``category``
      - int
      - ID of the category to assign the webhook to
@@ -332,7 +332,7 @@ Edit Webhook
 
    $webhook = $webhookApi->edit($id, $data, $createIfNotFound);
 
-Edit a new Webhook. This supports PUT or PATCH depending on the desired behavior.
+Edit an existing Webhook. This supports PUT or PATCH depending on the desired behavior.
 
 **PUT** creates a Webhook if the given ID doesn't exist and clears all the Webhook information, adding the information from the request.
 **PATCH** fails if the Webhook with the given ID doesn't exist and updates the Webhook field values with the values from the request.
@@ -385,7 +385,7 @@ To edit a Webhook and create a new one if the Webhook isn't found:
      - Date/time when the webhook should be unpublished
    * - ``eventsOrderbyDir``
      - string
-     - Order direction for events (ASC or DESC)
+     - Order direction for events - ASC or DESC
    * - ``category``
      - int
      - ID of the category to assign the webhook to
