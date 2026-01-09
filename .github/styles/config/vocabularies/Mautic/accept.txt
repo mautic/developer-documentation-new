@@ -25,6 +25,8 @@ Clearbit
 CloudAMQP
 Codeception
 Codecov
+codespace
+Codespaces
 Company(ies)
 Composability
 Composer
@@ -44,6 +46,7 @@ DNC
 Do Not Contact
 Dripflow
 Dynamic Web Content
+Esbonio
 FALSE
 false
 Firewalls
@@ -67,6 +70,7 @@ html
 HTML
 http
 https
+HTTPS
 HubSpot
 IDP
 IMAP
@@ -118,8 +122,10 @@ PyCharm
 Rackspace
 Rahul
 Read the Docs
+rebase
 Remarketing
 Report Email
+RST
 Salesforce
 SAML
 Schimpf
@@ -127,6 +133,7 @@ SCP
 Segment Email
 SendGrid
 SES
+SHA
 Shinde
 SMS
 SMTP
@@ -159,6 +166,7 @@ UTM
 Vtiger
 Webhooks
 Webmecanik
+WSL
 www
 XPath
 YAML
