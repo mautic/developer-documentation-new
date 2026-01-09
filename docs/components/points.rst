@@ -148,15 +148,15 @@ Mautic dispatches the Event ``\Mautic\PointBundle\PointEvents::TRIGGER_ON_BUILD`
 
 .. php:class:: Mautic\PointBundle\Event\TriggerBuilderEvent
 
-.. php:method:: public function addEvent(string $key, array $action)
+  .. php:method:: public function addEvent(string $key, array $action)
 
-    :param string $key: Unique key for the Action.
-    :param array $action: :ref:`Action definition<components/points:Custom Point Trigger definition>`.
+      :param string $key: Unique key for the Action.
+      :param array $action: :ref:`Action definition<components/points:Custom Point Trigger definition>`.
 
-.. php:method:: public getEvents()
+  .. php:method:: public getEvents()
 
-    :return: Array of registered Events.
-    :returntype: array
+      :return: Array of registered Events.
+      :returntype: array
 
 .. vale off
 

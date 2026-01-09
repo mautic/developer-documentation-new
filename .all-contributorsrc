@@ -59,6 +59,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "rfay",
+      "name": "Randy Fay",
+      "avatar_url": "https://avatars.githubusercontent.com/u/112444?v=4",
+      "profile": "http://ddev.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
