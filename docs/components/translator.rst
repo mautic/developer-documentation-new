@@ -63,37 +63,37 @@ In PHP templates, use ``$view['translator']`` to access the Translator service.
 
 .. php:class:: Mautic\CoreBundle\Translation\Translator
 
-.. php:method:: trans(string $id[, array $parameters = [], ?string $domain = null, ?string $locale = null])
+  .. php:method:: trans(string $id[, array $parameters = [], ?string $domain = null, ?string $locale = null])
 
-    Returns the translation for the given key.
+      Returns the translation for the given key.
 
-    :param array $parameters: Parameters as key/value pairs to populate placeholders in the translation. Note that Symfony has deprecated `transChoice()` in favor of using this method plus defining the key ``%count%`` in ``$parameters``. For example, ``echo $translator->trans('helloworld.number_of_moons', ['%count%' => 1, '%world% => 'Earth']);`` with the translation, ``"helloworld.number_of_moons="{0}%world% has no moons|{1}%world% has one moon|]1,Inf[ %world% has %count% moons"``.
-    :param string|null $domain: Specific domain to look for the translation key. Defaults to ``messages`` if ``NULL``.
-    :param string|null $locale: Specific locale to look for the translation key. Defaults to system or user configured locale.
+      :param array $parameters: Parameters as key/value pairs to populate placeholders in the translation. Note that Symfony has deprecated `transChoice()` in favor of using this method plus defining the key ``%count%`` in ``$parameters``. For example, ``echo $translator->trans('helloworld.number_of_moons', ['%count%' => 1, '%world% => 'Earth']);`` with the translation, ``"helloworld.number_of_moons="{0}%world% has no moons|{1}%world% has one moon|]1,Inf[ %world% has %count% moons"``.
+      :param string|null $domain: Specific domain to look for the translation key. Defaults to ``messages`` if ``NULL``.
+      :param string|null $locale: Specific locale to look for the translation key. Defaults to system or user configured locale.
 
-    :returns: Returns the translated string if the key is found. Otherwise, an empty string.
-    :returntype: string
+      :returns: Returns the translated string if the key is found. Otherwise, an empty string.
+      :returntype: string
 
-.. php:method:: transConditional(string $preferred, string $alternative[, array $parameters = [], ?string $domain = null, ?string $locale = null])
+  .. php:method:: transConditional(string $preferred, string $alternative[, array $parameters = [], ?string $domain = null, ?string $locale = null])
 
-    Translates the preferred key if it exists and the alternate key if it does not.
+      Translates the preferred key if it exists and the alternate key if it does not.
 
-    :param string $preferred: Preferred translation key.
-    :param string $alternative: Alternate translation key if the preferred does does not exist.
-    :param array $parameters: Parameters as key/value pairs to populate placeholders in the translation.
-    :param string|null $domain: Specific domain to look for the translation key. Defaults to ``messages`` if ``NULL``.
-    :param string|null $locale: Specific locale to look for the translation key. Defaults to system or user configured locale.
+      :param string $preferred: Preferred translation key.
+      :param string $alternative: Alternate translation key if the preferred does does not exist.
+      :param array $parameters: Parameters as key/value pairs to populate placeholders in the translation.
+      :param string|null $domain: Specific domain to look for the translation key. Defaults to ``messages`` if ``NULL``.
+      :param string|null $locale: Specific locale to look for the translation key. Defaults to system or user configured locale.
 
-    :returns: Returns the translated string if the key is found. Otherwise, an empty string.
-    :returntype: string
+      :returns: Returns the translated string if the key is found. Otherwise, an empty string.
+      :returntype: string
 
-.. php:method:: hasId(string $id[, ?string $domain = null, ?string $local = null])
+  .. php:method:: hasId(string $id[, ?string $domain = null, ?string $local = null])
 
-    Checks to see if a translation key exists.
+      Checks to see if a translation key exists.
 
-    :param string $id: Translation key. For example, ``mautic.core.empty``.
-    :param string|null $domain: Specific domain to search. Defaults to ``messages`` if ``NULL``.
-    :param string|null $locale: Specific locale to search. Defaults to system or user configured locale.
+      :param string $id: Translation key. For example, ``mautic.core.empty``.
+      :param string|null $domain: Specific domain to search. Defaults to ``messages`` if ``NULL``.
+      :param string|null $locale: Specific locale to search. Defaults to system or user configured locale.
 
-    :returns: ``TRUE`` if the translation key exists. ``FALSE`` otherwise.
-    :returntype: boolean
+      :returns: ``TRUE`` if the translation key exists. ``FALSE`` otherwise.
+      :returntype: boolean

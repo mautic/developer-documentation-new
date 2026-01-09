@@ -45,11 +45,11 @@ release = '3.0.0'
 # ones.
 extensions = [
    'xref',
-   'phpdomain',
    'code_samples_ext',
    'sphinx_rtd_theme',
    'sphinx.ext.viewcode',
    'sphinx.ext.autosectionlabel',
+   'sphinxcontrib.phpdomain',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -61,6 +61,16 @@ extensions = [
 exclude_patterns = []
 
 templates_path = ['_templates']
+
+# GH Edit button
+
+html_context = {
+    "display_github": True,  # Integrate GitHub
+    "github_user": "mautic",  # Username
+    "github_repo": "developer-documentation-new",  # Repository name
+    "github_version": "5.x",  # Branch name
+    "conf_py_path": "/docs/",  # Path in the repository to conf.py
+}
 
 # -- Options for HTML output -------------------------------------------------
 
