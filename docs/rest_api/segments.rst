@@ -594,7 +594,7 @@ Get a list of Segments available to the current user.
 
 .. vale on
 
-``GET /segments/lists``
+``GET /contacts/list/segments``
 
 **Response**
 
