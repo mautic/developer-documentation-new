@@ -7,8 +7,11 @@
     margin-bottom: 24px;
     max-width: 100%;
     overflow: visible;
+    white-space: normal !important;
+    word-break: break-word !important;
 }
 
 .wy-table-responsive th p {
     margin-bottom: unset;
 }
+

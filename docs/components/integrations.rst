@@ -7,7 +7,7 @@ Each Integration provides its unique name as registered with Mautic, an icon, an
 
 .. vale off
 
-Registering the integration
+Registering the Integration
 ***************************
 
 .. vale on
@@ -41,22 +41,20 @@ The ``HelloWorldIntegration`` needs to implement ``\Mautic\IntegrationsBundle\In
 
 .. php:class:: \Mautic\IntegrationsBundle\Integration\BasicIntegration
 
-.. php:method:: public function getName(): string;
+    .. php:method:: public function getName(): string;
 
-    :return: Return the Integration's name.
-    :returntype: string
+        :return: Return the Integration's name.
+        :returntype: string
 
-.. php:method:: public function getDisplayName(): string;
+    .. php:method:: public function getDisplayName(): string;
 
-    :return: Return the Integration's display name.
-    :returntype: string
+        :return: Return the Integration's display name.
+        :returntype: string
 
-.. php:method:: public function getIcon(): string;
+    .. php:method:: public function getIcon(): string;
 
-    :return: Get the path to the Integration's icon.
-    :returntype: string
-
-
+        :return: Get the path to the Integration's icon.
+        :returntype: string
 
 .. code-block:: php
 
@@ -87,6 +85,8 @@ The ``HelloWorldIntegration`` needs to implement ``\Mautic\IntegrationsBundle\In
         }
     }
 
+.. note:: 
+   ``HelloWorldIntegration::NAME`` must only contain letters such as a-z or A-Z.
 
 Integration authentication
 **************************
@@ -99,7 +99,6 @@ If the Integration requires authentication with the third party service:
 
 Integration configuration
 *************************
-
 
 If the Integration has extra configuration settings for features unique to it:
 
