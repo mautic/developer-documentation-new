@@ -9,42 +9,17 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 - [Communication expectation](#communication-expectation)
 - [Issues](#issues)
 - [Pull requests](#pull-requests)
-   - [Before submitting a PR](#before-submitting-a-pr)
-   - [Submitting a PR](#submitting-a-pr)
-   - [After submitting a PR](#after-submitting-a-pr)
-- [Contributing workflow](#contributing-workflow)
-   - [Forking the repository](#forking-the-repository)
-   - [Clone the repository](#clone-the-repository)
-   - [Create a new branch](#create-a-new-branch)
-      - [Ensure the correct base branch](#ensure-the-correct-base-branch)
-      - [Ways to create a new branch](#ways-to-create-a-new-branch)
-   - [Push changes to the remote repository](#push-changes-to-the-remote-repository)
-   - [Create a PR](#create-a-pr)
-      - [Git cherry-pick](#git-cherry-pick)
-- [Getting started](#getting-started)
-   - [1. On GitHub](#1-on-github)
-   - [2. Local development](#2-local-development)
-      - [Prerequisite](#prerequisite)
-      - [Setting up local environment](#setting-up-local-environment)
-   - [3. GitHub Codespaces](#3-github-codespaces)
-      - [Setting up a codespace](#setting-up-a-codespace)
-      - [Live preview on codespace](#live-preview-on-codespace)
-- [Working with links](#working-with-links)
-   - [Create a new link](#create-a-new-link)
-   - [Check broken links](#check-broken-links)
-- [Working with Vale](#working-with-vale)
-- [Adding a code sample](#adding-a-code-sample)
-- [Updating contents and UI images](#updating-contents-and-ui-images)
 - [Credit](#credit)
 
 ---
 
 ## Communication expectation
 
-1. Always leave a detailed description in the pull request. Leave nothing ambiguous for the reviewers.
-2. Provide screenshots for visual changes.
-3. Always review your code first. Be sure to run the project locally and test it thoroughly before requesting a review.
-4. Communicate in the GitHub repository first before Slack. Whether it's in the issue or the PR, keeping the lines of communication open and visible to everyone on the team helps everyone around you.
+- Communicate in the GitHub repository first before Slack. Whether it's in the issue or the PR, keeping the lines of communication open and visible to everyone on the team helps everyone around you.
+
+- Please don't DM maintainers on Slack to review or ask feedback and questions about your PR.
+
+   If you'd like feedback or ask questions about your PR, tag `@mautic/education-team-leaders` in the comment of your PR or use the `#t-education` channel on Slack. That way, not only maintainers, but the community can help you get unstuck. The team always receives a notification on new PR creation. If you haven't received a review within a week, you can tag them in the PR comments to ask for an estimated review time.
 
 ## Issues
 
@@ -62,27 +37,15 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 
 ## Pull requests
 
-Pull requests - PRs - are always welcome. However, before working on changes, you must ensure that a maintainer **assigns you** to an existing issue, and always **link your work to the issue in your PR**.
+- Ensure that a maintainer **assigns you** to an existing issue, and always **link your work to the issue in your PR**.
 
-### Submitting a PR
+- Ensure that you address one issue in one PR. If you work on multiple issues, work on them separately and create one PR to address each issue.
 
-<!-- vale on -->
+- Always leave a detailed description in the PR. Leave nothing ambiguous for the reviewers.
 
-1. Ensure that you address one issue in one PR. If you work on multiple issues, work on them separately and create one PR to address each issue.
+- Provide screenshots or screen recordings for visual changes.
 
-<!-- vale off -->
-
-### After submitting a PR
-
-<!-- vale on -->
-
-<!-- vale off -->
-
-2. Please don't DM maintainers on Slack to review or ask feedback and questions about your PR.
-
-   If you'd like feedback or ask questions about your PR, tag `@mautic/education-team-leaders` in the comment of your PR or use the `#t-education` channel on Slack. That way, not only maintainers, but the community can help you get unstuck. The team always receives a notification on new PR creation. If you haven't received a review within a week, you can tag them in the PR comments to ask for an estimated review time.
-
-<!-- vale on -->
+- Always review your code first. Be sure to run the project locally and test it thoroughly before requesting a review.
 
 ## Credit
 
