@@ -9,6 +9,7 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 - [Communication expectation](#communication-expectation)
 - [Issues](#issues)
 - [Pull requests](#pull-requests)
+- [Getting started](#getting-started)
 - [Credit](#credit)
 
 ---
@@ -46,6 +47,10 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 - Provide screenshots or screen recordings for visual changes.
 
 - Always review your code first. Be sure to run the project locally and test it thoroughly before requesting a review.
+
+## Getting started
+
+Please refer to the "[Contributing to Mautic’s documentation](https://contribute.mautic.org/en/latest/contributing/contributing_docs_rst.html)" page in the Community Handbook for detailed instructions on how to contribute to this repository.
 
 ## Credit
 
