@@ -20,7 +20,7 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 
 - Please don't DM maintainers on Slack to review or ask feedback and questions about your PR.
 
-   If you'd like feedback or ask questions about your PR, tag `@mautic/education-team-leaders` in the comment of your PR or use the `#t-education` channel on Slack. That way, not only maintainers, but the community can help you get unstuck. The team always receives a notification on new PR creation. If you haven't received a review within a week, you can tag them in the PR comments to ask for an estimated review time.
+   If you'd like feedback or have questions about your PR, tag `@mautic/education-team-leaders` in the PR's comments or use the `#t-education` channel on Slack. That way, not only maintainers, but the community can help you get unstuck. The team always receives a notification on new PR creation. If you haven't received a review within a week, you can tag them in the PR comments to ask for an estimated review time.
 
 ## Issues
 
@@ -40,7 +40,7 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 
 - Ensure that a maintainer **assigns you** to an existing issue, and always **link your work to the issue in your PR**.
 
-- Ensure that you address one issue in one PR. If you work on multiple issues, work on them separately and create one PR to address each issue.
+- Ensure that you address one issue in one PR. If you work on multiple issues, work on them separately and create a single PR for each.
 
 - Always leave a detailed description in the PR. Leave nothing ambiguous for the reviewers.
 
@@ -50,7 +50,7 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 
 ## Getting started
 
-Please refer to the "[Contributing to Mautic’s documentation](https://contribute.mautic.org/en/latest/contributing/contributing_docs_rst.html)" page in the Community Handbook for detailed instructions on how to contribute to this repository.
+Please refer to the "[Contributing to Mautic’s documentation](https://contribute.mautic.org/en/latest/contributing/contributing_docs_rst.html)" page in the Mautic community handbook for detailed instructions on how to contribute to this repository.
 
 ## Credit
 
