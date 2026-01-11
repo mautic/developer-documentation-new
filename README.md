@@ -8,8 +8,6 @@ If you're seeking the legacy developer documentation, please visit the [GitHub r
 
 [ReadTheDocs]: <https://readthedocs.org>
 [Legacy dev docs]: <https://github.com/mautic/developer-documentation>
-[RTD badge URL]: <https://readthedocs.org/projects/mautic-developer/badge/?version=latest>
-[RTD URL]: <https://mautic-developer.readthedocs.io/en/latest/?badge=latest>
 
 ## Contributing 🤝
 
