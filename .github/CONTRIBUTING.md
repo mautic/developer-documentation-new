@@ -18,9 +18,13 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 
 - Communicate in the GitHub repository first before Slack. Whether it's in the issue or the PR, keeping the lines of communication open and visible to everyone on the team helps everyone around you.
 
+<!-- vale off -->
+
 - Please don't DM maintainers on Slack to review or ask feedback and questions about your PR.
 
    If you'd like feedback or have questions about your PR, tag `@mautic/education-team-leaders` in the PR's comments or use the `#t-education` channel on Slack. That way, not only maintainers, but the community can help you get unstuck. The team always receives a notification on new PR creation. If you haven't received a review within a week, you can tag them in the PR comments to ask for an estimated review time.
+
+<!-- vale on -->
 
 ## Issues
 
@@ -50,7 +54,11 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 
 ## Getting started
 
+<!-- vale off -->
+
 Please refer to the "[Contributing to Mautic’s documentation](https://contribute.mautic.org/en/latest/contributing/contributing_docs_rst.html)" page in the Mautic community handbook for detailed instructions on how to contribute to this repository.
+
+<!-- vale on -->
 
 ## Credit
 
