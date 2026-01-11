@@ -12,26 +12,26 @@ Mautic dispatches the Event ``\Mautic\CoreBundle\CoreEvents::VIEW_INJECT_CUSTOM_
 
 .. php:class:: Mautic\CoreBundle\Event\CustomButtonEvent
 
-.. php:method:: public function getLocation()
+    .. php:method:: public function getLocation()
 
-    :return: Requested location for the Button.
+        :return: Requested location for the Button.
 
-.. php:method:: public function getButtons()
+    .. php:method:: public function getButtons()
 
-    :return: Array of registered Buttons.
-    :returntype: array
+        :return: Array of registered Buttons.
+        :returntype: array
 
-.. php:method:: public function addButtons(array $buttons, $location = null, $route = null)
+    .. php:method:: public function addButtons(array $buttons, $location = null, $route = null)
 
-    :param array[] $buttons: Array of buttons.
-    :param string $location: Location of the Button to be placed.
-    :param string $route: Route.
+        :param array[] $buttons: Array of buttons.
+        :param string $location: Location of the Button to be placed.
+        :param string $route: Route.
 
-.. php:method:: public function addButton(array $button, $location = null, $route = null)
+    .. php:method:: public function addButton(array $button, $location = null, $route = null)
 
-    :param array[] $button: :ref:`Details for button<components/ui:Button Array Format>`.
-    :param string $location: Location of the Button to be placed.
-    :param string $route: Route.
+        :param array[] $button: :ref:`Details for button<components/ui:Button Array Format>`.
+        :param string $location: Location of the Button to be placed.
+        :param string $route: Route.
 
 A Plugin can inject the Buttons into five places in Mautic's UI.
 
