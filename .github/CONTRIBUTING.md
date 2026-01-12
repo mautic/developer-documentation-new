@@ -50,7 +50,7 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 
 - Provide screenshots or screen recordings for visual changes.
 
-- Always review your code first. Be sure to run the project locally and test it thoroughly before requesting a review.
+- Always review your code first. Be sure to run the project locally and test it thoroughly before requesting a review. This includes ensuring that the content renders correctly in the front-end, and checking Vale for any grammatical fixes.
 
 ## Getting started
 
