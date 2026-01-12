@@ -56,7 +56,7 @@ Contributions are always welcome, no matter how large or small, or at whatever s
 
 <!-- vale off -->
 
-Please refer to the "[Contributing to Mautic’s documentation](https://contribute.mautic.org/en/latest/contributing/contributing_docs_rst.html)" page in the Mautic community handbook for detailed instructions on how to contribute to this repository.
+Please refer to the "[Contributing to Mautic’s documentation](https://contribute.mautic.org/en/latest/contributing/contributing_docs.html)" page in the Mautic community handbook for detailed instructions on how to contribute to this repository.
 
 <!-- vale on -->
 
