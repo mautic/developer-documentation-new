@@ -3,47 +3,52 @@ Emails
 
 There are multiple ways to extend the way Mautic works with Emails. This document describes the following options for extending Mautic's Email capabilities:
 
-- Email tokens
-- A/B testing
-- Monitored Inbox Integration
-- Email transport/Email providers
-- Email stat helpers
+* Email tokens
+* A/B testing
+* Monitored Inbox Integration
+* Email transport/Email providers
+* Email stat helpers
 
-.. Note:: Extending generally works by hooking into events using event listeners or subscribers. Read more about :doc:`listeners and subscribers</plugins/event_listeners>`.
+.. vale off
+
+.. note::
+    
+   Extending generally works by hooking into events using event listeners or subscribers. Read more about :doc:`listeners and subscribers</plugins/event_listeners>`.
+
+.. vale on
 
 Email tokens
-------------
+************
 
-Email tokens are placeholders that you can insert into an Email.
-They get replaced by Dynamic Content once the Email gets sent or viewed in the browser.
+Email tokens are placeholders that you can insert into an Email. They get replaced by Dynamic Content once the Email gets sent or viewed in the browser.
 
-Email token capabilities consist of two parts: registering your custom tokens and rendering them.
+Email token capabilities consist of two parts:
+
+* Registering custom tokens
+* Rendering custom tokens
 
 Registering custom tokens in builders
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=====================================
 
-Registering tokens leverages the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_BUILD`` event.
-The event is dispatched before displaying the email builder form, to allow adding of tokens.
+Registering tokens leverages the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_BUILD`` event. The event is dispatched before displaying the email builder form, to allow adding of tokens.
 
 An event listener receives the ``Mautic\EmailBundle\Event\EmailBuilderEvent``.
 Use its ``$event->addToken($token, $htmlContent)`` to add your token.
 
-.. Note::
-    You can either hard code your tokens textual description in ``$htmlContent`` or use a translatable string.
+.. note::
+
+   You can either hard-code your tokens' textual description in ``$htmlContent`` or use a translatable string.
 
 Rendering custom tokens
-~~~~~~~~~~~~~~~~~~~~~~~
+=======================
 
-Registering tokens leverage the
-- ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_SEND`` event when the email is sent or the
-- ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_DISPLAY`` event when the email is rendered for viewing in a browser, i.e., after the Lead clicked the ``{webview_url}`` link.
+Registering tokens leverages the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_SEND`` event when the Email is sent or the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_DISPLAY`` event when the Email is rendered for viewing in a browser, such as after the Lead clicked the ``{webview_url}`` link.
 
 An event listener receives in both cases the ``Mautic\EmailBundle\Event\EmailSendEvent``.
 You can replace a custom token using the events ``$event->addToken($token, $contentToReplaceToken)``.
 
-
-Basic Token Replacement
-^^^^^^^
+Basic token replacement
+=======================
 
 .. code-block:: PHP
 
@@ -73,20 +78,30 @@ Basic Token Replacement
       }
     }
 
-.. Note::
-    If you need more complex replacing you can use the event's ``$event->getContent()`` and ``$event->setContent()`` methods. See the example in the following section.
+.. note::
 
+   If you need more complex replacing, you can use the event's ``$event->getContent()`` and ``$event->setContent()`` methods. See the example in the following section.
+
+.. vale off
 
 Email A/B testing
------------------
+*****************
+
+.. vale on
 
 While Mautic supports :xref:`A/B testing` out of the box, you might have more complex needs to determine A/B test winner criteria.
 
-- ``$event->addAbTestWinnerCriteria()`` allows you to do exactly that. Using your custom logic, you can decide the winner of such criteria. An example is shown below.
-- ``$event->setAbTestResults()`` is where you set the actual A/B test results. More details are in the code example below.
+* ``$event->addAbTestWinnerCriteria()`` allows you to do exactly that. Using your custom logic, you can decide the winner of such criteria.
+* ``$event->setAbTestResults()`` is where you set the actual A/B test results.
 
-A/B Testing Example
-^^^^^^^
+You can find the code examples in the next section.
+
+.. vale off
+
+A/B testing example
+===================
+
+.. vale on
 
 .. code-block:: PHP
 
