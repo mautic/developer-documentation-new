@@ -1,26 +1,25 @@
 Stages
 #######
 
-Use this endpoint to obtain details on Mautic’s contact stages.
+Use this endpoint to obtain details on Mautic’s Contact Stages.
 
 .. code-block:: php
 
-    <?php
-    use Mautic\MauticApi;
-    use Mautic\Auth\ApiAuth;
+   <?php
+   use Mautic\MauticApi;
+   use Mautic\Auth\ApiAuth;
 
-    // ...
-    $initAuth = new ApiAuth();
-    $auth     = $initAuth->newAuth($settings);
-    $apiUrl   = "https://your-mautic.com";
-    $api      = new MauticApi();
-    $stageApi = $api->newApi("stages", $auth, $apiUrl);
-
+   // ...
+   $initAuth = new ApiAuth();
+   $auth     = $initAuth->newAuth($settings);
+   $apiUrl   = "https://your-mautic.com";
+   $api      = new MauticApi();
+   $stageApi = $api->newApi("stages", $auth, $apiUrl);
 
 .. vale off
 
-Get a Stage
-************
+Get Stage
+*********
 
 .. vale on
 
@@ -31,46 +30,46 @@ Get a Stage
    //...
    $stage = $stageApi->get($id);
 
-
-
 Get an individual Stage by ID.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /stages/ID``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
 .. code-block:: json
 
-
-    {
-        "stage": {
-        "id": 47,
-        "isPublished": 1,
-        "dateAdded": "2015-07-21T12:27:12-05:00",
-        "createdBy": 1,
-        "createdByUser": "Joe Smith",
-        "dateModified": "2015-07-21T14:12:03-05:00",
-        "modifiedBy": 1,
-        "modifiedByUser": "Joe Smith",
-        "name": "Stage A",
-        "category": null,
-        "description": "This is my first stage created via API.",
-        "weight": 0,
-        "publishUp": "2015-07-21T14:12:03-05:00",
-        "publishDown": "2015-07-21T14:12:03-05:00"
-    }
+   {
+      "stage": {
+      "id": 47,
+      "isPublished": 1,
+      "dateAdded": "2015-07-21T12:27:12-05:00",
+      "createdBy": 1,
+      "createdByUser": "Joe Smith",
+      "dateModified": "2015-07-21T14:12:03-05:00",
+      "modifiedBy": 1,
+      "modifiedByUser": "Joe Smith",
+      "name": "Stage A",
+      "category": null,
+      "description": "This is my first stage created via API.",
+      "weight": 0,
+      "publishUp": "2015-07-21T14:12:03-05:00",
+      "publishDown": "2015-07-21T14:12:03-05:00"
+   }
 
 **Stage Properties**
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -81,25 +80,25 @@ Get an individual Stage by ID.
      - ID of the Stage
    * - ``isPublished``
      - boolean
-     - Whether the stage is published
+     - Whether the Stage is published
    * - ``dateAdded``
      - datetime
-     - Date/time stage was created
+     - Date/time Stage was created
    * - ``createdBy``
      - int
-     - ID of the user that created the stage
+     - ID of the User that created the Stage
    * - ``createdByUser``
      - string
-     - Name of the user that created the stage
+     - Name of the User that created the Stage
    * - ``dateModified``
      - datetime/null
-     - Date/time stage was last modified
+     - Date/time Stage was last modified
    * - ``modifiedBy``
      - int
-     - ID of the user that last modified the stage
+     - ID of the User that last modified the Stage
    * - ``modifiedByUser``
      - string
-     - Name of the user that last modified the stage
+     - Name of the User that last modified the Stage
    * - ``name``
      - string`
      - Stage name
@@ -114,15 +113,15 @@ Get an individual Stage by ID.
      - Stage's weight
    * - ``publishUp``
      - datetime
-     - Date/time stage should be published
+     - Date/time Stage should be published
    * - ``publishDown``
      - datetime
-     - Date/time stage should be unpublished
+     - Date/time Stage should be unpublished
 
 .. vale off
 
 List Contact Stages
-*********************
+*******************
 
 .. vale on
 
@@ -135,13 +134,15 @@ List Contact Stages
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /stages``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -166,13 +167,14 @@ List Contact Stages
         "publishUp": "2015-07-21T14:12:03-05:00",
         "publishDown": "2015-07-21T14:12:03-05:00"
     },
-    ...
+    // ...
   ]
 }
 
 **Stage Properties**
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -180,31 +182,31 @@ List Contact Stages
      - Description
    * - ``total``
      - int
-     - Count of all stages
+     - Count of all Stages
    * - ``id``
      - int
-     - ID of the stage
+     - ID of the Stage
    * - ``isPublished``
      - boolean
-     - Whether the stage is published
+     - Whether the Stage is published
    * - ``dateAdded``
      - datetime
-     - Date/time stage was created
+     - Date/time Stage was created
    * - ``createdBy``
      - int
-     - ID of the user that created the stage
+     - ID of the User that created the Stage
    * - ``createdByUser``
      - string
-     - Name of the user that created the stage
+     - Name of the User that created the Stage
    * - ``dateModified``
      - datetime
-     - Date/time stage was last modified
+     - Date/time Stage was last modified
    * - ``modifiedBy``
      - int
-     - ID of the user that last modified the stage
+     - ID of the User that last modified the Stage
    * - ``modifiedByUser``
      - string
-     - Name of the user that last modified the stage
+     - Name of the User that last modified the Stage
    * - ``name``
      - string`
      - Stage name
@@ -219,36 +221,37 @@ List Contact Stages
      - Stage's weight
    * - ``publishUp``
      - datetime
-     - Date/time stage should be published
+     - Date/time Stage should be published
    * - ``publishDown``
      - datetime
-     - Date/time stage should be unpublished
+     - Date/time Stage should be unpublished
 
 .. vale off
 
 Create Stage
-**************
-
-Create a new stage.
+************
 
 .. vale on
 
+Create a new Stage.
+
 .. code-block:: php
 
-  <?php 
+   <?php 
 
-  $data = array(
-    'name'        => 'Stage A',
-    'weight'      => 5,
-    'description' => 'This is my first stage created via API.',
-    'isPublished' => 1
-  );
+   $data = array(
+     'name'        => 'Stage A',
+     'weight'      => 5,
+     'description' => 'This is my first stage created via API.',
+     'isPublished' => 1
+   );
 
-  $stage = $stageApi->create($data);
+   $stage = $stageApi->create($data);
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
@@ -257,6 +260,7 @@ Create a new stage.
 **POST Parameters**
 
 .. list-table::
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
@@ -266,48 +270,51 @@ Create a new stage.
    * - ``weight``
      - int
    * - ``description``
-     - A description of the stage.
+     - A description of the Stage.
    * - ``isPublished``
      - A value of 0 or 1
 
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 201``
 
 **Properties**
 
-Same as `Get Stage <#get-stage>`_.
+Same as :ref:`Get Stage <rest_api/stages:Get Stage>`
 
 .. vale off
 
 Edit Stage
-************
+**********
 
 .. vale on
 
 .. code-block:: php
-  <?php
+  
+   <?php
 
-  $id   = 1;
-  $data = array(
-    'name'        => 'New stage name',
-    'isPublished' => 0
-  );
+   $id   = 1;
+   $data = array(
+     'name'        => 'New stage name',
+     'isPublished' => 0
+   );
 
-  // Create new a stage of ID 1 is not found?
-  $createIfNotFound = true;
+   // Create new a stage of ID 1 is not found?
+   $createIfNotFound = true;
 
-  $stage = $stageApi->edit($id, $data, $createIfNotFound);
+   $stage = $stageApi->edit($id, $data, $createIfNotFound);
 
-Edit a new Stage. Note that this supports PUT or PATCH depending on the desired behavior.
+Edit a new Stage. Note that this supports ``PUT`` or ``PATCH`` depending on the desired behavior.
 
-**PUT** creates a stage if the given ID does not exist and clears all the stage information, adds the information from the request. 
-**PATCH** fails if the stage with the given ID does not exist and updates the stage field values with the values form the request.
+* ``PUT`` creates a Stage if the given ID doesn't exist and clears all the Stage information, adds the information from the request. 
+* ``PATCH`` fails if the Stage with the given ID doesn't exist and updates the Stage field values with the values from the request.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
@@ -315,13 +322,14 @@ To edit a Stage and return a 404 if the Stage isn't found:
 
 ``PATCH /stages/ID/edit``
 
-To edit a Asset and create a new one if the Asset isn't found:
+To edit a Stage and create a new one if the Stage isn't found:
 
 ``PUT /stages/ID/edit``
 
 **POST Parameters**
 
 .. list-table::
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
@@ -331,122 +339,130 @@ To edit a Asset and create a new one if the Asset isn't found:
    * - ``alias``
      - Name alias generated automatically if not set
    * - ``description``
-     - A description of the stage.
+     - A description of the Stage
    * - ``isPublished``
      - A value of 0 or 1.
    * - ``weight``
      - int
 
-**Response**
+Response
+========
 
-If ``PUT``\ , the expected response code if editing the Asset is ``200`` or ``201`` if created.
+* ``PUT``: the expected response code is `200` if the Stage was edited or `201` if created.
 
-If using ``PATCH``\ , the expected response code is ``200``.
+* ``PATCH``, the expected response code is `200`.
 
 **Properties**
 
-Same as `Get Stage <#get-stage>`_.
+Same as :ref:`Get Stage <rest_api/stages:Get Stage>`
 
 .. vale off
 
 Delete Stage
-**************
+************
 
 .. vale on
 
 .. code-block:: php
 
-  <?php
+   <?php
 
-  $stage = $stageApi->delete($id);
+   $stage = $stageApi->delete($id);
 
-Delete a stage.
+Delete a Stage.
 
 .. vale off
 
-**HTTP Request**
+HTTP Request
+============
 
 .. vale on
 
 ``DELETE /stages/ID/delete``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
 **Properties**
 
-Same as `Get Stage <#get-stage>`_.
+Same as :ref:`Get Stage <rest_api/stages:Get Stage>`
 
 .. vale off
 
 Add Contact to a Stage
-************************
+**********************
 
 .. vale on
 
 .. code-block:: php
 
-  <?php
+   <?php
 
-  //...
-  $response = $stageApi->addContact($stageId, $contactId);
-  if (!isset($response['success'])) {
-    // handle error
-  }
+   //...
+   $response = $stageApi->addContact($stageId, $contactId);
+   if (!isset($response['success'])) {
+     // handle error
+   }
 
-Manually add a contact to a specific stage.
+Manually add a Contact to a specific Stage.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /stages/STAGE_ID/contact/CONTACT_ID/add``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
 .. code-block:: json
-  {
-    "success": true
-  }
-
+  
+   {
+     "success": true
+   }
 
 .. vale off
 
 Remove Contact from a Stage
-*****************************
+***************************
 
 .. vale on
 
 .. code-block:: php
 
-  <?php
+   <?php
 
-  //...
-  $response = $stageApi->removeContact($stageId, $contactId);
-  if (!isset($response['success'])) {
-    // handle error
-  }
+   //...
+   $response = $stageApi->removeContact($stageId,  $contactId);
+   if (!isset($response['success'])) {
+     // handle error
+   }
 
-Manually remove a contact from a specific stage.
+Manually remove a Contact from a specific Stage.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /stages/STAGE_ID/contact/CONTACT_ID/remove``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
 .. code-block:: json
-  {
-    "success": true
-  }
+  
+   {
+     "success": true
+   }
