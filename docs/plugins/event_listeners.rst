@@ -45,7 +45,7 @@ Mautic leverages Symfony's EventDispatcher to execute and communicate various ac
 Event subscribers
 *****************
 
-The easiest way to listen to various events is to use an event subscriber. Read more about subscribers in :xref:`symfony-event-subscribers`. 
+The easiest way to listen to various events is to use an event subscriber. Read more about :xref:`Symfony event subscribers` in Symfony's documentation. 
 
 Plugin event subscribers can extend ``Symfony\Component\EventDispatcher\EventSubscriberInterface`` which gives access to commonly used dependencies and also allows registering the subscriber service through autowiring.
     
