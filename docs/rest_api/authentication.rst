@@ -10,9 +10,9 @@ To get started quickly with Mautic's API, you can use Basic Authentication.
 
 .. note::
 
-    Mautic recommends OAuth2 for security reasons. If you still want to use Basic Authentication, you must first enable it in ``Configuration -> API Settings`` in the Mautic UI, or by setting ``'api_enable_basic_auth' => true`` in ``app/config/local.php`` directly.
+   Mautic recommends OAuth2 for security reasons. If you still want to use Basic Authentication, you must first enable it in ``Configuration -> API Settings`` in the Mautic UI, or by setting ``'api_enable_basic_auth' => true`` in ``app/config/local.php`` directly.
 
-After enabling Basic Authentication, you can use it in Mautic's API as follows:
+After enabling Basic Authentication, you can use it in Mautic's API.
 
 Using Mautic's API library with ``BasicAuth``
 =============================================
@@ -51,28 +51,29 @@ Plain HTTP requests
 
 .. vale on
 
-1. Combine the username and password of a Mautic User with a colon ``:``. For example, ``user:password``.
-2. Base64 encode this value. For example, with ``echo -n 'user:password' | base64``. This outputs something like ``dXNlcjpwYXNzd29yZA==``.
-3. Add an Authorization header to each API request as ``Authorization: Basic dXNlcjpwYXNzd29yZA==``
+#. Combine the username and password of a Mautic User with a colon ``:``. For example, ``user:password``.
 
-Here's an example:
+#. Base64 encode the value. For example, ``echo -n 'user:password' | base64`` results in ``dXNlcjpwYXNzd29yZA==``. The output varies based on the specific credentials used.
 
-.. code-block:: console
+#. Add an Authorization header to each API request as ``Authorization: Basic dXNlcjpwYXNzd29yZA==``. Here's an example:
 
-  curl -H "Authorization: Basic dXNlcjpwYXNzd29yZA==" https://mautic.example.com/api/contacts
+   .. code-block:: bash
+
+      curl -H "Authorization: Basic dXNlcjpwYXNzd29yZA==" https://mautic.example.com/api/contacts
 
 OAuth2
 ******
 
-After enabling Mautic's API, the "API Credentials" menu item shows up in the administrator menu. You can create Client ID and Secret there, which you can then use in the next steps.
+After enabling Mautic's API, the **API Credentials** menu item shows up in the administrator menu. You can create a Client ID and Secret there and use them in the next steps.
 
 .. note:: 
 
-    Mautic supports the ``authorization_code``, ``refresh_token`` and ``client_credentials`` grant types.
+   Mautic supports the ``authorization_code``, ``refresh_token`` and ``client_credentials`` grant types.
 
 There are two main flows that Mautic supports:
 
 .. list-table::
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
@@ -80,11 +81,11 @@ There are two main flows that Mautic supports:
    * - Authorization code flow
      - This flow is best if you want Users to log in with their own Mautic accounts. All actions taken get registered as if the User performed them in Mautic's UI.
    * - Client Credentials flow
-     - This flow is best for Machine-to-Machine, M2M, communications. For example, in Cron jobs that run on at fixed times of the day.
-       All actions get registered under the name that you provided in ``Settings > API Credentials``.
+     - This flow is best for Machine-to-Machine - M2M - communications. For example, in Cron jobs that run at fixed times of day.
+       
+       All actions get registered under the name that you provided in **Settings > API Credentials**.
        So if you called your API Credential ``Mautibot test``, Contacts created through the API show up as ``Contact was identified by Mautibot test [1]``, where ``[1]`` is the ID of the API Credential.
  
-
 Authorization Code flow 
 ========================
 
@@ -127,53 +128,51 @@ Mautic's API library has built-in support for the OAuth2 Authorization Code flow
 Using plain OAuth2 for the Authorization Code flow
 --------------------------------------------------
 
-.. note::
+.. tip::
 
-   The OAuth processes can be tricky. If possible, it's best to use an OAuth library for the language that's used. If you're using PHP, Mautic recommends using the :xref:`Mautic API Library`.
+   OAuth processes can be complex. It's best to use an OAuth library for the language that you use. For PHP, Mautic recommends using the :xref:`Mautic API Library`.
+
+.. _step one:
 
 Step one - obtain authorization code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Redirect the User to the authorize endpoint ``/oauth/v2/authorize``:
 
-.. code-block:: console
+.. code-block:: bash
 
-    # NOTE: navigate to this URL in the browser as it renders the login form
+    # Navigate to this URL in the browser, as it renders the login form
     https://mautic.example.com/oauth/v2/authorize?grant_type=authorization_code
         &client_id=CLIENT_ID
         &redirect_uri=https%3A%2F%2Fexample.com%2Fyour-callback
         &response_type=code
         &state=UNIQUE_STATE_STRING
-    
-    (note that the query has been wrapped for legibility)
 
 .. note:: 
 
-    The state is optional but recommended to prevent ``CSRF`` attacks. It should be a uniquely generated string and stored locally in a session, cookie, etc. so you can compare it with the returned value.
+   * Line breaks in the example help distinguish the different parts of the query.
+   * The state is optional but recommended to prevent ``CSRF`` attacks. It should be a uniquely generated string and stored locally in a session, cookie, etc., so you can compare it with the returned value.
+   * The ``redirect_uri`` should be URL encoded.
 
-.. note:: 
+This prompts the User to log in. Once they do, Mautic redirects them back to the URL specified in the ``redirect_uri`` with a code appended to the query.
 
-    Note that the ``redirect_uri`` should be URL encoded.
-
-This prompts the User to login. Once they do, Mautic redirects them back to the URL specified in the ``redirect_uri`` with a code appended to the query.
-
-It may look something like: ``https://example.com/your-callback?code=UNIQUE_CODE_STRING&state=UNIQUE_STATE_STRING``
+It may look something like: ``https://example.com/your-callback?code=UNIQUE_CODE_STRING&state=UNIQUE_STATE_STRING``.
 
 You should compare the returned ``state`` against the original to ensure the request wasn't tampered with. 
 
 Step two - replace with an access token
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Obtain the value of the code from Step One, then immediately POST it back to the access token endpoint ``oauth/v2/token`` like so:
+Obtain the value of the code from :ref:`step one <step one>`, then immediately ``POST`` it back to the access token endpoint ``oauth/v2/token``.
 
-.. code-block:: console
+.. code-block:: bash
 
     curl -X POST \
          -H "Content-Type: application/x-www-form-urlencoded" \
          -d "grant_type=authorization_code&client_id=CLIENT_ID&redirect_uri=https%3A%2F%2Fexample.com%2Fyour-callback&client_secret=CLIENT_SECRET&code=UNIQUE_CODE_STRING" \
          https://mautic.example.com/oauth/v2/token
 
-The response returned is a JSON encoded string:
+The response returned is a JSON-encoded string:
 
 .. code-block:: json
 
@@ -185,33 +184,34 @@ The response returned is a JSON encoded string:
         "refresh_token": "REFRESH_TOKEN"
     }
 
-Please store this data in a secure location and use it to authenticate API requests.
+Please store this data securely and use it to authenticate API requests.
 
 Refreshing tokens
 ~~~~~~~~~~~~~~~~~
 
-The response's ``expires_in`` is the number of seconds the access token is good for and may differ based on what you configured in Mautic. The code handling the authorization process should generate an expiration timestamp based on that value. For example ``<?php $expiration = time() + $response['expires_in']; ?>``. If the access token has expired, you can use the ``refresh_token`` to obtain a new access token.
+The response's ``expires_in`` field is the number of seconds the access token is valid for and may differ depending on what you configured in Mautic. The code handling the authorization process should generate an expiration timestamp based on that value. For example, ``<?php $expiration = time() + $response['expires_in']; ?>``. If the access token has expired, you can use the ``refresh_token`` to obtain a new access token.
 
 By default, the refresh token is valid for 14 days unless configured otherwise in Mautic.
 
-* If your app requests a new access token using the refresh token within 14 days, there's no need for any User interaction. Your app gets both a new access token and a new refresh token, which is valid for another 14 days after it's issued;
-* If your app doesn't request a new token using the refresh token within 14 days, you'll need to start from Step One again and redirect the User to Mautic's login.
+* If your app requests a new access token using the refresh token within 14 days, there's no need for any User interaction. Your app receives a new access token and a new refresh token, both of which remain valid for another 14 days from the date of issuance.
+* If your app doesn't request a new token using the refresh token within 14 days, you need to start from :ref:`step one <step one>` again and redirect the User to Mautic's login.
 
 The refresh token's expiration time is configurable through Mautic's Configuration. 
 
 .. note::
-    The app should monitor for a ``400 Bad Request`` response when requesting a new access token and redirect the User back through the authorization process if that happens.
 
-To obtain a new access token, you should do a POST call to the access token's endpoint ``oauth/v2/token`` using the ``refresh_token`` grant type, like so:
+   The app should monitor for a ``400 Bad Request`` response when requesting a new access token and redirect the User back through the authorization process if that happens.
 
-.. code-block:: console
+To obtain a new access token, you should do a ``POST`` call to the access token's endpoint ``oauth/v2/token`` using the ``refresh_token`` grant type.
+
+.. code-block:: bash
 
     curl -X POST \
          -H "Content-Type: application/x-www-form-urlencoded" \
          -d "grant_type=refresh_token&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&refresh_token=REFRESH_TOKEN" \
          https://mautic.example.com/oauth/v2/token
 
-The response returned should be a JSON encoded string:
+The response returned should be a JSON-encoded string:
 
 .. code-block:: json
 
@@ -235,7 +235,7 @@ Using Mautic's API library for the Client Credentials flow
 
 .. warning:: 
 
-    Mautic's API library doesn't have support yet for this flow, but there's an open PR that adds support: :xref:`Client Credentials Support`
+   Mautic's API library doesn't support this flow yet, but there's an open PR that adds support. See :xref:`Client Credentials Support`.
 
 .. vale off
 
@@ -244,16 +244,16 @@ Using plain OAuth2 for the Client Credentials flow
 
 .. vale on
 
-To obtain a new access token, make a POST request to the access token's endpoint ``oauth/v2/token`` using the ``client_credentials`` grant type.
+To obtain a new access token, make a ``POST`` request to the access token's endpoint ``oauth/v2/token`` using the ``client_credentials`` grant type.
 
-.. code-block:: console
+.. code-block:: bash
 
     curl -X POST \
          -H "Content-Type: application/x-www-form-urlencoded" \
          -d "grant_type=client_credentials&client_id=CLIENT_ID&client_secret=CLIENT_SECRET" \
          https://mautic.example.com/oauth/v2/token
 
-The response returned should be a JSON encoded string:
+The response returned should be a JSON-encoded string:
 
 .. code-block:: json
 
@@ -264,33 +264,32 @@ The response returned should be a JSON encoded string:
         "scope": ""
     }
 
-
 Authenticating the API request
 ==============================
 
-Authenticating the API request with OAuth2 is easy. Choose one of the following methods that's appropriate for the app's needs.
+Authenticating API requests with OAuth2 is straightforward. Choose one of the following methods that fits the app's needs.
 
 Authorization header
 --------------------
 
-By using an authorization header, you can authenticate against all of Mautic's API endpoints.
+The Authorization header enables authentication for all Mautic API endpoints.
 
-However, note that this method requires that your Mautic server can pass headers to PHP or has access to the ``apache_request_headers()`` function. ``apache_request_headers()`` isn't available to PHP running under FastCGI. 
+However, this method requires the Mautic server to pass headers to PHP or provide access to the ``apache_request_headers()`` function. Note that ``apache_request_headers()`` is unavailable when running PHP under FastCGI.
 
-.. code-block:: console
+.. code-block:: bash
 
     Authorization: Bearer ACCESS_TOKEN
 
 Other methods
 -------------
 
-You can also append the access token to the query or include it the POST body, but only when using ``x-www-form-unencoded``.
+You can also append the access token to the query or include it in the ``POST`` body, but only when using ``x-www-form-unencoded``.
 
-.. code-block:: console
+.. code-block:: bash
     
     GET https://mautic.example.com/api/leads?access_token=ACCESS_TOKEN
 
-.. code-block:: console
+.. code-block:: bash
 
     curl -X POST \
          -H "Content-Type: application/x-www-form-urlencoded" \
