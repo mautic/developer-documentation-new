@@ -172,7 +172,7 @@ Obtain the value of the code from :ref:`step one <step one>`, then immediately `
          -d "grant_type=authorization_code&client_id=CLIENT_ID&redirect_uri=https%3A%2F%2Fexample.com%2Fyour-callback&client_secret=CLIENT_SECRET&code=UNIQUE_CODE_STRING" \
          https://mautic.example.com/oauth/v2/token
 
-The response returned is a JSON-encoded string:
+The response returned is a JSON encoded string:
 
 .. code-block:: json
 
@@ -211,7 +211,7 @@ To obtain a new access token, you should do a ``POST`` call to the access token'
          -d "grant_type=refresh_token&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&refresh_token=REFRESH_TOKEN" \
          https://mautic.example.com/oauth/v2/token
 
-The response returned should be a JSON-encoded string:
+The response returned should be a JSON encoded string:
 
 .. code-block:: json
 
@@ -253,7 +253,7 @@ To obtain a new access token, make a ``POST`` request to the access token's endp
          -d "grant_type=client_credentials&client_id=CLIENT_ID&client_secret=CLIENT_SECRET" \
          https://mautic.example.com/oauth/v2/token
 
-The response returned should be a JSON-encoded string:
+The response returned should be a JSON encoded string:
 
 .. code-block:: json
 
