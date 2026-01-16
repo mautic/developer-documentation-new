@@ -1,33 +1,31 @@
 Reports
 #######
+
 To add and render custom Reports in Mautic, your Plugin needs to listen to three events:
 
-- ``\Mautic\ReportBundle\ReportEvents::REPORT_ON_BUILD``
-- ``ReportEvents::REPORT_ON_GENERATE``
-- ``ReportEvents::REPORT_ON_GRAPH_GENERATE``
+* ``\Mautic\ReportBundle\ReportEvents::REPORT_ON_BUILD``
+* ``ReportEvents::REPORT_ON_GENERATE``
+* ``ReportEvents::REPORT_ON_GRAPH_GENERATE``
 
 This guide walks you through defining a custom Report, generating Report data, and rendering graphs.
 
-.. vale off
 Defining the Report
--------------------
+*******************
 
-.. vale on
 Use the ``ReportEvents::REPORT_ON_BUILD`` event to define:
 
-- The Report context
-- Available columns
-- Available filters - defaults to columns
-- Available graphs
+* The Report context
+* Available columns
+* Available filters - defaults to columns
+* Available graphs
 
 Column definition
------------------
+=================
 
 Each column array can include the following properties:
 
-.. vale on
-
 .. list-table::
+    :widths: 15 20 15 50
     :header-rows: 1
 
     * - Key
@@ -49,23 +47,21 @@ Each column array can include the following properties:
     * - formula
       - OPTIONAL
       - string
-      - SQL formula instead of a column. for example. ``SUBSTRING_INDEX(e.type, \'.\', 1)``.
+      - SQL formula instead of a column. For example, ``SUBSTRING_INDEX(e.type, \'.\', 1)``.
     * - link
       - OPTIONAL
       - string
       - Route name to convert the value into a hyperlink. Used usually with an ID of an Entity. The route must accept ``objectAction`` and ``objectId`` parameters.
 
-.. vale off
+Filter definition
+=================
 
-Filter Definition
------------------
-
-.. vale on
 Filters are optional. If you don't define them, the system defaults to using the column definitions. However, filters can provide additional options such as dropdown select lists.
 
 Additional filter keys include:
 
 .. list-table::
+    :widths: 15 20 15 50
     :header-rows: 1
 
     * - Key
@@ -79,36 +75,34 @@ Additional filter keys include:
     * - operators
       - OPTIONAL
       - array
-      - Custom list of operators to allow for this filter. See ``Mautic\ReportBundle\Builder\MauticReportBuilder::OPERATORS`` for a examples.
-
-.. vale off
+      - Custom list of operators to allow for this filter. See ``Mautic\ReportBundle\Builder\MauticReportBuilder::OPERATORS`` for an example.
 
 Generate the QueryBuilder
----------------------------
+=========================
 
 The system dispatches the ``ReportEvents::REPORT_ON_GENERATE`` event when it needs to generate and display a report. In this function, the plugin defines the QueryBuilder object used to generate the table data.
+
 Call ``$event->checkContext()`` to determine if the requested report is the subscriber's report.
 
 Use Doctrine’s DBAL layer QueryBuilder for the ``ReportEvents::REPORT_ON_GENERATE`` event by obtaining it with ``$qb = $event->getQueryBuilder();``.
+
 There are a number of helper functions to append joins for commonly used relationships such as category, leads, ip address, etc. Refer to the ``ReportGeneratorEvent`` class for more details.
 
 Generating Graphs
------------------
+=================
 
 Use the ``ReportEvents::REPORT_ON_GRAPH_GENERATE`` event to render graphs for your report.
 
-- Check the report context with ``$event->checkContext()``.
-- Clone the base ``QueryBuilder`` to manipulate queries safely.
-- Use classes like ``LineChart`` and ``ChartQuery`` to generate and render graph data.
+* Check the report context with ``$event->checkContext()``.
+* Clone the base ``QueryBuilder`` to manipulate queries safely.
+* Use classes like ``LineChart`` and ``ChartQuery`` to generate and render graph data.
 
 For supported chart types and options, refer to the ``ChartQuery`` and ``LineChart`` helper classes in the Mautic codebase.
 
 Example: HelloWorld Report Subscriber
--------------------------------------
+=====================================
 
-Below is an example Plugin file located at::
-
-    plugins\HelloWorldBundle\EventListener\ReportSubscriber.php
+Below is an example Plugin file located at ``plugins\HelloWorldBundle\EventListener\ReportSubscriber.php``.
 
 This file subscribes to Report events and provides custom logic for adding new tables, columns, filters, and graphs.
 
@@ -217,4 +211,3 @@ This file subscribes to Report events and provides custom logic for adding new t
             }
         }
     }
-
