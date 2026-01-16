@@ -8,53 +8,45 @@ Mautic leverages Symfony's EventDispatcher to execute and communicate various ac
     <?php
     //plugins\HelloWorldBundle\EventListener\LeadSubscriber
 
-    namespace MauticPlugin\HelloWorldBundle\EventListener;
+    namespace MauticPlugin\HelloWorldBundle\EventListener;  
 
-    use Mautic\LeadBundle\Event as Events;
-    use Mautic\LeadBundle\LeadEvents;
+    use Mautic\LeadBundle\LeadEvent;  
+    use Mautic\LeadBundle\LeadEvents;  
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;  
 
-    /**
-     * Class LeadSubscriber
-     *
-     * @package Mautic\LeadBundle\EventListener
-     */
-    class LeadSubscriber extends CommonSubscriber
-    {
+    final class LeadSubscriber extends EventSubscriberInterface  
+    {  
+        static public function getSubscribedEvents(): array  
+        {  
+            return [  
+                LeadEvents::LEAD_POST_SAVE     => ['onLeadPostSave', 0],  
+                LeadEvents::LEAD_POST_DELETE   => ['onLeadDelete', 0],  
+            ];  
+        }  
     
-        /**
-         * @return array
-         */
-        static public function getSubscribedEvents()
-        {
-            return array(
-                LeadEvents::LEAD_POST_SAVE     => array('onLeadPostSave', 0),
-                LeadEvents::LEAD_POST_DELETE   => array('onLeadDelete', 0)
-            );
-        }
+        public function onLeadPostSave(LeadEvent $event): void  
+        {  
+            $lead = $event->getLead();  
+            
+            // do something  
+        }  
     
-        public function onLeadPostSave(LeadEvent $event)
-        {
-            $lead = $event->getLead();
+        public function onLeadDelete(LeadEvent $event): void  
+        {  
+            $lead = $event->getLead();  
             
-            // do something
-        }
-    
-        public function onLeadDelete(LeadEvent $event)
-        {
-            $lead = $event->getLead();
+            $deletedId = $lead->deletedId;  
             
-            $deletedId = $lead->deletedId;
-            
-            // do something
-        }
-    }
+            // do something  
+        }  
+    }  
     // ...
 
 Event subscribers
 *****************
 The easiest way to listen to various events is to use an event subscriber. Read more about subscribers in :xref:`symfony-event-subscribers`. 
 
-Plugin event subscribers can extend ``\Mautic\CoreBundle\EventListener\CommonSubscriber`` which gives access to commonly used dependencies and also allows registering the subscriber service through the config file for the bundle. See :ref:`plugins/config:Service config items` for more information on registering event services. 
+Plugin event subscribers can extend ``Symfony\Component\EventDispatcher\EventSubscriberInterface`` which gives access to commonly used dependencies and also allows registering the subscriber service through autowiring.
     
 Available events
 ****************
@@ -78,9 +70,6 @@ Custom events require the following:
     
     namespace MauticPlugin\HelloWorldBundle;
     
-    /**
-     * Class HelloWorldEvents
-     */
     final class HelloWorldEvents
     {
         /**
@@ -95,45 +84,41 @@ Custom events require the following:
     // ...
 
 
-2) The Event class that is received by the listeners. This class should extend ``Symfony\Component\EventDispatcher\Event``. It's created when the event is dispatched and should have any information listeners need to act on it.
+2) The Event class received by the listeners. This class should extend ``Symfony\Contracts\EventDispatcher\Event``. It's created when dispatching the event and should have any information listeners need to act on it.
 
 .. code-block:: php
 
-    <?php
-    // plugins\HelloWorldBundle\Event\ArmageddonEvent.php
+    <?php  
+    // plugins\HelloWorldBundle\Event\ArmageddonEvent.php  
     
-    namespace MauticPlugin\HelloWorldBundle\Event;
+    namespace MauticPlugin\HelloWorldBundle\Event;  
     
-    use Symfony\Component\EventDispatcher\Event;
-    use MauticPlugin\HelloWorldBundle\Entity\World;
+    use Symfony\Contracts\EventDispatcher\Event;  
+    use MauticPlugin\HelloWorldBundle\Entity\World;  
     
-    class ArmageddonEvent extends Event
-    {
-        /** @var World  */
-        protected $world;
-        
-        /** @var bool  */    
-        protected $falseAlarm = false;
+    final class ArmageddonEvent extends Event  
+    {  
+        private bool $falseAlarm = false;  
          
-        public function __construct(World $world)
-        {
+        public function __construct(private World $world)
+        {  
             $this->world = $world;
-        }
+        }  
         
-        public function shouldPanic()
-        {
-            return ('earth' == $this->world->getName());
-        }
+        public function shouldPanic(): bool  
+        {  
+            return ('earth' == $this->world->getName());  
+        }  
         
-        public function setIsFalseAlarm()
-        {
-            $this->falseAlarm = true;
-        }
+        public function setIsFalseAlarm(): void  
+        {  
+            $this->falseAlarm = true;  
+        }  
         
-        public function getIsFalseAlarm()
-        {
-            return $this->falseAlarm;
-        }
+        public function getIsFalseAlarm(): bool  
+        {  
+            return $this->falseAlarm;  
+        }  
     }
     // ...
 
