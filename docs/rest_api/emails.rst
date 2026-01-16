@@ -741,7 +741,7 @@ Send Email to Contact
 
 Send a predefined Email to existing Contact.
 
-Reference Assets for document attachments using either IDs of existing Assets or IDs returned by the :xref:`create Asset api` endpoint.
+Reference Assets using IDs returned by the `Create Asset <assets.html#create-asset>`_ endpoint.
 
 .. _http-request-5:
 
