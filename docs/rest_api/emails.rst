@@ -1,8 +1,7 @@
 Emails
 ######
 
-Use this endpoint to obtain details, create, update, or delete Mautic's
-Emails.
+Use this endpoint to obtain details, create, update, or delete Mautic's Emails.
 
 .. code-block:: php
 
@@ -20,7 +19,7 @@ Emails.
 .. vale off
 
 Get Email
-~~~~~~~~~
+*********
 
 .. vale on
 
@@ -107,12 +106,12 @@ Get Email
 Get an individual Email by ID.
 
 HTTP request
-^^^^^^^^^^^^
+============
 
 ``GET /emails/ID``
 
 Response
-^^^^^^^^
+========
 
 ``Expected Response Code: 200``
 
@@ -187,7 +186,7 @@ See JSON code example.
 |                      |              | or template Email. Possible values are |
 |                      |              | list and template                      |
 +----------------------+--------------+----------------------------------------+
-| ``translationChildren``| array      | Array of Page entities for             |
+| ``translationChildren``        | array      | Array of Page entities for             |
 |                      |              | translations of this landing page      |
 +----------------------+--------------+----------------------------------------+
 | ``translationParent``| object       | The parent/main page if this is a      |
@@ -318,7 +317,7 @@ List Emails
 .. _http-request-1:
 
 HTTP request
-^^^^^^^^^^^^
+============
 
 ``GET /emails``
 
@@ -349,7 +348,7 @@ HTTP request
 .. _response-1:
 
 Response
-^^^^^^^^
+========
 
 ``Expected Response Code: 200``
 
@@ -360,7 +359,7 @@ See JSON code example.
 Same as `Get Email <#get-email>`__.
 
 Create Email
-~~~~~~~~~~~~
+************
 
 .. code-block:: php
 
@@ -379,7 +378,7 @@ Create a new Email.
 .. _http-request-2:
 
 HTTP request
-^^^^^^^^^^^^
+============
 
 ``POST /emails/new``
 
@@ -436,7 +435,7 @@ HTTP request
 |                      |              | or template Email. Possible values are |
 |                      |              | list and template                      |
 +----------------------+--------------+----------------------------------------+
-| ``translationChildren``| array      | Array of Page entities for             |
+| ``translationChildren``        | array      | Array of Page entities for             |
 |                      |              | translations of this landing page      |
 +----------------------+--------------+----------------------------------------+
 | ``translationParent``| object       | The parent/main page if this is a      |
@@ -481,7 +480,7 @@ HTTP request
 .. _response-2:
 
 Response
-^^^^^^^^
+========
 
 ``Expected Response Code: 201``
 
@@ -490,7 +489,7 @@ Response
 Same as `Get Email <#get-email>`__.
 
 Edit Email
-~~~~~~~~~~
+**********
 
 .. code-block:: php
 
@@ -507,24 +506,22 @@ Edit Email
 
    $email = $emailApi->edit($id, $data, $createIfNotFound);
 
-Edit a new Email. Note that this supports PUT or PATCH depending on the
-desired behavior.
+Edit a new Email. Note that this supports PUT or PATCH depending on the desired behavior.
 
-**PUT** creates a Email if the given ID does not exist and clears all
-the Email information, adds the information from the request. **PATCH**
-fails if the Email with the given ID does not exist and updates the
-Email field values with the values form the request.
+* **PUT**: creates a Email if the given ID does not exist and clears all the Email information, adds the information from the request.
+
+* **PATCH**: fails if the Email with the given ID does not exist and updates the Email field values with the values form the request.
 
 .. _http-request-3:
 
 HTTP request
-^^^^^^^^^^^^
+============
 
-To edit a Email and return a 404 if the Email is not found:
+To edit an Email and return a 404 if the Email is not found:
 
 ``PATCH /emails/ID/edit``
 
-To edit a Email and create a new one if the Email is not found:
+To edit an Email and create a new one if the Email is not found:
 
 ``PUT /emails/ID/edit``
 
@@ -620,19 +617,18 @@ To edit a Email and create a new one if the Email is not found:
 .. _response-3:
 
 Response
-^^^^^^^^
+========
 
-If ``PUT``, the expected response code is ``200`` if the Email was
-edited or ``201`` if created.
+* **PUT**: the expected response code is ``200`` if the Email was edited or ``201`` if created.
 
-If ``PATCH``, the expected response code is ``200``.
+* **PATCH**: the expected response code is ``200``.
 
 **Properties**
 
 Same as `Get Email <#get-email>`__.
 
 Delete Email
-~~~~~~~~~~~~
+************
 
 .. code-block:: php
 
@@ -645,14 +641,14 @@ Delete a email.
 .. _http-request-4:
 
 HTTP request
-^^^^^^^^^^^^
+============
 
 ``DELETE /emails/ID/delete``
 
 .. _response-4:
 
 Response
-^^^^^^^^
+========
 
 ``Expected Response Code: 200``
 
@@ -661,7 +657,7 @@ Response
 Same as `Get Email <#get-email>`__.
 
 Send Email to Contact
-~~~~~~~~~~~~~~~~~~~~~
+*********************
 
 .. code-block:: php
 
@@ -671,14 +667,12 @@ Send Email to Contact
 
 Send a predefined Email to existing contact.
 
-Assets can be referenced for attaching documents (either ids of existing
-assets or ids returned by the `Create
-Asset <https://github.com/mautic/developer-documentation/blob/master/source/includes/_api_endpoint_assets.md#create-asset>`__).
+Assets can be referenced for attaching documents - either ``id``s of existing assets or ``id``s returned by the `Create Asset <https://github.com/mautic/developer-documentation/blob/master/source/includes/_api_endpoint_assets.md#create-asset>`__).
 
 .. _http-request-5:
 
 HTTP request
-^^^^^^^^^^^^
+============
 
 ``POST /emails/ID/contact/CONTACT_ID/send``
 
@@ -694,7 +688,7 @@ assetAttachments array Array of asset ids
 .. _response-5:
 
 Response
-^^^^^^^^
+========
 
 ``Expected Response Code: 200``
 
@@ -707,7 +701,7 @@ Response
    }
 
 Send Email to Segment
-~~~~~~~~~~~~~~~~~~~~~
+*********************
 
 .. code-block:: php
 
@@ -715,7 +709,7 @@ Send Email to Segment
 
    $email = $emailApi->send($id);
 
-Send a segment Email to linked segment(s).
+Send a Segment Email to linked Segments.
 
 .. _http-request-6:
 
@@ -742,15 +736,14 @@ Response
    }
 
 Create a reply to a send Email send row
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+***************************************
 
-This endpoint can create a record that a specific Email stat row
-received a reply. It will also mark an Email send stat as read.
+This endpoint can create a record that a specific Email stat row received a reply. It marks an Email send stat as read.
 
 .. _http-request-7:
 
 HTTP request
-^^^^^^^^^^^^
+============
 
 ``POST /emails/reply/TRACKING_HASH``
 
@@ -759,7 +752,7 @@ Tracking hash is created as unique hash for each Email send stat record.
 .. _response-7:
 
 Response
-^^^^^^^^
+========
 
 ``Expected Response Code: 200``
 
