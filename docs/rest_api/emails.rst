@@ -105,8 +105,12 @@ Get Email
 
 Get an individual Email by ID.
 
+.. vale off
+
 HTTP request
 ============
+
+.. vale on
 
 ``GET /emails/ID``
 
@@ -146,7 +150,7 @@ See JSON code example.
      - The reply to Email address if it's different than the one in the Mautic configuration
    * - ``bccAddress``
      - string
-     - The BCC Email address if it's different than the one in the Mautic configuration
+     - The bcc Email address if it's different than the one in the Mautic configuration
    * - ``isPublished``
      - boolean
      - Available for use state
@@ -158,22 +162,22 @@ See JSON code example.
      - Date/time the Email should be unavailable
    * - ``dateAdded``
      - datetime
-     - Date/time Email was created
+     - Date/time of Email creation
    * - ``createdBy``
      - int
-     - ID of the user that created the Email
+     - ID of the User that created the Email
    * - ``createdByUser``
      - string
-     - Name of the user that created the Email
+     - Name of the User that created the Email
    * - ``dateModified``
      - datetime/null
      - Date/time Email was last modified
    * - ``modifiedBy``
      - int
-     - ID of the user that last modified the Email
+     - ID of the User that last modified the Email
    * - ``modifiedByUser``
      - string
-     - Name of the user that last modified the Email
+     - Name of the User that last modified the Email
    * - ``language``
      - string
      - Language locale of the Email
@@ -197,10 +201,10 @@ See JSON code example.
      - The name of the template used as the base for the Email
    * - ``EmailType``
      - string
-     - If it is a segment - former list - Email or template Email. Possible values are ``list`` and ``template``
+     - If it's a Segment - former list - Email or template Email. Possible values are ``list`` and ``template``
    * - ``translationChildren``
      - array
-     - Array of Page entities for translations of this landing page
+     - Array of page entities for translations of this Landing Page
    * - ``translationParent``
      - object
      - The parent/main page if this is a translation
@@ -227,22 +231,26 @@ See JSON code example.
      - Category information
    * - ``unsubscribeForm``
      - int
-     - Id of the form displayed in the unsubscribe page
+     - ID of the Form displayed in the unsubscribe page
    * - ``dynamicContent``
      - object
-     - Dynamic content configuration
+     - Dynamic Content configuration
    * - ``lists``
      - array
-     - Array of segment IDs which should be added to the segment Email
+     - Contains an array of Segment IDs to add to the Segment Email
    * - ``assetAttachments``
      - array
-     - asset IDs Array for Email attachment
+     - Asset IDs array for Email attachment
    * - ``grapesjsbuilder``
      - array
-     - ``customMjml`` key along with MJML content for email based on MJML.
+     - ``customMjml`` key along with MJML content for Email based on MJML.
+
+.. vale off
 
 List Emails
-~~~~~~~~~~~
+***********
+
+.. vale on
 
 .. code-block:: php
 
@@ -329,8 +337,12 @@ List Emails
 
 .. _http-request-1:
 
+.. vale off
+
 HTTP request
 ============
+
+.. vale on
 
 ``GET /emails``
 
@@ -370,8 +382,12 @@ See JSON code example.
 
 Same as `Get Email <#get-email>`__.
 
+.. vale off
+
 Create Email
 ************
+
+.. vale on
 
 .. code-block:: php
 
@@ -389,12 +405,16 @@ Create a new Email.
 
 .. _http-request-2:
 
+.. vale off
+
 HTTP request
 ============
 
+.. vale on
+
 ``POST /emails/new``
 
-**Post Parameters**
+**POST Parameters**
 
 .. list-table::
    :widths: 30 20 50
@@ -423,7 +443,7 @@ HTTP request
      - The reply to Email address if it's different than the one in the Mautic configuration
    * - ``bccAddress``
      - string
-     - The BCC Email address if it's different than the one in the Mautic configuration
+     - The bcc Email address if it's different than the one in the Mautic configuration
    * - ``isPublished``
      - boolean
      - Available state
@@ -456,10 +476,10 @@ HTTP request
      - The name of the template used as the base for the Email
    * - ``emailType``
      - string
-     - If it is a segment - former list - Email or template Email. Possible values are ``list`` and ``template``
+     - If it's a Segment - former list - Email or template Email. Possible values are ``list`` and ``template``
    * - ``translationChildren``
      - array
-     - Array of Page entities for translations of this landing page
+     - Array of Page entities for translations of this Landing Page
    * - ``translationParent``
      - object
      - The parent/main page if this is a translation
@@ -486,19 +506,19 @@ HTTP request
      - Category information
    * - ``unsubscribeForm``
      - int
-     - ID of the form displayed in the unsubscribe page
+     - ID of the Form displayed in the unsubscribe page
    * - ``dynamicContent``
      - object
-     - Dynamic content configuration
+     - Dynamic Content configuration
    * - ``lists``
      - array
-     - Array of segment IDs which should be added to the segment Email
+     - Contains an array of Segment IDs to add to the Segment Email
    * - ``assetAttachments``
      - array
-     - asset IDs Array for Email attachment
+     - Asset IDs array for Email attachment
    * - ``grapesjsbuilder``
      - array
-     - ``customMjml`` key along with MJML content for email based on MJML.
+     - ``customMjml`` key along with MJML content for Email based on MJML.
 
 .. _response-2:
 
@@ -511,8 +531,12 @@ Response
 
 Same as `Get Email <#get-email>`__.
 
+.. vale off
+
 Edit Email
 **********
+
+.. vale on
 
 .. code-block:: php
 
@@ -531,24 +555,28 @@ Edit Email
 
 Edit a new Email. Note that this supports ``PUT`` or ``PATCH`` depending on the desired behavior.
 
-* ``PUT``: creates a Email if the given ID does not exist and clears all the Email information, adds the information from the request.
+* ``PUT``: creates an Email if the given ID doesn't exist and clears all the Email information, adds the information from the request.
 
-* ``PATCH``: fails if the Email with the given ID does not exist and updates the Email field values with the values form the request.
+* ``PATCH``: fails if the Email with the given ID doesn't exist and updates the Email field values with the values from the request.
 
 .. _http-request-3:
+
+.. vale off
 
 HTTP request
 ============
 
-To edit an Email and return a 404 if the Email is not found:
+.. vale on
+
+To edit an Email and return a 404 if the Email isn't found:
 
 ``PATCH /emails/ID/edit``
 
-To edit an Email and create a new one if the Email is not found:
+To edit an Email and create a new one if the Email isn't found:
 
 ``PUT /emails/ID/edit``
 
-**Post Parameters**
+**POST Parameters**
 
 .. list-table::
    :widths: 30 20 50
@@ -577,7 +605,7 @@ To edit an Email and create a new one if the Email is not found:
      - The reply to Email address if it's different than the one in the Mautic configuration
    * - ``bccAddress``
      - string
-     - The BCC Email address if it's different than the one in the Mautic configuration
+     - The bcc Email address if it's different than the one in the Mautic configuration
    * - ``isPublished``
      - boolean
      - Available state
@@ -610,10 +638,10 @@ To edit an Email and create a new one if the Email is not found:
      - The name of the template used as the base for the Email
    * - ``emailType``
      - string
-     - If it is a Segment - former list - Email or template Email. Possible values are ``list`` and ``template``
+     - If it's a Segment - former list - Email or template Email. Possible values are ``list`` and ``template``
    * - ``translationChildren``
      - array
-     - Array of Page entities for translations of this landing page
+     - Array of page entities for translations of this Landing Page
    * - ``translationParent``
      - object
      - The parent/main page if this is a translation
@@ -640,20 +668,20 @@ To edit an Email and create a new one if the Email is not found:
      - Category information
    * - ``unsubscribeForm``
      - int
-     - Id of the form displayed in the unsubscribe page
+     - ID of the Form displayed in the unsubscribe page
    * - ``dynamicContent``
      - object
-     - Dynamic content configuration
+     - Dynamic Content configuration
    * - ``lists``
      - array
-     - Array of segment IDs which should be added to the segment Email
+     - Contains an array of Segment IDs to add to the Segment Email
 
 .. _response-3:
 
 Response
 ========
 
-* ``PUT``: the expected response code is ``200`` if the Email was edited or ``201`` if created.
+* ``PUT``: returns code ``200`` for an edited Email or ``201`` for a created Email.
 
 * ``PATCH``: the expected response code is ``200``.
 
@@ -661,8 +689,12 @@ Response
 
 Same as `Get Email <#get-email>`__.
 
+.. vale off
+
 Delete Email
 ************
+
+.. vale on
 
 .. code-block:: php
 
@@ -670,12 +702,16 @@ Delete Email
 
    $email = $emailApi->delete($id);
 
-Delete a email.
+Delete an Email.
 
 .. _http-request-4:
 
+.. vale off
+
 HTTP request
 ============
+
+.. vale on
 
 ``DELETE /emails/ID/delete``
 
@@ -690,8 +726,12 @@ Response
 
 Same as `Get Email <#get-email>`__.
 
+.. vale off
+
 Send Email to Contact
 *********************
+
+.. vale on
 
 .. code-block:: php
 
@@ -699,18 +739,22 @@ Send Email to Contact
 
    $email = $emailApi->sendToContact($emailId, $contactId);
 
-Send a predefined Email to existing contact.
+Send a predefined Email to existing Contact.
 
-Assets can be referenced for attaching documents - either IDs of existing assets or IDs returned by the `Create Asset <https://github.com/mautic/developer-documentation/blob/master/source/includes/_api_endpoint_assets.md#create-asset>`__).
+Reference Assets for document attachments using either IDs of existing Assets or IDs returned by the :xref:`create Asset api` endpoint.
 
 .. _http-request-5:
+
+.. vale off
 
 HTTP request
 ============
 
+.. vale on
+
 ``POST /emails/ID/contact/CONTACT_ID/send``
 
-**Post Parameters**
+**POST Parameters**
 
 .. list-table::
    :widths: 30 20 50
@@ -724,7 +768,7 @@ HTTP request
      - Array of tokens in Email
    * - ``assetAttachments``
      - array
-     - Array of asset IDs
+     - Array of Asset IDs
 
 .. _response-5:
 
@@ -741,8 +785,12 @@ Response
        "success": 1
    }
 
+.. vale off
+
 Send Email to Segment
 *********************
+
+.. vale on
 
 .. code-block:: php
 
@@ -754,15 +802,23 @@ Send a Segment Email to linked Segments.
 
 .. _http-request-6:
 
+.. vale off
+
 HTTP request
-^^^^^^^^^^^^
+============
+
+.. vale on
 
 ``POST /emails/ID/send``
 
 .. _response-6:
 
+.. vale off
+
 Response
-^^^^^^^^
+========
+
+.. vale on
 
 ``Expected Response Code: 200``
 
@@ -776,19 +832,27 @@ Response
        "failedCount": 0
    }
 
+.. vale off
+
 Create a reply to a send Email send row
 ***************************************
+
+.. vale on
 
 This endpoint can create a record that a specific Email stat row received a reply. It marks an Email send stat as read.
 
 .. _http-request-7:
 
+.. vale off
+
 HTTP request
 ============
 
+.. vale on
+
 ``POST /emails/reply/TRACKING_HASH``
 
-Tracking hash is created as unique hash for each Email send stat record.
+The tracking hash provides a unique reference for each Email send stat record.
 
 .. _response-7:
 
