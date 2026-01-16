@@ -1,7 +1,11 @@
 Event listeners
 ###############
 
-Mautic leverages Symfony's EventDispatcher to execute and communicate various actions through Mautic. Plugins can hook into these to extend the capability of Mautic. Refer to the :doc:`Extending Mautic <../components/api>` section of the documentation for some of the ways to do this.
+.. vale off
+
+Mautic leverages Symfony's EventDispatcher to execute and communicate various actions through Mautic. Plugins can hook into these to extend Mautic's capabilities. Refer to the :doc:`Extending Mautic <../components/api>` section of the documentation for some of the ways to do this.
+
+.. vale on
 
 .. code-block:: php
 
@@ -45,9 +49,13 @@ Mautic leverages Symfony's EventDispatcher to execute and communicate various ac
 Event subscribers
 *****************
 
-The easiest way to listen to various events is to use an event subscriber. Read more about :xref:`Symfony event subscribers` in Symfony's documentation. 
+The easiest way to listen to various events is to use an event subscriber. Read more about :xref:`Symfony event subscribers` in Symfony's documentation.
 
-Plugin event subscribers can extend ``Symfony\Component\EventDispatcher\EventSubscriberInterface`` which gives access to commonly used dependencies and also allows registering the subscriber service through autowiring.
+.. vale off
+
+Plugin event subscribers can extend ``Symfony\Component\EventDispatcher\EventSubscriberInterface``, which gives access to commonly used dependencies and also allows registering the subscriber service through autowiring.
+
+.. vale on
     
 Available events
 ****************
@@ -61,7 +69,7 @@ A Plugin can create and dispatch its own events.
 
 Custom events require the following:
 
-#. The class defining the available events for the Plugin using a ``final class`` with constants.
+#. The class defines the available events for the Plugin using a ``final class`` with constants.
 
    .. code-block:: php
 
@@ -73,9 +81,9 @@ Custom events require the following:
        final class HelloWorldEvents
        {
            /**
-            * The helloworld.armageddon event is dispatched when a world is doomed by a giant meteor
+            * The giant meteor that dooms a world triggers the helloworld.armageddon event
             *
-            * The event listener receives a    MauticPlugin\HelloWorldBundle\Event\ArmageddonEvent instance.
+            * The event listener receives a MauticPlugin\HelloWorldBundle\Event\ArmageddonEvent instance.
             *
             * @var string
             */
@@ -84,7 +92,7 @@ Custom events require the following:
        // ...
 
 
-#. The Event class received by the listeners. This class should extend ``Symfony\Contracts\EventDispatcher\Event``. It's created when dispatching the event and should have any information listeners need to act on it.
+#. The listeners receive the ``Event`` class. This class should extend ``Symfony\Contracts\EventDispatcher\Event``. The event object contains all data required for listeners to process the event.
 
    .. code-block:: php
 
