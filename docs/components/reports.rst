@@ -9,8 +9,12 @@ To add and render custom Reports in Mautic, your Plugin needs to listen to three
 
 This guide walks you through defining a custom Report, generating Report data, and rendering graphs.
 
+.. vale off
+
 Defining the Report
 *******************
+
+.. vale on
 
 Use the ``ReportEvents::REPORT_ON_BUILD`` event to define:
 
@@ -77,30 +81,42 @@ Additional filter keys include:
       - array
       - Custom list of operators to allow for this filter. See ``Mautic\ReportBundle\Builder\MauticReportBuilder::OPERATORS`` for an example.
 
+.. vale off
+
 Generate the QueryBuilder
 =========================
 
+.. vale on
+
 The system dispatches the ``ReportEvents::REPORT_ON_GENERATE`` event when it needs to generate and display a report. In this function, the plugin defines the QueryBuilder object used to generate the table data.
 
-Call ``$event->checkContext()`` to determine if the requested report is the subscriber's report.
+Use ``$event->checkContext()`` to determine if the requested report is the subscriber's report.
 
-Use Doctrine’s DBAL layer QueryBuilder for the ``ReportEvents::REPORT_ON_GENERATE`` event by obtaining it with ``$qb = $event->getQueryBuilder();``.
+Note that the ``ReportEvents::REPORT_ON_GENERATE`` event should use Doctrine's DBAL layer QueryBuilder obtained via ``$qb = $event->getQueryBuilder();``.
 
-There are a number of helper functions to append joins for commonly used relationships such as category, leads, ip address, etc. Refer to the ``ReportGeneratorEvent`` class for more details.
+.. vale off
 
-Generating Graphs
+There are a number of helper functions to append joins for commonly used relationships such as category, leads, IP address, and so on. Refer to the ``ReportGeneratorEvent`` class for more details.
+
+.. vale on
+
+Generating graphs
 =================
 
 Use the ``ReportEvents::REPORT_ON_GRAPH_GENERATE`` event to render graphs for your report.
 
-* Check the report context with ``$event->checkContext()``.
+* Check the Report context with ``$event->checkContext()``.
 * Clone the base ``QueryBuilder`` to manipulate queries safely.
 * Use classes like ``LineChart`` and ``ChartQuery`` to generate and render graph data.
 
 For supported chart types and options, refer to the ``ChartQuery`` and ``LineChart`` helper classes in the Mautic codebase.
 
+.. vale off
+
 Example: HelloWorld Report Subscriber
 =====================================
+
+.. vale on
 
 Below is an example Plugin file located at ``plugins\HelloWorldBundle\EventListener\ReportSubscriber.php``.
 
