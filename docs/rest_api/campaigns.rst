@@ -548,75 +548,72 @@ Export Campaign
 
 .. vale on
 
-This endpoint allows you to export a specific Mautic campaign's data. The data is returned as a JSON file or a ZIP archive containing the JSON file and associated assets.
+This endpoint allows you to export a specific Mautic campaign's data. The data is returned as a JSON file or a ZIP archive containing the JSON file and associated Assets.
+
 Refer to `REST API Authentication <https://developer.mautic.org/?php#basic-authentication>`_ for authentication details.
 
-**HTTP Request**
+HTTP request
+============
 
 ``GET /campaigns/export/<*campaign_id*>``
 
 The final part of the URL, ``<*campaign_id*>``, specifies the ID of the campaign to be exported.
 
-**Example Request (cURL)**
+**Example request - cURL**
 
 .. code-block:: bash
 
    curl --location 'https://{*your-mautic-domain*}/api/campaigns/export/<*campaign_id*>' \
    --header 'Authorization: Bearer *<your_actual_access_token>*' \
 
+Replace ``<*campaign_id*>`` with the actual campaign ID you wish to export.
 
-(Replace ``<*campaign_id*>`` with the actual campaign ID you wish to export.) 
-
-.. vale off
-
-**Response**
-
-.. vale on
+Response
+========
 
 ``Expected Response Code: 200
 Content-Type: application/json``
 
-The response body will be the campaign data, either as a direct JSON payload or a ZIP file. The ``Content-Type`` header in the response will indicate the format (e.g., ``application/json`` or ``application/zip``).
+The response body is the campaign data, either as a direct JSON payload or a ZIP file. The ``Content-Type`` header in the response will indicate the format. For example, ``application/json`` or ``application/zip``.
 
 .. vale off
 
 Import Campaign
-*************************
+***************
 
 .. vale on
 
-This endpoint allows you to import a Mautic campaign from a previously exported JSON or ZIP file. Refer to `REST API Authentication <https://developer.mautic.org/?php#basic-authentication>`_ for authentication details.
+This endpoint allows you to import a Mautic Campaign from a previously exported JSON or ZIP file
 
+Refer to `REST API Authentication <https://developer.mautic.org/?php#basic-authentication>`_ for authentication details.
 
-.. vale off
-
-**HTTP Request**
-
-.. vale on
+HTTP request
+============
 
 ``POST /campaigns/import``
 
-**Headers**
+Headers
+-------
 
-=================  ===================================
-Header             Description
-=================  ===================================
-``Content-Type``   ``application/json`` or ``application/zip``
-=================  ===================================
+.. list-table::
+   :widths: 25 75
+   :header-rows: 1
 
-**Request Body**
+   * - Header
+     - Description
+   * - ``Content-Type``
+     - ``application/json`` or ``application/zip``
 
-*   **If sending JSON data:** Provide the raw JSON payload directly in the request body.
-*   **If sending a ZIP file:** Upload the ZIP file using form-data.
+Request body
+------------
 
-.. vale off
+* **If sending JSON data:** provide the raw JSON payload directly in the request body.
+* **If sending a ZIP file:** upload the ZIP file using form-data.
 
-**Response**
+Response
+========
 
-.. vale on
-
-``Expected Response Code: 200`` (or 201 Created, depending on API behaviour)
-
+``Expected Response Code: 200`` or ``201 Created``, depending on API behaviour.
 
 .. vale off
 
@@ -637,15 +634,13 @@ Add Contact to a Campaign
 
 Manually add a Contact to a specific Campaign.
 
-.. vale off
-
-**HTTP Request**
-
-.. vale on
+HTTP request
+============
 
 ``POST /campaigns/CAMPAIGN_ID/contact/CONTACT_ID/add``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -674,15 +669,13 @@ Remove Contact from a Campaign
 
 Manually remove a Contact from a specific Campaign.
 
-.. vale off
-
-**HTTP Request**
-
-.. vale on
+HTTP request
+============
 
 ``POST /campaigns/CAMPAIGN_ID/contact/CONTACT_ID/remove``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
