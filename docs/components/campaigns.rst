@@ -474,148 +474,148 @@ Listeners to the event's ``batchEventName`` receives a ``\Mautic\CampaignBundle\
 
 .. php:class:: Mautic\CampaignBundle\Events\PendingEvent
 
-.. php:method:: public checkContext(string $eventType)
+    .. php:method:: public checkContext(string $eventType)
 
-    Checks if the given Event type matches the Event executed or evaluated. This is useful if listeners for different Campaign Events are listening to the same name defined as ``batchEventName`` in the Event's definition.
+        Checks if the given Event type matches the Event executed or evaluated. This is useful if listeners for different Campaign Events are listening to the same name defined as ``batchEventName`` in the Event's definition.
 
-    :return: ``TRUE`` if the context matches.
-    :returntype: bool
+        :return: ``TRUE`` if the context matches.
+        :returntype: bool
 
-.. php:method:: public fail(\Mautic\CampaignBundle\Entity\LeadEventLog $log, string $reason)
+    .. php:method:: public fail(\Mautic\CampaignBundle\Entity\LeadEventLog $log, string $reason)
 
-    Mark a specific LeadEventLog object as failed and retry again later.
+        Mark a specific LeadEventLog object as failed and retry again later.
 
-    :param \\Mautic\\CampaignBundle\\Entity\\LeadEventLog $log: Event log to fail.
-    :param string $reason: Reason the Event failed.
+        :param \\Mautic\\CampaignBundle\\Entity\\LeadEventLog $log: Event log to fail.
+        :param string $reason: Reason the Event failed.
 
-    :returntype: void
+        :returntype: void
 
-.. php:method:: public failAll(string $reason)
+    .. php:method:: public failAll(string $reason)
 
-    Fail the entire batch of LeadEventLog objects and retry again later.
+        Fail the entire batch of LeadEventLog objects and retry again later.
 
-    :param string $reason: Reason the Events failed.
+        :param string $reason: Reason the Events failed.
 
-    :returntype: void
+        :returntype: void
 
-.. php:method:: public failLogs(\Doctrine\Common\Collections\ArrayCollection $logs, string $reason)
+    .. php:method:: public failLogs(\Doctrine\Common\Collections\ArrayCollection $logs, string $reason)
 
-    Fail a collection of LeadEventLog objects and try again later.
+        Fail a collection of LeadEventLog objects and try again later.
 
-    :param string $logs \\Doctrine\\Common\\Collections\\ArrayCollection: Collection to mark as failed.
-    :param string $reason: Reason the Events failed.
+        :param string $logs \\Doctrine\\Common\\Collections\\ArrayCollection: Collection to mark as failed.
+        :param string $reason: Reason the Events failed.
 
-    :returntype: void
+        :returntype: void
 
-.. php:method:: public failRemaining(string $reason)
+    .. php:method:: public failRemaining(string $reason)
 
-    Fail all remaining LeadEventLog objects that are not marked as passed.
+        Fail all remaining LeadEventLog objects that are not marked as passed.
 
-    :param string $reason: Reason the Events failed.
+        :param string $reason: Reason the Events failed.
 
-    :returntype: void
+        :returntype: void
 
-.. php:method:: public findLogByContactId(int $id)
+    .. php:method:: public findLogByContactId(int $id)
 
-    Returns a LeadEventLog object for the given contact ID.
+        Returns a LeadEventLog object for the given contact ID.
 
-    :param int $id:
+        :param int $id:
 
-    :return: Event log for the given contact.
-    :returntype: \\Mautic\\CampaignBundle\\Entity\\LeadEventLog
+        :return: Event log for the given contact.
+        :returntype: \\Mautic\\CampaignBundle\\Entity\\LeadEventLog
 
-.. php:method:: public getConfig()
+    .. php:method:: public getConfig()
 
-    Use the returned ``AbstractEventAccessor`` object to access properties configured for this Event.
+        Use the returned ``AbstractEventAccessor`` object to access properties configured for this Event.
 
-    :return: Object to fetch the configuration options for the Campaign Event.
-    :returntype: \\Mautic\\CampaignBundle\\EventCollector\\Accessor\\Event\\AbstractEventAccessor
+        :return: Object to fetch the configuration options for the Campaign Event.
+        :returntype: \\Mautic\\CampaignBundle\\EventCollector\\Accessor\\Event\\AbstractEventAccessor
 
-.. php:method:: public getContactIds()
+    .. php:method:: public getContactIds()
 
-    :return: Array of Contact IDs for the current batch of LeadEventLog objects to process.
-    :returntype: array
+        :return: Array of Contact IDs for the current batch of LeadEventLog objects to process.
+        :returntype: array
 
-.. php:method:: public getContacts()
+    .. php:method:: public getContacts()
 
-    Returns the Lead objects for all Contacts in the current batch of LeadEventLog objecdts to process.
+        Returns the Lead objects for all Contacts in the current batch of LeadEventLog objecdts to process.
 
-    :return: Collection of Lead objects.
-    :returntype: \\Doctrine\\Common\\Collections\\ArrayCollection
+        :return: Collection of Lead objects.
+        :returntype: \\Doctrine\\Common\\Collections\\ArrayCollection
 
-.. php:method:: public getContactsKeyedById()
+    .. php:method:: public getContactsKeyedById()
 
-    Same as ``getContacts`` except keyed by Contact ID.
+        Same as ``getContacts`` except keyed by Contact ID.
 
-    :return: Collection of Lead objects.
-    :returntype: \\Doctrine\\Common\\Collections\\ArrayCollection
+        :return: Collection of Lead objects.
+        :returntype: \\Doctrine\\Common\\Collections\\ArrayCollection
 
-.. php:method:: public getEvent()
+    .. php:method:: public getEvent()
 
-    Returns the current Event entity.
+        Returns the current Event entity.
 
-    :return: Event entity.
-    :returntype: \\Mautic\\CampaignBundle\\Entity\\Event
+        :return: Event entity.
+        :returntype: \\Mautic\\CampaignBundle\\Entity\\Event
 
-.. php:method:: public pass(\Mautic\CampaignBundle\Entity\LeadEventLog $log)
+    .. php:method:: public pass(\Mautic\CampaignBundle\Entity\LeadEventLog $log)
 
-    Mark a specific LeadEventLog as successful.
+        Mark a specific LeadEventLog as successful.
 
-    :param \\Mautic\\CampaignBundle\\Entity\\LeadEventLog $log: Event log to pass.
+        :param \\Mautic\\CampaignBundle\\Entity\\LeadEventLog $log: Event log to pass.
 
-    :returntype: void
+        :returntype: void
 
-.. php:method:: public passAll()
+    .. php:method:: public passAll()
 
-    Mark all LeadEventLog objects as successful for the current batch.
+        Mark all LeadEventLog objects as successful for the current batch.
 
-    :returntype: void
+        :returntype: void
 
-.. php:method:: public passAllWithError(string $reason)
+    .. php:method:: public passAllWithError(string $reason)
 
-    Mark all LeadEventLog objects with an error and they will **not** be retried later.
+        Mark all LeadEventLog objects with an error and they will **not** be retried later.
 
-    :returntype: void
+        :returntype: void
 
-.. php:method:: public passLogs(\Doctrine\Common\Collections\ArrayCollection $logs)
+    .. php:method:: public passLogs(\Doctrine\Common\Collections\ArrayCollection $logs)
 
-    Mark a collection of LeadEventLog objects as successful.
+        Mark a collection of LeadEventLog objects as successful.
 
-    :param string $logs \\Doctrine\\Common\\Collections\\ArrayCollection: Collection to mark as successful.
+        :param string $logs \\Doctrine\\Common\\Collections\\ArrayCollection: Collection to mark as successful.
 
-    :returntype: void
+        :returntype: void
 
-.. php:method:: public passRemaining()
+    .. php:method:: public passRemaining()
 
-    Mark remaining LeadEventLog objects that are not marked as failed.
+        Mark remaining LeadEventLog objects that are not marked as failed.
 
-    :returntype: void
+        :returntype: void
 
-.. php:method:: public passRemainingWithError(string $reason)
+    .. php:method:: public passRemainingWithError(string $reason)
 
-    Mark remaining LeadEventLog objects that are not already marked as failed.
+        Mark remaining LeadEventLog objects that are not already marked as failed.
 
-    :param string $reason: The error message.
+        :param string $reason: The error message.
 
-    :returntype: void
+        :returntype: void
 
-.. php:method:: public passWithError(\Mautic\CampaignBundle\Entity\LeadEventLog $log, string $reason)
+    .. php:method:: public passWithError(\Mautic\CampaignBundle\Entity\LeadEventLog $log, string $reason)
 
-    Mark a specific LeadEventLog with an error and do not try again.
+        Mark a specific LeadEventLog with an error and do not try again.
 
-    :param \\Mautic\\CampaignBundle\\Entity\\LeadEventLog $log: Event log to pass.
-    :param string $reason: The error message.
+        :param \\Mautic\\CampaignBundle\\Entity\\LeadEventLog $log: Event log to pass.
+        :param string $reason: The error message.
 
-    :returntype: void
+        :returntype: void
 
-.. php:method:: public setChannel(string $channel[, $channelId = null)
+    .. php:method:: public setChannel(string $channel[, $channelId = null)
 
-    Set the Channel to attribute to the Event.
+        Set the Channel to attribute to the Event.
 
-    :param string $channel: Name of the Channel this Event relates to. For example, ``email``, ``page``, ``form``, and so forth.
-    :param mixed $channelId: ID of the Channel entity.
+        :param string $channel: Name of the Channel this Event relates to. For example, ``email``, ``page``, ``form``, and so forth.
+        :param mixed $channelId: ID of the Channel entity.
 
-    :returntype: void
+        :returntype: void
 
 .. vale off
 
@@ -690,45 +690,45 @@ Listeners to the event's ``eventName`` receives a ``\Mautic\CampaignBundle\Event
 
 .. php:class:: Mautic\CampaignBundle\Events\ConditionEvent
 
-.. php:method:: public checkContext(string $eventType)
+    .. php:method:: public checkContext(string $eventType)
 
-    Checks if the given Event type matches the Event executed or evaluated. This is useful if listeners for different Campaign Events are listening to the same name defined as ``eventName`` in the Event's definition.
+        Checks if the given Event type matches the Event executed or evaluated. This is useful if listeners for different Campaign Events are listening to the same name defined as ``eventName`` in the Event's definition.
 
-    :return: ``TRUE`` if the context matches.
-    :returntype: bool
+        :return: ``TRUE`` if the context matches.
+        :returntype: bool
 
-.. php:method:: public fail()
+    .. php:method:: public fail()
 
-    Evaluate this Condition as ``FALSE``.
+        Evaluate this Condition as ``FALSE``.
 
-    :returntype: void
+        :returntype: void
 
-.. php:method:: public getEventConfig()
+    .. php:method:: public getEventConfig()
 
-    Use the returned ``AbstractEventAccessor`` object to access properties configured for this Event.
+        Use the returned ``AbstractEventAccessor`` object to access properties configured for this Event.
 
-    :return: Object to fetch the configuration options for the Campaign Event.
-    :returntype: \\Mautic\\CampaignBundle\\EventCollector\\Accessor\\Event\\AbstractEventAccessor
+        :return: Object to fetch the configuration options for the Campaign Event.
+        :returntype: \\Mautic\\CampaignBundle\\EventCollector\\Accessor\\Event\\AbstractEventAccessor
 
-.. php:method:: public getLog()
+    .. php:method:: public getLog()
 
-    :return: The ``LeadEventLog`` object for the Condition.
-    :returntype: \\Mautic\\CampaignBundle\\Entity\\LeadEventLog
+        :return: The ``LeadEventLog`` object for the Condition.
+        :returntype: \\Mautic\\CampaignBundle\\Entity\\LeadEventLog
 
-.. php:method:: public pass()
+    .. php:method:: public pass()
 
-    Evaluate this Condition as ``TRUE``.
+        Evaluate this Condition as ``TRUE``.
 
-    :returntype: void
+        :returntype: void
 
-.. php:method:: public setChannel(string $channel[, $channelId = null)
+    .. php:method:: public setChannel(string $channel[, $channelId = null)
 
-    Set the Channel to attribute to the Event.
+        Set the Channel to attribute to the Event.
 
-    :param string $channel: Name of the Channel this Event relates to. For example, ``email``, ``page``, ``form``, and so forth.
-    :param mixed $channelId: ID of the Channel entity.
+        :param string $channel: Name of the Channel this Event relates to. For example, ``email``, ``page``, ``form``, and so forth.
+        :param mixed $channelId: ID of the Channel entity.
 
-    :returntype: void
+        :returntype: void
 
 .. vale off
 
@@ -815,44 +815,44 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
 
 .. php:class:: Mautic\CampaignBundle\Events\DecisionEvent
 
-.. php:method:: public checkContext(string $eventType)
+    .. php:method:: public checkContext(string $eventType)
 
-    Checks if the given Event type matches the Event executed or evaluated. This is useful if listeners for different Campaign Events are listening to the same name defined as ``eventName`` in the Event's definition.
+        Checks if the given Event type matches the Event executed or evaluated. This is useful if listeners for different Campaign Events are listening to the same name defined as ``eventName`` in the Event's definition.
 
-    :return: ``TRUE`` if the context matches.
-    :returntype: bool
+        :return: ``TRUE`` if the context matches.
+        :returntype: bool
 
-.. php:method:: public getEventConfig()
+    .. php:method:: public getEventConfig()
 
-    Use the returned ``AbstractEventAccessor`` object to access properties configured for this Event.
+        Use the returned ``AbstractEventAccessor`` object to access properties configured for this Event.
 
-    :return: Object to fetch the configuration options for the Campaign Event.
-    :returntype: \\Mautic\\CampaignBundle\\EventCollector\\Accessor\\Event\\AbstractEventAccessor
+        :return: Object to fetch the configuration options for the Campaign Event.
+        :returntype: \\Mautic\\CampaignBundle\\EventCollector\\Accessor\\Event\\AbstractEventAccessor
 
-.. php:method:: public getLog()
+    .. php:method:: public getLog()
 
-    :return: The ``LeadEventLog`` object for the Condition.
-    :returntype: \\Mautic\\CampaignBundle\\Entity\\LeadEventLog
+        :return: The ``LeadEventLog`` object for the Condition.
+        :returntype: \\Mautic\\CampaignBundle\\Entity\\LeadEventLog
 
-.. php:method:: public getPassthrough()
+    .. php:method:: public getPassthrough()
 
-    Access context data set by ``RealTimeExecutioner::execute()``.
+        Access context data set by ``RealTimeExecutioner::execute()``.
 
-    :return: Returns whatever was set as the second argument to ``RealTimeExecutioner::execute()``.
-    :returntype: mixed
+        :return: Returns whatever was set as the second argument to ``RealTimeExecutioner::execute()``.
+        :returntype: mixed
 
-.. php:method:: public setAsApplicable()
+    .. php:method:: public setAsApplicable()
 
-    Call this if the Decision is applicable to the action taken by the Contact which instructs the Campaign Engine to execute or schedule Events connected into this Decision's "action" (left) path.
+        Call this if the Decision is applicable to the action taken by the Contact which instructs the Campaign Engine to execute or schedule Events connected into this Decision's "action" (left) path.
 
-    :returntype: void
+        :returntype: void
 
-.. php:method:: public setChannel(string $channel[, $channelId = null)
+    .. php:method:: public setChannel(string $channel[, $channelId = null)
 
-    Set the Channel to attribute to the Event.
+        Set the Channel to attribute to the Event.
 
-    :param string $channel: Name of the Channel this Event relates to. For example, ``email``, ``page``, ``form``, and so forth.
-    :param mixed $channelId: ID of the Channel entity.
+        :param string $channel: Name of the Channel this Event relates to. For example, ``email``, ``page``, ``form``, and so forth.
+        :param mixed $channelId: ID of the Channel entity.
 
     :returntype: void
 
