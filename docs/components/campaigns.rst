@@ -916,9 +916,17 @@ Endpoint:
 
 The final part of the URL, ``{*<campaign_id>*}``, specifies the ID of the campaign to be exported.
 
-Please see `REST API Authentication <https://developer.mautic.org/?php#basic-authentication>`_ for authentication details.
+Please see :xref:`Mautic REST API Authentication`\* for authentication details.
 
-Example Request - cURL:
+.. note::
+
+   \* The legacy page contains outdated and potentially inaccurate information.
+
+   If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
+
+   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
+
+Example Request - CURL:
 
 .. code-block:: bash
 
@@ -994,7 +1002,15 @@ Endpoint:
 
 ``POST https://{your-mautic-domain}/api/campaigns/import``
 
-Refer to `REST API Authentication <https://developer.mautic.org/?php#basic-authentication>`_ for authentication details.
+Refer to :xref:`Mautic REST API Authentication`\* for authentication details.
+
+.. note::
+
+   \* The legacy page contains outdated and potentially inaccurate information.
+
+   If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
+
+   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
 
 Headers:
 
