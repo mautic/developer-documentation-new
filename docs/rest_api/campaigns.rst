@@ -548,9 +548,17 @@ Export Campaign
 
 .. vale on
 
-This endpoint allows you to export a specific Mautic Campaign's data. It returns the data as a JSON file or a ZIP archive containing the JSON file and associated Assets.
+This endpoint allows you to export data for a specific Mautic Campaign. It returns the data as a JSON file or a ZIP archive containing the JSON file and associated Assets.
 
-Refer to `REST API Authentication <https://developer.mautic.org/?php#basic-authentication>`_ for authentication details.
+Refer to :xref:`Mautic REST API Authentication`\* for authentication details.
+
+.. note::
+
+   \* The legacy page contains outdated and potentially inaccurate information.
+
+   If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
+
+   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
 
 .. vale off
 
@@ -561,7 +569,7 @@ HTTP request
 
 ``GET /campaigns/export/<*campaign_id*>``
 
-The final part of the URL, ``<*campaign_id*>``, specifies the ID of the Campaign to export.
+The final part of the URL, ``<*campaign_id*>``, specifies the Campaign ID to export.
 
 **Example request - cURL**
 
@@ -589,7 +597,15 @@ Import Campaign
 
 This endpoint allows you to import a Mautic Campaign from a previously exported JSON or ZIP file.
 
-Refer to `REST API Authentication <https://developer.mautic.org/?php#basic-authentication>`_ for authentication details.
+Refer to :xref:`Mautic REST API Authentication`\* for authentication details.
+
+.. note::
+
+   \* The legacy page contains outdated and potentially inaccurate information.
+
+   If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
+
+   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
 
 .. vale off
 
