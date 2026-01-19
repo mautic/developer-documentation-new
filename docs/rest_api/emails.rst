@@ -18,6 +18,8 @@ Use this endpoint to obtain details, create, update, or delete Mautic's Emails.
 
 .. vale off
 
+.. _get_email_section:
+
 Get Email
 *********
 
@@ -380,7 +382,7 @@ See JSON code example.
 
 **Properties**
 
-Same as `Get Email <#get-email>`__.
+Same as :ref:`get_email_section`.
 
 .. vale off
 
@@ -529,7 +531,7 @@ Response
 
 **Properties**
 
-Same as `Get Email <#get-email>`__.
+Same as :ref:`get_email_section`.
 
 .. vale off
 
@@ -687,7 +689,7 @@ Response
 
 **Properties**
 
-Same as `Get Email <#get-email>`__.
+Same as :ref:`get_email_section`.
 
 .. vale off
 
@@ -724,7 +726,7 @@ Response
 
 **Properties**
 
-Same as `Get Email <#get-email>`__.
+Same as :ref:`get_email_section`.
 
 .. vale off
 
@@ -741,7 +743,7 @@ Send Email to Contact
 
 Send a predefined Email to existing Contact.
 
-Reference Assets using IDs returned by the `Create Asset <assets.html#create-asset>`_ endpoint.
+Reference Assets using IDs returned by the :ref:`Create Asset <rest_api/assets:Create Asset>` endpoint.
 
 .. _http-request-5:
 
