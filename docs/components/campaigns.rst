@@ -888,7 +888,8 @@ Then, run the import command:
 
    bin/console mautic:entity:import --entity=campaign --file=/tmp/entity_data.zip --user=*{<user_id>}*
 
-Options:
+Options
+-------
 
 .. vale off
 
@@ -910,7 +911,8 @@ Options:
 Exporting via API
 =================
 
-Endpoint:
+Endpoint
+--------
 
 ``POST https://{your-mautic-domain}/api/campaigns/export/{*<campaign_id>*}``
 
@@ -926,7 +928,7 @@ Please see :xref:`Mautic REST API Authentication`\* for authentication details.
 
    Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
 
-Example Request - CURL:
+**Example request - CURL:**
 
 .. code-block:: bash
 
@@ -976,7 +978,8 @@ Then, run the import command:
 
    ddev exec bin/console mautic:entity:import --entity=campaign --file=/tmp/entity_data.zip --user=*{<user_id>}*
 
-Options:
+Options
+-------
 
 .. vale off
 
@@ -998,7 +1001,8 @@ Options:
 Importing via API
 =================
 
-Endpoint:
+Endpoint
+--------
 
 ``POST https://{your-mautic-domain}/api/campaigns/import``
 
@@ -1012,7 +1016,8 @@ Refer to :xref:`Mautic REST API Authentication`\* for authentication details.
 
    Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
 
-Headers:
+Headers
+-------
 
 .. list-table::
    :widths: 25 75
@@ -1023,7 +1028,8 @@ Headers:
    * - ``Content-Type``
      - ``application/json`` or ``application/zip``
 
-Request Body:
+Request body
+------------
 
 .. vale off
 
