@@ -856,23 +856,27 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
 
     :returntype: void
 
+.. vale off
+
 Exporting a Campaign
 ********************
 
-Mautic's export functionality provides Campaign structures in formats that can be easily imported back into Mautic with the import feature. This helps ensure your marketing assets remain portable and preserved, especially if you are working across many Mautic instances and domains.
+.. vale on
 
-Mautic exports all data related to your Campaign to a structured JSON file, complete with any files and assets required. The resulting files are archived to a zip file that is saved to your browser.
+Mautic's export feature provides Campaign structures in formats that can be easily imported back into Mautic with the import tool. This helps ensure your marketing Assets remain portable and preserved, especially if you are working across many Mautic instances and domains.
 
-The export command can be called from the command line or via the API as well as in the Mautic UI.
+Mautic exports all data related to your Campaign to a structured JSON file, complete with any files and Assets required. The export process archives the resulting files into a ZIP file and saves it to your browser.
+
+You can call the export command from the command line or via the API as well as in the Mautic UI.
 
 Exporting via command line
 ==========================
 
-First, copy the campaign zip file into the correct place to be imported into Mautic. 
+First, copy the Campaign ZIP file into the correct place to import it into Mautic.
 
 .. note::
     
-   The command below assumes you have installed via Docker Compose and you are running Mautic locally. Use the appropriate file copying mechanism - for example, SFTP or SCP - for your environment.
+   The command below assumes you have installed via Docker Compose and you are running Mautic locally. Use the appropriate file copying mechanism for your environment. For example, Secure File Transfer Protocol - SFTP, or Secure Copy Protocol - SCP.
 
 .. code-block:: bash
 
@@ -886,6 +890,8 @@ Then, run the import command:
 
 Options:
 
+.. vale off
+
 .. list-table::
    :widths: 25 75
    :header-rows: 1
@@ -893,11 +899,13 @@ Options:
    * - Option
      - Description
    * - ``--entity=campaign``
-     - Specifies the entity type being imported. For example, Campaign
+     - Specifies the entity type to import. For example, Campaign
    * - ``--file``
-     - Path to the file you want to import - ZIP
+     - Path to the ZIP file you want to import
    * - ``--user=``
      - User ID to associate with the import process. For example, 1 - admin
+
+.. vale on
 
 Exporting via API
 =================
@@ -917,17 +925,25 @@ Example Request - cURL:
    curl --location 'https://{*your-mautic-domain*}/api/campaigns/export/{*<campaign_id>*}' \
       --data ''
 
-:download:`Example campaign JSON file <images/campaign-sample.json>`
+.. vale off
+
+:download:`Example Campaign JSON file <images/campaign-sample.json>`
+
+.. vale on
+
+.. vale off
 
 Importing a Campaign
 ********************
+
+.. vale on
 
 Mautic allows you to import Campaigns using JSON files that were previously exported. This feature helps you transfer Campaigns between Mautic instances.
 
 During the import process, Mautic performs the following actions:
 
-*   Verifies that the importing user has the necessary permissions and access to all relevant entities.
-*   Checks if all Plugins and other dependencies required by the campaign are present in the current Mautic instance.
+*   Verifies that the importing User has the necessary permissions and access to all relevant entities.
+*   Checks if all Plugins and other dependencies required by the Campaign are present in the current Mautic instance.
 *   Identifies any ID conflicts with existing entities. If there are conflicts, Mautic prompts you to either update the existing entities or create new ones.
 *   Creates the Campaign along with all its related entities to ensure it functions correctly after import.
 
@@ -936,7 +952,7 @@ You can trigger the import command from the command line or via API.
 Importing via command line
 ==========================
 
-First, copy the campaign data ZIP file to your DDEV container or the appropriate location for your environment.
+First, copy the Campaign data ZIP file to your DDEV container or the appropriate location for your environment.
 
 .. note::
     
@@ -954,6 +970,8 @@ Then, run the import command:
 
 Options:
 
+.. vale off
+
 .. list-table::
    :widths: 25 75
    :header-rows: 1
@@ -961,11 +979,13 @@ Options:
    * - Option
      - Description
    * - ``--entity=campaign``
-     - Specifies the entity type being imported. For example, Campaign
+     - Specifies the entity type to import. For example, Campaign
    * - ``--file``
-     - Path to the file you want to import - ZIP
+     - Path to the ZIP file you want to import
    * - ``--user=``
      - User ID to associate with the import process. For example, 1 - admin
+
+.. vale on
 
 Importing via API
 =================
@@ -989,5 +1009,9 @@ Headers:
 
 Request Body:
 
-*   **If sending JSON data:** Provide the raw JSON payload directly in the request body.
-*   **If sending a ZIP file:** Upload the ZIP file using form-data.
+.. vale off
+
+*   **If sending JSON data:** provide the raw JSON payload directly in the request body.
+*   **If sending a ZIP file:** upload the ZIP file using form-data.
+
+.. vale on
