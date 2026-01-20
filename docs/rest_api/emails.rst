@@ -1,7 +1,7 @@
 Emails
 ######
 
-Use this endpoint to obtain details, create, update, or delete Mautic's Emails.
+Use this endpoint to obtain details, create, update, or delete Emails.
 
 .. code-block:: php
 
@@ -46,7 +46,7 @@ HTTP request
 Response
 ========
 
-* Returns ``200`` when the request successfully retrieves an Email.
+* Returns ``200`` when the request successfully gets an Email.
 
 .. code-block:: json
 
@@ -123,6 +123,8 @@ Response
 
 Email properties
 ----------------
+
+.. vale off
 
 .. list-table::
    :widths: 25 25 50
@@ -246,14 +248,16 @@ Email properties
      - array
      - ``customMjml`` key along with MJML content for Email based on MJML
 
+.. vale on
+
 .. vale off
 
 List Emails
 ***********
 
-Get a list of Emails.
-
 .. vale on
+
+Get a list of Emails.
 
 .. code-block:: php
 
@@ -298,7 +302,7 @@ Query parameters
 Response
 ========
 
-* Returns ``200`` when the request successfully retrieves the list of Emails.
+* Returns ``200`` when the request successfully gets the list of Emails.
 
 .. code-block:: json
 
@@ -386,9 +390,9 @@ Same as :ref:`get_email_section`.
 Create Email
 ************
 
-Create a new Email.
-
 .. vale on
+
+Create a new Email.
 
 .. code-block:: php
 
@@ -413,6 +417,8 @@ HTTP request
 
 POST parameters
 ---------------
+
+.. vale off
 
 .. list-table::
    :widths: 30 20 50
@@ -518,6 +524,8 @@ POST parameters
      - array
      - ``customMjml`` key along with MJML content for Email based on MJML
 
+.. vale on
+
 Response
 ========
 
@@ -533,12 +541,12 @@ Same as :ref:`get_email_section`.
 Edit Email
 **********
 
+.. vale on
+
 Edit an Email. This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
 
 * ``PUT``: creates an Email when the ID doesn't exist. If the ID exists, the request clears the Email data and adds the request values.
 * ``PATCH``: updates field values for an existing Email using the request data. The request fails when the ID doesn't exist.
-
-.. vale on
 
 .. code-block:: php
 
@@ -683,9 +691,9 @@ Same as :ref:`get_email_section`.
 Send Email to Contact
 *********************
 
-Send a predefined Email to an existing Contact.
-
 .. vale on
+
+Send a predefined Email to an existing Contact.
 
 .. code-block:: php
 
@@ -694,7 +702,11 @@ Send a predefined Email to an existing Contact.
    //...
    $email = $emailApi->sendToContact($emailId, $contactId);
 
+.. vale off
+
 You can reference Asset IDs for attaching documents. Use existing IDs or IDs returned by the :ref:`Create Asset <rest_api/assets:Create Asset>` endpoint.
+
+.. vale on
 
 .. vale off
 
