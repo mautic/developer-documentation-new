@@ -1004,7 +1004,7 @@ Importing via API
 Endpoint
 --------
 
-``POST https://{your-mautic-domain}/api/campaigns/import``
+``POST https://mautic.example.com/api/campaigns/import``
 
 Refer to :xref:`Mautic REST API Authentication`\* for authentication details.
 
