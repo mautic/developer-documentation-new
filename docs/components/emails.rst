@@ -20,7 +20,7 @@ There are multiple ways to extend the way Mautic works with Emails. This documen
 Email tokens
 ************
 
-Email tokens are placeholders that you can insert into an Email. They get replaced by Dynamic Content once the Email gets sent or viewed in the browser.
+Email tokens are placeholders that you can insert into an Email. They get replaced by dynamically generated content once the Email gets sent or viewed in the browser.
 
 Email token capabilities consist of two parts:
 
