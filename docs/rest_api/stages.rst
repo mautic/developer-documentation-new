@@ -1,7 +1,7 @@
 Stages
 ######
 
-Use this API to manage and retrieve details about Contact Stages in Mautic.
+Use this endpoint to obtain details on Mautic's Contact Stages.
 
 .. code-block:: php
 
@@ -19,11 +19,11 @@ Use this API to manage and retrieve details about Contact Stages in Mautic.
 .. vale off
 
 Get a Stage
-************
+***********
+
+Get an individual Stage.
 
 .. vale on
-
-Get a specific Stage by ID.
 
 .. code-block:: php
 
@@ -44,26 +44,27 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+Returns ``200`` when the request successfully retrieves a Stage.
 
 .. code-block:: json
 
    {
-       "stage": {
-       "id": 47,
-       "isPublished": 1,
-       "dateAdded": "2015-07-21T12:27:12-05:00",
-       "createdBy": 1,
-       "createdByUser": "Joe Smith",
-       "dateModified": "2015-07-21T14:12:03-05:00",
-       "modifiedBy": 1,
-       "modifiedByUser": "Joe Smith",
-       "name": "Stage A",
-       "category": null,
-       "description": "This is my first stage created via API.",
-       "weight": 0,
-       "publishUp": "2015-07-21T14:12:03-05:00",
-       "publishDown": "2015-07-21T14:12:03-05:00"
+      "stage": {
+        "id": 47,
+        "isPublished": 1,
+        "dateAdded": "2015-07-21T12:27:12-05:00",
+        "createdBy": 1,
+        "createdByUser": "Joe Smith",
+        "dateModified": "2015-07-21T14:12:03-05:00",
+        "modifiedBy": 1,
+        "modifiedByUser": "Joe Smith",
+        "name": "Stage A",
+        "category": null,
+        "description": "This is my first stage created via API.",
+        "weight": 0,
+        "publishUp": "2015-07-21T14:12:03-05:00",
+        "publishDown": "2015-07-21T14:12:03-05:00"
+      }
    }
 
 Stage properties
@@ -84,7 +85,7 @@ Stage properties
      - Stage publication status
    * - ``dateAdded``
      - datetime
-     - Stage creation date or time
+     - Stage creation date and time
    * - ``createdBy``
      - int
      - Stage creator User ID
@@ -124,9 +125,9 @@ Stage properties
 List Contact Stages
 *******************
 
-.. vale on
+Retrieve a list of Stages.
 
-Get a list of all Stages.
+.. vale on
 
 .. code-block:: php
 
@@ -147,7 +148,7 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+Returns ``200`` when the request successfully retrieves the list of Stages.
 
 .. code-block:: json
 
@@ -194,7 +195,7 @@ Stage properties
      - Stage publication status
    * - ``dateAdded``
      - datetime
-     - Stage creation date or time
+     - Stage creation date and time
    * - ``createdBy``
      - int
      - Stage creator User ID
@@ -234,9 +235,9 @@ Stage properties
 Create Stage
 ************
 
-.. vale on
-
 Create a new Stage.
+
+.. vale on
 
 .. code-block:: php
 
@@ -272,7 +273,7 @@ POST parameters
      - Description
    * - ``name``
      - string
-     - Stage name - required
+     - Stage name - **required**
    * - ``weight``
      - int
      - Stage weight
@@ -286,7 +287,7 @@ POST parameters
 Response
 ========
 
-``Expected Response Code: 201``
+Returns ``201`` when the request successfully creates a Stage.
 
 Properties
 ----------
@@ -306,7 +307,7 @@ Properties
      - Stage publication status
    * - ``dateAdded``
      - datetime
-     - Stage creation date or time
+     - Stage creation date and time
    * - ``createdBy``
      - int
      - Stage creator User ID
@@ -346,13 +347,12 @@ Properties
 Edit Stage
 **********
 
+Edit a Stage. This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
+
+* ``PUT``: creates a Stage when the ID doesn't exist. If the ID exists, the request clears the Stage data and adds the request values.
+* ``PATCH``: updates field values for an existing Stage using the request data. The request fails when the ID doesn't exist.
+
 .. vale on
-
-Use this endpoint to update a Stage by ID. You can use either ``PUT`` or ``PATCH``.
-
-* ``PUT``: to replace the Stage if it exists, or create a new one if it doesn’t.
-
-* ``PATCH``: to update the Stage if it exists. If it doesn’t exist, Mautic returns a 404 error.
 
 .. code-block:: php
 
@@ -364,7 +364,7 @@ Use this endpoint to update a Stage by ID. You can use either ``PUT`` or ``PATCH
     'isPublished' => 0
   );
 
-  // Create new a stage of ID 1 is not found?
+  // Create new a stage if ID 1 is not found?
   $createIfNotFound = true;
 
   $stage = $stageApi->edit($id, $data, $createIfNotFound);
@@ -376,9 +376,9 @@ HTTP request
 
 .. vale on
 
-``PATCH /stages/ID/edit``
+* ``PATCH /stages/ID/edit``: edits an existing Stage. The request fails with a 404 error when the ID doesn't exist.
 
-``PUT /stages/ID/edit``
+* ``PUT /stages/ID/edit``: edits an existing Stage or creates a new one when the ID doesn't exist.
 
 POST parameters
 ---------------
@@ -392,10 +392,10 @@ POST parameters
      - Description
    * - ``name``
      - string
-     - Stage name - required
+     - Stage name - **required**
    * - ``alias``
      - string
-     - Name alias generated automatically if not set
+     - Stage alias - generated automatically if not set
    * - ``description``
      - string
      - Stage description
@@ -409,9 +409,9 @@ POST parameters
 Response
 ========
 
-* ``PUT``: the expected response code is ``200`` or ``201`` if created.
+* ``PUT``: returns ``200`` when the request successfully edits a Stage or ``201`` when the request creates a Stage.
 
-* ``PATCH``: the expected response code is ``200``.
+* ``PATCH``: returns ``200`` when the request successfully edits a Stage.
 
 Properties
 ----------
@@ -431,7 +431,7 @@ Properties
      - Stage publication status
    * - ``dateAdded``
      - datetime
-     - Stage creation date or time
+     - Stage creation date and time
    * - ``createdBy``
      - int
      - Stage creator User ID
@@ -471,9 +471,9 @@ Properties
 Delete Stage
 ************
 
-.. vale on
+Delete a Stage.
 
-Delete a Stage by its ID.
+.. vale on
 
 .. code-block:: php
 
@@ -493,7 +493,7 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+Returns ``200`` when the request successfully deletes a Stage.
 
 Properties
 ----------
@@ -513,7 +513,7 @@ Properties
      - Stage publication status
    * - ``dateAdded``
      - datetime
-     - Stage creation date or time
+     - Stage creation date and time
    * - ``createdBy``
      - int
      - Stage creator User ID
@@ -555,7 +555,7 @@ Add Contact to a Stage
 
 .. vale on
 
-You can manually add a Contact to a specific Stage.
+Add a Contact to a Stage manually.
 
 .. code-block:: php
 
@@ -574,12 +574,12 @@ HTTP request
 
 .. vale on
 
-``POST/stages/STAGE_ID/contact/CONTACT_ID/add``
+``POST /stages/STAGE_ID/contact/CONTACT_ID/add``
 
 Response
 ========
 
-``Expected Response Code: 200``
+Returns ``200`` when the request successfully adds the Contact to the Stage.
 
 .. code-block:: json
 
@@ -594,7 +594,7 @@ Remove Contact from a Stage
 
 .. vale on
 
-You can manually remove a Contact from a specific Stage.
+Remove a Contact from a Stage manually.
 
 .. code-block:: php
 
@@ -618,7 +618,7 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+Returns ``200`` when the request successfully removes the Contact from the Stage.
 
 .. code-block:: json
   
