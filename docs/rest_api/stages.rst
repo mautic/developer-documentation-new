@@ -44,27 +44,27 @@ HTTP request
 Response
 ========
 
-Returns ``200`` when the request successfully retrieves a Stage.
+* Returns ``200`` when the request successfully retrieves a Stage.
 
 .. code-block:: json
 
    {
-      "stage": {
-        "id": 47,
-        "isPublished": 1,
-        "dateAdded": "2015-07-21T12:27:12-05:00",
-        "createdBy": 1,
-        "createdByUser": "Joe Smith",
-        "dateModified": "2015-07-21T14:12:03-05:00",
-        "modifiedBy": 1,
-        "modifiedByUser": "Joe Smith",
-        "name": "Stage A",
-        "category": null,
-        "description": "This is my first stage created via API.",
-        "weight": 0,
-        "publishUp": "2015-07-21T14:12:03-05:00",
-        "publishDown": "2015-07-21T14:12:03-05:00"
-      }
+     "stage": {
+       "id": 47,
+       "isPublished": 1,
+       "dateAdded": "2015-07-21T12:27:12-05:00",
+       "createdBy": 1,
+       "createdByUser": "Joe Smith",
+       "dateModified": "2015-07-21T14:12:03-05:00",
+       "modifiedBy": 1,
+       "modifiedByUser": "Joe Smith",
+       "name": "Stage A",
+       "category": null,
+       "description": "This is my first stage created via API.",
+       "weight": 0,
+       "publishUp": "2015-07-21T14:12:03-05:00",
+       "publishDown": "2015-07-21T14:12:03-05:00"
+     }
    }
 
 Stage properties
@@ -148,31 +148,32 @@ HTTP request
 Response
 ========
 
-Returns ``200`` when the request successfully retrieves the list of Stages.
+* Returns ``200`` when the request successfully retrieves the list of Stages.
 
 .. code-block:: json
 
-  {
-  "total": 4,
-  "stages": [
-      {
-        "id": 47,
-        "isPublished": 1,
-        "dateAdded": "2015-07-21T12:27:12-05:00",
-        "createdBy": 1,
-        "createdByUser": "Joe Smith",
-        "dateModified": "2015-07-21T14:12:03-05:00",
-        "modifiedBy": 1,
-        "modifiedByUser": "Joe Smith",
-        "name": "Stage A",
-        "category": null,
-        "description": "This is my first stage created via API.",
-        "weight": 0,
-        "publishUp": "2015-07-21T14:12:03-05:00",
-        "publishDown": "2015-07-21T14:12:03-05:00"
-      },
-    ]
-  }
+   {
+     "total": 4,
+     "stages": [
+       {
+         "id": 47,
+         "isPublished": 1,
+         "dateAdded": "2015-07-21T12:27:12-05:00",
+         "createdBy": 1,
+         "createdByUser": "Joe Smith",
+         "dateModified": "2015-07-21T14:12:03-05:00",
+         "modifiedBy": 1,
+         "modifiedByUser": "Joe Smith",
+         "name": "Stage A",
+         "category": null,
+         "description": "This is my first stage created via API.",
+         "weight": 0,
+         "publishUp": "2015-07-21T14:12:03-05:00",
+         "publishDown": "2015-07-21T14:12:03-05:00"
+       }
+       //...
+     ]
+   }
 
 Stage properties
 ----------------
@@ -287,7 +288,7 @@ POST parameters
 Response
 ========
 
-Returns ``201`` when the request successfully creates a Stage.
+* Returns ``201`` when the request successfully creates a Stage.
 
 Properties
 ----------
@@ -356,18 +357,18 @@ Edit a Stage. This operation supports ``PUT`` or ``PATCH`` depending on the desi
 
 .. code-block:: php
 
-  <?php
+   <?php
 
-  $id   = 1;
-  $data = array(
-    'name'        => 'New stage name',
-    'isPublished' => 0
-  );
+   $id   = 1;
+   $data = array(
+     'name'        => 'New stage name',
+     'isPublished' => 0
+   );
 
-  // Create new a stage if ID 1 is not found?
-  $createIfNotFound = true;
+   // Create new a stage if ID 1 is not found?
+   $createIfNotFound = true;
 
-  $stage = $stageApi->edit($id, $data, $createIfNotFound);
+   $stage = $stageApi->edit($id, $data, $createIfNotFound);
 
 .. vale off
 
@@ -377,7 +378,6 @@ HTTP request
 .. vale on
 
 * ``PATCH /stages/ID/edit``: edits an existing Stage. The request fails with a 404 error when the ID doesn't exist.
-
 * ``PUT /stages/ID/edit``: edits an existing Stage or creates a new one when the ID doesn't exist.
 
 POST parameters
@@ -410,7 +410,6 @@ Response
 ========
 
 * ``PUT``: returns ``200`` when the request successfully edits a Stage or ``201`` when the request creates a Stage.
-
 * ``PATCH``: returns ``200`` when the request successfully edits a Stage.
 
 Properties
@@ -477,9 +476,9 @@ Delete a Stage.
 
 .. code-block:: php
 
-  <?php
+   <?php
 
-  $stage = $stageApi->delete($id);
+   $stage = $stageApi->delete($id);
 
 .. vale off
 
@@ -493,7 +492,7 @@ HTTP request
 Response
 ========
 
-Returns ``200`` when the request successfully deletes a Stage.
+* Returns ``200`` when the request successfully deletes a Stage.
 
 Properties
 ----------
@@ -579,7 +578,7 @@ HTTP request
 Response
 ========
 
-Returns ``200`` when the request successfully adds the Contact to the Stage.
+* Returns ``200`` when the request successfully adds the Contact to the Stage.
 
 .. code-block:: json
 
@@ -601,7 +600,7 @@ Remove a Contact from a Stage manually.
    <?php
 
    //...
-   $response = $stageApi->removeContact($stageId,  $contactId);
+   $response = $stageApi->removeContact($stageId, $contactId);
    if (!isset($response['success'])) {
      // handle error
    }
@@ -618,10 +617,10 @@ HTTP request
 Response
 ========
 
-Returns ``200`` when the request successfully removes the Contact from the Stage.
+* Returns ``200`` when the request successfully removes the Contact from the Stage.
 
 .. code-block:: json
-  
+
    {
      "success": true
    }
