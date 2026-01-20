@@ -25,12 +25,28 @@ Get Email
 
 .. vale on
 
+Get an individual Email.
+
 .. code-block:: php
 
    <?php
 
    //...
    $email = $emailApi->get($id);
+
+.. vale off
+
+HTTP request
+============
+
+.. vale on
+
+``GET /emails/ID``
+
+Response
+========
+
+* Returns ``200`` when the request successfully retrieves an Email.
 
 .. code-block:: json
 
@@ -105,25 +121,8 @@ Get Email
      }
    }
 
-Get an individual Email by ID.
-
-.. vale off
-
-HTTP request
-============
-
-.. vale on
-
-``GET /emails/ID``
-
-Response
-========
-
-``Expected Response Code: 200``
-
-See JSON code example.
-
-**Email Properties**
+Email properties
+----------------
 
 .. list-table::
    :widths: 25 25 50
@@ -134,7 +133,7 @@ See JSON code example.
      - Description
    * - ``id``
      - int
-     - ID of the Email
+     - Email ID
    * - ``name``
      - string
      - Internal name of the Email
@@ -143,43 +142,43 @@ See JSON code example.
      - Subject of the Email
    * - ``fromAddress``
      - string
-     - The from Email address if it's different than the one in the Mautic configuration
+     - The from Email address if it differs from the Mautic configuration
    * - ``fromName``
      - string
-     - The from name if it's different than the one in the Mautic configuration
+     - The from name if it differs from the Mautic configuration
    * - ``replyToAddress``
      - string
-     - The reply to Email address if it's different than the one in the Mautic configuration
+     - The reply to Email address if it differs from the Mautic configuration
    * - ``bccAddress``
      - string
-     - The bcc Email address if it's different than the one in the Mautic configuration
+     - The bcc Email address if it differs from the Mautic configuration
    * - ``isPublished``
      - boolean
-     - Available for use state
+     - Email publication status
    * - ``publishUp``
      - datetime/null
-     - Date/time when the Email should be available
+     - Date and time when the Email becomes available
    * - ``publishDown``
      - datetime/null
-     - Date/time the Email should be unavailable
+     - Date and time when the Email becomes unavailable
    * - ``dateAdded``
      - datetime
-     - Date/time of Email creation
+     - Date and time of Email creation
    * - ``createdBy``
      - int
-     - ID of the User that created the Email
+     - Email creator User ID
    * - ``createdByUser``
      - string
-     - Name of the User that created the Email
+     - Email creator User name
    * - ``dateModified``
      - datetime/null
-     - Date/time Email was last modified
+     - Date and time of the last Email modification
    * - ``modifiedBy``
      - int
-     - ID of the User that last modified the Email
+     - Email last modifier User ID
    * - ``modifiedByUser``
      - string
-     - Name of the User that last modified the Email
+     - Email last modifier User name
    * - ``language``
      - string
      - Language locale of the Email
@@ -201,9 +200,9 @@ See JSON code example.
    * - ``template``
      - string
      - The name of the template used as the base for the Email
-   * - ``EmailType``
+   * - ``emailType``
      - string
-     - If it's a Segment - former list - Email or template Email. Possible values are ``list`` and ``template``
+     - Identifies if this is a Segment Email or template Email. Possible values include ``list`` and ``template``
    * - ``translationChildren``
      - array
      - Array of page entities for translations of this Landing Page
@@ -212,22 +211,22 @@ See JSON code example.
      - The parent/main page if this is a translation
    * - ``variantSentCount``
      - int
-     - Sent count since ``variantStartDate``
+     - Sent count since the ``variantStartDate``
    * - ``variantReadCount``
      - int
-     - Read count since ``variantStartDate``
+     - Read count since the ``variantStartDate``
    * - ``variantChildren``
      - array
      - Array of Email entities for variants of this landing Email
    * - ``variantParent``
      - object
-     - The parent/main Email if this is a variant - A/B test
+     - The parent/main Email if this is a variant or A/B test
    * - ``variantSettings``
      - array
      - The properties of the A/B test
    * - ``variantStartDate``
      - datetime/null
-     - The date/time the A/B test began
+     - The date and time the A/B test began
    * - ``category``
      - object/null
      - Category information
@@ -245,12 +244,14 @@ See JSON code example.
      - Asset IDs array for Email attachment
    * - ``grapesjsbuilder``
      - array
-     - ``customMjml`` key along with MJML content for Email based on MJML.
+     - ``customMjml`` key along with MJML content for Email based on MJML
 
 .. vale off
 
 List Emails
 ***********
+
+Get a list of Emails.
 
 .. vale on
 
@@ -261,84 +262,6 @@ List Emails
 
    $emails = $emailApi->getList($searchFilter, $start, $limit, $orderBy, $orderByDir, $publishedOnly, $minimal);
 
-.. code-block:: json
-
-   {
-       "total": 1,
-       "emails": [
-           {
-               "isPublished":true,
-               "dateAdded":"2016-10-25T18:51:17+00:00",
-               "createdBy":1,
-               "createdByUser":"John Doe",
-               "dateModified":null,
-               "modifiedBy":null,
-               "modifiedByUser":null,
-               "id":560,
-               "name":"test",
-               "subject":"API test email",
-               "language":"en",
-               "category":null,
-               "fromAddress":null,
-               "fromName":null,
-               "replyToAddress":null,
-               "bccAddress":null,
-               "customHtml":"<h1>Hi there!<\/h1>",
-               "plainText":null,
-               "template":null,
-               "emailType":"list",
-               "publishUp":null,
-               "publishDown":null,
-               "readCount":0,
-               "sentCount":0,
-               "revision":1,
-               "assetAttachments":[],
-               "variantStartDate":null,
-               "variantSentCount":0,
-               "variantReadCount":0,
-               "variantParent":null,
-               "variantChildren":[],
-               "translationParent":null,
-               "translationChildren":[],
-               "unsubscribeForm":null,
-               "dynamicContent":[
-                 {
-                   "tokenName":null,
-                   "content":null,
-                   "filters":[
-                     {
-                       "content":null,
-                       "filters":[
-                         {
-                           "glue":null,
-                           "field":null,
-                           "object":null,
-                           "type":null,
-                           "operator":null,
-                           "display":null,
-                           "filter":null
-                         }
-                       ]
-                     }
-                   ]
-                 }
-               ],
-               "lists":[
-                 {
-                   "createdByUser":"John Doe",
-                   "modifiedByUser":null,
-                   "id":256,
-                   "name":"test",
-                   "alias":"test29",
-                   "description":null
-                 }
-               ]
-             }
-       ]
-   }
-
-.. _http-request-1:
-
 .. vale off
 
 HTTP request
@@ -348,7 +271,8 @@ HTTP request
 
 ``GET /emails``
 
-**Query Parameters**
+Query parameters
+----------------
 
 .. list-table::
    :widths: 25 75
@@ -357,30 +281,103 @@ HTTP request
    * - Name
      - Description
    * - ``search``
-     - String or search command to filter entities by.
+     - String or search command to filter entities
    * - ``start``
-     - Starting row for the entities returned. Defaults to 0.
+     - Sets the starting row for the entities returned. Defaults to 0
    * - ``limit``
-     - Limit number of entities to return. Defaults to the system configuration for pagination, which is 30.
+     - Sets the number of entities to return. Defaults to the system configuration for pagination, which is 30
    * - ``orderBy``
-     - Column to sort by. Can use any column listed in the response.
+     - Sorts the results by a specific column. Any column listed in the response is valid
    * - ``orderByDir``
-     - Sort direction: ascending or descending.
+     - Defines the sort direction: ascending or descending
    * - ``publishedOnly``
-     - Only return currently available entities.
+     - Filters the results to include only currently available entities
    * - ``minimal``
-     - Return only array of entities without additional lists in it.
-
-.. _response-1:
+     - Returns only an array of entities without additional lists
 
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200`` when the request successfully retrieves the list of Emails.
 
-See JSON code example.
+.. code-block:: json
 
-**Properties**
+   {
+     "total": 1,
+     "emails": [
+       {
+         "isPublished":true,
+         "dateAdded":"2016-10-25T18:51:17+00:00",
+         "createdBy":1,
+         "createdByUser":"John Doe",
+         "dateModified":null,
+         "modifiedBy":null,
+         "modifiedByUser":null,
+         "id":560,
+         "name":"test",
+         "subject":"API test email",
+         "language":"en",
+         "category":null,
+         "fromAddress":null,
+         "fromName":null,
+         "replyToAddress":null,
+         "bccAddress":null,
+         "customHtml":"<h1>Hi there!<\/h1>",
+         "plainText":null,
+         "template":null,
+         "emailType":"list",
+         "publishUp":null,
+         "publishDown":null,
+         "readCount":0,
+         "sentCount":0,
+         "revision":1,
+         "assetAttachments":[],
+         "variantStartDate":null,
+         "variantSentCount":0,
+         "variantReadCount":0,
+         "variantParent":null,
+         "variantChildren":[],
+         "translationParent":null,
+         "translationChildren":[],
+         "unsubscribeForm":null,
+         "dynamicContent":[
+           {
+             "tokenName":null,
+             "content":null,
+             "filters":[
+               {
+                 "content":null,
+                 "filters":[
+                   {
+                     "glue":null,
+                     "field":null,
+                     "object":null,
+                     "type":null,
+                     "operator":null,
+                     "display":null,
+                     "filter":null
+                   }
+                 ]
+               }
+             ]
+           }
+         ],
+         "lists":[
+           {
+             "createdByUser":"John Doe",
+             "modifiedByUser":null,
+             "id":256,
+             "name":"test",
+             "alias":"test29",
+             "description":null
+           }
+         ]
+       }
+     ]
+   }
+
+Properties
+----------
 
 Same as :ref:`get_email_section`.
 
@@ -389,6 +386,8 @@ Same as :ref:`get_email_section`.
 Create Email
 ************
 
+Create a new Email.
+
 .. vale on
 
 .. code-block:: php
@@ -396,16 +395,12 @@ Create Email
    <?php
 
    $data = array(
-       'title'        => 'Email A',
-       'description' => 'This is my first email created via API.',
-       'isPublished' => 1
+     'name'        => 'Email A',
+     'subject'     => 'This is my first email created via API.',
+     'isPublished' => 1
    );
 
    $email = $emailApi->create($data);
-
-Create a new Email.
-
-.. _http-request-2:
 
 .. vale off
 
@@ -416,7 +411,8 @@ HTTP request
 
 ``POST /emails/new``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
    :widths: 30 20 50
@@ -427,7 +423,7 @@ HTTP request
      - Description
    * - ``id``
      - int
-     - ID of the Email
+     - Email ID
    * - ``name``
      - string
      - Internal name of the Email
@@ -436,25 +432,25 @@ HTTP request
      - Subject of the Email
    * - ``fromAddress``
      - string
-     - The from Email address if it's different than the one in the Mautic configuration
+     - The from Email address if it differs from the Mautic configuration
    * - ``fromName``
      - string
-     - The from name if it's different than the one in the Mautic configuration
+     - The from name if it differs from the Mautic configuration
    * - ``replyToAddress``
      - string
-     - The reply to Email address if it's different than the one in the Mautic configuration
+     - The reply to Email address if it differs from the Mautic configuration
    * - ``bccAddress``
      - string
-     - The bcc Email address if it's different than the one in the Mautic configuration
+     - The bcc Email address if it differs from the Mautic configuration
    * - ``isPublished``
      - boolean
-     - Available state
+     - Email publication status
    * - ``publishUp``
      - datetime/null
-     - Date/time when the Email should be available
+     - Date and time when the Email becomes available
    * - ``publishDown``
      - datetime/null
-     - Date/time the Email should be unavailable
+     - Date and time when the Email becomes unavailable
    * - ``language``
      - string
      - Language locale of the Email
@@ -478,7 +474,7 @@ HTTP request
      - The name of the template used as the base for the Email
    * - ``emailType``
      - string
-     - If it's a Segment - former list - Email or template Email. Possible values are ``list`` and ``template``
+     - Identifies if this is a Segment Email or template Email. Possible values include ``list`` and ``template``
    * - ``translationChildren``
      - array
      - Array of Page entities for translations of this Landing Page
@@ -487,22 +483,22 @@ HTTP request
      - The parent/main page if this is a translation
    * - ``variantSentCount``
      - int
-     - Sent count since ``variantStartDate``
+     - Sent count since the ``variantStartDate``
    * - ``variantReadCount``
      - int
-     - Read count since ``variantStartDate``
+     - Read count since the ``variantStartDate``
    * - ``variantChildren``
      - array
      - Array of Email entities for variants of this landing Email
    * - ``variantParent``
      - object
-     - The parent/main Email if this is a variant - A/B test
+     - The parent/main Email if this is a variant or A/B test
    * - ``variantSettings``
      - array
      - The properties of the A/B test
    * - ``variantStartDate``
      - datetime/null
-     - The date/time the A/B test began
+     - The date and time the A/B test began
    * - ``category``
      - object/null
      - Category information
@@ -520,16 +516,15 @@ HTTP request
      - Asset IDs array for Email attachment
    * - ``grapesjsbuilder``
      - array
-     - ``customMjml`` key along with MJML content for Email based on MJML.
-
-.. _response-2:
+     - ``customMjml`` key along with MJML content for Email based on MJML
 
 Response
 ========
 
-``Expected Response Code: 201``
+* Returns ``201`` when the request successfully creates an Email.
 
-**Properties**
+Properties
+----------
 
 Same as :ref:`get_email_section`.
 
@@ -537,6 +532,11 @@ Same as :ref:`get_email_section`.
 
 Edit Email
 **********
+
+Edit an Email. This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
+
+* ``PUT``: creates an Email when the ID doesn't exist. If the ID exists, the request clears the Email data and adds the request values.
+* ``PATCH``: updates field values for an existing Email using the request data. The request fails when the ID doesn't exist.
 
 .. vale on
 
@@ -546,22 +546,14 @@ Edit Email
 
    $id   = 1;
    $data = array(
-       'title'        => 'New email title',
-       'isPublished' => 0
+     'name'        => 'New email name',
+     'isPublished' => 0
    );
 
-   // Create new a email of ID 1 is not found?
+   // Create a new email if ID 1 is not found?
    $createIfNotFound = true;
 
    $email = $emailApi->edit($id, $data, $createIfNotFound);
-
-Edit a new Email. Note that this supports ``PUT`` or ``PATCH`` depending on the desired behavior.
-
-* ``PUT``: creates an Email if the given ID doesn't exist and clears all the Email information, adds the information from the request.
-
-* ``PATCH``: fails if the Email with the given ID doesn't exist and updates the Email field values with the values from the request.
-
-.. _http-request-3:
 
 .. vale off
 
@@ -570,15 +562,11 @@ HTTP request
 
 .. vale on
 
-To edit an Email and return a 404 if the Email isn't found:
+* ``PATCH /emails/ID/edit``: edits an existing Email. The request fails with a 404 error when the ID doesn't exist.
+* ``PUT /emails/ID/edit``: edits an existing Email or creates a new one when the ID doesn't exist.
 
-``PATCH /emails/ID/edit``
-
-To edit an Email and create a new one if the Email isn't found:
-
-``PUT /emails/ID/edit``
-
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
    :widths: 30 20 50
@@ -589,7 +577,7 @@ To edit an Email and create a new one if the Email isn't found:
      - Description
    * - ``id``
      - int
-     - ID of the Email
+     - Email ID
    * - ``name``
      - string
      - Internal name of the Email
@@ -598,25 +586,25 @@ To edit an Email and create a new one if the Email isn't found:
      - Subject of the Email
    * - ``fromAddress``
      - string
-     - The from Email address if it's different than the one in the Mautic configuration
+     - The from Email address if it differs from the Mautic configuration
    * - ``fromName``
      - string
-     - The from name if it's different than the one in the Mautic configuration
+     - The from name if it differs from the Mautic configuration
    * - ``replyToAddress``
      - string
-     - The reply to Email address if it's different than the one in the Mautic configuration
+     - The reply to Email address if it differs from the Mautic configuration
    * - ``bccAddress``
      - string
-     - The bcc Email address if it's different than the one in the Mautic configuration
+     - The bcc Email address if it differs from the Mautic configuration
    * - ``isPublished``
      - boolean
-     - Available state
+     - Email publication status
    * - ``publishUp``
      - datetime/null
-     - Date/time when the Email should be available
+     - Date and time when the Email becomes available
    * - ``publishDown``
      - datetime/null
-     - Date/time the Email should be unavailable
+     - Date and time when the Email becomes unavailable
    * - ``language``
      - string
      - Language locale of the Email
@@ -640,54 +628,19 @@ To edit an Email and create a new one if the Email isn't found:
      - The name of the template used as the base for the Email
    * - ``emailType``
      - string
-     - If it's a Segment - former list - Email or template Email. Possible values are ``list`` and ``template``
-   * - ``translationChildren``
-     - array
-     - Array of page entities for translations of this Landing Page
-   * - ``translationParent``
-     - object
-     - The parent/main page if this is a translation
-   * - ``variantSentCount``
-     - int
-     - Sent count since ``variantStartDate``
-   * - ``variantReadCount``
-     - int
-     - Read count since ``variantStartDate``
-   * - ``variantChildren``
-     - array
-     - Array of Email entities for variants of this landing Email
-   * - ``variantParent``
-     - object
-     - The parent/main Email if this is a variant - A/B test
-   * - ``variantSettings``
-     - array
-     - The properties of the A/B test
-   * - ``variantStartDate``
-     - datetime/null
-     - The date/time the A/B test began
-   * - ``category``
-     - object/null
-     - Category information
-   * - ``unsubscribeForm``
-     - int
-     - ID of the Form displayed in the unsubscribe page
-   * - ``dynamicContent``
-     - object
-     - Dynamic Content configuration
+     - Identifies if this is a Segment Email or template Email. Possible values include ``list`` and ``template``
    * - ``lists``
      - array
      - Contains an array of Segment IDs to add to the Segment Email
 
-.. _response-3:
-
 Response
 ========
 
-* ``PUT``: returns code ``200`` for an edited Email or ``201`` for a created Email.
+* ``PUT``: returns ``200`` when the request successfully edits an Email or ``201`` when the request creates an Email.
+* ``PATCH``: returns ``200`` when the request successfully edits an Email.
 
-* ``PATCH``: the expected response code is ``200``.
-
-**Properties**
+Properties
+----------
 
 Same as :ref:`get_email_section`.
 
@@ -698,15 +651,13 @@ Delete Email
 
 .. vale on
 
+Delete an Email.
+
 .. code-block:: php
 
    <?php
 
    $email = $emailApi->delete($id);
-
-Delete an Email.
-
-.. _http-request-4:
 
 .. vale off
 
@@ -717,14 +668,13 @@ HTTP request
 
 ``DELETE /emails/ID/delete``
 
-.. _response-4:
-
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200`` when the request successfully deletes an Email.
 
-**Properties**
+Properties
+----------
 
 Same as :ref:`get_email_section`.
 
@@ -733,19 +683,18 @@ Same as :ref:`get_email_section`.
 Send Email to Contact
 *********************
 
+Send a predefined Email to an existing Contact.
+
 .. vale on
 
 .. code-block:: php
 
    <?php
-
+   
+   //...
    $email = $emailApi->sendToContact($emailId, $contactId);
 
-Send a predefined Email to existing Contact.
-
-Reference Assets using IDs returned by the :ref:`Create Asset <rest_api/assets:Create Asset>` endpoint.
-
-.. _http-request-5:
+You can reference Asset IDs for attaching documents. Use existing IDs or IDs returned by the :ref:`Create Asset <rest_api/assets:Create Asset>` endpoint.
 
 .. vale off
 
@@ -756,7 +705,8 @@ HTTP request
 
 ``POST /emails/ID/contact/CONTACT_ID/send``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
    :widths: 30 20 50
@@ -767,24 +717,23 @@ HTTP request
      - Description
    * - ``tokens``
      - array
-     - Array of tokens in Email
+     - Array of tokens in the Email
    * - ``assetAttachments``
      - array
      - Array of Asset IDs
 
-.. _response-5:
-
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200`` when the request successfully sends the Email to the Contact.
 
-**Properties**
+Properties
+----------
 
 .. code-block:: json
 
    {
-       "success": 1
+     "success": 1
    }
 
 .. vale off
@@ -794,15 +743,14 @@ Send Email to Segment
 
 .. vale on
 
+Send a Segment Email to linked Segments.
+
 .. code-block:: php
 
    <?php
-
+   
+   //...
    $email = $emailApi->send($id);
-
-Send a Segment Email to linked Segments.
-
-.. _http-request-6:
 
 .. vale off
 
@@ -813,25 +761,20 @@ HTTP request
 
 ``POST /emails/ID/send``
 
-.. _response-6:
-
-.. vale off
-
 Response
 ========
 
-.. vale on
+* Returns ``200`` when the request successfully sends the Email to the Segments.
 
-``Expected Response Code: 200``
-
-**Properties**
+Properties
+----------
 
 .. code-block:: json
 
    {
-       "success": 1,
-       "sentCount": 1,
-       "failedCount": 0
+     "success": 1,
+     "sentCount": 1,
+     "failedCount": 0
    }
 
 .. vale off
@@ -841,9 +784,7 @@ Create a reply to a send Email send row
 
 .. vale on
 
-This endpoint can create a record that a specific Email stat row received a reply. It marks an Email send stat as read.
-
-.. _http-request-7:
+This endpoint creates a record that a specific Email stat row received a reply. It marks an Email send stat as read.
 
 .. vale off
 
@@ -856,17 +797,16 @@ HTTP request
 
 The tracking hash provides a unique reference for each Email send stat record.
 
-.. _response-7:
-
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200`` when the tracking successfully records the reply.
 
-**Properties**
+Properties
+----------
 
 .. code-block:: json
 
    {
-       "success": 1,
+     "success": 1
    }
