@@ -10,7 +10,7 @@ To get started quickly with Mautic's API, you can use Basic Authentication.
 
 .. note::
 
-   Mautic recommends OAuth2 for security reasons. If you still want to use Basic Authentication, you must first enable it in ``Configuration -> API Settings`` in the Mautic UI, or by setting ``'api_enable_basic_auth' => true`` in ``app/config/local.php`` directly.
+   Mautic recommends OAuth2 for security reasons. If you still want to use Basic Authentication, you must first turn it on in ``Configuration -> API Settings`` in the Mautic UI, or by setting ``'api_enable_basic_auth' => true`` in ``config/local.php`` directly.
 
 After enabling Basic Authentication, you can use it in Mautic's API.
 
@@ -64,7 +64,7 @@ Plain HTTP requests
 OAuth2
 ******
 
-After enabling Mautic's API, the **API Credentials** menu item shows up in the administrator menu. You can create a Client ID and Secret there and use them in the next steps.
+After turning on Mautic's API, the **API Credentials** menu item shows up in the administrator menu. Create a Client ID and Secret there, and use them in the next steps.
 
 .. note:: 
 
