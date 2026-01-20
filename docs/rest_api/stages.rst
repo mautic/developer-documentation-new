@@ -66,7 +66,8 @@ Response
        "publishDown": "2015-07-21T14:12:03-05:00"
    }
 
-**Stage Properties**
+Stage properties
+----------------
 
 .. list-table::
    :widths: 25 25 50
@@ -77,46 +78,46 @@ Response
      - Description
    * - ``id``
      - int
-     - The ID of the Stage
+     - Stage ID
    * - ``isPublished``
      - boolean
-     - Whether the Stage is published
+     - Stage publication status
    * - ``dateAdded``
      - datetime
-     - The date or time the Stage was created
+     - Stage creation date or time
    * - ``createdBy``
      - int
-     - The ID of the User that created the Stage
+     - Stage creator User ID
    * - ``createdByUser``
      - string
-     - The name of the User that created the Stage
+     - Stage creator User name
    * - ``dateModified``
      - datetime/null
-     - The date and time, the Stage was last modified
+     - Stage last modification date and time
    * - ``modifiedBy``
      - int
-     - The ID of the User that last modified the Stage
+     - Stage last modifier User ID
    * - ``modifiedByUser``
      - string
-     - The name of the User that last modified the Stage
+     - Stage last modifier User name
    * - ``name``
      - string
-     - The name of the Stage
+     - Stage name
    * - ``category``
      - int
-     - The category ID of the Stage category
+     - Stage Category ID
    * - ``description``
      - string
-     - The description of the Stage
+     - Stage description
    * - ``weight``
      - int
-     - The weight of the Stage
+     - Stage weight
    * - ``publishUp``
      - datetime
-     - The date and time the Stage should be published
+     - Stage publication start date and time
    * - ``publishDown``
      - datetime
-     - The date and time, the Stage should be unpublished
+     - Stage publication end date and time
 
 .. vale off
 
@@ -172,7 +173,8 @@ Response
     ]
   }
 
-**Stage Properties**
+Stage properties
+----------------
 
 .. list-table::
    :widths: 25 25 50
@@ -183,49 +185,49 @@ Response
      - Description
    * - ``total``
      - int
-     - The total number of all the Stages
+     - Total Stage count
    * - ``id``
      - int
-     - The ID of the Stage
+     - Stage ID
    * - ``isPublished``
      - boolean
-     - Whether the Stage is published
+     - Stage publication status
    * - ``dateAdded``
      - datetime
-     - The date and time the Stage was created
+     - Stage creation date or time
    * - ``createdBy``
      - int
-     - The ID of the User that created the Stage
+     - Stage creator User ID
    * - ``createdByUser``
      - string
-     - The name of the User that created the Stage
+     - Stage creator User name
    * - ``dateModified``
      - datetime
-     - The date and time the Stage was last modified
+     - Stage last modification date and time
    * - ``modifiedBy``
      - int
-     - The ID of the User that last modified the Stage
+     - Stage last modifier User ID
    * - ``modifiedByUser``
      - string
-     - The name of the User that last modified the Stage
+     - Stage last modifier User name
    * - ``name``
      - string
-     - The name of the Stage
+     - Stage name
    * - ``category``
      - int
-     - The category ID of the Stage
+     - Stage Category ID
    * - ``description``
      - string
-     - The description of the Stage
+     - Stage description
    * - ``weight``
      - int
-     - The weight of the Stage
+     - Stage weight
    * - ``publishUp``
      - datetime
-     - The date and time the Stage should be published
+     - Stage publication start date and time
    * - ``publishDown``
      - datetime
-     - The date and time the Stage should be unpublished
+     - Stage publication end date and time
 
 .. vale off
 
@@ -258,7 +260,8 @@ HTTP request
 
 ``POST /stages/new``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
    :widths: 25 25 50
@@ -268,24 +271,25 @@ HTTP request
      - Type
      - Description
    * - ``name``
-     - String
-     - The Stage name - required
+     - string
+     - Stage name - required
    * - ``weight``
      - int
-     - The weight of the Stage
+     - Stage weight
    * - ``description``
      - string
-     - A description of the Stage
+     - Stage description
    * - ``isPublished``
      - boolean
-     - Whether the Stage is published
+     - Stage publication status
 
 Response
 ========
 
 ``Expected Response Code: 201``
 
-**Properties**
+Properties
+----------
 
 .. list-table::
    :widths: 25 25 50
@@ -296,46 +300,46 @@ Response
      - Description
    * - ``id``
      - int
-     - The ID of the Stage
+     - Stage ID
    * - ``isPublished``
      - boolean
-     - Whether the Stage is published
+     - Stage publication status
    * - ``dateAdded``
      - datetime
-     - The date or time the Stage was created
+     - Stage creation date or time
    * - ``createdBy``
      - int
-     - The ID of the User that created the Stage
+     - Stage creator User ID
    * - ``createdByUser``
      - string
-     - The name of the User that created the Stage
+     - Stage creator User name
    * - ``dateModified``
      - datetime/null
-     - The date and time, the Stage was last modified
+     - Stage last modification date and time
    * - ``modifiedBy``
      - int
-     - The ID of the User that last modified the Stage
+     - Stage last modifier User ID
    * - ``modifiedByUser``
      - string
-     - The name of the User that last modified the Stage
+     - Stage last modifier User name
    * - ``name``
      - string
-     - The name of the Stage
+     - Stage name
    * - ``category``
      - int
-     - The category ID of the Stage category
+     - Stage Category ID
    * - ``description``
      - string
-     - The description of the Stage
+     - Stage description
    * - ``weight``
      - int
-     - The weight of the Stage
+     - Stage weight
    * - ``publishUp``
      - datetime
-     - The date and time the Stage should be published
+     - Stage publication start date and time
    * - ``publishDown``
      - datetime
-     - The date and time, the Stage should be unpublished
+     - Stage publication end date and time
 
 .. vale off
 
@@ -346,9 +350,9 @@ Edit Stage
 
 Use this endpoint to update a Stage by ID. You can use either ``PUT`` or ``PATCH``.
 
-* ``PUT``: to replace the stage if it exists, or create a new one if it doesn’t.
+* ``PUT``: to replace the Stage if it exists, or create a new one if it doesn’t.
 
-* ``PATCH``: to update the stage if it exists. If the stage doesn’t exist, Mautic returns a 404 error.
+* ``PATCH``: to update the Stage if it exists. If it doesn’t exist, Mautic returns a 404 error.
 
 .. code-block:: php
 
@@ -376,29 +380,31 @@ HTTP request
 
 ``PUT /stages/ID/edit``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
    :widths: 25 25 50
    :header-rows: 1
 
    * - Name
+     - Type
      - Description
    * - ``name``
      - string
-     - The Stage name - required
+     - Stage name - required
    * - ``alias``
      - string
      - Name alias generated automatically if not set
    * - ``description``
      - string
-     - A description of the Stage
+     - Stage description
    * - ``isPublished``
      - boolean
-     - Whether the Stage is published
+     - Stage publication status
    * - ``weight``
      - int
-     - The weight of the Stage
+     - Stage weight
 
 Response
 ========
@@ -407,7 +413,8 @@ Response
 
 * ``PATCH``: the expected response code is ``200``.
 
-**Properties**
+Properties
+----------
 
 .. list-table::
    :widths: 25 25 50
@@ -418,46 +425,46 @@ Response
      - Description
    * - ``id``
      - int
-     - The ID of the Stage
+     - Stage ID
    * - ``isPublished``
      - boolean
-     - Whether the Stage is published
+     - Stage publication status
    * - ``dateAdded``
      - datetime
-     - The date or time the Stage was created
+     - Stage creation date or time
    * - ``createdBy``
      - int
-     - The ID of the user that created the Stage
+     - Stage creator User ID
    * - ``createdByUser``
      - string
-     - The name of the user that created the Stage
+     - Stage creator User name
    * - ``dateModified``
      - datetime/null
-     - The date and time, the Stage was last modified
+     - Stage last modification date and time
    * - ``modifiedBy``
      - int
-     - The ID of the user that last modified the Stage
+     - Stage last modifier User ID
    * - ``modifiedByUser``
      - string
-     - The name of the user that last modified the Stage
+     - Stage last modifier User name
    * - ``name``
      - string
-     - The name of the Stage
+     - Stage name
    * - ``category``
      - int
-     - The category ID of the Stage category
+     - Stage Category ID
    * - ``description``
      - string
-     - The description of the Stage
+     - Stage description
    * - ``weight``
      - int
-     - The weight of the Stage
+     - Stage weight
    * - ``publishUp``
      - datetime
-     - The date and time the Stage should be published.
+     - Stage publication start date and time
    * - ``publishDown``
      - datetime
-     - The date and time, the Stage should be unpublished.
+     - Stage publication end date and time
 
 .. vale off
 
@@ -488,7 +495,8 @@ Response
 
 ``Expected Response Code: 200``
 
-**Properties**
+Properties
+----------
 
 .. list-table::
    :widths: 25 25 50
@@ -499,46 +507,46 @@ Response
      - Description
    * - ``id``
      - int
-     - The ID of the Stage
+     - Stage ID
    * - ``isPublished``
      - boolean
-     - Whether the Stage is published
+     - Stage publication status
    * - ``dateAdded``
      - datetime
-     - The date or time the Stage was created
+     - Stage creation date or time
    * - ``createdBy``
      - int
-     - The ID of the User that created the Stage
+     - Stage creator User ID
    * - ``createdByUser``
      - string
-     - The name of the User that created the Stage
+     - Stage creator User name
    * - ``dateModified``
      - datetime/null
-     - The date and time, the Stage was last modified
+     - Stage last modification date and time
    * - ``modifiedBy``
      - int
-     - The ID of the User that last modified the Stage
+     - Stage last modifier User ID
    * - ``modifiedByUser``
      - string
-     - The name of the User that last modified the Stage
+     - Stage last modifier User name
    * - ``name``
      - string
-     - The name of the Stage
+     - Stage name
    * - ``category``
      - int
-     - The category ID of the Stage category
+     - Stage Category ID
    * - ``description``
      - string
-     - The description of the Stage
+     - Stage description
    * - ``weight``
      - int
-     - The weight of the Stage
+     - Stage weight
    * - ``publishUp``
      - datetime
-     - The date and time the Stage should be published
+     - Stage publication start date and time
    * - ``publishDown``
      - datetime
-     - The date and time, the Stage should be unpublished
+     - Stage publication end date and time
 
 .. vale off
 
