@@ -80,7 +80,7 @@ Basic token replacement
 
 .. note::
 
-   If you need more complex replacing, you can use the event's ``$event->getContent()`` and ``$event->setContent()`` methods. See the example in the following section.
+   For more complex replacements, use the event's ``$event->getContent()`` and ``$event->setContent()`` methods.
 
 .. vale off
 
@@ -91,8 +91,8 @@ Email A/B testing
 
 While Mautic supports :xref:`A/B testing` out of the box, you might have more complex needs to determine A/B test winner criteria.
 
-* ``$event->addAbTestWinnerCriteria()`` allows you to do exactly that. Using your custom logic, you can decide the winner of such criteria.
-* ``$event->setAbTestResults()`` is where you set the actual A/B test results.
+* Use ``$event->addAbTestWinnerCriteria()`` to apply your custom logic when deciding the winner based on specific criteria.
+* Set the actual A/B test results with ``$event->setAbTestResults()``.
 
 You can find the code examples in the next section.
 
