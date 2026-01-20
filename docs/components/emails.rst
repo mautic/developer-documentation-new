@@ -42,10 +42,9 @@ Use its ``$event->addToken($token, $htmlContent)`` to add your token.
 Rendering custom tokens
 =======================
 
-Registering tokens leverages the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_SEND`` event when the Email is sent or the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_DISPLAY`` event when the Email is rendered for viewing in a browser, such as after the Lead clicked the ``{webview_url}`` link.
+To render custom tokens, use the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_SEND`` event when Mautic sends the Email, or the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_DISPLAY`` event when the Email displays in a browser such as after the Contact clicks the ``{webview_url}`` link.
 
-An event listener receives in both cases the ``Mautic\EmailBundle\Event\EmailSendEvent``.
-You can replace a custom token using the events ``$event->addToken($token, $contentToReplaceToken)``.
+An event listener receives in both cases the ``Mautic\EmailBundle\Event\EmailSendEvent``. You can replace a custom token using the events ``$event->addToken($token, $contentToReplaceToken)``.
 
 Basic token replacement
 =======================
