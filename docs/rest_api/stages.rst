@@ -44,7 +44,7 @@ HTTP request
 Response
 ========
 
-* Returns ``200`` when the request successfully retrieves a Stage.
+* Returns ``200`` when the request successfully gets a Stage.
 
 .. code-block:: json
 
@@ -125,7 +125,7 @@ Stage properties
 List Contact Stages
 *******************
 
-Retrieve a list of Stages.
+Get a list of Stages.
 
 .. vale on
 
@@ -148,7 +148,7 @@ HTTP request
 Response
 ========
 
-* Returns ``200`` when the request successfully retrieves the list of Stages.
+* Returns ``200`` when the request successfully gets the list of Stages.
 
 .. code-block:: json
 
@@ -348,12 +348,12 @@ Properties
 Edit Stage
 **********
 
+.. vale on
+
 Edit a Stage. This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
 
 * ``PUT``: creates a Stage when the ID doesn't exist. If the ID exists, the request clears the Stage data and adds the request values.
 * ``PATCH``: updates field values for an existing Stage using the request data. The request fails when the ID doesn't exist.
-
-.. vale on
 
 .. code-block:: php
 
