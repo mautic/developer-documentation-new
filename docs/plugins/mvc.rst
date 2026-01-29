@@ -90,7 +90,6 @@ Mautic has several controllers that provide some helper functions.
 \1. CommonController - ``Mautic\CoreBundle\Controller\CommonController``
 ------------------------------------------------------------------------
 
-Controllers extending this makes ``MauticFactory`` available via ``$this->factory`` and ``Request`` via ``$this->request``.
 
 The ``CommonController`` also provides the following helper methods:
 
@@ -358,9 +357,6 @@ This base class offers access to services commonly used in models:
     * - Property
       - Service
       - Description
-    * - ``$this->factory``
-      - Factory service
-      - Provides access to other Mautic services. *Deprecated as of Mautic 2.0*; use dependency injection instead.
     * - ``$this->em``
       - Entity manager
       - Handles database interactions via Doctrine.
