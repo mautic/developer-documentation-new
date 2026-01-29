@@ -1,7 +1,7 @@
 MVC
 ###
 
-Mautic uses a **Model-View-Controller - MVC** structure to manage how users interact with the frontend - **views** and how the backend handles those interactions - **controllers and models**. Additionally, **Entity** and **Repository** classes manage interactions with the database.
+Mautic uses a **Model-View-Controller - MVC** structure to manage how users interact with the frontend - **views** and how the backend handles those interactions - **controllers and models**.
 
 In Symfony, and thus Mautic, the **controller** is the central part of the MVC structure. The route determines which controller method executes when a user makes a request. The controller then interacts with the **model** to retrieve or manipulate data, and finally renders a **view** to display the results to the user.
 
@@ -19,18 +19,6 @@ The :ref:`route defined in the config</plugins/config>` determines which control
         'path'       => '/hello/admin',
         'controller' => 'MauticPlugin\HelloWorldBundle\Controller\DefaultController:adminAction'
     ],
-
-The system identifies the controller as``HelloWorldBundle:Default:admin``. Broken down, that translates to:
-
-- ``HelloWorldBundle`` → ``\MauticPlugin\HelloWorldBundle\Controller``
-- ``Default`` → ``DefaultController``
-- ``admin`` → ``adminAction()``
-
-.. note::
-
-   Controller notation follows the format ``BundleName:ControllerName:controllerMethod.``
-
-   To use a controller within a subfolder of ``Controller``, use this format ``BundleName:Subdirectory\\ControllerName:controllerMethod``
 
 Thus, when a browser calls up ``/hello/admin``, ``\MauticPlugin\HelloWorldBundle\Controller\DefaultController::adminAction()`` will be called.
 
@@ -378,20 +366,7 @@ This extends ``AbstractCommonModel`` and includes helper methods for working wit
 Getting model objects
 =====================
 
-To retrieve a model object in a controller:
-
-.. code-block:: php
-
-    <?php
-
-    /** @var \Mautic\LeadBundle\Model\LeadModel $leadModel */
-    $leadModel = $this->getModel('lead'); // Shortcut for lead.lead
-
-    /** @var \Mautic\LeadBundle\Model\ListModel $leadListModel */
-    $leadListModel = $this->getModel('lead.list');
-
-    /** @var \MauticPlugin\HelloWorldBundle\Model\ContactModel $contactModel */
-    $contactModel = $this->getModel('helloworld.contact');
+To retrieve a model object in a controller use :xref:`Symfony's autowiring`.
 
 If using a model inside another service or model, inject the model service as a dependency instead of using the helper method.
 
@@ -439,88 +414,7 @@ Some variables are always available and shouldn't be overridden:
 Extending views
 ===============
 
-Views commonly extend base templates to provide consistent layout and AJAX support.
-
-Example:
-
-.. code-block:: php
-
-    // Extends full document with menu, header, etc.
-    $view->extend('MauticCoreBundle:Default:content.html.php');
-
-Or extend a "slim" template with minimal markup:
-
-.. code-block:: php
-
-    $view->extend('MauticCoreBundle:Default:content.html.php');
-
-To detect if a request is an AJAX request, use:
-
-.. code-block:: php
-
-    $app->getRequest()->isXmlHttpRequest()
-
-or pass this information from the controller via ``viewParameters``.
-
-.. note::
-
-   Template rendering is inside-out. The rendering process starts with the sub-template ``HelloWorldBundle:World:details.html.php``, which injects its content into ``HelloWorldBundle:World:index.html.php``, and then into the base template ``MauticCoreBundle:Default:content.html.php``.
-
-To output the content of the sub-template inside the parent, use:
-
-.. code-block:: php
-
-    $view['slots']->output('_content');
-
-See the :ref:`slots helper` for more information.
-
-Example code
-============
-
-.. code-block:: php
-
-    // plugins/HelloWorldBundle/Views/World/details.html.php
-
-    // Check if the request is Ajax
-    if (!$app->getRequest()->isXmlHttpRequest()) {
-
-        // Set tmpl for parent template
-        $view['slots']->set('tmpl', 'Details');
-
-        // Extend index.html.php as the parent
-        $view->extend('HelloWorldBundle:World:index.html.php');
-    }
-    ?>
-
-    <div>
-        <!-- Desired content/markup -->
-    </div>
-
-.. code-block:: php
-
-    // plugins/HelloWorldBundle/Views/World/index.html.php
-
-    // Extend the base content
-    $view->extend('MauticCoreBundle:Default:content.html.php');
-
-    // Get tmpl from sub-template
-    $tmpl = $view['slots']->get('tmpl', 'Details');
-
-    // Tell Mautic to call JS onLoad method
-    $view['slots']->set('mauticContent', 'helloWorld'.$tmpl);
-
-    // Set the page and header title
-    $header = ($tmpl == 'World')
-        ? $view['translator']->trans(
-            'plugin.helloworld.worlds',
-            array('%world%' => ucfirst($world))
-        ) : $view['translator']->trans('plugin.helloworld.manage_worlds');
-    $view['slots']->set('headerTitle', $header);
-    ?>
-
-    <div class="helloworld-content">
-        <?php $view['slots']->output('_content'); ?>
-    </div>
+Please refer to the ``extends`` tag section in :xref:`Twig documentation` to learn how to extend views.
 
 Rendering views within views
 ============================
