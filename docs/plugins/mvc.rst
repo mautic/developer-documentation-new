@@ -1,16 +1,17 @@
 MVC
 ###
 
-Mautic uses a **Model-View-Controller (MVC)** structure to manage how users interact with the frontend (**views**) and how the backend handles those interactions (**controllers and models**). Additionally, **Entity** and **Repository** classes manage interactions with the database.
+Mautic uses a **Model-View-Controller - MVC** structure to manage how users interact with the frontend - **views** and how the backend handles those interactions - **controllers and models**. Additionally, **Entity** and **Repository** classes manage interactions with the database.
 
-In Symfony, and thus Mautic  the **controller** is the central part of the MVC structure. The route determines which controller method executes when a user makes a request. The controller then interacts with the **model** to retrieve or manipulate data, and finally renders a **view** to display the results to the user.
+In Symfony, and thus Mautic, the **controller** is the central part of the MVC structure. The route determines which controller method executes when a user makes a request. The controller then interacts with the **model** to retrieve or manipulate data, and finally renders a **view** to display the results to the user.
 
 Controllers
-===========
-Matching Routes to controller methods
--------------------------------------
+***********
 
-The  :ref:`route defined in the config</plugins/config>` determines which controller method is called. Take this example:
+Matching Routes to controller methods
+=====================================
+
+The :ref:`route defined in the config</plugins/config>` determines which controller method is called. Take this example:
 
 .. code-block:: php
 
@@ -31,11 +32,10 @@ The system identifies the controller as``HelloWorldBundle:Default:admin``. Broke
 
    To use a controller within a subfolder of ``Controller``, use this format ``BundleName:Subdirectory\\ControllerName:controllerMethod``
 
-
 Thus, when a browser calls up ``/hello/admin``, ``\MauticPlugin\HelloWorldBundle\Controller\DefaultController::adminAction()`` will be called.
 
 Route placeholders
-------------------
+==================
 
 Symfony automatically passes route placeholders into the controller’s method as arguments. The method’s parameters must match the placeholder names.
 
@@ -80,29 +80,31 @@ Then the method must be:
 
 .. code-block:: php
 
-    public function worldAction(string $world)
+   public function worldAction(string $world)
 
 Extending Mautic’s controllers
-------------------------------
+==============================
 
 Mautic has several controllers that provide some helper functions.
 
-1. CommonController (``Mautic\CoreBundle\Controller\CommonController``)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\1. CommonController - ``Mautic\CoreBundle\Controller\CommonController``
+------------------------------------------------------------------------
 
 Controllers extending this makes ``MauticFactory`` available via ``$this->factory`` and ``Request`` via ``$this->request``.
 
-It also provides the following helper methods:
+The ``CommonController`` also provides the following helper methods:
 
-delegateView($args)
-^^^^^^^^^^^^^^^^^^^
+1.1 ``delegateView($args)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Mautic is AJAX-driven, so it must support both standard http and AJAX requests. The ``delegateView`` method acts as a wrapper that detects the request type and returns the appropriate response—either a full DOM for http or a partial one for AJAX.
 
-The ``$args`` array contains the required elements for generating either type of response. It accepts the following parameters:
+The ``$args`` array contains the required elements for generating either type of response.
 
-.. list-table:: Parameters for ``delegateView()``
-   :widths: 20 10 10 60
+It accepts the following parameters for ``delegateView()``:
+
+.. list-table::
+   :widths: 20 20 20 40
    :header-rows: 1
 
    * - Key
@@ -124,10 +126,10 @@ The ``$args`` array contains the required elements for generating either type of
 
 Due to the use of AJAX, Mautic uses some elements of the ``passthroughVars`` array to manipulate the user interface.
 
-For responses that include main content (for example, routes a user would click to), you should set at least ``activeLink`` and ``route``.
+For responses that include main content - for example, routes a user would click to - you should set at least ``activeLink`` and ``route``.
 
-.. list-table:: Common passthroughVars
-   :widths: 20 10 10 60
+.. list-table:: Common ``passthroughVars``
+   :widths: 20 20 20 40
    :header-rows: 1
 
    * - Key
@@ -163,21 +165,21 @@ For responses that include main content (for example, routes a user would click 
      - string
      - If set to `'true'`, Mautic replaces the target selector with AJAX content.
 
-delegateRedirect($url) 
-^^^^^^^^^^^^^^^^^^^^^^
+1.2 ``delegateRedirect($url)`` 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Delegates the appropriate response for redirects.
 
-- **If AJAX request**: returns a json response with ``{redirect: $url}``.  
-- **If http request**: performs a standard redirect header.
+* **If AJAX request**: returns a json response with ``{redirect: $url}``.  
+* **If http request**: performs a standard redirect header.
 
-postActionRedirect($args)
-^^^^^^^^^^^^^^^^^^^^^^^^^
+1.3 ``postActionRedirect($args)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Similar to ``delegateView()``, but used after an action like saving a Form. Accepts the same ``$args`` as ``delegateView()``, plus:
 
 .. list-table:: Additional Parameters for ``postActionRedirect()``
-   :widths: 20 10 10 60
+   :widths: 20 20 20 40
    :header-rows: 1
 
    * - Key
@@ -198,8 +200,8 @@ Similar to ``delegateView()``, but used after an action like saving a Form. Acce
      - If true (default), forwards to a controller method (``BundleName:ControllerName:method``). Set to ``false`` to load a view template (``BundleName:ViewName:template.html.php``) directly.
 
 
-2. FormController (``Mautic\CoreBundle\Controller\FormController``)
--------------------------------------------------------------------
+\2. FormController - ``Mautic\CoreBundle\Controller\FormController``
+====================================================================
 
 This controller extends ``CommonController`` and provides helper methods for managing :doc:`Forms <components/forms>`.
 
@@ -294,18 +296,18 @@ This controller extends ``CommonController`` and provides helper methods for man
     }
 
 
-3. AjaxController (``Mautic\CoreBundle\Controller\AjaxController``)
--------------------------------------------------------------------
+\3. AjaxController - ``Mautic\CoreBundle\Controller\AjaxController``
+====================================================================
 
 This controller also extends ``CommonController`` and is a companion to some of the built-in JavaScript helpers. See *JavaScript methods* for more information.
 
 Models
-======
+******
 
 Models retrieve and process data between controllers and views. While not required in Plugins, Mautic provides convenient ways to access model objects and use commonly needed methods if you choose to use them.
 
 Model example
--------------
+=============
 
 .. code-block:: php
 
@@ -340,16 +342,17 @@ Model example
     }
 
 Base Model Classes
-------------------
+==================
 
 You can extend either of the following base classes to make use of Mautic's helper methods:
 
-1. AbstractCommonModel (``\Mautic\CoreBundle\Model\AbstractCommonModel``)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\1. AbstractCommonModel - ``\Mautic\CoreBundle\Model\AbstractCommonModel``
+--------------------------------------------------------------------------
 
 This base class offers access to services commonly used in models:
 
 .. list-table::
+    :widths: 25 25 50
     :header-rows: 1
 
     * - Property
@@ -371,14 +374,13 @@ This base class offers access to services commonly used in models:
       - Translator service
       - Handles language translations.
 
-
-2. FormModel (``\Mautic\CoreBundle\Model\FormModel``)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\2. FormModel - ``\Mautic\CoreBundle\Model\FormModel``
+------------------------------------------------------
 
 This extends ``AbstractCommonModel`` and includes helper methods for working with entities and repositories. For more information, see the :doc:`Database <components/entities>` section.
 
-Getting Model Objects
----------------------
+Getting model objects
+=====================
 
 To retrieve a model object in a controller:
 
@@ -398,7 +400,7 @@ To retrieve a model object in a controller:
 If using a model inside another service or model, inject the model service as a dependency instead of using the helper method.
 
 Views
-=====
+*****
 
 Views in Mautic take data passed from the controller and display it to the user. You can render templates from within controllers or other templates.
 
@@ -419,7 +421,7 @@ To use views inside subfolders under ``Resources/views``:
     @BundleName/ViewName/Subfolder/template.html.twig
 
 View parameters
----------------
+===============
 
 The array passed as ``viewParameters`` in the controller’s ``delegateView()`` method becomes available as variables in the view.
 
@@ -435,11 +437,11 @@ Then the variable ``$world`` becomes available in the template with the value ``
 
 Some variables are always available and shouldn't be overridden:
 
-- ``$view``: contains helper objects for extending or rendering templates.
-- ``$app``: provides access to request and session objects via ``$app->getRequest()`` and ``$app->getSession()``.
+* ``$view``: contains helper objects for extending or rendering templates.
+* ``$app``: provides access to request and session objects via ``$app->getRequest()`` and ``$app->getSession()``.
 
-Extending Views
----------------
+Extending views
+===============
 
 Views commonly extend base templates to provide consistent layout and AJAX support.
 
@@ -466,7 +468,7 @@ or pass this information from the controller via ``viewParameters``.
 
 .. note::
 
-    Template rendering is inside-out. The rendering process starts with the sub-template ``HelloWorldBundle:World:details.html.php``, which injects its content into ``HelloWorldBundle:World:index.html.php``, and then into the base template ``MauticCoreBundle:Default:content.html.php``.
+   Template rendering is inside-out. The rendering process starts with the sub-template ``HelloWorldBundle:World:details.html.php``, which injects its content into ``HelloWorldBundle:World:index.html.php``, and then into the base template ``MauticCoreBundle:Default:content.html.php``.
 
 To output the content of the sub-template inside the parent, use:
 
@@ -477,7 +479,7 @@ To output the content of the sub-template inside the parent, use:
 See the :ref:`slots helper` for more information.
 
 Example code
-------------
+============
 
 .. code-block:: php
 
@@ -524,9 +526,8 @@ Example code
         <?php $view['slots']->output('_content'); ?>
     </div>
 
-
-Rendering Views within Views
-----------------------------
+Rendering views within views
+============================
 
 You can render one view inside another:
 
@@ -535,16 +536,18 @@ You can render one view inside another:
     echo $view->render('BundleName:ViewName:template.html.php', array('parameter' => 'value'));
 
 Template helpers
-================
+****************
+
 There are a number of template helper objects and helper view templates built into Mautic.
 
 Slots helper
-------------
+============
 
 The ``slots`` helper allows sub-templates to pass content up to parent templates. Since Mautic templates render *inside-out*, a sub-template can define slot content that the parent template can access. However, sub-templates don't have access to content defined in a parent template.
 
 Setting slot content
-~~~~~~~~~~~~~~~~~~~~
+--------------------
+
 Use ``set()`` to define the content of a slot. If the slot already exists, the new content overwrites the existing one.
 
 .. code-block:: php
@@ -553,7 +556,7 @@ Use ``set()`` to define the content of a slot. If the slot already exists, the n
     $view['slots']->set('name', 'the content');
 
 Appending slot content
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 Use ``append()`` to add to an existing slot rather than replacing its content. This is useful for aggregating content across templates.
 
@@ -568,7 +571,7 @@ Use ``append()`` to add to an existing slot rather than replacing its content. T
     ));
 
 Retrieving slot content
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 To get the content of a slot, use ``get()``. If the slot doesn't exist, you can define a default value.
 
@@ -578,7 +581,7 @@ To get the content of a slot, use ``get()``. If the slot doesn't exist, you can 
     $content = $view['slots']->get('name', 'default value');
 
 Outputting slot content
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 To output the slot content, use ``output()``. This is typically used in parent templates where you want to inject content from a sub-template.
 
@@ -588,7 +591,7 @@ To output the slot content, use ``output()``. This is typically used in parent t
     $view['slots']->output('name');
 
 Checking slot existence
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 You can confirm if a slot exists using ``has()`` before performing actions on it.
 
@@ -602,18 +605,18 @@ You can confirm if a slot exists using ``has()`` before performing actions on it
 ``slots`` are central to how Mautic handles nested views and dynamic content flow. Use them to build modular, reusable templates where the child view defines what's shown and the parent controls the layout.
 
 Asset helper
-------------
+============
 
 The ``assets`` helper, accessed via ``$view['assets']``, is used to load assets into the DOM including images, script and stylesheets.
 
-..note::
+.. note::
 
-    ``$view['assets']`` should always be used to ensure that assets work with Mautic installed in the web root, installed in a subdirectory, ran under the dev environment (index_dev.php), and/or ran under the prod environment.
+   ``$view['assets']`` should always be used to ensure that assets work with Mautic installed in the web root, installed in a subdirectory, ran under the dev environment - ``index_dev.php`` - and/or ran under the prod environment.
 
 The asset helper also provides a way to insert scripts and stylesheets into the head for AJAX loaded content using ``$view['assets']->includeScript()`` and ``$view['assets']->includeStylesheet()``.
 
 Loading images
-~~~~~~~~~~~~~~
+--------------
 
 Use ``getUrl()`` to generate the correct relative URL to an asset like an image.
 
@@ -623,7 +626,7 @@ Use ``getUrl()`` to generate the correct relative URL to an asset like an image.
     echo '<img src="' . $view['assets']->getUrl('plugins/HelloWorldBundle/assets/images/earth.png') . '" />';
 
 Inserting JavaScript
-~~~~~~~~~~~~~~~~~~~~
+--------------------
 
 Use ``includeScript()`` to dynamically insert a JavaScript file into the head. This is especially useful for AJAX-loaded views where scripts need to be re-injected.
 
@@ -633,7 +636,7 @@ Use ``includeScript()`` to dynamically insert a JavaScript file into the head. T
     echo $view['assets']->includeScript('plugins/HelloWorldBundle/assets/helloworld.js');
 
 Inserting stylesheets
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 
 Use ``includeStylesheet()`` to dynamically include a CSS file into the head.
 
@@ -644,9 +647,8 @@ Use ``includeStylesheet()`` to dynamically include a CSS file into the head.
 
 These methods ensure that your assets are properly handled regardless of Mautic’s installation location or environment. They also support dynamic inclusion for content loaded via AJAX.
 
-
 Router helper
--------------
+=============
 
 The ``router`` helper, accessed via ``$view['router']``, is used to generate URLs to named routes within views.
 
@@ -662,7 +664,7 @@ This generates a link to the route ``plugin_helloworld_world`` with the dynamic 
 For more details on defining and using routes, see :doc:`Router </plugins/config>`.
 
 Translation helper
-------------------
+==================
 
 The ``translator`` helper, accessed via ``$view['translator']``, is used to translate strings within views using Mautic's translation system.
 
@@ -682,7 +684,7 @@ For more on how to handle translations, see :doc:`Translator </developer/transla
 ``$view['translator']`` follows the same conventions described in the Translator documentation, allowing dynamic, localized content in templates.
 
 Date helper
------------
+===========
 
 The ``date`` helper, accessed via ``$view['date']``, is used to format dates according to system and/or user settings.
 
@@ -715,7 +717,7 @@ The ``date`` helper, accessed via ``$view['date']``, is used to format dates acc
 The first argument to each method can be a ``\DateTime`` object or a string formatted as ``Y-m-d H:i:s``. If the date is not already in local time, pass the expected format as the second argument and the timezone as the third.
 
 Form helper
------------
+===========
 
 The ``form`` helper, accessed via ``$view['form']``, is used to render form objects passed from the controller.
 
@@ -723,16 +725,17 @@ The ``form`` helper, accessed via ``$view['form']``, is used to render form obje
 
     <?php echo $view['form']->form($form); ?>
 
-This helper outputs the full HTML Form using the Form object (typically a Symfony Form) passed to the view.
+This helper outputs the full HTML Form using the Form object - typically a Symfony Form - passed to the view.
 
-For detailed usage, see :doc:`Forms <components/forms.`.
+For detailed usage, see :doc:`Forms <components/forms>`.
 
 AJAX integration
-================
+****************
+
 Mautic provides several helpers and conventions for handling AJAX-driven UI features including links, modals, forms, and lifecycle callbacks.
 
 AJAX links
-----------
+==========
 
 To enable AJAX for a link, set the attribute ``data-toggle="ajax"``.
 
@@ -743,7 +746,7 @@ To enable AJAX for a link, set the attribute ``data-toggle="ajax"``.
     </a>
 
 AJAX modals
------------
+===========
 
 Mautic uses Bootstrap modals, but Bootstrap alone doesn't support dynamically retrieving content more than once. To address this, Mautic provides the ``data-toggle="ajaxmodal"`` attribute.
 
@@ -756,15 +759,16 @@ Mautic uses Bootstrap modals, but Bootstrap alone doesn't support dynamically re
         Mars
     </a>
 
-- ``data-target`` should be the selector for the modal where content will be injected. Mautic provides a shared modal with the ID ``#MauticSharedModal``.
-- ``data-header`` sets the modal’s title/header.
+* ``data-target`` should be the selector for the modal where content will be injected. Mautic provides a shared modal with the ID ``#MauticSharedModal``.
+* ``data-header`` sets the modal’s title/header.
 
-AJAX forms
-----------
+AJAX Forms
+==========
+
 When using Symfony’s Form services, Mautic automatically enables AJAX the Form. No additional configuration is necessary.
 
 AJAX content callbacks
-----------------------
+======================
 
 Mautic allows you to hook into the lifecycle of AJAX content injection via JavaScript callbacks.
 
@@ -795,7 +799,7 @@ Loading content triggers ``Mautic.helloWorldDetailsOnLoad()`` and ``Mautic.hello
 Both callbacks receive two arguments:
 
 .. list-table::
-   :widths: 20 80
+   :widths: 25 75
    :header-rows: 1
 
    * - Argument
@@ -806,11 +810,10 @@ Both callbacks receive two arguments:
      - The response object from the AJAX call (from ``passthroughVars``).
 
 Page refresh support
---------------------
+====================
 
 Ensure the correct ``OnLoad`` function triggers on full page refresh by setting the ``mauticContent`` slot in the view using:
 
 .. code-block:: php
 
     $view['slots']->set('mauticContent', 'helloWorldDetails');
-
