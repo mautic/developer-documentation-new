@@ -90,7 +90,6 @@ Mautic has several controllers that provide some helper functions.
 1. CommonController (``Mautic\CoreBundle\Controller\CommonController``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Controllers extending this makes ``MauticFactory`` available via ``$this->factory`` and ``Request`` via ``$this->request``.
 
 It also provides the following helper methods:
 
