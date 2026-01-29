@@ -354,9 +354,6 @@ This base class offers access to services commonly used in models:
     * - Property
       - Service
       - Description
-    * - ``$this->factory``
-      - Factory service
-      - Provides access to other Mautic services. *Deprecated as of Mautic 2.0*; use dependency injection instead.
     * - ``$this->em``
       - Entity manager
       - Handles database interactions via Doctrine.
