@@ -14,10 +14,10 @@ The  :ref:`route defined in the config</plugins/config>` determines which contro
 
 .. code-block:: php
 
-    'plugin_helloworld_admin' => array(
+    'plugin_helloworld_admin' => [
         'path'       => '/hello/admin',
-        'controller' => 'HelloWorldBundle:Default:admin'
-    ),
+        'controller' => 'MauticPlugin\HelloWorldBundle\Controller\DefaultController:adminAction'
+    ],
 
 The system identifies the controller as``HelloWorldBundle:Default:admin``. Broken down, that translates to:
 
@@ -43,22 +43,22 @@ Example:
 
 .. code-block:: php
 
-    'plugin_helloworld_world' => array(
+    'plugin_helloworld_world' => [
         'path'       => '/hello/{world}',
-        'controller' => 'HelloWorldBundle:Default:world',
-        'defaults'    => array(
+        'controller' => 'MauticPlugin\HelloWorldBundle\Controller\DefaultController::worldAction',
+        'defaults'    => [
             'world' => 'earth'
-        ),
-        'requirements' => array(
+        ],
+        'requirements' => [
             'world' => 'earth|mars'
-        )
-    ),
+        ]
+    ],
 
 The matching method:
 
 .. code-block:: php
 
-    public function worldAction($world = 'earth')
+    public function worldAction(string $world = 'earth')
 
 .. note::
 
@@ -68,19 +68,19 @@ If the route looked like this instead:
 
 .. code-block:: php
 
-    'plugin_helloworld_world' => array(
+    'plugin_helloworld_world' => [
         'path'       => '/hello/{world}',
-        'controller' => 'HelloWorldBundle:Default:world',
-        'requirements' => array(
+        'controller' => 'MauticPlugin\HelloWorldBundle\Controller\DefaultController::worldAction',
+        'requirements' => [
             'world' => 'earth|mars'
-        )
-    ),
+        ]
+    ],
 
 Then the method must be:
 
 .. code-block:: php
 
-    public function worldAction($world)
+    public function worldAction(string $world)
 
 Extending Mautic’s controllers
 ------------------------------
@@ -214,50 +214,35 @@ This controller extends ``CommonController`` and provides helper methods for man
 
     class DefaultController extends FormController
     {
-        /**
-         * Display the world view
-         *
-         * @param string $world
-         *
-         * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
-         */
-        public function worldAction($world = 'earth')
+        public function worldAction(string $world = 'earth', WorldModel $model): Response
         {
-            /** @var \MauticPlugin\HelloWorldBundle\Model\WorldModel $model */
-            $model = $this->getModel('helloworld.world');
-
             // Retrieve details about the world
             $worldDetails = $model->getWorldDetails($world);
 
             return $this->delegateView(
-                array(
-                    'viewParameters'  => array(
+                [
+                    'viewParameters'  => [
                         'world'   => $world,
                         'details' => $worldDetails
-                    ),
+                    ],
                     'contentTemplate' => 'HelloWorldBundle:World:details.html.php',
-                    'passthroughVars' => array(
+                    'passthroughVars' => [
                         'activeLink'    => 'plugin_helloworld_world',
-                        'route'         => $this->generateUrl('plugin_helloworld_world', array('world' => $world)),
+                        'route'         => $this->generateUrl('plugin_helloworld_world', ['world' => $world]),
                         'mauticContent' => 'helloWorldDetails'
-                    )
-                )
+                    ]
+                ]
             );
         }
 
-        /**
-         * Contact form
-         *
-         * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
-         */
-        public function contactAction()
+        public function contactAction(ContactModel $model): Response
         {
             // Create the form object
-            $form = $this->get('form.factory')->create('helloworld_contact');
+            $form = $this->formFactory->create(ContactFormType::class);
 
             // Handle form submission if POST        
             if ($this->request->getMethod() == 'POST') {
-                $flashes = array();
+                $flashes = [];
 
                 // isFormCancelled() checks if the cancel button was clicked
                 if ($cancelled = $this->isFormCancelled($form)) {
@@ -265,20 +250,17 @@ This controller extends ``CommonController`` and provides helper methods for man
                     // isFormValid() will bind the request to the form object and validate the data
                     if ($valid = $this->isFormValid($form)) {
 
-                        /** @var \MauticPlugin\HelloWorldBundle\Model\ContactModel $model */
-                        $model = $this->getModel('helloworld.contact');
-
                         // Send the email
                         $model->sendContactEmail($form->getData());
 
                         // Set success flash message
-                        $flashes[] = array(
+                        $flashes[] = [
                             'type'    => 'notice',
                             'msg'     => 'plugin.helloworld.notice.thank_you',
-                            'msgVars' => array(
+                            'msgVars' => [
                                 '%name%' => $form['name']->getData()
-                            )
-                        );
+                            ]
+                        ];
                     }
                 }
 
@@ -286,27 +268,27 @@ This controller extends ``CommonController`` and provides helper methods for man
                     // Redirect to /hello/world
 
                     return $this->postActionRedirect(
-                        array(
+                        [
                             'returnUrl'       => $this->generateUrl('plugin_helloworld_world'),
-                            'contentTemplate' => 'HelloWorldBundle:Default:world',
+                            'contentTemplate' => 'MauticPlugin\HelloWorldBundle\Controller\DefaultController:worldAction',
                             'flashes'         => $flashes
-                        )
+                        ]
                     );
                 } // Otherwise show the form again with validation error messages
             }
 
             // Display the form
             return $this->delegateView(
-                array(
-                    'viewParameters'  => array(
+                [
+                    'viewParameters'  => [
                         'form' => $form->createView()
                     ),
-                    'contentTemplate' => 'HelloWorldBundle:Contact:form.html.php',
-                    'passthroughVars' => array(
+                    'contentTemplate' => '@HelloWorld/Contact/form.html.twig',
+                    'passthroughVars' => [
                         'activeLink' => 'plugin_helloworld_contact',
                         'route'      => $this->generateUrl('plugin_helloworld_contact')
-                    )
-                )
+                    ]
+                ]
             );
         }
     }
@@ -334,20 +316,15 @@ Model example
 
     use Mautic\CoreBundle\Model\CommonModel;
 
-    class ContactModel extends CommonModel
+    final class ContactModel extends CommonModel
     {
         /**
          * Send contact email
-         * 
-         * @param array $data
          */
-        public function sendContactEmail($data)
+        public function sendContactEmail(array $data): void
         {
-            // Get mailer helper - pass the mautic.helper.mailer service as a dependency
-            $mailer = $this->mailer;
-
             $mailer->message->addTo(
-                $this->factory->getParameter('mailer_from_email')
+                $this->coreParametersHelper->get('mailer_from_email')
             );
 
             $this->message->setFrom(
@@ -431,15 +408,15 @@ View notation follows this format:
 
 .. code-block:: none
 
-    BundleName:ViewName:template.html.php
+    @BundleName/ViewName/template.html.twig
 
-For example, ``HelloWorldBundle:Contact:form.html.php`` points to the file ``/path/to/mautic/plugins/HelloWorldBundle/Views/Contact/form.html.php``
+For example, ``@HelloWorld/Contact/form.html.twig`` points to the file ``/path/to/mautic/plugins/HelloWorldBundle/Resources/views/Contact/form.html.twig``
 
-To use views inside subfolders under ``Views``, use backslash notation:
+To use views inside subfolders under ``Resources/views``:
 
 .. code-block:: none
 
-    BundleName:ViewName\Subfolder:template.html.php
+    @BundleName/ViewName/Subfolder/template.html.twig
 
 View parameters
 ---------------
@@ -450,9 +427,9 @@ For example, if the controller passes:
 
 .. code-block:: php
 
-    'viewParameters' => array(
+    'viewParameters' => [
         'world' => 'mars'
-    ),
+    ],
 
 Then the variable ``$world`` becomes available in the template with the value ``mars``.
 
