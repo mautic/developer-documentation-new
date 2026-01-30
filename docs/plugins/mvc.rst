@@ -8,12 +8,12 @@ In Symfony, and thus Mautic, the **controller** is the central part of the MVC s
 Controllers
 ***********
 
-Matching Routes to controller methods
+Matching routes to controller methods
 =====================================
 
 .. vale off
 
-The :ref:`route defined in the config</plugins/config>` determines the controller method. Take this example:
+The :ref:`route defined in the config <routing config items>` determines the controller method. Take this example:
 
 .. vale on
 
@@ -24,14 +24,14 @@ The :ref:`route defined in the config</plugins/config>` determines the controlle
         'controller' => 'MauticPlugin\HelloWorldBundle\Controller\DefaultController:adminAction'
     ],
 
-Thus, when a browser calls up ``/hello/admin``, ``\MauticPlugin\HelloWorldBundle\Controller\DefaultController::adminAction()`` will be called.
+In the example, a browser call to ``/hello/admin`` triggers ``MauticPlugin\HelloWorldBundle\Controller\DefaultController::adminAction()``.
 
 Route placeholders
 ==================
 
 Symfony automatically passes route placeholders into the controller’s method as arguments. The method’s parameters must match the placeholder names.
 
-Example:
+For example:
 
 .. code-block:: php
 
@@ -56,7 +56,7 @@ The matching method:
 
    Since the route defines a default for ``world``, the controller method must also reflect this default.
 
-If the route looked like this instead:
+Without a defined default value, the placeholder becomes a required argument:
 
 .. code-block:: php
 
@@ -68,7 +68,7 @@ If the route looked like this instead:
         ]
     ],
 
-Then the method must be:
+The corresponding controller method reflects this by omitting the default value:
 
 .. code-block:: php
 
@@ -199,7 +199,7 @@ Similar to ``delegateView()``, but used after an action like saving a Form. Acce
    * - flashes
      - OPTIONAL
      - array
-     - Array of flash messages to display after redirecting. See Flash Messages for more information.
+     - Array of flash messages to display after redirecting.
    * - ``forwardController``
      - OPTIONAL
      - boolean
@@ -210,7 +210,7 @@ Similar to ``delegateView()``, but used after an action like saving a Form. Acce
 \2. FormController - ``Mautic\CoreBundle\Controller\FormController``
 ====================================================================
 
-This controller extends ``CommonController`` and provides helper methods for managing :doc:`Forms <components/forms>`.
+This controller extends ``CommonController`` and provides helper methods for managing Forms.
 
 .. vale on
 
@@ -311,7 +311,7 @@ This controller extends ``CommonController`` and provides helper methods for man
 
 .. vale on
 
-This controller also extends ``CommonController`` and is a companion to some of the built-in JavaScript helpers. See *JavaScript methods* for more information.
+This controller also extends ``CommonController`` and is a companion to some of the built-in JavaScript helpers.
 
 Models
 ******
@@ -392,7 +392,7 @@ This base class offers access to services commonly used in models:
 \2. ``FormModel`` - ``\Mautic\CoreBundle\Model\FormModel``
 ----------------------------------------------------------
 
-The ``FormModel`` class extends ``AbstractCommonModel`` and includes helper methods for working with entities and repositories. For more information, refer to the Database section.
+The ``FormModel`` class extends ``AbstractCommonModel`` and includes helper methods for working with entities and repositories. For more information, refer to the :doc:`Entities and schema </plugin/data.rst>` section.
 
 .. vale on
 
@@ -588,12 +588,6 @@ The ``router`` helper, accessed via ``$view['router']``, is used to generate URL
 
 This generates a link to the route ``plugin_helloworld_world`` with the dynamic parameter ``world`` set to ``mars``.
 
-.. vale off
-
-For more details on defining and using routes, see :doc:`Router </plugins/config>`.
-
-.. vale on
-
 The ``translator`` helper
 =========================
 
@@ -610,7 +604,11 @@ The ``translator`` helper, accessed via ``$view['translator']``, is used to tran
 
 This example replaces the ``%world%`` placeholder with ``Mars``, and outputs the translated string.
 
-For more on how to handle translations, see :doc:`Translator </developer/translations>`.
+.. vale off
+
+For more on how to handle translations, see :doc:`Translator </components/translators>`.
+
+.. vale on
 
 The ``$view['translator']`` follows the same conventions described in the :doc:`Translator documentation </developer/translations>`, allowing dynamic, localized content in templates.
 
@@ -657,12 +655,6 @@ The ``form`` helper, accessed via ``$view['form']``, is used to render Form obje
     <?php echo $view['form']->form($form); ?>
 
 This helper outputs the complete HTML Form using the Form object - typically a Symfony Form - passed to the view.
-
-.. vale off
-
-For detailed usage, see :doc:`Forms <components/forms>`.
-
-.. vale on
 
 AJAX Integration
 ****************
