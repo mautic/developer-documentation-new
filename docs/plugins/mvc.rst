@@ -577,7 +577,7 @@ These methods enable you to handle your Assets properly, regardless of Mautic’
 The ``router`` helper
 =====================
 
-The ``router`` helper, accessed via ``$view['router']``, is used to generate URLs to named routes within views.
+The ``router`` helper - accessed via ``$view['router']`` - generates URLs for named routes within views.
 
 .. code-block:: php
 
