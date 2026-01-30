@@ -392,7 +392,7 @@ This base class offers access to services commonly used in models:
 \2. ``FormModel`` - ``\Mautic\CoreBundle\Model\FormModel``
 ----------------------------------------------------------
 
-The ``FormModel`` class extends ``AbstractCommonModel`` and includes helper methods for working with entities and repositories. For more information, refer to the :doc:`Entities and schema </plugin/data.rst>` section.
+The ``FormModel`` class extends ``AbstractCommonModel`` and includes helper methods for working with entities and repositories. For more information, refer to the :doc:`/plugins/data` section.
 
 .. vale on
 
@@ -610,7 +610,7 @@ For more on how to handle translations, see :doc:`Translator </components/transl
 
 .. vale on
 
-The ``$view['translator']`` follows the same conventions described in the :doc:`Translator documentation </developer/translations>`, allowing dynamic, localized content in templates.
+The ``$view['translator']`` follows the same conventions described in the :doc:`Translator documentation </components/translators>`, allowing dynamic, localized content in templates.
 
 The ``date`` helper
 ===================
