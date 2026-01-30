@@ -80,6 +80,7 @@ initialisms
 ISO
 JavaScript
 Joomla
+jQuery
 Legacy Builder
 Libre
 Licensor
@@ -94,6 +95,7 @@ middlewares
 MJML
 Multiselect
 multiselect
+MVC
 MVP
 mysqldump
 Namespace
