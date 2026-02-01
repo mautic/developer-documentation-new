@@ -38,13 +38,15 @@ Get an individual Webhook by ID.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /hooks/ID``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -82,9 +84,11 @@ Get an individual Webhook by ID.
        }
    }
 
-**Webhook Properties**
+Webhook properties
+------------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -158,15 +162,18 @@ List Webhooks
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /hooks``
 
-**Query Parameters**
+Query parameters
+----------------
 
 .. list-table::
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
@@ -186,7 +193,8 @@ List Webhooks
    * - ``minimal``
      - Return only array of entities without additional lists in it
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -219,7 +227,8 @@ List Webhooks
        ]
    }
 
-**Properties**
+Properties
+----------
 
 Same as `Get Webhook <#get-webhook>`_.
 
@@ -251,15 +260,18 @@ Create a new Webhook.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /hooks/new``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -296,11 +308,13 @@ Create a new Webhook.
      - int
      - ID of the category to assign the webhook to
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 201``
 
-**Properties**
+Properties
+----------
 
 Same as `Get Webhook <#get-webhook>`_.
 
@@ -339,7 +353,8 @@ Edit an existing Webhook. This supports PUT or PATCH depending on the desired be
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
@@ -351,9 +366,11 @@ To edit a Webhook and create a new one if the Webhook isn't found:
 
 ``PUT /hooks/ID/edit``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -390,13 +407,15 @@ To edit a Webhook and create a new one if the Webhook isn't found:
      - int
      - ID of the category to assign the webhook to
 
-**Response**
+Response
+========
 
 If ``PUT``\ , the expected response code if editing the Webhook is ``200`` or ``201`` if created.
 
 If using ``PATCH``\ , the expected response code is ``200``.
 
-**Properties**
+Properties
+----------
 
 Same as `Get Webhook <#get-webhook>`_.
 
@@ -417,23 +436,26 @@ Delete a Webhook.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``DELETE /hooks/ID/delete``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
-**Properties**
+Properties
+----------
 
 Same as `Get Webhook <#get-webhook>`_.
 
 .. vale off
 
-Get Webhook Triggers
+Get Webhook triggers
 ********************
 
 .. vale on
@@ -448,13 +470,15 @@ Get a list of available webhook triggers (event types).
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /hooks/triggers``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -513,11 +537,13 @@ Get a list of available webhook triggers (event types).
        }
    }
 
-**Response Properties**
+Response properties
+-------------------
 
 The response contains a ``triggers`` object where each key is a trigger event type, and the value contains:
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name

@@ -38,13 +38,15 @@ Get an individual Segment by ID.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /segments/ID``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -88,9 +90,11 @@ Get an individual Segment by ID.
        }
    }
 
-**Segment Properties**
+Segment properties
+------------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -163,15 +167,18 @@ Get a list of Segments.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /segments``
 
-**Query Parameters**
+Query parameters
+----------------
 
 .. list-table::
+   :widths: 20 80
    :header-rows: 1
 
    * - Name
@@ -195,7 +202,8 @@ Get a list of Segments.
    * - ``order``
      - An array of advanced order statements
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -242,7 +250,8 @@ Get a list of Segments.
        }
    }
 
-**Properties**
+Properties
+----------
 
 Same as :ref:`rest_api/segments:Get Segment`.
 
@@ -283,15 +292,18 @@ Create a new Segment.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /segments/new``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -325,11 +337,13 @@ Create a new Segment.
      - int
      - ID of the Category to assign to the Segment
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 201``
 
-**Properties**
+Properties
+----------
 
 Same as :ref:`rest_api/segments:Get Segment`.
 
@@ -362,7 +376,8 @@ Edit an existing Segment. Note that this supports PUT or PATCH depending on the 
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
@@ -374,9 +389,11 @@ To edit a Segment and create a new one if the Segment isn't found:
 
 ``PUT /segments/ID/edit``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -410,12 +427,14 @@ To edit a Segment and create a new one if the Segment isn't found:
      - int
      - ID of the Category to assign to the Segment
 
-**Response**
+Response
+========
 
 If ``PUT``, the expected response code is ``200`` if the Segment was edited or ``201`` if created.
 If ``PATCH``, the expected response code is ``200``.
 
-**Properties**
+Properties
+----------
 
 Same as :ref:`rest_api/segments:Get Segment`.
 
@@ -436,17 +455,20 @@ Delete a Segment.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``DELETE /segments/ID/delete``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
-**Properties**
+Properties
+----------
 
 Same as :ref:`rest_api/segments:Get Segment`.
 
@@ -467,13 +489,15 @@ Add a Contact to a Segment.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /segments/SEGMENT_ID/contact/CONTACT_ID/add``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -501,15 +525,18 @@ Add multiple Contacts to a Segment.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /segments/SEGMENT_ID/contacts/add``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -519,7 +546,8 @@ Add multiple Contacts to a Segment.
      - array
      - Array of Contact IDs to add to the Segment
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -557,13 +585,15 @@ Remove a Contact from a Segment.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /segments/SEGMENT_ID/contact/CONTACT_ID/remove``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -590,13 +620,15 @@ Get a list of Segments available to the current user.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /contacts/list/segments``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -615,9 +647,11 @@ Get a list of Segments available to the current user.
        }
    }
 
-**Segment Properties**
+Segment properties
+------------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -642,7 +676,8 @@ Segment Filters
 
 Segments use filters to define which Contacts should be included. Filters support various field types and operators.
 
-**Filter Structure**
+Filter structure
+================
 
 .. code-block:: json
 
@@ -657,9 +692,11 @@ Segments use filters to define which Contacts should be included. Filters suppor
        }
    }
 
-**Filter Properties**
+Filter properties
+-----------------
 
 .. list-table::
+   :widths: 20 20 60
    :header-rows: 1
 
    * - Name
@@ -684,41 +721,47 @@ Segments use filters to define which Contacts should be included. Filters suppor
      - object
      - Additional filter properties including the ``filter`` value
 
-**Common Operators by Field Type**
+Common operators by field type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Text Fields:
-- ``=`` (equals)
-- ``!=`` (not equals)  
-- ``like`` (contains)
-- ``!like`` (does not contain)
-- ``empty`` (is empty)
-- ``!empty`` (is not empty)
+**Text fields:**
 
-Number Fields:
-- ``=`` (equals)
-- ``!=`` (not equals)
-- ``gt`` (greater than)
-- ``gte`` (greater than or equal)
-- ``lt`` (less than)
-- ``lte`` (less than or equal)
+* ``=`` (equals)
+* ``!=`` (not equals)  
+* ``like`` (contains)
+* ``!like`` (does not contain)
+* ``empty`` (is empty)
+* ``!empty`` (is not empty)
 
-Date Fields:
-- ``=`` (equals)
-- ``!=`` (not equals)
-- ``gt`` (after)
-- ``gte`` (on or after)
-- ``lt`` (before)
-- ``lte`` (on or before)
+**Number fields:**
 
-Select/Multi-Select Fields:
-- ``=`` (equals)
-- ``!=`` (not equals)
-- ``in`` (in list)
-- ``!in`` (not in list)
+* ``=`` (equals)
+* ``!=`` (not equals)
+* ``gt`` (greater than)
+* ``gte`` (greater than or equal)
+* ``lt`` (less than)
+* ``lte`` (less than or equal)
 
-**Example Filters**
+**Date fields:**
 
-Email domain filter:
+* ``=`` (equals)
+* ``!=`` (not equals)
+* ``gt`` (after)
+* ``gte`` (on or after)
+* ``lt`` (before)
+* ``lte`` (on or before)
+
+**Select or multi-select fields:**
+
+* ``=`` (equals)
+* ``!=`` (not equals)
+* ``in`` (in list)
+* ``!in`` (not in list)
+
+Example filters
+~~~~~~~~~~~~~~~
+
+**Email domain filter:**
 
 .. code-block:: json
 
@@ -733,7 +776,7 @@ Email domain filter:
        }
    }
 
-Points range filter:
+**Points range filter:**
 
 .. code-block:: json
 
@@ -748,7 +791,7 @@ Points range filter:
        }
    }
 
-Date range filter:
+**Date range filter:**
 
 .. code-block:: json
 

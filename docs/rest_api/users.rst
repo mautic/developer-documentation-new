@@ -38,13 +38,15 @@ Get an individual User by ID.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /users/ID``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -82,9 +84,11 @@ Get an individual User by ID.
        }
    }
 
-**User Properties**
+User properties
+===============
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -160,15 +164,18 @@ Get a list of Users.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /users``
 
-**Query Parameters**
+Query parameters
+----------------
 
 .. list-table::
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
@@ -188,7 +195,8 @@ Get a list of Users.
    * - ``minimal``
      - Return only array of entities without additional lists in it.
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -256,15 +264,18 @@ Create a new User.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /users/new``
 
-**Post Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -301,7 +312,8 @@ Create a new User.
      - string
      - User's email signature (HTML)
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 201``
 
@@ -357,7 +369,8 @@ Edit an existing User. Note that this supports PUT or PATCH depending on the des
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
@@ -369,9 +382,11 @@ To edit a User and create a new one if the User is not found:
 
 ``PUT /users/ID/edit``
 
-**Post Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -402,7 +417,8 @@ To edit a User and create a new one if the User is not found:
      - string
      - User's email signature (HTML)
 
-**Response**
+Response
+========
 
 If ``PUT``: ``Expected Response Code: 200`` (if the User was edited) or ``201`` (if the User was created).
 
@@ -446,13 +462,15 @@ Delete a User.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``DELETE /users/ID``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -470,7 +488,7 @@ Delete a User.
 
 .. vale off
 
-Get Current User
+Get current User
 ****************
 
 .. vale on
@@ -485,13 +503,15 @@ Get the currently authenticated User's information.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /users/self``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -517,7 +537,7 @@ Get the currently authenticated User's information.
 
 .. vale off
 
-Check User Permissions
+Check User permissions
 **********************
 
 .. vale on
@@ -533,15 +553,18 @@ Check if a User has specific permissions.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /users/ID/permissioncheck``
 
-**Post Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -551,7 +574,8 @@ Check if a User has specific permissions.
      - array
      - **Required.** Array of permission strings to check
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -564,7 +588,7 @@ Check if a User has specific permissions.
 
 .. vale off
 
-Get User Roles
+Get User roles
 **************
 
 .. vale on
@@ -579,15 +603,18 @@ Get a list of available User roles for user creation/editing.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /users/list/roles``
 
-**Query Parameters**
+Query parameters
+----------------
 
 .. list-table::
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
@@ -597,7 +624,8 @@ Get a list of available User roles for user creation/editing.
    * - ``limit``
      - Limit number of roles to return
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -624,14 +652,8 @@ Get a list of available User roles for user creation/editing.
        }
    ]
 
-.. vale off
-
-Batch Operations
-****************
-
-.. vale on
-
-**Batch Delete Users**
+Batch delete Users
+******************
 
 .. code-block:: php
 
@@ -644,13 +666,15 @@ Delete multiple Users in a single request.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``DELETE /users/batch/delete?ids=1,2,3``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -669,7 +693,8 @@ Delete multiple Users in a single request.
        ]
    }
 
-**Batch Edit Users**
+Batch edit Users
+****************
 
 .. code-block:: php
 
@@ -692,17 +717,20 @@ Edit multiple Users in a single request.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``PATCH /users/batch/edit``
 
-**Post Parameters**
+Post parameters
+---------------
 
 Send an array of User data with each item containing the User ID and the fields to update.
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -723,16 +751,14 @@ Send an array of User data with each item containing the User ID and the fields 
        ]
    }
 
-.. vale off
-
-Error Responses
+Error responses
 ***************
 
-.. vale on
-
-**Common Error Responses**
+Common error responses
+======================
 
 .. list-table::
+   :widths: 20 30 50
    :header-rows: 1
 
    * - HTTP Code
@@ -754,7 +780,8 @@ Error Responses
      - Unprocessable Entity
      - Validation errors in the submitted data
 
-**Password Policy Errors**
+Password policy errors
+======================
 
 When creating or updating users, password validation errors may occur:
 
@@ -772,7 +799,8 @@ When creating or updating users, password validation errors may occur:
        }
    }
 
-**Permission Errors**
+Permission errors
+=================
 
 When checking permissions on non-existent users:
 
@@ -785,7 +813,8 @@ When checking permissions on non-existent users:
        }
    }
 
-**Role Assignment Errors**
+Role assignment errors
+======================
 
 When assigning invalid roles:
 

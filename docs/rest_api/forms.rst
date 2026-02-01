@@ -38,13 +38,15 @@ Get an individual Form by ID.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /forms/ID``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -132,9 +134,11 @@ Get an individual Form by ID.
        }
    }
 
-**Form Properties**
+Form properties
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -222,9 +226,11 @@ Get an individual Form by ID.
      - string
      - Name of the User that last modified the Form
 
-**Form Field Properties**
+Form field properties
+---------------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -300,9 +306,11 @@ Get an individual Form by ID.
      - string
      - Object the Field maps to - ``contact`` or ``company``
 
-**Form Action Properties**
+Form action properties
+----------------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -345,15 +353,18 @@ Returns a list of Forms available to the User. This list is filterable and sorta
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /forms``
 
-**Query Parameters**
+Query parameters
+----------------
 
 .. list-table::
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
@@ -373,7 +384,8 @@ Returns a list of Forms available to the User. This list is filterable and sorta
    * - ``minimal``
      - Return only array of entities without additional lists in it.
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -411,7 +423,8 @@ Returns a list of Forms available to the User. This list is filterable and sorta
        }
    }
 
-**Properties**
+Properties
+----------
 
 Same as :ref:`rest_api/forms:Get Form`.
 
@@ -465,15 +478,18 @@ Create a new Form.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /forms/new``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -537,11 +553,13 @@ Create a new Form.
      - boolean
      - Published state
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 201``
 
-**Properties**
+Properties
+----------
 
 Same as :ref:`rest_api/forms:Get Form`.
 
@@ -592,7 +610,8 @@ Edit a Form. Note that this supports PUT or PATCH depending on the desired behav
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
@@ -604,9 +623,11 @@ To edit a Form and create a new one if the Form isn't found:
 
 ``PUT /forms/ID/edit``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -670,12 +691,14 @@ To edit a Form and create a new one if the Form isn't found:
      - boolean
      - Published state
 
-**Response**
+Response
+========
 
 If ``PUT``, the expected response code is ``200`` if the Form was edited or ``201`` if created.
 If ``PATCH``, the expected response code is ``200``.
 
-**Properties**
+Properties
+----------
 
 Same as :ref:`rest_api/forms:Get Form`.
 
@@ -696,23 +719,26 @@ Delete a Form.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``DELETE /forms/ID/delete``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
-**Properties**
+Properties
+----------
 
 Same as :ref:`rest_api/forms:Get Form`.
 
 .. vale off
 
-Delete Form Fields
+Delete Form fields
 ******************
 
 .. vale on
@@ -727,15 +753,18 @@ Delete specific fields from a Form.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``DELETE /forms/ID/fields/delete``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -745,11 +774,13 @@ Delete specific fields from a Form.
      - array
      - Array of field IDs to delete
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
-**Properties**
+Properties
+----------
 
 Same as :ref:`rest_api/forms:Get Form`.
 
@@ -770,15 +801,18 @@ Delete specific actions from a Form.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``DELETE /forms/ID/actions/delete``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -788,17 +822,19 @@ Delete specific actions from a Form.
      - array
      - Array of action IDs to delete
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
-**Properties**
+Properties
+----------
 
 Same as :ref:`rest_api/forms:Get Form`.
 
 .. vale off
 
-Create Batch Forms
+Create batch Forms
 ******************
 
 .. vale on
@@ -845,27 +881,31 @@ Create a batch of new Forms.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /forms/batch/new``
 
-**POST Parameters**
+POST parameters
+---------------
 
 Array of Form data objects. Each object should contain the same parameters as for creating a single Form.
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 201``
 
-**Properties**
+Properties
+----------
 
 Array of Forms. Each record is the same as :ref:`rest_api/forms:Get Form`.
 
 .. vale off
 
-Edit Batch Forms
+Edit batch Forms
 ****************
 
 .. vale on
@@ -896,7 +936,8 @@ Edit multiple Forms in one request. Note that this supports PUT or PATCH dependi
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
@@ -908,22 +949,25 @@ To edit Forms and create new ones if a Form isn't found:
 
 ``PUT /forms/batch/edit``
 
-**POST Parameters**
+POST parameters
+---------------
 
 Array of Form data objects. Each object should contain an ``id`` field and the fields to be updated.
 
-**Response**
+Response
+========
 
 If ``PUT``, the expected response code is ``200`` if Forms were edited or ``201`` if created.
 If ``PATCH``, the expected response code is ``200``.
 
-**Properties**
+Properties
+----------
 
 Array of Forms. Each record is the same as :ref:`rest_api/forms:Get Form`.
 
 .. vale off
 
-Delete Batch Forms
+Delete batch Forms
 ******************
 
 .. vale on
@@ -938,7 +982,8 @@ Delete multiple Forms.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
@@ -948,17 +993,19 @@ If you aren't using PHP, here is a URL example:
 
 ``DELETE https://[example.com]/api/forms/batch/delete?ids=1,2``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
-**Properties**
+Properties
+----------
 
 Array of Forms. Each record is the same as :ref:`rest_api/forms:Get Form`.
 
 .. vale off
 
-Get Form Submissions
+Get Form submissions
 ********************
 
 .. vale on
@@ -973,15 +1020,18 @@ Get a list of submissions for a specific Form.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /forms/ID/submissions``
 
-**Query Parameters**
+Query parameters
+----------------
 
 .. list-table::
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
@@ -997,7 +1047,8 @@ Get a list of submissions for a specific Form.
    * - ``orderByDir``
      - Sort direction: ``asc`` or ``desc``.
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -1065,7 +1116,7 @@ Get a list of submissions for a specific Form.
 
 .. vale off
 
-Get Form Submission
+Get Form submission
 *******************
 
 .. vale on
@@ -1080,13 +1131,15 @@ Get an individual submission for a specific Form.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /forms/FORM_ID/submissions/SUBMISSION_ID``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -1142,7 +1195,7 @@ Get an individual submission for a specific Form.
 
 .. vale off
 
-Get Contact Form Submissions
+Get Contact Form submissions
 ****************************
 
 .. vale on
@@ -1157,15 +1210,18 @@ Get submissions for a specific Form and Contact.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /forms/FORM_ID/submissions/contact/CONTACT_ID``
 
-**Query Parameters**
+Query parameters
+----------------
 
 .. list-table::
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
@@ -1181,17 +1237,20 @@ Get submissions for a specific Form and Contact.
    * - ``orderByDir``
      - Sort direction: ``asc`` or ``desc``.
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
 Same format as :ref:`rest_api/forms:Get Form Submissions`.
 
-**Form Field Types**
+Form field types
+================
 
 Mautic supports various field types for Forms. Here are the most common types:
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Type
@@ -1255,11 +1314,13 @@ Mautic supports various field types for Forms. Here are the most common types:
      - Page break for multi-page forms
      - None
 
-**Form Action Types**
+Form action types
+=================
 
 Forms can have various actions that are executed when the form is submitted:
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Type
@@ -1290,26 +1351,29 @@ Forms can have various actions that are executed when the form is submitted:
      - Show message
      - ``message``
 
-**Progressive Profiling**
+Progressive profiling
+=====================
 
-Progressive profiling allows you to collect more information from contacts over time by showing different fields based on previous submissions. To enable progressive profiling:
+Progressive profiling allows you to collect more information from Contacts over time by showing different fields based on previous submissions. To enable progressive profiling:
 
-1. Set ``progressiveProfilingLimit`` on the form
-2. Configure fields with ``showAfterXSubmissions`` property
-3. Use ``showWhenValueExists`` to hide fields when contact already has a value
+#. Set ``progressiveProfilingLimit`` on the form
+#. Configure fields with ``showAfterXSubmissions`` property
+#. Use ``showWhenValueExists`` to hide fields when contact already has a value
 
-**Conditional Fields**
+Conditional fields
+==================
 
 Fields can be conditionally shown based on other field values:
 
-1. Set the ``parent`` field ID
-2. Configure ``conditions`` with expression type (``eq``, ``neq``, ``in``, ``!in``)
-3. Set ``isConditionallyHidden`` to true
+#. Set the ``parent`` field ID
+#. Configure ``conditions`` with expression type (``eq``, ``neq``, ``in``, ``!in``)
+#. Set ``isConditionallyHidden`` to true
 
-**Mapped Fields**
+Mapped fields
+=============
 
 Form fields can be mapped to Contact or Company fields:
 
-- Use ``mappedObject`` to specify ``contact`` or ``company``
-- Use ``mappedField`` to specify the target field name
-- The deprecated ``leadField`` property is still supported for backward compatibility
+* Use ``mappedObject`` to specify ``contact`` or ``company``
+* Use ``mappedField`` to specify the target field name
+* The deprecated ``leadField`` property is still supported for backward compatibility

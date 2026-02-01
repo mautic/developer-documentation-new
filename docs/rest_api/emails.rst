@@ -38,13 +38,15 @@ Get an individual Email by ID.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /emails/ID``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -107,9 +109,11 @@ Get an individual Email by ID.
        }
    }
 
-**Email Properties**
+Email properties
+----------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -245,15 +249,18 @@ Returns a list of contact Emails available to the User. This list is filterable 
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /emails``
 
-**Query Parameters**
+Query parameters
+----------------
 
 .. list-table::
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
@@ -265,7 +272,7 @@ Returns a list of contact Emails available to the User. This list is filterable 
    * - ``limit``
      - Limit number of entities to return. Defaults to the system configuration for pagination, which is 30 by default.
    * - ``orderBy``
-     - Column to sort by. Can use any column listed in the response. However, you need to change all properties in the response written in ``camelCase`` a bit. Before every capital, add an underscore ``_`` and then change the capital letters to non-capital letters. So ``dateAdded`` becomes ``date_added``, ``modifiedBy`` becomes ``modified_by``, etc.
+     - Column to sort by. Can use any column listed in the response. However, you need to change all properties in the response written in ``camelCase`` a bit. Before every capital, add an underscore - ``_`` - and then change the capital letters to non-capital letters. So ``dateAdded`` becomes ``date_added``, ``modifiedBy`` becomes ``modified_by``, etc.
    * - ``orderByDir``
      - Sort direction: ``asc`` or ``desc``.
    * - ``publishedOnly``
@@ -273,7 +280,8 @@ Returns a list of contact Emails available to the User. This list is filterable 
    * - ``minimal``
      - Return only array of entities without additional lists in it.
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -331,7 +339,8 @@ Returns a list of contact Emails available to the User. This list is filterable 
        }
    }
 
-**Properties**
+Properties
+----------
 
 Same as :ref:`rest_api/emails:Get Email`.
 
@@ -360,15 +369,18 @@ Create a new Email.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /emails/new``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -450,11 +462,13 @@ Create a new Email.
      - boolean
      - Published state
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 201``
 
-**Properties**
+Properties
+----------
 
 Same as :ref:`rest_api/emails:Get Email`.
 
@@ -487,7 +501,8 @@ Edit an existing Email. Note that this supports PUT or PATCH depending on the de
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
@@ -499,9 +514,11 @@ To edit an Email and create a new one if the Email isn't found:
 
 ``PUT /emails/ID/edit``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -583,12 +600,14 @@ To edit an Email and create a new one if the Email isn't found:
      - boolean
      - Published state
 
-**Response**
+Response
+========
 
 If ``PUT``, the expected response code is ``200`` if the Email was edited or ``201`` if created.
 If ``PATCH``, the expected response code is ``200``.
 
-**Properties**
+Properties
+----------
 
 Same as :ref:`rest_api/emails:Get Email`.
 
@@ -609,23 +628,26 @@ Delete an Email.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``DELETE /emails/ID/delete``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
-**Properties**
+Properties
+----------
 
 Same as :ref:`rest_api/emails:Get Email`.
 
 .. vale off
 
-Create Batch Emails
+Create batch Emails
 *******************
 
 .. vale on
@@ -657,27 +679,31 @@ Create a batch of new Emails.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /emails/batch/new``
 
-**POST Parameters**
+POST parameters
+---------------
 
 Array of Email data objects. Each object should contain the same parameters as for creating a single Email.
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 201``
 
-**Properties**
+Properties
+----------
 
 Array of Emails. Each record is the same as :ref:`rest_api/emails:Get Email`.
 
 .. vale off
 
-Edit Batch Emails
+Edit batch Emails
 *****************
 
 .. vale on
@@ -708,7 +734,8 @@ Edit multiple Emails in one request. Note that this supports PUT or PATCH depend
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
@@ -720,22 +747,25 @@ To edit Emails and create new ones if an Email isn't found:
 
 ``PUT /emails/batch/edit``
 
-**POST Parameters**
+POST parameters
+---------------
 
 Array of Email data objects. Each object should contain an ``id`` field and the fields to be updated.
 
-**Response**
+Response
+========
 
 If ``PUT``, the expected response code is ``200`` if Emails were edited or ``201`` if created.
 If ``PATCH``, the expected response code is ``200``.
 
-**Properties**
+Properties
+----------
 
 Array of Emails. Each record is the same as :ref:`rest_api/emails:Get Email`.
 
 .. vale off
 
-Delete Batch Emails
+Delete batch Emails
 *******************
 
 .. vale on
@@ -750,7 +780,8 @@ Delete multiple Emails.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
@@ -760,11 +791,13 @@ If you aren't using PHP, here is a URL example:
 
 ``DELETE https://[example.com]/api/emails/batch/delete?ids=1,2``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
-**Properties**
+Properties
+----------
 
 Array of Emails. Each record is the same as :ref:`rest_api/emails:Get Email`.
 
@@ -789,15 +822,18 @@ Send an Email to the Contacts in the Email's assigned lists or to provided list 
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /emails/ID/send``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
@@ -809,7 +845,8 @@ Send an Email to the Contacts in the Email's assigned lists or to provided list 
    * - ``batch``
      - Batch size for sending. If not provided, will send all at once.
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -838,15 +875,18 @@ Send an Email to a specific Contact.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /emails/ID/contact/CONTACT_ID/send``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
@@ -856,7 +896,8 @@ Send an Email to a specific Contact.
    * - ``assetAttachments``
      - Array of asset IDs to attach to the Email
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -866,7 +907,8 @@ Send an Email to a specific Contact.
        "success": true
    }
 
-**Tokens**
+Tokens
+------
 
 You can send custom tokens to the Email via the ``tokens`` parameter. Tokens should be in the format ``{token_name}`` and can be used in the Email content.
 
@@ -884,7 +926,7 @@ You can send custom tokens to the Email via the ``tokens`` parameter. Tokens sho
 
 .. vale off
 
-Create Email Reply
+Create Email reply
 ******************
 
 .. vale on
@@ -899,13 +941,15 @@ Create a reply to an Email using the tracking hash from the Email statistics.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /emails/reply/TRACKING_HASH``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 201``
 

@@ -38,13 +38,15 @@ Get an individual Company by ID.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /companies/ID``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -86,90 +88,94 @@ Get an individual Company by ID.
        }
    }
 
-**Company Properties**
+Company properties
+------------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
      - Type
      - Description
-   * - id
+   * - ``id``
      - int
-     - ID of the company
-   * - isPublished
+     - ID of the Company
+   * - ``isPublished``
      - bool
      - Published state
-   * - dateAdded
+   * - ``dateAdded``
      - datetime
-     - Date/time company was created
-   * - dateModified
+     - Date/time Company was created
+   * - ``dateModified``
      - datetime
-     - Date/time company was last modified
-   * - createdBy
+     - Date/time Company was last modified
+   * - ``createdBy``
      - int
-     - ID of the user that created the company
-   * - createdByUser
+     - ID of the user that created the Company
+   * - ``createdByUser``
      - string
-     - Name of the user that created the company
-   * - modifiedBy
+     - Name of the user that created the Company
+   * - ``modifiedBy``
      - int
-     - ID of the user that last modified the company
-   * - modifiedByUser
+     - ID of the user that last modified the Company
+   * - ``modifiedByUser``
      - string
-     - Name of the user that last modified the company
-   * - fields
+     - Name of the user that last modified the Company
+   * - ``fields``
      - array
-     - Custom fields and values for the company
-   * - score
+     - Custom fields and values for the Company
+   * - ``score``
      - int
      - Company score
-   * - owner
+   * - ``owner``
      - object
-     - User object for the company owner
+     - User object for the Company owner
 
-**Company Field Properties**
+Company field properties
+------------------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
      - Type
      - Description
-   * - companyname
+   * - ``companyname``
      - string
      - Company name
-   * - companyemail
+   * - ``companyemail``
      - string
      - Company email address
-   * - companyaddress1
+   * - ``companyaddress1``
      - string
      - Company address line 1
-   * - companyaddress2
+   * - ``companyaddress2``
      - string
      - Company address line 2
-   * - companycity
+   * - ``companycity``
      - string
      - Company city
-   * - companystate
+   * - ``companystate``
      - string
      - Company state/province
-   * - companyzipcode
+   * - ``companyzipcode``
      - string
      - Company zip/postal code
-   * - companycountry
+   * - ``companycountry``
      - string
      - Company country
-   * - companyphone
+   * - ``companyphone``
      - string
      - Company phone number
-   * - companywebsite
+   * - ``companywebsite``
      - string
      - Company website URL
-   * - companyindustry
+   * - ``companyindustry``
      - string
      - Company industry
-   * - companydescription
+   * - ``companydescription``
      - string
      - Company description
 
@@ -189,35 +195,43 @@ List Companies
 
 .. note::
 
-   The ``$companies`` array will be an array of individual Company arrays like the above example.
+   The ``$companies`` array is an array of individual Company arrays like the above example.
 
-**HTTP Request**
+.. vale off
+
+HTTP request
+============
+
+.. vale on
 
 ``GET /companies``
 
-**Query Parameters**
+Query parameters
+----------------
 
 .. list-table::
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
      - Description
-   * - search
+   * - ``search``
      - String or search command to filter entities by.
-   * - start
+   * - ``start``
      - Starting row for the entities returned. Defaults to 0.
-   * - limit
+   * - ``limit``
      - Limit number of entities to return. Defaults to the system configuration for pagination, default of 30.
-   * - orderBy
+   * - ``orderBy``
      - Column to sort by. Can use any column listed in the response.
-   * - orderByDir
+   * - ``orderByDir``
      - Sort direction: asc or desc.
-   * - publishedOnly
+   * - ``publishedOnly``
      - Only return currently published entities.
-   * - minimal
+   * - ``minimal``
      - Return only array of entities without additional lists in it.
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -267,66 +281,75 @@ Create Company
 
 Create a new Company.
 
-**HTTP Request**
+.. vale off
+
+HTTP request
+============
+
+.. vale on
 
 ``POST /companies/new``
 
-**Post Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
      - Type
      - Description
-   * - companyname
+   * - ``companyname``
      - string
-     - Company name - required
-   * - companyemail
+     - Company name - **required**
+   * - ``companyemail``
      - string
      - Company email address
-   * - companyaddress1
+   * - ``companyaddress1``
      - string
      - Company address line 1
-   * - companyaddress2
+   * - ``companyaddress2``
      - string
      - Company address line 2
-   * - companycity
+   * - ``companycity``
      - string
      - Company city
-   * - companystate
+   * - ``companystate``
      - string
      - Company state/province
-   * - companyzipcode
+   * - ``companyzipcode``
      - string
      - Company zip/postal code
-   * - companycountry
+   * - ``companycountry``
      - string
      - Company country
-   * - companyphone
+   * - ``companyphone``
      - string
      - Company phone number
-   * - companywebsite
+   * - ``companywebsite``
      - string
      - Company website URL
-   * - companyindustry
+   * - ``companyindustry``
      - string
      - Company industry
-   * - companydescription
+   * - ``companydescription``
      - string
      - Company description
-   * - isPublished
+   * - ``isPublished``
      - boolean
      - Published state, defaults to 1
-   * - owner
+   * - ``owner``
      - int
-     - ID of a Mautic user to assign this company to
+     - ID of a Mautic user to assign this Company to
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 201``
 
-**Properties**
+Properties
+----------
 
 Same as `Get Company`_.
 
@@ -357,7 +380,12 @@ Edit an existing Company. Note that this supports PUT or PATCH depending on the 
 **PUT** creates a Company if the given ID does not exist and clears all the Company information, adds the information from the request.
 **PATCH** fails if the Company with the given ID does not exist and updates the Company field values with the values from the request.
 
-**HTTP Request**
+.. vale off
+
+HTTP request
+============
+
+.. vale on
 
 To edit a Company and return a 404 if the Company is not found:
 
@@ -367,64 +395,68 @@ To edit a Company and create a new one if the Company is not found:
 
 ``PUT /companies/ID/edit``
 
-**Post Parameters**
+POST parameters
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
      - Type
      - Description
-   * - companyname
+   * - ``companyname``
      - string
      - Company name
-   * - companyemail
+   * - ``companyemail``
      - string
      - Company email address
-   * - companyaddress1
+   * - ``companyaddress1``
      - string
      - Company address line 1
-   * - companyaddress2
+   * - ``companyaddress2``
      - string
      - Company address line 2
-   * - companycity
+   * - ``companycity``
      - string
      - Company city
-   * - companystate
+   * - ``companystate``
      - string
      - Company state/province
-   * - companyzipcode
+   * - ``companyzipcode``
      - string
      - Company zip/postal code
-   * - companycountry
+   * - ``companycountry``
      - string
      - Company country
-   * - companyphone
+   * - ``companyphone``
      - string
      - Company phone number
-   * - companywebsite
+   * - ``companywebsite``
      - string
      - Company website URL
-   * - companyindustry
+   * - ``companyindustry``
      - string
      - Company industry
-   * - companydescription
+   * - ``companydescription``
      - string
      - Company description
-   * - isPublished
+   * - ``isPublished``
      - boolean
      - Published state
-   * - owner
+   * - ``owner``
      - int
-     - ID of a Mautic user to assign this company to
+     - ID of a Mautic user to assign this Company to
 
-**Response**
+Response
+========
 
 If ``PUT``: ``Expected Response Code: 200`` or ``201`` if created
 
 If ``PATCH``: ``Expected Response Code: 200``
 
-**Properties**
+Properties
+----------
 
 Same as `Get Company`_.
 
@@ -443,21 +475,28 @@ Delete Company
 
 Delete a Company.
 
-**HTTP Request**
+.. vale off
+
+HTTP request
+============
+
+.. vale on
 
 ``DELETE /companies/ID/delete``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
-**Properties**
+Properties
+----------
 
 Same as `Get Company`_.
 
 .. vale off
 
-Batch Create Companies
+Batch create Companies
 **********************
 
 .. vale on
@@ -483,17 +522,24 @@ Create multiple Companies in a single request.
 
 .. note::
 
-   If an existing company is found with the same unique identifier fields (as configured in Mautic), the existing company will be updated instead of creating a new one.
+   If an existing Company is found with the same unique identifier fields - as configured in Mautic, the existing Company will be updated instead of creating a new one.
 
-**HTTP Request**
+.. vale off
+
+HTTP request
+============
+
+.. vale on
 
 ``POST /companies/batch/new``
 
-**Post Parameters**
+POST parameters
+---------------
 
 An array of Company arrays. Each Company array should contain the same fields as described in `Create Company`_.
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 201``
 
@@ -541,7 +587,7 @@ An array of Company arrays. Each Company array should contain the same fields as
 
 .. vale off
 
-Batch Edit Companies
+Batch edit Companies
 ********************
 
 .. vale on
@@ -565,25 +611,33 @@ Batch Edit Companies
 
 Edit multiple Companies in a single request. Each Company in the array must include an ``id`` field.
 
-**HTTP Request**
+.. vale off
+
+HTTP request
+============
+
+.. vale on
 
 ``PATCH /companies/batch/edit``
 
-**Post Parameters**
+POST parameters
+---------------
 
 An array of Company arrays. Each Company array should contain an ``id`` field and the fields to update as described in `Edit Company`_.
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
-**Properties**
+Properties
+----------
 
-Similar to `Batch Create Companies`_ but with ``statusCodes`` indicating whether each company was successfully updated (200) or if there was an error.
+Similar to `Batch create Companies`_ but with ``statusCodes`` indicating whether each Company was successfully updated - ``200`` - or if there was an error.
 
 .. vale off
 
-Batch Delete Companies
+Batch delete Companies
 **********************
 
 .. vale on
@@ -597,27 +651,36 @@ Batch Delete Companies
 
 Delete multiple Companies in a single request.
 
-**HTTP Request**
+.. vale off
+
+HTTP request
+============
+
+.. vale on
 
 ``DELETE /companies/batch/delete?ids=1,2,3``
 
-**Query Parameters**
+Query parameters
+----------------
 
 .. list-table::
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
      - Description
-   * - ids
+   * - ``ids``
      - Comma-separated list of Company IDs to delete
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
-**Properties**
+Properties
+----------
 
-Similar to `Batch Create Companies`_ but with the companies that were deleted.
+Similar to `Batch create Companies`_ but with the Companies that were deleted.
 
 .. vale off
 
@@ -634,11 +697,17 @@ Add Contact to Company
 
 Add a Contact to a Company.
 
-**HTTP Request**
+.. vale off
+
+HTTP request
+============
+
+.. vale on
 
 ``POST /companies/COMPANY_ID/contact/CONTACT_ID/add``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -663,11 +732,17 @@ Remove Contact from Company
 
 Remove a Contact from a Company.
 
-**HTTP Request**
+.. vale off
+
+HTTP request
+============
+
+.. vale on
 
 ``POST /companies/COMPANY_ID/contact/CONTACT_ID/remove``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
