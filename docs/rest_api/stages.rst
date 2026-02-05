@@ -79,51 +79,51 @@ Stage properties
      - Description
    * - ``id``
      - int
-     - Stage ID
+     - ID of the Stage
    * - ``isPublished``
      - boolean
-     - Stage publication status
+     - Stage publication status - set to ``1`` or ``true`` to publish
    * - ``dateAdded``
      - datetime
-     - Stage creation date and time
+     - Creation date and time for the Stage
    * - ``createdBy``
      - int
-     - Stage creator User ID
+     - ID of the User who created the Stage
    * - ``createdByUser``
      - string
-     - Stage creator User name
+     - Name of the User who created the Stage
    * - ``dateModified``
-     - datetime/null
-     - Stage last modification date and time
+     - datetime or null
+     - Last modification date and time for the Stage
    * - ``modifiedBy``
      - int
-     - Stage last modifier User ID
+     - ID of the User who last modified the Stage
    * - ``modifiedByUser``
      - string
-     - Stage last modifier User name
+     - Name of the User who last modified the Stage
    * - ``name``
      - string
      - Stage name
    * - ``category``
      - int
-     - Stage Category ID
+     - Category ID assigned to the Stage
    * - ``description``
      - string
-     - Stage description
+     - Description of the Stage
    * - ``weight``
      - int
      - Stage weight
    * - ``publishUp``
      - datetime
-     - Stage publication start date and time
+     - Activation date and time for the Stage
    * - ``publishDown``
      - datetime
-     - Stage publication end date and time
+     - Deactivation date and time for the Stage
 
 .. vale off
 
-List Contact Stages
-*******************
+List Stages
+***********
 
 Get a list of Stages.
 
@@ -187,49 +187,49 @@ Stage properties
      - Description
    * - ``total``
      - int
-     - Total Stage count
+     - Total count of Stages
    * - ``id``
      - int
-     - Stage ID
+     - ID of the Stage
    * - ``isPublished``
      - boolean
-     - Stage publication status
+     - Stage publication status - set to ``1`` or ``true`` to publish
    * - ``dateAdded``
      - datetime
-     - Stage creation date and time
+     - Creation date and time for the Stage
    * - ``createdBy``
      - int
-     - Stage creator User ID
+     - ID of the User who created the Stage
    * - ``createdByUser``
      - string
-     - Stage creator User name
+     - Name of the User who created the Stage
    * - ``dateModified``
      - datetime
-     - Stage last modification date and time
+     - Last modification date and time for the Stage
    * - ``modifiedBy``
      - int
-     - Stage last modifier User ID
+     - ID of the User who last modified the Stage
    * - ``modifiedByUser``
      - string
-     - Stage last modifier User name
+     - Name of the User who last modified the Stage
    * - ``name``
      - string
      - Stage name
    * - ``category``
      - int
-     - Stage Category ID
+     - Category ID assigned to the Stage
    * - ``description``
      - string
-     - Stage description
+     - Description of the Stage
    * - ``weight``
      - int
      - Stage weight
    * - ``publishUp``
      - datetime
-     - Stage publication start date and time
+     - Activation date and time for the Stage
    * - ``publishDown``
      - datetime
-     - Stage publication end date and time
+     - Deactivation date and time for the Stage
 
 .. vale off
 
@@ -280,10 +280,10 @@ POST parameters
      - Stage weight
    * - ``description``
      - string
-     - Stage description
+     - Description of the Stage
    * - ``isPublished``
      - boolean
-     - Stage publication status
+     - Stage publication status - set to ``1`` or ``true`` to publish
 
 Response
 ========
@@ -302,46 +302,46 @@ Properties
      - Description
    * - ``id``
      - int
-     - Stage ID
+     - ID of the Stage
    * - ``isPublished``
      - boolean
-     - Stage publication status
+     - Stage publication status - set to ``1`` or ``true`` to publish
    * - ``dateAdded``
      - datetime
-     - Stage creation date and time
+     - Creation date and time for the Stage
    * - ``createdBy``
      - int
-     - Stage creator User ID
+     - ID of the User who created the Stage
    * - ``createdByUser``
      - string
-     - Stage creator User name
+     - Name of the User who created the Stage
    * - ``dateModified``
-     - datetime/null
-     - Stage last modification date and time
+     - datetime or null
+     - Last modification date and time for the Stage
    * - ``modifiedBy``
      - int
-     - Stage last modifier User ID
+     - ID of the User who last modified the Stage
    * - ``modifiedByUser``
      - string
-     - Stage last modifier User name
+     - Name of the User who last modified the Stage
    * - ``name``
      - string
      - Stage name
    * - ``category``
      - int
-     - Stage Category ID
+     - Category ID assigned to the Stage
    * - ``description``
      - string
-     - Stage description
+     - Description of the Stage
    * - ``weight``
      - int
      - Stage weight
    * - ``publishUp``
      - datetime
-     - Stage publication start date and time
+     - Activation date and time for the Stage
    * - ``publishDown``
      - datetime
-     - Stage publication end date and time
+     - Deactivation date and time for the Stage
 
 .. vale off
 
@@ -352,8 +352,8 @@ Edit Stage
 
 Edit a Stage. This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
 
-* ``PUT``: creates a Stage when the ID doesn't exist. If the ID exists, the request clears the Stage data and adds the request values.
-* ``PATCH``: updates field values for an existing Stage using the request data. The request fails when the ID doesn't exist.
+* ``PUT``: **full replacement**. The request creates a new Stage if the ID is missing. If the ID exists, the request clears all existing data and replaces it with the provided values.
+* ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the ID doesn't exist.
 
 .. code-block:: php
 
@@ -377,8 +377,8 @@ HTTP request
 
 .. vale on
 
-* ``PATCH /stages/ID/edit``: edits an existing Stage. The request fails with a 404 error when the ID doesn't exist.
 * ``PUT /stages/ID/edit``: edits an existing Stage or creates a new one when the ID doesn't exist.
+* ``PATCH /stages/ID/edit``: edits an existing Stage. The request fails with a ``404`` error when the ID doesn't exist.
 
 POST parameters
 ---------------
@@ -398,10 +398,10 @@ POST parameters
      - Stage alias - generated automatically if not set
    * - ``description``
      - string
-     - Stage description
+     - Description of the Stage
    * - ``isPublished``
      - boolean
-     - Stage publication status
+     - Stage publication status - set to ``1`` or ``true`` to publish
    * - ``weight``
      - int
      - Stage weight
@@ -424,46 +424,46 @@ Properties
      - Description
    * - ``id``
      - int
-     - Stage ID
+     - ID of the Stage
    * - ``isPublished``
      - boolean
-     - Stage publication status
+     - Stage publication status - set to ``1`` or ``true`` to publish
    * - ``dateAdded``
      - datetime
-     - Stage creation date and time
+     - Creation date and time for the Stage
    * - ``createdBy``
      - int
-     - Stage creator User ID
+     - ID of the User who created the Stage
    * - ``createdByUser``
      - string
-     - Stage creator User name
+     - Name of the User who created the Stage
    * - ``dateModified``
-     - datetime/null
-     - Stage last modification date and time
+     - datetime or null
+     - Last modification date and time for the Stage
    * - ``modifiedBy``
      - int
-     - Stage last modifier User ID
+     - ID of the User who last modified the Stage
    * - ``modifiedByUser``
      - string
-     - Stage last modifier User name
+     - Name of the User who last modified the Stage
    * - ``name``
      - string
      - Stage name
    * - ``category``
      - int
-     - Stage Category ID
+     - Category ID assigned to the Stage
    * - ``description``
      - string
-     - Stage description
+     - Description of the Stage
    * - ``weight``
      - int
      - Stage weight
    * - ``publishUp``
      - datetime
-     - Stage publication start date and time
+     - Activation date and time for the Stage
    * - ``publishDown``
      - datetime
-     - Stage publication end date and time
+     - Deactivation date and time for the Stage
 
 .. vale off
 
@@ -506,51 +506,51 @@ Properties
      - Description
    * - ``id``
      - int
-     - Stage ID
+     - ID of the Stage
    * - ``isPublished``
      - boolean
-     - Stage publication status
+     - Stage publication status - set to ``1`` or ``true`` to publish
    * - ``dateAdded``
      - datetime
-     - Stage creation date and time
+     - Creation date and time for the Stage
    * - ``createdBy``
      - int
-     - Stage creator User ID
+     - ID of the User who created the Stage
    * - ``createdByUser``
      - string
-     - Stage creator User name
+     - Name of the User who created the Stage
    * - ``dateModified``
-     - datetime/null
-     - Stage last modification date and time
+     - datetime or null
+     - Last modification date and time for the Stage
    * - ``modifiedBy``
      - int
-     - Stage last modifier User ID
+     - ID of the User who last modified the Stage
    * - ``modifiedByUser``
      - string
-     - Stage last modifier User name
+     - Name of the User who last modified the Stage
    * - ``name``
      - string
      - Stage name
    * - ``category``
      - int
-     - Stage Category ID
+     - Category ID assigned to the Stage
    * - ``description``
      - string
-     - Stage description
+     - Description of the Stage
    * - ``weight``
      - int
      - Stage weight
    * - ``publishUp``
      - datetime
-     - Stage publication start date and time
+     - Activation date and time for the Stage
    * - ``publishDown``
      - datetime
-     - Stage publication end date and time
+     - Deactivation date and time for the Stage
 
 .. vale off
 
-Add Contact to a Stage
-**********************
+Add Contact to Stage
+********************
 
 .. vale on
 
@@ -588,8 +588,8 @@ Response
 
 .. vale off
 
-Remove Contact from a Stage
-***************************
+Remove Contact from Stage
+*************************
 
 .. vale on
 
