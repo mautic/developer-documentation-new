@@ -125,7 +125,7 @@ There are several ways to support Mautic other than contributing with code.
    plugins/from-4-to-5
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Extending Mautic
    :hidden:
 
@@ -165,6 +165,7 @@ There are several ways to support Mautic other than contributing with code.
    rest_api/notifications
    rest_api/point_groups
    rest_api/reports
+   rest_api/roles
    rest_api/text_messages
 
 .. toctree::
