@@ -83,6 +83,15 @@ In order for the custom Point Action to work, add something like the following i
     
     $this->getModel('point')->triggerAction('helloworld.action', $event->getHit());
 
+This triggers the custom Point Action for the currently tracked Contact. If you need to perform the Point Action on another Contact you have to pass the Contact's object when invoking ``triggerAction``:
+
+.. code-block:: php
+    
+    <?php
+    
+    $this->getModel('point')->triggerAction('helloworld.action', $event->getHit(), null, $someOtherLead);
+
+
 .. vale off
 
 Custom Point Action definition
@@ -139,15 +148,15 @@ Mautic dispatches the Event ``\Mautic\PointBundle\PointEvents::TRIGGER_ON_BUILD`
 
 .. php:class:: Mautic\PointBundle\Event\TriggerBuilderEvent
 
-.. php:method:: public function addEvent(string $key, array $action)
+  .. php:method:: public function addEvent(string $key, array $action)
 
-    :param string $key: Unique key for the Action.
-    :param array $action: :ref:`Action definition<components/points:Custom Point Trigger definition>`.
+      :param string $key: Unique key for the Action.
+      :param array $action: :ref:`Action definition<components/points:Custom Point Trigger definition>`.
 
-.. php:method:: public getEvents()
+  .. php:method:: public getEvents()
 
-    :return: Array of registered Events.
-    :returntype: array
+      :return: Array of registered Events.
+      :returntype: array
 
 .. vale off
 
