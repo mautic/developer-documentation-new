@@ -1,7 +1,16 @@
 Stages
 ######
 
-Use this endpoint to obtain details on Mautic's Contact Stages.
+Use this endpoint to manipulate and obtain details on Mautic's Contact Stages.
+
+Using Mautic's API library
+**************************
+
+.. vale off
+
+You can interact with this API using the :xref:`Mautic API Library` as below, or the various HTTP endpoints described in this document.
+
+.. vale on
 
 .. code-block:: php
 
@@ -18,8 +27,8 @@ Use this endpoint to obtain details on Mautic's Contact Stages.
 
 .. vale off
 
-Get a Stage
-***********
+Get Stage
+*********
 
 Get an individual Stage.
 
