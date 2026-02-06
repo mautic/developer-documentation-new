@@ -30,7 +30,7 @@ You can interact with this API using the :xref:`Mautic API Library` as below, or
 Get Stage
 *********
 
-Get an individual Stage.
+Retrieve an individual Stage.
 
 .. vale on
 
@@ -53,7 +53,7 @@ HTTP request
 Response
 ========
 
-* Returns ``200`` when the request successfully gets the Stage.
+* Returns ``200`` when the request successfully retrieves the Stage.
 
 .. code-block:: json
 
@@ -76,6 +76,8 @@ Response
      }
    }
 
+.. _get Stage properties:
+
 Stage properties
 ----------------
 
@@ -94,7 +96,7 @@ Stage properties
      - Stage publication status - set to ``1`` or ``true`` to publish
    * - ``dateAdded``
      - datetime
-     - Creation date and time for the Stage
+     - Stage record creation date and time
    * - ``createdBy``
      - int
      - ID of the User who created the Stage
@@ -103,7 +105,7 @@ Stage properties
      - Name of the User who created the Stage
    * - ``dateModified``
      - datetime or null
-     - Last modification date and time for the Stage
+     - Stage record last modification date and time
    * - ``modifiedBy``
      - int
      - ID of the User who last modified the Stage
@@ -115,7 +117,7 @@ Stage properties
      - Stage name
    * - ``category``
      - int
-     - Category ID assigned to the Stage
+     - ID of the Category assigned to the Stage
    * - ``description``
      - string
      - Description of the Stage
@@ -134,7 +136,7 @@ Stage properties
 List Stages
 ***********
 
-Get a list of Stages.
+Retrieve a list of Stages.
 
 .. vale on
 
@@ -157,7 +159,7 @@ HTTP request
 Response
 ========
 
-* Returns ``200`` when the request successfully gets the list of Stages.
+* Returns ``200`` when the request successfully retrieves the list of Stages.
 
 .. code-block:: json
 
@@ -205,7 +207,7 @@ Stage properties
      - Stage publication status - set to ``1`` or ``true`` to publish
    * - ``dateAdded``
      - datetime
-     - Creation date and time for the Stage
+     - Stage record creation date and time
    * - ``createdBy``
      - int
      - ID of the User who created the Stage
@@ -214,7 +216,7 @@ Stage properties
      - Name of the User who created the Stage
    * - ``dateModified``
      - datetime
-     - Last modification date and time for the Stage
+     - Stage record last modification date and time
    * - ``modifiedBy``
      - int
      - ID of the User who last modified the Stage
@@ -226,7 +228,7 @@ Stage properties
      - Stage name
    * - ``category``
      - int
-     - Category ID assigned to the Stage
+     - ID of the Category assigned to the Stage
    * - ``description``
      - string
      - Description of the Stage
@@ -302,55 +304,7 @@ Response
 Properties
 ----------
 
-.. list-table::
-   :widths: 25 25 50
-   :header-rows: 1
-
-   * - Name
-     - Type
-     - Description
-   * - ``id``
-     - int
-     - ID of the Stage
-   * - ``isPublished``
-     - boolean
-     - Stage publication status - set to ``1`` or ``true`` to publish
-   * - ``dateAdded``
-     - datetime
-     - Creation date and time for the Stage
-   * - ``createdBy``
-     - int
-     - ID of the User who created the Stage
-   * - ``createdByUser``
-     - string
-     - Name of the User who created the Stage
-   * - ``dateModified``
-     - datetime or null
-     - Last modification date and time for the Stage
-   * - ``modifiedBy``
-     - int
-     - ID of the User who last modified the Stage
-   * - ``modifiedByUser``
-     - string
-     - Name of the User who last modified the Stage
-   * - ``name``
-     - string
-     - Stage name
-   * - ``category``
-     - int
-     - Category ID assigned to the Stage
-   * - ``description``
-     - string
-     - Description of the Stage
-   * - ``weight``
-     - int
-     - Stage weight
-   * - ``publishUp``
-     - datetime
-     - Activation date and time for the Stage
-   * - ``publishDown``
-     - datetime
-     - Deactivation date and time for the Stage
+Same as :ref:`Get Stage <get Stage properties>`.
 
 .. vale off
 
@@ -386,8 +340,8 @@ HTTP request
 
 .. vale on
 
-* ``PUT /stages/ID/edit``: edits an existing Stage or creates a new one when the ID doesn't exist.
-* ``PATCH /stages/ID/edit``: edits an existing Stage. The request fails with a ``404`` error when the ID doesn't exist.
+* ``PUT /stages/ID/edit``: updates an existing Stage or creates a new one when the ID doesn't exist.
+* ``PATCH /stages/ID/edit``: updates an existing Stage. The request fails with a ``404`` error when the ID doesn't exist.
 
 POST parameters
 ---------------
@@ -418,61 +372,13 @@ POST parameters
 Response
 ========
 
-* ``PUT``: returns ``200`` when the request successfully edits the Stage or ``201`` when the request creates a Stage.
-* ``PATCH``: returns ``200`` when the request successfully edits the Stage.
+* ``PUT``: returns ``200`` when the request successfully updates the Stage or ``201`` when the request creates a Stage.
+* ``PATCH``: returns ``200`` when the request successfully updates the Stage.
 
 Properties
 ----------
 
-.. list-table::
-   :widths: 25 25 50
-   :header-rows: 1
-
-   * - Name
-     - Type
-     - Description
-   * - ``id``
-     - int
-     - ID of the Stage
-   * - ``isPublished``
-     - boolean
-     - Stage publication status - set to ``1`` or ``true`` to publish
-   * - ``dateAdded``
-     - datetime
-     - Creation date and time for the Stage
-   * - ``createdBy``
-     - int
-     - ID of the User who created the Stage
-   * - ``createdByUser``
-     - string
-     - Name of the User who created the Stage
-   * - ``dateModified``
-     - datetime or null
-     - Last modification date and time for the Stage
-   * - ``modifiedBy``
-     - int
-     - ID of the User who last modified the Stage
-   * - ``modifiedByUser``
-     - string
-     - Name of the User who last modified the Stage
-   * - ``name``
-     - string
-     - Stage name
-   * - ``category``
-     - int
-     - Category ID assigned to the Stage
-   * - ``description``
-     - string
-     - Description of the Stage
-   * - ``weight``
-     - int
-     - Stage weight
-   * - ``publishUp``
-     - datetime
-     - Activation date and time for the Stage
-   * - ``publishDown``
-     - datetime
-     - Deactivation date and time for the Stage
+Same as :ref:`Get Stage <get Stage properties>`.
 
 .. vale off
 
@@ -506,55 +412,7 @@ Response
 Properties
 ----------
 
-.. list-table::
-   :widths: 25 25 50
-   :header-rows: 1
-
-   * - Name
-     - Type
-     - Description
-   * - ``id``
-     - int
-     - ID of the Stage
-   * - ``isPublished``
-     - boolean
-     - Stage publication status - set to ``1`` or ``true`` to publish
-   * - ``dateAdded``
-     - datetime
-     - Creation date and time for the Stage
-   * - ``createdBy``
-     - int
-     - ID of the User who created the Stage
-   * - ``createdByUser``
-     - string
-     - Name of the User who created the Stage
-   * - ``dateModified``
-     - datetime or null
-     - Last modification date and time for the Stage
-   * - ``modifiedBy``
-     - int
-     - ID of the User who last modified the Stage
-   * - ``modifiedByUser``
-     - string
-     - Name of the User who last modified the Stage
-   * - ``name``
-     - string
-     - Stage name
-   * - ``category``
-     - int
-     - Category ID assigned to the Stage
-   * - ``description``
-     - string
-     - Description of the Stage
-   * - ``weight``
-     - int
-     - Stage weight
-   * - ``publishUp``
-     - datetime
-     - Activation date and time for the Stage
-   * - ``publishDown``
-     - datetime
-     - Deactivation date and time for the Stage
+Same as :ref:`Get Stage <get Stage properties>`.
 
 .. vale off
 
