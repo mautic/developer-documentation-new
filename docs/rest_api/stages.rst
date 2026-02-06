@@ -53,7 +53,7 @@ HTTP request
 Response
 ========
 
-* Returns ``200`` when the request successfully gets a Stage.
+* Returns ``200`` when the request successfully gets the Stage.
 
 .. code-block:: json
 
@@ -418,8 +418,8 @@ POST parameters
 Response
 ========
 
-* ``PUT``: returns ``200`` when the request successfully edits a Stage or ``201`` when the request creates a Stage.
-* ``PATCH``: returns ``200`` when the request successfully edits a Stage.
+* ``PUT``: returns ``200`` when the request successfully edits the Stage or ``201`` when the request creates a Stage.
+* ``PATCH``: returns ``200`` when the request successfully edits the Stage.
 
 Properties
 ----------
@@ -501,7 +501,7 @@ HTTP request
 Response
 ========
 
-* Returns ``200`` when the request successfully deletes a Stage.
+* Returns ``200`` when the request successfully deletes the Stage.
 
 Properties
 ----------
