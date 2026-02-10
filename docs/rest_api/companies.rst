@@ -3,9 +3,14 @@ Companies
 
 Use this endpoint to manipulate and obtain details on Mautic's Companies.
 
-**Using Mautic's API Library**
+Using the Mautic API library
+****************************
 
-You can interact with this API through the :xref:`Mautic API Library` as follows, or use the various http endpoints as described in this document.
+.. vale off
+
+You can interact with this API using the :xref:`Mautic API Library` as below, or the various HTTP endpoints described in this document.
+
+.. vale on
 
 .. code-block:: php
 
@@ -27,14 +32,14 @@ Get Company
 
 .. vale on
 
+Retrieves an individual Company.
+
 .. code-block:: php
 
    <?php
 
    //...
    $company = $companyApi->get($id);
-
-Get an individual Company by ID.
 
 .. vale off
 
@@ -48,7 +53,9 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200`` when the request successfully retrieves the Company.
+
+.. _get Company response:
 
 .. code-block:: json
 
@@ -88,6 +95,8 @@ Response
        }
    }
 
+.. _get Company properties:
+
 Company properties
 ------------------
 
@@ -102,35 +111,37 @@ Company properties
      - int
      - ID of the Company
    * - ``isPublished``
-     - bool
-     - Published state
+     - boolean
+     - Company publication status - set to ``1`` or ``true`` to publish
    * - ``dateAdded``
      - datetime
-     - Date/time Company was created
+     - Company record creation date and time
    * - ``dateModified``
      - datetime
-     - Date/time Company was last modified
+     - Company record last modification date and time
    * - ``createdBy``
      - int
-     - ID of the user that created the Company
+     - ID of the User who created the Company
    * - ``createdByUser``
      - string
-     - Name of the user that created the Company
+     - Name of the User who created the Company
    * - ``modifiedBy``
      - int
-     - ID of the user that last modified the Company
+     - ID of the User who last modified the Company
    * - ``modifiedByUser``
      - string
-     - Name of the user that last modified the Company
+     - Name of the User who last modified the Company
    * - ``fields``
      - array
-     - Custom fields and values for the Company
+     - Custom :ref:`fields <get Company field properties>` and values for the Company
    * - ``score``
      - int
      - Company score
    * - ``owner``
      - object
-     - User object for the Company owner
+     - Object for the Mautic User who assigns this Company to
+
+.. _get Company field properties:
 
 Company field properties
 ------------------------
@@ -147,25 +158,25 @@ Company field properties
      - Company name
    * - ``companyemail``
      - string
-     - Company email address
+     - Company Email address
    * - ``companyaddress1``
      - string
-     - Company address line 1
+     - Company primary address line - such as street name and number
    * - ``companyaddress2``
      - string
-     - Company address line 2
+     - Supplemental Company address details - such as suite, unit, building, or floor
    * - ``companycity``
      - string
-     - Company city
+     - Company city name
    * - ``companystate``
      - string
-     - Company state/province
+     - Company state, province, or region
    * - ``companyzipcode``
      - string
-     - Company zip/postal code
+     - Company zip or postal code
    * - ``companycountry``
      - string
-     - Company country
+     - Company country name
    * - ``companyphone``
      - string
      - Company phone number
@@ -174,10 +185,10 @@ Company field properties
      - Company website URL
    * - ``companyindustry``
      - string
-     - Company industry
+     - Company business sector or vertical
    * - ``companydescription``
      - string
-     - Company description
+     - Summary of the Company
 
 .. vale off
 
@@ -185,6 +196,8 @@ List Companies
 **************
 
 .. vale on
+
+Retrieves a list of Companies.
 
 .. code-block:: php
 
@@ -195,7 +208,7 @@ List Companies
 
 .. note::
 
-   The ``$companies`` array is an array of individual Company arrays like the above example.
+   The ``$companies`` array contains individual Company arrays.
 
 .. vale off
 
@@ -215,25 +228,25 @@ Query parameters
 
    * - Name
      - Description
-   * - ``search``
-     - String or search command to filter entities by.
+   * - ``searchFilter``
+     - String or search command to filter entities
    * - ``start``
-     - Starting row for the entities returned. Defaults to 0.
+     - Starting row for the returned entities - defaults to 0
    * - ``limit``
-     - Limit number of entities to return. Defaults to the system configuration for pagination, default of 30.
+     - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
-     - Column to sort by. Can use any column listed in the response.
+     - Column to sort by. Any column in the response is valid
    * - ``orderByDir``
-     - Sort direction: asc or desc.
+     - Sort direction - ``asc`` or ``desc``
    * - ``publishedOnly``
-     - Only return currently published entities.
+     - Returns only currently published entities
    * - ``minimal``
-     - Return only array of entities without additional lists in it.
+     - Returns only a simple array of entities without additional lists in it
 
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200`` when the request successfully retrieves the Companies list.
 
 .. code-block:: json
 
@@ -260,12 +273,19 @@ Response
        ]
    }
 
+Properties
+----------
+
+Refer to :ref:`Company properties <get Company properties>`.
+
 .. vale off
 
 Create Company
 **************
 
 .. vale on
+
+Creates a new Company.
 
 .. code-block:: php
 
@@ -279,8 +299,6 @@ Create Company
 
    $company = $companyApi->create($data);
 
-Create a new Company.
-
 .. vale off
 
 HTTP request
@@ -293,65 +311,19 @@ HTTP request
 POST parameters
 ---------------
 
-.. list-table::
-   :widths: 25 25 50
-   :header-rows: 1
-
-   * - Name
-     - Type
-     - Description
-   * - ``companyname``
-     - string
-     - Company name - **required**
-   * - ``companyemail``
-     - string
-     - Company email address
-   * - ``companyaddress1``
-     - string
-     - Company address line 1
-   * - ``companyaddress2``
-     - string
-     - Company address line 2
-   * - ``companycity``
-     - string
-     - Company city
-   * - ``companystate``
-     - string
-     - Company state/province
-   * - ``companyzipcode``
-     - string
-     - Company zip/postal code
-   * - ``companycountry``
-     - string
-     - Company country
-   * - ``companyphone``
-     - string
-     - Company phone number
-   * - ``companywebsite``
-     - string
-     - Company website URL
-   * - ``companyindustry``
-     - string
-     - Company industry
-   * - ``companydescription``
-     - string
-     - Company description
-   * - ``isPublished``
-     - boolean
-     - Published state, defaults to 1
-   * - ``owner``
-     - int
-     - ID of a Mautic user to assign this Company to
+A Company array. The array contains the same fields as described in the :ref:`Company field properties <get Company field properties>`.
 
 Response
 ========
 
-``Expected Response Code: 201``
+* Returns ``201`` when the request successfully creates a Company.
+
+Response is the same as :ref:`Get Company <get Company response>`.
 
 Properties
 ----------
 
-Same as `Get Company`_.
+Refer to :ref:`Company properties <get Company properties>`.
 
 .. vale off
 
@@ -359,6 +331,13 @@ Edit Company
 ************
 
 .. vale on
+
+Edits a Company. 
+
+This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
+
+* ``PUT``: **full replacement**. The request creates a new Company if the ID is missing. If the ID exists, the request clears all existing data and replaces it with the provided values.
+* ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the ID doesn't exist.
 
 .. code-block:: php
 
@@ -370,15 +349,10 @@ Edit Company
        'companyemail' => 'updated@acme.com',
    );
 
-   // Create new a company of ID 1 is not found?
+   // Create a new company if ID 1 is not found?
    $createIfNotFound = true;
 
    $company = $companyApi->edit($id, $data, $createIfNotFound);
-
-Edit an existing Company. Note that this supports PUT or PATCH depending on the desired behavior.
-
-**PUT** creates a Company if the given ID does not exist and clears all the Company information, adds the information from the request.
-**PATCH** fails if the Company with the given ID does not exist and updates the Company field values with the values from the request.
 
 .. vale off
 
@@ -387,13 +361,8 @@ HTTP request
 
 .. vale on
 
-To edit a Company and return a 404 if the Company is not found:
-
-``PATCH /companies/ID/edit``
-
-To edit a Company and create a new one if the Company is not found:
-
-``PUT /companies/ID/edit``
+* ``PUT /companies/ID/edit``: updates an existing Company or creates a new one when the ID doesn't exist.
+* ``PATCH /companies/ID/edit``: updates an existing Company. The request fails with a ``404`` error when the ID doesn't exist.
 
 POST parameters
 ---------------
@@ -405,60 +374,25 @@ POST parameters
    * - Name
      - Type
      - Description
-   * - ``companyname``
-     - string
-     - Company name
-   * - ``companyemail``
-     - string
-     - Company email address
-   * - ``companyaddress1``
-     - string
-     - Company address line 1
-   * - ``companyaddress2``
-     - string
-     - Company address line 2
-   * - ``companycity``
-     - string
-     - Company city
-   * - ``companystate``
-     - string
-     - Company state/province
-   * - ``companyzipcode``
-     - string
-     - Company zip/postal code
-   * - ``companycountry``
-     - string
-     - Company country
-   * - ``companyphone``
-     - string
-     - Company phone number
-   * - ``companywebsite``
-     - string
-     - Company website URL
-   * - ``companyindustry``
-     - string
-     - Company industry
-   * - ``companydescription``
-     - string
-     - Company description
-   * - ``isPublished``
-     - boolean
-     - Published state
-   * - ``owner``
+   * - ``id``
      - int
-     - ID of a Mautic user to assign this Company to
+     - ID of the Company
+   * - ``array``
+     - array
+     - Company array. The array contains the same fields as described in the :ref:`Company field properties <get Company field properties>`.
 
 Response
 ========
 
-If ``PUT``: ``Expected Response Code: 200`` or ``201`` if created
+* ``PUT``: returns ``200`` when the request successfully updates the Company or ``201`` when the request creates a Company.
+* ``PATCH``: returns ``200`` when the request successfully updates the Company.
 
-If ``PATCH``: ``Expected Response Code: 200``
+Response is the same as :ref:`Get Company <get Company response>`.
 
 Properties
 ----------
 
-Same as `Get Company`_.
+Refer to :ref:`Company properties <get Company properties>`.
 
 .. vale off
 
@@ -467,13 +401,13 @@ Delete Company
 
 .. vale on
 
+Deletes a Company.
+
 .. code-block:: php
 
    <?php
 
    $company = $companyApi->delete($id);
-
-Delete a Company.
 
 .. vale off
 
@@ -487,12 +421,16 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200`` when the request successfully deletes the Company.
+
+Response is similar to :ref:`Get Company <get Company response>`, but with the deleted Company.
 
 Properties
 ----------
 
-Same as `Get Company`_.
+Refer to :ref:`Company properties <get Company properties>`. 
+
+.. _batch create Companies:
 
 .. vale off
 
@@ -500,6 +438,8 @@ Batch create Companies
 **********************
 
 .. vale on
+
+Creates multiple Companies in a single request.
 
 .. code-block:: php
 
@@ -518,11 +458,9 @@ Batch create Companies
 
    $companies = $companyApi->createBatch($data);
 
-Create multiple Companies in a single request.
-
 .. note::
 
-   If an existing Company is found with the same unique identifier fields - as configured in Mautic, the existing Company will be updated instead of creating a new one.
+   If there's an existing Company with the same unique identifier fields as configured in Mautic, the system updates the existing Company instead of creating a new one.
 
 .. vale off
 
@@ -536,12 +474,14 @@ HTTP request
 POST parameters
 ---------------
 
-An array of Company arrays. Each Company array should contain the same fields as described in `Create Company`_.
+An array of Company arrays. Each Company array contains the same fields as described in the :ref:`Company field properties <get Company field properties>`.
+
+.. _batch create Companies response:
 
 Response
 ========
 
-``Expected Response Code: 201``
+* Returns ``201`` when the request successfully creates new Companies.
 
 .. code-block:: json
 
@@ -585,12 +525,19 @@ Response
        ]
    }
 
+Properties
+----------
+
+Refer to :ref:`Company properties <get Company properties>`.
+
 .. vale off
 
 Batch edit Companies
 ********************
 
 .. vale on
+
+Edits multiple Companies in a single request.
 
 .. code-block:: php
 
@@ -609,7 +556,9 @@ Batch edit Companies
 
    $companies = $companyApi->editBatch($data);
 
-Edit multiple Companies in a single request. Each Company in the array must include an ``id`` field.
+.. note::
+
+   Each Company in the array must include an ``id`` field.
 
 .. vale off
 
@@ -623,17 +572,20 @@ HTTP request
 POST parameters
 ---------------
 
-An array of Company arrays. Each Company array should contain an ``id`` field and the fields to update as described in `Edit Company`_.
+An array of Company arrays. Each Company array should contain an ``id`` field and the fields to update as described in the :ref:`Company field properties <get Company field properties>`.
 
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200`` when the request successfully updates the Companies.
+* Returns an error when the request fails to update a Company in the batch.
+
+Response is similar to :ref:`batch create Companies <batch create Companies response>`.
 
 Properties
 ----------
 
-Similar to `Batch create Companies`_ but with ``statusCodes`` indicating whether each Company was successfully updated - ``200`` - or if there was an error.
+Refer to :ref:`Company properties <get Company properties>`.
 
 .. vale off
 
@@ -642,14 +594,14 @@ Batch delete Companies
 
 .. vale on
 
+Deletes multiple Companies in a single request.
+
 .. code-block:: php
 
    <?php
 
    $ids = array(1, 2, 3);
    $companies = $companyApi->deleteBatch($ids);
-
-Delete multiple Companies in a single request.
 
 .. vale off
 
@@ -675,12 +627,14 @@ Query parameters
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200`` when the request successfully deletes the Companies.
+
+Response is similar to :ref:`batch create Companies <batch create Companies response>`, but with the deleted Companies.
 
 Properties
 ----------
 
-Similar to `Batch create Companies`_ but with the Companies that were deleted.
+Refer to :ref:`Company properties <get Company properties>`.
 
 .. vale off
 
@@ -689,13 +643,13 @@ Add Contact to Company
 
 .. vale on
 
+Adds a Contact to a Company.
+
 .. code-block:: php
 
    <?php
 
    $companyApi->addContact($companyId, $contactId);
-
-Add a Contact to a Company.
 
 .. vale off
 
@@ -709,7 +663,7 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200`` when the request successfully adds the Contact to the Company.
 
 .. code-block:: json
 
@@ -724,13 +678,13 @@ Remove Contact from Company
 
 .. vale on
 
+Removes a Contact from a Company.
+
 .. code-block:: php
 
    <?php
 
    $companyApi->removeContact($companyId, $contactId);
-
-Remove a Contact from a Company.
 
 .. vale off
 
@@ -744,7 +698,7 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200`` when the request successfully removes the Contact from the Company.
 
 .. code-block:: json
 
