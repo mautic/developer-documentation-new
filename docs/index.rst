@@ -157,16 +157,37 @@ There are several ways to support Mautic other than contributing with code.
    :caption: REST API
    :hidden:
 
+   rest_api/api_intro
    rest_api/assets
    rest_api/campaigns
    rest_api/categories
+   rest_api/companies
    rest_api/contacts
+   rest_api/data
+   rest_api/dynamic_content
+   rest_api/emails
    rest_api/fields
+   rest_api/files
+   rest_api/focus
+   rest_api/forms
+   rest_api/messages
+   rest_api/notes
    rest_api/notifications
+   rest_api/pages
+   rest_api/point_actions
    rest_api/point_groups
+   rest_api/point_triggers
    rest_api/reports
    rest_api/roles
+   rest_api/segments
+   rest_api/stages
+   rest_api/stats
+   rest_api/tags
    rest_api/text_messages
+   rest_api/themes
+   rest_api/tweets
+   rest_api/users
+   rest_api/webhooks
 
 .. toctree::
    :maxdepth: 2
