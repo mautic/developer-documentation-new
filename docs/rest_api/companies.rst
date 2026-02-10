@@ -318,7 +318,7 @@ Response
 
 * Returns ``201`` when the request successfully creates a Company.
 
-Response is the same as :ref:`Get Company <get Company response>`.
+Response is similar to :ref:`Get Company <get Company response>`.
 
 Properties
 ----------
@@ -337,7 +337,7 @@ Edits a Company.
 This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
 
 * ``PUT``: **full replacement**. The request creates a new Company if the ID is missing. If the ID exists, the request clears all existing data and replaces it with the provided values.
-* ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the ID doesn't exist.
+* ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the Company ID doesn't exist.
 
 .. code-block:: php
 
@@ -362,7 +362,7 @@ HTTP request
 .. vale on
 
 * ``PUT /companies/ID/edit``: updates an existing Company or creates a new one when the ID doesn't exist.
-* ``PATCH /companies/ID/edit``: updates an existing Company. The request fails with a ``404`` error when the ID doesn't exist.
+* ``PATCH /companies/ID/edit``: updates an existing Company. The request fails when the ID doesn't exist.
 
 POST parameters
 ---------------
@@ -385,9 +385,9 @@ Response
 ========
 
 * ``PUT``: returns ``200`` when the request successfully updates the Company or ``201`` when the request creates a Company.
-* ``PATCH``: returns ``200`` when the request successfully updates the Company.
+* ``PATCH``: returns ``200`` when the request successfully updates the Company or ``404`` error when the Company ID doesn't exist.
 
-Response is the same as :ref:`Get Company <get Company response>`.
+Response is similar to :ref:`Get Company <get Company response>`.
 
 Properties
 ----------
@@ -428,215 +428,7 @@ Response is similar to :ref:`Get Company <get Company response>`, but with the d
 Properties
 ----------
 
-Refer to :ref:`Company properties <get Company properties>`. 
-
-.. _batch create Companies:
-
-.. vale off
-
-Batch create Companies
-**********************
-
-.. vale on
-
-Creates multiple Companies in a single request.
-
-.. code-block:: php
-
-   <?php
-
-   $data = array(
-       array(
-           'companyname' => 'Acme Corporation',
-           'companyemail' => 'info@acme.com',
-       ),
-       array(
-           'companyname' => 'Beta LLC',
-           'companyemail' => 'info@beta.com',
-       ),
-   );
-
-   $companies = $companyApi->createBatch($data);
-
-.. note::
-
-   If there's an existing Company with the same unique identifier fields as configured in Mautic, the system updates the existing Company instead of creating a new one.
-
-.. vale off
-
-HTTP request
-============
-
-.. vale on
-
-``POST /companies/batch/new``
-
-POST parameters
----------------
-
-An array of Company arrays. Each Company array contains the same fields as described in the :ref:`Company field properties <get Company field properties>`.
-
-.. _batch create Companies response:
-
-Response
-========
-
-* Returns ``201`` when the request successfully creates new Companies.
-
-.. code-block:: json
-
-   {
-       "statusCodes": [201, 201],
-       "companies": [
-           {
-               "isPublished": true,
-               "dateAdded": "2017-02-03T16:51:06+00:00",
-               "dateModified": "2017-02-03T19:11:54+00:00",
-               "createdBy": 1,
-               "createdByUser": "John Doe",
-               "modifiedBy": 1,
-               "modifiedByUser": "John Doe",
-               "id": 1,
-               "fields": {
-                   "all": {
-                       "companyname": "Acme Corporation",
-                       "companyemail": "info@acme.com"
-                   }
-               },
-               "score": 0
-           },
-           {
-               "isPublished": true,
-               "dateAdded": "2017-02-03T16:51:06+00:00",
-               "dateModified": "2017-02-03T19:11:54+00:00",
-               "createdBy": 1,
-               "createdByUser": "John Doe",
-               "modifiedBy": 1,
-               "modifiedByUser": "John Doe",
-               "id": 2,
-               "fields": {
-                   "all": {
-                       "companyname": "Beta LLC",
-                       "companyemail": "info@beta.com"
-                   }
-               },
-               "score": 0
-           }
-       ]
-   }
-
-Properties
-----------
-
 Refer to :ref:`Company properties <get Company properties>`.
-
-.. vale off
-
-Batch edit Companies
-********************
-
-.. vale on
-
-Edits multiple Companies in a single request.
-
-.. code-block:: php
-
-   <?php
-
-   $data = array(
-       array(
-           'id' => 1,
-           'companyname' => 'Updated Acme Corporation',
-       ),
-       array(
-           'id' => 2,
-           'companyname' => 'Updated Beta LLC',
-       ),
-   );
-
-   $companies = $companyApi->editBatch($data);
-
-.. note::
-
-   Each Company in the array must include an ``id`` field.
-
-.. vale off
-
-HTTP request
-============
-
-.. vale on
-
-``PATCH /companies/batch/edit``
-
-POST parameters
----------------
-
-An array of Company arrays. Each Company array should contain an ``id`` field and the fields to update as described in the :ref:`Company field properties <get Company field properties>`.
-
-Response
-========
-
-* Returns ``200`` when the request successfully updates the Companies.
-* Returns an error when the request fails to update a Company in the batch.
-
-Response is similar to :ref:`batch create Companies <batch create Companies response>`.
-
-Properties
-----------
-
-Refer to :ref:`Company properties <get Company properties>`.
-
-.. vale off
-
-Batch delete Companies
-**********************
-
-.. vale on
-
-Deletes multiple Companies in a single request.
-
-.. code-block:: php
-
-   <?php
-
-   $ids = array(1, 2, 3);
-   $companies = $companyApi->deleteBatch($ids);
-
-.. vale off
-
-HTTP request
-============
-
-.. vale on
-
-``DELETE /companies/batch/delete?ids=1,2,3``
-
-Query parameters
-----------------
-
-.. list-table::
-   :widths: 30 70
-   :header-rows: 1
-
-   * - Name
-     - Description
-   * - ``ids``
-     - Comma-separated list of Company IDs to delete
-
-Response
-========
-
-* Returns ``200`` when the request successfully deletes the Companies.
-
-Response is similar to :ref:`batch create Companies <batch create Companies response>`, but with the deleted Companies.
-
-Properties
-----------
-
-Refer to :ref:`Company properties <get Company properties>`.
-
-.. vale off
 
 Add Contact to Company
 **********************
