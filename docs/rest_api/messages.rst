@@ -1,4 +1,4 @@
-Marketing messages
+Marketing Messages
 ##################
 
 .. vale off

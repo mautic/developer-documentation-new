@@ -1,4 +1,4 @@
-Point triggers
+Point Triggers
 ##############
 
 .. vale off

@@ -1,4 +1,4 @@
-Point actions
+Point Actions
 #############
 
 .. vale off

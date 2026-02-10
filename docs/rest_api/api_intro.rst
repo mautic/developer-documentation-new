@@ -47,7 +47,7 @@ Mautic version verification
 
 If your API service supports multiple Mautic versions with different features, you need to verify the Mautic version you're communicating with. Since Mautic ``2.4.0``, the version number appears in all API response headers under the name ``Mautic-Version``.
 
-You can retrieve the Mautic version using the Mautic PHP API library:
+You can retrieve the Mautic version using the Mautic API library:
 
 .. code-block:: text
 
