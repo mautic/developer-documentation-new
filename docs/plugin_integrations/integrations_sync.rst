@@ -9,6 +9,18 @@ Sync engine
 
 .. vale on
 
+.. vale off
+
+.. note::
+
+   The content for this page requires a major update. The legacy page contains outdated and potentially inaccurate information. But you can still access it in the :xref:`legacy repository`.
+
+   If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
+
+   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
+
+.. vale on
+
 The Sync Engine supports bidirectional syncing between Mautic's Contact and Companies with third party objects. The engine generates a "``sync report``" from Mautic that it converts to a "``sync order``" for the Integration to process. It then asks for a "``sync report``" from the Integration which it converts to a "``sync order``" for Mautic to process.
 
 When building the Report, Mautic or the Integration fetches the objects those either modified or created within the specified timeframe. If the Integration supports changes at the field level, it should tell the Report on a per-field basis when the field was last updated. Otherwise, it should tell the Report when the object itself was last modified. The "``sync judge``" uses these dates to determine which value to use in bi-directional sync.
