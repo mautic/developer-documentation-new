@@ -1,5 +1,5 @@
-Event listeners
-###############
+Roles and permissions
+#####################
 
 .. vale off
 

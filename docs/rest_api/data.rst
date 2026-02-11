@@ -1,5 +1,5 @@
-Data - dashboard widget data
-############################
+Dashboard widget data
+#####################
 
 .. vale off
 

@@ -1,5 +1,5 @@
-Event listeners
-###############
+MVC - Model-View-Controller
+###########################
 
 .. vale off
 
