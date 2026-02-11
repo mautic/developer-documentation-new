@@ -186,6 +186,19 @@ There are several ways to support Mautic other than contributing with code.
    plugin_services/user
 
 .. toctree::
+   :maxdepth: 3
+   :caption: Miscellaneous
+   :hidden:
+
+   plugin_miscellaneous/commands
+   plugin_miscellaneous/events
+   plugin_miscellaneous/flash_messages
+   plugin_miscellaneous/forms
+   plugin_miscellaneous/helpers
+   plugin_miscellaneous/translated_entities
+   plugin_miscellaneous/variant_entities
+
+.. toctree::
    :maxdepth: 2
    :caption: REST API
    :hidden:
