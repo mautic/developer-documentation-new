@@ -127,6 +127,7 @@ There are several ways to support Mautic other than contributing with code.
    plugins/event_listeners
    plugins/installation
    plugins/data
+   plugins/cache
    plugins/translations
    plugins/continuous_integration
    plugins/update_m4_to_m5
@@ -135,31 +136,40 @@ There are several ways to support Mautic other than contributing with code.
 
 .. toctree::
    :maxdepth: 3
-   :caption: Extending Mautic
+   :caption: Extending Mautic Plugins
    :hidden:
 
-   plugins_extension/api
-   plugins_extension/cache
-   plugins_extension/campaigns
-   plugins_extension/categories
-   plugins_extension/channels
-   plugins_extension/config
-   plugins_extension/contacts
-   plugins_extension/core
-   plugins_extension/emails
-   plugins_extension/forms
-   plugins_extension/forms_advanced
-   plugins_extension/integrations
-   plugins_extension/ip_lookups
-   plugins_extension/landing_pages
-   plugins_extension/maintenance
-   plugins_extension/points
-   plugins_extension/queue
-   plugins_extension/reports
-   plugins_extension/security
-   plugins_extension/tracking_script
-   plugins_extension/translator
-   plugins_extension/ui
+   plugin_extensions/api
+   plugin_extensions/campaigns
+   plugin_extensions/categories
+   plugin_extensions/channels
+   plugin_extensions/contacts
+   plugin_extensions/emails
+   plugin_extensions/forms
+   plugin_extensions/forms_advanced
+   plugin_extensions/integrations
+   plugin_extensions/landing_pages
+   plugin_extensions/maintenance
+   plugin_extensions/points
+   plugin_extensions/reports
+   plugin_extensions/ui
+   plugin_extensions/webhooks
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Plugin Integrations
+   :hidden:
+
+   plugin_integrations/integrations
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Plugin Services
+   :hidden:
+
+   plugin_services/ip_lookups
+   plugin_services/security
+   plugin_services/translator
 
 .. toctree::
    :maxdepth: 2
@@ -198,6 +208,13 @@ There are several ways to support Mautic other than contributing with code.
    rest_api/tweets
    rest_api/users
    rest_api/webhooks
+
+.. toctree::
+   :maxdepth: 2
+   :caption: MauticJS API
+   :hidden:
+
+   mauticjs_api/tracking_script
 
 .. toctree::
    :maxdepth: 2
