@@ -139,6 +139,7 @@ There are several ways to support Mautic other than contributing with code.
    :caption: Plugin Extensions
    :hidden:
 
+   plugin_extensions/manipulating_contacts
    plugin_extensions/api
    plugin_extensions/campaigns
    plugin_extensions/categories
