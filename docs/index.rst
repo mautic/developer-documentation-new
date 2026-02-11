@@ -1,6 +1,8 @@
 Welcome to Mautic's developer documentation
 ###########################################
 
+.. vale off
+
 .. note::
 
    The content for this documentation requires a major update. The legacy documentation contains outdated and potentially inaccurate information. But you can still access it in the :xref:`legacy repository`.

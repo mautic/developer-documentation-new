@@ -1,4 +1,4 @@
-Database or Entity Manager
+Database or entity manager
 ##########################
 
 .. vale off

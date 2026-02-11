@@ -1,6 +1,8 @@
 IP lookup services
 ##################
 
+.. vale off
+
 .. note::
 
    The content for this page requires a major update. The legacy page contains outdated and potentially inaccurate information. But you can still access it in the :xref:`legacy repository`.
