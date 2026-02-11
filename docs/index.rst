@@ -131,28 +131,28 @@ There are several ways to support Mautic other than contributing with code.
    :caption: Extending Mautic
    :hidden:
 
-   components/api
-   components/cache
-   components/campaigns
-   components/categories
-   components/channels
-   components/config
-   components/contacts
-   components/core
-   components/emails
-   components/forms
-   components/forms_advanced
-   components/integrations
-   components/ip_lookups
-   components/landing_pages
-   components/maintenance
-   components/points
-   components/queue
-   components/reports
-   components/security
-   components/tracking_script
-   components/translator
-   components/ui
+   plugins_extension/api
+   plugins_extension/cache
+   plugins_extension/campaigns
+   plugins_extension/categories
+   plugins_extension/channels
+   plugins_extension/config
+   plugins_extension/contacts
+   plugins_extension/core
+   plugins_extension/emails
+   plugins_extension/forms
+   plugins_extension/forms_advanced
+   plugins_extension/integrations
+   plugins_extension/ip_lookups
+   plugins_extension/landing_pages
+   plugins_extension/maintenance
+   plugins_extension/points
+   plugins_extension/queue
+   plugins_extension/reports
+   plugins_extension/security
+   plugins_extension/tracking_script
+   plugins_extension/translator
+   plugins_extension/ui
 
 .. toctree::
    :maxdepth: 2
