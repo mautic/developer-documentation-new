@@ -1,6 +1,18 @@
 Forms
 #####
 
+.. vale off
+
+.. note::
+
+   The content for this page requires a major update. The legacy page contains outdated and potentially inaccurate information. But you can still access it in the :xref:`legacy repository`.
+
+   If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
+
+   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
+
+.. vale on
+
 You can extend Forms by listening to the ``\Mautic\FormBundle\FormEvents::FORM_ON_BUILD`` event. Read more about :doc:`listeners and subscribers</plugins/event_listeners>`.
 At the bottom of this document, you can find code examples to make it easier to get started.
 

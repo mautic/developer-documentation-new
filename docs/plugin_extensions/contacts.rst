@@ -1,6 +1,18 @@
 Contacts
 ########
 
+.. vale off
+
+.. note::
+
+   The content for this page requires a major update. The legacy page contains outdated and potentially inaccurate information. But you can still access it in the :xref:`legacy repository`.
+
+   If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
+
+   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
+
+.. vale on
+
 There's several ways to extend Contacts in Mautic.
 One of them is to show custom events in a Contact's event timeline - this document shows you how.
 
