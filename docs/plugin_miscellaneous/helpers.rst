@@ -13,11 +13,15 @@ Helpers
 
 .. vale on
 
+.. vale off
+
 ChartQuery and Graphs
 *********************
 
 DateTime
 ********
+
+.. vale on
 
 Input
 *****

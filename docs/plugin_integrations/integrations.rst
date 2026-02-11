@@ -119,14 +119,14 @@ If the Integration has extra configuration settings for features unique to it:
 
 .. vale off
 
-Integration sync engine
+Integration Sync Engine
 ***********************
 
 .. vale on
 
 If the Integration syncs with Mautic's Contacts and/or Companies:
 
-1. Read about :ref:`the sync engine <plugin_integrations/integrations_sync:Sync engine>`.
+1. Read about :ref:`the Sync Engine <plugin_integrations/integrations_sync:Sync Engine>`.
 
 .. vale off
 
@@ -151,6 +151,6 @@ Config Form notes interface
 
 The interface, ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormNotesInterface``, provides a way to add notes - either info or warning - to the Plugin configuration form.
 
-Learn more about it on :ref:`Integration Configuration Form Notes <plugin_integrations/integrations_configuration_form_notes:Integration configuration form notes>`.
+Learn more about it on :ref:`Integration configuration Form notes <plugin_integrations/integrations_configuration_form_notes:Integration configuration form notes>`.
 
 .. vale on

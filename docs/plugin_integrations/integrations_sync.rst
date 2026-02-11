@@ -4,7 +4,7 @@
 
 .. vale off
 
-Sync engine
+Sync Engine
 ###########
 
 .. vale on
