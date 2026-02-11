@@ -1,8 +1,15 @@
 Welcome to Mautic's developer documentation
-===========================================
+###########################################
 
 .. note::
-    Work is ongoing bringing over some of the content from the old documentation, which you can find at :xref:`Mautic Developer Portal`. Please see the :xref:`Mautic Dev Docs Issues` if you'd like to help with completing this work.
+
+   The content for this documentation requires a major update. The legacy documentation contains outdated and potentially inaccurate information. But you can still access it in the :xref:`legacy repository`.
+
+   If you're interested in helping develop the new content for this documentation, consider joining the documentation efforts.
+
+   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
+
+.. vale on
 
 Welcome to the Mautic Developer Documentation. The documentation broadly covers building custom Plugins for Mautic which extends its features, building custom Themes, and how to integrate applications outside of Mautic using the REST API.
 
