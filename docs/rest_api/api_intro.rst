@@ -65,7 +65,7 @@ API endpoints
 
 All responses are JSON encoded.
 
-The base API endpoint is ``https://your-mautic.com/api``.
+The base API endpoint is ``https://mautic.example.com/api``.
 
 .. vale off
 
