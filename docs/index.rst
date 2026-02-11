@@ -136,7 +136,7 @@ There are several ways to support Mautic other than contributing with code.
 
 .. toctree::
    :maxdepth: 3
-   :caption: Extending Mautic Plugins
+   :caption: Plugin Extensions
    :hidden:
 
    plugin_extensions/api
@@ -167,9 +167,22 @@ There are several ways to support Mautic other than contributing with code.
    :caption: Plugin Services
    :hidden:
 
+   plugin_services/cookie_helper
+   plugin_services/database
+   plugin_services/event_dispatcher
+   plugin_services/factory
    plugin_services/ip_lookups
+   plugin_services/mail_helper
+   plugin_services/model_factory
+   plugin_services/parameters
+   plugin_services/paths_helper
+   plugin_services/plugin_config_helper
+   plugin_services/request
+   plugin_services/router
    plugin_services/security
+   plugin_services/session
    plugin_services/translator
+   plugin_services/user
 
 .. toctree::
    :maxdepth: 2
