@@ -3,7 +3,7 @@ Welcome to Mautic's developer documentation
 
 .. note::
 
-   The content for this documentation requires a major update. The legacy documentation contains outdated and potentially inaccurate information. But you can still access it in the :xref:`legacy repository`.
+   The content for this documentation requires a major update. The legacy documentation contains outdated and potentially inaccurate information. You can still access it in the :xref:`legacy repository`.
 
    If you're interested in helping develop the new content for this documentation, consider joining the documentation efforts.
 
