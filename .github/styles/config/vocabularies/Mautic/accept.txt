@@ -94,6 +94,7 @@ middlewares
 MJML
 Multiselect
 multiselect
+MVC
 MVP
 mysqldump
 Namespace
