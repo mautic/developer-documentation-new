@@ -1,6 +1,3 @@
-Stages
-######
-
 .. vale off
 
 .. note::
@@ -12,6 +9,9 @@ Stages
   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
 
 .. vale on
+
+Stages
+######
 
 Use this endpoint to manipulate and obtain details on Mautic's Contact Stages.
 
