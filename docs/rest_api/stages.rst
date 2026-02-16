@@ -332,9 +332,6 @@ POST parameters
    * - ``name``
      - string
      - Stage name - **required**
-   * - ``alias``
-     - string
-     - Stage alias - generated automatically if not set
    * - ``description``
      - string
      - Description of the Stage
