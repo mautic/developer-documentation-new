@@ -200,8 +200,8 @@ Response
      ]
    }
 
-Stage properties
-----------------
+Properties
+----------
 
 .. list-table::
    :widths: 25 25 50
