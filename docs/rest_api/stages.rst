@@ -343,7 +343,7 @@ POST parameters
      - boolean
      - Stage publication status
    * - ``weight``
-     - int
+     - integer
      - Stage weight
 
 Response
