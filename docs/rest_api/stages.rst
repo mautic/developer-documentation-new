@@ -42,7 +42,7 @@ You can interact with this API using the :xref:`Mautic API Library` as below, or
 Get Stage
 *********
 
-Retrieve an individual Stage.
+Retrieves an individual Stage.
 
 .. vale on
 
@@ -65,27 +65,29 @@ HTTP request
 Response
 ========
 
-* Returns ``200`` when the request successfully retrieves the Stage.
+* Returns ``200 OK`` when the request successfully retrieves the Stage.
+
+.. _get Stage response:
 
 .. code-block:: json
 
    {
-     "stage": {
-       "id": 47,
-       "isPublished": 1,
-       "dateAdded": "2015-07-21T12:27:12-05:00",
-       "createdBy": 1,
-       "createdByUser": "Joe Smith",
-       "dateModified": "2015-07-21T14:12:03-05:00",
-       "modifiedBy": 1,
-       "modifiedByUser": "Joe Smith",
-       "name": "Stage A",
-       "category": null,
-       "description": "This is my first stage created via API.",
-       "weight": 0,
-       "publishUp": "2015-07-21T14:12:03-05:00",
-       "publishDown": "2015-07-21T14:12:03-05:00"
-     }
+      "stage": {
+          "isPublished": true,
+          "dateAdded": "2026-02-13T16:11:07+00:00",
+          "dateModified": null,
+          "createdBy": 1,
+          "createdByUser": "Joe Smith",
+          "modifiedBy": 1,
+          "modifiedByUser": "Joe Smith",
+          "id": 7,
+          "name": "Stage A",
+          "category": null,
+          "weight": 0,
+          "description": "This is my first stage created via API.",
+          "publishUp": "2026-02-13T17:00:00+00:00",
+          "publishDown": "2026-02-20T17:00:00+00:00"
+      }
    }
 
 .. _get Stage properties:
@@ -100,47 +102,47 @@ Stage properties
    * - Name
      - Type
      - Description
-   * - ``id``
-     - int
-     - ID of the Stage
    * - ``isPublished``
      - boolean
-     - Stage publication status - set to ``1`` or ``true`` to publish
+     - Stage publication status
    * - ``dateAdded``
      - datetime
      - Stage record creation date and time
+   * - ``dateModified``
+     - datetime or null
+     - Stage record last modification date and time
    * - ``createdBy``
-     - int
+     - integer
      - ID of the User who created the Stage
    * - ``createdByUser``
      - string
      - Name of the User who created the Stage
-   * - ``dateModified``
-     - datetime or null
-     - Stage record last modification date and time
    * - ``modifiedBy``
-     - int
+     - integer or null
      - ID of the User who last modified the Stage
    * - ``modifiedByUser``
-     - string
+     - string or null
      - Name of the User who last modified the Stage
+   * - ``id``
+     - integer
+     - ID of the Stage
    * - ``name``
      - string
-     - Stage name
+     - Stage name - **required**
    * - ``category``
-     - int
-     - ID of the Category assigned to the Stage
-   * - ``description``
-     - string
-     - Description of the Stage
+     - object or null
+     - The Category assigned to the Stage
    * - ``weight``
-     - int
+     - integer
      - Stage weight
+   * - ``description``
+     - string or null
+     - Description of the Stage
    * - ``publishUp``
-     - datetime
+     - datetime or null
      - Activation date and time for the Stage
    * - ``publishDown``
-     - datetime
+     - datetime or null
      - Deactivation date and time for the Stage
 
 .. vale off
@@ -148,7 +150,7 @@ Stage properties
 List Stages
 ***********
 
-Retrieve a list of Stages.
+Retrieves a list of Stages.
 
 .. vale on
 
@@ -171,7 +173,7 @@ HTTP request
 Response
 ========
 
-* Returns ``200`` when the request successfully retrieves the list of Stages.
+* Returns ``200 OK`` when the request successfully retrieves the list of Stages.
 
 .. code-block:: json
 
@@ -179,21 +181,21 @@ Response
      "total": 4,
      "stages": [
        {
-         "id": 47,
-         "isPublished": 1,
-         "dateAdded": "2015-07-21T12:27:12-05:00",
-         "createdBy": 1,
-         "createdByUser": "Joe Smith",
-         "dateModified": "2015-07-21T14:12:03-05:00",
-         "modifiedBy": 1,
-         "modifiedByUser": "Joe Smith",
-         "name": "Stage A",
-         "category": null,
-         "description": "This is my first stage created via API.",
-         "weight": 0,
-         "publishUp": "2015-07-21T14:12:03-05:00",
-         "publishDown": "2015-07-21T14:12:03-05:00"
-       }
+          "isPublished": true,
+          "dateAdded": "2026-02-13T16:11:07+00:00",
+          "dateModified": null,
+          "createdBy": 1,
+          "createdByUser": "Joe Smith",
+          "modifiedBy": 1,
+          "modifiedByUser": "Joe Smith",
+          "id": 7,
+          "name": "Stage A",
+          "category": null,
+          "weight": 0,
+          "description": "This is my first stage created via API.",
+          "publishUp": "2026-02-13T17:00:00+00:00",
+          "publishDown": "2026-02-20T17:00:00+00:00"
+       },
        //...
      ]
    }
@@ -209,57 +211,17 @@ Stage properties
      - Type
      - Description
    * - ``total``
-     - int
+     - integer
      - Total count of Stages
-   * - ``id``
-     - int
-     - ID of the Stage
-   * - ``isPublished``
-     - boolean
-     - Stage publication status - set to ``1`` or ``true`` to publish
-   * - ``dateAdded``
-     - datetime
-     - Stage record creation date and time
-   * - ``createdBy``
-     - int
-     - ID of the User who created the Stage
-   * - ``createdByUser``
-     - string
-     - Name of the User who created the Stage
-   * - ``dateModified``
-     - datetime
-     - Stage record last modification date and time
-   * - ``modifiedBy``
-     - int
-     - ID of the User who last modified the Stage
-   * - ``modifiedByUser``
-     - string
-     - Name of the User who last modified the Stage
-   * - ``name``
-     - string
-     - Stage name
-   * - ``category``
-     - int
-     - ID of the Category assigned to the Stage
-   * - ``description``
-     - string
-     - Description of the Stage
-   * - ``weight``
-     - int
-     - Stage weight
-   * - ``publishUp``
-     - datetime
-     - Activation date and time for the Stage
-   * - ``publishDown``
-     - datetime
-     - Deactivation date and time for the Stage
+
+For the rest of the Stage properties, refer to :ref:`Get Stage <get Stage properties>`.
 
 .. vale off
 
 Create Stage
 ************
 
-Create a new Stage.
+Creates a new Stage.
 
 .. vale on
 
@@ -299,24 +261,26 @@ POST parameters
      - string
      - Stage name - **required**
    * - ``weight``
-     - int
+     - integer
      - Stage weight
    * - ``description``
      - string
      - Description of the Stage
    * - ``isPublished``
      - boolean
-     - Stage publication status - set to ``1`` or ``true`` to publish
+     - Stage publication status - set to ``0`` or ``false`` to inactive. When not set, it defaults to active.
 
 Response
 ========
 
-* Returns ``201`` when the request successfully creates a Stage.
+* Returns ``201 Created`` when the request successfully creates a Stage.
+
+Response is the same as :ref:`Get Stage <get Stage response>`.
 
 Properties
 ----------
 
-Same as :ref:`Get Stage <get Stage properties>`.
+Refer to :ref:`Get Stage <get Stage properties>`.
 
 .. vale off
 
@@ -325,7 +289,7 @@ Edit Stage
 
 .. vale on
 
-Edit a Stage. This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
+Edits a Stage. This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
 
 * ``PUT``: **full replacement**. The request creates a new Stage if the ID is missing. If the ID exists, the request clears all existing data and replaces it with the provided values.
 * ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the ID doesn't exist.
@@ -353,7 +317,7 @@ HTTP request
 .. vale on
 
 * ``PUT /stages/ID/edit``: updates an existing Stage or creates a new one when the ID doesn't exist.
-* ``PATCH /stages/ID/edit``: updates an existing Stage. The request fails with a ``404`` error when the ID doesn't exist.
+* ``PATCH /stages/ID/edit``: updates an existing Stage. The request fails when the ID doesn't exist.
 
 POST parameters
 ---------------
@@ -376,7 +340,7 @@ POST parameters
      - Description of the Stage
    * - ``isPublished``
      - boolean
-     - Stage publication status - set to ``1`` or ``true`` to publish
+     - Stage publication status
    * - ``weight``
      - int
      - Stage weight
@@ -384,20 +348,22 @@ POST parameters
 Response
 ========
 
-* ``PUT``: returns ``200`` when the request successfully updates the Stage or ``201`` when the request creates a Stage.
-* ``PATCH``: returns ``200`` when the request successfully updates the Stage.
+* ``PUT``: returns ``200 OK`` when the request successfully updates the Stage or ``201 Created`` when the request creates a Stage.
+* ``PATCH``: returns ``200 OK`` when the request successfully updates the Stage or ``404 Not Found`` when the ID doesn't exist.
+
+Response is the same as :ref:`Get Stage <get Stage response>`.
 
 Properties
 ----------
 
-Same as :ref:`Get Stage <get Stage properties>`.
+Refer to :ref:`Get Stage <get Stage properties>`.
 
 .. vale off
 
 Delete Stage
 ************
 
-Delete a Stage.
+Deletes a Stage.
 
 .. vale on
 
@@ -419,12 +385,14 @@ HTTP request
 Response
 ========
 
-* Returns ``200`` when the request successfully deletes the Stage.
+* Returns ``200 OK`` when the request successfully deletes the Stage.
+
+Response is the same to :ref:`Get Stage <get Stage response>`, but with the deleted Stage.
 
 Properties
 ----------
 
-Same as :ref:`Get Stage <get Stage properties>`.
+Refer to :ref:`Get Stage <get Stage properties>`.
 
 .. vale off
 
@@ -433,7 +401,7 @@ Add Contact to Stage
 
 .. vale on
 
-Add a Contact to a Stage manually.
+Adds a Contact to a Stage.
 
 .. code-block:: php
 
@@ -457,12 +425,12 @@ HTTP request
 Response
 ========
 
-* Returns ``200`` when the request successfully adds the Contact to the Stage.
+* Returns ``200 OK`` when the request successfully adds the Contact to the Stage.
 
 .. code-block:: json
 
    {
-     "success": true
+     "success": 1
    }
 
 .. vale off
@@ -472,7 +440,7 @@ Remove Contact from Stage
 
 .. vale on
 
-Remove a Contact from a Stage manually.
+Removes a Contact from a Stage.
 
 .. code-block:: php
 
@@ -496,10 +464,10 @@ HTTP request
 Response
 ========
 
-* Returns ``200`` when the request successfully removes the Contact from the Stage.
+* Returns ``200 OK`` when the request successfully removes the Contact from the Stage.
 
 .. code-block:: json
 
    {
-     "success": true
+     "success": 1
    }
