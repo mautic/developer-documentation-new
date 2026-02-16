@@ -214,7 +214,11 @@ Stage properties
      - integer
      - Total count of Stages
 
+.. vale off
+
 For the rest of the Stage properties, refer to :ref:`Get Stage <get Stage properties>`.
+
+.. vale on
 
 .. vale off
 
