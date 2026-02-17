@@ -150,6 +150,12 @@ Get an individual Campaign by ID.
    * - ``events``
      - array
      - Array of Event entities for the Campaign - see below
+   * - ``contactCount``
+     - int
+     - Number of contacts in the campaign (only included when ``withContactCounts=true`` query parameter is used)
+   * - ``contactCountFetchedAt``
+     - datetime/null
+     - Timestamp when the contact count was retrieved (only included when ``withContactCounts=true`` query parameter is used)
 
 
 **Event Properties**
@@ -246,6 +252,8 @@ List Campaigns
      - Only return currently published entities
    * - ``minimal``
      - Return only array of entities without additional lists in it
+   * - ``withContactCounts``
+     - Include contact count for each campaign. Accepts ``true`` or ``false`` (default: ``false``). Contact counts are cached for 12 hours by default. The cache TTL can be configured using the ``campaign_contact_count_cache_ttl`` parameter in ``config/local.php`` (value in seconds).
 
 
 **Response**
@@ -312,6 +320,15 @@ List Campaigns
            }
        }
    }
+
+.. note::
+
+   When using ``withContactCounts=true``, the response includes two additional fields per campaign:
+   
+   - ``contactCount``: Number of contacts in the campaign (integer)
+   - ``contactCountFetchedAt``: Timestamp when the count was retrieved (ISO 8601 format)
+   
+   Contact counts are cached for 12 hours by default to improve performance. New contacts added to campaigns may not be reflected until the cache expires. The cache TTL can be customized by setting the ``campaign_contact_count_cache_ttl`` parameter (in seconds) in ``config/local.php``.
 
 **Properties**
 
