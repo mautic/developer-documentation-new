@@ -321,7 +321,7 @@ List Campaigns
        }
    }
 
-... note::
+.. note::
 
    The ``withContactCounts=true`` parameter adds two additional fields per Campaign:
    
