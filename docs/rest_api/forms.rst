@@ -176,6 +176,8 @@ Response
 Form properties
 ---------------
 
+.. vale off
+
 .. list-table::
    :widths: 25 25 50
    :header-rows: 1
@@ -230,7 +232,7 @@ Form properties
      - Deactivation date and time for the Form
    * - ``fields``
      - associative array
-     - Associative array of Form fields. The keys must correspond to the field aliases described in the :ref:`Form field properties <get Form field properties>`
+     - Associative array of Form Fields. The keys must correspond to the field aliases described in the :ref:`Form Field properties <get Form Field properties>`
    * - ``actions``
      - associative array
      - Associative array of Form actions. The keys must correspond to the action aliases described in the :ref:`Form action properties <get Form action properties>`
@@ -239,10 +241,10 @@ Form properties
      - Theme used to style the Form
    * - ``inKioskMode``
      - boolean
-     - Kiosk mode status - set to ``1`` or ``true`` to disable cookie tracking and IP association for submissions. When not set, it defaults to track visitor data
+     - Kiosk mode status - set to ``1`` or ``true`` to turn off cookie tracking and IP association for submissions. When not set, it defaults to track visitor data
    * - ``renderStyle``
      - boolean
-     - Render style status - set to ``0`` or ``false`` to disable the inclusion of template CSS in the Form output. When not set, it defaults to enabled
+     - Render style status - set to ``0`` or ``false`` to turn off the inclusion of template CSS in the Form output. When not set, it defaults to on
    * - ``formType``
      - string
      - Type of the Form - ``standalone`` or ``campaign``
@@ -261,15 +263,21 @@ Form properties
      - Search indexing status - set to ``1`` or ``true`` to send a ``noindex`` HTTP header. When not set, it defaults to indexing
    * - ``formAttributes``
      - string
-     - Custom HTML attributes to be added to the opening ``<form>`` tag
+     - Custom HTML attributes to add to the opening ``<form>`` tag
    * - ``language``
      - string
      - The language code for the Form, such as ``en_US``, ``fr``, and so on
 
-.. _get Form field properties:
+.. vale on
+
+.. _get Form Field properties:
+
+.. vale off
    
-Form field properties
+Form Field properties
 ---------------------
+
+.. vale on
 
 .. list-table::
    :widths: 25 25 50
@@ -286,13 +294,13 @@ Form field properties
      - Label displayed for the field - **required**
    * - ``showLabel``
      - boolean
-     - Label visibility status - ``0`` or ``false`` indicates the label is hidden on the Form. When not set, it defaults to show the label
+     - Label visibility status - ``0`` or ``false`` hides the label on the Form. When not set, the system shows the label by default
    * - ``alias``
      - string
      - The auto-generated alias or slug of the field
    * - ``type``
      - string
-     - Type of field, such as text, email, select, and so on
+     - Type of field, such as ``text``, ``email``, ``select``, and so on
    * - ``defaultValue``
      - string
      - Initial value assigned to the field
@@ -301,7 +309,7 @@ Form field properties
      - Required status - ``1`` or ``true`` indicates the field is mandatory for submission. When not set, it defaults to optional
    * - ``validationMessage``
      - string
-     - Message displayed when a required field is left empty
+     - Custom message that appears when a User leaves a required field empty
    * - ``helpMessage``
      - string
      - Text provided to assist Users in completing the field
@@ -343,7 +351,7 @@ Form field properties
      - The object type that the field maps to - ``contact`` or ``company``
    * - ``mappedField``
      - string
-     - The specific Contact or Company field that the form field maps to
+     - The specific Contact or Company field that the Form Field maps to
 
 .. _get Form action properties:
     
@@ -623,7 +631,11 @@ POST parameters
 
 Mautic accepts the same parameters for creating a Form as those described in :ref:`Form properties <get Form properties>`.
 
-Use the ``fields`` associative array to create the Form components and the ``actions`` associative array to define post-submission behaviors. For details on these objects, refer to :ref:`Form field properties <get Form field properties>` and :ref:`Form action properties <get Form action properties>`.
+.. vale off
+
+Use the ``fields`` associative array to create the Form components and the ``actions`` associative array to define post-submission behaviors. For details on these objects, refer to :ref:`Form Field properties <get Form Field properties>` and :ref:`Form action properties <get Form action properties>`.
+
+.. vale on
 
 Response
 ========
@@ -699,7 +711,11 @@ POST parameters
 
 Mautic accepts the same parameters for editing a Form as those described in :ref:`Form properties <get Form properties>`.
 
-Use the ``fields`` associative array to manage Form components and the ``actions`` associative array to manage post-submission behaviors. For details on these objects, refer to :ref:`Form field properties <get Form field properties>` and :ref:`Form action properties <get Form action properties>`.
+.. vale off
+
+Use the ``fields`` associative array to manage Form components and the ``actions`` associative array to manage post-submission behaviors. For details on these objects, refer to :ref:`Form Field properties <get Form Field properties>` and :ref:`Form action properties <get Form action properties>`.
+
+.. vale on
 
 Response
 ========
@@ -791,9 +807,9 @@ Query parameters
 Response
 ========
 
-* Returns ``200 OK`` when the request successfully deletes the Form fields.
+* Returns ``200 OK`` when the request successfully deletes the Form Fields.
 
-The response is a JSON object containing the data of the deleted Form fields, similar to :ref:`Get Form <get Form response>`.
+The response is a JSON object containing the data of the deleted Form Fields, similar to :ref:`Get Form <get Form response>`.
 
 Properties
 ----------
@@ -936,6 +952,8 @@ Response
 Form submission properties
 --------------------------
 
+.. vale off
+
 .. list-table::
    :widths: 25 25 50
    :header-rows: 1
@@ -969,7 +987,9 @@ Form submission properties
      - The specific Mautic Landing Page where the submission occurred
    * - ``results``
      - object
-     - The values submitted for each Form field
+     - The values submitted for each Form Field
+
+.. vale on
 
 .. vale off
 
@@ -1218,10 +1238,16 @@ For the rest of the Form properties, refer to :ref:`get Form submission properti
 
 .. vale on
 
-Form field types
+.. vale off
+
+Form Field types
 ****************
 
+.. vale on
+
 Mautic supports various field types for Forms. The following list includes the most common types:
+
+.. vale off
 
 .. list-table::
    :widths: 20 30 50
@@ -1264,7 +1290,7 @@ Mautic supports various field types for Forms. The following list includes the m
      - Number input
      - ``placeholder``, ``precision``
    * - ``pagebreak``
-     - Page break for multi-page forms
+     - Page break for multi-page Forms
      - ``next_page_label``, ``prev_page_label``
    * - ``password``
      - Password
@@ -1294,10 +1320,14 @@ Mautic supports various field types for Forms. The following list includes the m
      - Submit button
      - None
 
+.. vale on
+
 Form action types
 *****************
 
 Forms execute various actions upon submission:
+
+.. vale off
 
 .. list-table::
    :widths: 30 30 40
@@ -1307,41 +1337,43 @@ Forms execute various actions upon submission:
      - Description
      - Properties
    * - ``lead.scorecontactscompanies``
-     - Add to company's score
+     - Add to Company's score
      - ``score``
    * - ``lead.pointschange``
-     - Adjust contact's points
+     - Adjust Contact's Points
      - ``operator``, ``points``, ``group``
    * - ``lead.changelist``
-     - Modify contact's segments
+     - Modify Contact's Segments
      - ``addToLists``, ``removeFromLists``
    * - ``lead.changetags``
-     - Modify contact's tags
+     - Modify Contact's tags
      - ``add_tags``, ``remove_tags``
    * - ``lead.addutmtags``
      - Record UTM Tags
      - None
    * - ``lead.remove_do_not_contact``
-     - Remove contact from do not contact list
+     - Remove Contact from Do Not Contact list
      - None
    * - ``asset.download``
-     - Download an asset
+     - Download an Asset
      - ``asset``, ``category``
    * - ``form.repost``
-     - Post results to another form
+     - Forwards submission results to an external URL or Form
      - ``post_url``, ``authorization_header``, ``failure_email``
    * - ``plugin.leadpush``
-     - Push contact to integration
+     - Push Contact to Integration
      - ``integration``
    * - ``email.send.lead``
-     - Send email to contact
+     - Send Email to Contact
      - ``email``
    * - ``email.send.user``
-     - Send email to user
+     - Send Email to User
      - ``useremail``, ``user_id``
    * - ``form.email``
-     - Send form results
+     - Send Form results
      - ``subject``, ``immediately``, ``set_replyto``, ``message``, ``email_to_owner``, ``copy_lead``, ``templates``, ``to``, ``cc``, ``bcc``
+
+.. vale on
 
 Progressive profiling
 *********************
@@ -1364,7 +1396,7 @@ Mautic shows fields conditionally based on other field values:
 Mapped fields
 *************
 
-Mautic can map Form fields to Contact or Company fields:
+Mautic can map Form Fields to Contact or Company fields:
 
 * Use ``mappedObject`` to specify ``contact`` or ``company``
 * Use ``mappedField`` to specify the target field name
