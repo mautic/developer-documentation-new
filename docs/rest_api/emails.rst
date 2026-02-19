@@ -15,9 +15,14 @@ Emails
 
 Use this endpoint to manipulate and obtain details on Mautic's Emails.
 
-**Using Mautic's API Library**
+Using the Mautic API library
+****************************
 
-You can interact with this API through the :xref:`Mautic API Library` as follows, or use the various http endpoints as described in this document.
+.. vale off
+
+You can interact with this API using the :xref:`Mautic API Library` as below, or the various HTTP endpoints described in this document.
+
+.. vale on
 
 .. code-block:: php
 
@@ -39,14 +44,14 @@ Get Email
 
 .. vale on
 
+Retrieves an individual Email.
+
 .. code-block:: php
 
    <?php
 
    //...
    $email = $emailApi->get($id);
-
-Get an individual Email by ID.
 
 .. vale off
 
@@ -60,69 +65,83 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Email.
+
+.. _get Email response:
 
 .. code-block:: json
 
    {
-       "email": {
-           "isPublished": true,
-           "dateAdded": "2017-02-03T16:51:06+00:00",
-           "dateModified": "2017-02-03T19:11:54+00:00",
-           "createdBy": 1,
-           "createdByUser": "John Doe",
-           "modifiedBy": 1,
-           "modifiedByUser": "John Doe",
-           "id": 1,
-           "name": "API Test Email",
-           "subject": "Email created via API",
-           "fromAddress": "test@example.com",
-           "fromName": "Test From Name",
-           "replyToAddress": "reply@example.com",
-           "bccAddress": "bcc@example.com",
-           "useOwnerAsMailer": false,
-           "template": "blank",
-           "content": [],
-           "utmTags": [],
-           "plainText": "Plain text content here",
-           "customHtml": "<h1>Custom HTML content</h1>",
-           "emailType": "list",
-           "translationChildren": [],
-           "translationParent": null,
-           "variantChildren": [],
-           "variantParent": null,
-           "variantSettings": [],
-           "variantStartDate": null,
-           "publishUp": null,
-           "publishDown": null,
-           "readCount": 0,
-           "sentCount": 0,
-           "revision": 1,
-           "category": null,
-           "lists": [
-               {
-                   "createdByUser": "John Doe",
-                   "modifiedByUser": "John Doe",
-                   "id": 2,
-                   "name": "Test Segment",
-                   "alias": "test-segment",
-                   "description": "Description for test segment"
-               }
-           ],
-           "language": "en",
-           "publicPreview": false,
-           "assetAttachments": [],
-           "unsubscribeForm": null,
-           "preferenceCenter": null,
-           "dynamicContent": [],
-           "variantSentCount": 0,
-           "variantReadCount": 0,
-           "headers": []
-       }
+      "email": {
+          "isPublished": true,
+          "dateAdded": "2026-02-19T04:17:46+00:00",
+          "dateModified": "2026-02-19T14:49:06+00:00",
+          "createdBy": 1,
+          "createdByUser": "Admin Mautic",
+          "modifiedBy": 1,
+          "modifiedByUser": "Admin Mautic",
+          "id": 1,
+          "name": "Acme General Conference Success",
+          "subject": "Acme General Conference Success",
+          "language": "en",
+          "category": null,
+          "fromAddress": "john.doe@acme.com",
+          "fromName": "John Doe",
+          "replyToAddress": null,
+          "bccAddress": null,
+          "useOwnerAsMailer": false,
+          "utmTags": {
+              "utmSource": null,
+              "utmMedium": null,
+              "utmCampaign": null,
+              "utmContent": null
+          },
+          "preheaderText": null,
+          "customHtml": "",
+          "plainText": null,
+          "template": "_make-announcement",
+          "emailType": "template",
+          "publishUp": null,
+          "publishDown": null,
+          "publicPreview": false,
+          "readCount": 0,
+          "sentCount": 0,
+          "revision": 2,
+          "assetAttachments": [],
+          "variantStartDate": null,
+          "variantSentCount": 0,
+          "variantReadCount": 0,
+          "variantParent": null,
+          "variantChildren": [],
+          "translationParent": null,
+          "translationChildren": [],
+          "unsubscribeForm": null,
+          "dynamicContent": [
+              {
+                  "tokenName": "Dynamic Content 1",
+                  "content": "Default Dynamic Content",
+                  "filters": [
+                      {
+                          "content": null,
+                          "filters": []
+                      }
+                  ]
+              }
+          ],
+          "lists": [],
+          "headers": [],
+          "grapesjsbuilder": {
+              "customMjml": "<mjml>\r\n  <mj-head>\r\n\t<!-- CSS-STYLE -->\r\n\t<mj-style inline=\"inline\"> p, li {margin:0 !important; padding:0; line-height:1.4em;}\r\n\t</mj-style>\r\n  </mj-head>\r\n  <!-- BODY -->\r\n  <mj-body background-color=\"#f4f4f4\">\r\n\t<mj-section padding-top=\"40px\" background-color=\"#ffffff\">\r\n\t  <mj-column>\r\n\t\t<mj-text font-size=\"11px\" align=\"center\">\r\n\t\t  <p>\r\n\t\t\t<span data-fr-verified=\"true\"><span data-fr-verified=\"true\" class=\"atwho-inserted\">{webview_text}</span>⁠⁠⁠⁠⁠⁠⁠</span>\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-spacer>\r\n\t\t</mj-spacer>\r\n\t\t<mj-image src=\"/app/assets/images/placeholder-logo.png?v5214f417\" width=\"70px\" padding-bottom=\"0px\" padding-top=\"0px\">\r\n\t\t</mj-image>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n\t<mj-section background-color=\"#ffffff\">\r\n\t  <mj-column width=\"550px\">\r\n\t\t<mj-text font-size=\"16px\" align=\"center\" font-style=\"italic\" color=\"#525252\">\r\n\t\t  <p>Ok, let's make an announcement\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-spacer height=\"40px\">\r\n\t\t</mj-spacer>\r\n\t\t<mj-text font-size=\"24px\" align=\"center\" font-weight=\"700\">\r\n\t\t  <p>Start customizing your email\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n\t<mj-section background-color=\"#ffffff\" padding-top=\"0px\">\r\n\t  <mj-column padding-top=\"0px\">\r\n\t\t<mj-image src=\"/app/assets/images/placeholder-image.png?v5214f417\" padding-right=\"0px\" padding-left=\"0px\" padding-bottom=\"0px\" padding-top=\"0px\">\r\n\t\t</mj-image>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n\t<mj-section background-color=\"#ffffff\" padding-top=\"0px\">\r\n\t  <mj-column padding-top=\"0px\">\r\n\t\t<mj-image src=\"/app/assets/images/placeholder-image.png?v5214f417\" padding-top=\"0px\">\r\n\t\t</mj-image>\r\n\t  </mj-column>\r\n\t  <mj-column padding-top=\"0px\">\r\n\t\t<mj-image src=\"/app/assets/images/placeholder-image.png?v5214f417\" padding-top=\"0px\">\r\n\t\t</mj-image>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n\t<mj-section background-color=\"#ffffff\">\r\n\t  <mj-column width=\"550px\">\r\n\t\t<mj-text font-size=\"16px\" align=\"center\">\r\n\t\t  <p>Make your announcements pop with an eye-catching visual, then provide the crucial details for engagement.\r\n\t\t  </p>\r\n\t\t  <p>⁠⁠⁠⁠⁠⁠⁠\r\n\t\t\t<br/>Customize this section by inserting your own images or choosing a striking solid color backdrop.\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-spacer height=\"30px\">\r\n\t\t</mj-spacer>\r\n\t\t<mj-divider border-width=\"2px\" border-color=\"#d0d0d0\">\r\n\t\t</mj-divider>\r\n\t\t<mj-spacer height=\"30px\">\r\n\t\t</mj-spacer>\r\n\t\t<mj-text font-size=\"22px\" font-weight=\"700\">\r\n\t\t  <p>Lead with an eye-catching title\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-text font-size=\"16px\">\r\n\t\t  <p>Present your news in a brief paragraph. For crucial points, use a bulleted list:\r\n\t\t  </p>\r\n\t\t  <ul>\r\n\t\t\t<li>\r\n\t\t\t  <span class=\"ck-list-bogus-paragraph\"><span class=\"ck-list-bogus-paragraph\">What's on offer</span></span>\r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t  <span class=\"ck-list-bogus-paragraph\"><span class=\"ck-list-bogus-paragraph\">Where to find us</span></span>\r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t  <span class=\"ck-list-bogus-paragraph\"><span class=\"ck-list-bogus-paragraph\">Timing specifics</span></span>\r\n\t\t\t</li>\r\n\t\t  </ul>\r\n\t\t  <p>Be concise to motivate readers to explore your website for the full story.\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-button href=\"https://\" background-color=\"#000000\" inner-padding=\"16px 32px\" border-radius=\"0px 0px 0px 0px\" font-size=\"16px\" align=\"left\">Button\r\n\t\t</mj-button>\r\n\t\t<mj-spacer align=\"center\">\r\n\t\t</mj-spacer>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n\t<mj-section padding-top=\"0\" padding-bottom=\"20px\" background-color=\"#000000\">\r\n\t  <mj-column>\r\n\t\t<mj-spacer height=\"40px\">\r\n\t\t</mj-spacer>\r\n\t\t<mj-image src=\"/app/assets/images/placeholder-logo-inverse.png?v5214f417\" width=\"70px\" padding-bottom=\"0px\">\r\n\t\t</mj-image>\r\n\t\t<mj-spacer>\r\n\t\t</mj-spacer>\r\n\t\t<mj-text font-family=\"Ubuntu, Helvetica, Arial, sans-serif\" line-height=\"1.5\" align=\"center\" padding-top=\"0px\" padding-bottom=\"0px\" font-size=\"12px\" color=\"white\">\r\n\t\t  <p>Amazing Company\r\n\t\t\t<br/>11111 Beautiful City, 1212 Nice Street\r\n\t\t\t<br/>Brazil\r\n\t\t\t<br/>\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-spacer>\r\n\t\t</mj-spacer>\r\n\t\t<mj-text font-size=\"11px\" align=\"center\" color=\"#a1a1a1\">\r\n\t\t  <p>Fancy seeing you down here. You’re getting this email because you gave us your email address.\r\n\t\t  </p>\r\n\t\t  <p>Want to change how you receive these emails?\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-text font-size=\"11px\" align=\"center\" color=\"#a1a1a1\">\r\n\t\t  <p>\r\n\t\t\t<span data-fr-verified=\"true\"><span data-fr-verified=\"true\" class=\"atwho-inserted\">{unsubscribe_text}</span>⁠⁠⁠⁠⁠⁠⁠</span>\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-spacer>\r\n\t\t</mj-spacer>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n  </mj-body>\r\n</mjml>\r\n"
+          }
+      }
    }
+
+.. _get Email properties:
 
 Email properties
 ----------------
+
+.. vale off
 
 .. list-table::
    :widths: 25 25 50
@@ -131,117 +150,134 @@ Email properties
    * - Name
      - Type
      - Description
+   * - ``isPublished``
+     - boolean
+     - Email publication status
+   * - ``dateAdded``
+     - datetime
+     - Email record creation date and time
+   * - ``dateModified``
+     - datetime
+     - Email record last modification date and time
+   * - ``createdBy``
+     - integer
+     - ID of the User who created the Email
+   * - ``createdByUser``
+     - string
+     - Name of the User who created the Email
+   * - ``modifiedBy``
+     - integer
+     - ID of the User who last modified the Email
+   * - ``modifiedByUser``
+     - string
+     - Name of the User who last modified the Email
    * - ``id``
-     - int
+     - integer
      - ID of the Email
    * - ``name``
      - string
-     - Name of the Email
+     - Email name - **required**
    * - ``subject``
      - string
-     - Subject of the Email
+     - Subject of the Email - **required**
+   * - ``language``
+     - string
+     - The language code for the Email, such as ``en``, ``fr``, and so on - **required**
+   * - ``category``
+     - object
+     - The Category for the Email
    * - ``fromAddress``
      - string
-     - From email address
+     - From Email address
    * - ``fromName``
      - string
      - From name
    * - ``replyToAddress``
      - string
-     - Reply-to email address
+     - Reply-to Email address
    * - ``bccAddress``
      - string
-     - BCC email address
+     - BCC Email address
    * - ``useOwnerAsMailer``
      - boolean
-     - Whether to use the Contact owner as the mailer
-   * - ``template``
-     - string
-     - Template used for the Email
-   * - ``content``
-     - array
-     - Array of content for the template
+     - Contact owner mailer status - set to ``1`` or ``true`` to use the Contact owner as the mailer
    * - ``utmTags``
-     - array
-     - Array of UTM tags for tracking
-   * - ``plainText``
+     - associative array
+     - Associative array of Email UTM tags
+   * - ``preheaderText``
      - string
-     - Plain text version of the Email
+     - Summary text that appears after the subject line
    * - ``customHtml``
      - string
      - Custom HTML content of the Email
+   * - ``plainText``
+     - string
+     - Plain text version of the Email
+   * - ``template``
+     - string
+     - Theme used to style the Email
    * - ``emailType``
      - string
      - Type of the Email - ``list`` or ``template``
    * - ``publishUp``
-     - datetime/null
-     - Date/time when the Email should be published
+     - datetime
+     - Activation date and time for the Email
    * - ``publishDown``
-     - datetime/null
-     - Date/time when the Email should be unpublished
-   * - ``readCount``
-     - int
-     - Number of times the Email was read
-   * - ``sentCount``
-     - int
-     - Number of times the Email was sent
-   * - ``revision``
-     - int
-     - Revision number of the Email
-   * - ``category``
-     - object/null
-     - Category the Email belongs to
-   * - ``lists``
-     - array
-     - Array of Segments/Lists the Email is assigned to
-   * - ``language``
-     - string
-     - Language of the Email
+     - datetime
+     - Deactivation date and time for the Email
    * - ``publicPreview``
      - boolean
-     - Whether the Email has public preview enabled
+     - Public preview status
+   * - ``readCount``
+     - integer
+     - Number of times Users read the Email
+   * - ``sentCount``
+     - integer
+     - Number of times the system sent the Email
+   * - ``revision``
+     - integer
+     - Revision number of the Email
    * - ``assetAttachments``
      - array
-     - Array of assets attached to the Email
+     - Array of Assets attached to the Email
+   * - ``variantStartDate``
+     - datetime
+     - Activation date and time for the Email A/B test
+   * - ``variantSentCount``
+     - integer
+     - Number of times the system sent Email variants
+   * - ``variantReadCount``
+     - integer
+     - Number of times Users read Email variants
+   * - ``variantParent``
+     - integer
+     - ID of the parent Email for the variant
+   * - ``variantChildren``
+     - array
+     - Array of child Email variant IDs
+   * - ``translationParent``
+     - integer
+     - ID of the parent translation Email
+   * - ``translationChildren``
+     - array
+     - Array of Email IDs that translate the parent Email
    * - ``unsubscribeForm``
-     - object/null
-     - Unsubscribe form associated with the Email
-   * - ``preferenceCenter``
-     - object/null
-     - Preference center page associated with the Email
+     - object
+     - The Unsubscribe Form for the Email
    * - ``dynamicContent``
      - array
-     - Array of dynamic content variants
-   * - ``variantSentCount``
-     - int
-     - Number of times Email variants were sent
-   * - ``variantReadCount``
-     - int
-     - Number of times Email variants were read
+     - Array of Dynamic Content variants
+   * - ``lists``
+     - array
+     - Array of Segments that receive the Email - **required**
    * - ``headers``
      - array
      - Array of custom headers
-   * - ``isPublished``
-     - boolean
-     - Published state
-   * - ``dateAdded``
-     - datetime
-     - Date/time Email was created
-   * - ``createdBy``
-     - int
-     - ID of the User that created the Email
-   * - ``createdByUser``
-     - string
-     - Name of the User that created the Email
-   * - ``dateModified``
-     - datetime/null
-     - Date/time Email was last modified
-   * - ``modifiedBy``
-     - int
-     - ID of the User that last modified the Email
-   * - ``modifiedByUser``
-     - string
-     - Name of the User that last modified the Email
+   * - ``grapesjsbuilder``
+     - associative array
+     - Associative array of Email builder configuration
+
+.. vale on
 
 .. vale off
 
@@ -250,14 +286,14 @@ List Emails
 
 .. vale on
 
+Retrieves a list of Emails.
+
 .. code-block:: php
 
    <?php
 
    //...
    $emails = $emailApi->getList($searchFilter, $start, $limit, $orderBy, $orderByDir, $publishedOnly, $minimal);
-
-Returns a list of contact Emails available to the User. This list is filterable and sortable.
 
 .. vale off
 
@@ -278,83 +314,128 @@ Query parameters
    * - Name
      - Description
    * - ``search``
-     - String or search command to filter entities by.
+     - String or search command to filter entities
    * - ``start``
-     - Starting row for the entities returned. Defaults to 0.
+     - Starting row for the returned entities - defaults to 0
    * - ``limit``
-     - Limit number of entities to return. Defaults to the system configuration for pagination, which is 30 by default.
+     - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
-     - Column to sort by. Can use any column listed in the response. However, you need to change all properties in the response written in ``camelCase`` a bit. Before every capital, add an underscore - ``_`` - and then change the capital letters to non-capital letters. So ``dateAdded`` becomes ``date_added``, ``modifiedBy`` becomes ``modified_by``, etc.
+     - Column to sort by. Any column in the response is valid.
+       
+       Note that you must convert ``camelCase`` properties to ``snake_case``. For example, ``dateSubmitted`` becomes ``date_submitted``, ``trackingId`` becomes ``tracking_id``, and so on
    * - ``orderByDir``
-     - Sort direction: ``asc`` or ``desc``.
+     - Sort direction - ``asc`` or ``desc``
    * - ``publishedOnly``
-     - Only return currently published entities.
+     - Returns only currently published entities
    * - ``minimal``
-     - Return only array of entities without additional lists in it.
+     - Returns only a simple mapped object of entities without additional lists in it
 
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Emails list.
 
 .. code-block:: json
 
    {
-       "total": 1,
-       "emails": {
-           "1": {
-               "isPublished": true,
-               "dateAdded": "2017-02-03T16:51:06+00:00",
-               "dateModified": "2017-02-03T19:11:54+00:00",
-               "createdBy": 1,
-               "createdByUser": "John Doe",
-               "modifiedBy": 1,
-               "modifiedByUser": "John Doe",
-               "id": 1,
-               "name": "API Test Email",
-               "subject": "Email created via API",
-               "fromAddress": "test@example.com",
-               "fromName": "Test From Name",
-               "replyToAddress": "reply@example.com",
-               "bccAddress": "bcc@example.com",
-               "useOwnerAsMailer": false,
-               "template": "blank",
-               "content": [],
-               "utmTags": [],
-               "plainText": "Plain text content here",
-               "customHtml": "<h1>Custom HTML content</h1>",
-               "emailType": "list",
-               "publishUp": null,
-               "publishDown": null,
-               "readCount": 0,
-               "sentCount": 0,
-               "revision": 1,
-               "category": null,
-               "lists": [
-                   {
-                       "id": 2,
-                       "name": "Test Segment",
-                       "alias": "test-segment",
-                       "description": "Description for test segment"
-                   }
-               ],
-               "language": "en",
-               "publicPreview": false,
-               "assetAttachments": [],
-               "unsubscribeForm": null,
-               "preferenceCenter": null,
-               "dynamicContent": [],
-               "variantSentCount": 0,
-               "variantReadCount": 0,
-               "headers": []
-           }
-       }
+      "total": 2,
+      "emails": {
+          "1": {
+              "isPublished": true,
+              "dateAdded": "2026-02-19T04:17:46+00:00",
+              "dateModified": "2026-02-19T15:14:49+00:00",
+              "createdBy": 1,
+              "createdByUser": "Admin Mautic",
+              "modifiedBy": 1,
+              "modifiedByUser": "Admin Mautic",
+              "id": 1,
+              "name": "Acme General Conference Success",
+              "subject": "Acme General Conference Success",
+              "language": "en",
+              "category": null,
+              "fromAddress": "john.doe@acme.com",
+              "fromName": "John Doe",
+              "replyToAddress": null,
+              "bccAddress": null,
+              "useOwnerAsMailer": false,
+              "utmTags": {
+                  "utmSource": null,
+                  "utmMedium": null,
+                  "utmCampaign": null,
+                  "utmContent": null
+              },
+              "preheaderText": null,
+              "customHtml": "",
+              "plainText": null,
+              "template": "mautic_code_mode",
+              "emailType": "template",
+              "publishUp": null,
+              "publishDown": null,
+              "publicPreview": false,
+              "readCount": 0,
+              "sentCount": 0,
+              "revision": 4,
+              "assetAttachments": [],
+              "variantStartDate": null,
+              "variantSentCount": 0,
+              "variantReadCount": 0,
+              "variantParent": null,
+              "variantChildren": [],
+              "translationParent": null,
+              "translationChildren": [],
+              "unsubscribeForm": null,
+              "dynamicContent": [
+                  {
+                      "tokenName": "Dynamic Content 1",
+                      "content": "Default Dynamic Content",
+                      "filters": [
+                          {
+                              "content": "Variation 1",
+                              "filters": [
+                                  {
+                                      "glue": "and",
+                                      "field": "email",
+                                      "object": "lead",
+                                      "type": "email",
+                                      "filter": null,
+                                      "display": null,
+                                      "operator": "="
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              ],
+              "lists": [],
+              "headers": [],
+              "grapesjsbuilder": {
+                  "customMjml": "<mjml>\r\n  <mj-head>\r\n\t<!-- CSS-STYLE -->\r\n\t<mj-style inline=\"inline\"> p, li {margin:0 !important; padding:0; line-height:1.4em;}\r\n\t</mj-style>\r\n  </mj-head>\r\n  <!-- BODY -->\r\n  <mj-body background-color=\"#f4f4f4\">\r\n\t<mj-section padding-top=\"40px\" background-color=\"#ffffff\">\r\n\t  <mj-column>\r\n\t\t<mj-text font-size=\"11px\" align=\"center\">\r\n\t\t  <p>\r\n\t\t\t<span data-fr-verified=\"true\"><span data-fr-verified=\"true\" class=\"atwho-inserted\">{webview_text}</span>⁠⁠⁠⁠⁠⁠⁠</span>\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-spacer>\r\n\t\t</mj-spacer>\r\n\t\t<mj-image src=\"/app/assets/images/placeholder-logo.png?v5214f417\" width=\"70px\" padding-bottom=\"0px\" padding-top=\"0px\">\r\n\t\t</mj-image>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n\t<mj-section background-color=\"#ffffff\">\r\n\t  <mj-column width=\"550px\">\r\n\t\t<mj-text font-size=\"16px\" align=\"center\" font-style=\"italic\" color=\"#525252\">\r\n\t\t  <p>Ok, let's make an announcement\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-spacer height=\"40px\">\r\n\t\t</mj-spacer>\r\n\t\t<mj-text font-size=\"24px\" align=\"center\" font-weight=\"700\">\r\n\t\t  <p>Start customizing your email\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n\t<mj-section background-color=\"#ffffff\" padding-top=\"0px\">\r\n\t  <mj-column padding-top=\"0px\">\r\n\t\t<mj-image src=\"/app/assets/images/placeholder-image.png?v5214f417\" padding-right=\"0px\" padding-left=\"0px\" padding-bottom=\"0px\" padding-top=\"0px\">\r\n\t\t</mj-image>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n\t<mj-section background-color=\"#ffffff\" padding-top=\"0px\">\r\n\t  <mj-column padding-top=\"0px\">\r\n\t\t<mj-image src=\"/app/assets/images/placeholder-image.png?v5214f417\" padding-top=\"0px\">\r\n\t\t</mj-image>\r\n\t  </mj-column>\r\n\t  <mj-column padding-top=\"0px\">\r\n\t\t<mj-image src=\"/app/assets/images/placeholder-image.png?v5214f417\" padding-top=\"0px\">\r\n\t\t</mj-image>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n\t<mj-section background-color=\"#ffffff\">\r\n\t  <mj-column width=\"550px\">\r\n\t\t<mj-text font-size=\"16px\" align=\"center\">\r\n\t\t  <p>Make your announcements pop with an eye-catching visual, then provide the crucial details for engagement.\r\n\t\t  </p>\r\n\t\t  <p>⁠⁠⁠⁠⁠⁠⁠\r\n\t\t\t<br/>Customize this section by inserting your own images or choosing a striking solid color backdrop.\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-spacer height=\"30px\">\r\n\t\t</mj-spacer>\r\n\t\t<mj-divider border-width=\"2px\" border-color=\"#d0d0d0\">\r\n\t\t</mj-divider>\r\n\t\t<mj-spacer height=\"30px\">\r\n\t\t</mj-spacer>\r\n\t\t<mj-text font-size=\"22px\" font-weight=\"700\">\r\n\t\t  <p>Lead with an eye-catching title\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-text font-size=\"16px\">\r\n\t\t  <p>Present your news in a brief paragraph. For crucial points, use a bulleted list:\r\n\t\t  </p>\r\n\t\t  <ul>\r\n\t\t\t<li>\r\n\t\t\t  <span class=\"ck-list-bogus-paragraph\"><span class=\"ck-list-bogus-paragraph\">What's on offer</span></span>\r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t  <span class=\"ck-list-bogus-paragraph\"><span class=\"ck-list-bogus-paragraph\">Where to find us</span></span>\r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t  <span class=\"ck-list-bogus-paragraph\"><span class=\"ck-list-bogus-paragraph\">Timing specifics</span></span>\r\n\t\t\t</li>\r\n\t\t  </ul>\r\n\t\t  <p>Be concise to motivate readers to explore your website for the full story.\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-button href=\"https://\" background-color=\"#000000\" inner-padding=\"16px 32px\" border-radius=\"0px 0px 0px 0px\" font-size=\"16px\" align=\"left\">Button\r\n\t\t</mj-button>\r\n\t\t<mj-spacer align=\"center\">\r\n\t\t</mj-spacer>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n\t<mj-section padding-top=\"0\" padding-bottom=\"20px\" background-color=\"#000000\">\r\n\t  <mj-column>\r\n\t\t<mj-spacer height=\"40px\">\r\n\t\t</mj-spacer>\r\n\t\t<mj-image src=\"/app/assets/images/placeholder-logo-inverse.png?v5214f417\" width=\"70px\" padding-bottom=\"0px\">\r\n\t\t</mj-image>\r\n\t\t<mj-spacer>\r\n\t\t</mj-spacer>\r\n\t\t<mj-text font-family=\"Ubuntu, Helvetica, Arial, sans-serif\" line-height=\"1.5\" align=\"center\" padding-top=\"0px\" padding-bottom=\"0px\" font-size=\"12px\" color=\"white\">\r\n\t\t  <p>Amazing Company\r\n\t\t\t<br/>11111 Beautiful City, 1212 Nice Street\r\n\t\t\t<br/>Brazil\r\n\t\t\t<br/>\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-spacer>\r\n\t\t</mj-spacer>\r\n\t\t<mj-text font-size=\"11px\" align=\"center\" color=\"#a1a1a1\">\r\n\t\t  <p>Fancy seeing you down here. You’re getting this email because you gave us your email address.\r\n\t\t  </p>\r\n\t\t  <p>Want to change how you receive these emails?\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-text font-size=\"11px\" align=\"center\" color=\"#a1a1a1\">\r\n\t\t  <p>\r\n\t\t\t<span data-fr-verified=\"true\"><span data-fr-verified=\"true\" class=\"atwho-inserted\">{unsubscribe_text}</span>⁠⁠⁠⁠⁠⁠⁠</span>\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-spacer>\r\n\t\t</mj-spacer>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n  </mj-body>\r\n</mjml>\r\n"
+              }
+          },
+          // ...
+      }
    }
 
 Properties
 ----------
 
-Same as :ref:`rest_api/emails:Get Email`.
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``total``
+     - integer
+     - Total count of Emails
+   * - ``emails``
+     - array
+     - A mapped collection of Emails indexed by their ID
+
+.. vale off
+
+For the rest of the Email properties, refer to :ref:`Email properties <get Email properties>`.
 
 .. vale off
 
@@ -362,6 +443,8 @@ Create Email
 ************
 
 .. vale on
+
+Creates a new Email.
 
 .. code-block:: php
 
@@ -377,8 +460,6 @@ Create Email
 
    $email = $emailApi->create($data);
 
-Create a new Email.
-
 .. vale off
 
 HTTP request
@@ -391,98 +472,19 @@ HTTP request
 POST parameters
 ---------------
 
-.. list-table::
-   :widths: 25 25 50
-   :header-rows: 1
-
-   * - Name
-     - Type
-     - Description
-   * - ``name``
-     - string
-     - Email name is the only required field
-   * - ``subject``
-     - string
-     - Email subject
-   * - ``fromAddress``
-     - string
-     - From email address
-   * - ``fromName``
-     - string
-     - From name
-   * - ``replyToAddress``
-     - string
-     - Reply-to email address
-   * - ``bccAddress``
-     - string
-     - BCC email address
-   * - ``useOwnerAsMailer``
-     - boolean
-     - Whether to use the Contact owner as the mailer
-   * - ``template``
-     - string
-     - Template to use for the Email
-   * - ``content``
-     - array
-     - Array of content for the template
-   * - ``utmTags``
-     - array
-     - Array of UTM tags for tracking
-   * - ``plainText``
-     - string
-     - Plain text version of the Email
-   * - ``customHtml``
-     - string
-     - Custom HTML content of the Email
-   * - ``emailType``
-     - string
-     - Type of the Email - ``list`` or ``template``
-   * - ``publishUp``
-     - datetime
-     - Date/time when the Email should be published
-   * - ``publishDown``
-     - datetime
-     - Date/time when the Email should be unpublished
-   * - ``category``
-     - int
-     - ID of the category to assign the Email to
-   * - ``lists``
-     - array
-     - Array of Segment/List IDs to assign the Email to
-   * - ``language``
-     - string
-     - Language of the Email
-   * - ``publicPreview``
-     - boolean
-     - Whether to enable public preview for the Email
-   * - ``assetAttachments``
-     - array
-     - Array of asset IDs to attach to the Email
-   * - ``unsubscribeForm``
-     - int
-     - ID of the unsubscribe form to use
-   * - ``preferenceCenter``
-     - int
-     - ID of the preference center page to use
-   * - ``dynamicContent``
-     - array
-     - Array of dynamic content variants
-   * - ``headers``
-     - array
-     - Array of custom headers
-   * - ``isPublished``
-     - boolean
-     - Published state
+Mautic accepts the same parameters for creating an Email as those described in :ref:`Email properties <get Email properties>`.
 
 Response
 ========
 
-``Expected Response Code: 201``
+* Returns ``201 Created`` when the request successfully creates an Email.
+
+The response is a JSON object similar to :ref:`Get Email <get Email response>`.
 
 Properties
 ----------
 
-Same as :ref:`rest_api/emails:Get Email`.
+Refer to :ref:`Email properties <get Email properties>`.
 
 .. vale off
 
@@ -490,6 +492,13 @@ Edit Email
 **********
 
 .. vale on
+
+Edits an Email. 
+
+This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
+
+* ``PUT``: **full replacement**. The request creates a new Email if the ID is missing. If the ID exists, the request clears all existing data and replaces it with the provided values.
+* ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the Email ID doesn't exist.
 
 .. code-block:: php
 
@@ -501,15 +510,10 @@ Edit Email
        'subject' => 'New subject line',
    );
 
-   // Create new a Email of ID 1 isn't found?
+   // Create new an Email of ID 1 isn't found?
    $createIfNotFound = true;
 
    $email = $emailApi->edit($id, $data, $createIfNotFound);
-
-Edit an existing Email. Note that this supports PUT or PATCH depending on the desired behavior.
-
-**PUT** creates an Email if the given ID doesn't exist and clears all the Email information, adds the information from the request.
-**PATCH** fails if the Email with the given ID doesn't exist and updates the Email field values with the values from the request.
 
 .. vale off
 
@@ -518,110 +522,26 @@ HTTP request
 
 .. vale on
 
-To edit an Email and return a 404 if the Email isn't found:
-
-``PATCH /emails/ID/edit``
-
-To edit an Email and create a new one if the Email isn't found:
-
-``PUT /emails/ID/edit``
+* ``PUT /emails/ID/edit``: updates an existing Email or creates a new one when the ID doesn't exist.
+* ``PATCH /emails/ID/edit``: updates an existing Email. The request fails when the ID doesn't exist.
 
 POST parameters
 ---------------
 
-.. list-table::
-   :widths: 25 25 50
-   :header-rows: 1
-
-   * - Name
-     - Type
-     - Description
-   * - ``name``
-     - string
-     - Email name
-   * - ``subject``
-     - string
-     - Email subject
-   * - ``fromAddress``
-     - string
-     - From email address
-   * - ``fromName``
-     - string
-     - From name
-   * - ``replyToAddress``
-     - string
-     - Reply-to email address
-   * - ``bccAddress``
-     - string
-     - BCC email address
-   * - ``useOwnerAsMailer``
-     - boolean
-     - Whether to use the Contact owner as the mailer
-   * - ``template``
-     - string
-     - Template to use for the Email
-   * - ``content``
-     - array
-     - Array of content for the template
-   * - ``utmTags``
-     - array
-     - Array of UTM tags for tracking
-   * - ``plainText``
-     - string
-     - Plain text version of the Email
-   * - ``customHtml``
-     - string
-     - Custom HTML content of the Email
-   * - ``emailType``
-     - string
-     - Type of the Email - ``list`` or ``template``
-   * - ``publishUp``
-     - datetime
-     - Date/time when the Email should be published
-   * - ``publishDown``
-     - datetime
-     - Date/time when the Email should be unpublished
-   * - ``category``
-     - int
-     - ID of the category to assign the Email to
-   * - ``lists``
-     - array
-     - Array of Segment/List IDs to assign the Email to
-   * - ``language``
-     - string
-     - Language of the Email
-   * - ``publicPreview``
-     - boolean
-     - Whether to enable public preview for the Email
-   * - ``assetAttachments``
-     - array
-     - Array of asset IDs to attach to the Email
-   * - ``unsubscribeForm``
-     - int
-     - ID of the unsubscribe form to use
-   * - ``preferenceCenter``
-     - int
-     - ID of the preference center page to use
-   * - ``dynamicContent``
-     - array
-     - Array of dynamic content variants
-   * - ``headers``
-     - array
-     - Array of custom headers
-   * - ``isPublished``
-     - boolean
-     - Published state
+Mautic accepts the same parameters for editing an Email as those described in :ref:`Email properties <get Email properties>`.
 
 Response
 ========
 
-If ``PUT``, the expected response code is ``200`` if the Email was edited or ``201`` if created.
-If ``PATCH``, the expected response code is ``200``.
+* ``PUT``: returns ``200 OK`` when the request successfully updates the Email or ``201 Created`` when the request creates an Email.
+* ``PATCH``: returns ``200 OK`` when the request successfully updates the Email or ``404 Not Found`` error when the Email ID doesn't exist.
+
+The response is a JSON object similar to :ref:`Get Email <get Email response>`.
 
 Properties
 ----------
 
-Same as :ref:`rest_api/emails:Get Email`.
+Refer to :ref:`Email properties <get Email properties>`.
 
 .. vale off
 
@@ -630,13 +550,13 @@ Delete Email
 
 .. vale on
 
+Deletes an Email.
+
 .. code-block:: php
 
    <?php
 
    $email = $emailApi->delete($id);
-
-Delete an Email.
 
 .. vale off
 
@@ -650,69 +570,14 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully deletes the Email.
+
+The response is a JSON object containing the data of the deleted Email, similar to :ref:`Get Email <get Email response>`.
 
 Properties
 ----------
 
-Same as :ref:`rest_api/emails:Get Email`.
-
-.. vale off
-
-Send Email to Segment
-*********************
-
-.. vale on
-
-.. code-block:: php
-
-   <?php
-
-   // Send to all Contacts in the Email's assigned lists
-   $response = $emailApi->send($id);
-
-   // Send to specific list(s)
-   $response = $emailApi->sendToLists($id, $listIds);
-
-Send an Email to the Contacts in the Email's assigned lists or to provided list IDs.
-
-.. vale off
-
-HTTP request
-============
-
-.. vale on
-
-``POST /emails/ID/send``
-
-POST parameters
----------------
-
-.. list-table::
-   :widths: 30 70
-   :header-rows: 1
-
-   * - Name
-     - Description
-   * - ``lists``
-     - Array of list IDs to send to. If not provided, will use the Email's assigned lists.
-   * - ``limit``
-     - Maximum number of Contacts to send to. If not provided, will send to all Contacts.
-   * - ``batch``
-     - Batch size for sending. If not provided, will send all at once.
-
-Response
-========
-
-``Expected Response Code: 200``
-
-.. code-block:: json
-
-   {
-       "success": 1,
-       "sentCount": 1,
-       "failedRecipients": 0
-   }
+Refer to :ref:`Email properties <get Email properties>`.
 
 .. vale off
 
@@ -721,52 +586,18 @@ Send Email to Contact
 
 .. vale on
 
+Sends an Email to a specific Contact.
+
 .. code-block:: php
 
    <?php
 
    $response = $emailApi->sendToContact($emailId, $contactId, $options);
 
-Send an Email to a specific Contact.
-
-.. vale off
-
-HTTP request
-============
-
-.. vale on
-
-``POST /emails/ID/contact/CONTACT_ID/send``
-
-POST parameters
----------------
-
-.. list-table::
-   :widths: 30 70
-   :header-rows: 1
-
-   * - Name
-     - Description
-   * - ``tokens``
-     - Array of tokens to replace in the Email content
-   * - ``assetAttachments``
-     - Array of asset IDs to attach to the Email
-
-Response
-========
-
-``Expected Response Code: 200``
-
-.. code-block:: json
-
-   {
-       "success": true
-   }
-
 Tokens
-------
+======
 
-You can send custom tokens to the Email via the ``tokens`` parameter. Tokens should be in the format ``{token_name}`` and can be used in the Email content.
+You can send custom tokens to the Email via the ``tokens`` parameter. Use the format ``{token_name}`` for tokens within the Email content.
 
 .. code-block:: php
 
@@ -782,18 +613,136 @@ You can send custom tokens to the Email via the ``tokens`` parameter. Tokens sho
 
 .. vale off
 
+HTTP request
+============
+
+.. vale on
+
+``POST /emails/ID/contact/CONTACT_ID/send``
+
+Parameters
+----------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``emailId``
+     - integer
+     - ID of the Email
+   * - ``contactId``
+     - integer
+     - ID of the Contact
+   * - ``tokens``
+     - associative array
+     - Associative array of tokens to replace in the Email content
+
+Response
+========
+
+* Returns ``200 OK`` when the request successfully delivers the Email to the Contact.
+
+.. code-block:: json
+
+   {
+       "success": true
+   }
+
+.. vale off
+
+Send Email to Segment
+*********************
+
+.. vale on
+
+Sends an Email to the Contacts in the Email's assigned Segments or to specific Segment IDs.
+
+.. code-block:: php
+
+   <?php
+
+   // Send to all Contacts in the Email's assigned Segments
+   $response = $emailApi->send($id);
+
+   // Sends to specific Segment(s)
+   $response = $emailApi->sendToLists($id, $listIds);
+
+.. vale off
+
+HTTP request
+============
+
+.. vale on
+
+``POST /emails/ID/send``
+
+POST parameters
+---------------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``id``
+     - integer
+     - ID of the Email
+   * - ``listIds``
+     - array
+     - Array of Segment IDs to target. This parameter overrides the Email's assigned Segments
+
+Response
+========
+
+* Returns ``200 OK`` when the request successfully delivers the Email to the Segments.
+
+.. code-block:: json
+
+   {
+       "success": 1,
+       "sentCount": 1,
+       "failedRecipients": 0
+   }
+
+Properties
+----------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``success``
+     - boolean
+     - Delivery success status - ``1`` or ``true`` indicates a successful send
+   * - ``sentCount``
+     - integer
+     - Total number of successfully sent Emails
+   * - ``failedRecipients``
+     - integer
+     - Total number of Emails that failed to deliver
+
+.. vale off
+
 Create Email reply
 ******************
 
 .. vale on
+
+Creates a reply to an Email using the tracking hash from the Email statistics.
 
 .. code-block:: php
 
    <?php
 
    $response = $emailApi->reply($trackingHash);
-
-Create a reply to an Email using the tracking hash from the Email statistics.
 
 .. vale off
 
@@ -804,10 +753,24 @@ HTTP request
 
 ``POST /emails/reply/TRACKING_HASH``
 
+Parameters
+----------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``trackingHash``
+     - string
+     - Unique hash used to track Email statistics
+
 Response
 ========
 
-``Expected Response Code: 201``
+* Returns ``201 Created`` when the request successfully creates the reply.
 
 .. code-block:: json
 
