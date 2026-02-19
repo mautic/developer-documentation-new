@@ -320,7 +320,7 @@ Company properties
      - object
      - Contains grouped Company data:
 
-       * ``all``: an associative array of field aliases and values. This is the primary way to access :ref:`Company field properties <get Company field properties>`.
+       * ``all``: associative array of field aliases and values. This is the primary way to access :ref:`Company field properties <get Company field properties>`.
 
        * ``core`` and ``professional``: these contain the same :ref:`fields <get Company field properties>`, but bundled with additional metadata such as labels and types.
 
@@ -437,7 +437,9 @@ Query parameters
    * - ``limit``
      - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
-     - Column to sort by. Any column in the response is valid
+     - Column to sort by. Any column in the response is valid.
+       
+       Note that you must convert ``camelCase`` properties to ``snake_case``. For example, ``dateSubmitted`` becomes ``date_submitted``, ``trackingId`` becomes ``tracking_id``, and so on
    * - ``orderByDir``
      - Sort direction - ``asc`` or ``desc``
    * - ``publishedOnly``

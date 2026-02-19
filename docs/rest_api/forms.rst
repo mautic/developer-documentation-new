@@ -230,10 +230,10 @@ Form properties
      - Deactivation date and time for the Form
    * - ``fields``
      - associative array
-     - A Form field associative array. The keys must correspond to the field aliases described in the :ref:`Form field properties <get Form field properties>`
+     - Associative array of Form fields. The keys must correspond to the field aliases described in the :ref:`Form field properties <get Form field properties>`
    * - ``actions``
      - associative array
-     - A Form action associative array. The keys must correspond to the action aliases described in the :ref:`Form action properties <get Form action properties>`
+     - Associative array of Form actions. The keys must correspond to the action aliases described in the :ref:`Form action properties <get Form action properties>`
    * - ``template``
      - string
      - Theme used to style the Form
@@ -415,7 +415,7 @@ Query parameters
    * - ``start``
      - Starting row for the returned entities - defaults to 0
    * - ``limit``
-     - Maximum number of entities to return - defaults to the system configuration for pagination, which is 30 by default
+     - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
      - Column to sort by. Any column in the response is valid.
        
@@ -553,7 +553,7 @@ Properties
      - Total count of Forms
    * - ``forms``
      - array
-     - Collection of Forms
+     - Array of Forms
 
 .. vale off
 
@@ -778,13 +778,15 @@ Query parameters
 ----------------
 
 .. list-table::
-   :widths: 30 70
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
+     - Type
      - Description
    * - ``fields``
-     - An array of field IDs to remove from the Form.
+     - array
+     - Array of field IDs to remove from the Form
 
 Response
 ========
@@ -1085,7 +1087,7 @@ Properties
      - Total count of Form submissions
    * - ``forms``
      - array
-     - Collection of Form submissions
+     - Array of Form submissions
 
 .. vale off
 
@@ -1208,7 +1210,7 @@ Properties
      - Total count of Form submissions
    * - ``submissions``
      - array
-     - Collection of Form submissions
+     - Array of Form submissions
 
 .. vale off
 
