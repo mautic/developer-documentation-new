@@ -739,7 +739,9 @@ HTTP request
 POST parameters
 ---------------
 
-A Company associative array. The array keys must correspond to the field aliases described in the :ref:`Company field properties <get Company field properties>`.
+Mautic accepts a Company associative array. The keys must correspond to the property names described in :ref:`Company properties <get Company properties>`.
+
+For core or professional fields, use the field aliases defined in :ref:`Company field properties <get Company field properties>`.
 
 Response
 ========
@@ -795,19 +797,9 @@ HTTP request
 POST parameters
 ---------------
 
-.. list-table::
-   :widths: 25 25 50
-   :header-rows: 1
+Mautic accepts the same parameters for editing a Company as those described in :ref:`Company properties <get Company properties>`.
 
-   * - Name
-     - Type
-     - Description
-   * - ``id``
-     - integer
-     - ID of the Company
-   * - ``data``
-     - associative array
-     - A Company associative array. The keys must correspond to the field aliases described in the :ref:`Company field properties <get Company field properties>`.
+Use the Company associative array to manage Company properties and field values. The keys must correspond to the property names in :ref:`Company properties <get Company properties>` or the field aliases in :ref:`Company field properties <get Company field properties>`.
 
 Response
 ========
