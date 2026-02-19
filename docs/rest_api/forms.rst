@@ -15,9 +15,14 @@ Forms
 
 Use this endpoint to manipulate and obtain details on Mautic's Forms.
 
-**Using Mautic's API Library**
+Using the Mautic API library
+****************************
 
-You can interact with this API through the :xref:`Mautic API Library` as follows, or use the various http endpoints as described in this document.
+.. vale off
+
+You can interact with this API using the :xref:`Mautic API Library` as below, or the various HTTP endpoints described in this document.
+
+.. vale on
 
 .. code-block:: php
 
@@ -39,14 +44,14 @@ Get Form
 
 .. vale on
 
+Retrieves an individual Form.
+
 .. code-block:: php
 
    <?php
 
    //...
    $form = $formApi->get($id);
-
-Get an individual Form by ID.
 
 .. vale off
 
@@ -60,91 +65,113 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Form.
+
+.. _get Form response:
 
 .. code-block:: json
 
    {
-       "form": {
-           "isPublished": true,
-           "dateAdded": "2017-02-03T16:51:06+00:00",
-           "dateModified": "2017-02-03T19:11:54+00:00",
-           "createdBy": 1,
-           "createdByUser": "John Doe",
-           "modifiedBy": 1,
-           "modifiedByUser": "John Doe",
-           "id": 1,
-           "name": "API Test Form",
-           "description": "Form created via API",
-           "alias": "api-test-form",
-           "formType": "standalone",
-           "cachedHtml": "<form id=\"mauticform_apitestform\">...</form>",
-           "template": null,
-           "inKioskMode": false,
-           "renderStyle": false,
-           "formAttributes": null,
-           "noIndex": false,
-           "progressiveProfilingLimit": null,
-           "postAction": "return",
-           "postActionProperty": null,
-           "publishUp": null,
-           "publishDown": null,
-           "language": "en",
-           "category": {
-               "createdByUser": "John Doe",
-               "modifiedByUser": "John Doe",
-               "id": 1,
-               "title": "Test Category",
-               "alias": "test-category",
-               "description": "Test category description",
-               "color": "ab5959",
-               "bundle": "form"
-           },
-           "fields": [
-               {
-                   "id": 1,
-                   "label": "Email",
-                   "alias": "email",
-                   "type": "text",
-                   "defaultValue": null,
-                   "isRequired": true,
-                   "validationMessage": null,
-                   "helpMessage": null,
-                   "order": 1,
-                   "properties": {
-                       "placeholder": "Enter your email"
-                   },
-                   "labelAttributes": null,
-                   "inputAttributes": null,
-                   "containerAttributes": null,
-                   "leadField": "email",
-                   "saveResult": true,
-                   "isAutoFill": false,
-                   "showWhenValueExists": false,
-                   "showAfterXSubmissions": 0,
-                   "isConditionallyHidden": false,
-                   "parent": null,
-                   "conditions": null,
-                   "mappedField": "email",
-                   "mappedObject": "contact"
-               }
-           ],
-           "actions": [
-               {
-                   "id": 1,
-                   "type": "email",
-                   "name": "Send notification",
-                   "description": "Send email notification",
-                   "order": 1,
-                   "properties": {
-                       "subject": "New form submission",
-                       "message": "A new form submission has been received.",
-                       "email": "admin@example.com"
-                   }
-               }
-           ]
-       }
+      "form": {
+          "isPublished": true,
+          "dateAdded": "2026-02-19T07:06:12+00:00",
+          "dateModified": "2026-02-19T07:10:06+00:00",
+          "createdBy": 1,
+          "createdByUser": "Admin Mautic",
+          "modifiedBy": 1,
+          "modifiedByUser": "Admin Mautic",
+          "id": 2,
+          "name": "Acme Global Conference Registration",
+          "alias": "acme_globa",
+          "category": {
+              "createdByUser": "Admin Mautic",
+              "modifiedByUser": null,
+              "id": 1,
+              "title": "Company attendees",
+              "alias": "company-attendees",
+              "description": null,
+              "color": null,
+              "bundle": "form"
+          },
+          "description": "<p><span style=\"color:rgb(186,33,33);\"><span class=\"s2\" style=\"box-sizing:border-box;\">Acme Global Conference registration.</span></span></p>",
+          "cachedHtml": "\n<style type=\"text/css\" scoped>\n    .mauticform_wrapper { max-width: 600px; margin: 10px auto; }\n    .mauticform-innerform {}\n    .mauticform-post-success {}\n    .mauticform-name { font-weight: bold; font-size: 1.5em; margin-bottom: 3px; }\n    .mauticform-description { margin-top: 2px; margin-bottom: 10px; }\n    .mauticform-error { margin-bottom: 10px; color: red; }\n    .mauticform-message { margin-bottom: 10px; color: green; }\n    .mauticform-row { display: block; margin-bottom: 20px; }\n    .mauticform-label { font-size: 1.1em; display: block; font-weight: bold; margin-bottom: 5px; }\n    .mauticform-row.mauticform-required .mauticform-label:after { color: #e32; content: \" *\"; display: inline; }\n    .mauticform-helpmessage { display: block; font-size: 0.9em; margin-bottom: 3px; }\n    .mauticform-errormsg { display: block; color: red; margin-top: 2px; }\n    .mauticform-selectbox, .mauticform-input, .mauticform-textarea { width: 100%; padding: 0.5em 0.5em; border: 1px solid #CCC; background: #fff; box-shadow: 0px 0px 0px #fff inset; border-radius: 4px; box-sizing: border-box; }\n    .mauticform-checkboxgrp-row {}\n    .mauticform-checkboxgrp-label { font-weight: normal; }\n    .mauticform-checkboxgrp-checkbox {}\n    .mauticform-radiogrp-row {}\n    .mauticform-radiogrp-label { font-weight: normal; }\n    .mauticform-radiogrp-radio {}\n    .mauticform-button-wrapper .mauticform-button.btn-ghost, .mauticform-pagebreak-wrapper .mauticform-pagebreak.btn-ghost { color: #5d6c7c;background-color: #ffffff;border-color: #dddddd;}\n    .mauticform-button-wrapper .mauticform-button, .mauticform-pagebreak-wrapper .mauticform-pagebreak { display: inline-block;margin-bottom: 0;font-weight: 600;text-align: center;vertical-align: middle;cursor: pointer;background-image: none;border: 1px solid transparent;white-space: nowrap;padding: 6px 12px;font-size: 13px;line-height: 1.3856;border-radius: 3px;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}\n    .mauticform-button-wrapper .mauticform-button.btn-ghost[disabled], .mauticform-pagebreak-wrapper .mauticform-pagebreak.btn-ghost[disabled] { background-color: #ffffff; border-color: #dddddd; opacity: 0.75; cursor: not-allowed; }\n    .mauticform-pagebreak-wrapper .mauticform-button-wrapper {  display: inline; }\n\n    /**\n    * @see https://github.com/TarekRaafat/autoComplete.js/blob/master/dist/css/autoComplete.02.css.\n    */\n    .autoComplete_wrapper {position: relative;}\n    .autoComplete_wrapper > input::placeholder {transition: all 0.3s ease;}\n    .autoComplete_wrapper > ul {position: absolute;max-height: 226px;overflow-y: scroll;top: 100%;left: 0;right: 0;padding: 0;margin: 0.5rem 0 0 0;border-radius: 4px;background-color: #fff;border: 1px solid rgba(33, 33, 33, 0.1);z-index: 1000;outline: none;}\n    .autoComplete_wrapper > ul > li {padding: 10px 20px;list-style: none;text-align: left;font-size: 16px;color: #212121;transition: all 0.1s ease-in-out;border-radius: 3px;background-color: rgba(255, 255, 255, 1);white-space: nowrap;overflow: hidden;text-overflow: ellipsis;transition: all 0.2s ease;}\n    .autoComplete_wrapper > ul > li > span {float: right;}\n    .autoComplete_wrapper > ul > li::selection {color: rgba(#ffffff, 0);background-color: rgba(#ffffff, 0);}\n    .autoComplete_wrapper > ul > li:hover {cursor: pointer;background-color: rgba(123, 123, 123, 0.1);}\n    .autoComplete_wrapper > ul > li mark {background-color: transparent;font-weight: bold;}\n    .autoComplete_wrapper > ul > li mark::selection {background-color: rgba(#ffffff, 0);}\n    .autoComplete_wrapper > ul > li[aria-selected=\"true\"] {background-color: rgba(123, 123, 123, 0.1);}\n    @media only screen and (max-width: 600px) {\n      .autoComplete_wrapper > input {width: 18rem;}\n    }\n</style>\n\n<style type=\"text/css\" scoped>\n    .mauticform-field-hidden { display:none }\n</style>\n<div id=\"mauticform_wrapper_acmeglobalconferenceregistration\" class=\"mauticform_wrapper\">\n    <form autocomplete=\"false\" role=\"form\" method=\"post\" action=\"https://m5-tester.ddev.site/form/submit?formId=2\" id=\"mauticform_acmeglobalconferenceregistration\" data-mautic-form=\"acmeglobalconferenceregistration\" enctype=\"multipart/form-data\" ><div class=\"mauticform-error\" id=\"mauticform_acmeglobalconferenceregistration_error\"></div>\n            <div class=\"mauticform-message\" id=\"mauticform_acmeglobalconferenceregistration_message\"></div><div class=\"mauticform-innerform\">\n            <div class=\"mauticform-page-wrapper mauticform-page-1\" data-mautic-form-page=\"1\" >\n                  \n\n\n      \n\n    \n\n\n    \n\n\n<div id=\"mauticform_acmeglobalconferenceregistration_topic_preference\"class=\"mauticform-row mauticform-text mauticform-field-1\">\n  <label id=\"mauticform_label_acmeglobalconferenceregistration_topic_preference\"for=\"mauticform_input_acmeglobalconferenceregistration_topic_preference\"class=\"mauticform-label\">Topic preference</label>\n  <span class=\"mauticform-helpmessage\">The talk that you're looking forward to</span>\n      <textarea name=\"mauticform[topic_preference]\"id=\"mauticform_input_acmeglobalconferenceregistration_topic_preference\"class=\"mauticform-textarea\"></textarea>\n  \n  <span class=\"mauticform-errormsg\" style=\"display:none;\"></span>\n</div>\n                  \n      \n  \n    \n    \n<div id=\"mauticform_acmeglobalconferenceregistration_submit\"class=\"mauticform-row mauticform-button-wrapper mauticform-field-2\">\n  <button class=\"btn btn-ghost mauticform-button\"name=\"mauticform[submit]\"value=\"1\"id=\"mauticform_input_acmeglobalconferenceregistration_submit\"type=\"submit\">Submit</button>\n</div>\n                  </div></div><input type=\"hidden\" name=\"mauticform[formId]\" id=\"mauticform_acmeglobalconferenceregistration_id\" value=\"2\"/>\n        <input type=\"hidden\" name=\"mauticform[return]\" id=\"mauticform_acmeglobalconferenceregistration_return\" value=\"\"/>\n        <input type=\"hidden\" name=\"mauticform[formName]\" id=\"mauticform_acmeglobalconferenceregistration_name\" value=\"acmeglobalconferenceregistration\"/>\n        \n    </form>\n</div>\n",
+          "publishUp": "2026-02-19T07:00:00+00:00",
+          "publishDown": "2026-03-06T08:05:00+00:00",
+          "fields": [
+              {
+                  "id": 2,
+                  "label": "Topic preference",
+                  "showLabel": true,
+                  "alias": "topic_preference",
+                  "type": "textarea",
+                  "defaultValue": null,
+                  "isRequired": false,
+                  "validationMessage": null,
+                  "helpMessage": "The talk that you're looking forward to",
+                  "order": 1,
+                  "properties": [],
+                  "validation": [],
+                  "parent": null,
+                  "conditions": [],
+                  "labelAttributes": null,
+                  "inputAttributes": null,
+                  "containerAttributes": null,
+                  "leadField": null,
+                  "saveResult": true,
+                  "isAutoFill": true,
+                  "mappedObject": "company",
+                  "mappedField": null
+              },
+              {
+                  "id": 3,
+                  "label": "Submit",
+                  "showLabel": true,
+                  "alias": "submit",
+                  "type": "button",
+                  "defaultValue": null,
+                  "isRequired": false,
+                  "validationMessage": null,
+                  "helpMessage": null,
+                  "order": 2,
+                  "properties": [],
+                  "validation": [],
+                  "parent": null,
+                  "conditions": [],
+                  "labelAttributes": null,
+                  "inputAttributes": "class=\"btn btn-ghost\"",
+                  "containerAttributes": null,
+                  "leadField": null,
+                  "saveResult": true,
+                  "isAutoFill": false,
+                  "mappedObject": null,
+                  "mappedField": null
+              }
+          ],
+          "actions": [
+              {
+                  "id": 13,
+                  "name": "Add company score",
+                  "description": null,
+                  "type": "lead.scorecontactscompanies",
+                  "order": 1,
+                  "properties": {
+                      "score": 5
+                  }
+              }
+          ],
+          "template": "goldstar",
+          "inKioskMode": true,
+          "renderStyle": true,
+          "formType": "standalone",
+          "postAction": "message",
+          "postActionProperty": "Thank you for registering and see you there!",
+          "noIndex": false,
+          "formAttributes": null,
+          "language": "en_US"
+      }
    }
+
+.. _get Form properties:
 
 Form properties
 ---------------
@@ -156,88 +183,91 @@ Form properties
    * - Name
      - Type
      - Description
+   * - ``isPublished``
+     - boolean
+     - Form publication status
+   * - ``dateAdded``
+     - datetime
+     - Form record creation date and time
+   * - ``dateModified``
+     - datetime
+     - Form record last modification date and time
+   * - ``createdBy``
+     - integer
+     - ID of the User who created the Form
+   * - ``createdByUser``
+     - string
+     - Name of the User who created the Form
+   * - ``modifiedBy``
+     - integer
+     - ID of the User who last modified the Form
+   * - ``modifiedByUser``
+     - string
+     - Name of the User who last modified the Form
    * - ``id``
-     - int
+     - integer
      - ID of the Form
    * - ``name``
      - string
-     - Name of the Form
+     - Form name - **required**
+   * - ``alias``
+     - string
+     - The auto-generated alias or slug of the Form
+   * - ``category``
+     - object
+     - The Category assigned to the Form
    * - ``description``
      - string
      - Description of the Form
-   * - ``alias``
+   * - ``cachedHtml``
      - string
-     - Alias/slug of the Form
+     - The auto-generated HTML and CSS of the Form
+   * - ``publishUp``
+     - datetime
+     - Activation date and time for the Form
+   * - ``publishDown``
+     - datetime
+     - Deactivation date and time for the Form
+   * - ``fields``
+     - associative array
+     - A Form field associative array. The keys must correspond to the field aliases described in the :ref:`Form field properties <get Form field properties>`
+   * - ``actions``
+     - associative array
+     - A Form action associative array. The keys must correspond to the action aliases described in the :ref:`Form action properties <get Form action properties>`
+   * - ``template``
+     - string
+     - Theme used to style the Form
+   * - ``inKioskMode``
+     - boolean
+     - Kiosk mode status - set to ``1`` or ``true`` to disable cookie tracking and IP association for submissions. When not set, it defaults to track visitor data
+   * - ``renderStyle``
+     - boolean
+     - Render style status - set to ``0`` or ``false`` to disable the inclusion of template CSS in the Form output. When not set, it defaults to enabled
    * - ``formType``
      - string
      - Type of the Form - ``standalone`` or ``campaign``
-   * - ``cachedHtml``
-     - string
-     - Cached HTML of the Form
-   * - ``template``
-     - string/null
-     - Template used for the Form
-   * - ``inKioskMode``
-     - boolean
-     - Whether the Form is in kiosk mode
-   * - ``renderStyle``
-     - boolean
-     - Whether to render form with style
-   * - ``formAttributes``
-     - string/null
-     - Custom form attributes
-   * - ``noIndex``
-     - boolean
-     - Whether the Form should not be indexed by search engines
-   * - ``progressiveProfilingLimit``
-     - int/null
-     - Progressive profiling limit
    * - ``postAction``
      - string
-     - Action to take after form submission - ``return``, ``redirect``, or ``message``
+     - Post-submission behavior. Must be one of:
+     
+       * ``return``: no action taken
+       * ``redirect``: redirects to a specified URL
+       * ``message``: displays a success message
    * - ``postActionProperty``
-     - string/null
-     - Additional property for post action - URL for redirect, message for message
-   * - ``publishUp``
-     - datetime/null
-     - Date/time when the Form should be published
-   * - ``publishDown``
-     - datetime/null
-     - Date/time when the Form should be unpublished
+     - string
+     - The data associated with the ``postAction``. Contains the redirect URL when set to ``redirect``, or the success message when set to ``message`` - **required**
+   * - ``noIndex``
+     - boolean
+     - Search indexing status - set to ``1`` or ``true`` to send a ``noindex`` HTTP header. When not set, it defaults to indexing
+   * - ``formAttributes``
+     - string
+     - Custom HTML attributes to be added to the opening ``<form>`` tag
    * - ``language``
      - string
-     - Language of the Form
-   * - ``category``
-     - object/null
-     - Category the Form belongs to
-   * - ``fields``
-     - array
-     - Array of Form fields
-   * - ``actions``
-     - array
-     - Array of Form actions/submit actions
-   * - ``isPublished``
-     - boolean
-     - Published state
-   * - ``dateAdded``
-     - datetime
-     - Date/time Form was created
-   * - ``createdBy``
-     - int
-     - ID of the User that created the Form
-   * - ``createdByUser``
-     - string
-     - Name of the User that created the Form
-   * - ``dateModified``
-     - datetime/null
-     - Date/time Form was last modified
-   * - ``modifiedBy``
-     - int
-     - ID of the User that last modified the Form
-   * - ``modifiedByUser``
-     - string
-     - Name of the User that last modified the Form
+     - The language code for the Form, such as ``en_US``, ``fr``, and so on
 
+.. _get Form field properties:
+   
 Form field properties
 ---------------------
 
@@ -249,75 +279,74 @@ Form field properties
      - Type
      - Description
    * - ``id``
-     - int
-     - ID of the Field
+     - integer
+     - ID of the field
    * - ``label``
      - string
-     - Label of the Field
+     - Label displayed for the field - **required**
+   * - ``showLabel``
+     - boolean
+     - Label visibility status - ``0`` or ``false`` indicates the label is hidden on the Form. When not set, it defaults to show the label
    * - ``alias``
      - string
-     - Alias/name of the Field
+     - The auto-generated alias or slug of the field
    * - ``type``
      - string
-     - Type of the Field, for example ``text``, ``email``, ``select``, ``textarea``
+     - Type of field, such as text, email, select, and so on
    * - ``defaultValue``
-     - string/null
-     - Default value of the Field
+     - string
+     - Initial value assigned to the field
    * - ``isRequired``
      - boolean
-     - Whether the Field is required
+     - Required status - ``1`` or ``true`` indicates the field is mandatory for submission. When not set, it defaults to optional
    * - ``validationMessage``
-     - string/null
-     - Custom validation message
+     - string
+     - Message displayed when a required field is left empty
    * - ``helpMessage``
-     - string/null
-     - Help message for the Field
+     - string
+     - Text provided to assist Users in completing the field
    * - ``order``
-     - int
-     - Order of the Field in the Form
+     - integer
+     - Numerical position of the field within the Form
    * - ``properties``
      - object
-     - Additional properties specific to the Field type
+     - Specific configuration options based on the field type
+   * - ``validation``
+     - object
+     - List of validation rules applied to the field
+   * - ``parent``
+     - integer
+     - ID of the parent field for conditional logic
+   * - ``conditions``
+     - object
+     - Configuration for conditional logic, containing the comparison operator - ``expr``, array of values to match against the parent field - ``values``, and match logic, where ``1`` matches any value and ``0`` matches only the specific values provided
    * - ``labelAttributes``
-     - string/null
-     - Custom attributes for the Field label
+     - string
+     - HTML attributes for the label element
    * - ``inputAttributes``
-     - string/null
-     - Custom attributes for the Field input
+     - string
+     - HTML attributes for the input element
    * - ``containerAttributes``
-     - string/null
-     - Custom attributes for the Field container
+     - string
+     - HTML attributes for the field wrapper or container
    * - ``leadField``
      - string
-     - Contact field the Form field maps to (deprecated, use mappedField/mappedObject)
+     - Internal reference name for the mapped field on the target object
    * - ``saveResult``
      - boolean
-     - Whether to save the Field result
+     - Result storage status - ``0`` or ``false`` prevents Mautic from storing the submitted value in the database. When not set, it defaults to save the submission
    * - ``isAutoFill``
      - boolean
-     - Whether to auto-fill the Field
-   * - ``showWhenValueExists``
-     - boolean
-     - Whether to show field when value exists
-   * - ``showAfterXSubmissions``
-     - int
-     - Show field after X submissions
-   * - ``isConditionallyHidden``
-     - boolean
-     - Whether the Field is conditionally hidden
-   * - ``parent``
-     - int/null
-     - ID of the parent Field for conditional fields
-   * - ``conditions``
-     - object/null
-     - Conditions for showing the Field
-   * - ``mappedField``
-     - string
-     - Contact/Company field the Form field maps to
+     - Auto-fill status - ``0`` or ``false`` prevents the field from pre-filling with known data and prevents Mautic from saving the value to the database. Mautic pre-fills and saves the data by default
    * - ``mappedObject``
      - string
-     - Object the Field maps to - ``contact`` or ``company``
+     - The object type that the field maps to - ``contact`` or ``company``
+   * - ``mappedField``
+     - string
+     - The specific Contact or Company field that the form field maps to
 
+.. _get Form action properties:
+    
 Form action properties
 ----------------------
 
@@ -329,23 +358,23 @@ Form action properties
      - Type
      - Description
    * - ``id``
-     - int
-     - ID of the Action
-   * - ``type``
-     - string
-     - Type of the Action, for example ``email``, ``lead.changetags``, ``lead.pointschange``
+     - integer
+     - ID of the action
    * - ``name``
      - string
-     - Name of the Action
+     - Name of the action
    * - ``description``
      - string
-     - Description of the Action
+     - Description of the action
+   * - ``type``
+     - string
+     - Type of action, such as ``lead.scorecontactscompanies``, ``email.send.lead``, and so on
    * - ``order``
-     - int
-     - Order of the Action execution
+     - integer
+     - The numerical position of the action within the Form
    * - ``properties``
      - object
-     - Properties specific to the Action type
+     - The settings for the specific action type - **required**
 
 .. vale off
 
@@ -354,14 +383,14 @@ List Forms
 
 .. vale on
 
+Retrieves a list of Forms.
+
 .. code-block:: php
 
    <?php
 
    //...
    $forms = $formApi->getList($searchFilter, $start, $limit, $orderBy, $orderByDir, $publishedOnly, $minimal);
-
-Returns a list of Forms available to the User. This list is filterable and sortable.
 
 .. vale off
 
@@ -382,63 +411,155 @@ Query parameters
    * - Name
      - Description
    * - ``search``
-     - String or search command to filter entities by.
+     - String or search command to filter entities
    * - ``start``
-     - Starting row for the entities returned. Defaults to 0.
+     - Starting row for the returned entities - defaults to 0
    * - ``limit``
-     - Limit number of entities to return. Defaults to the system configuration for pagination, which is 30 by default.
+     - Maximum number of entities to return - defaults to the system configuration for pagination, which is 30 by default
    * - ``orderBy``
-     - Column to sort by. Can use any column listed in the response. However, you need to change all properties in the response written in ``camelCase`` a bit. Before every capital, add an underscore ``_`` and then change the capital letters to non-capital letters. So ``dateAdded`` becomes ``date_added``, ``modifiedBy`` becomes ``modified_by``, etc.
+     - Column to sort by. Any column in the response is valid.
+       
+       Note that you must convert ``camelCase`` properties to ``snake_case``. For example, ``dateSubmitted`` becomes ``date_submitted``, ``trackingId`` becomes ``tracking_id``, and so on
    * - ``orderByDir``
-     - Sort direction: ``asc`` or ``desc``.
+     - Sort direction - ``asc`` or ``desc``
    * - ``publishedOnly``
-     - Only return currently published entities.
+     - Returns only currently published entities
    * - ``minimal``
-     - Return only array of entities without additional lists in it.
+     - Returns only a simple mapped object of entities without additional lists in it
 
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Forms list.
 
 .. code-block:: json
 
    {
-       "total": 1,
-       "forms": {
-           "1": {
-               "isPublished": true,
-               "dateAdded": "2017-02-03T16:51:06+00:00",
-               "dateModified": "2017-02-03T19:11:54+00:00",
-               "createdBy": 1,
-               "createdByUser": "John Doe",
-               "modifiedBy": 1,
-               "modifiedByUser": "John Doe",
-               "id": 1,
-               "name": "API Test Form",
-               "description": "Form created via API",
-               "alias": "api-test-form",
-               "formType": "standalone",
-               "cachedHtml": "<form id=\"mauticform_apitestform\">...</form>",
-               "template": null,
-               "inKioskMode": false,
-               "renderStyle": false,
-               "postAction": "return",
-               "postActionProperty": null,
-               "publishUp": null,
-               "publishDown": null,
-               "language": "en",
-               "category": null,
-               "fields": [],
-               "actions": []
-           }
-       }
+      "total": 2,
+      "forms": [
+          {
+              "isPublished": true,
+              "dateAdded": "2026-02-19T07:06:12+00:00",
+              "dateModified": "2026-02-19T07:10:06+00:00",
+              "createdBy": 1,
+              "createdByUser": "Admin Mautic",
+              "modifiedBy": 1,
+              "modifiedByUser": "Admin Mautic",
+              "id": 2,
+              "name": "Acme Global Conference Registration",
+              "alias": "acme_globa",
+              "category": {
+                  "createdByUser": "Admin Mautic",
+                  "modifiedByUser": null,
+                  "id": 1,
+                  "title": "Company attendees",
+                  "alias": "company-attendees",
+                  "description": null,
+                  "color": null,
+                  "bundle": "form"
+              },
+              "description": "<p><span style=\"color:rgb(186,33,33);\"><span class=\"s2\" style=\"box-sizing:border-box;\">Acme Global Conference registration.</span></span></p>",
+              "cachedHtml": "\n<style type=\"text/css\" scoped>\n    .mauticform_wrapper { max-width: 600px; margin: 10px auto; }\n    .mauticform-innerform {}\n    .mauticform-post-success {}\n    .mauticform-name { font-weight: bold; font-size: 1.5em; margin-bottom: 3px; }\n    .mauticform-description { margin-top: 2px; margin-bottom: 10px; }\n    .mauticform-error { margin-bottom: 10px; color: red; }\n    .mauticform-message { margin-bottom: 10px; color: green; }\n    .mauticform-row { display: block; margin-bottom: 20px; }\n    .mauticform-label { font-size: 1.1em; display: block; font-weight: bold; margin-bottom: 5px; }\n    .mauticform-row.mauticform-required .mauticform-label:after { color: #e32; content: \" *\"; display: inline; }\n    .mauticform-helpmessage { display: block; font-size: 0.9em; margin-bottom: 3px; }\n    .mauticform-errormsg { display: block; color: red; margin-top: 2px; }\n    .mauticform-selectbox, .mauticform-input, .mauticform-textarea { width: 100%; padding: 0.5em 0.5em; border: 1px solid #CCC; background: #fff; box-shadow: 0px 0px 0px #fff inset; border-radius: 4px; box-sizing: border-box; }\n    .mauticform-checkboxgrp-row {}\n    .mauticform-checkboxgrp-label { font-weight: normal; }\n    .mauticform-checkboxgrp-checkbox {}\n    .mauticform-radiogrp-row {}\n    .mauticform-radiogrp-label { font-weight: normal; }\n    .mauticform-radiogrp-radio {}\n    .mauticform-button-wrapper .mauticform-button.btn-ghost, .mauticform-pagebreak-wrapper .mauticform-pagebreak.btn-ghost { color: #5d6c7c;background-color: #ffffff;border-color: #dddddd;}\n    .mauticform-button-wrapper .mauticform-button, .mauticform-pagebreak-wrapper .mauticform-pagebreak { display: inline-block;margin-bottom: 0;font-weight: 600;text-align: center;vertical-align: middle;cursor: pointer;background-image: none;border: 1px solid transparent;white-space: nowrap;padding: 6px 12px;font-size: 13px;line-height: 1.3856;border-radius: 3px;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}\n    .mauticform-button-wrapper .mauticform-button.btn-ghost[disabled], .mauticform-pagebreak-wrapper .mauticform-pagebreak.btn-ghost[disabled] { background-color: #ffffff; border-color: #dddddd; opacity: 0.75; cursor: not-allowed; }\n    .mauticform-pagebreak-wrapper .mauticform-button-wrapper {  display: inline; }\n\n    /**\n    * @see https://github.com/TarekRaafat/autoComplete.js/blob/master/dist/css/autoComplete.02.css.\n    */\n    .autoComplete_wrapper {position: relative;}\n    .autoComplete_wrapper > input::placeholder {transition: all 0.3s ease;}\n    .autoComplete_wrapper > ul {position: absolute;max-height: 226px;overflow-y: scroll;top: 100%;left: 0;right: 0;padding: 0;margin: 0.5rem 0 0 0;border-radius: 4px;background-color: #fff;border: 1px solid rgba(33, 33, 33, 0.1);z-index: 1000;outline: none;}\n    .autoComplete_wrapper > ul > li {padding: 10px 20px;list-style: none;text-align: left;font-size: 16px;color: #212121;transition: all 0.1s ease-in-out;border-radius: 3px;background-color: rgba(255, 255, 255, 1);white-space: nowrap;overflow: hidden;text-overflow: ellipsis;transition: all 0.2s ease;}\n    .autoComplete_wrapper > ul > li > span {float: right;}\n    .autoComplete_wrapper > ul > li::selection {color: rgba(#ffffff, 0);background-color: rgba(#ffffff, 0);}\n    .autoComplete_wrapper > ul > li:hover {cursor: pointer;background-color: rgba(123, 123, 123, 0.1);}\n    .autoComplete_wrapper > ul > li mark {background-color: transparent;font-weight: bold;}\n    .autoComplete_wrapper > ul > li mark::selection {background-color: rgba(#ffffff, 0);}\n    .autoComplete_wrapper > ul > li[aria-selected=\"true\"] {background-color: rgba(123, 123, 123, 0.1);}\n    @media only screen and (max-width: 600px) {\n      .autoComplete_wrapper > input {width: 18rem;}\n    }\n</style>\n\n<style type=\"text/css\" scoped>\n    .mauticform-field-hidden { display:none }\n</style>\n<div id=\"mauticform_wrapper_acmeglobalconferenceregistration\" class=\"mauticform_wrapper\">\n    <form autocomplete=\"false\" role=\"form\" method=\"post\" action=\"https://m5-tester.ddev.site/form/submit?formId=2\" id=\"mauticform_acmeglobalconferenceregistration\" data-mautic-form=\"acmeglobalconferenceregistration\" enctype=\"multipart/form-data\" ><div class=\"mauticform-error\" id=\"mauticform_acmeglobalconferenceregistration_error\"></div>\n            <div class=\"mauticform-message\" id=\"mauticform_acmeglobalconferenceregistration_message\"></div><div class=\"mauticform-innerform\">\n            <div class=\"mauticform-page-wrapper mauticform-page-1\" data-mautic-form-page=\"1\" >\n                  \n\n\n      \n\n    \n\n\n    \n\n\n<div id=\"mauticform_acmeglobalconferenceregistration_topic_preference\"class=\"mauticform-row mauticform-text mauticform-field-1\">\n  <label id=\"mauticform_label_acmeglobalconferenceregistration_topic_preference\"for=\"mauticform_input_acmeglobalconferenceregistration_topic_preference\"class=\"mauticform-label\">Topic preference</label>\n  <span class=\"mauticform-helpmessage\">The talk that you're looking forward to</span>\n      <textarea name=\"mauticform[topic_preference]\"id=\"mauticform_input_acmeglobalconferenceregistration_topic_preference\"class=\"mauticform-textarea\"></textarea>\n  \n  <span class=\"mauticform-errormsg\" style=\"display:none;\"></span>\n</div>\n                  \n      \n  \n    \n    \n<div id=\"mauticform_acmeglobalconferenceregistration_submit\"class=\"mauticform-row mauticform-button-wrapper mauticform-field-2\">\n  <button class=\"btn btn-ghost mauticform-button\"name=\"mauticform[submit]\"value=\"1\"id=\"mauticform_input_acmeglobalconferenceregistration_submit\"type=\"submit\">Submit</button>\n</div>\n                  </div></div><input type=\"hidden\" name=\"mauticform[formId]\" id=\"mauticform_acmeglobalconferenceregistration_id\" value=\"2\"/>\n        <input type=\"hidden\" name=\"mauticform[return]\" id=\"mauticform_acmeglobalconferenceregistration_return\" value=\"\"/>\n        <input type=\"hidden\" name=\"mauticform[formName]\" id=\"mauticform_acmeglobalconferenceregistration_name\" value=\"acmeglobalconferenceregistration\"/>\n        \n    </form>\n</div>\n",
+              "publishUp": "2026-02-19T07:00:00+00:00",
+              "publishDown": "2026-03-06T08:05:00+00:00",
+              "fields": [
+                  {
+                      "id": 2,
+                      "label": "Topic preference",
+                      "showLabel": true,
+                      "alias": "topic_preference",
+                      "type": "textarea",
+                      "defaultValue": null,
+                      "isRequired": false,
+                      "validationMessage": null,
+                      "helpMessage": "The talk that you're looking forward to",
+                      "order": 1,
+                      "properties": [],
+                      "validation": [],
+                      "parent": null,
+                      "conditions": [],
+                      "labelAttributes": null,
+                      "inputAttributes": null,
+                      "containerAttributes": null,
+                      "leadField": null,
+                      "saveResult": true,
+                      "isAutoFill": true,
+                      "mappedObject": "company",
+                      "mappedField": null
+                  },
+                  {
+                      "id": 3,
+                      "label": "Submit",
+                      "showLabel": true,
+                      "alias": "submit",
+                      "type": "button",
+                      "defaultValue": null,
+                      "isRequired": false,
+                      "validationMessage": null,
+                      "helpMessage": null,
+                      "order": 2,
+                      "properties": [],
+                      "validation": [],
+                      "parent": null,
+                      "conditions": [],
+                      "labelAttributes": null,
+                      "inputAttributes": "class=\"btn btn-ghost\"",
+                      "containerAttributes": null,
+                      "leadField": null,
+                      "saveResult": true,
+                      "isAutoFill": false,
+                      "mappedObject": null,
+                      "mappedField": null
+                  }
+              ],
+              "actions": [
+                  {
+                      "id": 13,
+                      "name": "Add company score",
+                      "description": null,
+                      "type": "lead.scorecontactscompanies",
+                      "order": 1,
+                      "properties": {
+                          "score": 5
+                      }
+                  }
+              ],
+              "template": "goldstar",
+              "inKioskMode": true,
+              "renderStyle": true,
+              "formType": "standalone",
+              "postAction": "message",
+              "postActionProperty": "Thank you for registering and see you there!",
+              "noIndex": false,
+              "formAttributes": null,
+              "language": "en_US"
+          },
+          // ...
+      ]
    }
 
 Properties
 ----------
 
-Same as :ref:`rest_api/forms:Get Form`.
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``total``
+     - integer
+     - Total count of Forms
+   * - ``forms``
+     - array
+     - Collection of Forms
+
+.. vale off
+
+For the rest of the Form properties, refer to :ref:`Form properties <get Form properties>`.
+
+.. vale on
 
 .. vale off
 
@@ -446,6 +567,8 @@ Create Form
 ***********
 
 .. vale on
+
+Creates a new Form.
 
 .. code-block:: php
 
@@ -486,8 +609,6 @@ Create Form
 
    $form = $formApi->create($data);
 
-Create a new Form.
-
 .. vale off
 
 HTTP request
@@ -500,80 +621,21 @@ HTTP request
 POST parameters
 ---------------
 
-.. list-table::
-   :widths: 25 25 50
-   :header-rows: 1
+Mautic accepts the same parameters for creating a Form as those described in :ref:`Form properties <get Form properties>`.
 
-   * - Name
-     - Type
-     - Description
-   * - ``name``
-     - string
-     - Form name is the only required field
-   * - ``description``
-     - string
-     - Description of the Form
-   * - ``alias``
-     - string
-     - Alias/slug of the Form (auto-generated if not provided)
-   * - ``formType``
-     - string
-     - Type of the Form - ``standalone`` or ``campaign``
-   * - ``template``
-     - string
-     - Template to use for the Form
-   * - ``inKioskMode``
-     - boolean
-     - Whether the Form should be in kiosk mode
-   * - ``renderStyle``
-     - boolean
-     - Whether to render form with style
-   * - ``formAttributes``
-     - string
-     - Custom form attributes
-   * - ``noIndex``
-     - boolean
-     - Whether the Form should not be indexed by search engines
-   * - ``progressiveProfilingLimit``
-     - int
-     - Progressive profiling limit
-   * - ``postAction``
-     - string
-     - Action after form submission - ``return``, ``redirect``, or ``message``
-   * - ``postActionProperty``
-     - string
-     - Additional property for post action
-   * - ``publishUp``
-     - datetime
-     - Date/time when the Form should be published
-   * - ``publishDown``
-     - datetime
-     - Date/time when the Form should be unpublished
-   * - ``language``
-     - string
-     - Language of the Form
-   * - ``category``
-     - int
-     - ID of the category to assign the Form to
-   * - ``fields``
-     - array
-     - Array of Form fields to create
-   * - ``actions``
-     - array
-     - Array of Form actions to create
-   * - ``isPublished``
-     - boolean
-     - Published state
+Use the ``fields`` associative array to create the Form components and the ``actions`` associative array to define post-submission behaviors. For details on these objects, refer to :ref:`Form field properties <get Form field properties>` and :ref:`Form action properties <get Form action properties>`.
 
 Response
 ========
 
-``Expected Response Code: 201``
+* Returns ``201 Created`` when the request successfully creates a Form.
+
+The response is a JSON object similar to :ref:`Get Form <get Form response>`.
 
 Properties
 ----------
 
-Same as :ref:`rest_api/forms:Get Form`.
+Refer to :ref:`Form properties <get Form properties>`.
 
 .. vale off
 
@@ -581,6 +643,13 @@ Edit Form
 *********
 
 .. vale on
+
+Edits a Form. 
+
+This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
+
+* ``PUT``: **full replacement**. The request creates a new Form if the ID is missing. If the ID exists, the request clears all existing data and replaces it with the provided values.
+* ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the Form ID doesn't exist.
 
 .. code-block:: php
 
@@ -615,11 +684,6 @@ Edit Form
 
    $form = $formApi->edit($id, $data, $createIfNotFound);
 
-Edit a Form. Note that this supports PUT or PATCH depending on the desired behavior.
-
-**PUT** creates a Form if the given ID doesn't exist and clears all the Form information, adds the information from the request.
-**PATCH** fails if the Form with the given ID doesn't exist and updates the Form field values with the values from the request.
-
 .. vale off
 
 HTTP request
@@ -627,92 +691,28 @@ HTTP request
 
 .. vale on
 
-To edit a Form and return a 404 if the Form isn't found:
-
-``PATCH /forms/ID/edit``
-
-To edit a Form and create a new one if the Form isn't found:
-
-``PUT /forms/ID/edit``
+* ``PUT /forms/ID/edit``: updates an existing Form or creates a new one when the ID doesn't exist.
+* ``PATCH /forms/ID/edit``: updates an existing Form. The request fails when the ID doesn't exist.
 
 POST parameters
 ---------------
 
-.. list-table::
-   :widths: 25 25 50
-   :header-rows: 1
+Mautic accepts the same parameters for editing a Form as those described in :ref:`Form properties <get Form properties>`.
 
-   * - Name
-     - Type
-     - Description
-   * - ``name``
-     - string
-     - Form name
-   * - ``description``
-     - string
-     - Description of the Form
-   * - ``alias``
-     - string
-     - Alias/slug of the Form
-   * - ``formType``
-     - string
-     - Type of the Form - ``standalone`` or ``campaign``
-   * - ``template``
-     - string
-     - Template to use for the Form
-   * - ``inKioskMode``
-     - boolean
-     - Whether the Form should be in kiosk mode
-   * - ``renderStyle``
-     - boolean
-     - Whether to render form with style
-   * - ``formAttributes``
-     - string
-     - Custom form attributes
-   * - ``noIndex``
-     - boolean
-     - Whether the Form should not be indexed by search engines
-   * - ``progressiveProfilingLimit``
-     - int
-     - Progressive profiling limit
-   * - ``postAction``
-     - string
-     - Action after form submission - ``return``, ``redirect``, or ``message``
-   * - ``postActionProperty``
-     - string
-     - Additional property for post action
-   * - ``publishUp``
-     - datetime
-     - Date/time when the Form should be published
-   * - ``publishDown``
-     - datetime
-     - Date/time when the Form should be unpublished
-   * - ``language``
-     - string
-     - Language of the Form
-   * - ``category``
-     - int
-     - ID of the category to assign the Form to
-   * - ``fields``
-     - array
-     - Array of Form fields (include ``id`` for existing fields to update them)
-   * - ``actions``
-     - array
-     - Array of Form actions (include ``id`` for existing actions to update them)
-   * - ``isPublished``
-     - boolean
-     - Published state
+Use the ``fields`` associative array to manage Form components and the ``actions`` associative array to manage post-submission behaviors. For details on these objects, refer to :ref:`Form field properties <get Form field properties>` and :ref:`Form action properties <get Form action properties>`.
 
 Response
 ========
 
-If ``PUT``, the expected response code is ``200`` if the Form was edited or ``201`` if created.
-If ``PATCH``, the expected response code is ``200``.
+* ``PUT``: returns ``200 OK`` when the request successfully updates the Form or ``201 Created`` when the request creates a Form.
+* ``PATCH``: returns ``200 OK`` when the request successfully updates the Form or ``404 Not Found`` error when the Form ID doesn't exist.
+
+The response is a JSON object similar to :ref:`Get Form <get Form response>`.
 
 Properties
 ----------
 
-Same as :ref:`rest_api/forms:Get Form`.
+Refer to :ref:`Form properties <get Form properties>`.
 
 .. vale off
 
@@ -721,13 +721,13 @@ Delete Form
 
 .. vale on
 
+Deletes a Form.
+
 .. code-block:: php
 
    <?php
 
    $form = $formApi->delete($id);
-
-Delete a Form.
 
 .. vale off
 
@@ -741,12 +741,14 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully deletes the Form.
+
+The response is a JSON object containing the data of the deleted Form, similar to :ref:`Get Form <get Form response>`.
 
 Properties
 ----------
 
-Same as :ref:`rest_api/forms:Get Form`.
+Refer to :ref:`Form properties <get Form properties>`.
 
 .. vale off
 
@@ -755,13 +757,13 @@ Delete Form fields
 
 .. vale on
 
+Deletes specific fields from a Form.
+
 .. code-block:: php
 
    <?php
 
    $formApi->deleteFields($formId, array(1, 2, 3));
-
-Delete specific fields from a Form.
 
 .. vale off
 
@@ -772,44 +774,44 @@ HTTP request
 
 ``DELETE /forms/ID/fields/delete``
 
-POST parameters
----------------
+Query parameters
+----------------
 
 .. list-table::
-   :widths: 25 25 50
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
-     - Type
      - Description
    * - ``fields``
-     - array
-     - Array of field IDs to delete
+     - An array of field IDs to remove from the Form.
 
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully deletes the Form fields.
+
+The response is a JSON object containing the data of the deleted Form fields, similar to :ref:`Get Form <get Form response>`.
 
 Properties
 ----------
 
-Same as :ref:`rest_api/forms:Get Form`.
+Refer to :ref:`Form properties <get Form properties>`.
 
 .. vale off
 
-Delete Form Actions
+Delete Form actions
 *******************
 
 .. vale on
+
+Deletes specific actions from a Form.
 
 .. code-block:: php
 
    <?php
 
    $formApi->deleteActions($formId, array(1, 2));
-
-Delete specific actions from a Form.
 
 .. vale off
 
@@ -820,8 +822,8 @@ HTTP request
 
 ``DELETE /forms/ID/actions/delete``
 
-POST parameters
----------------
+Query parameters
+----------------
 
 .. list-table::
    :widths: 25 25 50
@@ -837,25 +839,150 @@ POST parameters
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully deletes the Form actions.
+
+The response is a JSON object containing the data of the deleted Form actions, similar to :ref:`Get Form <get Form response>`.
 
 Properties
 ----------
 
-Same as :ref:`rest_api/forms:Get Form`.
+Refer to :ref:`Form properties <get Form properties>`.
 
-Get Form submissions
-********************
+.. vale off
+
+Get Form submission
+*******************
 
 .. vale on
+
+Get an individual submission for a specific Form.
+
+.. code-block:: php
+
+   <?php
+
+   $submission = $formApi->getSubmission($formId, $submissionId);
+
+.. vale off
+
+HTTP request
+============
+
+.. vale on
+
+``GET /forms/FORM_ID/submissions/SUBMISSION_ID``
+
+Response
+========
+
+* Returns ``200 OK`` when the request successfully retrieves the Form submission.
+
+.. _get Form submission response:
+
+.. code-block:: json
+
+   {
+      "submission": {
+          "id": 2,
+          "ipAddress": {
+              "ipAddress": "127.0.0.1"
+          },
+          "form": {
+              "id": 2,
+              "name": "Acme Global Conference Registration",
+              "alias": "acme_globa",
+              "category": {}
+          },
+          "lead": {
+              "id": 3,
+              "points": 0,
+              "color": null,
+              "title": null,
+              "firstname": "Jack",
+              "lastname": "Smith",
+              "company": "Beta Inc.",
+              "position": null,
+              "email": null,
+              "phone": null,
+              "mobile": null,
+              "address1": null,
+              "address2": null,
+              "city": null,
+              "state": null,
+              "zipcode": null,
+              "timezone": null,
+              "country": null
+          },
+          "trackingId": null,
+          "dateSubmitted": "2026-02-19T07:27:18+00:00",
+          "referer": "https://example.com/forms/2",
+          "page": null,
+          "results": {
+                "form_id": "2",
+                "topic_preference": "The Rising of Open Source",
+                "company_name": "Beta Inc.",
+                "availability": "2026-02-20",
+                "email": null,
+                "first_name": "Jack",
+                "last_name": "Smith"
+          }
+      }
+   }
+
+.. _get Form submission properties:
+
+Form submission properties
+--------------------------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``id``
+     - integer
+     - ID of the Form submission
+   * - ``ipAddress``
+     - object
+     - Information about the IP address used for the submission
+   * - ``form``
+     - object
+     - Information about the Form that received the submission
+   * - ``lead``
+     - object
+     - The Contact record associated with the submission
+   * - ``trackingId``
+     - string
+     - ID used for tracking the submission source
+   * - ``dateSubmitted``
+     - datetime
+     - Date and time of the submission
+   * - ``referer``
+     - string
+     - The URL of the page where the User submitted the Form
+   * - ``page``
+     - object
+     - The specific Mautic Landing Page where the submission occurred
+   * - ``results``
+     - object
+     - The values submitted for each Form field
+
+.. vale off
+
+List Form submissions
+*********************
+
+.. vale on
+
+Retrieves a list of submissions for a specific Form.
 
 .. code-block:: php
 
    <?php
 
    $submissions = $formApi->getSubmissions($formId, $searchFilter, $start, $limit, $orderBy, $orderByDir);
-
-Get a list of submissions for a specific Form.
 
 .. vale off
 
@@ -876,161 +1003,95 @@ Query parameters
    * - Name
      - Description
    * - ``search``
-     - String or search command to filter entities by.
+     - String or search command to filter entities
    * - ``start``
-     - Starting row for the entities returned. Defaults to 0.
+     - Starting row for the returned entities - defaults to 0
    * - ``limit``
-     - Limit number of entities to return. Defaults to the system configuration for pagination, which is 30 by default.
+     - Maximum number of entities to return - defaults to the system configuration for pagination, which is 30 by default
    * - ``orderBy``
-     - Column to sort by. Can use any column listed in the response.
+     - Column to sort by. Any column in the response is valid
    * - ``orderByDir``
-     - Sort direction: ``asc`` or ``desc``.
+     - Sort direction - ``asc`` or ``desc``
 
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Form submissions.
 
 .. code-block:: json
 
    {
-       "total": 1,
-       "submissions": [
-           {
-               "id": 1,
-               "ipAddress": {
-                   "id": 1,
-                   "ipAddress": "127.0.0.1"
-               },
-               "form": {
-                   "id": 1,
-                   "name": "API Test Form",
-                   "alias": "api-test-form"
-               },
-               "lead": {
-                   "id": 1,
-                   "points": 0,
-                   "color": null,
-                   "fields": {
-                       "core": {
-                           "firstname": {
-                               "id": "1",
-                               "label": "First Name",
-                               "alias": "firstname",
-                               "type": "text",
-                               "group": "core",
-                               "value": "John"
-                           },
-                           "lastname": {
-                               "id": "2",
-                               "label": "Last Name",
-                               "alias": "lastname",
-                               "type": "text",
-                               "group": "core",
-                               "value": "Doe"
-                           },
-                           "email": {
-                               "id": "3",
-                               "label": "Email",
-                               "alias": "email",
-                               "type": "email",
-                               "group": "core",
-                               "value": "john@doe.com"
-                           }
-                       }
-                   }
-               },
-               "trackingId": "abc123def456",
-               "dateSubmitted": "2017-02-03T16:51:06+00:00",
-               "referer": "https://example.com/form/1",
-               "page": null,
-               "results": {
-                   "email": "john@doe.com",
-                   "firstname": "John",
-                   "lastname": "Doe"
-               }
-           }
-       ]
+      "total": "4",
+      "submissions": [
+          {
+              "id": 2,
+              "ipAddress": {
+                  "ipAddress": "127.0.0.1"
+              },
+              "form": {
+                  "id": 2,
+                  "name": "Acme Global Conference Registration",
+                  "alias": "acme_globa",
+                  "category": {}
+              },
+              "lead": {
+                  "id": 3,
+                  "points": 0,
+                  "color": null,
+                  "title": null,
+                  "firstname": "Jack",
+                  "lastname": "Smith",
+                  "company": "Beta Inc.",
+                  "position": null,
+                  "email": null,
+                  "phone": null,
+                  "mobile": null,
+                  "address1": null,
+                  "address2": null,
+                  "city": null,
+                  "state": null,
+                  "zipcode": null,
+                  "timezone": null,
+                  "country": null
+              },
+              "trackingId": null,
+              "dateSubmitted": "2026-02-19T07:27:18+00:00",
+              "referer": "https://example.com/forms/2",
+              "page": null,
+              "results": {
+                  "first_name": "Jack",
+                  "last_name": "Smith",
+                  "company_name": "Beta Inc.",
+                  "availability": "2026-02-20",
+                  "topic_preference": "The Rising of Open Source"
+              }
+          },
+          // ...
+      ]
    }
+
+Properties
+----------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``total``
+     - integer
+     - Total count of Form submissions
+   * - ``forms``
+     - array
+     - Collection of Form submissions
 
 .. vale off
 
-Get Form submission
-*******************
+For the rest of the Form properties, refer to :ref:`get Form submission properties`.
 
 .. vale on
-
-.. code-block:: php
-
-   <?php
-
-   $submission = $formApi->getSubmission($formId, $submissionId);
-
-Get an individual submission for a specific Form.
-
-.. vale off
-
-HTTP request
-============
-
-.. vale on
-
-``GET /forms/FORM_ID/submissions/SUBMISSION_ID``
-
-Response
-========
-
-``Expected Response Code: 200``
-
-.. code-block:: json
-
-   {
-       "submission": {
-           "id": 1,
-           "ipAddress": {
-               "id": 1,
-               "ipAddress": "127.0.0.1"
-           },
-           "form": {
-               "id": 1,
-               "name": "API Test Form",
-               "alias": "api-test-form"
-           },
-           "lead": {
-               "id": 1,
-               "points": 0,
-               "color": null,
-               "fields": {
-                   "core": {
-                       "firstname": {
-                           "id": "1",
-                           "label": "First Name",
-                           "alias": "firstname",
-                           "type": "text",
-                           "group": "core",
-                           "value": "John"
-                       },
-                       "email": {
-                           "id": "3",
-                           "label": "Email",
-                           "alias": "email",
-                           "type": "email",
-                           "group": "core",
-                           "value": "john@doe.com"
-                       }
-                   }
-               }
-           },
-           "trackingId": "abc123def456",
-           "dateSubmitted": "2017-02-03T16:51:06+00:00",
-           "referer": "https://example.com/form/1",
-           "page": null,
-           "results": {
-               "email": "john@doe.com",
-               "firstname": "John"
-           }
-       }
-   }
 
 .. vale off
 
@@ -1039,13 +1100,13 @@ Get Contact Form submissions
 
 .. vale on
 
+Retrieves a Contact from a specific Form submission.
+
 .. code-block:: php
 
    <?php
 
    $submissions = $formApi->getContactSubmissions($formId, $contactId, $searchFilter, $start, $limit, $orderBy, $orderByDir);
-
-Get submissions for a specific Form and Contact.
 
 .. vale off
 
@@ -1065,154 +1126,244 @@ Query parameters
 
    * - Name
      - Description
-   * - ``search``
-     - String or search command to filter entities by.
+   * - ``searchFilter``
+     - String or search command to filter entities
    * - ``start``
-     - Starting row for the entities returned. Defaults to 0.
+     - Starting row for the returned entities - defaults to 0
    * - ``limit``
-     - Limit number of entities to return. Defaults to the system configuration for pagination, which is 30 by default.
+     - Maximum number of entities to return - defaults to the system configuration for pagination, which is 30 by default
    * - ``orderBy``
-     - Column to sort by. Can use any column listed in the response.
+     - Column to sort by. Any column in the response is valid
    * - ``orderByDir``
-     - Sort direction: ``asc`` or ``desc``.
+     - Sort direction - ``asc`` or ``desc``
 
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Contact from the Form submission.
 
-Same format as :ref:`rest_api/forms:Get Form Submissions`.
+.. code-block:: json
 
-Form field types
-================
+   {
+      "total": "1",
+      "submissions": [
+          {
+              "id": 2,
+              "ipAddress": {
+                  "ipAddress": "127.0.0.1"
+              },
+              "form": {
+                  "id": 2,
+                  "name": "Acme Global Conference Registration",
+                  "alias": "acme_globa",
+                  "category": {}
+              },
+              "lead": {
+                  "id": 3,
+                  "points": 0,
+                  "color": null,
+                  "title": null,
+                  "firstname": "Jack",
+                  "lastname": "Smith",
+                  "company": "Beta Inc.",
+                  "position": null,
+                  "email": null,
+                  "phone": null,
+                  "mobile": null,
+                  "address1": null,
+                  "address2": null,
+                  "city": null,
+                  "state": null,
+                  "zipcode": null,
+                  "timezone": null,
+                  "country": null
+              },
+              "trackingId": null,
+              "dateSubmitted": "2026-02-19T07:27:18+00:00",
+              "referer": "https://example.com/forms/2",
+              "page": null,
+              "results": {
+                  "first_name": "Jack",
+                  "last_name": "Smith",
+                  "company_name": "Beta Inc.",
+                  "availability": "2026-02-20",
+                  "topic_preference": "The Rising of Open Source"
+              }
+          }
+      ]
+   }
 
-Mautic supports various field types for Forms. Here are the most common types:
+Properties
+----------
 
 .. list-table::
    :widths: 25 25 50
    :header-rows: 1
 
-   * - Type
+   * - Name
+     - Type
+     - Description
+   * - ``total``
+     - integer
+     - Total count of Form submissions
+   * - ``submissions``
+     - array
+     - Collection of Form submissions
+
+.. vale off
+
+For the rest of the Form properties, refer to :ref:`get Form submission properties`.
+
+.. vale on
+
+Form field types
+****************
+
+Mautic supports various field types for Forms. The following list includes the most common types:
+
+.. list-table::
+   :widths: 20 30 50
+   :header-rows: 1
+
+   * - Field type
      - Description
      - Properties
-   * - ``text``
-     - Single line text input
-     - ``placeholder``, ``maxlength``
-   * - ``textarea``
-     - Multi-line text input
-     - ``placeholder``, ``rows``, ``maxlength``
-   * - ``email``
-     - Email input with validation
-     - ``placeholder``
-   * - ``number``
-     - Number input
-     - ``placeholder``, ``min``, ``max``, ``step``
-   * - ``tel``
-     - Telephone input
-     - ``placeholder``
-   * - ``url``
-     - URL input with validation
-     - ``placeholder``
-   * - ``select``
-     - Dropdown selection
-     - ``list`` (options), ``multiple``, ``syncList``
-   * - ``radio``
-     - Radio button group
-     - ``list`` (options)
-   * - ``checkbox``
-     - Checkbox input
-     - ``list`` (options)
+   * - ``captcha``
+     - CAPTCHA field
+     - ``placeholder``, ``captcha``, ``errorMessage``
    * - ``checkboxgrp``
      - Checkbox group
-     - ``list`` (options)
-   * - ``country``
-     - Country selection dropdown
+     - ``syncList``, ``optionlist`` - an object of ``list`` arrays, ``labelAttributes``
+   * - ``companyLookup``
+     - Company lookup
      - None
    * - ``date``
      - Date picker
-     - ``format``
+     - ``format``, ``placeholder``
    * - ``datetime``
      - Date and time picker
      - ``format``
-   * - ``time``
-     - Time picker
-     - ``format``
-   * - ``button``
-     - Submit button
-     - None
+   * - ``freetext``
+     - Description area
+     - ``text``
+   * - ``email``
+     - Email input with validation
+     - ``placeholder``
+   * - ``file``
+     - File upload
+     - ``allowed_file_size``, ``allowed_file_extensions``, ``public``, ``profile_image``
+   * - ``freehtml``
+     - HTML area
+     - ``text``
    * - ``hidden``
      - Hidden field
      - None
-   * - ``file``
-     - File upload
-     - ``allowed_file_size``, ``allowed_file_extensions``
-   * - ``captcha``
-     - CAPTCHA field
-     - None
+   * - ``number``
+     - Number input
+     - ``placeholder``, ``precision``
    * - ``pagebreak``
      - Page break for multi-page forms
+     - ``next_page_label``, ``prev_page_label``
+   * - ``password``
+     - Password
+     - None
+   * - ``tel``
+     - Telephone input
+     - ``placeholder``
+   * - ``radiogrp``
+     - Radio group
+     - ``syncList``, ``optionlist`` - an object of ``list`` arrays, ``labelAttributes``
+   * - ``country``
+     - Country selection dropdown
+     - ``placeholder``, ``multiple``
+   * - ``select``
+     - Dropdown selection
+     - ``placeholder``, ``syncList``, ``list`` - an object of ``list`` arrays, ``multiple``
+   * - ``textarea``
+     - Multi-line text input
+     - ``placeholder``, ``rows``, ``maxlength``
+   * - ``text``
+     - Single line text input
+     - ``placeholder``, ``maxlength``
+   * - ``url``
+     - URL input with validation
+     - ``placeholder``
+   * - ``button``
+     - Submit button
      - None
 
 Form action types
-=================
+*****************
 
-Forms can have various actions that are executed when the form is submitted:
+Forms execute various actions upon submission:
 
 .. list-table::
-   :widths: 25 25 50
+   :widths: 30 30 40
    :header-rows: 1
 
-   * - Type
+   * - Action type
      - Description
      - Properties
-   * - ``email``
-     - Send email notification
-     - ``subject``, ``message``, ``email``, ``copy_lead``
-   * - ``lead.changetags``
-     - Add/remove tags from contact
-     - ``add_tags``, ``remove_tags``
+   * - ``lead.scorecontactscompanies``
+     - Add to company's score
+     - ``score``
    * - ``lead.pointschange``
-     - Change contact points
-     - ``points``, ``operator``
-   * - ``lead.changeowner``
-     - Change contact owner
-     - ``owner``
-   * - ``lead.addtocompany``
-     - Add contact to company
-     - ``company``
+     - Adjust contact's points
+     - ``operator``, ``points``, ``group``
+   * - ``lead.changelist``
+     - Modify contact's segments
+     - ``addToLists``, ``removeFromLists``
+   * - ``lead.changetags``
+     - Modify contact's tags
+     - ``add_tags``, ``remove_tags``
+   * - ``lead.addutmtags``
+     - Record UTM Tags
+     - None
+   * - ``lead.remove_do_not_contact``
+     - Remove contact from do not contact list
+     - None
    * - ``asset.download``
-     - Trigger asset download
-     - ``asset``
-   * - ``form.submit.redirect``
-     - Redirect to URL
-     - ``redirect_url``
-   * - ``form.submit.message``
-     - Show message
-     - ``message``
+     - Download an asset
+     - ``asset``, ``category``
+   * - ``form.repost``
+     - Post results to another form
+     - ``post_url``, ``authorization_header``, ``failure_email``
+   * - ``plugin.leadpush``
+     - Push contact to integration
+     - ``integration``
+   * - ``email.send.lead``
+     - Send email to contact
+     - ``email``
+   * - ``email.send.user``
+     - Send email to user
+     - ``useremail``, ``user_id``
+   * - ``form.email``
+     - Send form results
+     - ``subject``, ``immediately``, ``set_replyto``, ``message``, ``email_to_owner``, ``copy_lead``, ``templates``, ``to``, ``cc``, ``bcc``
 
 Progressive profiling
-=====================
+*********************
 
-Progressive profiling allows you to collect more information from Contacts over time by showing different fields based on previous submissions. To enable progressive profiling:
+Progressive profiling collects more information from Contacts over time by showing different fields based on previous submissions. To enable progressive profiling:
 
-#. Set ``progressiveProfilingLimit`` on the form
+#. Set ``progressiveProfilingLimit`` on the Form
 #. Configure fields with ``showAfterXSubmissions`` property
-#. Use ``showWhenValueExists`` to hide fields when contact already has a value
+#. Use ``showWhenValueExists`` to hide fields if a value already exists for that Contact
 
 Conditional fields
-==================
+******************
 
-Fields can be conditionally shown based on other field values:
+Mautic shows fields conditionally based on other field values:
 
 #. Set the ``parent`` field ID
-#. Configure ``conditions`` with expression type (``eq``, ``neq``, ``in``, ``!in``)
+#. Configure ``conditions`` with expression type - ``eq``, ``neq``, ``in``, and ``!in``
 #. Set ``isConditionallyHidden`` to true
 
 Mapped fields
-=============
+*************
 
-Form fields can be mapped to Contact or Company fields:
+Mautic can map Form fields to Contact or Company fields:
 
 * Use ``mappedObject`` to specify ``contact`` or ``company``
 * Use ``mappedField`` to specify the target field name
-* The deprecated ``leadField`` property is still supported for backward compatibility
+* Mautic still supports the deprecated ``leadField`` property for backward compatibility
