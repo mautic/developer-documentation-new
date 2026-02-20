@@ -13,11 +13,16 @@
 Segments
 ########
 
-Use this endpoint to manipulate and obtain details on Mautic's Segments (also known as Lists).
+Use this endpoint to manipulate and obtain details on Mautic's Segments.
 
-**Using Mautic's API Library**
+Using the Mautic API library
+****************************
 
-You can interact with this API through the :xref:`Mautic API Library` as follows, or use the various http endpoints as described in this document.
+.. vale off
+
+You can interact with this API using the :xref:`Mautic API Library` as below, or the various HTTP endpoints described in this document.
+
+.. vale on
 
 .. code-block:: php
 
@@ -39,14 +44,14 @@ Get Segment
 
 .. vale on
 
+Retrieves an individual Segment.
+
 .. code-block:: php
 
    <?php
 
    //...
    $segment = $segmentApi->get($id);
-
-Get an individual Segment by ID.
 
 .. vale off
 
@@ -60,47 +65,45 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Segment.
+
+.. _get Segment response:
 
 .. code-block:: json
 
    {
-       "list": {
-           "id": 1,
-           "isPublished": true,
-           "dateAdded": "2015-07-15T15:06:02-05:00",
-           "createdBy": 1,
-           "createdByUser": "Joe Smith",
-           "dateModified": "2015-07-20T13:11:56-05:00",
-           "modifiedBy": 1,
-           "modifiedByUser": "Joe Smith",
-           "name": "VIP Customers",
-           "alias": "vip-customers",
-           "description": "High-value customers",
-           "publicName": "VIP List",
-           "filters": [
-               {
-                   "glue": "and",
-                   "field": "points",
-                   "object": "lead",
-                   "type": "number",
-                   "operator": "gte",
-                   "properties": {
-                       "filter": "100"
-                   }
-               }
-           ],
-           "isGlobal": true,
-           "isPreferenceCenter": false,
-           "category": {
-               "id": 1,
-               "title": "Customer Segments",
-               "alias": "customer-segments",
-               "color": "4e5d9d",
-               "bundle": "lead"
-           }
-       }
+      "list": {
+          "isPublished": true,
+          "dateAdded": "2026-02-19T19:36:21+00:00",
+          "dateModified": "2026-02-19T19:37:16+00:00",
+          "createdBy": 1,
+          "createdByUser": "Admin Mautic",
+          "modifiedBy": 1,
+          "modifiedByUser": "Admin Mautic",
+          "id": 2,
+          "name": "Acme Global Conference",
+          "publicName": "Acme Global Conference",
+          "alias": "acme-global-conference",
+          "description": null,
+          "category": null,
+          "filters": [
+              {
+                  "glue": "and",
+                  "field": "companyname",
+                  "object": "company",
+                  "type": "text",
+                  "operator": "=",
+                  "properties": {
+                      "filter": "Beta Inc."
+                  }
+              }
+          ],
+          "isGlobal": true,
+          "isPreferenceCenter": false
+      }
    }
+
+.. _get Segment properties:
 
 Segment properties
 ------------------
@@ -112,54 +115,54 @@ Segment properties
    * - Name
      - Type
      - Description
-   * - ``id``
-     - int
-     - ID of the Segment
    * - ``isPublished``
      - boolean
-     - ``true`` if the Segment is published
+     - Segment publication status
    * - ``dateAdded``
-     - ``datetime``
-     - Date/time Segment was created
+     - datetime
+     - Segment record creation date and time
+   * - ``dateModified``
+     - datetime
+     - Segment record last modification date and time
    * - ``createdBy``
-     - int
-     - ID of the User that created the Segment
+     - integer
+     - ID of the User who created the Segment
    * - ``createdByUser``
      - string
-     - Name of the User that created the Segment
-   * - ``dateModified``
-     - datetime/null
-     - Date/time Segment was last modified
+     - Name of the User who created the Segment
    * - ``modifiedBy``
-     - int
-     - ID of the User that last modified the Segment
+     - integer
+     - ID of the User who last modified the Segment
    * - ``modifiedByUser``
      - string
-     - Name of the User that last modified the Segment
+     - Name of the User who last modified the Segment
+   * - ``id``
+     - integer
+     - ID of the Segment
    * - ``name``
      - string
-     - Name of the Segment
+     - Segment name - **required**
+   * - ``publicName``
+     - string
+     - Public name of the Segment displayed to Contacts
    * - ``alias``
      - string
-     - Alias of the Segment used for searches and URLs
+     - The auto-generated alias or slug of the Segment
    * - ``description``
-     - string/null
+     - string
      - Description of the Segment
-   * - ``publicName``
-     - string/null
-     - Public name of the Segment (displayed to contacts)
+   * - ``category``
+     - object
+     - The Category assigned to the Segment
    * - ``filters``
      - array
-     - Array of filter criteria that define the Segment
+     - Array of filter criteria that define the Segment entities
    * - ``isGlobal``
      - boolean
-     - ``true`` if the Segment is global (visible to all users)
+     - Global visibility status - set to ``1`` or ``true`` to share the Segment with all Users. When not set, it defaults to restricted access
    * - ``isPreferenceCenter``
      - boolean
-     - ``true`` if the Segment can be used in preference centers
-   * - ``category``
-     - object/null
-     - Category object that contains the Segment
+     - Preference center status - set to ``1`` or ``true`` to include the Segment in preference centers. When not set, it defaults to hidden
 
 .. vale off
 
@@ -168,14 +171,14 @@ List Segments
 
 .. vale on
 
+Retrieves a list of Segments.
+
 .. code-block:: php
 
    <?php
 
    //...
    $segments = $segmentApi->getList($searchFilter, $start, $limit, $orderBy, $orderByDir, $publishedOnly, $minimal);
-
-Get a list of Segments.
 
 .. vale off
 
@@ -190,82 +193,93 @@ Query parameters
 ----------------
 
 .. list-table::
-   :widths: 20 80
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
      - Description
-   * - ``search``
-     - String or search command to filter entities by.
+   * - ``searchFilter``
+     - String or search command to filter entities
    * - ``start``
-     - Starting row for the entities returned. Defaults to 0.
+     - Starting row for the returned entities - defaults to 0
    * - ``limit``
-     - Limit number of entities to return. Defaults to the system configuration for pagination, which is 30 by default.
+     - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
-     - Column to sort by. Can use any column listed in the response. However, you need to change all properties in the response written in ``camelCase`` a bit. Before every capital, add an underscore ``_`` and then change the capital letters to non-capital letters. So ``dateAdded`` becomes ``date_added``, ``modifiedByUser`` becomes ``modified_by_user``, etc.
+     - Column to sort by. Any column in the response is valid.
+        
+       Note that you must convert ``camelCase`` properties to ``snake_case``. For example, ``dateAdded`` becomes ``date_added``, ``modifiedByUser`` becomes ``modified_by_user``, and so on
    * - ``orderByDir``
-     - Sort direction: ``asc`` or ``desc``.
+     - Sort direction - ``asc`` or ``desc``
    * - ``publishedOnly``
-     - Only return currently published entities.
+     - Returns only currently published entities
    * - ``minimal``
-     - Return only array of entities without additional lists in it.
-   * - ``where``
-     - An array of advanced where conditions
-   * - ``order``
-     - An array of advanced order statements
+     - Returns only a simple mapped object of entities without additional lists in it
 
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Segments list.
 
 .. code-block:: json
 
    {
-       "total": 1,
-       "lists": {
-           "1": {
-               "id": 1,
-               "isPublished": true,
-               "dateAdded": "2015-07-15T15:06:02-05:00",
-               "createdBy": 1,
-               "createdByUser": "Joe Smith",
-               "dateModified": "2015-07-20T13:11:56-05:00",
-               "modifiedBy": 1,
-               "modifiedByUser": "Joe Smith",
-               "name": "VIP Customers",
-               "alias": "vip-customers",
-               "description": "High-value customers",
-               "publicName": "VIP List",
-               "filters": [
-                   {
-                       "glue": "and",
-                       "field": "points",
-                       "object": "lead",
-                       "type": "number",
-                       "operator": "gte",
-                       "properties": {
-                           "filter": "100"
-                       }
-                   }
-               ],
-               "isGlobal": true,
-               "isPreferenceCenter": false,
-               "category": {
-                   "id": 1,
-                   "title": "Customer Segments",
-                   "alias": "customer-segments",
-                   "color": "4e5d9d",
-                   "bundle": "lead"
-               }
-           }
-       }
+      "total": 2,
+      "lists": {
+          "2": {
+              "isPublished": true,
+              "dateAdded": "2026-02-19T19:36:21+00:00",
+              "dateModified": "2026-02-19T19:37:16+00:00",
+              "createdBy": 1,
+              "createdByUser": "Admin Mautic",
+              "modifiedBy": 1,
+              "modifiedByUser": "Admin Mautic",
+              "id": 2,
+              "name": "Acme Global Conference",
+              "publicName": "Acme Global Conference",
+              "alias": "acme-global-conference",
+              "description": null,
+              "category": null,
+              "filters": [
+                  {
+                      "glue": "and",
+                      "field": "companyname",
+                      "object": "company",
+                      "type": "text",
+                      "operator": "=",
+                      "properties": {
+                          "filter": "Beta Inc."
+                      }
+                  }
+              ],
+              "isGlobal": true,
+              "isPreferenceCenter": false
+          },
+          // ...
+      }
    }
 
 Properties
 ----------
 
-Same as :ref:`rest_api/segments:Get Segment`.
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``total``
+     - integer
+     - Total count of Segments
+   * - ``lists``
+     - object
+     - A mapped collection of Segments indexed by their ID
+
+.. vale off
+
+For the rest of the Segment properties, refer to :ref:`Segment properties <get Segment properties>`.
+
+.. vale on
 
 .. vale off
 
@@ -273,6 +287,8 @@ Create Segment
 **************
 
 .. vale on
+
+Creates a new Segment.
 
 .. code-block:: php
 
@@ -300,8 +316,6 @@ Create Segment
 
    $segment = $segmentApi->create($data);
 
-Create a new Segment.
-
 .. vale off
 
 HTTP request
@@ -314,50 +328,19 @@ HTTP request
 POST parameters
 ---------------
 
-.. list-table::
-   :widths: 25 25 50
-   :header-rows: 1
-
-   * - Name
-     - Type
-     - Description
-   * - ``name``
-     - string
-     - Segment name (required)
-   * - ``alias``
-     - string
-     - Segment alias used for URLs and searches
-   * - ``description``
-     - string
-     - Segment description
-   * - ``publicName``
-     - string
-     - Public name displayed to contacts
-   * - ``isPublished``
-     - boolean
-     - Whether the Segment is published (defaults to ``false``)
-   * - ``isGlobal``
-     - boolean
-     - Whether the Segment is global (defaults to ``true``)
-   * - ``isPreferenceCenter``
-     - boolean
-     - Whether the Segment can be used in preference centers (defaults to ``false``)
-   * - ``filters``
-     - array
-     - Array of filter criteria that define the Segment
-   * - ``category``
-     - int
-     - ID of the Category to assign to the Segment
+Mautic accepts the same parameters for creating a Segment as those described in :ref:`Segment properties <get Segment properties>`.
 
 Response
 ========
 
-``Expected Response Code: 201``
+* Returns ``201 Created`` when the request successfully creates a Segment.
+
+The response is a JSON object similar to :ref:`Get Segment <get Segment response>`.
 
 Properties
 ----------
 
-Same as :ref:`rest_api/segments:Get Segment`.
+Refer to :ref:`Segment properties <get Segment properties>`.
 
 .. vale off
 
@@ -365,6 +348,13 @@ Edit Segment
 ************
 
 .. vale on
+
+Edits a Segment. 
+
+This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
+
+* ``PUT``: **full replacement**. The request creates a new Segment if the ID is missing. If the ID exists, the request clears all existing data and replaces it with the provided values.
+* ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the Segment ID doesn't exist.
 
 .. code-block:: php
 
@@ -376,15 +366,10 @@ Edit Segment
        'description' => 'Updated high-value customers segment',
    );
 
-   // Create new a Segment of ID 1 isn't found?
+   // Create a new Segment if ID 1 isn't found?
    $createIfNotFound = true;
 
    $segment = $segmentApi->edit($id, $data, $createIfNotFound);
-
-Edit an existing Segment. Note that this supports PUT or PATCH depending on the desired behavior.
-
-**PUT** creates a Segment if the given ID doesn't exist and clears all the Segment information, adds the information from the request.
-**PATCH** fails if the Segment with the given ID doesn't exist and updates the Segment field values with the values from the request.
 
 .. vale off
 
@@ -393,62 +378,26 @@ HTTP request
 
 .. vale on
 
-To edit a Segment and return a 404 if the Segment isn't found:
-
-``PATCH /segments/ID/edit``
-
-To edit a Segment and create a new one if the Segment isn't found:
-
-``PUT /segments/ID/edit``
+* ``PUT /segments/ID/edit``: updates an existing Segment or creates a new one when the ID doesn't exist.
+* ``PATCH /segments/ID/edit``: updates an existing Segment. The request fails when the ID doesn't exist.
 
 POST parameters
 ---------------
 
-.. list-table::
-   :widths: 25 25 50
-   :header-rows: 1
-
-   * - Name
-     - Type
-     - Description
-   * - ``name``
-     - string
-     - Segment name
-   * - ``alias``
-     - string
-     - Segment alias used for URLs and searches
-   * - ``description``
-     - string
-     - Segment description
-   * - ``publicName``
-     - string
-     - Public name displayed to contacts
-   * - ``isPublished``
-     - boolean
-     - Whether the Segment is published
-   * - ``isGlobal``
-     - boolean
-     - Whether the Segment is global
-   * - ``isPreferenceCenter``
-     - boolean
-     - Whether the Segment can be used in preference centers
-   * - ``filters``
-     - array
-     - Array of filter criteria that define the Segment
-   * - ``category``
-     - int
-     - ID of the Category to assign to the Segment
+Mautic accepts the same parameters for editing a Segment as those described in :ref:`Segment properties <get Segment properties>`.
 
 Response
 ========
 
-If ``PUT``, the expected response code is ``200`` if the Segment was edited or ``201`` if created.
-If ``PATCH``, the expected response code is ``200``.
+* ``PUT``: returns ``200 OK`` when the request successfully updates the Segment or ``201 Created`` when the request creates a Segment.
+* ``PATCH``: returns ``200 OK`` when the request successfully updates the Segment or ``404 Not Found`` error when the Segment ID doesn't exist.
+
+The response is a JSON object similar to :ref:`Get Segment <get Segment response>`.
 
 Properties
 ----------
 
-Same as :ref:`rest_api/segments:Get Segment`.
+Refer to :ref:`Segment properties <get Segment properties>`.
 
 .. vale off
 
@@ -457,13 +406,13 @@ Delete Segment
 
 .. vale on
 
+Deletes a Segment.
+
 .. code-block:: php
 
    <?php
 
    $segment = $segmentApi->delete($id);
-
-Delete a Segment.
 
 .. vale off
 
@@ -477,12 +426,14 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully deletes the Segment.
+
+The response is a JSON object containing the data of the deleted Segment, similar to :ref:`Get Segment <get Segment response>`.
 
 Properties
 ----------
 
-Same as :ref:`rest_api/segments:Get Segment`.
+Refer to :ref:`Segment properties <get Segment properties>`.
 
 .. vale off
 
@@ -491,13 +442,13 @@ Add Contact to Segment
 
 .. vale on
 
+Adds a Contact to a specific Segment.
+
 .. code-block:: php
 
    <?php
 
    $segmentApi->addContact($segmentId, $contactId);
-
-Add a Contact to a Segment.
 
 .. vale off
 
@@ -511,7 +462,7 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully adds the Contact to the Segment.
 
 .. code-block:: json
 
@@ -526,14 +477,14 @@ Add Contacts to Segment
 
 .. vale on
 
+Add multiple Contacts to a specific Segment.
+
 .. code-block:: php
 
    <?php
 
    $contactIds = array(1, 2, 3);
    $segmentApi->addContacts($segmentId, $contactIds);
-
-Add multiple Contacts to a Segment.
 
 .. vale off
 
@@ -544,24 +495,24 @@ HTTP request
 
 ``POST /segments/SEGMENT_ID/contacts/add``
 
-POST parameters
----------------
+Query parameters
+----------------
 
 .. list-table::
-   :widths: 25 25 50
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
-     - Type
      - Description
-   * - ``ids``
-     - array
+   * - ``contactIds``
      - Array of Contact IDs to add to the Segment
+   * - ``segmentId``
+     - ID of the Segment
 
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully adds the Contacts to the Segment.
 
 .. code-block:: json
 
@@ -587,13 +538,13 @@ Remove Contact from Segment
 
 .. vale on
 
+Remove a Contact from a specific Segment.
+
 .. code-block:: php
 
    <?php
 
    $segmentApi->removeContact($segmentId, $contactId);
-
-Remove a Contact from a Segment.
 
 .. vale off
 
@@ -607,7 +558,7 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully removes the Contact from the Segment.
 
 .. code-block:: json
 
@@ -622,13 +573,13 @@ Get User Segments
 
 .. vale on
 
+Retrieves a list of Segments that are available to the current User.
+
 .. code-block:: php
 
    <?php
 
    $segments = $segmentApi->getUserSegments();
-
-Get a list of Segments available to the current user.
 
 .. vale off
 
@@ -642,7 +593,7 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Segments for the User.
 
 .. code-block:: json
 
@@ -670,23 +621,19 @@ Segment properties
      - Type
      - Description
    * - ``id``
-     - int
+     - integer
      - ID of the Segment
    * - ``name``
      - string
      - Name of the Segment
    * - ``alias``
      - string
-     - Alias of the Segment
+     - The auto-generated alias or slug of the Segment
 
-.. vale off
-
-Segment Filters
+Segment filters
 ***************
 
-.. vale on
-
-Segments use filters to define which Contacts should be included. Filters support various field types and operators.
+Segments use filters to define which Contacts to include. Filters support various field types and operators.
 
 Filter structure
 ================
@@ -694,14 +641,14 @@ Filter structure
 .. code-block:: json
 
    {
-       "glue": "and",
-       "field": "email",
-       "object": "lead",
-       "type": "email",
-       "operator": "like",
-       "properties": {
-           "filter": "%@gmail.com"
-       }
+        "object": "company",
+        "glue": "and",
+        "field": "companyname",
+        "type": "text",
+        "operator": "=",
+        "properties": {
+            "filter": "Beta Inc."
+        }
    }
 
 Filter properties
@@ -714,66 +661,121 @@ Filter properties
    * - Name
      - Type
      - Description
-   * - ``glue``
-     - string
-     - Logic operator to connect with previous filter: ``and`` or ``or``
-   * - ``field``
-     - string
-     - Contact field to filter on, for example ``email``, ``firstname``, ``points``
    * - ``object``
      - string
-     - Object type, typically ``lead`` for Contact fields
+     - Object type - ``lead``, ``company``, or ``behaviors``
+   * - ``glue``
+     - string
+     - Connection between filters using ``and`` or ``or``
+   * - ``field``
+     - string
+     - Field or behavior action identifier, such as ``email``, ``points``, ``lead_email_received``, and so on
    * - ``type``
      - string
-     - Field type, for example ``text``, ``number``, ``email``, ``date``, ``select``
+     - Data type for the field, such as ``text``, ``number``, ``date``, and so on
    * - ``operator``
      - string
-     - Comparison operator, for example ``=``, ``!=``, ``like``, ``!like``, ``gt``, ``gte``, ``lt``, ``lte``, ``in``, ``!in``
+     - Comparison logic for the filter, such as ``=``, ``!empty``, ``lte``, ``startsWith``, and so on.
+     
+       Refer to :ref:`common operators` for details
    * - ``properties``
      - object
-     - Additional filter properties including the ``filter`` value
+     - Object for the ``filter`` value and configurations, including ``display``
+
+.. _common operators:
 
 Common operators by field type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Text fields:**
+Text fields
+^^^^^^^^^^^
 
-* ``=`` (equals)
-* ``!=`` (not equals)  
-* ``like`` (contains)
-* ``!like`` (does not contain)
-* ``empty`` (is empty)
-* ``!empty`` (is not empty)
+.. list-table::
+   :widths: 30 70
+   :header-rows: 1
 
-**Number fields:**
+   * - Operator
+     - Description
+   * - ``=``
+     - Exact match for the specified text
+   * - ``!=``
+     - Exclusion of the specified text
+   * - ``like``
+     - Presence of the string within the field
+   * - ``!like``
+     - Absence of the string within the field
+   * - ``empty``
+     - Identification of fields with no data
+   * - ``!empty``
+     - Identification of fields with any data
 
-* ``=`` (equals)
-* ``!=`` (not equals)
-* ``gt`` (greater than)
-* ``gte`` (greater than or equal)
-* ``lt`` (less than)
-* ``lte`` (less than or equal)
+Number fields
+^^^^^^^^^^^^^
 
-**Date fields:**
+.. list-table::
+   :widths: 30 70
+   :header-rows: 1
 
-* ``=`` (equals)
-* ``!=`` (not equals)
-* ``gt`` (after)
-* ``gte`` (on or after)
-* ``lt`` (before)
-* ``lte`` (on or before)
+   * - Operator
+     - Description
+   * - ``=``
+     - Value equal to the specified number
+   * - ``!=``
+     - Value not equal to the specified number
+   * - ``gt``
+     - Value greater than the specified number
+   * - ``gte``
+     - Value greater than or equal to the specified number
+   * - ``lt``
+     - Value less than the specified number
+   * - ``lte``
+     - Value less than or equal to the specified number
 
-**Select or multi-select fields:**
+Date fields
+^^^^^^^^^^^
 
-* ``=`` (equals)
-* ``!=`` (not equals)
-* ``in`` (in list)
-* ``!in`` (not in list)
+.. list-table::
+   :widths: 30 70
+   :header-rows: 1
 
-Example filters
-~~~~~~~~~~~~~~~
+   * - Operator
+     - Description
+   * - ``=``
+     - Match for the specific date
+   * - ``!=``
+     - Exclusion of the specific date
+   * - ``gt``
+     - Occurrence after the specified date
+   * - ``gte``
+     - Occurrence on or after the specified date
+   * - ``lt``
+     - Occurrence before the specified date
+   * - ``lte``
+     - Occurrence on or before the specified date
 
-**Email domain filter:**
+Select or multi-select fields
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+   :widths: 30 70
+   :header-rows: 1
+
+   * - Operator
+     - Description
+   * - ``=``
+     - Selection matching the specified value
+   * - ``!=``
+     - Selection not matching the specified value
+   * - ``in``
+     - Match for any value within the provided list
+   * - ``!in``
+     - Exclusion of all values within the provided list
+
+Filter examples
+---------------
+
+Email domain filter
+~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: json
 
@@ -788,7 +790,8 @@ Example filters
        }
    }
 
-**Points range filter:**
+Points filter
+~~~~~~~~~~~~~
 
 .. code-block:: json
 
@@ -803,7 +806,8 @@ Example filters
        }
    }
 
-**Date range filter:**
+Date filter
+~~~~~~~~~~~
 
 .. code-block:: json
 
@@ -815,5 +819,21 @@ Example filters
        "operator": "gte",
        "properties": {
            "filter": "2023-01-01 00:00:00"
+       }
+   }
+
+Behavior action filter
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: json
+
+   {
+       "glue": "and",
+       "field": "url_title",
+       "object": "behaviors",
+       "type": "text",
+       "operator": "startsWith",
+       "properties": {
+           "filter": "acme"
        }
    }
