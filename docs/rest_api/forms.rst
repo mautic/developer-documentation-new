@@ -418,7 +418,7 @@ Query parameters
 
    * - Name
      - Description
-   * - ``search``
+   * - ``searchFilter``
      - String or search command to filter entities
    * - ``start``
      - Starting row for the returned entities - defaults to 0
@@ -691,7 +691,7 @@ This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
        ),
    );
 
-   // Create new a Form of ID 1 isn't found?
+   // Create a new Form if ID 1 isn't found?
    $createIfNotFound = true;
 
    $form = $formApi->edit($id, $data, $createIfNotFound);
@@ -794,14 +794,14 @@ Query parameters
 ----------------
 
 .. list-table::
-   :widths: 25 25 50
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
-     - Type
      - Description
-   * - ``fields``
-     - array
+   * - ``formId``
+     - ID of the Form
+   * - ``fieldIds``
      - Array of field IDs to remove from the Form
 
 Response
@@ -844,15 +844,15 @@ Query parameters
 ----------------
 
 .. list-table::
-   :widths: 25 25 50
+   :widths: 30 70
    :header-rows: 1
 
    * - Name
-     - Type
      - Description
-   * - ``actions``
-     - array
-     - Array of action IDs to delete
+   * - ``formId``
+     - ID of the Form
+   * - ``actionIds``
+     - Array of Form action IDs to delete
 
 Response
 ========
@@ -1024,12 +1024,14 @@ Query parameters
 
    * - Name
      - Description
-   * - ``search``
+   * - ``formId``
+     - ID of the Form
+   * - ``searchFilter``
      - String or search command to filter entities
    * - ``start``
      - Starting row for the returned entities - defaults to 0
    * - ``limit``
-     - Maximum number of entities to return - defaults to the system configuration for pagination, which is 30 by default
+     - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
      - Column to sort by. Any column in the response is valid
    * - ``orderByDir``
@@ -1148,14 +1150,20 @@ Query parameters
 
    * - Name
      - Description
+   * - ``formId``
+     - ID of the Form
+   * - ``contactId``
+     - ID of the Contact
    * - ``searchFilter``
      - String or search command to filter entities
    * - ``start``
      - Starting row for the returned entities - defaults to 0
    * - ``limit``
-     - Maximum number of entities to return - defaults to the system configuration for pagination, which is 30 by default
+     - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
-     - Column to sort by. Any column in the response is valid
+     - Column to sort by. Any column in the response is valid.
+        
+       Note that you must convert ``camelCase`` properties to ``snake_case``. For example, ``dateSubmitted`` becomes ``date_submitted``
    * - ``orderByDir``
      - Sort direction - ``asc`` or ``desc``
 

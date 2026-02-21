@@ -510,7 +510,7 @@ This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
        'subject' => 'New subject line',
    );
 
-   // Create new an Email of ID 1 isn't found?
+   // Create a new Email if ID 1 isn't found?
    $createIfNotFound = true;
 
    $email = $emailApi->edit($id, $data, $createIfNotFound);
