@@ -477,7 +477,7 @@ Add Contacts to Segment
 
 .. vale on
 
-Add multiple Contacts to a specific Segment.
+Adds multiple Contacts to a specific Segment.
 
 .. code-block:: php
 
@@ -530,6 +530,29 @@ Response
            }
        }
    }
+
+Properties
+----------
+
+.. list-table::
+   :widths: 20 20 60
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``success``
+     - integer
+     - Overall status of the request where ``1`` indicates completion
+   * - ``details``
+     - object
+     - A mapped collection of processing results indexed by Contact ID
+   * - ``details/{id}``
+     - object
+     - Result status for a specific Contact within the request
+   * - ``details/{id}/success``
+     - boolean
+     - Individual confirmation of whether the Contact joined the Segment successfully
 
 .. vale off
 
@@ -633,7 +656,7 @@ Segment properties
 Segment filters
 ***************
 
-Segments use filters to define which Contacts to include. Filters support various field types and operators.
+Segments use filters to define which object type - ``lead``, ``company``, or ``behaviors`` - to include. Filters support various field types and operators.
 
 Filter structure
 ================
