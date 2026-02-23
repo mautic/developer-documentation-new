@@ -300,7 +300,7 @@ Form Field properties
      - The auto-generated alias or slug of the field
    * - ``type``
      - string
-     - Type of field, such as ``text``, ``email``, ``select``, and so on
+     - Type of field, such as ``text``, ``email``, ``select``, and so on. Refer to :ref:`Form Field types <Form Field types>` for details
    * - ``defaultValue``
      - string
      - Initial value assigned to the field
@@ -327,7 +327,11 @@ Form Field properties
      - ID of the parent field for conditional logic
    * - ``conditions``
      - object
-     - Configuration for conditional logic, containing the comparison operator - ``expr``, array of values to match against the parent field - ``values``, and match logic, where ``1`` matches any value and ``0`` matches only the specific values provided
+     - Configuration for conditional logic, containing:
+      
+       * ``expr``: comparison operator. Accepts include - ``in`` or exclude - ``notIn``
+       * ``values``: array of values to match against the parent field
+       * ``any``: match logic, where ``1`` matches any value and ``0`` matches only the specific values provided
    * - ``labelAttributes``
      - string
      - HTML attributes for the label element
@@ -376,7 +380,7 @@ Form action properties
      - Description of the action
    * - ``type``
      - string
-     - Type of action, such as ``lead.scorecontactscompanies``, ``email.send.lead``, and so on
+     - Type of action, such as ``lead.scorecontactscompanies``, ``email.send.lead``, and so on. Refer to :ref:`Form action types <Form action types>` for details
    * - ``order``
      - integer
      - The numerical position of the action within the Form
@@ -1246,6 +1250,8 @@ For the rest of the Form properties, refer to :ref:`get Form submission properti
 
 .. vale on
 
+.. _Form Field types:
+
 .. vale off
 
 Form Field types
@@ -1253,7 +1259,7 @@ Form Field types
 
 .. vale on
 
-Mautic supports various field types for Forms. The following list includes the most common types:
+Mautic supports various Form Field types to collect and validate Contact data. Each field type serves a specific purpose during Form submission:
 
 .. vale off
 
@@ -1328,12 +1334,14 @@ Mautic supports various field types for Forms. The following list includes the m
      - Submit button
      - None
 
+.. _Form action types:
+
 .. vale on
 
 Form action types
 *****************
 
-Forms execute various actions upon submission:
+Form actions execute specific tasks immediately after a Contact submits a Form. Mautic supports the following action types:
 
 .. vale off
 
