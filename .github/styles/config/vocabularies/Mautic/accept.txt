@@ -95,6 +95,7 @@ middlewares
 MJML
 Multiselect
 multiselect
+MVC
 MVP
 mysqldump
 Namespace
@@ -126,6 +127,7 @@ Read the Docs
 rebase
 Remarketing
 Report Email
+REST
 RST
 Salesforce
 SAML
@@ -134,6 +136,7 @@ SCP
 Segment Email
 SendGrid
 SES
+SFTP
 SHA
 Shinde
 SMS
