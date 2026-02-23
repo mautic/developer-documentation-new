@@ -781,7 +781,7 @@ This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
        'companyemail' => 'updated@acme.com',
    );
 
-   // Create a new Company if ID 1 is not found?
+   // Create a new Company if ID 1 isn't found
    $createIfNotFound = true;
 
    $company = $companyApi->edit($id, $data, $createIfNotFound);

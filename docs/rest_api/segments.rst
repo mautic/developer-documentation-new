@@ -366,7 +366,7 @@ This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
        'description' => 'Updated high-value customers segment',
    );
 
-   // Create a new Segment if ID 1 isn't found?
+   // Create a new Segment if ID 1 isn't found
    $createIfNotFound = true;
 
    $segment = $segmentApi->edit($id, $data, $createIfNotFound);
@@ -506,8 +506,6 @@ Query parameters
      - Description
    * - ``contactIds``
      - Array of Contact IDs to add to the Segment
-   * - ``segmentId``
-     - ID of the Segment
 
 Response
 ========

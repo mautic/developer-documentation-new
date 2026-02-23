@@ -135,16 +135,16 @@ User properties
      - User record last modification date and time
    * - ``createdBy``
      - integer
-     - ID of the User who created this User record
+     - ID of the User who created the User record
    * - ``createdByUser``
      - string
-     - Name of the User who created this User record
+     - Name of the User who created the User record
    * - ``modifiedBy``
      - integer
-     - ID of the User who last modified this User record
+     - ID of the User who last modified the User record
    * - ``modifiedByUser``
      - string
-     - Name of the User who last modified this User record
+     - Name of the User who last modified the User record
    * - ``id``
      - integer
      - ID of the User
@@ -153,34 +153,34 @@ User properties
      - Username for login - **unique**
    * - ``firstName``
      - string
-     - User's first name
+     - First name of the User
    * - ``lastName``
      - string
-     - User's last name
+     - Last name of the User
    * - ``email``
      - string
-     - User's Email address - **unique**
+     - Email address of the User - **unique**
    * - ``position``
      - string
-     - User's job position or title
+     - Job position or title of the User
    * - ``role``
      - object
-     - User's assigned role with permissions
+     - The Role and permissions assigned to the User
    * - ``timezone``
      - string
-     - User's timezone preference
+     - Timezone preference of the User
    * - ``locale``
      - string
-     - User's language or locale preference
+     - Language or locale preference of the User
    * - ``lastLogin``
      - datetime
-     - Timestamp of User's last login
+     - Date and time of the last login
    * - ``lastActive``
      - datetime
-     - Timestamp of User's last activity
+     - Date and time of the last activity
    * - ``signature``
      - string
-     - User's Email signature - in HTML
+     - Email signature in HTML format
 
 .. vale off
 
@@ -360,13 +360,13 @@ POST parameters
      - Username for login - **required** and **must be unique**
    * - ``firstName``
      - string
-     - User's first name - **required**
+     - User first name - **required**
    * - ``lastName``
      - string
-     - User's last name - **required**
+     - User last name - **required**
    * - ``email``
      - string
-     - User's Email address - **required** and **must be unique**
+     - User Email address - **required** and **must be unique**
    * - ``plainPassword``
      - associative array
      - Associative array with ``password`` and ``confirm`` keys - **required**
@@ -375,16 +375,16 @@ POST parameters
      - ID of the Role to assign to the User - **required**
    * - ``position``
      - string
-     - User's job position or title
+     - User job position or title
    * - ``timezone``
      - string
-     - User's timezone preference - **required**
+     - User timezone preference - **required**
    * - ``locale``
      - string
-     - User's language or locale preference - **required**
+     - User language or locale preference - **required**
    * - ``signature``
      - string
-     - User's Email signature - in HTML
+     - User Email signature - in HTML
 
 Response
 ========
@@ -418,7 +418,7 @@ This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
        'timezone'  => 'Europe/London'
    );
 
-   // Create a new User if ID isn't found
+   // Create a new User if ID 1 isn't found
    $createIfNotFound = true;
 
    $user = $userApi->edit($id, $data, $createIfNotFound);
@@ -445,31 +445,31 @@ POST parameters
      - Description
    * - ``username``
      - string
-     - Username for login - **must be unique** 
+     - Username for login - **unique**
    * - ``firstName``
      - string
-     - User's first name
+     - First name of the User
    * - ``lastName``
      - string
-     - User's last name
+     - Last name of the User
    * - ``email``
      - string
-     - User's Email address - **must be unique**
+     - Email address of the User - **unique**
    * - ``role``
      - integer
      - ID of the Role to assign to the User
    * - ``position``
      - string
-     - User's job position or title
+     - Job position or title of the User
    * - ``timezone``
      - string
-     - User's timezone preference
+     - Timezone preference of the User
    * - ``locale``
      - string
-     - User's language or locale preference
+     - Language or locale preference of the User
    * - ``signature``
      - string
-     - User's Email signature - in HTML
+     - Email signature in HTML format
 
 Response
 ========
@@ -711,7 +711,7 @@ Common error responses
      - Description
    * - ``400``
      - Bad Request
-     - Insufficient data or invalid data provided - such as a weak password, or duplicate username or Email
+     - Indicates invalid JSON syntax or failed field validation. Examples include missing required fields, weak passwords, or duplicate usernames.
    * - ``401``
      - Unauthorized
      - Authentication required or weak password detected
