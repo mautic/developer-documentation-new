@@ -15,9 +15,14 @@ Users
 
 Use this endpoint to manipulate and obtain details on Mautic's Users.
 
-**Using Mautic's API Library**
+Using the Mautic API library
+****************************
 
-You can interact with this API through the :xref:`Mautic API Library` as follows, or use the various http endpoints as described in this document.
+.. vale off
+
+You can interact with this API using the :xref:`Mautic API Library` as below, or the various HTTP endpoints described in this document.
+
+.. vale on
 
 .. code-block:: php
 
@@ -39,14 +44,14 @@ Get User
 
 .. vale on
 
+Retrieves an individual User.
+
 .. code-block:: php
 
    <?php
 
    //...
    $user = $userApi->get($id);
-
-Get an individual User by ID.
 
 .. vale off
 
@@ -60,58 +65,92 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the User.
+
+.. _get User response:
 
 .. code-block:: json
 
    {
-       "user": {
-           "id": 1,
-           "dateAdded": "2024-01-15T10:30:00+00:00",
-           "dateModified": "2024-02-20T14:45:00+00:00",
-           "createdBy": 1,
-           "createdByUser": "System Administrator",
-           "modifiedBy": 1,
-           "modifiedByUser": "System Administrator",
-           "username": "admin",
-           "firstName": "John",
-           "lastName": "Doe",
-           "email": "john.doe@example.com",
-           "position": "System Administrator",
-           "timezone": "America/New_York",
-           "locale": "en_US",
-           "lastLogin": "2024-02-20T09:15:00+00:00",
-           "lastActive": "2024-02-20T14:45:00+00:00",
-           "role": {
-               "id": 1,
-               "name": "Administrator",
-               "description": "Full system access",
-               "isAdmin": true
-           },
-           "preferences": {
-               "theme": "default",
-               "language": "en_US"
-           },
-           "signature": "<p>Best regards,<br>John Doe</p>"
-       }
+      "user": {
+          "isPublished": true,
+          "dateAdded": "2026-02-21T05:19:56+00:00",
+          "dateModified": "2026-02-21T05:20:13+00:00",
+          "createdBy": 1,
+          "createdByUser": "Admin Mautic",
+          "modifiedBy": 1,
+          "modifiedByUser": "Admin Mautic",
+          "id": 3,
+          "username": "r.green",
+          "firstName": "Rachel",
+          "lastName": "Green",
+          "email": "rachel.green@acme.com",
+          "position": "Marketing Staff",
+          "role": {
+              "createdByUser": "Admin Mautic",
+              "modifiedByUser": null,
+              "id": 2,
+              "name": "Email Permissions",
+              "description": null,
+              "isAdmin": false,
+              "rawPermissions": {
+                  "email:categories": [
+                      "full"
+                  ],
+                  "email:emails": [
+                      "full"
+                  ]
+              }
+          },
+          "timezone": "Europe/Paris",
+          "locale": null,
+          "lastLogin": "2026-02-22T04:28:00+00:00",
+          "lastActive": "2026-02-22T04:28:00+00:00",
+          "signature": "Best regards, \r\nRachel Green"
+      }
    }
+
+.. _get User properties:
 
 User properties
 ===============
 
-.. list-table::
+.. vale off
+
+.. list-table:: 
    :widths: 25 25 50
    :header-rows: 1
 
    * - Name
      - Type
      - Description
+   * - ``isPublished``
+     - boolean
+     - User publication status
+   * - ``dateAdded``
+     - datetime
+     - User record creation date and time
+   * - ``dateModified``
+     - datetime
+     - User record last modification date and time
+   * - ``createdBy``
+     - integer
+     - ID of the User who created this User record
+   * - ``createdByUser``
+     - string
+     - Name of the User who created this User record
+   * - ``modifiedBy``
+     - integer
+     - ID of the User who last modified this User record
+   * - ``modifiedByUser``
+     - string
+     - Name of the User who last modified this User record
    * - ``id``
-     - int
+     - integer
      - ID of the User
    * - ``username``
      - string
-     - Username for login (unique)
+     - Username for login - **unique**
    * - ``firstName``
      - string
      - User's first name
@@ -120,43 +159,28 @@ User properties
      - User's last name
    * - ``email``
      - string
-     - User's email address (unique)
+     - User's Email address - **unique**
    * - ``position``
      - string
-     - User's job position/title
+     - User's job position or title
+   * - ``role``
+     - object
+     - User's assigned role with permissions
    * - ``timezone``
      - string
      - User's timezone preference
    * - ``locale``
      - string
-     - User's language/locale preference
+     - User's language or locale preference
    * - ``lastLogin``
      - datetime
-     - Timestamp of user's last login
+     - Timestamp of User's last login
    * - ``lastActive``
      - datetime
-     - Timestamp of user's last activity
-   * - ``role``
-     - object
-     - User's assigned role with permissions
-   * - ``preferences``
-     - array
-     - User's system preferences
+     - Timestamp of User's last activity
    * - ``signature``
      - string
-     - User's email signature (HTML)
-   * - ``dateAdded``
-     - datetime
-     - Date/time when the User was created
-   * - ``dateModified``
-     - datetime
-     - Date/time when the User was last modified
-   * - ``createdBy``
-     - int
-     - ID of the User who created this User
-   * - ``modifiedBy``
-     - int
-     - ID of the User who last modified this User
+     - User's Email signature - in HTML
 
 .. vale off
 
@@ -165,14 +189,14 @@ List Users
 
 .. vale on
 
+Retrieves a list of Users.
+
 .. code-block:: php
 
    <?php
 
    //...
    $users = $userApi->getList($searchFilter, $start, $limit, $orderBy, $orderByDir, $publishedOnly, $minimal);
-
-Get a list of Users.
 
 .. vale off
 
@@ -192,57 +216,95 @@ Query parameters
 
    * - Name
      - Description
-   * - ``search``
-     - String or search command to filter entities by.
+   * - ``searchFilter``
+     - String or search command to filter entities
    * - ``start``
-     - Starting row for the entities returned. Defaults to 0.
+     - Starting row for the returned entities - defaults to 0
    * - ``limit``
-     - Limit number of entities to return. Defaults to the system configuration for pagination (30).
+     - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
-     - Column to sort by. Can use any column listed in the response.
+     - Column to sort by. Any column in the response is valid.
+        
+       Note that you must convert ``camelCase`` properties to ``snake_case``. For example, ``dateAdded`` becomes ``date_added``, ``lastLogin`` becomes ``last_login``, and so on
    * - ``orderByDir``
-     - Sort direction: ``asc`` or ``desc``.
+     - Sort direction - ``asc`` or ``desc``
    * - ``publishedOnly``
-     - Only return currently published entities.
+     - Returns only currently published entities
    * - ``minimal``
-     - Return only array of entities without additional lists in it.
+     - Returns only a simple mapped object of entities without additional lists in it
 
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Users list.
 
 .. code-block:: json
 
    {
-       "total": 2,
-       "users": [
-           {
-               "id": 1,
-               "username": "admin",
-               "firstName": "John",
-               "lastName": "Doe",
-               "email": "john.doe@example.com",
-               "position": "System Administrator",
-               "role": {
-                   "id": 1,
-                   "name": "Administrator"
-               }
-           },
-           {
-               "id": 2,
-               "username": "manager",
-               "firstName": "Jane",
-               "lastName": "Smith",
-               "email": "jane.smith@example.com",
-               "position": "Marketing Manager",
-               "role": {
-                   "id": 2,
-                   "name": "Manager"
-               }
-           }
-       ]
+      "total": 3,
+      "users": [
+          {
+              "isPublished": true,
+              "dateAdded": "2026-02-21T05:19:56+00:00",
+              "dateModified": "2026-02-21T05:20:13+00:00",
+              "createdBy": 1,
+              "createdByUser": "Admin Mautic",
+              "modifiedBy": 1,
+              "modifiedByUser": "Admin Mautic",
+              "id": 3,
+              "username": "r.green",
+              "firstName": "Rachel",
+              "lastName": "Green",
+              "email": "rachel.green@acme.com",
+              "position": "Marketing Staff",
+              "role": {
+                  "createdByUser": "Admin Mautic",
+                  "modifiedByUser": null,
+                  "id": 2,
+                  "name": "Email Permissions",
+                  "description": null,
+                  "isAdmin": false,
+                  "rawPermissions": {
+                      "email:categories": [
+                          "full"
+                      ],
+                      "email:emails": [
+                          "full"
+                      ]
+                  }
+              },
+              "timezone": "Europe/Paris",
+              "locale": null,
+              "lastLogin": "2026-02-22T04:28:00+00:00",
+              "lastActive": "2026-02-22T04:28:00+00:00",
+              "signature": "Best regards, \r\nRachel Green"
+          },
+          // ...
+      ]
    }
+
+Properties
+----------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``total``
+     - integer
+     - Total count of Users
+   * - ``users``
+     - array
+     - Array of Users
+
+.. vale off
+
+For the rest of the User properties, refer to :ref:`User properties <get User properties>`.
+
+.. vale on
 
 .. vale off
 
@@ -250,6 +312,8 @@ Create User
 ***********
 
 .. vale on
+
+Creates a new User.
 
 .. code-block:: php
 
@@ -272,8 +336,6 @@ Create User
 
    $user = $userApi->create($data);
 
-Create a new User.
-
 .. vale off
 
 HTTP request
@@ -295,61 +357,41 @@ POST parameters
      - Description
    * - ``username``
      - string
-     - **Required.** Username for login (must be unique)
+     - Username for login - **required** and **must be unique**
    * - ``firstName``
      - string
-     - **Required.** User's first name
+     - User's first name - **required**
    * - ``lastName``
      - string
-     - **Required.** User's last name
+     - User's last name - **required**
    * - ``email``
      - string
-     - **Required.** User's email address (must be unique)
+     - User's Email address - **required** and **must be unique**
    * - ``plainPassword``
-     - array
-     - **Required.** Array with 'password' and 'confirm' keys
+     - associative array
+     - Associative array with ``password`` and ``confirm`` keys - **required**
    * - ``role``
-     - int
-     - **Required.** ID of the role to assign to the user
+     - integer
+     - ID of the Role to assign to the User - **required**
    * - ``position``
      - string
-     - User's job position/title
+     - User's job position or title
    * - ``timezone``
      - string
-     - User's timezone preference
+     - User's timezone preference - **required**
    * - ``locale``
      - string
-     - User's language/locale preference
+     - User's language or locale preference - **required**
    * - ``signature``
      - string
-     - User's email signature (HTML)
+     - User's Email signature - in HTML
 
 Response
 ========
 
-``Expected Response Code: 201``
+* Returns ``201 Created`` when the request successfully creates a User.
 
-.. code-block:: json
-
-   {
-       "user": {
-           "id": 3,
-           "username": "newuser",
-           "firstName": "John",
-           "lastName": "Doe",
-           "email": "john.doe@example.com",
-           "position": "Marketing Specialist",
-           "timezone": "America/New_York",
-           "locale": "en_US",
-           "role": {
-               "id": 1,
-               "name": "Administrator"
-           },
-           "dateAdded": "2024-02-20T15:30:00+00:00",
-           "createdBy": 1,
-           "createdByUser": "System Administrator"
-       }
-   }
+The response is a JSON object similar to :ref:`Get User <get User response>`.
 
 .. vale off
 
@@ -357,6 +399,13 @@ Edit User
 *********
 
 .. vale on
+
+Edits a User. 
+
+This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
+
+* ``PUT``: **full replacement**. The request creates a new User if the ID is missing. If the ID exists, the request clears all existing data and replaces it with the provided values.
+* ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the User ID doesn't exist.
 
 .. code-block:: php
 
@@ -369,15 +418,10 @@ Edit User
        'timezone'  => 'Europe/London'
    );
 
-   // Create new a User if one isn't found with the given ID
+   // Create a new User if ID isn't found
    $createIfNotFound = true;
 
    $user = $userApi->edit($id, $data, $createIfNotFound);
-
-Edit an existing User. Note that this supports PUT or PATCH depending on the desired behavior.
-
-- **PUT** creates a User if the given ID does not exist and clears all the User information, adds the information from the request. User username and password cannot be changed via PUT.
-- **PATCH** fails if the User with the given ID does not exist and updates the User field values with the values from the request. User username and password cannot be changed via PATCH.
 
 .. vale off
 
@@ -386,13 +430,8 @@ HTTP request
 
 .. vale on
 
-To edit a User and return a 404 if the User is not found:
-
-``PATCH /users/ID/edit``
-
-To edit a User and create a new one if the User is not found:
-
-``PUT /users/ID/edit``
+* ``PUT /users/ID/edit``: updates an existing User or creates a new one when the ID doesn't exist.
+* ``PATCH /users/ID/edit``: updates an existing User. The request fails when the ID doesn't exist.
 
 POST parameters
 ---------------
@@ -404,6 +443,9 @@ POST parameters
    * - Name
      - Type
      - Description
+   * - ``username``
+     - string
+     - Username for login - **must be unique** 
    * - ``firstName``
      - string
      - User's first name
@@ -412,50 +454,35 @@ POST parameters
      - User's last name
    * - ``email``
      - string
-     - User's email address (must be unique)
+     - User's Email address - **must be unique**
    * - ``role``
-     - int
-     - ID of the role to assign to the user
+     - integer
+     - ID of the Role to assign to the User
    * - ``position``
      - string
-     - User's job position/title
+     - User's job position or title
    * - ``timezone``
      - string
      - User's timezone preference
    * - ``locale``
      - string
-     - User's language/locale preference
+     - User's language or locale preference
    * - ``signature``
      - string
-     - User's email signature (HTML)
+     - User's Email signature - in HTML
 
 Response
 ========
 
-If ``PUT``: ``Expected Response Code: 200`` (if the User was edited) or ``201`` (if the User was created).
+* ``PUT``: returns ``200 OK`` when the request successfully updates the User or ``201 Created`` when the request creates a User.
+* ``PATCH``: returns ``200 OK`` when the request successfully updates the User or ``404 Not Found`` error when the User ID doesn't exist.
 
-If ``PATCH``: ``Expected Response Code: 200``
+The response is a JSON object similar to :ref:`Get User <get User response>`.
 
-.. code-block:: json
+Properties
+----------
 
-   {
-       "user": {
-           "id": 1,
-           "username": "admin",
-           "firstName": "John Updated",
-           "lastName": "Doe",
-           "email": "john.doe@example.com",
-           "position": "Senior Marketing Specialist",
-           "timezone": "Europe/London",
-           "role": {
-               "id": 1,
-               "name": "Administrator"
-           },
-           "dateModified": "2024-02-20T16:00:00+00:00",
-           "modifiedBy": 1,
-           "modifiedByUser": "System Administrator"
-       }
-   }
+Refer to :ref:`User properties <get User properties>`.
 
 .. vale off
 
@@ -464,13 +491,13 @@ Delete User
 
 .. vale on
 
+Deletes a User.
+
 .. code-block:: php
 
    <?php
 
    $user = $userApi->delete($id);
-
-Delete a User.
 
 .. vale off
 
@@ -484,19 +511,9 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully deletes the User.
 
-.. code-block:: json
-
-   {
-       "user": {
-           "id": 3,
-           "username": "deleteduser",
-           "firstName": "John",
-           "lastName": "Doe",
-           "email": "john.doe@example.com"
-       }
-   }
+The response is a JSON object containing the data of the deleted User, similar to :ref:`Get User <get User response>`.
 
 .. vale off
 
@@ -505,13 +522,13 @@ Get current User
 
 .. vale on
 
+Retrieves the currently authenticated User's information.
+
 .. code-block:: php
 
    <?php
 
    $currentUser = $userApi->getSelf();
-
-Get the currently authenticated User's information.
 
 .. vale off
 
@@ -525,34 +542,42 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the User's information.
 
 .. code-block:: json
 
    {
-       "id": 1,
-       "username": "admin",
-       "firstName": "John",
-       "lastName": "Doe",
-       "email": "john.doe@example.com",
-       "position": "System Administrator",
-       "timezone": "America/New_York",
-       "locale": "en_US",
-       "lastLogin": "2024-02-20T09:15:00+00:00",
-       "lastActive": "2024-02-20T14:45:00+00:00",
-       "role": {
-           "id": 1,
-           "name": "Administrator",
-           "isAdmin": true
-       }
+      "isPublished": true,
+      "dateModified": "2026-02-23T03:01:19+00:00",
+      "modifiedBy": 1,
+      "modifiedByUser": "John Doe",
+      "id": 1,
+      "username": "admin",
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "j.doe@acme.com",
+      "role": {
+          "isPublished": true,
+          "id": 1,
+          "name": "Administrator",
+          "description": "Full system access",
+          "isAdmin": true
+      },
+      "timezone": "America/New_York",
+      "locale": "en_US",
+      "lastLogin": "2026-02-23T02:57:05+00:00",
+      "lastActive": "2026-02-23T02:57:05+00:00",
+      "signature": "Best regards,\r\nJohn Doe"
    }
 
 .. vale off
 
-Check User permissions
-**********************
+Verify User permissions
+***********************
 
 .. vale on
+
+Verifies if a User has specific permissions.
 
 .. code-block:: php
 
@@ -560,8 +585,6 @@ Check User permissions
 
    $permissions = array('user:users:view', 'user:users:edit');
    $result = $userApi->checkPermission($userId, $permissions);
-
-Check if a User has specific permissions.
 
 .. vale off
 
@@ -584,34 +607,34 @@ POST parameters
      - Description
    * - ``permissions``
      - array
-     - **Required.** Array of permission strings to check
+     - Array of permission strings to verify against the User - **required**
 
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully verifies the User.
 
 .. code-block:: json
 
    {
-       "user:users:view": true,
-       "user:users:edit": true
+      "user:users:view": true,
+      "user:users:edit": true
    }
 
 .. vale off
 
-Get User roles
-**************
+List User Roles
+***************
 
 .. vale on
+
+Retrieves all available User Roles.
 
 .. code-block:: php
 
    <?php
 
    $roles = $userApi->getRoles();
-
-Get a list of available User roles for user creation/editing.
 
 .. vale off
 
@@ -632,37 +655,44 @@ Query parameters
    * - Name
      - Description
    * - ``filter``
-     - String to filter roles by name
+     - String to filter Roles by name
    * - ``limit``
-     - Limit number of roles to return
+     - Limit number of Roles to return
 
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the list of User Roles.
 
 .. code-block:: json
 
    [
-       {
-           "id": 1,
-           "name": "Administrator",
-           "description": "Full system access",
-           "isAdmin": true
-       },
-       {
-           "id": 2,
-           "name": "Manager",
-           "description": "Limited administrative access",
-           "isAdmin": false
-       },
-       {
-           "id": 3,
-           "name": "User",
-           "description": "Basic user access",
-           "isAdmin": false
-       }
+      {
+          "id": 1,
+          "name": "Administrator"
+      },
+      {
+          "id": 2,
+          "name": "Email Permissions"
+      }
    ]
+
+Properties
+----------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``id``
+     - integer
+     - ID of the Role
+   * - ``name``
+     - string
+     - Name assigned to the Role
 
 Error responses
 ***************
@@ -670,72 +700,88 @@ Error responses
 Common error responses
 ======================
 
+.. vale off
+
 .. list-table::
    :widths: 20 30 50
    :header-rows: 1
 
-   * - HTTP Code
-     - Error
+   * - HTTP code
+     - Error status
      - Description
    * - ``400``
      - Bad Request
-     - Invalid data provided, for example weak password or duplicate username/email
+     - Insufficient data or invalid data provided - such as a weak password, or duplicate username or Email
    * - ``401``
      - Unauthorized
      - Authentication required or weak password detected
    * - ``403``
      - Forbidden
-     - User doesn't have permission to perform this action
+     - Insufficient permissions to perform this action
    * - ``404``
      - Not Found
-     - User with the specified ID was not found
-   * - ``422``
-     - Unprocessable Entity
-     - Validation errors in the submitted data
+     - User with the specified ID not found
+   * - ``500``
+     - Internal server error
+     - An unexpected error occurred, often due to an invalid data format in the request body
 
-Password policy errors
-======================
+.. vale on
 
-When creating or updating users, password validation errors may occur:
+Password validation error
+=========================
+
+Password validation error during User creation or updates:
 
 .. code-block:: json
 
    {
-       "error": {
-           "code": 400,
-           "message": "Validation Failed",
-           "details": {
-               "plainPassword": [
-                   "The password is too weak. It must be at least 6 characters long and contain a mix of letters, numbers, and special characters."
-               ]
-           }
-       }
+      "errors": [
+          {
+              "code": 400,
+              "message": "password: Please enter a stronger password. Your password must use a combination of upper and lower case, special characters and numbers.",
+              "details": {
+                  "password": [
+                    "Please enter a stronger password. Your password must use a combination of upper and lower case, special characters and numbers."
+                  ]
+              }
+          }
+      ]
    }
 
-Permission errors
-=================
+Permission error
+================
 
-When checking permissions on non-existent users:
+Permission error for non-existent Users:
 
 .. code-block:: json
 
    {
-       "error": {
-           "code": 404,
-           "message": "Item was not found."
-       }
+      "errors": [
+          {
+              "code": 404,
+              "message": "Item was not found.",
+              "details": []
+          }
+      ]
    }
 
-Role assignment errors
-======================
+Role assignment error
+=====================
 
-When assigning invalid roles:
+Error when assigning User's Role:
 
 .. code-block:: json
 
    {
-       "error": {
-           "code": 400,
-           "message": "role: The selected choice is invalid."
-       }
+      "errors": [
+          {
+              "code": 400,
+              "message": "role: This value is not valid.",
+              "details": {
+                  "role": [
+                      "This value is not valid."
+                  ]
+              }
+          }
+      ]
    }
