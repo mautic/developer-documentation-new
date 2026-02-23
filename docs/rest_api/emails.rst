@@ -146,7 +146,7 @@ Email properties
      - Type
      - Description
    * - ``id``
-     - int
+     - integer
      - Email ID
    * - ``name``
      - string
@@ -179,7 +179,7 @@ Email properties
      - datetime
      - Date and time of Email creation
    * - ``createdBy``
-     - int
+     - integer
      - Email creator User ID
    * - ``createdByUser``
      - string
@@ -188,7 +188,7 @@ Email properties
      - datetime/null
      - Date and time of the last Email modification
    * - ``modifiedBy``
-     - int
+     - integer
      - Email last modifier User ID
    * - ``modifiedByUser``
      - string
@@ -197,13 +197,13 @@ Email properties
      - string
      - Language locale of the Email
    * - ``readCount``
-     - int
+     - integer
      - Total Email read count
    * - ``sentCount``
-     - int
+     - integer
      - Total Email sent count
    * - ``revision``
-     - int
+     - integer
      - Email revision
    * - ``customHtml``
      - string
@@ -224,10 +224,10 @@ Email properties
      - object
      - The parent/main page if this is a translation
    * - ``variantSentCount``
-     - int
+     - integer
      - Sent count since the ``variantStartDate``
    * - ``variantReadCount``
-     - int
+     - integer
      - Read count since the ``variantStartDate``
    * - ``variantChildren``
      - array
@@ -245,7 +245,7 @@ Email properties
      - object/null
      - Category information
    * - ``unsubscribeForm``
-     - int
+     - integer
      - ID of the Form displayed in the unsubscribe page
    * - ``dynamicContent``
      - object
@@ -440,7 +440,7 @@ POST parameters
      - Type
      - Description
    * - ``id``
-     - int
+     - integer
      - Email ID
    * - ``name``
      - string
@@ -473,13 +473,13 @@ POST parameters
      - string
      - Language locale of the Email
    * - ``readCount``
-     - int
+     - integer
      - Total Email read count
    * - ``sentCount``
-     - int
+     - integer
      - Total Email sent count
    * - ``revision``
-     - int
+     - integer
      - Email revision
    * - ``customHtml``
      - string
@@ -500,10 +500,10 @@ POST parameters
      - object
      - The parent/main page if this is a translation
    * - ``variantSentCount``
-     - int
+     - integer
      - Sent count since the ``variantStartDate``
    * - ``variantReadCount``
-     - int
+     - integer
      - Read count since the ``variantStartDate``
    * - ``variantChildren``
      - array
@@ -521,7 +521,7 @@ POST parameters
      - object/null
      - Category information
    * - ``unsubscribeForm``
-     - int
+     - integer
      - ID of the Form displayed in the unsubscribe page
    * - ``dynamicContent``
      - object
@@ -596,7 +596,7 @@ POST parameters
      - Type
      - Description
    * - ``id``
-     - int
+     - integer
      - Email ID
    * - ``name``
      - string
@@ -629,13 +629,13 @@ POST parameters
      - string
      - Language locale of the Email
    * - ``readCount``
-     - int
+     - integer
      - Total Email read count
    * - ``sentCount``
-     - int
+     - integer
      - Total Email sent count
    * - ``revision``
-     - int
+     - integer
      - Email revision
    * - ``customHtml``
      - string
