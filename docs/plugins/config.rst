@@ -1,6 +1,18 @@
 Config file
 ###########
 
+.. vale off
+
+.. note::
+
+   The content for this page requires a major update. The legacy page contains outdated and potentially inaccurate information. You can still access it in the :xref:`legacy repository`.
+
+   If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
+
+   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
+
+.. vale on
+
 Mautic leverages a simple array based config file to register routes, menu items, services, Categories, and configuration parameters.
 
 General config items
@@ -22,6 +34,7 @@ Mautic recognizes the Plugin through the general config options.
 
 .. list-table::
     :header-rows: 1
+    :widths: 15 15 40 
 
     * - Key
       - Type
@@ -42,7 +55,7 @@ Mautic recognizes the Plugin through the general config options.
 Routing config items
 ********************
 
-Routes define the URL paths that execute the specified controller action. Register routes with Mautic through the ``routes`` key in the Plugin's config. Define each route under one of Mautic's :ref:`supported firewalls<Routing firewalls>` with a uniquely identifying key and the :ref:`route's definition<Route definitions>`.
+Routes define the URL paths that execute the specified controller action. Register routes with Mautic through the ``routes`` key in the Plugin's config. Define each route under one of Mautic's :ref:`supported firewalls<plugins/config:Routing firewalls>` with a uniquely identifying key and the :ref:`route's definition<plugins/config:Route definitions>`.
 
 .. code-block:: php
 
@@ -99,6 +112,7 @@ The following firewalls are available to routes.
 
 .. list-table::
     :header-rows: 1
+    :widths: 15 20 65 
 
     * - Key
       - URL prefix
@@ -129,6 +143,7 @@ Route definitions define the route's method, path, controller, parameters, and o
 
 .. list-table::
     :header-rows: 1
+    :widths: 28 20 25 60
 
     * - Key
       - Is required?
@@ -170,6 +185,7 @@ Mautic defaults the following route definitions if not declared otherwise by the
 
 .. list-table::
     :header-rows: 1
+    :widths: 15 20 50
 
     * - Parameter
       - Default value
@@ -191,22 +207,22 @@ Configure custom routes through writing a listener to the ``\Mautic\CoreBundle\C
 
 .. php:class:: Mautic\CoreBundle\Event\RouteEvent
 
-.. php:method:: getType()
+  .. php:method:: getType()
 
-    :returns: The :ref:`route firewall<Routing firewalls>` for the given route collection.
-    :returntype: string
+      :returns: The :ref:`route firewall<plugins/config:Routing firewalls>` for the given route collection.
+      :returntype: string
 
-.. php:method:: getCollection()
+  .. php:method:: getCollection()
 
-    :returns: Returns a RouteCollection object that can be used to manually define custom routes.
-    :returntype: \\Symfony\\Component\\Routing\\RouteCollection
+      :returns: Returns a RouteCollection object that can be used to manually define custom routes.
+      :returntype: \\Symfony\\Component\\Routing\\RouteCollection
 
-.. php:method:: addRoutes(string $path)
+  .. php:method:: addRoutes(string $path)
 
-    Load custom routes through a resource file such as yaml or XML.
+      Load custom routes through a resource file such as yaml or XML.
 
-    :param string $path: Path to the resource file. For example, ``@FMElfinderBundle/Resources/config/routing.yaml``.
-    :returntype: void
+      :param string $path: Path to the resource file. For example, ``@FMElfinderBundle/Resources/config/routing.yaml``.
+      :returntype: void
 
 Debugging routes
 ================
@@ -282,7 +298,6 @@ Plugins define items for Mautic's varying menus through the ``menu`` config arra
 
     // ...
 
-
 Available menus
 ===============
 
@@ -290,6 +305,7 @@ There are currently four menus built into Mautic.
 
 .. list-table::
     :header-rows: 1
+    :widths: 25 50
 
     * - Key
       - Description
@@ -317,10 +333,11 @@ Menu item definitions
 
 Define items in an ``items`` array along with ``priority`` or at the root of the menu's array.
 
-Key each item with its respective :ref:`language string key<Translating plugins>`.
+Key each item with its respective :ref:`language string key<plugins/translations:Translating plugins>`.
 
 .. list-table::
     :header-rows: 1
+    :widths: 25 15 25 50 
 
     * - Key
       - Is required?
@@ -329,11 +346,11 @@ Key each item with its respective :ref:`language string key<Translating plugins>
     * - ``route``
       - conditional
       - string
-      - Name of the :ref:`Routing config items<Route definitions>` for this item. Leave undefined if the item is a placeholder for a sub-menu.
+      - Name of the :ref:`Routing config items<plugins/config:Route definitions>` for this item. Leave undefined if the item is a placeholder for a sub-menu.
     * - ``routeParameters``
       - no
       - array
-      - Key/value pairs of :ref:`path parameters<Route definitions>` for the given ``route``.
+      - Key/value pairs of :ref:`path parameters<plugins/config:Route definitions>` for the given ``route``.
     * - ``parent``
       - no
       - string
@@ -341,15 +358,15 @@ Key each item with its respective :ref:`language string key<Translating plugins>
     * - ``priority``
       - no
       - ``int``
-      - Determines the position of this item relative to it's sibling items. See :ref:`Menu item priority`.
+      - Determines the position of this item relative to it's sibling items. See :ref:`plugins/config:Menu item priority`.
     * - ``access``
       - no
       - string
-      - The :ref:`permission<Roles and permissions>` required to display this menu item. For example, ``category:categories:view`` or ``admin`` to restrict to only Administrators.
+      - The :ref:`permission<security-roles-and-permissions>` required to display this menu item. For example, ``category:categories:view`` or ``admin`` to restrict to only Administrators.
     * - ``checks``
       - no
       - array
-      - Define checks that must evaluate to ``TRUE`` to display the item. See :ref:`Menu item checks` for more details.
+      - Define checks that must evaluate to ``TRUE`` to display the item. See :ref:`plugins/config:Menu item checks` for more details.
     * - ``id``
       - no
       - string
@@ -489,31 +506,29 @@ For convenience, Mautic auto-tags services defined within specific keys.
 
 .. list-table::
     :header-rows: 1
+    :widths: 15 15 50 
 
     * - Key
       - Tag
       - Description
     * - ``command`` or ``commands``
       - ``console.command``
-      - Registers the service with :xref:`Symfony as a console command<Symfony 4 console command tag>`.
+      - Registers the service with :xref:`Symfony as a console command<Symfony console command tag>`.
     * - ``controllers``
       - ``controller.service_arguments``
-      - Controllers are typically autowired by Symfony. However, you can register :xref:`controllers as services<Symfony 4 controller service arguments tag` to manage your own dependency injection rather than relying on Symfony's service container.
+      - Controllers are typically autowired by Symfony. However, you can register :xref:`controllers as services<Symfony controller service arguments tag` to manage your own dependency injection rather than relying on Symfony's service container.
     * - ``events``
       - ``kernel.event_subscriber``
-      - Registers the service with :xref:`Symfony as an event subscriber<Symfony 4 event subscriber tag>`.
+      - Registers the service with :xref:`Symfony as an event subscriber<Symfony event subscriber tag>`.
     * - ``forms``
       - ``form.type``
-      - Registers the service with :xref:`Symfony as a custom form field type<Symfony 4 custom form field type tag>`.
-    * - ``helpers``
-      - ``templating.helper``
-      - Registers the service with :xref:`Symfony as a PHP template helper<Symfony 4 PHP template helper tag>`. The service definition must include an ``alias``.
+      - Registers the service with :xref:`Symfony as a custom form field type<Symfony custom form field type tag>`.
     * - ``models``
       - ``mautic.model``
       - Deprecated. Use service dependency injection instead.
     * - ``permissions``
       - ``mautic.permissions``
-      - Registers the service with Mautic's :ref:`permission service<Roles and permissions>`.
+      - Registers the service with Mautic's :ref:`permission service<security-roles-and-permissions>`.
     * - ``*`` or ``other``
       - n/a
       - You can use any other key you want to organize services in the config array. Note that this could risk incompatibility with a future version of Mautic if using something generic that Mautic starts to use as well.
@@ -525,6 +540,7 @@ Key each service with a unique name to all of Mautic, including other Plugins.
 
 .. list-table::
     :header-rows: 1
+    :widths: 25 17 15 50
 
     * - Key
       - Is required?
@@ -553,19 +569,19 @@ Key each service with a unique name to all of Mautic, including other Plugins.
     * - ``tag``
       - no
       - string
-      - Define a :xref:`tag used by Symfony when compiling the container<Symfony 4 service tags>`. See :ref:`Mautic service tags` for Mautic specific tags.
+      - Define a :xref:`tag used by Symfony when compiling the container<Symfony service tags>`. See :ref:`plugins/config:Mautic service tags` for Mautic specific tags.
     * - ``tags``
       - no
       - array
-      - An array of tags when there are more than one. See :ref:`Mautic service tags` for Mautic specific tags. This supersedes ``tag``.
+      - An array of tags when there are more than one. See :ref:`plugins/config:Mautic service tags` for Mautic specific tags. This supersedes ``tag``.
     * - ``tagArguments``
       - no
       - array
-      - Some tags have special arguments definable through an array of tagArguments. If using ``tag``, this should be a key/value pair of the arguments specific to the given tag. For example, ``['tag' => 'tag1', 'tagArguments' => ['tag1-key' => 'tag1-value'],],``. If using ``tags``, this should be an array of arrays keyed the same as the values of ``tags``. For example, ``['tags' => [ 'tag1', 'tag2'], 'tagArguments' => [['tag1-key' => 'tag1-value'],['tag2-key' => 'tag2-value'],],],``.
+      - Some tags have special arguments definable through an array of ``tagArguments``. If using ``tag``, this should be a key/value pair of the arguments specific to the given tag. For example, ``['tag' => 'tag1', 'tagArguments' => ['tag1-key' => 'tag1-value'],],``. If using ``tags``, this should be an array of arrays keyed the same as the values of ``tags``. For example, ``['tags' => [ 'tag1', 'tag2'], 'tagArguments' => [['tag1-key' => 'tag1-value'],['tag2-key' => 'tag2-value'],],],``.
     * - ``factory``
       - no
       - array
-      - Define a factory to create this service. For example, ``'factory' => ['@doctrine.orm.entity_manager', 'getRepository'],``. See :xref:`Symfony 4 factories`.
+      - Define a factory to create this service. For example, ``'factory' => ['@doctrine.orm.entity_manager', 'getRepository'],``. See :xref:`Symfony factories`.
     * - ``methodCalls``
       - no
       - array[]
@@ -573,7 +589,7 @@ Key each service with a unique name to all of Mautic, including other Plugins.
     * - ``decoratedService``
       - no
       - string
-      - Name of another service to override and decorate. The original service becomes available as ``thisServiceName.inner``  to this or others services. See :xref:`Symfony 4 service decoration`.
+      - Name of another service to override and decorate. The original service becomes available as ``thisServiceName.inner``  to this or others services. See :xref:`Symfony service decoration`.
     * - ``public``
       - no
       - boolean
@@ -581,15 +597,15 @@ Key each service with a unique name to all of Mautic, including other Plugins.
     * - ``synthetic``
       - no
       - boolean
-      - Configure the service as synthetic meaning it gets set during run time. See :xref:`Symfony 4 synthetic services`.
+      - Configure the service as synthetic meaning it gets set during run time. See :xref:`Symfony synthetic services`.
     * - ``file``
       - no
       - string
-      - Include the specified file prior to loading the service. Symfony uses PHP's ``require_once``. See :xref:`Symfony 4 requiring a file before loading a service`.
+      - Include the specified file prior to loading the service. Symfony uses PHP's ``require_once``. See :xref:`Symfony requiring a file before loading a service`.
     * - ``configurator``
       - no
       - array|string
-      - Callable to use as a configurator to configure the service after its instantiation. See :xref:`Symfony 4 service configurators`.
+      - Callable to use as a configurator to configure the service after its instantiation. See :xref:`Symfony service configurators`.
     * - ``abstract``
       - no
       - boolean
@@ -608,66 +624,69 @@ Mautic uses the follow tags to register services as described below.
 
 .. list-table::
     :header-rows: 1
+    :widths: 35 27 50 
 
     * - Tag
       - Supported tag arguments
       - Description
     * - ``mautic.sms_transport``
       - ``['integrationAlias' => 'Name to display in the UI for this transport.']``
-      - Register this service as a :ref:`Text Message transport<Text Message transports>`.
+      - Register this service as a Text Message transport.
     * - ``mautic.sms_callback_handler``
       - none
-      - Registers this service to handle webhooks from a :ref:`Text Message transport<Text Message transports>`.
+      - Registers this service to handle Webhooks from a Text Message transport.
     * - ``mautic.email_transport``
-      - Key/value pairs to configure fields required to authenticate with the transport's service. See :ref:`Email transports`.
-      - Registers the service as an :ref:`Email transport<Email transports>`.
+      - Key/value pairs to configure fields required to authenticate with the transport's service. See :ref:`components/emails:Email transports`.
+      - Registers the service as an :ref:`Email transport<components/emails:Email transports>`.
     * - ``mautic.email_stat_helper``
       - none
-      - Registers the service as a stat helper for Email charts. See :ref:`Email stat helpers`.
+      - Registers the service as a stat helper for Email charts. See :ref:`components/emails:Email stat helpers`.
 
 **Core tags**
 
 .. list-table::
     :header-rows: 1
+    :widths: 25 15 50 
 
     * - Tag
       - Supported tag arguments
       - Description
     * - ``mautic.permissions``
       - none
-      - Registers the service as a permission object that must extend ``\Mautic\CoreBundle\Security\Permissions\AbstractPermissions``. See :ref:`Roles and permissions`. Services under the ``['services']['permissions']`` array do not require this.
+      - Registers the service as a permission object that must extend ``\Mautic\CoreBundle\Security\Permissions\AbstractPermissions``. See :ref:`security-roles-and-permissions`. Services under the ``['services']['permissions']`` array do not require this.
 
 **Integration tags**
 
 .. list-table::
     :header-rows: 1
+    :widths: 40 20 50 
 
     * - Tag
       - Supported tag arguments
       - Description
     * - ``mautic.basic_integration``
       - none
-      - Registers the service as an :ref:`Integration<Integrations>`.
+      - Registers the service as an :ref:`Integration<components/integrations:Integrations>`.
     * - ``mautic.builder_integration``
       -  none
-      - Registers the service as a :ref:`Builder<Integration Builders>`.
+      - Registers the service as a :ref:`Builder<components/integrations:Integration Builders>`.
     * - ``mautic.authentication_integration``
       - none
-      - Registers the service to :ref:`authenticate with the Integration's service<Integration authentication>`.
+      - Registers the service to :ref:`authenticate with the Integration's service<components/integrations:Integration authentication>`.
     * - ``mautic.config_integration``
       - none
-      - Registers the service to :ref:`configure the Integration<Integration configuration>`.
+      - Registers the service to :ref:`configure the Integration<components/integrations:Integration configuration>`.
     * - ``mautic.sync_integration``
       - none
-      - Registers the service to :ref:`sync with Mautic objects with the Integration's service<Integration sync engine>`.
+      - Registers the service to :ref:`sync with Mautic objects with the Integration's service<components/integrations:Integration sync engine>`.
     * - ``mautic.sync.notification_handler``
       - none
-      - Registers the service to handle :ref:`sync notifications<Sync notification handlers>`.
+      - Registers the service to handle sync notifications.
 
 Category config items
 *********************
 
-Use ``categories`` to define Category types available to the Category manager. See :ref:`Categories`.
+Use ``categories`` to define Category types available to the Category manager. See :ref:`components/categories:Categories`.
 
 .. code-block:: php
 
@@ -680,11 +699,10 @@ Use ``categories`` to define Category types available to the Category manager. S
 
     // ...
 
-
 Parameters config items
 ***********************
 
-Configure parameters that are consumable through Mautic's ``CoreParameterHelper``, passed into services with ``%mautic.key%``, or read from the environment via ``MAUTIC_KEY``. See :ref:`Configuration parameters` for more information.
+Configure parameters that are consumable through Mautic's ``CoreParameterHelper``, passed into services with ``%mautic.key%``, or read from the environment via ``MAUTIC_KEY``. See :ref:`components/config:Configuration parameters` for more information.
 
 .. code-block:: php
 
@@ -699,7 +717,188 @@ Configure parameters that are consumable through Mautic's ``CoreParameterHelper`
 
     // ...
 
-
 .. note:: The default value must match the value's type for Mautic to typecast and transform appropriately. For example, if there isn't a specific default value to declare, define an empty array, ``[]``, for an array type; zero, ``0``, for an integer type; ``TRUE`` or ``FALSE`` for boolean types; and so forth. Services leveraging parameters should accept and handle ``NULL`` for integer and string types, excluding ``0``.
 
-.. note:: Parameters aren't exposed to the UI by default. See :ref:`Configuration` for more information.
+.. note:: Parameters aren't exposed to the UI by default. See :ref:`components/config:Configuration` for more information.
+
+Custom config parameters
+************************
+
+You can define custom configuration parameters in your Plugin to support configurable features, such as enabling or disabling functions.
+
+Mautic Plugins allow you to define these parameters for use within your Plugin’s code. Store these parameters in ``config/local.php``, and define their default values in the Plugin’s own config file to ensure stability and avoid errors.
+
+To avoid errors during cache compilation or when accessing parameters directly from the container without checking for their existence, always define custom parameters in the :ref:`plugins/config:Parameters config items`. This guarantees that the parameter exists and has a fallback value.
+
+To add these configuration options in Mautic's configuration section, you’ll need:
+
+- An :doc:`event subscriber </plugins/event_listeners>` to register the configuration.
+- A :doc:`Form type </components/forms>` that defines the fields. 
+- A specific view for rendering the form.
+
+.. note::
+
+   To translate the Plugin’s tab label in the configuration form, include a translation key like ``mautic.config.tab.helloworld_config`` in the Plugin’s ``messages.ini`` file. Replace ``helloworld_config`` with the ``formAlias`` used when registering the form in the event subscriber.
+
+Config event subscriber
+=======================
+
+This allows Plugins to interact with Mautic's configuration events. It listens to two important events: ``ConfigEvents::CONFIG_ON_GENERATE`` and ``ConfigEvents::CONFIG_PRE_SAVE``.
+
+The following code example shows how a Plugin structures its event subscriber.
+
+.. code-block:: php
+
+    <?php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+    use Mautic\ConfigBundle\Event\ConfigEvent;
+    use Mautic\ConfigBundle\ConfigEvents;
+    use Mautic\ConfigBundle\Event\ConfigBuilderEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class ConfigSubscriber extends EventSubscriberInterface
+    {
+        /**
+         * @return mixed[]
+         */
+        static public function getSubscribedEvents(): array
+        {
+            return [
+                ConfigEvents::CONFIG_ON_GENERATE => ['onConfigGenerate', 0],
+                ConfigEvents::CONFIG_PRE_SAVE    => ['onConfigSave', 0]
+            ];
+        }
+
+        public function onConfigGenerate(ConfigBuilderEvent $event): void
+        {
+            $event->addForm(
+                [
+                    'formAlias'  => 'helloworld_config',
+                    'formTheme'  => 'HelloWorldBundle:FormTheme\Config',
+                    'parameters' => $event->getParametersFromConfig('HelloWorldBundle')
+                ]
+            );
+        }
+
+        public function onConfigSave(ConfigEvent $event): void
+        {
+            /** @var array $values */
+            $values = $event->getConfig();
+            // Manipulate the values
+            if (!empty($values['helloworld_config']['custom_config_option'])) {
+                $values['helloworld_config']['custom_config_option'] = htmlspecialchars($values['helloworld_config']['custom_config_option']);
+            }
+            // Set updated values 
+            $event->setConfig($values);
+        }
+    }
+
+Subscribed events
+-----------------
+
+The event subscriber listens to the following events:
+
+- ``ConfigEvents::CONFIG_ON_GENERATE``:
+  Mautic dispatches this event when it builds the configuration form. This allows the Plugin to inject its own tab and configuration options.
+
+- ``ConfigEvents::CONFIG_PRE_SAVE``:
+  Mautic triggers this event before it renders the form values and saves them to the ``local.php`` file. This allows the Plugin to clean up or modify the data before writing it to ``local.php``.
+
+Generate Plugin configuration
+-----------------------------
+
+To register Plugin’s configuration details during the ``ConfigEvents::CONFIG_ON_GENERATE event``, call the ``addForm()`` method on the ``ConfigBuilderEvent`` object. The method expects an array with the following elements:
+
+.. list-table::
+    :header-rows: 1
+    :widths: 15 50 
+
+    * - Key
+      - Description
+    * - ``formAlias``
+      - The alias of the form type class that defines the expected form elements.
+    * - ``formTheme``
+      - The view that formats the configuration form elements, for example, ``HelloWorldBundle:FormTheme\Config``.
+    * - ``parameters``
+      - An array of custom configuration elements. ``Use $event->getParametersFromConfig('HelloWorldBundle')`` to retrieve them from the plugin’s configuration file.
+
+Modify configuration before saving
+----------------------------------
+
+To modify the form data before saving, use the ``ConfigEvents::CONFIG_PRE_SAVE event``. This  event is triggered just before values are saved to the ``local.php`` file, allowing the Plugin to adjust them.
+
+Register the event subscriber
+-----------------------------
+
+Register the subscriber through the Plugin’s configuration in the ``services[events]`` in :ref:`plugins/config:Service config items`. This ensures that the plugin listens for the events and reacts accordingly.
+
+Config form
+===========
+
+The form type is used to generate the form fields in the main configuration form. See the :doc:`Forms documentation</components/forms>` for more information about using form types.
+
+Remember that the form type must be registered through the Plugin’s config in the ``services[forms]`` in :ref:`plugins/config:Service config items`
+.
+
+Below is an example of a form type class that adds a custom configuration option to the Plugin's configuration form.
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/Form/Type/ConfigType.php
+
+    namespace MauticPlugin\HelloWorldBundle\Form\Type;
+
+    use Symfony\Component\Form\AbstractType;
+    use Symfony\Component\Form\FormBuilderInterface;
+
+    final class ConfigType extends AbstractType
+    {
+        /**
+         * @param mixed[] $options
+         */
+        public function buildForm(FormBuilderInterface $builder, array $options): void
+        {
+            $builder->add(
+                'custom_config_option',
+                'text',
+                [
+                    'label' => 'plugin.helloworld.config.custom_config_option',
+                    'data'  => $options['data']['custom_config_option'],
+                    'attr'  => [
+                        'tooltip' => 'plugin.helloworld.config.custom_config_option_tooltip'
+                    ]
+                ]
+            );
+        }
+    }
+
+Config template
+===============
+
+Registering a form theme as ``HelloWorldBundle:FormTheme\Config`` in the event listener tells the ConfigBundle to look in the HelloWorldBundle’s ``Resources/views/FormTheme/Config`` folder for templates. Specifically, it will look for a template named ``_config_{formAlias}_widget.html.twig``, where ``{formAlias}`` is the same as the ``formAlias`` set in the Plugin’s ``ConfigEvents::CONFIG_ON_GENERATE`` event listener.
+
+The template should be structured in a panel format to match the rest of the configuration UI.
+
+Below is an example of how the template should be structured:
+
+.. code-block:: twig  
+
+    {# plugins/HelloWorldBundle/Views/FormTheme/Config/_config_helloworld_config_widget.html.twig #}  
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ 'mautic.config.tab.helloworld_config'|trans }}</h3> 
+        </div>
+        <div class="panel-body">  
+            {% for field in form.children %}  
+                <div class="row">  
+                    <div class="col-md-6">  
+                        {{ form_row(field) }}  
+                    </div>  
+                </div>  
+            {% endfor %}  
+        </div>  
+    </div>  

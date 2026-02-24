@@ -26,7 +26,7 @@ Event properties
       - ID of the deleted Company
     * - ``company``
       - object
-      - :ref:`Company object<Company properties>`. Note that ``id`` is null in this context. Use the ``id`` in the event instead.
+      - :ref:`Company object<webhooks/events/company_post_save:Company properties>`. Note that ``id`` is null in this context. Use the ``id`` in the event instead.
     * - ``timestamp``
       - string
       - Date/time the event occurred in ISO 8601 format.

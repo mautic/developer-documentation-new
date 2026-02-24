@@ -1,6 +1,18 @@
 Getting started with Webhooks
 #############################
 
+.. vale off
+
+.. note::
+
+   The content for this page requires a major update. The legacy page contains outdated and potentially inaccurate information. You can still access it in the :xref:`legacy repository`.
+
+   If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
+
+   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
+
+.. vale on
+
 Webhooks are a universal way to send data about Contacts and their activity to a third party in either real-time - as the change/activity happens - or queued - sent in batches through background Cron jobs.
 
 The structure of Webhook payloads are as follows. ``WebhookEventType`` would be the event's actual type and `WebhookEventPayload` contains the event's data.
@@ -13,7 +25,7 @@ The structure of Webhook payloads are as follows. ``WebhookEventType`` would be 
         ]
     }
 
-Mautic aggregates event types and payloads when using the :ref:`Background workflow`.
+Mautic aggregates event types and payloads when using the :ref:`webhooks/getting_started:Background workflow`.
 
 .. code-block:: javascript
 
@@ -30,7 +42,7 @@ Mautic aggregates event types and payloads when using the :ref:`Background workf
         ]
     }
 
-Review :ref:`Webhook events and payloads` for a list of event types and the structure of their payloads.
+Review :ref:`webhooks/events/index:Webhook events and payloads` for a list of event types and the structure of their payloads.
 
 Webhook workflows
 *****************
@@ -90,13 +102,13 @@ Creating a Webhook
 
 .. vale on
 
-Each app or script should have its own Webhook configured to minimize the number of places exposing the :ref:`secret key<Securing a Webhook>`.
+Each app or script should have its own Webhook configured to minimize the number of places exposing the :ref:`secret key<webhooks/getting_started:Securing a Webhook>`.
 
 1. Click ``Webhooks`` from the Admin Menu, displayed by clicking the cog icon in the top right corner.
 2. Click New.
 3. Fill in a Name, Webhook POST URL, and select which Events should trigger this Webhook. You can also customize the signature if you want or leave set as the default that's uniquely and randomly generated.
 4. Click Apply.
-5. :ref:`Test the Webhook<Testing a Webhook>`.
+5. :ref:`Test the Webhook<webhooks/getting_started:Testing a Webhook>`.
 
 .. vale off
 
@@ -107,7 +119,7 @@ Testing a Webhook
 
 If you don't already have somewhere to send the Webhook, you can use a service like :xref:`RequestBin`.
 
-If following the instructions to :ref:`create a Webhook<Creating a Webhook>`, you should be on the form to edit your Webhook. If otherwise, go to Webhooks in the Admin Menu, click the Webhook, then click Edit.
+If following the instructions to :ref:`create a Webhook<webhooks/getting_started:Creating a Webhook>`, you should be on the form to edit your Webhook. If otherwise, go to Webhooks in the Admin Menu, click the Webhook, then click Edit.
 
 You should see a `Send Test Payload` button when editing a Webhook. Click it and Mautic sends an example request to the POST URL configured.
 

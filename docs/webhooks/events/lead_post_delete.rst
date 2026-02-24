@@ -26,7 +26,7 @@ Event properties
       - ID of the deleted Contact
     * - ``company``
       - object
-      - :ref:`Contact object<Contact properties>`. Note that ``id`` is null in this context. Use the ``id`` in the event instead.
+      - :ref:`Contact object<webhooks/events/lead_post_save_new:Contact properties>`. Note that ``id`` is null in this context. Use the ``id`` in the event instead.
     * - ``timestamp``
       - string
       - Date/time the event occurred in ISO 8601 format.

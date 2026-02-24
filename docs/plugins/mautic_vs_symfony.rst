@@ -16,7 +16,7 @@ Mautic uses directory paths that aren't typical in Symfony to make it distributa
     * - ``app/config/``
       - Symfony configuration files
     * - ``app/middlewares/``
-      - See :ref:`Middlewares`
+      - See :ref:`plugins/mautic_vs_symfony:Middlewares`
     * - ``app/migrations/``
       - Doctrine migrations that updates Core's database schema
     * - ``bin/console/``
@@ -28,15 +28,15 @@ Mautic uses directory paths that aren't typical in Symfony to make it distributa
     * - ``themes/``
       - Mautic Themes
     * - ``themes/system``
-      - :ref:`Contains custom overrides for Mautic Core templates<Overriding core view templates>`
+      - :ref:`Contains custom overrides for Mautic Core templates<themes/system:Overriding core view templates>`
     * - ``translations/``
-      - Mautic translation files leveraged by Mautic's custom :ref:`Translator`
+      - Mautic translation files leveraged by Mautic's custom :ref:`components/translator:Translator`
     * - ``var/``
       - Contains temporary files such as logs and Symfony's cache
     * - ``vendor/``
       - Contains Composer installed dependencies
 
-Mautic mostly uses Symfony's 2.x/3.x bundle structure for Core bundles in ``app\bundles\`` and custom Plugins in ``plugins\``. Read more about these :ref:`here<File and directory structure>`.
+Mautic mostly uses Symfony's 2.x/3.x bundle structure for Core bundles in ``app\bundles\`` and custom Plugins in ``plugins\``. Read more about these :ref:`here<plugins/structure:File and directory structure>`.
 
 PHP everything
 **************
@@ -76,7 +76,7 @@ Services are public by default to have backwards compatibility with Mautic 3 and
 
 Support for entity annotations
 ******************************
-By default, Mautic uses Doctrine's PHP driver instead of annotations which requires a ``public static function loadMetadata(ORM\ClassMetadata $metadata)`` method. However, Plugins can use annotations if desired but should use only annotations or only PHP ``loadMetadata``. A Plugin can't use a mix of both. See :ref:`Entities and schema` for more information.
+By default, Mautic uses Doctrine's PHP driver instead of annotations which requires a ``public static function loadMetadata(ORM\ClassMetadata $metadata)`` method. However, Plugins can use annotations if desired but should use only annotations or only PHP ``loadMetadata``. A Plugin can't use a mix of both. See :ref:`plugins/data:Entities and schema` for more information.
 
 Firewalls and User access management
 ************************************
@@ -87,9 +87,9 @@ Mautic has its own permission system based on bitwise permissions and thus doesn
 Middlewares
 ***********
 
-Mautic leverages middlewares before booting Symfony, see ``app/middlewares``. For example, ``\Mautic\Middleware\Dev\IpRestrictMiddleware`` restricts IPs access to ``index_dev.php``.
+Mautic leverages middlewares before booting Symfony, see ``app/middlewares``. For example, ``\Mautic\Middleware\Dev\IpRestrictMiddleware`` restricts IP address access to ``index_dev.php``.
 
 Custom Translator
 *****************
 
-Mautic has a custom translator that extends Symfony's ``Translator`` component and enables Mautic's distributable language package model. All Plugins and bundles should contain US English language strings by default. https://github.com/mautic/language-packer integrates with Transifex to create language packs stored in https://github.com/mautic/language-packs.
+Mautic has a custom Translator that extends Symfony's ``Translator`` component and enables Mautic's distributable language package model. All Plugins and bundles should contain US English language strings by default. https://github.com/mautic/language-packer integrates with Transifex to create language packs stored in https://github.com/mautic/language-packs.

@@ -26,7 +26,7 @@ Event properties
       - ID of the SMS sent.
     * - ``contact``
       - object
-      - :ref:`Contact object<Contact properties>`.
+      - :ref:`Contact object<webhooks/events/lead_post_save_new:Contact properties>`.
     * - ``content``
       - string
       - Content of the SMS sent to the Contact.
