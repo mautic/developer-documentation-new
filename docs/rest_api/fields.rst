@@ -566,7 +566,7 @@ Delete a field.
 
 .. note::
 
-   You can't delete a field that's in use by a Segment. This returns an HTTP 409 (Conflict) response. Remove the field from any Segment filters before deleting it.
+   You can't delete a field that's in use by a Segment. This returns an ``HTTP 409 (Conflict)`` response. Remove the field from any Segment filters before deleting it.
 
 **Response**
 
