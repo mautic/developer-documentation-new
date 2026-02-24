@@ -194,40 +194,6 @@ While Mautic supports :xref:`A/B testing` out of the box, you might have more co
 
 .. vale off
 
-A/B test automation command
-***************************
-
-.. vale on
-
-The ``mautic:email:sendwinner`` command sends the winning A/B test variant to remaining Contacts in a Segment after the test period ends.
-
-.. code-block:: bash
-
-    php bin/console mautic:email:sendwinner
-
-To process a specific Email:
-
-.. code-block:: bash
-
-    php bin/console mautic:email:sendwinner --id=<email_id>
-
-Where ``<email_id>`` is the ID of the parent Email variant.
-
-For automated A/B testing, add this command to your cron configuration to run periodically:
-
-.. code-block:: bash
-
-    */15 * * * * php /path/to/mautic/bin/console mautic:email:sendwinner
-
-The command:
-
-1. Finds A/B tests where the test period has ended
-2. Determines the winner using the configured criteria
-3. Sends the winning variant to remaining Contacts
-4. Marks losing variants as unpublished
-
-.. vale off
-
 Monitored Inbox Integration
 ---------------------------
 
