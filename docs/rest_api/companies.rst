@@ -195,7 +195,7 @@ Get an individual Company by ID.
      - Name of the User that last modified the Company
    * - ``fields``
      - array
-     - Custom field values grouped by field group
+     - Custom Field values grouped by field group
    * - ``score``
      - int
      - Company's current score
