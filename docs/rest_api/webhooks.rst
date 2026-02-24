@@ -15,9 +15,14 @@ Webhooks
 
 Use this endpoint to obtain details on Mautic's Webhooks.
 
-**Using Mautic's API Library**
+Using the Mautic API library
+****************************
 
-You can interact with this API through the :xref:`Mautic API Library` as follows, or use the various http endpoints as described in this document.
+.. vale off
+
+You can interact with this API using the :xref:`Mautic API Library` as below, or the various HTTP endpoints described in this document.
+
+.. vale on
 
 .. code-block:: php
 
@@ -39,14 +44,14 @@ Get Webhook
 
 .. vale on
 
+Retrieves an individual Webhook.
+
 .. code-block:: php
 
    <?php
 
    //...
    $webhook = $webhookApi->get($id);
-
-Get an individual Webhook by ID.
 
 .. vale off
 
@@ -60,41 +65,44 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Webhook.
+
+.. _get Webhook response:
 
 .. code-block:: json
 
    {
-       "hook": {
-           "id": 31,
-           "name": "Lead Created Webhook",
-           "description": "Webhook to notify when a new lead is created",
-           "webhookUrl": "https://mysite.com/webhook/lead-created",
-           "secret": "mySecret",
-           "eventsOrderbyDir": null,
-           "isPublished": true,
-           "publishUp": null,
-           "publishDown": null,
-           "dateAdded": "2017-06-02T08:54:46+00:00",
-           "createdBy": 1,
-           "createdByUser": "John Doe",
-           "dateModified": "2017-06-02T09:28:56+00:00",
-           "modifiedBy": 1,
-           "modifiedByUser": "John Doe",
-           "category": {
-               "id": 1,
-               "title": "Important",
-               "alias": "important",
-               "description": null,
-               "color": null,
-               "bundle": "webhook"
-           },
-           "triggers": [
-               "mautic.lead_post_save_new",
-               "mautic.lead_post_save_update"
-           ]
-       }
+      "hook": {
+          "isPublished": true,
+          "dateAdded": "2026-02-24T04:21:16+00:00",
+          "dateModified": "2026-02-24T04:22:03+00:00",
+          "createdBy": 1,
+          "createdByUser": "John Doe",
+          "modifiedBy": 1,
+          "modifiedByUser": "John Doe",
+          "id": 2,
+          "name": "Change Contact Points",
+          "description": "Change contact points.",
+          "webhookUrl": "https://mysite.com/webhook/contact-points-changed",
+          "secret": "mySecret",
+          "eventsOrderbyDir": null,
+          "category": {
+              "createdByUser": "John Doe",
+              "modifiedByUser": null,
+              "id": 2,
+              "title": "Important",
+              "alias": "important",
+              "description": null,
+              "color": null,
+              "bundle": "Webhook"
+          },
+          "triggers": [
+              "mautic.lead_points_change"
+          ]
+      }
    }
+
+.. _get Webhook properties:
 
 Webhook properties
 ------------------
@@ -106,57 +114,57 @@ Webhook properties
    * - Name
      - Type
      - Description
+   * - ``isPublished``
+     - boolean
+     - Webhook publication status
+   * - ``dateAdded``
+     - datetime
+     - Webhook record creation date and time
+   * - ``dateModified``
+     - datetime
+     - Webhook record last modification date and time
+   * - ``createdBy``
+     - integer
+     - ID of the User who created the Webhook record
+   * - ``createdByUser``
+     - string
+     - Name of the User who created the Webhook record
+   * - ``modifiedBy``
+     - integer
+     - ID of the User who last modified the Webhook record
+   * - ``modifiedByUser``
+     - string
+     - Name of the User who last modified this Webhook record
    * - ``id``
-     - int
+     - integer
      - ID of the Webhook
    * - ``name``
      - string
-     - Title/name of the Webhook
+     - **Required.**
+     
+       Name of the Webhook
    * - ``description``
-     - string/null
+     - string
      - Description of the Webhook
    * - ``webhookUrl``
      - string
-     - The URL that will receive the webhook payload
+     - **Required.**
+     
+       The URL that receives the Webhook payload
    * - ``secret``
-     - string/null
-     - Secret used for webhook authentication/verification
+     - string
+     - Secret used for Webhook authentication or verification
    * - ``eventsOrderbyDir``
-     - string/null
-     - Order direction for events - ASC or DESC, null means use global default
-   * - ``isPublished``
-     - boolean
-     - Published state
-   * - ``publishUp``
-     - datetime/null
-     - Webhook publish date/time
-   * - ``publishDown``
-     - datetime/null
-     - Webhook unpublish date/time
-   * - ``dateAdded``
-     - datetime
-     - Webhook creation date/time
-   * - ``createdBy``
-     - int
-     - ID of the User that created the Webhook
-   * - ``createdByUser``
      - string
-     - Name of the User that created the Webhook
-   * - ``dateModified``
-     - datetime/null
-     - Webhook modified date/time
-   * - ``modifiedBy``
-     - int
-     - ID of the User that last modified the Webhook
-   * - ``modifiedByUser``
-     - string
-     - Name of the User that last modified the Webhook
+     - Order direction - ``asc`` or ``desc``
    * - ``category``
-     - object/null
-     - Object with the Category details
+     - object
+     - The Category assigned to the Webhook
    * - ``triggers``
      - array
-     - Array of event types that trigger this webhook
+     - **Required.**
+     
+       Array of event types that trigger the Webhook
 
 .. vale off
 
@@ -164,6 +172,8 @@ List Webhooks
 *************
 
 .. vale on
+
+Retrieves a list of Webhooks.
 
 .. code-block:: php
 
@@ -190,59 +200,87 @@ Query parameters
 
    * - Name
      - Description
-   * - ``search``
-     - String or search command to filter entities by
+   * - ``searchFilter``
+     - String or search command to filter entities
    * - ``start``
-     - Starting row for the entities returned, defaults to 0
+     - Starting row for the returned entities - defaults to 0
    * - ``limit``
-     - Limit number of entities to return, defaults to the system configuration for pagination - default of 30
+     - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
-     - Column to sort by, can use any column listed in the response
+     - Column to sort by. Any column in the response is valid.
+        
+       Note that you must convert ``camelCase`` properties to ``snake_case``. For example, ``dateAdded`` becomes ``date_added``, ``webhookUrl`` becomes ``webhook_url``, and so on
    * - ``orderByDir``
-     - Sort direction: ``asc`` or ``desc``
+     - Order direction - ``asc`` or ``desc``
    * - ``publishedOnly``
-     - Only return currently published entities
+     - Returns only currently published entities
    * - ``minimal``
-     - Return only array of entities without additional lists in it
+     - Returns only a simple mapped object of entities without additional lists in it
 
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Webhooks list.
 
 .. code-block:: json
 
    {
-       "total": 4,
-       "hooks": [
-           {
-               "id": 31,
-               "name": "Lead Created Webhook",
-               "description": "Webhook to notify when a new lead is created",
-               "webhookUrl": "https://mysite.com/webhook/lead-created",
-               "secret": "mySecret",
-               "eventsOrderbyDir": null,
-               "isPublished": true,
-               "publishUp": null,
-               "publishDown": null,
-               "dateAdded": "2017-06-02T08:54:46+00:00",
-               "createdBy": 1,
-               "createdByUser": "John Doe",
-               "dateModified": "2017-06-02T09:28:56+00:00",
-               "modifiedBy": 1,
-               "modifiedByUser": "John Doe",
-               "category": null,
-               "triggers": [
-                   "mautic.lead_post_save_new"
-               ]
-           }
-       ]
+      "total": 3,
+      "hooks": {
+          "2": {
+              "isPublished": true,
+              "dateAdded": "2026-02-24T04:21:16+00:00",
+              "dateModified": "2026-02-24T04:22:03+00:00",
+              "createdBy": 1,
+              "createdByUser": "John Doe",
+              "modifiedBy": 1,
+              "modifiedByUser": "John Doe",
+              "id": 2,
+              "name": "Change Contact Points",
+              "description": "Change contact points.",
+              "webhookUrl": "https://mysite.com/webhook/contact-points-changed",
+              "secret": "mySecret",
+              "eventsOrderbyDir": null,
+              "category": {
+                  "createdByUser": "John Doe",
+                  "modifiedByUser": null,
+                  "id": 2,
+                  "title": "Important",
+                  "alias": "important",
+                  "description": null,
+                  "color": null,
+                  "bundle": "Webhook"
+              },
+              "triggers": [
+                  "mautic.lead_points_change"
+              ]
+          },
+          // ...
+      }
    }
 
 Properties
 ----------
 
-Same as `Get Webhook <#get-webhook>`_.
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``total``
+     - integer
+     - Total count of Webhooks
+   * - ``hooks``
+     - array
+     - A mapped collection of Webhooks indexed by their ID
+
+.. vale off
+
+For the rest of the Webhook properties, refer to :ref:`Webhook properties <get Webhook properties>`.
+
+.. vale on
 
 .. vale off
 
@@ -251,24 +289,25 @@ Create Webhook
 
 .. vale on
 
+Creates a new Webhook.
+
 .. code-block:: php
 
-   <?php 
+   <?php
 
    $data = array(
-       'name'        => 'test',
-       'description' => 'Created via API',
-       'webhookUrl'  => 'http://mysite.com/webhook/test',
-       'secret'      => 'mySecret',
-       'triggers'    => array(
+       'name'        => 'test',                        // Required
+       'webhookUrl'  => 'http://mysite.com/webhook/test', // Required
+       'triggers'    => array(                         // Required
            'mautic.lead_post_save_new',
            'mautic.lead_post_save_update'
-       )
+       ),
+       'description' => 'Created via API',
+       'secret'      => 'mySecret',
+       'isPublished' => true,
    );
 
    $webhook = $webhookApi->create($data);
-
-Create a new Webhook.
 
 .. vale off
 
@@ -278,6 +317,8 @@ HTTP request
 .. vale on
 
 ``POST /hooks/new``
+
+.. _create Webhook POST parameters:
 
 POST parameters
 ---------------
@@ -291,44 +332,46 @@ POST parameters
      - Description
    * - ``name``
      - string
-     - Webhook name
-   * - ``description``
-     - string
-     - Webhook description
+     - **Required.**
+       
+       Name of the Webhook
    * - ``webhookUrl``
      - string
-     - URL to send webhook payload to
-   * - ``secret``
-     - string
-     - Secret for webhook authentication
+     - **Required.**
+       
+       The URL that receives the Webhook payload
    * - ``triggers``
      - array
-     - Array of event types that should trigger this webhook
+     - **Required.**
+       
+       Array of event types that trigger the Webhook
+   * - ``description``
+     - string
+     - Description of the Webhook
+   * - ``secret``
+     - string
+     - Secret used for Webhook authentication or verification
    * - ``isPublished``
      - boolean
-     - Whether the webhook is published
-   * - ``publishUp``
-     - datetime
-     - Date/time when the webhook should be published
-   * - ``publishDown``
-     - datetime
-     - Date/time when the webhook should be unpublished
+     - Webhook publication status
    * - ``eventsOrderbyDir``
      - string
-     - Order direction for events - ASC or DESC
+     - Order direction for events - ``asc`` or ``desc``
    * - ``category``
-     - int
-     - ID of the category to assign the webhook to
+     - integer
+     - ID of the Category assigned to the Webhook
 
 Response
 ========
 
-``Expected Response Code: 201``
+* Returns ``201 Created`` when the request successfully creates a Webhook.
+
+The response is a JSON object similar to :ref:`Get Webhook <get Webhook response>`.
 
 Properties
 ----------
 
-Same as `Get Webhook <#get-webhook>`_.
+Refer to :ref:`Webhook properties <get Webhook properties>`.
 
 .. vale off
 
@@ -336,6 +379,13 @@ Edit Webhook
 ************
 
 .. vale on
+
+Edits a Webhook. 
+
+This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
+
+* ``PUT``: **full replacement**. The request creates a new Webhook if the ID is missing. If the ID exists, the request clears all existing data and replaces it with the provided values.
+* ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the Webhook ID doesn't exist.
 
 .. code-block:: php
 
@@ -353,15 +403,10 @@ Edit Webhook
        )
    );
 
-   // Create new a Webhook if ID 1 isn't found?
+   // Create a new Webhook if ID 1 isn't found
    $createIfNotFound = true;
 
    $webhook = $webhookApi->edit($id, $data, $createIfNotFound);
-
-Edit an existing Webhook. This supports PUT or PATCH depending on the desired behavior.
-
-**PUT** creates a Webhook if the given ID doesn't exist and clears all the Webhook information, adding the information from the request.
-**PATCH** fails if the Webhook with the given ID doesn't exist and updates the Webhook field values with the values from the request.
 
 .. vale off
 
@@ -370,66 +415,26 @@ HTTP request
 
 .. vale on
 
-To edit a Webhook and return a 404 if the Webhook isn't found:
-
-``PATCH /hooks/ID/edit``
-
-To edit a Webhook and create a new one if the Webhook isn't found:
-
-``PUT /hooks/ID/edit``
+* ``PUT /hooks/ID/edit``: updates an existing Webhook or creates a new one when the ID doesn't exist.
+* ``PATCH /hooks/ID/edit``: updates an existing Webhook. The request fails when the ID doesn't exist.
 
 POST parameters
 ---------------
 
-.. list-table::
-   :widths: 25 25 50
-   :header-rows: 1
-
-   * - Name
-     - Type
-     - Description
-   * - ``name``
-     - string
-     - Webhook name
-   * - ``description``
-     - string
-     - Webhook description
-   * - ``webhookUrl``
-     - string
-     - URL to send webhook payload to
-   * - ``secret``
-     - string
-     - Secret for webhook authentication
-   * - ``triggers``
-     - array
-     - Array of event types that should trigger this webhook
-   * - ``isPublished``
-     - boolean
-     - Whether the webhook is published
-   * - ``publishUp``
-     - datetime
-     - Date/time when the webhook should be published
-   * - ``publishDown``
-     - datetime
-     - Date/time when the webhook should be unpublished
-   * - ``eventsOrderbyDir``
-     - string
-     - Order direction for events - ASC or DESC
-   * - ``category``
-     - int
-     - ID of the category to assign the webhook to
+Accepts the same parameters as those described in :ref:`Create Webhook <create Webhook POST parameters>` and all parameters are optional.
 
 Response
 ========
 
-If ``PUT``\ , the expected response code if editing the Webhook is ``200`` or ``201`` if created.
+* ``PUT``: returns ``200 OK`` when the request successfully updates the Webhook or ``201 Created`` when the request creates a Webhook.
+* ``PATCH``: returns ``200 OK`` when the request successfully updates the Webhook or ``404 Not Found`` error when the Webhook ID doesn't exist.
 
-If using ``PATCH``\ , the expected response code is ``200``.
+The response is a JSON object similar to :ref:`Get Webhook <get Webhook response>`.
 
 Properties
 ----------
 
-Same as `Get Webhook <#get-webhook>`_.
+Refer to :ref:`Webhook properties <get Webhook properties>`.
 
 .. vale off
 
@@ -438,13 +443,13 @@ Delete Webhook
 
 .. vale on
 
+Deletes a Webhook.
+
 .. code-block:: php
 
    <?php
 
    $webhook = $webhookApi->delete($id);
-
-Delete a Webhook.
 
 .. vale off
 
@@ -458,12 +463,14 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully deletes the Webhook.
+
+The response is a JSON object containing the data of the deleted Webhook, similar to :ref:`Get Webhook <get Webhook response>`.
 
 Properties
 ----------
 
-Same as `Get Webhook <#get-webhook>`_.
+Refer to :ref:`Webhook properties <get Webhook properties>`.
 
 .. vale off
 
@@ -472,13 +479,13 @@ Get Webhook triggers
 
 .. vale on
 
+Retrieves a list of available Webhook triggers.
+
 .. code-block:: php
 
    <?php
 
    $triggers = $webhookApi->getTriggers();
-
-Get a list of available webhook triggers (event types).
 
 .. vale off
 
@@ -492,65 +499,73 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the list of Webhook triggers.
 
 .. code-block:: json
 
    {
-       "triggers": {
-           "mautic.lead_post_save_new": {
-               "label": "Contact created",
-               "description": "Triggered when a new contact is created"
-           },
-           "mautic.lead_post_save_update": {
-               "label": "Contact updated", 
-               "description": "Triggered when an existing contact is updated"
-           },
-           "mautic.lead_post_delete": {
-               "label": "Contact deleted",
-               "description": "Triggered when a contact is deleted"
-           },
-           "mautic.lead_points_change": {
-               "label": "Contact's points changed",
-               "description": "Triggered when a contact's point total changes"
-           },
-           "mautic.lead_channel_subscription_changed": {
-               "label": "Contact's channel subscription changed",
-               "description": "Triggered when a contact's channel subscription changes"
-           },
-           "mautic.lead_company_change": {
-               "label": "Contact's company changed",
-               "description": "Triggered when a contact's company association changes"
-           },
-           "mautic.company_post_save": {
-               "label": "Company created/updated",
-               "description": "Triggered when a company is created or updated"
-           },
-           "mautic.company_post_delete": {
-               "label": "Company deleted",
-               "description": "Triggered when a company is deleted"
-           },
-           "mautic.form_on_submit": {
-               "label": "Form submitted",
-               "description": "Triggered when a form is submitted"
-           },
-           "mautic.page_on_hit": {
-               "label": "Page hit",
-               "description": "Triggered when a page is hit/visited"
-           },
-           "mautic.email_on_send": {
-               "label": "Email sent",
-               "description": "Triggered when an email is sent"
-           },
-           "mautic.email_on_open": {
-               "label": "Email opened",
-               "description": "Triggered when an email is opened"
-           }
-       }
+      "triggers": {
+          "mautic.company_post_save": {
+              "label": "Company Create/Update Event",
+              "description": "Triggered when a company is created/updated"
+          },
+          "mautic.company_post_delete": {
+              "label": "Company Deleted Event",
+              "description": "Triggered when a company is deleted"
+          },
+          "mautic.lead_channel_subscription_changed": {
+              "label": "Contact Channel Subscription Change Event",
+              "description": "Triggered when a contact's channel subscription status changes."
+          },
+          "mautic.lead_company_change": {
+              "label": "Contact Company Subscription Change Event",
+              "description": "Triggered when a company is added or removed to/from contact"
+          },
+          "mautic.lead_post_delete": {
+              "label": "Contact Deleted Event",
+              "description": "Triggered when a contact is deleted."
+          },
+          "mautic.lead_post_save_new": {
+              "label": "Contact Identified Event",
+              "description": "Triggered when a contact is identified."
+          },
+          "mautic.lead_points_change": {
+              "label": "Contact Points Changed Event",
+              "description": "Triggered when a contact's points are modified."
+          },
+          "mautic.lead_list_change": {
+              "label": "Contact Segment Membership Change Event",
+              "description": "Triggered when a contact segment membership is changed"
+          },
+          "mautic.lead_post_save_update": {
+              "label": "Contact Updated Event",
+              "description": "Triggered when a contact is updated."
+          },
+          "mautic.email_on_open": {
+              "label": "Email Open Event",
+              "description": "mautic.email.webhook.event.open_desc"
+          },
+          "mautic.email_on_send": {
+              "label": "Email Send Event",
+              "description": "mautic.email.webhook.event. send_desc"
+          },
+          "mautic.form_on_submit": {
+              "label": "Form Submit Event",
+              "description": "mautic.form.webhook.event.form.submit_desc"
+          },
+          "mautic.page_on_hit": {
+              "label": "Page Hit Event",
+              "description": "mautic.page.webhook.event.hit_desc"
+          },
+          "mautic.sms_on_send": {
+              "label": "Text Send Event",
+              "description": "mautic.sms.webhook.event.send_desc"
+          }
+      }
    }
 
-Response properties
--------------------
+Properties
+----------
 
 The response contains a ``triggers`` object where each key is a trigger event type, and the value contains:
 
@@ -566,4 +581,4 @@ The response contains a ``triggers`` object where each key is a trigger event ty
      - Human-readable label for the trigger
    * - ``description``
      - string
-     - Description of when this trigger fires
+     - Description of when the trigger fires
