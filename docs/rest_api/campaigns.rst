@@ -150,6 +150,12 @@ Get an individual Campaign by ID.
    * - ``events``
      - array
      - Array of Event entities for the Campaign - see below
+   * - ``contactCount``
+     - int
+     - Number of Contacts in the Campaign. Only included when ``withContactCounts`` is set in the request.
+   * - ``contactCountFetchedAt``
+     - datetime/null
+     - Timestamp when the Contact count was last fetched. Only included when ``withContactCounts`` is set in the request.
 
 
 **Event Properties**
@@ -246,6 +252,8 @@ List Campaigns
      - Only return currently published entities
    * - ``minimal``
      - Return only array of entities without additional lists in it
+   * - ``withContactCounts``
+     - Include ``contactCount`` and ``contactCountFetchedAt`` in the response for each Campaign. These values are cached for 12 hours by default.
 
 
 **Response**
