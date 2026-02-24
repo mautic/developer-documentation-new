@@ -45,11 +45,11 @@ release = '3.0.0'
 # ones.
 extensions = [
    'xref',
-   'phpdomain',
    'code_samples_ext',
    'sphinx_rtd_theme',
    'sphinx.ext.viewcode',
    'sphinx.ext.autosectionlabel',
+   'sphinxcontrib.phpdomain',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -61,6 +61,16 @@ extensions = [
 exclude_patterns = []
 
 templates_path = ['_templates']
+
+# GH Edit button
+
+html_context = {
+    "display_github": True,  # Integrate GitHub
+    "github_user": "mautic",  # Username
+    "github_repo": "developer-documentation-new",  # Repository name
+    "github_version": "5.x",  # Branch name
+    "conf_py_path": "/docs/",  # Path in the repository to conf.py
+}
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -74,10 +84,16 @@ html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+html_css_files = ['tablefix.css']
+
 
 # Please add links here that do not pass the "make checklinks" check.
 # A little context on the reason for ignoring is greatly appreciated!
 linkcheck_ignore = [
-   # Incorrectly reported as 'Anchor "webhooks" not found' so ignoring this
-   'https://docs.mautic.org/en/setup/cron-jobs#webhooks'
+   # github anchors cause failures, so do not check any github url with an anchor
+   r'^https://github.com/.*#.*'
 ]
+
+# Ensure that autosectionlabel will produce unique names
+autosectionlabel_prefix_document = True
+# autosectionlabel_maxdepth = 1

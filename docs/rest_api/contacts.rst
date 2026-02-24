@@ -1,6 +1,18 @@
 Contacts
 ########
 
+.. vale off
+
+.. note::
+
+  The content for this page requires a major update. The legacy page contains outdated and potentially inaccurate information. You can still access it in the :xref:`legacy repository`.
+
+  If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
+
+  Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
+
+.. vale on
+
 Use this endpoint to manipulate and obtain details on Mautic's Contacts.
 
 **Using Mautic's API Library**
@@ -246,6 +258,8 @@ Get a list of Contacts.
      - An array of advanced where conditions
    * - ``order``
      - An array of advanced order statements
+   * - ``select``
+     - An array of field aliases to include in the Contact data, with ID a mandatory field. Mautic returns all fields if it's not provided.
 
 
 Advanced filtering
@@ -270,7 +284,7 @@ This design allows to add multiple conditions in the same request.
 If you aren't using PHP, here is URL-encoded version of the example:
 ``GET https://[example.com]/api/contacts?where%5B0%5D%5Bcol%5D=phone&where%5B0%5D%5Bexpr%5D=in&where%5B0%5D%5Bval%5D=444444444,888888888``
 
-You can find a list of available expressions on :xref:`Doctrine ORM's website<Doctrine ORM Query Builder>`.
+You can find a list of available expressions on :xref:`Doctrine's ORM website<Doctrine ORM Query Builder>`.
 
 **Response**
 
@@ -396,7 +410,7 @@ You can find a list of available expressions on :xref:`Doctrine ORM's website<Do
 
 **Properties**
 
-Same as :ref:`Get Contact`.
+Same as :ref:`rest_api/contacts:Get Contact`.
 
 .. vale off
 
@@ -454,7 +468,7 @@ Create a new Contact.
 
 **Properties**
 
-Same as :ref:`Get Contact`.
+Same as :ref:`rest_api/contacts:Get Contact`.
 
 .. vale off
 
@@ -516,7 +530,7 @@ Create a batch of new Contacts.
 
 **Properties**
 
-Array of Contacts. Record is the same as :ref:`Get Contact`.
+Array of Contacts. Record is the same as :ref:`rest_api/contacts:Get Contact`.
 
 .. vale off
 
@@ -584,7 +598,7 @@ If ``PATCH``, the expected response code is ``200``.
 
 **Properties**
 
-Same as :ref:`Get Contact`.
+Same as :ref:`rest_api/contacts:Get Contact`.
 
 .. note:: In order to remove a tag from the Contact, add minus ``-`` before it. For example: ``tags: ['one', '-two']`` - sending this in request body will add tag ``one`` and remove tag ``two`` from Contact.
 
@@ -665,7 +679,7 @@ If ``PATCH``, the expected response code is ``200``.
 
 **Properties**
 
-Contacts array. Record same as :ref:`Get Contact`.
+Contacts array. Record same as :ref:`rest_api/contacts:Get Contact`.
 
 .. note:: In order to remove a tag from the Contact, add minus ``-`` before it. For example: ``tags: ['one', '-two']`` - sending this in request body will add tag ``one`` and remove tag ``two`` from Contact.
 
@@ -698,7 +712,7 @@ Delete a Contact.
 
 **Properties**
 
-Same as :ref:`Get Contact`.
+Same as :ref:`rest_api/contacts:Get Contact`.
 
 .. vale off
 
@@ -733,7 +747,7 @@ If you aren't using PHP, here is a URL example:
 
 **Properties**
 
-Contacts array. Record same as :ref:`Get Contact`.
+Contacts array. Record same as :ref:`rest_api/contacts:Get Contact`.
 
 .. vale off
 
@@ -830,7 +844,7 @@ To remove ``Do Not Contact`` entry from a Contact:
 
 **Response**
 
-Same as :ref:`Get Contact`.
+Same as :ref:`rest_api/contacts:Get Contact`.
 
 .. vale off
 
@@ -909,7 +923,7 @@ Mautic requires the parameter array. Each ``UTM`` tag entry is optional.
 
 **Response**
 
-Same as :ref:`Get Contact` with the added UTM Tags.
+Same as :ref:`rest_api/contacts:Get Contact` with the added UTM Tags.
 
 .. vale off
 
@@ -941,7 +955,7 @@ None required.
 
 **Response**
 
-Same as :ref:`Get Contact` without the removed UTM Tags.
+Same as :ref:`rest_api/contacts:Get Contact` without the removed UTM Tags.
 
 .. vale off
 
@@ -1054,6 +1068,316 @@ To subtract Points from a Contact and return a 404 if the Contact isn't found:
    {
        "success": true
    }
+
+.. vale off
+
+Get all Contact Point Groups scores
+***********************************
+
+.. vale on
+
+Get all Point Group scores for a specific Contact.
+
+.. vale off
+
+**HTTP Request**
+
+.. vale on
+
+``GET /api/contacts/{leadId}/points/groups``
+
+**Response**
+
+``Expected Response Code: 200``
+
+.. code-block:: json
+
+    {
+        "total": 1,
+        "groupScores": [
+            {
+                "score": 21,
+                "group": {
+                    "id": 6,
+                    "name": "A"
+                }
+            }
+        ]
+    }
+
+The response contains a list of Point Group scores for the Contact.
+
+.. vale off
+
+Get single Contact Point Group score
+************************************
+
+.. vale on
+
+Get the score for a specific Point Group for a Contact.
+
+.. vale off
+
+**HTTP Request**
+
+.. vale on
+
+``GET /api/contacts/{leadId}/points/groups/{groupId}``
+
+**Response**
+
+``Expected Response Code: 200``
+
+.. code-block:: json
+
+    {
+        "groupScore": {
+            "score": 21,
+            "group": {
+                "id": 6,
+                "name": "A"
+            }
+        }
+    }
+
+The response contains the score for the specified Point Group for the Contact.
+
+.. vale off
+
+Add Contact Point Group Score
+*****************************
+
+.. vale on
+
+Add Points to a specific Point Group for a Contact.
+
+.. vale off
+
+**HTTP Request**
+
+.. vale on
+
+
+``POST /api/contacts/{leadId}/points/groups/{groupId}/plus/{value}``
+
+**Data Parameters (optional)**
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Description
+   * - ``eventname``
+     - Name of the event
+   * - ``actionname``
+     - Name of the action
+
+**Response**
+
+``Expected Response Code: 200``
+
+.. code-block:: json
+
+    {
+        "groupScore": {
+            "score": 21,
+            "group": {
+                "id": 6,
+                "name": "A"
+            }
+        }
+    }
+
+The response indicates the success of adding Points to the specified Point Group for the Contact.
+
+.. vale off
+
+Subtract Contact Point Group score
+**********************************
+
+.. vale on
+
+Subtract Points from a specific Point Group for a Contact.
+
+.. vale off
+
+**HTTP Request**
+
+.. vale on
+
+``POST /api/contacts/{leadId}/points/groups/{groupId}/minus/{value}``
+
+**Data Parameters (optional)**
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Description
+   * - ``eventname``
+     - Name of the event
+   * - ``actionname``
+     - Name of the action
+
+**Response**
+
+``Expected Response Code: 200``
+
+.. code-block:: json
+
+    {
+        "groupScore": {
+            "score": 21,
+            "group": {
+                "id": 6,
+                "name": "A"
+            }
+        }
+    }
+
+The response indicates the success of subtracting Points from the specified Point Group for the Contact.
+
+.. vale off
+
+Set Contact Point Group Score
+*****************************
+
+.. vale on
+
+Set the Points for a specific Point Group for a Contact.
+
+.. vale off
+
+**HTTP Request**
+
+.. vale on
+
+``POST /api/contacts/{leadId}/points/groups/{groupId}/set/{value}``
+
+**Data Parameters (optional)**
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Description
+   * - ``eventname``
+     - Name of the event
+   * - ``actionname``
+     - Name of the action
+
+**Response**
+
+``Expected Response Code: 200``
+
+.. code-block:: json
+
+    {
+        "groupScore": {
+            "score": 21,
+            "group": {
+                "id": 6,
+                "name": "A"
+            }
+        }
+    }
+
+The response indicates the success of setting the Points for the specified Point Group for the Contact.
+
+.. vale off
+
+Divide Contact Point Group score
+********************************
+
+.. vale on
+
+Divide the Points of a specific Point Group for a Contact by a value.
+
+.. vale off
+
+**HTTP Request**
+
+.. vale on
+
+``POST /api/contacts/{leadId}/points/groups/{groupId}/divide/{value}``
+
+**Data Parameters (optional)**
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Description
+   * - ``eventname``
+     - Name of the event
+   * - ``actionname``
+     - Name of the action
+
+**Response**
+
+``Expected Response Code: 200``
+
+.. code-block:: json
+
+    {
+        "groupScore": {
+            "score": 21,
+            "group": {
+                "id": 6,
+                "name": "A"
+            }
+        }
+    }
+
+The response indicates the success of dividing the Points of the specified Point Group for the Contact by the specified value.
+
+.. vale off
+
+Multiply Contact Point Group score
+**********************************
+
+.. vale on
+
+Multiply the Points of a specific Point Group for a Contact by a value.
+
+.. vale off
+
+**HTTP Request**
+
+.. vale on
+
+``POST /api/contacts/{leadId}/points/groups/{groupId}/times/{value}``
+
+**Data Parameters (optional)**
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Description
+   * - ``eventname``
+     - Name of the event
+   * - ``actionname``
+     - Name of the action
+
+**Response**
+
+``Expected Response Code: 200``
+
+.. code-block:: json
+
+    {
+        "groupScore": {
+            "score": 21,
+            "group": {
+                "id": 6,
+                "name": "A"
+            }
+        }
+    }
+
+The response indicates the success of multiplying the Points of the specified Point Group for the Contact by the specified value.
+
 
 .. vale off
 
@@ -1771,9 +2095,9 @@ Get Activity events for all Contacts
      - Date from filter. Must be type of ``\DateTime`` for the PHP API Library and in format ``Y-m-d H:i:s`` for HTTP param
    * - ``filters[dateTo]``
      - Date to filter. Must be type of ``\DateTime`` for the PHP API Library and in format ``Y-m-d H:i:s`` for HTTP param
-   * - ``orderBy``
+   * - ``order[0]``
      - Column to sort by. Can use any column listed in the response.
-   * - ``orderByDir``
+   * - ``order[1]``
      - Sort direction: ``asc`` or ``desc``.
    * - ``page``
      - What ``page`` number to load

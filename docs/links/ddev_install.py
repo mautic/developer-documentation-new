@@ -2,6 +2,6 @@ from . import link
 
 link_name = "ddev install" 
 link_text = "Install DDEV" 
-link_url = "https://ddev.readthedocs.io/en/stable/#installation" 
+link_url = "https://ddev.readthedocs.io/en/stable/users/install/ddev-installation/"
 
 link.xref_links.update({link_name: (link_text, link_url)})

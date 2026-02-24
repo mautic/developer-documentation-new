@@ -1,6 +1,17 @@
-
 Fields
 ######
+
+.. vale off
+
+.. note::
+
+  The content for this page requires a major update. The legacy page contains outdated and potentially inaccurate information. You can still access it in the :xref:`legacy repository`.
+
+  If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
+
+  Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
+
+.. vale on
 
 Use this endpoint to work with Mautic's Contact/Company fields.
 
@@ -56,8 +67,8 @@ Get an individual field by ID.
 
 .. code-block:: json
 
-   {  
-     "field":{  
+   {
+     "field":{
        "isPublished":true,
        "dateAdded":"2016-11-10T13:02:52+00:00",
        "createdBy":1,
@@ -93,13 +104,13 @@ Get an individual field by ID.
      - ID of the field
    * - ``isPublished``
      - boolean
-     - Published state
+     - Availability for use
    * - ``publishUp``
      - datetime/null
-     - Field publish date/time
+     - Field available from date/time
    * - ``publishDown``
      - datetime/null
-     - Field unpublish date/time
+     - Field unavailable from date/time
    * - ``dateAdded``
      - ``datetime``
      - Field creation date/time
@@ -132,7 +143,7 @@ Get an individual field by ID.
      - Field type
    * - ``group``
      - string
-     - Group of the fields where the field belongs 
+     - Group of the fields where the field belongs
    * - ``order``
      - int
      - Order number of the field
@@ -153,7 +164,7 @@ Get an individual field by ID.
      - ``true`` if the field is a unique identifier, therefore Contacts should merge if the value of this field is the same
    * - ``properties``
      - array
-     - Field options if the field type needs some. 
+     - Field options if the field type needs some.
 
 .. vale off
 
@@ -171,10 +182,10 @@ List Contact fields
 
 .. code-block:: json
 
-   {  
+   {
      "total":71,
-     "fields":[  
-       {  
+     "fields":[
+       {
          "isPublished":true,
          "dateAdded":"2016-10-12T11:31:13+00:00",
          "createdBy":1,
@@ -193,17 +204,17 @@ List Contact fields
          "isRequired":false,
          "isPubliclyUpdatable":false,
          "isUniqueIdentifier":false,
-         "properties":{  
-           "list":[  
-             {  
+         "properties":{
+           "list":[
+             {
                "label":"PHP",
                "value":"php"
              },
-             {  
+             {
                "label":"JS",
                "value":"js"
              },
-             {  
+             {
                "label":"English",
                "value":"en"
              }
@@ -231,7 +242,7 @@ List Contact fields
    * - ``orderByDir``
      - Sort direction: ``asc`` or ``desc``
    * - ``publishedOnly``
-     - Only return currently published entities
+     - Only return currently available for use entities
    * - ``minimal``
      - Return only array of entities without additional lists in it
 
@@ -263,13 +274,13 @@ See JSON code example.
      - ID of the field
    * - ``isPublished``
      - boolean
-     - Published state
+     - Availability for use
    * - ``publishUp``
      - datetime/null
-     - Field publish date/time
+     - Field available from date/time
    * - ``publishDown``
      - datetime/null
-     - Field unpublish date/time
+     - Field unavailable from date/time
    * - ``dateAdded``
      - ``datetime``
      - Field creation date/time
@@ -302,7 +313,7 @@ See JSON code example.
      - Field type
    * - ``group``
      - string
-     - Group of the fields where the field belongs 
+     - Group of the fields where the field belongs
    * - ``order``
      - int
      - Order number of the field
@@ -334,7 +345,7 @@ Create field
 
 .. code-block:: php
 
-   <?php 
+   <?php
 
    $data = array(
        'label' => 'API test field',
@@ -401,7 +412,7 @@ Create a new field.
      - Field type
    * - ``group``
      - string
-     - Group of the fields where the field belongs 
+     - Group of the fields where the field belongs
    * - ``order``
      - int
      - Order number of the field
@@ -496,7 +507,7 @@ To edit a field and create a new one if the field isn't found:
      - Field type
    * - ``group``
      - string
-     - Group of the fields where the field belongs 
+     - Group of the fields where the field belongs
    * - ``order``
      - int
      - Order number of the field

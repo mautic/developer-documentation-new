@@ -32,6 +32,52 @@
         "doc",
         "review"
       ]
+    },
+    {
+      "login": "ifeoluwafavour",
+      "name": "Ife",
+      "avatar_url": "https://avatars.githubusercontent.com/u/64481442?v=4",
+      "profile": "http://ifeoluwafavour.hashnode.dev",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "sumbria",
+      "name": "Balbinder Sumbria",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6416992?v=4",
+      "profile": "https://incodit.com",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "Hugo-Prossaird",
+      "name": "Hugo-Prossaird",
+      "avatar_url": "https://avatars.githubusercontent.com/u/176997845?v=4",
+      "profile": "https://github.com/Hugo-Prossaird",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "rfay",
+      "name": "Randy Fay",
+      "avatar_url": "https://avatars.githubusercontent.com/u/112444?v=4",
+      "profile": "http://ddev.com",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "adiati98",
+      "name": "Ayu Adiati",
+      "avatar_url": "https://avatars.githubusercontent.com/u/45172775?v=4",
+      "profile": "https://adiati.com",
+      "contributions": [
+        "doc",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -40,5 +86,6 @@
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true,
-  "commitConvention": "angular"
+  "commitConvention": "angular",
+  "commitType": "docs"
 }
