@@ -461,6 +461,7 @@ Create a new Contact.
    * - ``overwriteWithBlank``
      - If true, then empty values get set to fields. Otherwise empty values get skipped
 
+.. note:: Mautic only treats ``null`` and empty strings (``''``) as empty values. The value ``0`` - whether integer or string - counts as a valid value and gets saved to the field. This matters when using ``overwriteWithBlank`` or setting numeric fields to zero.
 
 **Response**
 
