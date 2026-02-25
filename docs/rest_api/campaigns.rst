@@ -1,6 +1,17 @@
-
 Campaigns
 #########
+
+.. vale off
+
+.. note::
+
+  The content for this page requires a major update. The legacy page contains outdated and potentially inaccurate information. You can still access it in the :xref:`legacy repository`.
+
+  If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
+
+  Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
+
+.. vale on
 
 Use this endpoint to obtain details on Mautic's Campaigns.
 
@@ -544,6 +555,108 @@ Same as `Get Campaign <#get-campaign>`_.
 
 .. vale off
 
+Export Campaign
+***************
+
+.. vale on
+
+This endpoint allows you to export data for a specific Mautic Campaign. It returns the data as a JSON file or a ZIP archive containing the JSON file and associated Assets.
+
+Refer to :xref:`Mautic REST API Authentication`\* for authentication details.
+
+.. note::
+
+   \* The legacy page contains outdated and potentially inaccurate information.
+
+   If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
+
+   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
+
+.. vale off
+
+HTTP request
+============
+
+.. vale on
+
+``GET /campaigns/export/<*campaign_id*>``
+
+The final part of the URL, ``<*campaign_id*>``, specifies the Campaign ID to export.
+
+**Example request - cURL**
+
+.. code-block:: bash
+
+   curl --location 'https://{*your-mautic-domain*}/api/campaigns/export/<*campaign_id*>' \
+   --header 'Authorization: Bearer *<your_actual_access_token>*' \
+
+Replace ``<*campaign_id*>`` with the actual Campaign ID you wish to export.
+
+Response
+========
+
+``Expected Response Code: 200
+Content-Type: application/json``
+
+The response body is the Campaign data, either as a direct JSON payload or a ZIP file. The ``Content-Type`` header in the response indicates the format. For example, ``application/json`` or ``application/zip``.
+
+.. vale off
+
+Import Campaign
+***************
+
+.. vale on
+
+This endpoint allows you to import a Mautic Campaign from a previously exported JSON or ZIP file.
+
+Refer to :xref:`Mautic REST API Authentication`\* for authentication details.
+
+.. note::
+
+   \* The legacy page contains outdated and potentially inaccurate information.
+
+   If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
+
+   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
+
+.. vale off
+
+HTTP request
+============
+
+.. vale on
+
+``POST /campaigns/import``
+
+Headers
+-------
+
+.. list-table::
+   :widths: 25 75
+   :header-rows: 1
+
+   * - Header
+     - Description
+   * - ``Content-Type``
+     - ``application/json`` or ``application/zip``
+
+Request body
+------------
+
+.. vale off
+
+* **If sending JSON data:** provide the raw JSON payload directly in the request body.
+* **If sending a ZIP file:** upload the ZIP file using form-data.
+
+.. vale on
+
+Response
+========
+
+``Expected Response Code: 200`` or ``201 Created``, depending on API behaviour.
+
+.. vale off
+
 Add Contact to a Campaign
 *************************
 
@@ -563,13 +676,15 @@ Manually add a Contact to a specific Campaign.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /campaigns/CAMPAIGN_ID/contact/CONTACT_ID/add``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 
@@ -600,13 +715,15 @@ Manually remove a Contact from a specific Campaign.
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /campaigns/CAMPAIGN_ID/contact/CONTACT_ID/remove``
 
-**Response**
+Response
+========
 
 ``Expected Response Code: 200``
 

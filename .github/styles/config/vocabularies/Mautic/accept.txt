@@ -2,6 +2,7 @@ AJAX
 allowlist
 Amazon SES
 Ameling
+ascenders
 autoloader
 Autoloader
 autowire
@@ -24,7 +25,10 @@ Clearbit
 CloudAMQP
 Codeception
 Codecov
+codespace
+Codespaces
 Company(ies)
+Composability
 Composer
 Config
 config
@@ -37,21 +41,19 @@ CORS
 cron
 Cron
 CTRL
+datetime
 DDEV
 DNC
 Do Not Contact
 Dripflow
 Dynamic Web Content
+Esbonio
 FALSE
 false
 Firewalls
 firewalls
 Focus Item
 Focus Items
-Form
-form
-Forms
-forms
 Froala
 Froogaloop
 gcm
@@ -69,10 +71,13 @@ html
 HTML
 http
 https
+HTTPS
 HubSpot
 IDP
 IMAP
 infographics
+Initialisms
+initialisms
 ISO
 JavaScript
 Joomla
@@ -90,6 +95,7 @@ middlewares
 MJML
 Multiselect
 multiselect
+MVC
 MVP
 mysqldump
 Namespace
@@ -111,13 +117,18 @@ Plugin
 Plugins
 post
 POST
+ProTip
+ProTips
 PUT
 PyCharm
 Rackspace
 Rahul
 Read the Docs
+rebase
 Remarketing
 Report Email
+REST
+RST
 Salesforce
 SAML
 Schimpf
@@ -125,6 +136,8 @@ SCP
 Segment Email
 SendGrid
 SES
+SFTP
+SHA
 Shinde
 SMS
 SMTP
@@ -140,7 +153,6 @@ Themes
 timeframe
 Todo
 tooltip
-Tooltip
 Transifex
 Translator
 TRUE
@@ -158,6 +170,7 @@ UTM
 Vtiger
 Webhooks
 Webmecanik
+WSL
 www
 XPath
 YAML
