@@ -77,9 +77,9 @@ Response
           "dateAdded": "2026-02-13T16:11:07+00:00",
           "dateModified": null,
           "createdBy": 1,
-          "createdByUser": "Joe Smith",
+          "createdByUser": "John Doe",
           "modifiedBy": 1,
-          "modifiedByUser": "Joe Smith",
+          "modifiedByUser": "John Doe",
           "id": 7,
           "name": "Stage A",
           "category": null,
@@ -109,7 +109,7 @@ Stage properties
      - datetime
      - Stage record creation date and time
    * - ``dateModified``
-     - datetime or null
+     - datetime
      - Stage record last modification date and time
    * - ``createdBy``
      - integer
@@ -118,31 +118,31 @@ Stage properties
      - string
      - Name of the User who created the Stage
    * - ``modifiedBy``
-     - integer or null
+     - integer
      - ID of the User who last modified the Stage
    * - ``modifiedByUser``
-     - string or null
+     - string
      - Name of the User who last modified the Stage
    * - ``id``
      - integer
      - ID of the Stage
    * - ``name``
      - string
-     - Stage name - **required**
+     - Stage name
    * - ``category``
-     - object or null
+     - object
      - The Category assigned to the Stage
    * - ``weight``
      - integer
      - Stage weight
    * - ``description``
-     - string or null
+     - string
      - Description of the Stage
    * - ``publishUp``
-     - datetime or null
+     - datetime
      - Activation date and time for the Stage
    * - ``publishDown``
-     - datetime or null
+     - datetime
      - Deactivation date and time for the Stage
 
 .. vale off
@@ -170,10 +170,44 @@ HTTP request
 
 ``GET /stages``
 
+Query parameters
+----------------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``searchFilter``
+     - string
+     - String or search command to filter entities
+   * - ``start``
+     - integer
+     - Starting row for the returned entities - defaults to 0
+   * - ``limit``
+     - integer
+     - Maximum number of entities to return - defaults to 30
+   * - ``orderBy``
+     - string
+     - Column to sort by. Any column in the response is valid.
+       
+       **Note**: convert ``camelCase`` properties to ``snake_case``. For example, ``dateAdded`` becomes ``date_added``, ``webhookUrl`` becomes ``webhook_url``, and so on
+   * - ``orderByDir``
+     - string
+     - Order direction - ``asc`` or ``desc``
+   * - ``publishedOnly``
+     - boolean
+     - Returns only currently published entities
+   * - ``minimal``
+     - boolean
+     - Returns only a simple mapped object of entities without additional lists in it
+
 Response
 ========
 
-* Returns ``200 OK`` when the request successfully retrieves the list of Stages.
+* Returns ``200 OK`` when the request successfully retrieves the Stages list.
 
 .. code-block:: json
 
@@ -185,9 +219,9 @@ Response
           "dateAdded": "2026-02-13T16:11:07+00:00",
           "dateModified": null,
           "createdBy": 1,
-          "createdByUser": "Joe Smith",
+          "createdByUser": "John Doe",
           "modifiedBy": 1,
-          "modifiedByUser": "Joe Smith",
+          "modifiedByUser": "John Doe",
           "id": 7,
           "name": "Stage A",
           "category": null,
@@ -200,8 +234,8 @@ Response
      ]
    }
 
-Stage properties
-----------------
+Properties
+----------
 
 .. list-table::
    :widths: 25 25 50
@@ -213,10 +247,13 @@ Stage properties
    * - ``total``
      - integer
      - Total count of Stages
+   * - ``stages``
+     - object
+     - A mapped collection of Stages indexed by their ID
 
 .. vale off
 
-For the rest of the Stage properties, refer to :ref:`Get Stage <get Stage properties>`.
+For the rest of the properties, refer to :ref:`Stage properties <get Stage properties>`.
 
 .. vale on
 
@@ -231,13 +268,16 @@ Creates a new Stage.
 
 .. code-block:: php
 
-   <?php 
+   <?php
 
    $data = array(
-     'name'        => 'Stage A',
-     'weight'      => 5,
-     'description' => 'This is my first stage created via API.',
-     'isPublished' => 1
+       'name'        => 'Stage A', // Required
+       'weight'      => 5,
+       'description' => 'This is my first stage created via API.',
+       'isPublished' => 1,
+       'category'    => 2,
+       'publishUp'   => '2026-01-01T00:00:00+00:00',
+       'publishDown' => '2026-02-01T23:59:59+00:00',
    );
 
    $stage = $stageApi->create($data);
@@ -251,11 +291,13 @@ HTTP request
 
 ``POST /stages/new``
 
+.. _create Stage POST parameters:
+
 POST parameters
 ---------------
 
 .. list-table::
-   :widths: 25 25 50
+   :widths: 30 20 50
    :header-rows: 1
 
    * - Name
@@ -263,7 +305,9 @@ POST parameters
      - Description
    * - ``name``
      - string
-     - Stage name - **required**
+     - **Required.**
+
+       Stage name
    * - ``weight``
      - integer
      - Stage weight
@@ -273,13 +317,22 @@ POST parameters
    * - ``isPublished``
      - boolean
      - Stage publication status - set to ``0`` or ``false`` to inactive. When not set, it defaults to active.
+   * - ``category``
+     - integer
+     - ID of the Category assigned to the Stage
+   * - ``publishUp``
+     - datetime
+     - Activation date and time for the Stage
+   * - ``publishDown``
+     - datetime
+     - Deactivation date and time for the Stage
 
 Response
 ========
 
 * Returns ``201 Created`` when the request successfully creates a Stage.
 
-Response is the same as :ref:`Get Stage <get Stage response>`.
+The response is a JSON object similar to :ref:`Get Stage <get Stage response>`.
 
 Properties
 ----------
@@ -293,7 +346,9 @@ Edit Stage
 
 .. vale on
 
-Edits a Stage. This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
+Edits a Stage.
+
+This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
 
 * ``PUT``: **full replacement**. The request creates a new Stage if the ID is missing. If the ID exists, the request clears all existing data and replaces it with the provided values.
 * ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the ID doesn't exist.
@@ -308,7 +363,7 @@ Edits a Stage. This operation supports ``PUT`` or ``PATCH`` depending on the des
      'isPublished' => 0
    );
 
-   // Create new a stage if ID 1 is not found?
+   // Create a new Stage if ID 1 isn't found
    $createIfNotFound = true;
 
    $stage = $stageApi->edit($id, $data, $createIfNotFound);
@@ -326,25 +381,7 @@ HTTP request
 POST parameters
 ---------------
 
-.. list-table::
-   :widths: 25 25 50
-   :header-rows: 1
-
-   * - Name
-     - Type
-     - Description
-   * - ``name``
-     - string
-     - Stage name - **required**
-   * - ``description``
-     - string
-     - Description of the Stage
-   * - ``isPublished``
-     - boolean
-     - Stage publication status
-   * - ``weight``
-     - integer
-     - Stage weight
+Accepts the same parameters as those described in :ref:`Create Stage <create Stage POST parameters>`. All parameters are optional.
 
 Response
 ========
@@ -352,12 +389,12 @@ Response
 * ``PUT``: returns ``200 OK`` when the request successfully updates the Stage or ``201 Created`` when the request creates a Stage.
 * ``PATCH``: returns ``200 OK`` when the request successfully updates the Stage or ``404 Not Found`` when the ID doesn't exist.
 
-Response is the same as :ref:`Get Stage <get Stage response>`.
+The response is a JSON object similar to :ref:`Get Stage <get Stage response>`.
 
 Properties
 ----------
 
-Refer to :ref:`Get Stage <get Stage properties>`.
+Refer to :ref:`Stage properties <get Stage properties>`.
 
 .. vale off
 
@@ -388,12 +425,12 @@ Response
 
 * Returns ``200 OK`` when the request successfully deletes the Stage.
 
-Response is the same to :ref:`Get Stage <get Stage response>`, but with the deleted Stage.
+The response is a JSON object containing the data of the deleted Stage, similar to :ref:`Get Stage <get Stage response>`.
 
 Properties
 ----------
 
-Refer to :ref:`Get Stage <get Stage properties>`.
+Refer to :ref:`Stage properties <get Stage properties>`.
 
 .. vale off
 
