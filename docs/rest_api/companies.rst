@@ -322,7 +322,7 @@ Company properties
 
        * ``all``: associative array of field aliases and values. This is the primary way to access :ref:`Company field properties <get Company field properties>`.
 
-       * ``core`` and ``professional``: these contain the same :ref:`fields <get Company field properties>`, but bundled with additional metadata such as labels and types.
+       * ``core`` and ``professional``: these contain the same :ref:`fields <get Company field properties>`, but bundled with additional metadata.
 
 .. _get Company field properties:
 
@@ -341,10 +341,10 @@ Core fields
      - Description
    * - ``companyaddress1``
      - string
-     - Company primary address line - such as street name and number
+     - Company primary address line, such as street name and number
    * - ``companyaddress2``
      - string
-     - Supplemental Company address details - such as suite, unit, building, or floor
+     - Supplemental Company address details, such as suite, unit, building, or floor
    * - ``companyemail``
      - string
      - Company Email address
@@ -365,7 +365,7 @@ Core fields
      - Company country name
    * - ``companyname``
      - string
-     - Company name - **required**
+     - Company name
    * - ``companywebsite``
      - string
      - Company website URL
@@ -425,26 +425,34 @@ Query parameters
 ----------------
 
 .. list-table::
-   :widths: 30 70
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
+     - Type
      - Description
    * - ``searchFilter``
+     - string
      - String or search command to filter entities
    * - ``start``
+     - integer
      - Starting row for the returned entities - defaults to 0
    * - ``limit``
+     - integer
      - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
+     - string
      - Column to sort by. Any column in the response is valid.
        
-       Note that you must convert ``camelCase`` properties to ``snake_case``. For example, ``dateSubmitted`` becomes ``date_submitted``, ``trackingId`` becomes ``tracking_id``, and so on
+       **Note**: convert ``camelCase`` properties to ``snake_case``. For example, ``dateAdded`` becomes ``date_added``, ``webhookUrl`` becomes ``webhook_url``, and so on
    * - ``orderByDir``
-     - Sort direction - ``asc`` or ``desc``
+     - string
+     - Order direction - ``asc`` or ``desc``
    * - ``publishedOnly``
+     - boolean
      - Returns only currently published entities
    * - ``minimal``
+     - boolean
      - Returns only a simple mapped object of entities without additional lists in it
 
 Response
@@ -704,7 +712,7 @@ Properties
 
 .. vale off
 
-For the rest of the Company properties, refer to :ref:`Company properties <get Company properties>`.
+For the rest of the properties, refer to :ref:`Company properties <get Company properties>`.
 
 .. vale on
 
@@ -722,9 +730,12 @@ Creates a new Company.
    <?php
 
    $data = array(
-       'companyname' => 'Acme Corporation',
-       'companyemail' => 'info@acme.com',
-       'companywebsite' => 'https://acme.com',
+       'companyname'                => 'Acme Corporation', // Required
+       'companyemail'               => 'info@acme.com',
+       'companywebsite'             => 'https://acme.com',
+       'score'                      => 10,
+       'companynumber_of_employees' => 50,
+       'companyannual_revenue'      => 1000000.0,
    );
 
    $company = $companyApi->create($data);
@@ -738,12 +749,68 @@ HTTP request
 
 ``POST /companies/new``
 
+.. _create Company POST parameters:
+
 POST parameters
 ---------------
 
-Mautic accepts a Company associative array. The keys must correspond to the property names described in :ref:`Company properties <get Company properties>`.
+.. list-table::
+   :widths: 30 20 50
+   :header-rows: 1
 
-For core or professional fields, use the field aliases defined in :ref:`Company field properties <get Company field properties>`.
+   * - Name
+     - Type
+     - Description
+   * - ``companyname``
+     - string
+     - **Required.**
+     
+       Company name
+   * - ``companyemail``
+     - string
+     - Company Email address
+   * - ``companyphone``
+     - string
+     - Company phone number
+   * - ``companywebsite``
+     - string
+     - Company website URL
+   * - ``companyaddress1``
+     - string
+     - Company primary address line - such as street name and number
+   * - ``companyaddress2``
+     - string
+     - Supplemental Company address details - such as suite, unit, building, or floor
+   * - ``companycity``
+     - string
+     - Company city name
+   * - ``companystate``
+     - string
+     - Company state, province, or region
+   * - ``companyzipcode``
+     - string
+     - Company zip or postal code
+   * - ``companycountry``
+     - string
+     - Company country name
+   * - ``companynumber_of_employees``
+     - integer
+     - Total number of employees in the Company
+   * - ``companyfax``
+     - string
+     - Company fax number
+   * - ``companyannual_revenue``
+     - number
+     - Annual revenue of the Company - for example, ``1000000.0``
+   * - ``companyindustry``
+     - string
+     - Company business sector or vertical
+   * - ``companydescription``
+     - string
+     - Summary of the Company
+   * - ``score``
+     - integer
+     - Score assigned to the Company
 
 Response
 ========
@@ -799,9 +866,7 @@ HTTP request
 POST parameters
 ---------------
 
-Mautic accepts the same parameters for editing a Company as those described in :ref:`Company properties <get Company properties>`.
-
-Use the Company associative array to manage Company properties and field values. The keys must correspond to the property names in :ref:`Company properties <get Company properties>` or the field aliases in :ref:`Company field properties <get Company field properties>`.
+Accepts the same parameters as those described in :ref:`Create Company <create Company POST parameters>`. All parameters are optional.
 
 Response
 ========

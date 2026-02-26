@@ -165,7 +165,7 @@ User properties
      - Job position or title of the User
    * - ``role``
      - object
-     - The Role and permissions assigned to the User
+     - The Role and permissions assigned to the User. Refer to :ref:`User Role properties <get User Role properties>` for details
    * - ``timezone``
      - string
      - Timezone preference of the User
@@ -181,6 +181,55 @@ User properties
    * - ``signature``
      - string
      - Email signature in HTML format
+
+.. _get User Role properties:
+
+User Role properties
+--------------------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``isPublished``
+     - boolean
+     - Role publication status
+   * - ``dateAdded``
+     - datetime
+     - Role record creation date and time
+   * - ``dateModified``
+     - datetime
+     - Role record last modification date and time
+   * - ``createdBy``
+     - integer
+     - ID of the User who created the Role record
+   * - ``createdByUser``
+     - string
+     - Name of the User who created the Role record
+   * - ``modifiedBy``
+     - integer
+     - ID of the User who last modified the Role record
+   * - ``modifiedByUser``
+     - string
+     - Name of the User who last modified the Role record
+   * - ``id``
+     - integer
+     - ID of the Role
+   * - ``name``
+     - string
+     - Name of the Role
+   * - ``description``
+     - string
+     - Description of the Role
+   * - ``isAdmin``
+     - boolean
+     - Admin status - ``true`` if the Role has full system access
+   * - ``rawPermissions``
+     - object
+     - A collection of granular permission sets for Mautic bundles
 
 .. vale off
 
@@ -211,26 +260,34 @@ Query parameters
 ----------------
 
 .. list-table::
-   :widths: 30 70
+   :widths: 20 20 60
    :header-rows: 1
 
    * - Name
+     - Type
      - Description
    * - ``searchFilter``
+     - string
      - String or search command to filter entities
    * - ``start``
+     - integer
      - Starting row for the returned entities - defaults to 0
    * - ``limit``
+     - integer
      - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
+     - string
      - Column to sort by. Any column in the response is valid.
-        
-       Note that you must convert ``camelCase`` properties to ``snake_case``. For example, ``dateAdded`` becomes ``date_added``, ``lastLogin`` becomes ``last_login``, and so on
+       
+       **Note**: convert ``camelCase`` properties to ``snake_case``. For example, ``dateAdded`` becomes ``date_added``, ``webhookUrl`` becomes ``webhook_url``, and so on
    * - ``orderByDir``
-     - Sort direction - ``asc`` or ``desc``
+     - string
+     - Order direction - ``asc`` or ``desc``
    * - ``publishedOnly``
+     - boolean
      - Returns only currently published entities
    * - ``minimal``
+     - boolean
      - Returns only a simple mapped object of entities without additional lists in it
 
 Response
@@ -302,7 +359,7 @@ Properties
 
 .. vale off
 
-For the rest of the User properties, refer to :ref:`User properties <get User properties>`.
+For the rest of the properties, refer to :ref:`User properties <get User properties>`.
 
 .. vale on
 
@@ -320,18 +377,18 @@ Creates a new User.
    <?php
 
    $data = array(
-       'username'      => 'newuser',
-       'firstName'     => 'John',
-       'lastName'      => 'Doe',
-       'email'         => 'john.doe@example.com',
-       'plainPassword' => array(
+       'firstName'     => 'John',                 // Required
+       'lastName'      => 'Doe',                  // Required
+       'username'      => 'newuser',              // Required
+       'email'         => 'john.doe@example.com', // Required
+       'plainPassword' => array(                  // Required
            'password' => 'SecurePassword123!',
            'confirm'  => 'SecurePassword123!'
        ),
-       'role'          => 1,
+       'role'          => 1,                      // Required
+       'timezone'      => 'America/New_York',     // Required
+       'locale'        => 'en_US',                // Required
        'position'      => 'Marketing Specialist',
-       'timezone'      => 'America/New_York',
-       'locale'        => 'en_US'
    );
 
    $user = $userApi->create($data);
@@ -345,6 +402,8 @@ HTTP request
 
 ``POST /users/new``
 
+.. _create User POST parameters:
+
 POST parameters
 ---------------
 
@@ -355,36 +414,55 @@ POST parameters
    * - Name
      - Type
      - Description
-   * - ``username``
-     - string
-     - Username for login - **required** and **must be unique**
    * - ``firstName``
      - string
-     - User first name - **required**
+     - **Required.**
+       
+       First name of the User
    * - ``lastName``
      - string
-     - User last name - **required**
+     - **Required.**
+       
+       Last name of the User
+   * - ``username``
+     - string
+     - **Required. Must be unique.**
+       
+       Username for login
    * - ``email``
      - string
-     - User Email address - **required** and **must be unique**
+     - **Required. Must be unique.**
+       
+       Email address of the User
    * - ``plainPassword``
-     - associative array
-     - Associative array with ``password`` and ``confirm`` keys - **required**
+     - array
+     - **Required.**
+       
+       Array containing ``password`` and ``confirm`` keys
    * - ``role``
      - integer
-     - ID of the Role to assign to the User - **required**
-   * - ``position``
-     - string
-     - User job position or title
+     - **Required.**
+       
+       ID of the Role assigned to the User
    * - ``timezone``
      - string
-     - User timezone preference - **required**
+     - **Required.**
+       
+       Timezone preference of the User
    * - ``locale``
      - string
-     - User language or locale preference - **required**
+     - **Required.**
+       
+       Language or locale preference of the User
+   * - ``isPublished``
+     - boolean
+     - User publication status. Set to ``0`` or ``false`` to turn off the User account - defaults to ``1``
+   * - ``position``
+     - string
+     - Job position or title
    * - ``signature``
      - string
-     - User Email signature - in HTML
+     - Email signature in HTML format
 
 Response
 ========
@@ -392,6 +470,11 @@ Response
 * Returns ``201 Created`` when the request successfully creates a User.
 
 The response is a JSON object similar to :ref:`Get User <get User response>`.
+
+Properties
+----------
+
+Refer to :ref:`User properties <get User properties>`.
 
 .. vale off
 
@@ -436,40 +519,7 @@ HTTP request
 POST parameters
 ---------------
 
-.. list-table::
-   :widths: 25 25 50
-   :header-rows: 1
-
-   * - Name
-     - Type
-     - Description
-   * - ``username``
-     - string
-     - Username for login - **unique**
-   * - ``firstName``
-     - string
-     - First name of the User
-   * - ``lastName``
-     - string
-     - Last name of the User
-   * - ``email``
-     - string
-     - Email address of the User - **unique**
-   * - ``role``
-     - integer
-     - ID of the Role to assign to the User
-   * - ``position``
-     - string
-     - Job position or title of the User
-   * - ``timezone``
-     - string
-     - Timezone preference of the User
-   * - ``locale``
-     - string
-     - Language or locale preference of the User
-   * - ``signature``
-     - string
-     - Email signature in HTML format
+Accepts the same parameters as those described in :ref:`Create User <create User POST parameters>`. All parameters are optional.
 
 Response
 ========
@@ -515,6 +565,11 @@ Response
 
 The response is a JSON object containing the data of the deleted User, similar to :ref:`Get User <get User response>`.
 
+Properties
+----------
+
+Refer to :ref:`User properties <get User properties>`.
+
 .. vale off
 
 Get current User
@@ -522,7 +577,7 @@ Get current User
 
 .. vale on
 
-Retrieves the currently authenticated User's information.
+Retrieves the profile data of the User associated with the current API credentials.
 
 .. code-block:: php
 
@@ -548,27 +603,188 @@ Response
 
    {
       "isPublished": true,
-      "dateModified": "2026-02-23T03:01:19+00:00",
+      "dateAdded": "2026-02-21T05:19:56+00:00",
+      "dateModified": "2026-02-21T05:20:13+00:00",
+      "createdBy": 1,
+      "createdByUser": "Admin Mautic",
       "modifiedBy": 1,
-      "modifiedByUser": "John Doe",
-      "id": 1,
-      "username": "admin",
-      "firstName": "John",
-      "lastName": "Doe",
-      "email": "j.doe@acme.com",
+      "modifiedByUser": "Admin Mautic",
+      "id": 3,
+      "username": "r.green",
+      "firstName": "Rachel",
+      "lastName": "Green",
+      "email": "rachel.green@acme.com",
+      "position": "Marketing Staff",
       "role": {
           "isPublished": true,
-          "id": 1,
-          "name": "Administrator",
-          "description": "Full system access",
-          "isAdmin": true
+          "dateAdded": "2026-02-21T05:18:04+00:00",
+          "dateModified": "2026-02-23T04:02:22+00:00",
+          "createdBy": 1,
+          "createdByUser": "Admin Mautic",
+          "modifiedBy": 1,
+          "modifiedByUser": "John Doe",
+          "id": 2,
+          "name": "Email Permissions",
+          "isAdmin": false,
+          "rawPermissions": {
+              "asset:categories": [
+                  "view",
+                  "edit",
+                  "create",
+                  "delete"
+              ],
+              "asset:assets": [
+                  "viewown",
+                  "editown",
+                  "create",
+                  "deleteown"
+              ],
+              "email:categories": [
+                  "full"
+              ],
+              "email:emails": [
+                  "full"
+              ],
+              "mauticSocial:categories": [
+                  "full"
+              ],
+              "mauticSocial:monitoring": [
+                  "full"
+              ],
+              "mauticSocial:tweets": [
+                  "viewown",
+                  "editown",
+                  "create",
+                  "deleteown",
+                  "publishown"
+              ]
+          }
       },
-      "timezone": "America/New_York",
-      "locale": "en_US",
-      "lastLogin": "2026-02-23T02:57:05+00:00",
-      "lastActive": "2026-02-23T02:57:05+00:00",
-      "signature": "Best regards,\r\nJohn Doe"
+      "timezone": "Europe/Paris",
+      "lastLogin": "2026-02-25T08:24:46+00:00",
+      "lastActive": "2026-02-25T08:24:46+00:00",
+      "signature": "Best regards, \r\nRachel Green"
    }
+
+.. vale off
+
+Current User properties
+=======================
+
+.. vale on
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``isPublished``
+     - boolean
+     - User publication status
+   * - ``dateAdded``
+     - datetime
+     - User record creation date and time
+   * - ``dateModified``
+     - datetime
+     - User record last modification date and time
+   * - ``createdBy``
+     - integer
+     - ID of the User who created the User record
+   * - ``createdByUser``
+     - string
+     - Name of the User who created the User record
+   * - ``modifiedBy``
+     - integer
+     - ID of the User who last modified the User record
+   * - ``modifiedByUser``
+     - string
+     - Name of the User who last modified the User record
+   * - ``id``
+     - integer
+     - ID of the User
+   * - ``username``
+     - string
+     - Username for login - **unique**
+   * - ``firstName``
+     - string
+     - First name of the User
+   * - ``lastName``
+     - string
+     - Last name of the User
+   * - ``email``
+     - string
+     - Email address of the User - **unique**
+   * - ``position``
+     - string
+     - Job position or title of the User
+   * - ``role``
+     - object
+     - The Role and permissions assigned to the User
+   * - ``timezone``
+     - string
+     - Timezone preference of the User
+   * - ``lastLogin``
+     - datetime
+     - Date and time of the last login
+   * - ``lastActive``
+     - datetime
+     - Date and time of the last activity
+   * - ``signature``
+     - string
+     - Email signature in HTML format
+
+.. vale off
+
+Current User Role properties
+----------------------------
+
+.. vale on
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``isPublished``
+     - boolean
+     - Role publication status
+   * - ``dateAdded``
+     - datetime
+     - Role record creation date and time
+   * - ``dateModified``
+     - datetime
+     - Role record last modification date and time
+   * - ``createdBy``
+     - integer
+     - ID of the User who created the Role record
+   * - ``createdByUser``
+     - string
+     - Name of the User who created the Role record
+   * - ``modifiedBy``
+     - integer
+     - ID of the User who last modified the Role record
+   * - ``modifiedByUser``
+     - string
+     - Name of the User who last modified the Role record
+   * - ``id``
+     - integer
+     - ID of the Role
+   * - ``name``
+     - string
+     - Name of the Role
+   * - ``description``
+     - string
+     - Description of the Role
+   * - ``isAdmin``
+     - boolean
+     - Admin status - ``true`` if the Role has full system access
+   * - ``rawPermissions``
+     - object
+     - A collection of granular permission sets for Mautic bundles
 
 .. vale off
 
@@ -583,7 +799,7 @@ Verifies if a User has specific permissions.
 
    <?php
 
-   $permissions = array('user:users:view', 'user:users:edit');
+   $permissions = array('user:users:view', 'user:users:edit'); // Required
    $result = $userApi->checkPermission($userId, $permissions);
 
 .. vale off
@@ -607,7 +823,9 @@ POST parameters
      - Description
    * - ``permissions``
      - array
-     - Array of permission strings to verify against the User - **required**
+     - **Required**.
+       
+       Array of permission strings to verify
 
 Response
 ========
@@ -620,6 +838,26 @@ Response
       "user:users:view": true,
       "user:users:edit": true
    }
+
+Properties
+----------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``bundle:group:action``
+     - boolean
+     - Permission status - ``true`` indicates the User has the permission
+
+.. note::
+
+   * ``bundle``: the Mautic bundle name - for example, ``user``, ``email``, ``asset``, and so on.
+   * ``group``: the functional group within the bundle - for example, ``users``, ``roles``, ``forms``, and so on.
+   * ``action``: the specific operation - for example, ``view``, ``edit``, ``create``, ``delete``, or ``full``.
 
 .. vale off
 

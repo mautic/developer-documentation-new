@@ -211,7 +211,7 @@ Form properties
      - ID of the Form
    * - ``name``
      - string
-     - Form name - **required**
+     - Form name
    * - ``alias``
      - string
      - The auto-generated alias or slug of the Form
@@ -250,14 +250,14 @@ Form properties
      - Type of the Form - ``standalone`` or ``campaign``
    * - ``postAction``
      - string
-     - Post-submission behavior. Must be one of:
+     - Action to perform after submission. Must be one of:
      
        * ``return``: no action taken
        * ``redirect``: redirects to a specified URL
        * ``message``: displays a success message
    * - ``postActionProperty``
      - string
-     - The data associated with the ``postAction``. Contains the redirect URL when set to ``redirect``, or the success message when set to ``message`` - **required**
+     - The data associated with the ``postAction``. Contains the redirect URL when set to ``redirect``, or the success message when set to ``message``
    * - ``noIndex``
      - boolean
      - Search indexing status - set to ``1`` or ``true`` to send a ``noindex`` HTTP header. When not set, it defaults to indexing
@@ -291,7 +291,7 @@ Form Field properties
      - ID of the field
    * - ``label``
      - string
-     - Label displayed for the field - **required**
+     - Label displayed for the field
    * - ``showLabel``
      - boolean
      - Label visibility status - ``0`` or ``false`` hides the label on the Form. When not set, the system shows the label by default
@@ -386,7 +386,7 @@ Form action properties
      - The numerical position of the action within the Form
    * - ``properties``
      - object
-     - The settings for the specific action type - **required**
+     - The settings for the specific action type
 
 .. vale off
 
@@ -417,26 +417,34 @@ Query parameters
 ----------------
 
 .. list-table::
-   :widths: 30 70
+   :widths: 20 20 60
    :header-rows: 1
 
    * - Name
+     - Type
      - Description
    * - ``searchFilter``
+     - string
      - String or search command to filter entities
    * - ``start``
+     - integer
      - Starting row for the returned entities - defaults to 0
    * - ``limit``
+     - integer
      - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
+     - string
      - Column to sort by. Any column in the response is valid.
        
-       Note that you must convert ``camelCase`` properties to ``snake_case``. For example, ``dateSubmitted`` becomes ``date_submitted``, ``trackingId`` becomes ``tracking_id``, and so on
+       **Note**: convert ``camelCase`` properties to ``snake_case``. For example, ``dateAdded`` becomes ``date_added``, ``webhookUrl`` becomes ``webhook_url``, and so on
    * - ``orderByDir``
-     - Sort direction - ``asc`` or ``desc``
+     - string
+     - Order direction - ``asc`` or ``desc``
    * - ``publishedOnly``
+     - boolean
      - Returns only currently published entities
    * - ``minimal``
+     - boolean
      - Returns only a simple mapped object of entities without additional lists in it
 
 Response
@@ -569,7 +577,7 @@ Properties
 
 .. vale off
 
-For the rest of the Form properties, refer to :ref:`Form properties <get Form properties>`.
+For the rest of the properties, refer to :ref:`Form properties <get Form properties>`.
 
 .. vale on
 
@@ -587,12 +595,11 @@ Creates a new Form.
    <?php
 
    $data = array(
-       'name'        => 'Form created via API',
-       'formType'    => 'standalone',
-       'description' => 'This is a test form created via API',
-       'fields'      => array(
+       'name'               => 'Form created via API',           // Required
+       'postActionProperty' => 'Thank you for your submission!', // Required
+       'fields'             => array(                            // Required
            array(
-               'label'        => 'Email',
+               'label'        => 'Email',                        // Required
                'type'         => 'text',
                'alias'        => 'email',
                'mappedObject' => 'contact',
@@ -600,23 +607,24 @@ Creates a new Form.
                'isRequired'   => true,
            ),
            array(
-               'label' => 'Submit',
+               'label' =>    'Submit',                           // Required
                'type'  => 'button',
            ),
        ),
-       'actions' => array(
+       'actions' => array(                                       // Required
            array(
-               'name'        => 'Send notification',
-               'type'        => 'email',
-               'description' => 'Send email notification',
-               'properties'  => array(
+               'properties'  => array(                           // Required
                    'subject' => 'New form submission',
                    'message' => 'A new form submission has been received.',
                    'email'   => 'admin@example.com'
                ),
+               'name'        => 'Send notification',
+               'type'        => 'email.send.lead',
            ),
        ),
-       'postAction' => 'return',
+       'formType'           => 'standalone',
+       'postAction'         => 'message',
+       'description'        => 'This is a test form created via API',
    );
 
    $form = $formApi->create($data);
@@ -630,16 +638,109 @@ HTTP request
 
 ``POST /forms/new``
 
+.. _create Form POST parameters:
+
 POST parameters
 ---------------
 
-Mautic accepts the same parameters for creating a Form as those described in :ref:`Form properties <get Form properties>`.
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
 
-.. vale off
+   * - Name
+     - Type
+     - Description
+   * - ``name``
+     - string
+     - **Required.**
+       
+       Form name
+   * - ``postActionProperty``
+     - string
+     - **Required.**
+       
+       The data associated with the ``postAction``. Contains the redirect URL when set to ``redirect``, or the success message when set to ``message``
+   * - ``fields``
+     - array
+     - **Required.**
+       
+       Array of Form Fields. Refer to the :ref:`Field parameters` table for available options
+   * - ``actions``
+     - array
+     - **Required.**
+       
+       Array of Form actions. Refer to the :ref:`Action parameters` table for available options
+   * - ``formType``
+     - string
+     - Type of the Form - ``standalone`` or ``campaign``
+   * - ``postAction``
+     - string
+     - Action to perform after submission. Must be one of:
+     
+       * ``return``: no action taken
+       * ``redirect``: redirects to a specified URL
+       * ``message``: displays a success message
+   * - ``isPublished``
+     - boolean
+     - Form publication status
 
-Use the ``fields`` associative array to create the Form components and the ``actions`` associative array to define post-submission behaviors. For details on these objects, refer to :ref:`Form Field properties <get Form Field properties>` and :ref:`Form action properties <get Form action properties>`.
+.. _Field parameters:
 
-.. vale on
+Field parameters
+~~~~~~~~~~~~~~~~
+
+These parameters reside within the ``fields`` array.
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``label``
+     - string
+     - **Required.**
+       
+       Label displayed for the field
+   * - ``type``
+     - string
+     - Type of field, such as ``text``, ``email``, or ``select``
+   * - ``mappedObject``
+     - string
+     - The object type that the field maps to - ``contact`` or ``company``
+   * - ``mappedField``
+     - string
+     - The specific Contact or Company field that the Form Field maps to
+   * - ``isRequired``
+     - boolean
+     - Mandatory status for the field
+
+.. _Action parameters:
+
+Action parameters
+~~~~~~~~~~~~~~~~~
+
+These parameters reside within the ``actions`` array.
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``properties``
+     - array
+     - **Required.**
+       
+       The settings for the specific action type - for example, the Email ID or subject
+   * - ``name``
+     - string
+     - Action name
+   * - ``type``
+     - string
+     - Type of action, such as ``email.send.lead``
 
 Response
 ========
@@ -713,13 +814,7 @@ HTTP request
 POST parameters
 ---------------
 
-Mautic accepts the same parameters for editing a Form as those described in :ref:`Form properties <get Form properties>`.
-
-.. vale off
-
-Use the ``fields`` associative array to manage Form components and the ``actions`` associative array to manage post-submission behaviors. For details on these objects, refer to :ref:`Form Field properties <get Form Field properties>` and :ref:`Form action properties <get Form action properties>`.
-
-.. vale on
+Accepts the same parameters as those described in :ref:`Create Form <create Form POST parameters>`. All parameters are optional.
 
 Response
 ========
@@ -794,19 +889,21 @@ HTTP request
 
 ``DELETE /forms/ID/fields/delete``
 
-Query parameters
-----------------
+Parameters
+----------
 
 .. list-table::
-   :widths: 30 70
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
+     - Type
      - Description
-   * - ``formId``
-     - ID of the Form
-   * - ``fieldIds``
-     - Array of field IDs to remove from the Form
+   * - ``fields``
+     - array
+     - **Required.**
+       
+       Array of Form Field IDs to delete
 
 Response
 ========
@@ -844,19 +941,21 @@ HTTP request
 
 ``DELETE /forms/ID/actions/delete``
 
-Query parameters
-----------------
+Parameters
+----------
 
 .. list-table::
-   :widths: 30 70
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
+     - Type
      - Description
-   * - ``formId``
-     - ID of the Form
-   * - ``actionIds``
-     - Array of Form action IDs to delete
+   * - ``actions``
+     - array
+     - **Required.**
+       
+       Array of Form action IDs to delete
 
 Response
 ========
@@ -1023,23 +1122,29 @@ Query parameters
 ----------------
 
 .. list-table::
-   :widths: 30 70
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
+     - Type
      - Description
-   * - ``formId``
-     - ID of the Form
    * - ``searchFilter``
+     - string
      - String or search command to filter entities
    * - ``start``
+     - integer
      - Starting row for the returned entities - defaults to 0
    * - ``limit``
+     - integer
      - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
+     - string
      - Column to sort by. Any column in the response is valid
+       
+       **Note**: convert ``camelCase`` properties to ``snake_case``. For example, ``dateAdded`` becomes ``date_added``, ``webhookUrl`` becomes ``webhook_url``, and so on
    * - ``orderByDir``
-     - Sort direction - ``asc`` or ``desc``
+     - string
+     - Order direction - ``asc`` or ``desc``
 
 Response
 ========
@@ -1149,27 +1254,29 @@ Query parameters
 ----------------
 
 .. list-table::
-   :widths: 30 70
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
+     - Type
      - Description
-   * - ``formId``
-     - ID of the Form
-   * - ``contactId``
-     - ID of the Contact
    * - ``searchFilter``
+     - string
      - String or search command to filter entities
    * - ``start``
+     - integer
      - Starting row for the returned entities - defaults to 0
    * - ``limit``
+     - integer
      - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
+     - string
      - Column to sort by. Any column in the response is valid.
-        
-       Note that you must convert ``camelCase`` properties to ``snake_case``. For example, ``dateSubmitted`` becomes ``date_submitted``
+       
+       **Note**: convert ``camelCase`` properties to ``snake_case``. For example, ``dateAdded`` becomes ``date_added``, ``webhookUrl`` becomes ``webhook_url``, and so on
    * - ``orderByDir``
-     - Sort direction - ``asc`` or ``desc``
+     - string
+     - Order direction - ``asc`` or ``desc``
 
 Response
 ========

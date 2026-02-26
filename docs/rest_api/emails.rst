@@ -176,13 +176,13 @@ Email properties
      - ID of the Email
    * - ``name``
      - string
-     - Email name - **required**
+     - Email name
    * - ``subject``
      - string
-     - Subject of the Email - **required**
+     - Subject of the Email
    * - ``language``
      - string
-     - The language code for the Email, such as ``en``, ``fr``, and so on - **required**
+     - The language code for the Email, such as ``en``, ``fr``, and so on
    * - ``category``
      - object
      - The Category for the Email
@@ -269,7 +269,7 @@ Email properties
      - Array of Dynamic Content variants
    * - ``lists``
      - array
-     - Array of Segments that receive the Email - **required**
+     - Array of Segments that receive the Email
    * - ``headers``
      - array
      - Array of custom headers
@@ -308,26 +308,34 @@ Query parameters
 ----------------
 
 .. list-table::
-   :widths: 30 70
+   :widths: 20 20 60
    :header-rows: 1
 
    * - Name
+     - Type
      - Description
    * - ``search``
+     - string
      - String or search command to filter entities
    * - ``start``
+     - integer
      - Starting row for the returned entities - defaults to 0
    * - ``limit``
+     - integer
      - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
+     - string
      - Column to sort by. Any column in the response is valid.
        
-       Note that you must convert ``camelCase`` properties to ``snake_case``. For example, ``dateSubmitted`` becomes ``date_submitted``, ``trackingId`` becomes ``tracking_id``, and so on
+       **Note**: convert ``camelCase`` properties to ``snake_case``. For example, ``dateAdded`` becomes ``date_added``, ``webhookUrl`` becomes ``webhook_url``, and so on
    * - ``orderByDir``
-     - Sort direction - ``asc`` or ``desc``
+     - string
+     - Order direction - ``asc`` or ``desc``
    * - ``publishedOnly``
+     - boolean
      - Returns only currently published entities
    * - ``minimal``
+     - boolean
      - Returns only a simple mapped object of entities without additional lists in it
 
 Response
@@ -435,7 +443,7 @@ Properties
 
 .. vale off
 
-For the rest of the Email properties, refer to :ref:`Email properties <get Email properties>`.
+For the rest of the properties, refer to :ref:`Email properties <get Email properties>`.
 
 .. vale off
 
@@ -451,11 +459,15 @@ Creates a new Email.
    <?php
 
    $data = array(
-       'name'       => 'Email created via API',
-       'subject'    => 'Hello World!',
-       'emailType'  => 'list',
-       'customHtml' => '<h1>Hello from API!</h1>',
-       'lists'      => array(1, 2),
+       'name'             => 'Email created via API', // Required
+       'subject'          => 'Hello World!',          // Required
+       'language'         => 'en',                    // Required
+       'lists'            => array(1, 2),             // Required
+       'emailType'        => 'list',
+       'isPublished'      => true,
+       'customHtml'       => '<h1>Hello from API!</h1>',
+       'preheaderText'    => 'Check out our latest update',
+       'assetAttachments' => array(5),
    );
 
    $email = $emailApi->create($data);
@@ -469,10 +481,102 @@ HTTP request
 
 ``POST /emails/new``
 
+.. _create Email POST parameters:
+
 POST parameters
 ---------------
 
-Mautic accepts the same parameters for creating an Email as those described in :ref:`Email properties <get Email properties>`.
+.. vale off
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``name``
+     - string
+     - **Required.**
+       
+       Name of the Email
+   * - ``subject``
+     - string
+     - **Required.**
+       
+       Subject of the Email
+   * - ``language``
+     - string
+     - **Required.**
+       
+       The language code for the Email, such as ``en``, ``fr``, and so on
+   * - ``lists``
+     - array
+     - **Required.**
+       
+       Array of Segments that receive the Email
+   * - ``isPublished``
+     - boolean
+     - Email publication status
+   * - ``category``
+     - integer
+     - ID of the Category for the Email
+   * - ``fromAddress``
+     - string
+     - From Email address
+   * - ``fromName``
+     - string
+     - From name
+   * - ``replyToAddress``
+     - string
+     - Reply-to Email address
+   * - ``bccAddress``
+     - string
+     - BCC Email address
+   * - ``useOwnerAsMailer``
+     - boolean
+     - Contact owner mailer status - set to ``1`` or ``true`` to use the Contact owner as the mailer
+   * - ``utmTags``
+     - associative array
+     - Associative array of Email UTM tags
+   * - ``preheaderText``
+     - string
+     - Summary text that appears after the subject line
+   * - ``customHtml``
+     - string
+     - Custom HTML content of the Email
+   * - ``plainText``
+     - string
+     - Plain text version of the Email
+   * - ``template``
+     - string
+     - Theme used to style the Email
+   * - ``emailType``
+     - string
+     - Type of the Email - ``list`` or ``template``
+   * - ``publishUp``
+     - datetime
+     - Activation date and time for the Email
+   * - ``publishDown``
+     - datetime
+     - Deactivation date and time for the Email
+   * - ``publicPreview``
+     - boolean
+     - Public preview status
+   * - ``assetAttachments``
+     - array
+     - Array of Asset IDs attached to the Email
+   * - ``unsubscribeForm``
+     - integer
+     - ID of the Unsubscribe Form for the Email
+   * - ``dynamicContent``
+     - array
+     - Array of Dynamic Content variants
+   * - ``headers``
+     - array
+     - Array of custom headers
+
+.. vale on
 
 Response
 ========
@@ -528,7 +632,7 @@ HTTP request
 POST parameters
 ---------------
 
-Mautic accepts the same parameters for editing an Email as those described in :ref:`Email properties <get Email properties>`.
+Accepts the same parameters as those described in :ref:`Create Email <create Email POST parameters>`. All parameters are optional.
 
 Response
 ========
@@ -630,12 +734,6 @@ Parameters
    * - Name
      - Type
      - Description
-   * - ``emailId``
-     - integer
-     - ID of the Email
-   * - ``contactId``
-     - integer
-     - ID of the Contact
    * - ``tokens``
      - associative array
      - Associative array of tokens to replace in the Email content
@@ -679,8 +777,8 @@ HTTP request
 
 ``POST /emails/ID/send``
 
-POST parameters
----------------
+Parameters
+----------
 
 .. list-table::
    :widths: 25 25 50
@@ -689,9 +787,6 @@ POST parameters
    * - Name
      - Type
      - Description
-   * - ``id``
-     - integer
-     - ID of the Email
    * - ``listIds``
      - array
      - Array of Segment IDs to target. This parameter overrides the Email's assigned Segments

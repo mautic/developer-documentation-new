@@ -141,7 +141,7 @@ Segment properties
      - ID of the Segment
    * - ``name``
      - string
-     - Segment name - **required**
+     - Segment name
    * - ``publicName``
      - string
      - Public name of the Segment displayed to Contacts
@@ -193,26 +193,34 @@ Query parameters
 ----------------
 
 .. list-table::
-   :widths: 30 70
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
+     - Type
      - Description
    * - ``searchFilter``
+     - string
      - String or search command to filter entities
    * - ``start``
+     - integer
      - Starting row for the returned entities - defaults to 0
    * - ``limit``
+     - integer
      - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
+     - string
      - Column to sort by. Any column in the response is valid.
-        
-       Note that you must convert ``camelCase`` properties to ``snake_case``. For example, ``dateAdded`` becomes ``date_added``, ``modifiedByUser`` becomes ``modified_by_user``, and so on
+       
+       **Note**: convert ``camelCase`` properties to ``snake_case``. For example, ``dateAdded`` becomes ``date_added``, ``webhookUrl`` becomes ``webhook_url``, and so on
    * - ``orderByDir``
-     - Sort direction - ``asc`` or ``desc``
+     - string
+     - Order direction - ``asc`` or ``desc``
    * - ``publishedOnly``
+     - boolean
      - Returns only currently published entities
    * - ``minimal``
+     - boolean
      - Returns only a simple mapped object of entities without additional lists in it
 
 Response
@@ -277,7 +285,7 @@ Properties
 
 .. vale off
 
-For the rest of the Segment properties, refer to :ref:`Segment properties <get Segment properties>`.
+For the rest of the properties, refer to :ref:`Segment properties <get Segment properties>`.
 
 .. vale on
 
@@ -294,27 +302,27 @@ Creates a new Segment.
 
    <?php
 
-   $data = array(
-       'name' => 'VIP Customers',
-       'alias' => 'vip-customers',
-       'description' => 'High-value customers',
-       'isPublished' => true,
-       'isGlobal' => true,
-       'filters' => array(
-           array(
-               'glue' => 'and',
-               'field' => 'points',
-               'object' => 'lead',
-               'type' => 'number',
-               'operator' => 'gte',
-               'properties' => array(
-                   'filter' => '100'
-               )
-           )
-       )
-   );
+    $data = array(
+        'name'               => 'VIP Customers', // Required
+        'alias'              => 'vip-customers',
+        'description'        => 'High-value customers',
+        'isPublished'        => true,
+        'isGlobal'           => true,
+        'filters'            => array(
+            array(
+                'glue'       => 'and',
+                'field'      => 'points',
+                'object'     => 'lead',
+                'type'       => 'number',
+                'operator'   => 'gte',
+                'properties' => array(
+                    'filter' => '100'
+                )
+            )
+        )
+    );
 
-   $segment = $segmentApi->create($data);
+    $segment = $segmentApi->create($data);
 
 .. vale off
 
@@ -325,17 +333,54 @@ HTTP request
 
 ``POST /segments/new``
 
+.. _create Segment POST parameters:
+
 POST parameters
 ---------------
 
-Mautic accepts the same parameters for creating a Segment as those described in :ref:`Segment properties <get Segment properties>`.
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``name``
+     - string
+     - **Required.**
+
+       Segment name
+   * - ``publicName``
+     - string
+     - Public name of the Segment displayed to Contacts
+   * - ``alias``
+     - string
+     - The auto-generated alias or slug of the Segment
+   * - ``description``
+     - string
+     - Description of the Segment
+   * - ``isPublished``
+     - boolean
+     - Segment publication status
+   * - ``category``
+     - object
+     - The Category assigned to the Segment
+   * - ``filters``
+     - array
+     - Array of filter criteria that define the Segment entities
+   * - ``isGlobal``
+     - boolean
+     - Global visibility status - set to ``1`` or ``true`` to share the Segment with all Users. When not set, it defaults to restricted access
+   * - ``isPreferenceCenter``
+     - boolean
+     - Preference center status - set to ``1`` or ``true`` to include the Segment in preference centers. When not set, it defaults to hidden
 
 Response
 ========
 
 * Returns ``201 Created`` when the request successfully creates a Segment.
 
-The response is a JSON object similar to :ref:`Get Segment <get Segment response>`.
+The response is the same as :ref:`Get Segment <get Segment response>`.
 
 Properties
 ----------
@@ -384,7 +429,7 @@ HTTP request
 POST parameters
 ---------------
 
-Mautic accepts the same parameters for editing a Segment as those described in :ref:`Segment properties <get Segment properties>`.
+Accepts the same parameters as those described in :ref:`Create Segment <create Segment POST parameters>`. All parameters are optional.
 
 Response
 ========
@@ -392,7 +437,7 @@ Response
 * ``PUT``: returns ``200 OK`` when the request successfully updates the Segment or ``201 Created`` when the request creates a Segment.
 * ``PATCH``: returns ``200 OK`` when the request successfully updates the Segment or ``404 Not Found`` error when the Segment ID doesn't exist.
 
-The response is a JSON object similar to :ref:`Get Segment <get Segment response>`.
+The response is the same as :ref:`Get Segment <get Segment response>`.
 
 Properties
 ----------
@@ -428,7 +473,7 @@ Response
 
 * Returns ``200 OK`` when the request successfully deletes the Segment.
 
-The response is a JSON object containing the data of the deleted Segment, similar to :ref:`Get Segment <get Segment response>`.
+The response is similar to :ref:`Get Segment <get Segment response>` but contains the deleted Segment data.
 
 Properties
 ----------
@@ -495,17 +540,21 @@ HTTP request
 
 ``POST /segments/SEGMENT_ID/contacts/add``
 
-Query parameters
-----------------
+Parameters
+----------
 
 .. list-table::
-   :widths: 30 70
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
+     - Type
      - Description
    * - ``contactIds``
-     - Array of Contact IDs to add to the Segment
+     - array
+     - **Required.**
+
+       Array of Contact IDs to add to the Segment
 
 Response
 ========
@@ -533,7 +582,7 @@ Properties
 ----------
 
 .. list-table::
-   :widths: 20 20 60
+   :widths: 30 20 50
    :header-rows: 1
 
    * - Name
@@ -641,13 +690,16 @@ Segment properties
    * - Name
      - Type
      - Description
-   * - ``id``
+   * - ``{id}``
+     - object
+     - Segment data indexed by the Segment ID
+   * - ``{id}/id``
      - integer
      - ID of the Segment
-   * - ``name``
+   * - ``{id}/name``
      - string
-     - Name of the Segment
-   * - ``alias``
+     - Segment name
+   * - ``{id}/alias``
      - string
      - The auto-generated alias or slug of the Segment
 

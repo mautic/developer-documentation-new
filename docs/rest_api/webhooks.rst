@@ -140,31 +140,25 @@ Webhook properties
      - ID of the Webhook
    * - ``name``
      - string
-     - **Required.**
-     
-       Name of the Webhook
+     - Webhook name
    * - ``description``
      - string
      - Description of the Webhook
    * - ``webhookUrl``
      - string
-     - **Required.**
-     
-       The URL that receives the Webhook payload
+     - The URL that receives the Webhook payload
    * - ``secret``
      - string
      - Secret used for Webhook authentication or verification
    * - ``eventsOrderbyDir``
      - string
-     - Order direction - ``asc`` or ``desc``
+     - Order direction for events - ``asc`` or ``desc``
    * - ``category``
      - object
      - The Category assigned to the Webhook
    * - ``triggers``
      - array
-     - **Required.**
-     
-       Array of event types that trigger the Webhook
+     - Array of event types that trigger the Webhook
 
 .. vale off
 
@@ -195,26 +189,34 @@ Query parameters
 ----------------
 
 .. list-table::
-   :widths: 30 70
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
+     - Type
      - Description
    * - ``searchFilter``
+     - string
      - String or search command to filter entities
    * - ``start``
+     - integer
      - Starting row for the returned entities - defaults to 0
    * - ``limit``
+     - integer
      - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
+     - string
      - Column to sort by. Any column in the response is valid.
-        
-       Note that you must convert ``camelCase`` properties to ``snake_case``. For example, ``dateAdded`` becomes ``date_added``, ``webhookUrl`` becomes ``webhook_url``, and so on
+       
+       **Note**: convert ``camelCase`` properties to ``snake_case``. For example, ``dateAdded`` becomes ``date_added``, ``webhookUrl`` becomes ``webhook_url``, and so on
    * - ``orderByDir``
+     - string
      - Order direction - ``asc`` or ``desc``
    * - ``publishedOnly``
+     - boolean
      - Returns only currently published entities
    * - ``minimal``
+     - boolean
      - Returns only a simple mapped object of entities without additional lists in it
 
 Response
@@ -278,7 +280,7 @@ Properties
 
 .. vale off
 
-For the rest of the Webhook properties, refer to :ref:`Webhook properties <get Webhook properties>`.
+For the rest of the properties, refer to :ref:`Webhook properties <get Webhook properties>`.
 
 .. vale on
 
@@ -421,7 +423,7 @@ HTTP request
 POST parameters
 ---------------
 
-Accepts the same parameters as those described in :ref:`Create Webhook <create Webhook POST parameters>` and all parameters are optional.
+Accepts the same parameters as those described in :ref:`Create Webhook <create Webhook POST parameters>`. All parameters are optional.
 
 Response
 ========
