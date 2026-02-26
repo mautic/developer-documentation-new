@@ -1,8 +1,17 @@
 Welcome to Mautic's developer documentation
-===========================================
+###########################################
+
+.. vale off
 
 .. note::
-    Work is ongoing bringing over some of the content from the old documentation, which you can find at :xref:`Mautic Developer Portal`. Please see the :xref:`Mautic Dev Docs Issues` if you'd like to help with completing this work.
+
+   The content for this documentation requires a major update. The legacy documentation contains outdated and potentially inaccurate information. You can still access it in the :xref:`legacy repository`.
+
+   If you're interested in helping develop the new content for this documentation, consider joining the documentation efforts.
+
+   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
+
+.. vale on
 
 Welcome to the Mautic Developer Documentation. The documentation broadly covers building custom Plugins for Mautic which extends its features, building custom Themes, and how to integrate applications outside of Mautic using the REST API.
 
@@ -120,53 +129,121 @@ There are several ways to support Mautic other than contributing with code.
    plugins/event_listeners
    plugins/installation
    plugins/data
+   plugins/cache
    plugins/translations
-   plugins/continuous-integration
-   plugins/from-4-to-5
+   plugins/continuous_integration
+   plugins/update_m4_to_m5
+   plugins/mvc
+   plugins/permissions
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Plugin Extensions
+   :hidden:
+
+   plugin_extensions/manipulating_contacts
+   plugin_extensions/api
+   plugin_extensions/campaigns
+   plugin_extensions/categories
+   plugin_extensions/channels
+   plugin_extensions/contacts
+   plugin_extensions/emails
+   plugin_extensions/forms
+   plugin_extensions/forms_advanced
+   plugin_extensions/integrations
+   plugin_extensions/landing_pages
+   plugin_extensions/maintenance
+   plugin_extensions/points
+   plugin_extensions/reports
+   plugin_extensions/ui
+   plugin_extensions/webhooks
 
 .. toctree::
    :maxdepth: 2
-   :caption: Extending Mautic
+   :caption: Plugin Integrations
    :hidden:
 
-   components/api
-   components/cache
-   components/campaigns
-   components/categories
-   components/channels
-   components/config
-   components/contacts
-   components/core
-   components/emails
-   components/forms
-   components/forms_advanced
-   components/integrations
-   components/ip_lookups
-   components/landing_pages
-   components/maintenance
-   components/points
-   components/queue
-   components/reports
-   components/security
-   components/tracking_script
-   components/translator
-   components/ui
+   plugin_integrations/integrations
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Plugin Services
+   :hidden:
+
+   plugin_services/cookie_helper
+   plugin_services/database
+   plugin_services/event_dispatcher
+   plugin_services/factory
+   plugin_services/ip_lookups
+   plugin_services/mail_helper
+   plugin_services/model_factory
+   plugin_services/parameters
+   plugin_services/paths_helper
+   plugin_services/plugin_config_helper
+   plugin_services/request
+   plugin_services/router
+   plugin_services/security
+   plugin_services/session
+   plugin_services/translator
+   plugin_services/user
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Miscellaneous
+   :hidden:
+
+   plugin_miscellaneous/commands
+   plugin_miscellaneous/events
+   plugin_miscellaneous/flash_messages
+   plugin_miscellaneous/forms
+   plugin_miscellaneous/helpers
+   plugin_miscellaneous/translated_entities
+   plugin_miscellaneous/variant_entities
 
 .. toctree::
    :maxdepth: 2
    :caption: REST API
    :hidden:
 
+   rest_api/api_intro
+   rest_api/authorization
    rest_api/assets
    rest_api/campaigns
    rest_api/categories
+   rest_api/companies
    rest_api/contacts
+   rest_api/data
+   rest_api/dynamic_content
+   rest_api/emails
    rest_api/fields
+   rest_api/files
+   rest_api/focus
+   rest_api/forms
+   rest_api/messages
+   rest_api/notes
    rest_api/notifications
+   rest_api/pages
+   rest_api/point_actions
    rest_api/point_groups
+   rest_api/point_triggers
    rest_api/reports
    rest_api/roles
+   rest_api/segments
+   rest_api/stages
+   rest_api/stats
+   rest_api/tags
    rest_api/text_messages
+   rest_api/themes
+   rest_api/tweets
+   rest_api/users
+   rest_api/webhooks
+
+.. toctree::
+   :maxdepth: 2
+   :caption: MauticJS API
+   :hidden:
+
+   mauticjs_api/tracking_script
 
 .. toctree::
    :maxdepth: 2
