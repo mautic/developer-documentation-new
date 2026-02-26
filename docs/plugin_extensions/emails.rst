@@ -1,6 +1,3 @@
-Emails
-######
-
 .. vale off
 
 .. note::
@@ -12,6 +9,9 @@ Emails
    Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
 
 .. vale on
+
+Emails
+######
 
 There are multiple ways to extend the way Mautic works with Emails. This document describes the following options for extending Mautic's Email capabilities:
 
