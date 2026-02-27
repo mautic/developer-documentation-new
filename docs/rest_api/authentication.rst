@@ -29,32 +29,7 @@ After enabling Basic Authentication, you can use it in Mautic's API.
 Using the Mautic API library
 ============================
 
-.. code-block:: php
-
-   <?php
-   
-   use GuzzleHttp\Client;
-   use Mautic\Auth\ApiAuth;
-   use Mautic\MauticApi;
-
-   // Initiate an HTTP Client
-   $httpClient = new Client([
-       'timeout'  => 10,
-   ]);
-
-   // Initiate the auth object
-   $settings = [
-       'userName' => 'YOUR_USERNAME',
-       'password' => 'YOUR_PASSWORD'
-   ];
-   $apiUrl = 'https://mautic.example.com';
-
-   $initAuth = new ApiAuth($httpClient);
-   $auth     = $initAuth->newAuth($settings, 'BasicAuth');
-   
-   $api         = new MauticApi();
-   $contactsApi = $api->newApi('contacts', $auth, $apiUrl);
-   $contacts    = $contactsApi->getList();
+Read the :xref:`using basic auth` to interact with Mautic's API.
    
 .. vale off
 
@@ -93,52 +68,20 @@ There are two main flows that Mautic supports:
    * - Authorization Code flow
      - This flow is best if you want Users to log in with their own Mautic accounts. All actions taken get registered as if the User performed them in Mautic's UI.
    * - Client Credentials flow
-     - This flow is best for Machine-to-Machine - M2M - communications. For example, in Cron jobs that run at fixed times of day.
-       
-       All actions get registered under the name that you provided in **Settings > API Credentials**.
-       So if you called your API Credential ``Mautibot test``, Contacts created through the API show up as ``Contact was identified by Mautibot test [1]``, where ``[1]`` is the ID of the API Credential.
+     - This flow suits Machine-to-Machine - M2M - communications such as Cron jobs.
+     
+       Mautic registers all actions under the name provided in **Settings > API Credentials**. For example, a credential named ``Mautibot test`` identifies Contacts created through the API as ``Contact was identified by Mautibot test [1]`` where ``[1]`` represents the credential ID.
  
 Authorization Code flow
 =======================
 
-Using the Mautic API library
-----------------------------
+Using the Mautic API library for Authorization Code flow
+--------------------------------------------------------
 
-Mautic API library has built-in support for the OAuth2 Authorization Code flow. Use it as follows:
+Read the :xref:`Obtaining an access token` to interact with Mautic's API.
 
-.. code-block:: php
-
-   <?php
-
-   use Mautic\Auth\ApiAuth;
-
-   // This is needed for the API library to store the OAuth2 state in the $_SESSION
-   session_start();
-
-   // $initAuth->newAuth() will accept an array of OAuth settings
-   $settings = array(
-       'baseUrl'      => 'https://mautic.example.com',
-       'version'      => 'OAuth2',
-       'clientKey'    => '5ad6fa7asfs8fa7sdfa6sfas5fas6asdf8', // A Client Key can be created in Mautic's UI through the "API Credentials" menu item
-       'clientSecret' => 'adf8asf7sf54asf3as4f5sf6asfasf97dd', // A Client Secret can be created in Mautic's UI through the "API Credentials" menu item
-       'callback'     => 'https://example.com/your-callback'
-   );
-
-   // Initiate the auth object
-   $initAuth = new ApiAuth();
-   $auth     = $initAuth->newAuth($settings, 'OAuth');
-
-   // Initiate process for obtaining an access token; this method will redirect the user to the authorize endpoint and/or set the tokens when the user is redirected back after granting authorization
-   if ($auth->validateAccessToken()) {
-       if ($auth->accessTokenUpdated()) {
-           $accessTokenData = $auth->getAccessTokenData();
-
-           // store the access token data however you want
-       }
-   }
-
-Using plain OAuth2
-------------------
+Using the standard OAuth2 for Authorization Code flow
+-----------------------------------------------------
 
 .. tip::
 
@@ -208,12 +151,11 @@ The ``expires_in`` field indicates the number of seconds the access token remain
 
 By default, the refresh token remains valid for 14 days. Configure this duration in Mautic under **Configuration > API Settings**.
 
-* When the app requests a new access token within the 14-day validity period, Mautic automatically issues a new access token and a new refresh token. Both tokens remain valid for another 14 days from the date of issuance.
-* If the app doesn't request a new token before the refresh token expires, restart the process from :ref:`step one <step one>` and redirect the User to the Mautic login.
-
 .. note::
 
-   The app must monitor for a ``400 Bad Request`` response when requesting a new access token. If this occurs, it should redirect the User through the authorization process again.
+   * When the app requests a new access token within the 14-day validity period, Mautic automatically issues a new access token and a new refresh token. Both tokens remain valid for another 14 days from the date of issuance.
+   * If the app doesn't request a new token before the refresh token expires, restart the process from :ref:`step one <step one>` and redirect the User to the Mautic login.
+   * The app must monitor for a ``400 Bad Request`` response when requesting a new access token. If this occurs, it should redirect the User through the authorization process again.
 
 To obtain a new access token, send a ``POST`` request to the token endpoint ``oauth/v2/token`` using the ``refresh_token`` grant type.
 
@@ -246,8 +188,8 @@ New access token response
 Client Credentials flow
 =======================
 
-Using the Mautic API library
-----------------------------
+Using the Mautic API library for Client Credentials flow
+--------------------------------------------------------
 
 .. vale on
 
@@ -257,8 +199,8 @@ Using the Mautic API library
 
 .. vale off
 
-Using plain OAuth2
-------------------
+Using the standard OAuth2 for Client Credentials flow
+-----------------------------------------------------
 
 .. vale on
 
