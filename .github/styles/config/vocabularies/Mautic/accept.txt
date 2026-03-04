@@ -41,6 +41,7 @@ CORS
 cron
 Cron
 CTRL
+datetime
 DDEV
 DNC
 Do Not Contact
@@ -127,6 +128,7 @@ Read the Docs
 rebase
 Remarketing
 Report Email
+REST
 RST
 Salesforce
 SAML
@@ -135,6 +137,7 @@ SCP
 Segment Email
 SendGrid
 SES
+SFTP
 SHA
 Shinde
 SMS
