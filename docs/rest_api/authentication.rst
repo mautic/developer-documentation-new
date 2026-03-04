@@ -236,11 +236,7 @@ This method requires the Mautic server to pass headers to PHP or provide access 
 Other methods
 -------------
 
-You can append the access token to the query string or include it in the ``POST`` body when using ``x-www-form-urlencoded``.
-
-.. code-block:: bash
-    
-    GET https://mautic.example.com/api/leads?access_token=ACCESS_TOKEN
+While the preferred method is to send the access token in the ``Authorization: Bearer`` header, you may alternatively include it in the ``POST`` body when using ``application/x-www-form-urlencoded`` if your client cannot set custom headers. Avoid putting access tokens in URL query strings, since server logs, browser history, and ``Referer`` headers often record URLs and can inadvertently expose your token.
 
 .. code-block:: bash
 
