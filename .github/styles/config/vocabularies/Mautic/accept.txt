@@ -42,6 +42,7 @@ cron
 Cron
 CTRL
 datetime
+DBAL
 DDEV
 DNC
 Do Not Contact
