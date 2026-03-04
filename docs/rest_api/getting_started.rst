@@ -1,11 +1,11 @@
 Getting started with REST API
 #############################
 
-Mautic provides a REST API to manipulate and retrieve information about various entities in Mautic.
+Mautic provides several REST API endpoints to manipulate and retrieve information about various entities in Mautic. You can find the available endpoints in the navigation menu on the left.
 
 .. warning::
 
-   All Mautic API endpoints require an OAuth1a signature or an OAuth2 access token.
+   Mautic turns off the REST API by default. The Mautic administrator can turn on the API in the Mautic UI under **Configuration > API Settings**, or by setting ``'api_enabled' => 1`` in ``app/config/local.php`` directly.
 
 Error handling
 **************
@@ -57,7 +57,7 @@ The base API endpoint is ``https://mautic.example.com/api``.
 
 .. vale off
 
-Mautic API Library
+Mautic API library
 ******************
 
 .. vale on
@@ -82,8 +82,8 @@ Download :xref:`API library package` from GitHub, extract it, then include the f
 
    Refer to the README in the GitHub repository for further instructions on using the library, or review the code examples throughout this documentation.
 
-API rate limiter
-****************
+API rate limiter cache
+**********************
 
 You can configure the rate limiter cache in ``local.php``. The default configuration uses the filesystem as follows:
 
