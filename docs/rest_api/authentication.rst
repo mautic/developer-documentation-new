@@ -247,4 +247,4 @@ You can append the access token to the query string or include it in the ``POST`
     curl -X POST \
          -H "Content-Type: application/x-www-form-urlencoded" \
          -d "firstname=John&lastname=Smith&access_token=ACCESS_TOKEN" \
-         https://mautic.example.com.com/api/leads/new
+         https://mautic.example.com/api/leads/new
