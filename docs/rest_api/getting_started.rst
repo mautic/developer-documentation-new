@@ -5,7 +5,7 @@ Mautic provides several REST API endpoints to manipulate and retrieve informatio
 
 .. warning::
 
-   Mautic turns off the REST API by default. The Mautic administrator can turn on the API in the Mautic UI under **Configuration > API Settings**, or by setting ``'api_enabled' => 1`` in ``app/config/local.php`` directly.
+   Mautic turns off the REST API by default. The Mautic administrator can turn on the API in the Mautic UI under **Configuration > API Settings**, or by setting ``'api_enabled' => 1`` in ``config/local.php`` directly. In Mautic versions earlier than 5, this setting is in ``app/config/local.php``.
 
 Error handling
 **************
