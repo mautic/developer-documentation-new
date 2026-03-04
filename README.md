@@ -8,6 +8,8 @@ If you're seeking the legacy developer documentation, please visit the [GitHub r
 
 [ReadTheDocs]: <https://readthedocs.org>
 [Legacy dev docs]: <https://github.com/mautic/developer-documentation>
+[RTD badge URL]: <https://readthedocs.org/projects/mautic-developer/badge/?version=latest>
+[RTD URL]: <https://mautic-developer.readthedocs.io/en/latest/?badge=latest>
 
 ## Contributing 🤝
 
@@ -32,6 +34,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://incodit.com"><img src="https://avatars.githubusercontent.com/u/6416992?v=4?s=100" width="100px;" alt="Balbinder Sumbria"/><br /><sub><b>Balbinder Sumbria</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=sumbria" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Hugo-Prossaird"><img src="https://avatars.githubusercontent.com/u/176997845?v=4?s=100" width="100px;" alt="Hugo-Prossaird"/><br /><sub><b>Hugo-Prossaird</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=Hugo-Prossaird" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://ddev.com"><img src="https://avatars.githubusercontent.com/u/112444?v=4?s=100" width="100px;" alt="Randy Fay"/><br /><sub><b>Randy Fay</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=rfay" title="Documentation">📖</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://adiati.com"><img src="https://avatars.githubusercontent.com/u/45172775?v=4?s=100" width="100px;" alt="Ayu Adiati"/><br /><sub><b>Ayu Adiati</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=adiati98" title="Documentation">📖</a> <a href="https://github.com/mautic/developer-documentation-new/pulls?q=is%3Apr+reviewed-by%3Aadiati98" title="Reviewed Pull Requests">👀</a></td>
     </tr>
   </tbody>
 </table>
