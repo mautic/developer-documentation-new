@@ -85,6 +85,10 @@ Download :xref:`API library package` from GitHub, extract it, then include the f
 API rate limiter cache
 **********************
 
+.. attention::
+
+   The rate limiter cache is no longer available in Mautic version 7 or later.
+
 You can configure the rate limiter cache in ``local.php``. The default configuration uses the filesystem as follows:
 
 .. code-block:: PHP
