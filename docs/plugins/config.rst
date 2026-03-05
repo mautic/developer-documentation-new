@@ -52,6 +52,8 @@ Mautic recognizes the Plugin through the general config options.
       - string
       - The version should be in a format compatible with :xref:`PHP's standardized version strings<PHP standardized version strings>`. The Plugin Manager uses PHP's ``version_compare()`` to determine if the Plugin is eligible for an upgrade.
 
+.. _routing config items:
+
 Routing config items
 ********************
 

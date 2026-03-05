@@ -17,8 +17,12 @@ Welcome to the Mautic Developer Documentation. The documentation broadly covers 
 
 This documentation has multiple versions for different releases of Mautic starting from Mautic 4.x - the switcher is in the bottom left which allows you to change between versions.
 
+.. vale off
+
 Submitting code to Mautic
 *************************
+
+.. vale on
 
 Development is open and available to any member of the Mautic community. All fixes and improvements happen through pull requests to the code on :xref:`Mautic's GitHub Repo`. This code is open source and publicly available.
 

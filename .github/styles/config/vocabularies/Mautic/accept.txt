@@ -82,6 +82,7 @@ initialisms
 ISO
 JavaScript
 Joomla
+jQuery
 Legacy Builder
 Libre
 Licensor
