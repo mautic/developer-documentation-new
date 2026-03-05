@@ -17,8 +17,12 @@ Welcome to the Mautic Developer Documentation. The documentation broadly covers 
 
 This documentation has multiple versions for different releases of Mautic starting from Mautic 4.x - the switcher is in the bottom left which allows you to change between versions.
 
+.. vale off
+
 Submitting code to Mautic
 *************************
+
+.. vale on
 
 Development is open and available to any member of the Mautic community. All fixes and improvements happen through pull requests to the code on :xref:`Mautic's GitHub Repo`. This code is open source and publicly available.
 
@@ -26,7 +30,11 @@ Read all about contributing to Mautic as a Developer in the :xref:`Mautic Develo
 
 Read more about Mautic's :xref:`Mautic Code Governance` and the :xref:`Mautic Project Governance` model.
 
+.. vale off
+
 Your code must follow the :xref:`Symfony coding standards`. You can find details about where Mautic deviates from these standards documented in the :doc:`/plugins/mautic_vs_symfony` section.
+
+.. vale on
 
 Where to get help
 *****************
@@ -205,8 +213,8 @@ There are several ways to support Mautic other than contributing with code.
    :caption: REST API
    :hidden:
 
-   rest_api/api_intro
-   rest_api/authorization
+   rest_api/getting_started
+   rest_api/authentication
    rest_api/assets
    rest_api/campaigns
    rest_api/categories
