@@ -6,7 +6,7 @@ Mautic defines custom Role permissions through Permission objects.
 How permissions work
 ********************
 
-Mautic calculates permissions based on bits assigned to a Plugin level and permission. Bits are integers that increase by doubling the value - 1, 2, 4, 8, 16, 32, 64, 128, 512, 1024, and so forth. Avoid assigning numbers in between - such as 3 or 5 - because the permission won't calculate correctly.
+Mautic calculates permissions based on bits assigned to a Plugin level and permission. Bits are integers that increase by doubling the value - 1, 2, 4, 8, 16, 32, 64, 128, 512, 1024, and so forth. Avoid assigning numbers in between, such as 3 or 5, because the permission won't calculate correctly.
 
 For example, if ``HelloWorldBundle`` manages access to a ``worlds`` entity, the permission set for ``plugin:helloWorld:worlds`` resembles this setup:
 
@@ -29,9 +29,9 @@ For example, if ``HelloWorldBundle`` manages access to a ``worlds`` entity, the 
 
 .. note::
 
-   The notation ``plugin:helloWorld:worlds:view`` typically requests permission in Mautic. This notation tells Mautic to verify the ``view`` permission for the Plugin, ``HelloWorldBundle``, within the ``worlds`` level. Levels allow Plugins to set permissions for multiple areas.
+   The notation ``plugin:helloWorld:worlds:view`` typically requests permission in Mautic. This notation tells Mautic to verify the ``view`` permission for the Plugin ``HelloWorldBundle`` at the ``worlds`` level. Levels allow Plugins to set permissions for multiple areas.
 
-Mautic takes the summation of the bits for the permissions given to a Role and stores it in the database. For example, if a Role has ``view`` and ``edit`` access, the stored bit is 3. If given ``view`` and ``create`` access, the stored bit is 5.
+Mautic sums the bits for the permissions granted to a Role and stores the result in the database. For example, if a Role has ``view`` and ``edit`` access, the stored bit is 3. If given ``view`` and ``create`` access, the stored bit is 5.
 
 When permission verification is necessary - for instance ``plugin:helloWorld:worlds:create`` - Mautic verifies if the Role's generated bit for ``plugin:helloWorld:worlds`` includes bit 4. If so, Mautic grants permission.
 
@@ -92,14 +92,14 @@ Using permissions
        // do something
    }
 
-To determine if a User has a specific permission, use the Mautic security service which you can obtain from the ``mautic.security`` service.
+To determine if a User has a specific permission, use the Mautic security service, which you can obtain from the ``mautic.security`` service.
 
 Mautic uses specific notation to identify permissions:
 
 * **Core bundles**: use the format ``bundleName:permissionLevel:permission``.
 * **Plugins**: append the ``plugin:`` prefix. For example, ``plugin:bundleName:permissionLevel:permission``. Plugins require this prefix because it directs Mautic to search for the permission class within the ``plugins/`` directory and the ``MauticPlugin`` namespace.
 
-Core bundles or Plugins set the permission level and permissions. For example, the Core UserBundle has ``users`` and ``roles`` levels with ``view``, ``edit``, ``create``, ``delete``, and ``full`` permissions for each. To verify if a User has permission to edit Roles, use:
+Core bundles or Plugins set the permission level and permissions. For example, the core UserBundle has ``users`` and ``roles`` levels with ``view``, ``edit``, ``create``, ``delete``, and ``full`` permissions for each. To verify if a User has permission to edit Roles, use:
 
 .. code-block:: php
 
