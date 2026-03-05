@@ -1,15 +1,3 @@
-.. vale off
-
-.. note::
-
-   The content for this page requires a major update. The legacy page contains outdated and potentially inaccurate information. You can still access it in the :xref:`legacy repository`.
-
-   If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
-
-   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
-
-.. vale on
-
 Emails
 ######
 
@@ -17,22 +5,22 @@ There are multiple ways to extend the way Mautic works with Emails. This documen
 
 * Email tokens
 * A/B testing
-* Monitored Inbox Integration
-* Email transport/Email providers
+* Monitored inbox Integration
+* Email transport or Email providers
 * Email stat helpers
 
 .. vale off
 
 .. note::
     
-   Extending generally works by hooking into events using event listeners or subscribers. Read more about :doc:`listeners and subscribers</plugins/event_listeners>`.
+   Extending generally works by hooking into events using event listeners or subscribers. Read more about them in the :doc:`listeners and subscribers</plugins/event_listeners>` section.
 
 .. vale on
 
 Email tokens
 ************
 
-Email tokens are placeholders that you can insert into an Email. They get replaced by dynamically generated content once the Email gets sent or viewed in the browser.
+Email tokens are placeholders that you can insert into an Email. Dynamically generated content replaces these tokens once Mautic sends the Email or the User views it in the browser.
 
 Email token capabilities consist of two parts:
 
