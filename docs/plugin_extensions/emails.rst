@@ -93,8 +93,6 @@ While Mautic supports :xref:`A/B testing` out of the box, you might have more co
 * Use ``$event->addAbTestWinnerCriteria()`` to apply your custom logic when deciding the winner based on specific criteria.
 * Set the actual A/B test results with ``$event->setAbTestResults()``.
 
-You can find the code examples in the next section.
-
 .. vale off
 
 A/B testing example
