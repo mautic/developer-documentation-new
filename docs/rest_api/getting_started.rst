@@ -1,23 +1,11 @@
 Getting started with REST API
 #############################
 
-.. vale off
-
-.. note::
-
-   The content for this page requires a major update. The legacy page contains outdated and potentially inaccurate information. You can still access it in the :xref:`legacy repository`.
-
-   If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
-
-   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
-
-.. vale on
-
-Mautic provides a REST API to manipulate and retrieve information about various entities in Mautic.
+Mautic provides several REST API endpoints to manipulate and retrieve information about various entities in Mautic. You can find the available endpoints in the navigation menu on the left.
 
 .. warning::
 
-   All Mautic API endpoints require an OAuth1a signature or an OAuth2 access token.
+   Mautic turns off the REST API by default. The Mautic administrator can turn on the API in the Mautic UI under **Configuration > API Settings**, or by setting ``'api_enabled' => 1`` in ``config/local.php`` directly. In Mautic versions earlier than 5, this setting is in ``app/config/local.php``.
 
 Error handling
 **************
@@ -69,7 +57,7 @@ The base API endpoint is ``https://mautic.example.com/api``.
 
 .. vale off
 
-Mautic API Library
+Mautic API library
 ******************
 
 .. vale on
@@ -94,8 +82,12 @@ Download :xref:`API library package` from GitHub, extract it, then include the f
 
    Refer to the README in the GitHub repository for further instructions on using the library, or review the code examples throughout this documentation.
 
-API rate limiter
-****************
+API rate limiter cache
+**********************
+
+.. attention::
+
+   The rate limiter cache is no longer available in Mautic version 7 or later.
 
 You can configure the rate limiter cache in ``local.php``. The default configuration uses the filesystem as follows:
 
