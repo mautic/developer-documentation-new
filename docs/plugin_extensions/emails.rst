@@ -95,8 +95,8 @@ While Mautic supports :xref:`A/B testing` out of the box, you might have more co
 
 .. vale off
 
-A/B testing example
-===================
+A/B testing examples
+====================
 
 .. vale on
 
