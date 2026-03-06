@@ -35,9 +35,9 @@ To add and render custom Reports in Mautic, your Plugin needs to listen to the f
    use Mautic\CoreBundle\Helper\Chart\ChartQuery;
    use Mautic\CoreBundle\Helper\Chart\LineChart;
 
-   class ReportSubscriber extends CommonSubscriber
+   final class ReportSubscriber extends CommonSubscriber
    {
-      public static function getSubscribedEvents()
+      public static function getSubscribedEvents(): array
       {
          return [
                ReportEvents::REPORT_ON_BUILD => ['onReportBuilder', 0],
@@ -46,7 +46,7 @@ To add and render custom Reports in Mautic, your Plugin needs to listen to the f
          ];
       }
 
-      public function onReportBuilder(ReportBuilderEvent $event)
+      public function onReportBuilder(ReportBuilderEvent $event): void
       {
          if ($event->checkContext(['worlds'])) {
                $prefix = 'w.';
@@ -83,7 +83,7 @@ To add and render custom Reports in Mautic, your Plugin needs to listen to the f
          }
       }
 
-      public function onReportGenerate(ReportGeneratorEvent $event)
+      public function onReportGenerate(ReportGeneratorEvent $event): void
       {
          $context = $event->getContext();
          if ($context == 'worlds') {
@@ -94,7 +94,7 @@ To add and render custom Reports in Mautic, your Plugin needs to listen to the f
          }
       }
 
-      public function onReportGraphGenerate(ReportGraphEvent $event)
+      public function onReportGraphGenerate(ReportGraphEvent $event): void
       {
          if (!$event->checkContext('worlds')) {
                return;
