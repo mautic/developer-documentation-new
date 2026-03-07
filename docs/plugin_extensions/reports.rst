@@ -1,15 +1,3 @@
-.. vale off
-
-.. note::
-
-   The content for this page requires a major update. The legacy page contains outdated and potentially inaccurate information. You can still access it in the :xref:`legacy repository`.
-
-   If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
-
-   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
-
-.. vale on
-
 Reports
 #######
 
@@ -172,12 +160,12 @@ Each column array can include the following properties:
       - SQL formula instead of a column. For example, ``SUBSTRING_INDEX(e.type, \'.\', 1)``.
     * - ``link``
       - string
-      - Route name to convert the value into a hyperlink. Typically used with the ID of an entity. The route must accept ``objectAction`` and ``objectId`` parameters.
+      - Route name to convert the value into a hyperlink. Typically used with an entity's ID. The route must accept ``objectAction`` and ``objectId`` parameters.
 
 Filter definition
 =================
 
-Filters are optional. If you don't define them, the system defaults to using the column definitions. However, filters can provide additional options such as dropdown select lists.
+Filters are optional. If you don't define them, the system uses the column definitions. However, filters can offer additional options, such as dropdown lists.
 
 Additional filter keys include:
 
@@ -221,5 +209,3 @@ Mautic dispatches the ``ReportEvents::REPORT_ON_GRAPH_GENERATE`` event to genera
 * Use the ``LineChart`` and ``ChartQuery`` classes to generate and render graph data.
 
 For supported chart types and options, refer to the ``ChartQuery`` and ``LineChart`` helper classes - located in the :xref:`Mautic CoreBundle Chart Helpers` namespace.
-
-
