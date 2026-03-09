@@ -3,48 +3,52 @@ Implementing flash messages
 
 Flash messages are temporary notifications that appear at the top of the page to inform users about the result of an action.
 
-Backend (PHP) implementation
+Backend implementation - PHP
 ****************************
 
-Add your translation strings to ``{bundle}/Translations/en_US/flashes.ini``:
+#. Add translation strings to ``{bundle}/Translations/en_US/flashes.ini``.
+#. Use the following code in your controllers:
 
-**In controllers:**
+   .. code-block:: php
 
-.. code-block:: php
+      // Success message
+      $this->addFlashMessage('mautic.core.notice.created', [
+          '%name%' => $entity->getName()
+      ]);
 
-   // Success message
-   $this->addFlashMessage('mautic.core.notice.created', [
-       '%name%' => $entity->getName()
-   ]);
+      // Error message
+      $this->addFlashMessage('mautic.core.error.generic', [], 'error');
 
-   // Error message
-   $this->addFlashMessage('mautic.core.error.generic', [], 'error');
+The ``addFlashMessage()`` method accepts three parameters:
 
-The first parameter is the translation key, the second is an array of parameters for the translation, and the third is the message type (default is ``notice``).
+* **Translation key**: the unique string identifier from your ``.ini`` file. For example, ``mautic.core.notice.created``.
+* **Parameters**: an array of values that replace placeholders - such as ``%name%`` - within the translation string.
+* **Message type**: the type of message to display. The default is ``notice``.
 
-Frontend (JavaScript) implementation
+Frontend implementation - JavaScript
 ************************************
 
-Add your translation strings to ``{bundle}/Translations/en_US/javascript.ini``:
+#. Add translation strings to ``{bundle}/Translations/en_US/flashes.ini``:
 
-.. code-block:: ini
+   .. code-block:: ini
 
-   mautic.core.notice.my_success_message="Success message here!"
-   mautic.core.error.my_error_message="Error message here!"
+      mautic.core.notice.my_success_message="Success message here!"
+      mautic.core.error.my_error_message="Error message here!"
 
-Create the flash message using one of these helper functions:
-- Mautic.addFlashMessage(message) - Generic flash message
-- Mautic.addInfoFlashMessage(message) - Info/success flash message
-- Mautic.addErrorFlashMessage(message) - Error flash message
+#. Create the flash message using one of these helper functions:
 
-Pass the result to Mautic.setFlashes() to display it.
+   * ``Mautic.addFlashMessage(message)``: creates a generic flash message.
+   * ``Mautic.addInfoFlashMessage(message)``: creates an info or success flash message.
+   * ``Mautic.addErrorFlashMessage(message)``: creates an error flash message.
 
-.. code-block:: javascript
+#. Pass the result to ``Mautic.setFlashes()`` to display the message.
 
-   var message = Mautic.translate('mautic.core.notice.my_success_message');
-   var flashMessage = Mautic.addInfoFlashMessage(message);
-   Mautic.setFlashes(flashMessage);
+   .. code-block:: javascript
 
-   var message = Mautic.translate('mautic.core.error.my_error_message');
-   var flashMessage = Mautic.addErrorFlashMessage(message);
-   Mautic.setFlashes(flashMessage);
+      // Display a success message
+      var successMsg = Mautic.translate('mautic.core.notice.my_success_message');
+      Mautic.setFlashes(Mautic.addInfoFlashMessage(successMsg));
+
+      // Display an error message
+      var errorMsg = Mautic.translate('mautic.core.error.my_error_message');
+      Mautic.setFlashes(Mautic.addErrorFlashMessage(errorMsg));
