@@ -1,7 +1,11 @@
 Implementing flash messages
 ###########################
 
-Flash messages are temporary notifications that appear at the top of the page to inform users about the result of an action.
+.. vale off
+
+Flash messages are temporary notifications that appear at the top of the page to inform Users about the result of an action.
+
+.. vale on
 
 Backend implementation - PHP
 ****************************
