@@ -73,7 +73,6 @@ There are several ways to support Mautic other than contributing with code.
    :caption: Design and UX
    :hidden:
 
-   design/accordion
    design/availability
    design/displaying_elements_based_on_user_permissions
    design/feedback
@@ -83,8 +82,16 @@ There are several ways to support Mautic other than contributing with code.
    design/protip
    design/quick_filters
    design/retrieving_system_information
-   design/tiles
    design/utilities
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Design templates
+   :hidden:
+
+   design_templates/accordion
+   design_templates/protip
+   design_templates/tiles
 
 .. toctree::
    :maxdepth: 2
