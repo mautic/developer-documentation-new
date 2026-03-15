@@ -6,8 +6,6 @@ A quick overview
 
 Mautic introduces a powerful new REST API built on the robust **API Platform** framework. This modern API provides a more flexible, standardized, and well-documented way to interact with your Mautic data.
 
-----
-
 Accessing the API
 *****************
 
@@ -16,8 +14,6 @@ To access the new API, you must authenticate within your Mautic instance.
 The base endpoint for the new API is:  ``/api/v2``.
 
 Once you authenticate, you can start making requests to this endpoint to interact with your Mautic data.
-
-----
 
 API documentation and discovery
 *******************************
