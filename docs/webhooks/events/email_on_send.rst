@@ -387,7 +387,7 @@ Unsubscribe Form properties
       - Custom Mautic Theme used to style the Preview page or customize Form fields. See :ref:`themes/forms:Customizing forms`.
     * - ``formType``
       - string
-      - Applicable values are ``standalone`` or ``campaign``.
+      - **Deprecated.** Previously indicated whether a Form was a Standalone or a Campaign. As of Mautic 7.1, all Forms function identically. Mautic 8.0 schedules the removal of this property.
     * - ``postAction``
       - string
       - Notes the behavior of the Form after submission. Current supported values are ``return``, ``redirect``, and ``message``.
