@@ -285,7 +285,7 @@ Keep these database differences in mind when writing tests:
 
 - **Case sensitivity**: PostgreSQL ``LIKE`` is case-sensitive; MySQL/MariaDB ``LIKE`` isn't. Use Mautic's helper methods for case-insensitive matching.
 
-- **GROUP BY strictness**: PostgreSQL requires all non-aggregated ``SELECT`` columns in ``GROUP BY``.
+- **GROUP BY strictness**: PostgreSQL and MySQL 8+ strict mode require all non-aggregated ``SELECT`` columns in ``GROUP BY``.
 
 - **Identifier quoting**: PostgreSQL lowercases unquoted identifiers. Quote ``camelCase`` aliases in raw SQL.
 

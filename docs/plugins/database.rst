@@ -450,9 +450,11 @@ GROUP BY requirements
 
 .. vale on
 
-PostgreSQL enforces strict ``GROUP BY`` rules. Every column in the ``SELECT`` clause must appear in the ``GROUP BY`` clause or use an aggregate function. MySQL and MariaDB are more lenient by default.
+PostgreSQL enforces strict ``GROUP BY`` rules, and MySQL 8+ does the same when ``ONLY_FULL_GROUP_BY`` SQL mode is enabled - the default in strict mode. Every column in the ``SELECT`` clause must appear in the ``GROUP BY`` clause or use an aggregate function.
 
-Mautic's Report Builder corrects ``GROUP BY`` clauses for PostgreSQL automatically. If you're building custom Reports or queries with aggregates, include all non-aggregated columns in the ``GROUP BY`` clause.
+Writing compliant ``GROUP BY`` clauses ensures compatibility across all supported databases and SQL modes.
+
+Mautic's Report Builder corrects ``GROUP BY`` clauses automatically. If you're building custom Reports or queries with aggregates, include all non-aggregated columns in the ``GROUP BY`` clause.
 
 **Correct pattern:**
 
