@@ -22,7 +22,7 @@ The new Mautic API is self-documenting. It means that you can navigate to the ``
 
 .. vale off
 
-This documentation provides a detailed list of all available API endpoints, the HTTP methods they support (GET, POST, PUT, DELETE, etc.), and the parameters they accept. You can use this interface to test API calls directly from your browser.
+This documentation provides a detailed list of all available API endpoints, the supported HTTP methods - such as ``GET``, ``POST``, ``PUT``, or ``DELETE`` - and the accepted parameters. You can use the interface to test API calls directly from your browser.
 
 .. vale on
 
