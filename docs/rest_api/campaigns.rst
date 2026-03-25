@@ -152,10 +152,10 @@ Get an individual Campaign by ID.
      - Array of Event entities for the Campaign - see below
    * - ``contactCount``
      - int
-     - Number of Contacts in the Campaign. This property requires the ``withContactCounts=true`` query parameter
+     - Number of Contacts in the Campaign. This property is only returned by endpoints that support the ``withContactCounts=true`` query parameter (for example, ``GET /campaigns``) and is not available from ``GET /campaigns/{id}``
    * - ``contactCountFetchedAt``
      - datetime/null
-     - Timestamp of the Contact count retrieval. This property requires the ``withContactCounts=true`` query parameter
+     - Timestamp of the Contact count retrieval. This property is only returned by endpoints that support the ``withContactCounts=true`` query parameter (for example, ``GET /campaigns``) and is not available from ``GET /campaigns/{id}``
 
 
 **Event Properties**
