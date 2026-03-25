@@ -29,4 +29,4 @@ This documentation provides a detailed list of all available API endpoints, the 
 The API supports modern features such as:
 
 * **Pagination:** the API paginates results by default for efficient data retrieval.
-* **Multiple Data Formats:** the API supports various data formats, including ``JSON-LD``, standard ``JSON`` and ``text/html``.
+* **Multiple data formats:** the API supports various data formats, including ``JSON-LD``, standard ``JSON`` and ``text/html``.
