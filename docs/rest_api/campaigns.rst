@@ -330,7 +330,7 @@ List Campaigns
 
    .. vale off
    
-   The system caches Contact counts for 12 hours by default to improve performance. New Contacts added to campaigns may not appear until the cache expires. Set the ``campaign_contact_count_cache_ttl`` parameter in ``config/local.php`` to configure the cache TTL - value in seconds.
+   The system caches Contact counts for 12 hours by default to improve performance. New Contacts added to Campaigns may not appear until the cache expires. Set the ``campaign_contact_count_cache_ttl`` parameter in ``config/local.php`` to configure the cache TTL - value in seconds.
 
    .. vale on
 
