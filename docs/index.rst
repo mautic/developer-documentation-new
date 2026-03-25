@@ -222,6 +222,7 @@ There are several ways to support Mautic other than contributing with code.
    :hidden:
 
    rest_api/getting_started
+   rest_api/api_v2
    rest_api/authentication
    rest_api/assets
    rest_api/campaigns
