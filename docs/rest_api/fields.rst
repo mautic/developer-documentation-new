@@ -564,9 +564,15 @@ Delete a field.
 
 ``DELETE /fields/contact/ID/delete`` or ``DELETE /fields/company/ID/delete``
 
+.. note::
+
+   You can't delete a field that's in use by a Segment. This returns an ``HTTP 409 (Conflict)`` response. Remove the field from any Segment filters before deleting it.
+
 **Response**
 
 ``Expected Response Code: 200``
+
+``Response Code if field is in use: 409``
 
 **Properties**
 
