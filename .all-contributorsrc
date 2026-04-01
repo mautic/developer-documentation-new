@@ -123,6 +123,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "abhisekmazumdar",
+      "name": "Abhisek Mazumdar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/12195330?v=4",
+      "profile": "http://abhisek.xyz",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
