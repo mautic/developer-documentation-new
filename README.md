@@ -41,6 +41,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://onlyoneerin.com"><img src="https://avatars.githubusercontent.com/u/72657872?v=4?s=100" width="100px;" alt="The ERIN"/><br /><sub><b>The ERIN</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=OfficialJhimmy" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://linktr.ee/teebarh"><img src="https://avatars.githubusercontent.com/u/112214060?v=4?s=100" width="100px;" alt="Toyibat Adele"/><br /><sub><b>Toyibat Adele</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=Teebarh" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/putzwasser"><img src="https://avatars.githubusercontent.com/u/26040044?v=4?s=100" width="100px;" alt="putzwasser"/><br /><sub><b>putzwasser</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=putzwasser" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dcjarvis"><img src="https://avatars.githubusercontent.com/u/8997755?v=4?s=100" width="100px;" alt="David Jarvis aka DJ"/><br /><sub><b>David Jarvis aka DJ</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=dcjarvis" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
