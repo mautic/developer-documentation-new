@@ -37,6 +37,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://adiati.com"><img src="https://avatars.githubusercontent.com/u/45172775?v=4?s=100" width="100px;" alt="Ayu Adiati"/><br /><sub><b>Ayu Adiati</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=adiati98" title="Documentation">📖</a> <a href="https://github.com/mautic/developer-documentation-new/pulls?q=is%3Apr+reviewed-by%3Aadiati98" title="Reviewed Pull Requests">👀</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://webmecanik.com"><img src="https://avatars.githubusercontent.com/u/462477?v=4?s=100" width="100px;" alt="Zdeno Kuzmany"/><br /><sub><b>Zdeno Kuzmany</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=kuzmany" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
