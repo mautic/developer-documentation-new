@@ -122,7 +122,7 @@ Mautic supports locking for API-editable entities, such as Emails, to prevent ov
 This is useful to:
 
 * Ensure the API respects the locking behavior already in place in the UI.
-* Return a ``409 Conflict`` when a record is locked.
+* Return a ``409 Conflict`` when the system locks a record.
 
 .. vale off
 
