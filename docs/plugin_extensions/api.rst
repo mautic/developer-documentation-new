@@ -110,58 +110,56 @@ The API controller should extend ``Mautic\ApiBundle\Controller\CommonApiControll
         }
     }
 
-----
-
 .. vale off
 
 API-aware entity locking
-****************************
+************************
 
 .. vale on
 
-Mautic supports locking for API-editable entities, such as Emails, to prevent overwriting changes while a user is actively editing the entity in the UI.
+Mautic supports locking for API-editable entities, such as Emails, to prevent overwriting changes while a User is actively editing the entity in the UI.
 
-This is useful when:
+This is useful to:
 
-- You want the API to respect the locking behavior already in place in the UI.
-- You want to return a `409 Conflict` when a record is locked.
+* Ensure the API respects the locking behavior already in place in the UI.
+* Return a ``409 Conflict`` when a record is locked.
 
 .. vale off
 
 Enable API lock for a model
-============================
+===========================
 
 .. vale on
 
 To make an entity model API-lock-aware:
 
-1. Implement the interface:
+#. Implement the interface:
 
-.. code-block:: php
+   .. code-block:: php
 
-    use Mautic\ApiBundle\Model\ApiLockAwareInterface;
+      use Mautic\ApiBundle\Model\ApiLockAwareInterface;
 
-    class MyEntityModel implements ApiLockAwareInterface
-    {
-        // ...
-    }
+      class MyEntityModel implements ApiLockAwareInterface
+      {
+         // ...
+      }
 
-2. Use the trait to reuse locking logic:
+#. Use the trait to reuse locking logic:
 
-.. code-block:: php
+   .. code-block:: php
 
-    use Mautic\ApiBundle\Model\ApiEntityLockTrait;
+      use Mautic\ApiBundle\Model\ApiEntityLockTrait;
 
-    class MyEntityModel implements ApiLockAwareInterface
-    {
-        use ApiEntityLockTrait;
+      class MyEntityModel implements ApiLockAwareInterface
+      {
+          use ApiEntityLockTrait;
 
-        // Optional: Override `isApiLocked()` if you need custom behavior
-    }
+          // Optional: Override `isApiLocked()` if you need custom behavior
+      }
 
-This ensures your model will be checked by the API when editing.
+This ensures the API checks your model during editing.
 
-Behind the scenes, the API controller checks:
+Behind the scenes, the API controller validates:
 
 .. code-block:: php
 
@@ -176,7 +174,7 @@ Error message
 
 .. vale on
 
-When an entity is locked, the API returns:
+If the API detects a locked entity, it returns:
 
 .. code-block:: json
 
