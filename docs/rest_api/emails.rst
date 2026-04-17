@@ -92,6 +92,7 @@ Response
           "publishUp": null,
           "publishDown": null,
           "publicPreview": false,
+          "sendToDnc": false,
           "readCount": 0,
           "sentCount": 0,
           "revision": 2,
@@ -264,6 +265,9 @@ Email properties
    * - ``grapesjsbuilder``
      - associative array
      - Associative array of Email builder configuration
+   * - ``sendToDnc``
+     - boolean
+     - When ``true``, the Email sends to Contacts with UNSUBSCRIBED or MANUAL Do Not Contact status, while still respecting BOUNCED status. Defaults to ``false``.
 
 .. vale on
 
@@ -368,6 +372,7 @@ Response
               "publishUp": null,
               "publishDown": null,
               "publicPreview": false,
+              "sendToDnc": false,
               "readCount": 0,
               "sentCount": 0,
               "revision": 4,
@@ -563,6 +568,9 @@ POST parameters
    * - ``headers``
      - array
      - Array of custom headers
+   * - ``sendToDnc``
+     - boolean
+     - When ``true``, the Email sends to Contacts with UNSUBSCRIBED or MANUAL Do Not Contact status, while still respecting BOUNCED status. Defaults to ``false``.
 
 .. vale on
 
