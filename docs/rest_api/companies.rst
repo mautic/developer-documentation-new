@@ -409,7 +409,7 @@ Edit Company
        'tags'        => ['-Enterprise', 'Strategic']
    );
 
-   // Create new a Company if ID 42 isn't found?
+   // Create a new Company if ID 42 isn't found?
    $createIfNotFound = true;
 
    $company = $companyApi->edit($id, $data, $createIfNotFound);
