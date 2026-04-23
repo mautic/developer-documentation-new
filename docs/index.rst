@@ -170,6 +170,7 @@ There are several ways to support Mautic other than contributing with code.
    plugin_extensions/maintenance
    plugin_extensions/points
    plugin_extensions/reports
+   plugin_extensions/sms
    plugin_extensions/ui
    plugin_extensions/webhooks
 
