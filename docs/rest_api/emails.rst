@@ -572,6 +572,10 @@ POST parameters
      - boolean
      - When ``true``, the Email sends to Contacts with UNSUBSCRIBED or MANUAL Do Not Contact status, while still respecting BOUNCED status. Defaults to ``false``.
 
+       **Permission:** Requires the ``email:emails:sendtodnc`` permission to set this field via API. If the authenticated User lacks this permission, the API ignores the ``sendToDnc`` parameter.
+
+       **PUT behavior:** For PUT requests, this field defaults to ``false`` when not explicitly provided, preventing accidental enablement during full replacement operations.
+
 .. vale on
 
 Response
