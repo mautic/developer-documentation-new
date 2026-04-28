@@ -199,3 +199,141 @@ The event provides:
 .. note::
 
    The ``TokenHelper::REGEX`` constant provides the regular expression pattern for matching Contact field tokens. Use this to check whether a URL contains tokens before performing replacements.
+
+.. vale off
+
+Customizing Preference Center Pages
+***********************************
+
+.. vale on
+
+Preference Center pages let Contacts manage their communication preferences. In Mautic 7.1 and later, you can programmatically customize the labels on Preference Center slot components using the ``PageEvents::PAGE_ON_DISPLAY`` event.
+
+This lets you override default translated labels with custom text for branding, localization beyond built-in translations, or dynamic label generation based on context.
+
+Available slot parameters
+=========================
+
+Each Preference Center slot accepts label attributes that override the default translated text:
+
+.. vale off
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 25 50
+
+   * - Slot
+     - Attribute
+     - Default translation key
+   * - ``segmentlist``
+     - ``label-text``
+     - ``mautic.lead.form.list`` ('My segments')
+   * - ``categorylist``
+     - ``label-text``
+     - ``mautic.lead.form.categories`` ('My categories')
+   * - ``preferredchannel``
+     - ``label-text``
+     - ``mautic.lead.list.frequency.preferred.channel`` ('I prefer communication by')
+   * - ``channelfrequency``
+     - ``label-text``
+     - ``mautic.lead.contact.me.label`` ('I want to receive %channel%')
+   * - ``channelfrequency``
+     - ``label-text1``
+     - ``mautic.lead.list.frequency.number`` ('Do not contact more than')
+   * - ``channelfrequency``
+     - ``label-text2``
+     - ``mautic.lead.list.frequency.times`` ('Messages each')
+   * - ``channelfrequency``
+     - ``label-text3``
+     - ``mautic.lead.frequency.dates.label`` ('Pause from')
+   * - ``channelfrequency``
+     - ``label-text4``
+     - ``mautic.lead.frequency.contact.end.date`` ('Pause to')
+   * - ``saveprefsbutton``
+     - ``btnText``
+     - ``mautic.page.form.saveprefs`` ('Save preferences')
+
+.. vale on
+
+Example implementation
+======================
+
+Create an event subscriber that listens to ``PAGE_ON_DISPLAY`` and modifies the slot parameters:
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/PreferenceCenterSubscriber.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\PageBundle\Event\PageDisplayEvent;
+    use Mautic\PageBundle\PageEvents;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    class PreferenceCenterSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                PageEvents::PAGE_ON_DISPLAY => ['onPageDisplay', 100],
+            ];
+        }
+
+        public function onPageDisplay(PageDisplayEvent $event): void
+        {
+            // Only modify Preference Center pages
+            if (!$event->getPage()->getIsPreferenceCenter()) {
+                return;
+            }
+
+            // Get current slot parameters
+            $params = $event->getParams();
+
+            // Customize segment list label
+            $params['segmentlist']['label-text'] = 'Choose your mailing lists';
+
+            // Customize category list label
+            $params['categorylist']['label-text'] = 'Select your interests';
+
+            // Customize preferred channel label
+            $params['preferredchannel']['label-text'] = 'How would you like us to contact you?';
+
+            // Customize channel frequency labels
+            $params['channelfrequency']['label-text'] = 'I want to receive emails';
+            $params['channelfrequency']['label-text1'] = 'Limit messages to';
+            $params['channelfrequency']['label-text2'] = 'per';
+            $params['channelfrequency']['label-text3'] = 'Pause starting';
+            $params['channelfrequency']['label-text4'] = 'Pause ending';
+
+            // Customize save button text
+            $params['saveprefsbutton']['btnText'] = 'Update my preferences';
+
+            // Apply the modified parameters
+            $event->setParams($params);
+        }
+    }
+
+Register the subscriber in your Plugin's service configuration:
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/Config/services.php
+
+    declare(strict_types=1);
+
+    use MauticPlugin\HelloWorldBundle\EventListener\PreferenceCenterSubscriber;
+    use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+    return static function (ContainerConfigurator $configurator): void {
+        $services = $configurator->services()
+            ->defaults()
+            ->autowire()
+            ->autoconfigure();
+
+        $services->set(PreferenceCenterSubscriber::class)
+            ->tag('kernel.event_subscriber');
+    };
