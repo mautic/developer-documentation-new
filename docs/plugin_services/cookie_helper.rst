@@ -1,7 +1,7 @@
 Cookie helper
 #############
 
-The Cookie helper lets plugins read request cookies and queue response cookies while reusing Mautic cookie defaults (path, domain, secure, and HTTP-only).
+The Cookie helper lets Plugins read request cookies and queue response cookies while reusing Mautic cookie defaults - path, domain, secure, and HTTP-only.
 
 Using the helper
 ****************
@@ -38,12 +38,12 @@ Cookie methods
 
 The helper exposes these main methods:
 
-- ``getCookie(string $key, $default = null)``: reads a cookie from the current request.
-- ``setCookie(string $name, $value, ?int $expire = 1800, ?string $path = null, ?string $domain = null, ?bool $secure = null, ?bool $httpOnly = null, ?string $sameSite = Cookie::SAMESITE_LAX)``: queues a cookie on the response.
-- ``deleteCookie(string $name, ?string $path = null, ?string $domain = null, ?bool $secure = null, ?bool $httpOnly = null, ?string $sameSite = Cookie::SAMESITE_LAX)``: expires a cookie.
+* ``getCookie(string $key, $default = null)``: reads a cookie from the current request.
+* ``setCookie(string $name, $value, ?int $expire = 1800, ?string $path = null, ?string $domain = null, ?bool $secure = null, ?bool $httpOnly = null, ?string $sameSite = Cookie::SAMESITE_LAX)``: queues a cookie on the response.
+* ``deleteCookie(string $name, ?string $path = null, ?string $domain = null, ?bool $secure = null, ?bool $httpOnly = null, ?string $sameSite = Cookie::SAMESITE_LAX)``: expires a cookie.
 
-If optional arguments are omitted in ``setCookie()`` and ``deleteCookie()``, Mautic uses configured defaults.
+If you omit optional arguments in ``setCookie()`` and ``deleteCookie()``, Mautic uses configured defaults.
 
 .. tip::
 
-   Use ``Cookie::SAMESITE_STRICT`` or ``Cookie::SAMESITE_NONE`` when your plugin requires explicit SameSite behavior.
+   Use ``Cookie::SAMESITE_STRICT`` or ``Cookie::SAMESITE_NONE`` when your Plugin requires explicit SameSite behavior.
