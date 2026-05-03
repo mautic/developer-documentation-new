@@ -106,6 +106,7 @@ Returns a list of all available stat tables and their columns.
 
 .. list-table::
    :header-rows: 1
+   :widths: 20 10 70
 
    * - Name
      - Type
@@ -161,6 +162,7 @@ Returns rows from the specified statistical table.
 
 .. list-table::
    :header-rows: 1
+   :widths: 15 10 75
 
    * - Name
      - Type
@@ -221,6 +223,7 @@ The ``expr`` parameter supports most methods from Doctrine's ExpressionBuilder:
 
 .. list-table::
    :header-rows: 1
+   :widths: 15 10 75
 
    * - Name
      - Type
