@@ -106,7 +106,7 @@ Returns a list of all available stat tables and their columns.
 
 .. list-table::
    :header-rows: 1
-   :widths: 20 10 70
+   :widths: 25 10 65
 
    * - Name
      - Type
