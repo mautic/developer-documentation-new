@@ -279,11 +279,11 @@ The following tables are available through the Stats API. Tables require appropr
    * - ``lead_devices``
      - Device information tracked for Contacts
    * - ``lead_donotcontact``
-     - Do-not-contact preferences by Contact and channel
+     - Do-not-contact preferences by Contact and Channel
    * - ``lead_event_log``
      - Generic Contact event activity log
    * - ``lead_frequencyrules``
-     - Contact frequency and channel preferences
+     - Contact frequency and Channel preferences
    * - ``lead_lists_leads``
      - Contact membership in Segments
    * - ``lead_points_change_log``
@@ -353,7 +353,7 @@ The following tables are available through the Stats API. Tables require appropr
    * - ``video_hits``
      - Video viewing analytics
    * - ``channel_url_trackables``
-     - Cross-channel URL tracking
+     - Cross-Channel URL tracking
 
 **Point statistics**
 
@@ -377,7 +377,7 @@ The following tables are available through the Stats API. Tables require appropr
    * - ``stage_lead_action_log``
      - Stage assignment log
 
-**Dynamic content statistics**
+**Dynamic Content statistics**
 
 .. list-table::
    :header-rows: 1
