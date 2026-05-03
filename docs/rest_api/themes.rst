@@ -252,7 +252,7 @@ Delete Theme
 
 .. vale on
 
-Deletes a Theme. You can't delete stock Themes; they become hidden instead.
+Deletes a Theme. You cannot delete stock Themes.
 
 .. code-block:: php
 
@@ -281,4 +281,4 @@ Deletes a Theme. You can't delete stock Themes; they become hidden instead.
 
 .. note::
 
-   Default Themes bundled with Mautic can't be permanently deleted. Attempting to delete a default Theme hides it instead. Use the Theme visibility toggle in the Mautic UI to restore hidden default Themes.
+   Default Themes bundled with Mautic cannot be permanently deleted. Attempting to delete a default Theme hides it instead. Use the Theme visibility toggle in the Mautic UI to restore hidden default Themes.
