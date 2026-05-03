@@ -3,6 +3,10 @@ Tweets
 
 Use this endpoint to obtain details on Mautic's Tweets. Implemented in Mautic 2.8.0.
 
+.. note::
+
+   The Tweets feature is part of the MauticSocialBundle plugin. Twitter integration must be enabled for this API to work.
+
 Using the Mautic API library
 ****************************
 
@@ -71,6 +75,7 @@ Response
            "id": 1,
            "name": "Thank you tweet",
            "text": "Hi {twitter_handle}\n\nThanks for ...",
+           "description": "Used in the Product A campaign 1",
            "language": "en",
            "category": {
                "createdByUser": "John Doe",
@@ -82,13 +87,11 @@ Response
                "color": "244bc9",
                "bundle": "global"
            },
-           "tweetId": null,
            "mediaId": null,
            "mediaPath": null,
            "sentCount": 3,
            "favoriteCount": 0,
-           "retweetCount": 0,
-           "description": "Used in the Product A campaign 1"
+           "retweetCount": 0
        }
    }
 
@@ -114,7 +117,10 @@ Tweet properties
      - Title of the Tweet
    * - ``text``
      - string
-     - Message content of the Tweet
+     - Message content of the Tweet. Maximum 280 characters.
+   * - ``description``
+     - string
+     - Internal description for the Tweet
    * - ``isPublished``
      - boolean
      - Tweet publication status
@@ -148,6 +154,21 @@ Tweet properties
    * - ``category``
      - object
      - The Category for the Tweet
+   * - ``mediaId``
+     - string
+     - ID of the Twitter media object attached to the Tweet
+   * - ``mediaPath``
+     - string
+     - Path to the local media file
+   * - ``sentCount``
+     - integer
+     - Number of times this Tweet has been sent
+   * - ``favoriteCount``
+     - integer
+     - Number of favorites or likes on the Tweet
+   * - ``retweetCount``
+     - integer
+     - Number of retweets
 
 .. vale on
 
@@ -231,14 +252,14 @@ Response
                "id": 1,
                "name": "Thank you tweet",
                "text": "Hi {twitter_handle}\n\nThanks for ...",
+               "description": "Used in the Product A campaign 1",
                "language": "en",
                "category": null,
-               "tweetId": null,
                "mediaId": null,
                "mediaPath": null,
+               "sentCount": 3,
                "favoriteCount": 0,
-               "retweetCount": 0,
-               "description": "Used in the Product A campaign 1"
+               "retweetCount": 0
            }
        ]
    }
@@ -309,10 +330,13 @@ POST parameters
      - Description
    * - ``name``
      - string
-     - Title of the Tweet
+     - Title of the Tweet. Required.
    * - ``text``
      - string
-     - Message content of the Tweet
+     - Message content of the Tweet. Maximum 280 characters. Required.
+   * - ``description``
+     - string
+     - Internal description for the Tweet
    * - ``isPublished``
      - boolean
      - Tweet publication status
@@ -325,6 +349,15 @@ POST parameters
    * - ``language``
      - string
      - The language code for the Tweet, such as ``en``, ``fr``, and so on
+   * - ``category``
+     - integer
+     - ID of the Category for the Tweet
+   * - ``asset``
+     - integer
+     - ID of an Asset to link to the Tweet
+   * - ``page``
+     - integer
+     - ID of a Page to link to the Tweet
 
 .. vale on
 
