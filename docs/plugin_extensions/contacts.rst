@@ -178,6 +178,67 @@ Review the sample code on how to obtain the currently tracked Contact.
       }
   }
 
+Skipping last active logging
+============================
+
+When Mautic tracks a Contact, it automatically updates the Contact's 'last active' timestamp. Sometimes you'll want to prevent this update - for example, when automated processes access pages or when tracking pixel loads shouldn't count as real user activity.
+
+To skip the last active logging, subscribe to the ``LeadGetCurrentEvent`` and call ``skipContactLastActiveLogged()`` when your conditions are met.
+
+.. code-block:: PHP
+
+  <?php
+  // plugins/HelloWorldBundle/EventListener/ContactTrackingSubscriber.php
+
+  declare(strict_types=1);
+
+  namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+  use Mautic\LeadBundle\Event\LeadGetCurrentEvent;
+  use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+  final class ContactTrackingSubscriber implements EventSubscriberInterface
+  {
+      public static function getSubscribedEvents(): array
+      {
+          return [
+              LeadGetCurrentEvent::class => 'onLeadGetCurrent',
+          ];
+      }
+
+      public function onLeadGetCurrent(LeadGetCurrentEvent $event): void
+      {
+          $request = $event->getRequest();
+
+          if (null === $request) {
+              return;
+          }
+
+          // Skip last active logging for requests with a specific header
+          if ($request->headers->has('X-Automated-Request')) {
+              $event->skipContactLastActiveLogged();
+          }
+      }
+  }
+
+The ``LeadGetCurrentEvent`` provides the following methods:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method
+     - Description
+   * - ``getRequest()``
+     - Returns the current HTTP request, or ``null`` if not available.
+   * - ``getContact()``
+     - Returns the Contact that was set by a previous listener, or ``null``.
+   * - ``setContact(?Lead $contact)``
+     - Sets the Contact to use for tracking.
+   * - ``skipContactLastActiveLogged()``
+     - Prevents the Contact's 'last active' timestamp from being updated.
+   * - ``isSkipContactLastActiveLogged()``
+     - Returns whether the last active logging should be skipped.
+
 Contact timeline/history
 ************************
 
