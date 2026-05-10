@@ -1,7 +1,11 @@
 Cookie helper
 #############
 
+.. vale off
+
 The Cookie helper lets Plugins read request cookies and queue response cookies while reusing Mautic cookie defaults - path, domain, secure, and HTTP-only.
+
+.. vale on
 
 Using the helper
 ****************
