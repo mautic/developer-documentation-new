@@ -44,6 +44,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/dcjarvis"><img src="https://avatars.githubusercontent.com/u/8997755?v=4?s=100" width="100px;" alt="David Jarvis aka DJ"/><br /><sub><b>David Jarvis aka DJ</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=dcjarvis" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://abhisek.xyz"><img src="https://avatars.githubusercontent.com/u/12195330?v=4?s=100" width="100px;" alt="Abhisek Mazumdar"/><br /><sub><b>Abhisek Mazumdar</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=abhisekmazumdar" title="Documentation">📖</a></td>
     </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/fengfeng-zi"><img src="https://avatars.githubusercontent.com/u/269969865?v=4?s=100" width="100px;" alt="fengfeng-zi"/><br /><sub><b>fengfeng-zi</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=fengfeng-zi" title="Documentation">📖</a></td>
+    </tr>
   </tbody>
 </table>
 
