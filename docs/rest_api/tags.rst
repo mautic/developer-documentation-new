@@ -160,10 +160,10 @@ Create Tag
 
    <?php
 
-   $data = array(
+   $data = [
        'tag' => 'Tag A',
        'description' => 'Description of Tag A',
-   );
+   ];
 
    $tag = $tagApi->create($data);
 
@@ -213,10 +213,10 @@ Edit Tag
    <?php
 
    $id   = 1;
-   $data = array(
+   $data = [
        'tag' => 'Tag B',
        'description' => 'Updated description',
-   );
+   ];
 
    // Create new Tag if ID 1 isn't found?
    $createIfNotFound = true;
