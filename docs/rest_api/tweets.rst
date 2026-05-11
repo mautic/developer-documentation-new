@@ -298,10 +298,10 @@ Creates a new Tweet.
 
    <?php
 
-   $data = array(
+   $data = [
        'name' => 'Tweet A',
        'text' => 'This is my first tweet created via API.',
-   );
+   ];
 
    $tweet = $tweetApi->create($data);
 
@@ -392,10 +392,10 @@ This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
    <?php
 
    $id   = 1;
-   $data = array(
+   $data = [
        'name' => 'Tweet A',
        'text' => 'This is my first tweet created via API.',
-   );
+   ];
 
    // Create a new Tweet if ID 1 isn't found
    $createIfNotFound = true;
