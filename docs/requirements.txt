@@ -9,4 +9,4 @@ myst-parser==5.0.0
 linkify-it-py==2.1.0
 esbonio==2.0.0
 attrs==26.1.0
-sphinxcontrib-phpdomain==0.13.2
+sphinxcontrib-phpdomain==0.15.1
