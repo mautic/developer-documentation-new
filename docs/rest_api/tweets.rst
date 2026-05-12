@@ -1,7 +1,7 @@
 Tweets
 ######
 
-Use this endpoint to obtain details on Mautic's Tweets. Implemented in Mautic 2.8.0.
+Use this endpoint to obtain details on Mautic's Tweets.
 
 .. note::
 
