@@ -5,7 +5,7 @@ Use this endpoint to obtain details on Mautic's Tweets. Implemented in Mautic 2.
 
 .. note::
 
-   The Tweets feature is part of the MauticSocialBundle plugin. Twitter integration must be enabled for this API to work.
+   The Tweets feature is part of the **Mautic Bundle for Social** Plugin. Integration with Twitter must be active for this API to work.
 
 Using the Mautic API library
 ****************************
@@ -200,6 +200,8 @@ HTTP request
 Query parameters
 ----------------
 
+.. vale off
+
 .. list-table::
    :widths: 20 20 60
    :header-rows: 1
@@ -230,6 +232,8 @@ Query parameters
    * - ``minimal``
      - boolean
      - Returns only a simple mapped object of entities without additional lists in it
+
+.. vale on
 
 Response
 ========
