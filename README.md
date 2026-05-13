@@ -46,6 +46,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/fengfeng-zi"><img src="https://avatars.githubusercontent.com/u/269969865?v=4?s=100" width="100px;" alt="fengfeng-zi"/><br /><sub><b>fengfeng-zi</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=fengfeng-zi" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/tlfranko-star"><img src="https://avatars.githubusercontent.com/u/234299102?v=4?s=100" width="100px;" alt="tlfranko-star"/><br /><sub><b>tlfranko-star</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=tlfranko-star" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
