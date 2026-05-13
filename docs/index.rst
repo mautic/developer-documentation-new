@@ -79,7 +79,6 @@ There are several ways to support Mautic other than contributing with code.
    design/labelling
    design/notifications
    design/flash_messages
-   design/protip
    design/quick_filters
    design/retrieving_system_information
    design/utilities
@@ -144,7 +143,7 @@ There are several ways to support Mautic other than contributing with code.
    plugins/config
    plugins/event_listeners
    plugins/installation
-   plugins/data
+   plugins/database
    plugins/cache
    plugins/translations
    plugins/continuous_integration
@@ -222,6 +221,7 @@ There are several ways to support Mautic other than contributing with code.
    :hidden:
 
    rest_api/getting_started
+   rest_api/api_v2
    rest_api/authentication
    rest_api/assets
    rest_api/campaigns
