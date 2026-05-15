@@ -159,6 +159,7 @@ Transifex
 Translator
 TRUE
 true
+TTL
 Twilio
 unassign
 unpublish
