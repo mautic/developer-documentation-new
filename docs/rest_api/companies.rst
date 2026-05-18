@@ -814,6 +814,110 @@ Refer to :ref:`Company properties <get Company properties>`.
 
 .. vale off
 
+Create Batch Companies
+**********************
+
+.. vale on
+
+Creates multiple Companies in a single request.
+
+.. code-block:: php
+
+   <?php
+
+   $data = array(
+       array(
+           'companyname'    => 'Acme Corporation',
+           'companyemail'   => 'info@acme.com',
+           'companywebsite' => 'https://acme.com',
+       ),
+       array(
+           'companyname'    => 'Widget Industries',
+           'companyemail'   => 'info@widgetindustries.com',
+           'companywebsite' => 'https://widgetindustries.com',
+       ),
+   );
+
+   $companies = $companyApi->createBatch($data);
+
+.. vale off
+
+HTTP request
+============
+
+.. vale on
+
+``POST /companies/batch/new``
+
+POST parameters
+---------------
+
+Pass an array of Company objects. Each Company object accepts the same parameters as those described in :ref:`Create Company <create Company POST parameters>`.
+
+Response
+========
+
+* Returns ``201 Created`` for each new Company that the request creates successfully.
+* Returns ``200 OK`` when the request finds a duplicate Company based on unique identifier fields. The endpoint detects duplicates using any combination of unique identifier fields configured for Companies.
+
+.. code-block:: json
+
+   {
+       "statusCodes": [
+           201,
+           201,
+           200
+       ],
+       "companies": {
+           "1": {
+               "id": 1,
+               "fields": {
+                   "all": {
+                       "companyname": "Acme Corporation",
+                       "companyemail": "info@acme.com"
+                   }
+               }
+           },
+           "2": {
+               "id": 2,
+               "fields": {
+                   "all": {
+                       "companyname": "Widget Industries",
+                       "companyemail": "info@widgetindustries.com"
+                   }
+               }
+           },
+           "3": {
+               "id": 1,
+               "fields": {
+                   "all": {
+                       "companyname": "Acme Corporation",
+                       "companyemail": "info@acme.com"
+                   }
+               }
+           }
+       }
+   }
+
+Properties
+----------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``statusCodes``
+     - array
+     - HTTP status codes for each Company in the request: ``201`` for created, ``200`` for duplicates
+   * - ``companies``
+     - object
+     - A mapped collection of Companies indexed by their position in the request. Refer to :ref:`Company properties <get Company properties>` for the structure of each Company object.
+
+.. vale off
+
 Edit Company
 ************
 
