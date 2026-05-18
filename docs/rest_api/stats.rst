@@ -3,9 +3,14 @@ Stats
 
 Use this endpoint to obtain statistical data from Mautic's database tables.
 
-**Using Mautic's API Library**
+Using the Mautic API library
+****************************
 
-You can interact with this API through the :xref:`Mautic API Library` as follows, or use the various http endpoints as described in this document.
+.. vale off
+
+You can interact with this API using the :xref:`Mautic API Library` as below, or the various HTTP endpoints described in this document.
+
+.. vale on
 
 .. code-block:: php
 
@@ -20,12 +25,10 @@ You can interact with this API through the :xref:`Mautic API Library` as follows
    $api      = new MauticApi();
    $statsApi = $api->newApi("stats", $auth, $apiUrl);
 
-.. vale off
-
 Get available stat tables
 *************************
 
-.. vale on
+Retrieves a list of all available stat tables and their columns.
 
 .. code-block:: php
 
@@ -34,19 +37,15 @@ Get available stat tables
    //...
    $tables = $statsApi->get();
 
-Returns a list of all available stat tables and their columns.
-
-.. vale off
-
-**HTTP Request**
-
-.. vale on
+HTTP request
+============
 
 ``GET /stats``
 
-**Response**
+Response
+========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the stat tables.
 
 .. code-block:: json
 
@@ -102,7 +101,8 @@ Returns a list of all available stat tables and their columns.
      }
    }
 
-**Response properties**
+Response properties
+-------------------
 
 .. list-table::
    :header-rows: 1
@@ -118,12 +118,10 @@ Returns a list of all available stat tables and their columns.
      - object
      - Object containing each table name as a key with an array of column names as the value
 
-.. vale off
-
 Get stats from a table
 **********************
 
-.. vale on
+Retrieves rows from the specified statistical table.
 
 .. code-block:: php
 
@@ -148,17 +146,13 @@ Get stats from a table
 
    $stats = $statsApi->get($table, $start, $limit, $order, $where);
 
-Returns rows from the specified statistical table.
-
-.. vale off
-
-**HTTP Request**
-
-.. vale on
+HTTP request
+============
 
 ``GET /stats/TABLE``
 
-**Query parameters**
+Query parameters
+----------------
 
 .. list-table::
    :header-rows: 1
@@ -180,7 +174,8 @@ Returns rows from the specified statistical table.
      - array
      - Array of filter conditions. Each condition has ``col`` for column name, ``expr`` for expression type, and ``val`` for the value.
 
-**Where expressions**
+Where expressions
+-----------------
 
 The ``expr`` parameter supports most methods from Doctrine's ExpressionBuilder:
 
@@ -198,9 +193,10 @@ The ``expr`` parameter supports most methods from Doctrine's ExpressionBuilder:
 - ``notIn`` - not in array of values
 - ``between`` - between two values
 
-**Response**
+Response
+========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the stats from the table.
 
 .. code-block:: json
 
@@ -219,7 +215,8 @@ The ``expr`` parameter supports most methods from Doctrine's ExpressionBuilder:
      ]
    }
 
-**Response properties**
+Response properties
+-------------------
 
 .. list-table::
    :header-rows: 1
