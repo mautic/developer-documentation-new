@@ -117,6 +117,8 @@ HTTP request
 Query parameters
 ----------------
 
+.. vale off
+
 .. list-table::
    :header-rows: 1
    :widths: 25 75
@@ -137,6 +139,8 @@ Query parameters
      - Returns only currently published entities
    * - ``minimal``
      - Returns only a simple mapped object of entities without additional lists in it
+
+.. vale on
 
 Response
 ========
@@ -173,7 +177,11 @@ Properties
      - array
      - A mapped collection of Tags indexed by their ID
 
+.. vale off
+
 For the rest of the properties, refer to :ref:`Tag properties <get Tag properties>`.
+
+.. vale on
 
 .. vale off
 
