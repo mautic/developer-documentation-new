@@ -1,7 +1,7 @@
 Tags
 ####
 
-Use this endpoint to work with Mautic's Tags.
+Use this endpoint to manipulate and obtain details on Mautic's Tags.
 
 Using the Mautic API library
 ****************************
