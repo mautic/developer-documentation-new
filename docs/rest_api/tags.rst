@@ -3,9 +3,14 @@ Tags
 
 Use this endpoint to work with Mautic's Tags.
 
-**Using Mautic's API Library**
+Using the Mautic API library
+****************************
 
-You can interact with this API through the :xref:`Mautic API Library` as follows, or use the various HTTP endpoints as described in this document.
+.. vale off
+
+You can interact with this API using the :xref:`Mautic API Library` as below, or the various HTTP endpoints described in this document.
+
+.. vale on
 
 .. code-block:: php
 
@@ -27,6 +32,8 @@ Get Tag
 
 .. vale on
 
+Retrieves an individual Tag.
+
 .. code-block:: php
 
    <?php
@@ -34,33 +41,36 @@ Get Tag
    //...
    $tag = $tagApi->get($id);
 
-.. code-block:: json
-
-   {
-     "tag": {
-       "id": 34,
-       "tag": "tagA",
-       "description": "A tag for grouping contacts"
-     }
-   }
-
-Retrieves an individual Tag.
-
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /tags/ID``
 
-**Response**
+Response
+========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Tag.
 
-See JSON code example.
+.. _get Tag response:
 
-**Tag properties**
+.. code-block:: json
+
+   {
+       "tag": {
+           "id": 34,
+           "tag": "tagA",
+           "description": "A tag for grouping contacts"
+       }
+   }
+
+.. _get Tag properties:
+
+Tag properties
+--------------
 
 .. list-table::
    :header-rows: 1
@@ -86,6 +96,8 @@ List Tags
 
 .. vale on
 
+Retrieves a list of Tags.
+
 .. code-block:: php
 
    <?php
@@ -93,30 +105,17 @@ List Tags
    //...
    $tags = $tagApi->getList($searchFilter, $start, $limit, $orderBy, $orderByDir, $publishedOnly, $minimal);
 
-.. code-block:: json
-
-   {
-     "total": 1,
-     "tags": [
-       {
-         "id": 34,
-         "tag": "tagA",
-         "description": "A tag for grouping contacts"
-       }
-     ]
-   }
-
-Retrieves a list of Tags.
-
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /tags``
 
-**Query parameters**
+Query parameters
+----------------
 
 .. list-table::
    :header-rows: 1
@@ -125,29 +124,56 @@ Retrieves a list of Tags.
    * - Name
      - Description
    * - ``search``
-     - String or search command to filter entities by.
+     - String or search command to filter entities
    * - ``start``
-     - Starting row for the entities returned. Defaults to 0.
+     - Starting row for the returned entities - defaults to 0
    * - ``limit``
-     - Limit number of entities to return. Defaults to the system configuration for pagination, which is 30 by default.
+     - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
-     - Column to sort by. Can use any column listed in the response.
+     - Column to sort by. Any column in the response is valid.
    * - ``orderByDir``
-     - Sort direction: ``asc`` or ``desc``.
+     - Order direction - ``asc`` or ``desc``
    * - ``publishedOnly``
-     - Only return currently published entities.
+     - Returns only currently published entities
    * - ``minimal``
-     - Return only array of entities without additional lists in it.
+     - Returns only a simple mapped object of entities without additional lists in it
 
-**Response**
+Response
+========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Tags list.
 
-See JSON code example.
+.. code-block:: json
 
-**Properties**
+   {
+       "total": 1,
+       "tags": [
+           {
+               "id": 34,
+               "tag": "tagA",
+               "description": "A tag for grouping contacts"
+           }
+       ]
+   }
 
-Same as `Get Tag <#get-tag>`_.
+Properties
+----------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``total``
+     - integer
+     - Total count of Tags
+   * - ``tags``
+     - array
+     - A mapped collection of Tags indexed by their ID
+
+For the rest of the properties, refer to :ref:`Tag properties <get Tag properties>`.
 
 .. vale off
 
@@ -155,6 +181,8 @@ Create Tag
 **********
 
 .. vale on
+
+Creates a new Tag.
 
 .. code-block:: php
 
@@ -167,17 +195,19 @@ Create Tag
 
    $tag = $tagApi->create($data);
 
-Creates a new Tag.
-
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /tags/new``
 
-**POST parameters**
+.. _create Tag POST parameters:
+
+POST parameters
+---------------
 
 .. list-table::
    :header-rows: 1
@@ -188,18 +218,22 @@ Creates a new Tag.
      - Description
    * - ``tag``
      - string
-     - Title of the Tag. Required.
+     - **Required.**
+
+       Title of the Tag
    * - ``description``
      - string
      - Description of the Tag
 
-**Response**
+Response
+========
 
-``Expected Response Code: 201``
+* Returns ``201 Created`` when the request successfully creates a Tag.
 
-**Properties**
+Properties
+----------
 
-Same as `Get Tag <#get-tag>`_.
+Refer to :ref:`Tag properties <get Tag properties>`.
 
 .. vale off
 
@@ -207,6 +241,13 @@ Edit Tag
 ********
 
 .. vale on
+
+Edits a Tag.
+
+This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
+
+* ``PUT``: **full replacement**. The request creates a new Tag if the ID doesn't exist. If the ID exists, the request clears all existing data and replaces it with the provided values.
+* ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the Tag ID doesn't exist.
 
 .. code-block:: php
 
@@ -223,16 +264,10 @@ Edit Tag
 
    $tag = $tagApi->edit($id, $data, $createIfNotFound);
 
-Edits a Tag.
-
-This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
-
-* ``PUT``: **full replacement**. The request creates a new Tag if the ID doesn't exist. If the ID exists, the request clears all existing data and replaces it with the provided values.
-* ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the Tag ID doesn't exist.
-
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
@@ -244,7 +279,8 @@ To edit a Tag and create a new one if the Tag isn't found:
 
 ``PUT /tags/ID/edit``
 
-**POST parameters**
+POST parameters
+---------------
 
 .. list-table::
    :header-rows: 1
@@ -260,15 +296,17 @@ To edit a Tag and create a new one if the Tag isn't found:
      - string
      - Description of the Tag
 
-**Response**
+Response
+========
 
 If using ``PUT``, the expected response code is ``200`` if editing the Tag or ``201`` if creating the Tag.
 
 If using ``PATCH``, the expected response code is ``200``.
 
-**Properties**
+Properties
+----------
 
-Same as `Get Tag <#get-tag>`_.
+Refer to :ref:`Tag properties <get Tag properties>`.
 
 .. vale off
 
@@ -277,26 +315,29 @@ Delete Tag
 
 .. vale on
 
+Deletes a Tag.
+
 .. code-block:: php
 
    <?php
 
    $tag = $tagApi->delete($id);
 
-Deletes a Tag.
-
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``DELETE /tags/ID/delete``
 
-**Response**
+Response
+========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully deletes the Tag.
 
-**Properties**
+Properties
+----------
 
-Same as `Get Tag <#get-tag>`_.
+Refer to :ref:`Tag properties <get Tag properties>`.
