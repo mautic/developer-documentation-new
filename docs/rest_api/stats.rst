@@ -37,8 +37,12 @@ Retrieves a list of all available stat tables and their columns.
    //...
    $tables = $statsApi->get();
 
+.. vale off
+
 HTTP request
 ============
+
+.. vale on
 
 ``GET /stats``
 
@@ -101,8 +105,8 @@ Response
      }
    }
 
-Response properties
--------------------
+Stats properties
+----------------
 
 .. list-table::
    :header-rows: 1
@@ -113,7 +117,7 @@ Response properties
      - Description
    * - ``availableTables``
      - array
-     - List of available tables which you can query through this endpoint
+     - List of available tables available for query through this endpoint
    * - ``tableColumns``
      - object
      - Object containing each table name as a key with an array of column names as the value
@@ -146,8 +150,12 @@ Retrieves rows from the specified statistical table.
 
    $stats = $statsApi->get($table, $start, $limit, $order, $where);
 
+.. vale off
+
 HTTP request
 ============
+
+.. vale on
 
 ``GET /stats/TABLE``
 
@@ -169,13 +177,13 @@ Query parameters
      - Number of rows to return. Defaults to 100.
    * - ``order``
      - array
-     - Array of ordering definitions. Each definition has ``col`` for column name and ``dir`` for direction (asc/desc).
+     - Array of sorting definitions. Each definition has ``col`` for column name and ``dir`` for direction - ``asc`` or ``desc``.
    * - ``where``
      - array
      - Array of filter conditions. Each condition has ``col`` for column name, ``expr`` for expression type, and ``val`` for the value.
 
 Where expressions
------------------
+~~~~~~~~~~~~~~~~~
 
 The ``expr`` parameter supports most methods from Doctrine's ExpressionBuilder:
 
@@ -186,7 +194,7 @@ The ``expr`` parameter supports most methods from Doctrine's ExpressionBuilder:
 - ``gt`` - greater than
 - ``gte`` - greater than or equal
 - ``isNull`` - is null
-- ``isNotNull`` - is not null
+- ``isNotNull`` - isn't null
 - ``like`` - like pattern matching
 - ``notLike`` - not like pattern matching
 - ``in`` - in array of values
@@ -215,8 +223,8 @@ Response
      ]
    }
 
-Response properties
--------------------
+Stats from a table properties
+-----------------------------
 
 .. list-table::
    :header-rows: 1
@@ -258,9 +266,12 @@ This query string is equivalent to:
 Available tables
 ================
 
-The following tables are available through the Stats API. Tables require appropriate user permissions to access.
+The following tables are available through the Stats API. Tables require appropriate User permissions to access.
 
-**Contact statistics**
+.. vale off
+
+Contact statistics
+------------------
 
 .. list-table::
    :header-rows: 1
@@ -290,7 +301,14 @@ The following tables are available through the Stats API. Tables require appropr
    * - ``lead_utmtags``
      - UTM parameters tracked for Contacts
 
-**Asset statistics**
+.. vale on
+
+.. vale off
+
+Asset statistics
+----------------
+
+.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -300,7 +318,12 @@ The following tables are available through the Stats API. Tables require appropr
    * - ``asset_downloads``
      - Asset download events
 
-**Campaign statistics**
+.. vale off
+
+Campaign statistics
+-------------------
+
+.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -312,7 +335,12 @@ The following tables are available through the Stats API. Tables require appropr
    * - ``campaign_lead_event_log``
      - Campaign Event execution log
 
-**Email statistics**
+.. vale off
+
+Email statistics
+----------------
+
+.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -326,7 +354,12 @@ The following tables are available through the Stats API. Tables require appropr
    * - ``email_stat_replies``
      - Email reply tracking
 
-**Form statistics**
+.. vale off
+
+Form statistics
+---------------
+
+.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -336,7 +369,10 @@ The following tables are available through the Stats API. Tables require appropr
    * - ``form_submissions``
      - Form submission records
 
-**Page statistics**
+.. vale off
+
+Page statistics
+---------------
 
 .. list-table::
    :header-rows: 1
@@ -352,7 +388,14 @@ The following tables are available through the Stats API. Tables require appropr
    * - ``channel_url_trackables``
      - Cross-Channel URL tracking
 
-**Point statistics**
+.. vale on
+
+.. vale off
+
+Point statistics
+----------------
+
+.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -364,7 +407,12 @@ The following tables are available through the Stats API. Tables require appropr
    * - ``point_lead_event_log``
      - Point Trigger Event execution log
 
-**Stage statistics**
+.. vale off
+
+Stage statistics
+----------------
+
+.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -374,7 +422,12 @@ The following tables are available through the Stats API. Tables require appropr
    * - ``stage_lead_action_log``
      - Stage assignment log
 
-**Dynamic Content statistics**
+.. vale off
+
+Dynamic Content statistics
+--------------------------
+
+.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -386,7 +439,12 @@ The following tables are available through the Stats API. Tables require appropr
    * - ``dynamic_content_lead_data``
      - Contact-level Dynamic Content interactions
 
-**Notification statistics**
+.. vale off
+
+Notification statistics
+-----------------------
+
+.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -396,7 +454,12 @@ The following tables are available through the Stats API. Tables require appropr
    * - ``push_notification_stats``
      - Push Notification delivery and engagement
 
-**SMS statistics**
+.. vale off
+
+SMS statistics
+--------------
+
+.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -406,7 +469,12 @@ The following tables are available through the Stats API. Tables require appropr
    * - ``sms_message_stats``
      - SMS delivery statistics
 
-**System statistics**
+.. vale off
+
+System statistics
+-----------------
+
+.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -414,7 +482,7 @@ The following tables are available through the Stats API. Tables require appropr
    * - Table
      - Description
    * - ``audit_log``
-     - System-wide audit trail of user actions
+     - System-wide audit trail of User Actions
    * - ``ip_addresses``
      - IP address registry with geolocation data
    * - ``webhook_logs``
