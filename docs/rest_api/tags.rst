@@ -299,9 +299,10 @@ POST parameters
 Response
 ========
 
-If using ``PUT``, the expected response code is ``200`` if editing the Tag or ``201`` if creating the Tag.
+* ``PUT``: returns ``200 OK`` when the request successfully updates the Tag or ``201 Created`` when the request creates a Tag.
+* ``PATCH``: returns ``200 OK`` when the request successfully updates the Tag or ``404 Not Found`` error when the Tag ID doesn't exist.
 
-If using ``PATCH``, the expected response code is ``200``.
+The response is a JSON object similar to :ref:`Get Tag <get Tag response>`.
 
 Properties
 ----------
