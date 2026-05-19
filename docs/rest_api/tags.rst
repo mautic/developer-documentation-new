@@ -279,13 +279,8 @@ HTTP request
 
 .. vale on
 
-To edit a Tag and return a 404 if the Tag isn't found:
-
-``PATCH /tags/ID/edit``
-
-To edit a Tag and create a new one if the Tag isn't found:
-
-``PUT /tags/ID/edit``
+* ``PUT /tags/ID/edit``: updates an existing Tag or creates a new one when the ID doesn't exist.
+* ``PATCH /tags/ID/edit``: updates an existing Tag. The request fails when the ID doesn't exist.
 
 POST parameters
 ---------------
