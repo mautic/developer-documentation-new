@@ -268,10 +268,10 @@ Available tables
 
 The following tables are available through the Stats API. Tables require appropriate User permissions to access.
 
-.. vale off
-
 Contact statistics
 ------------------
+
+.. vale off
 
 .. list-table::
    :header-rows: 1
@@ -303,12 +303,8 @@ Contact statistics
 
 .. vale on
 
-.. vale off
-
 Asset statistics
 ----------------
-
-.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -318,12 +314,8 @@ Asset statistics
    * - ``asset_downloads``
      - Asset download events
 
-.. vale off
-
 Campaign statistics
 -------------------
-
-.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -335,12 +327,8 @@ Campaign statistics
    * - ``campaign_lead_event_log``
      - Campaign Event execution log
 
-.. vale off
-
 Email statistics
 ----------------
-
-.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -354,12 +342,8 @@ Email statistics
    * - ``email_stat_replies``
      - Email reply tracking
 
-.. vale off
-
 Form statistics
 ---------------
-
-.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -390,12 +374,8 @@ Page statistics
 
 .. vale on
 
-.. vale off
-
 Point statistics
 ----------------
-
-.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -407,12 +387,8 @@ Point statistics
    * - ``point_lead_event_log``
      - Point Trigger Event execution log
 
-.. vale off
-
 Stage statistics
 ----------------
-
-.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -422,12 +398,8 @@ Stage statistics
    * - ``stage_lead_action_log``
      - Stage assignment log
 
-.. vale off
-
 Dynamic Content statistics
 --------------------------
-
-.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -439,12 +411,8 @@ Dynamic Content statistics
    * - ``dynamic_content_lead_data``
      - Contact-level Dynamic Content interactions
 
-.. vale off
-
 Notification statistics
 -----------------------
-
-.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -454,12 +422,8 @@ Notification statistics
    * - ``push_notification_stats``
      - Push Notification delivery and engagement
 
-.. vale off
-
 SMS statistics
 --------------
-
-.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -469,12 +433,8 @@ SMS statistics
    * - ``sms_message_stats``
      - SMS delivery statistics
 
-.. vale off
-
 System statistics
 -----------------
-
-.. vale on
 
 .. list-table::
    :header-rows: 1
