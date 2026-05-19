@@ -825,18 +825,18 @@ Creates multiple Companies in a single request.
 
    <?php
 
-   $data = array(
-       array(
+   $data = [
+       [
            'companyname'    => 'Acme Corporation',
            'companyemail'   => 'info@acme.com',
            'companywebsite' => 'https://acme.com',
-       ),
-       array(
+       ],
+       [
            'companyname'    => 'Widget Industries',
            'companyemail'   => 'info@widgetindustries.com',
            'companywebsite' => 'https://widgetindustries.com',
-       ),
-   );
+       ],
+   ];
 
    $companies = $companyApi->createBatch($data);
 
