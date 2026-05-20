@@ -1,11 +1,16 @@
 Themes
 ######
 
-Use this endpoint to work with Mautic Themes.
+Use this endpoint to manipulate and obtain details on Mautic's Themes.
 
-**Using Mautic's API Library**
+Using the Mautic API library
+****************************
 
-You can interact with this API through the :xref:`Mautic API Library` as follows, or use the various http endpoints as described in this document.
+.. vale off
+
+You can interact with this API using the :xref:`Mautic API Library` as below, or the various HTTP endpoints described in this document.
+
+.. vale on
 
 .. code-block:: php
 
@@ -27,7 +32,7 @@ Get Theme
 
 .. vale on
 
-Returns the Theme as a zip file with the ``application/zip`` header on success, or a JSON response with error messages on failure. The PHP API library saves the zip file to the system's temporary directory and returns the path.
+Retrieves the Theme as a zip file with the ``application/zip`` header on success, or a JSON response with error messages on failure. The PHP API library saves the zip file to the system's temporary directory and retrieves the path.
 
 .. code-block:: php
 
@@ -35,6 +40,16 @@ Returns the Theme as a zip file with the ``application/zip`` header on success, 
 
    //...
    $response = $themesApi->get($themeName);
+
+HTTP request
+============
+
+``GET /themes/THEME_NAME``
+
+Response
+========
+
+* Returns ``200 OK`` when the request successfully retrieves the Theme zip file.
 
 .. code-block:: json
 
@@ -44,19 +59,7 @@ Returns the Theme as a zip file with the ``application/zip`` header on success, 
 
 .. vale off
 
-**HTTP Request**
-
-.. vale on
-
-``GET /themes/THEME_NAME``
-
-**Response**
-
-``Expected Response Code: 200``
-
-.. vale off
-
-Set Temporary File Path
+Set temporary file path
 ***********************
 
 .. vale on
@@ -70,6 +73,11 @@ Changes the default temporary directory where the PHP API library creates the zi
    //...
    $themesApi->setTemporaryFilePath("/absolute/path/to/a/different/temp/dir");
    $response = $themesApi->get($themeName);
+
+Response
+========
+
+* Returns ``200 OK`` when the request successfully changes or creates the default temporary directory.
 
 .. code-block:: json
 
@@ -93,17 +101,15 @@ Lists all installed Themes with details from their ``config.json`` files.
    //...
    $response = $themesApi->getList();
 
-.. vale off
-
-**HTTP Request**
-
-.. vale on
+HTTP request
+============
 
 ``GET /themes``
 
-**Response**
+Response
+========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Themes list.
 
 .. code-block:: json
 
@@ -126,7 +132,8 @@ Lists all installed Themes with details from their ``config.json`` files.
        }
    }
 
-**Response Properties**
+Properties
+----------
 
 .. list-table::
    :header-rows: 1
@@ -139,7 +146,8 @@ Lists all installed Themes with details from their ``config.json`` files.
      - array
      - List of installed Themes and their configurations
 
-**Theme Object Properties**
+Theme object properties
+-----------------------
 
 .. list-table::
    :header-rows: 1
@@ -158,7 +166,12 @@ Lists all installed Themes with details from their ``config.json`` files.
      - object
      - Theme configuration from ``config.json``
 
-**Config Object Properties**
+.. vale off
+
+Config object properties
+------------------------
+
+.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -190,7 +203,7 @@ Create Theme
 
 .. vale on
 
-Creates a new Theme or updates an existing one from the provided zip file. The Theme name comes from the zip file name.
+Creates a new Theme or updates an existing one from the provided zip file. The Theme name comes from the zip filename.
 
 .. code-block:: php
 
@@ -203,17 +216,15 @@ Creates a new Theme or updates an existing one from the provided zip file. The T
 
    $response = $themesApi->create($data);
 
-The file is sent through a standard POST files array, the same way a browser sends files during upload.
+Mautic sends the file through a standard POST files array, the same way a browser sends files during upload.
 
-.. vale off
-
-**HTTP Request**
-
-.. vale on
+HTTP request
+============
 
 ``POST /themes/new``
 
-**POST Parameters**
+POST parameters
+---------------
 
 .. list-table::
    :header-rows: 1
@@ -224,11 +235,12 @@ The file is sent through a standard POST files array, the same way a browser sen
      - Description
    * - ``file``
      - file
-     - The zip file containing the Theme (required)
+     - The zip file containing the Theme - **required**
 
-**Response**
+Response
+========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully creates a Theme.
 
 .. code-block:: json
 
@@ -236,14 +248,15 @@ The file is sent through a standard POST files array, the same way a browser sen
        "success": true
    }
 
-**Error Responses**
+Error responses
+---------------
 
 The API returns error messages if:
 
-- No file is uploaded
-- The uploaded file doesn't have a ``.zip`` extension
-- The zip file is missing required files (``config.json``, ``html/message.html.twig``)
-- The zip file contains disallowed file extensions
+* The request includes no uploaded file
+* The uploaded file doesn't have a ``.zip`` extension
+* The zip file is missing required files - ``config.json`` and ``html/message.html.twig``
+* The zip file contains disallowed file extensions
 
 .. vale off
 
@@ -252,7 +265,7 @@ Delete Theme
 
 .. vale on
 
-Deletes a Theme. You cannot delete stock Themes.
+Deletes a Theme. The system prevents deletion of stock Themes.
 
 .. code-block:: php
 
@@ -261,17 +274,15 @@ Deletes a Theme. You cannot delete stock Themes.
    //...
    $response = $themesApi->delete($themeName);
 
-.. vale off
-
-**HTTP Request**
-
-.. vale on
+HTTP request
+============
 
 ``DELETE /themes/THEME_NAME/delete``
 
-**Response**
+Response
+========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully deletes the Theme.
 
 .. code-block:: json
 
@@ -281,4 +292,4 @@ Deletes a Theme. You cannot delete stock Themes.
 
 .. note::
 
-   Default Themes bundled with Mautic cannot be permanently deleted. Attempting to delete a default Theme hides it instead. Use the Theme visibility toggle in the Mautic UI to restore hidden default Themes.
+   Mautic prevents permanent deletion of default Themes bundled with the application. Attempting to delete a default Theme hides it instead. Use the Theme visibility toggle in the Mautic UI to restore hidden default Themes.
