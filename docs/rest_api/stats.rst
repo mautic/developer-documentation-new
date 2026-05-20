@@ -354,8 +354,12 @@ Form statistics
      - Form submission records
 
 
+.. vale off
+
 Page statistics
 ---------------
+
+.. vale on
 
 .. vale off
 
@@ -399,8 +403,12 @@ Stage statistics
    * - ``stage_lead_action_log``
      - Stage assignment log
 
+.. vale off
+
 Dynamic Content statistics
 --------------------------
+
+.. vale on
 
 .. list-table::
    :header-rows: 1
