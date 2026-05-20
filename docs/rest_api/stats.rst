@@ -353,10 +353,11 @@ Form statistics
    * - ``form_submissions``
      - Form submission records
 
-.. vale off
 
 Page statistics
 ---------------
+
+.. vale off
 
 .. list-table::
    :header-rows: 1
