@@ -2026,7 +2026,7 @@ System statistics
    * - Table
      - Description
    * - ``audit_log``
-     - System-wide audit trail of User Actions
+     - System-wide audit trail of User actions
    * - ``ip_addresses``
      - IP address registry with geolocation data
    * - ``webhook_logs``
@@ -2035,7 +2035,7 @@ System statistics
 ``audit_log``
 ~~~~~~~~~~~~~
 
-System-wide audit trail of User Actions.
+System-wide audit trail of User actions.
 
 .. list-table::
    :header-rows: 1
@@ -2064,7 +2064,7 @@ System-wide audit trail of User Actions.
      - IP address of the User who performed the action
    * - ``object``
      - string
-     - Object type affected by the action
+     - Object type that the User action changed
    * - ``object_id``
      - int
      - ID of the affected object
