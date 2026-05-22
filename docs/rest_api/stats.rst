@@ -633,23 +633,23 @@ Contact statistics
    * - ``companies_leads``
      - Association between Contacts and Companies
    * - ``lead_categories``
-     - Contact Category assignments
+     - Category assignments for Contacts
    * - ``lead_companies_change_log``
-     - Log of Contact Company association changes
+     - History of Contact and Company associations
    * - ``lead_devices``
      - Device information tracked for Contacts
    * - ``lead_donotcontact``
      - Do-not-contact preferences by Contact and Channel
    * - ``lead_event_log``
-     - Generic Contact event activity log
+     - Activity log for Contact events
    * - ``lead_frequencyrules``
      - Contact frequency and Channel preferences
    * - ``lead_lists_leads``
      - Contact membership in Segments
    * - ``lead_points_change_log``
-     - Log of Contact Points changes
+     - History of Contact Points changes
    * - ``lead_stages_change_log``
-     - Log of Contact Stage transitions
+     - History of Contact Stage transitions
    * - ``lead_utmtags``
      - UTM parameters tracked for Contacts
 
@@ -675,7 +675,7 @@ Association between Contacts and Companies.
      - Date and time when Mautic created the association
    * - ``is_primary``
      - boolean
-     - Whether this is the Contact's primary Company
+     - Primary status - ``1`` or ``true`` indicates the primary Company for the Contact
    * - ``lead_id``
      - int
      - ID of the Contact
@@ -689,7 +689,7 @@ Association between Contacts and Companies.
 ``lead_categories``
 ~~~~~~~~~~~~~~~~~~~
 
-Contact Category assignments.
+Category assignments for Contacts.
 
 .. list-table::
    :header-rows: 1
@@ -720,7 +720,7 @@ Contact Category assignments.
 ``lead_companies_change_log``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Log of Contact Company association changes.
+History of Contact and Company associations.
 
 .. list-table::
    :header-rows: 1
@@ -840,7 +840,7 @@ Do-not-contact preferences by Contact and Channel.
 ``lead_event_log``
 ~~~~~~~~~~~~~~~~~~
 
-Generic Contact event activity log.
+Activity log for Contact events.
 
 .. list-table::
    :header-rows: 1
@@ -918,7 +918,7 @@ Contact frequency and Channel preferences.
      - End date for communication pause
    * - ``preferred_channel``
      - boolean
-     - Whether this is the Contact's preferred Channel
+     - Preferred Channel for the Contact
 
 ``lead_lists_leads``
 ~~~~~~~~~~~~~~~~~~~~
@@ -951,7 +951,7 @@ Contact membership in Segments.
 ``lead_points_change_log``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Log of Contact Points changes.
+History of Contact Points changes.
 
 .. list-table::
    :header-rows: 1
@@ -988,7 +988,7 @@ Log of Contact Points changes.
 ``lead_stages_change_log``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Log of Contact Stage transitions.
+History of Contact Stage transitions.
 
 .. list-table::
    :header-rows: 1
@@ -1102,7 +1102,7 @@ Asset download events.
      - Date and time of the download
    * - ``email_id``
      - int
-     - ID of the Email that contained the Asset link
+     - ID of the Email containing the Asset link
    * - ``id``
      - int
      - Primary key
@@ -1136,7 +1136,7 @@ Campaign statistics
    * - ``campaign_leads``
      - Contacts in Campaigns
    * - ``campaign_lead_event_log``
-     - Campaign Event execution log
+     - Execution log for Campaign Events
 
 ``campaign_leads``
 ~~~~~~~~~~~~~~~~~~
@@ -1175,7 +1175,7 @@ Contacts in Campaigns.
 ``campaign_lead_event_log``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Campaign Event execution log.
+Execution log for Campaign Events.
 
 .. list-table::
    :header-rows: 1
@@ -1207,7 +1207,7 @@ Campaign Event execution log.
      - ID of the IP address
    * - ``is_scheduled``
      - boolean
-     - Whether Mautic scheduled the event execution
+     - Scheduling status - ``1`` or ``true`` indicates Mautic scheduled the Event execution
    * - ``lead_id``
      - int
      - ID of the Contact
@@ -1216,10 +1216,10 @@ Campaign Event execution log.
      - Additional event metadata in JSON format
    * - ``non_action_path_taken``
      - boolean
-     - Whether the Contact took the non-action path
+     - Path status - ``1`` or ``true`` indicates the Contact took the non-action path
    * - ``rotation``
      - int
-     - Campaign rotation number
+     - Number of times the Contact went through the Campaign
    * - ``system_triggered``
      - boolean
      - Whether the system automatically triggered the event
@@ -1277,10 +1277,10 @@ Email send, open, and click statistics.
      - ID of the IP address that opened the Email
    * - ``is_failed``
      - boolean
-     - Whether the Email delivery failed
+     - Delivery status - ``1`` or ``true`` indicates the Email delivery failed
    * - ``is_read``
      - boolean
-     - Whether the Contact read the Email
+     - Read status - ``1`` or ``true`` indicates the Contact read the Email
    * - ``last_opened``
      - datetime
      - Date and time when the Contact last opened the Email
@@ -1313,7 +1313,7 @@ Email send, open, and click statistics.
      - Unique hash for tracking this Email send
    * - ``viewed_in_browser``
      - boolean
-     - Whether the Contact viewed the Email in browser
+     - Browser view status - ``1`` or ``true`` indicates the Contact viewed the Email in a browser
 
 ``email_stats_devices``
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -1329,7 +1329,7 @@ Device information for Email opens.
      - Description
    * - ``date_opened``
      - datetime
-     - Date and time when the Contact opened the Email on this device
+     - Date and time when the Contact opened the Email on the device
    * - ``device_id``
      - int
      - ID of the device
@@ -1574,7 +1574,7 @@ Redirect URL hit tracking.
      - Primary key
    * - ``is_published``
      - boolean
-     - Whether the redirect is published
+     - Published status - ``1`` or ``true`` turns on the redirect
    * - ``modified_by``
      - int
      - ID of the User who last modified the redirect
@@ -1710,14 +1710,14 @@ Point statistics
    * - Table
      - Description
    * - ``point_lead_action_log``
-     - Point Action execution log
+     - Execution log for Point Actions
    * - ``point_lead_event_log``
-     - Point Trigger Event execution log
+     - Execution log for Point Triggers events
 
 ``point_lead_action_log``
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Point Action execution log.
+Execution log for Point Actions.
 
 .. list-table::
    :header-rows: 1
@@ -1742,7 +1742,7 @@ Point Action execution log.
 ``point_lead_event_log``
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Point Trigger Event execution log.
+Execution log for Point Triggers events.
 
 .. list-table::
    :header-rows: 1
@@ -1831,7 +1831,7 @@ Dynamic Content display statistics.
      - Description
    * - ``date_sent``
      - datetime
-     - Date and time when the Dynamic Content was first sent
+     - Date and time when Mautic first sent the Dynamic Content
    * - ``dynamic_content_id``
      - int
      - ID of the Dynamic Content item
@@ -1840,7 +1840,7 @@ Dynamic Content display statistics.
      - Primary key
    * - ``last_sent``
      - datetime
-     - Date and time when the Dynamic Content was last sent
+     - Date and time when Mautic last sent the Dynamic Content
    * - ``lead_id``
      - int
      - ID of the Contact
@@ -1934,7 +1934,7 @@ Push Notification delivery and engagement.
      - ID of the IP address
    * - ``is_clicked``
      - boolean
-     - Whether the Contact clicked the notification
+     - Click status - ``1`` or ``true`` indicates the Contact clicked the notification
    * - ``last_clicked``
      - datetime
      - Date and time when the Contact last clicked the notification
