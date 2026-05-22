@@ -655,8 +655,8 @@ Contact statistics
 
 .. vale on
 
-companies_leads
-~~~~~~~~~~~~~~~
+``companies_leads``
+~~~~~~~~~~~~~~~~~~~
 
 Association between Contacts and Companies.
 
@@ -672,7 +672,7 @@ Association between Contacts and Companies.
      - ID of the Company
    * - ``date_added``
      - datetime
-     - Date and time when the association was created
+     - Date and time when Mautic created the association
    * - ``is_primary``
      - boolean
      - Whether this is the Contact's primary Company
@@ -681,13 +681,13 @@ Association between Contacts and Companies.
      - ID of the Contact
    * - ``manually_added``
      - boolean
-     - Whether the association was added manually
+     - Whether a User added the association manually
    * - ``manually_removed``
      - boolean
-     - Whether the association was removed manually
+     - Whether a User removed the association manually
 
-lead_categories
-~~~~~~~~~~~~~~~
+``lead_categories``
+~~~~~~~~~~~~~~~~~~~
 
 Contact Category assignments.
 
@@ -703,7 +703,7 @@ Contact Category assignments.
      - ID of the Category
    * - ``date_added``
      - datetime
-     - Date and time when the Category was assigned
+     - Date and time when Mautic assigned the Category
    * - ``id``
      - int
      - Primary key
@@ -712,13 +712,13 @@ Contact Category assignments.
      - ID of the Contact
    * - ``manually_added``
      - boolean
-     - Whether the Category was added manually
+     - Whether a User added the Category manually
    * - ``manually_removed``
      - boolean
-     - Whether the Category was removed manually
+     - Whether a User removed the Category manually
 
-lead_companies_change_log
-~~~~~~~~~~~~~~~~~~~~~~~~~
+``lead_companies_change_log``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Log of Contact Company association changes.
 
@@ -751,8 +751,8 @@ Log of Contact Company association changes.
      - string
      - Type of change
 
-lead_devices
-~~~~~~~~~~~~
+``lead_devices``
+~~~~~~~~~~~~~~~~
 
 Device information tracked for Contacts.
 
@@ -768,7 +768,7 @@ Device information tracked for Contacts.
      - Client application information
    * - ``date_added``
      - datetime
-     - Date and time when the device was first tracked
+     - Date and time when Mautic first tracked the device
    * - ``device``
      - string
      - Device type
@@ -803,8 +803,8 @@ Device information tracked for Contacts.
      - string
      - Tracking identifier for the device
 
-lead_donotcontact
-~~~~~~~~~~~~~~~~~
+``lead_donotcontact``
+~~~~~~~~~~~~~~~~~~~~~
 
 Do-not-contact preferences by Contact and Channel.
 
@@ -826,7 +826,7 @@ Do-not-contact preferences by Contact and Channel.
      - Additional comments about the do-not-contact entry
    * - ``date_added``
      - datetime
-     - Date and time when the preference was added
+     - Date and time when Mautic added the preference
    * - ``id``
      - int
      - Primary key
@@ -837,8 +837,8 @@ Do-not-contact preferences by Contact and Channel.
      - int
      - Reason code for the do-not-contact status
 
-lead_event_log
-~~~~~~~~~~~~~~
+``lead_event_log``
+~~~~~~~~~~~~~~~~~~
 
 Generic Contact event activity log.
 
@@ -851,7 +851,7 @@ Generic Contact event activity log.
      - Description
    * - ``action``
      - string
-     - Action that was performed
+     - Action that the system performed
    * - ``bundle``
      - string
      - Mautic bundle that triggered the event
@@ -880,8 +880,8 @@ Generic Contact event activity log.
      - string
      - Name of the User who triggered the event
 
-lead_frequencyrules
-~~~~~~~~~~~~~~~~~~~
+``lead_frequencyrules``
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Contact frequency and Channel preferences.
 
@@ -897,7 +897,7 @@ Contact frequency and Channel preferences.
      - Communication Channel
    * - ``date_added``
      - datetime
-     - Date and time when the rule was created
+     - Date and time when Mautic created the rule
    * - ``frequency_number``
      - int
      - Maximum number of messages allowed
@@ -920,8 +920,8 @@ Contact frequency and Channel preferences.
      - boolean
      - Whether this is the Contact's preferred Channel
 
-lead_lists_leads
-~~~~~~~~~~~~~~~~
+``lead_lists_leads``
+~~~~~~~~~~~~~~~~~~~~
 
 Contact membership in Segments.
 
@@ -934,7 +934,7 @@ Contact membership in Segments.
      - Description
    * - ``date_added``
      - datetime
-     - Date and time when the Contact was added to the Segment
+     - Date and time when Mautic added the Contact to the Segment
    * - ``leadlist_id``
      - int
      - ID of the Segment
@@ -943,13 +943,13 @@ Contact membership in Segments.
      - ID of the Contact
    * - ``manually_added``
      - boolean
-     - Whether the Contact was added manually
+     - Whether a User added the Contact manually
    * - ``manually_removed``
      - boolean
-     - Whether the Contact was removed manually
+     - Whether a User removed the Contact manually
 
-lead_points_change_log
-~~~~~~~~~~~~~~~~~~~~~~
+``lead_points_change_log``
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Log of Contact Points changes.
 
@@ -985,8 +985,8 @@ Log of Contact Points changes.
      - string
      - Type of Points change
 
-lead_stages_change_log
-~~~~~~~~~~~~~~~~~~~~~~
+``lead_stages_change_log``
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Log of Contact Stage transitions.
 
@@ -1016,8 +1016,8 @@ Log of Contact Stage transitions.
      - int
      - ID of the Stage
 
-lead_utmtags
-~~~~~~~~~~~~
+``lead_utmtags``
+~~~~~~~~~~~~~~~~
 
 UTM parameters tracked for Contacts.
 
@@ -1030,7 +1030,7 @@ UTM parameters tracked for Contacts.
      - Description
    * - ``date_added``
      - datetime
-     - Date and time when the UTM data was tracked
+     - Date and time when Mautic tracked the UTM data
    * - ``id``
      - int
      - Primary key
@@ -1079,8 +1079,8 @@ Asset statistics
    * - ``asset_downloads``
      - Asset download events
 
-asset_downloads
-~~~~~~~~~~~~~~~
+``asset_downloads``
+~~~~~~~~~~~~~~~~~~~
 
 Asset download events.
 
@@ -1138,8 +1138,8 @@ Campaign statistics
    * - ``campaign_lead_event_log``
      - Campaign Event execution log
 
-campaign_leads
-~~~~~~~~~~~~~~
+``campaign_leads``
+~~~~~~~~~~~~~~~~~~
 
 Contacts in Campaigns.
 
@@ -1155,7 +1155,7 @@ Contacts in Campaigns.
      - ID of the Campaign
    * - ``date_added``
      - datetime
-     - Date and time when the Contact was added to the Campaign
+     - Date and time when Mautic added the Contact to the Campaign
    * - ``date_last_exited``
      - datetime
      - Date and time when the Contact last exited the Campaign
@@ -1164,16 +1164,16 @@ Contacts in Campaigns.
      - ID of the Contact
    * - ``manually_added``
      - boolean
-     - Whether the Contact was added manually
+     - Whether a User added the Contact manually
    * - ``manually_removed``
      - boolean
-     - Whether the Contact was removed manually
+     - Whether a User removed the Contact manually
    * - ``rotation``
      - int
      - Number of times the Contact has been through the Campaign
 
-campaign_lead_event_log
-~~~~~~~~~~~~~~~~~~~~~~~
+``campaign_lead_event_log``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Campaign Event execution log.
 
@@ -1195,7 +1195,7 @@ Campaign Event execution log.
      - ID of the Channel item
    * - ``date_triggered``
      - datetime
-     - Date and time when the event was triggered
+     - Date and time when Mautic triggered the event
    * - ``event_id``
      - int
      - ID of the Campaign Event
@@ -1207,7 +1207,7 @@ Campaign Event execution log.
      - ID of the IP address
    * - ``is_scheduled``
      - boolean
-     - Whether the event execution was scheduled
+     - Whether Mautic scheduled the event execution
    * - ``lead_id``
      - int
      - ID of the Contact
@@ -1242,8 +1242,8 @@ Email statistics
    * - ``email_stat_replies``
      - Email reply tracking
 
-email_stats
-~~~~~~~~~~~
+``email_stats``
+~~~~~~~~~~~~~~~
 
 Email send, open, and click statistics.
 
@@ -1259,10 +1259,10 @@ Email send, open, and click statistics.
      - ID of the Email copy
    * - ``date_read``
      - datetime
-     - Date and time when the Email was first read
+     - Date and time when the Contact first read the Email
    * - ``date_sent``
      - datetime
-     - Date and time when the Email was sent
+     - Date and time when Mautic sent the Email
    * - ``email_address``
      - string
      - Recipient Email address
@@ -1280,19 +1280,19 @@ Email send, open, and click statistics.
      - Whether the Email delivery failed
    * - ``is_read``
      - boolean
-     - Whether the Email was read
+     - Whether the Contact read the Email
    * - ``last_opened``
      - datetime
-     - Date and time when the Email was last opened
+     - Date and time when the Contact last opened the Email
    * - ``lead_id``
      - int
      - ID of the Contact
    * - ``list_id``
      - int
-     - ID of the Segment the Email was sent to
+     - ID of the Segment that received the Email
    * - ``open_count``
      - int
-     - Number of times the Email was opened
+     - Number of times the Contact opened the Email
    * - ``open_details``
      - string
      - Details about Email opens in JSON format
@@ -1313,10 +1313,10 @@ Email send, open, and click statistics.
      - Unique hash for tracking this Email send
    * - ``viewed_in_browser``
      - boolean
-     - Whether the Email was viewed in browser
+     - Whether the Contact viewed the Email in browser
 
-email_stats_devices
-~~~~~~~~~~~~~~~~~~~
+``email_stats_devices``
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Device information for Email opens.
 
@@ -1329,7 +1329,7 @@ Device information for Email opens.
      - Description
    * - ``date_opened``
      - datetime
-     - Date and time when the Email was opened on this device
+     - Date and time when the Contact opened the Email on this device
    * - ``device_id``
      - int
      - ID of the device
@@ -1343,8 +1343,8 @@ Device information for Email opens.
      - int
      - ID of the Email stat record
 
-email_stat_replies
-~~~~~~~~~~~~~~~~~~
+``email_stat_replies``
+~~~~~~~~~~~~~~~~~~~~~~
 
 Email reply tracking.
 
@@ -1357,7 +1357,7 @@ Email reply tracking.
      - Description
    * - ``date_replied``
      - datetime
-     - Date and time when the reply was received
+     - Date and time when Mautic received the reply
    * - ``id``
      - int
      - Primary key
@@ -1379,8 +1379,8 @@ Form statistics
    * - ``form_submissions``
      - Form submission records
 
-form_submissions
-~~~~~~~~~~~~~~~~
+``form_submissions``
+~~~~~~~~~~~~~~~~~~~~
 
 Form submission records.
 
@@ -1393,7 +1393,7 @@ Form submission records.
      - Description
    * - ``date_submitted``
      - datetime
-     - Date and time when the Form was submitted
+     - Date and time when the Contact submitted the Form
    * - ``form_id``
      - int
      - ID of the Form
@@ -1442,8 +1442,8 @@ Page statistics
 
 .. vale on
 
-page_hits
-~~~~~~~~~
+``page_hits``
+~~~~~~~~~~~~~
 
 Web page visit tracking.
 
@@ -1533,8 +1533,8 @@ Web page visit tracking.
      - string
      - Browser user agent string
 
-page_redirects
-~~~~~~~~~~~~~~
+``page_redirects``
+~~~~~~~~~~~~~~~~~~
 
 Redirect URL hit tracking.
 
@@ -1547,7 +1547,7 @@ Redirect URL hit tracking.
      - Description
    * - ``checked_out``
      - datetime
-     - Date and time when the redirect was checked out for editing
+     - Date and time when a User checked out the redirect for editing
    * - ``checked_out_by``
      - int
      - ID of the User who checked out the redirect
@@ -1562,10 +1562,10 @@ Redirect URL hit tracking.
      - Name of the User who created the redirect
    * - ``date_added``
      - datetime
-     - Date and time when the redirect was created
+     - Date and time when a User created the redirect
    * - ``date_modified``
      - datetime
-     - Date and time when the redirect was last modified
+     - Date and time when a User last modified the redirect
    * - ``hits``
      - int
      - Total number of hits
@@ -1591,8 +1591,8 @@ Redirect URL hit tracking.
      - string
      - Target URL for the redirect
 
-video_hits
-~~~~~~~~~~
+``video_hits``
+~~~~~~~~~~~~~~
 
 Video viewing analytics.
 
@@ -1623,7 +1623,7 @@ Video viewing analytics.
      - Country from geolocation
    * - ``date_hit``
      - datetime
-     - Date and time when the video was accessed
+     - Date and time when the Contact accessed the video
    * - ``date_left``
      - datetime
      - Date and time when the viewer left
@@ -1673,8 +1673,8 @@ Video viewing analytics.
      - string
      - Browser user agent string
 
-channel_url_trackables
-~~~~~~~~~~~~~~~~~~~~~~
+``channel_url_trackables``
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Cross-Channel URL tracking.
 
@@ -1714,8 +1714,8 @@ Point statistics
    * - ``point_lead_event_log``
      - Point Trigger Event execution log
 
-point_lead_action_log
-~~~~~~~~~~~~~~~~~~~~~
+``point_lead_action_log``
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Point Action execution log.
 
@@ -1728,7 +1728,7 @@ Point Action execution log.
      - Description
    * - ``date_fired``
      - datetime
-     - Date and time when the Point Action was executed
+     - Date and time when Mautic executed the Point Action
    * - ``ip_id``
      - int
      - ID of the IP address
@@ -1739,8 +1739,8 @@ Point Action execution log.
      - int
      - ID of the Point Action
 
-point_lead_event_log
-~~~~~~~~~~~~~~~~~~~~
+``point_lead_event_log``
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Point Trigger Event execution log.
 
@@ -1753,7 +1753,7 @@ Point Trigger Event execution log.
      - Description
    * - ``date_fired``
      - datetime
-     - Date and time when the Point Trigger Event was executed
+     - Date and time when Mautic executed the Point Trigger Event
    * - ``event_id``
      - int
      - ID of the Point Trigger Event
@@ -1775,8 +1775,8 @@ Stage statistics
    * - ``stage_lead_action_log``
      - Stage assignment log
 
-stage_lead_action_log
-~~~~~~~~~~~~~~~~~~~~~
+``stage_lead_action_log``
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Stage assignment log.
 
@@ -1789,7 +1789,7 @@ Stage assignment log.
      - Description
    * - ``date_fired``
      - datetime
-     - Date and time when the Stage was assigned
+     - Date and time when Mautic assigned the Stage
    * - ``ip_id``
      - int
      - ID of the IP address
@@ -1817,8 +1817,8 @@ Dynamic Content statistics
    * - ``dynamic_content_lead_data``
      - Contact-level Dynamic Content interactions
 
-dynamic_content_stats
-~~~~~~~~~~~~~~~~~~~~~
+``dynamic_content_stats``
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Dynamic Content display statistics.
 
@@ -1846,7 +1846,7 @@ Dynamic Content display statistics.
      - ID of the Contact
    * - ``sent_count``
      - int
-     - Number of times the Dynamic Content was sent
+     - Number of times Mautic sent the Dynamic Content
    * - ``sent_details``
      - string
      - Details about Dynamic Content sends in JSON format
@@ -1860,8 +1860,8 @@ Dynamic Content display statistics.
      - string
      - Token values used in JSON format
 
-dynamic_content_lead_data
-~~~~~~~~~~~~~~~~~~~~~~~~~
+``dynamic_content_lead_data``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Contact-level Dynamic Content interactions.
 
@@ -1874,7 +1874,7 @@ Contact-level Dynamic Content interactions.
      - Description
    * - ``date_added``
      - datetime
-     - Date and time when the interaction was recorded
+     - Date and time when Mautic recorded the interaction
    * - ``dynamic_content_id``
      - int
      - ID of the Dynamic Content item
@@ -1886,7 +1886,7 @@ Contact-level Dynamic Content interactions.
      - ID of the Contact
    * - ``slot``
      - string
-     - Slot name where the Dynamic Content was displayed
+     - Slot name where Mautic displayed the Dynamic Content
 
 Notification statistics
 -----------------------
@@ -1899,8 +1899,8 @@ Notification statistics
    * - ``push_notification_stats``
      - Push Notification delivery and engagement
 
-push_notification_stats
-~~~~~~~~~~~~~~~~~~~~~~~
+``push_notification_stats``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Push Notification delivery and engagement.
 
@@ -1913,19 +1913,19 @@ Push Notification delivery and engagement.
      - Description
    * - ``click_count``
      - int
-     - Number of times the notification was clicked
+     - Number of times the Contact clicked the notification
    * - ``click_details``
      - string
      - Details about clicks in JSON format
    * - ``date_clicked``
      - datetime
-     - Date and time when the notification was first clicked
+     - Date and time when the Contact first clicked the notification
    * - ``date_read``
      - datetime
-     - Date and time when the notification was read
+     - Date and time when the Contact read the notification
    * - ``date_sent``
      - datetime
-     - Date and time when the notification was sent
+     - Date and time when Mautic sent the notification
    * - ``id``
      - int
      - Primary key
@@ -1934,16 +1934,16 @@ Push Notification delivery and engagement.
      - ID of the IP address
    * - ``is_clicked``
      - boolean
-     - Whether the notification was clicked
+     - Whether the Contact clicked the notification
    * - ``last_clicked``
      - datetime
-     - Date and time when the notification was last clicked
+     - Date and time when the Contact last clicked the notification
    * - ``lead_id``
      - int
      - ID of the Contact
    * - ``list_id``
      - int
-     - ID of the Segment the notification was sent to
+     - ID of the Segment that received the notification
    * - ``notification_id``
      - int
      - ID of the Push Notification
@@ -1974,8 +1974,8 @@ SMS statistics
    * - ``sms_message_stats``
      - SMS delivery statistics
 
-sms_message_stats
-~~~~~~~~~~~~~~~~~
+``sms_message_stats``
+~~~~~~~~~~~~~~~~~~~~~
 
 SMS delivery statistics.
 
@@ -1988,7 +1988,7 @@ SMS delivery statistics.
      - Description
    * - ``date_sent``
      - datetime
-     - Date and time when the SMS was sent
+     - Date and time when Mautic sent the SMS
    * - ``id``
      - int
      - Primary key
@@ -2000,7 +2000,7 @@ SMS delivery statistics.
      - ID of the Contact
    * - ``list_id``
      - int
-     - ID of the Segment the SMS was sent to
+     - ID of the Segment that received the SMS
    * - ``sms_id``
      - int
      - ID of the SMS message
@@ -2032,8 +2032,8 @@ System statistics
    * - ``webhook_logs``
      - Webhook execution logs
 
-audit_log
-~~~~~~~~~
+``audit_log``
+~~~~~~~~~~~~~
 
 System-wide audit trail of User Actions.
 
@@ -2046,7 +2046,7 @@ System-wide audit trail of User Actions.
      - Description
    * - ``action``
      - string
-     - Action that was performed
+     - Action that the system performed
    * - ``bundle``
      - string
      - Mautic bundle that triggered the action
@@ -2075,8 +2075,8 @@ System-wide audit trail of User Actions.
      - string
      - Name of the User who performed the action
 
-ip_addresses
-~~~~~~~~~~~~
+``ip_addresses``
+~~~~~~~~~~~~~~~~
 
 IP address registry with geolocation data.
 
@@ -2097,8 +2097,8 @@ IP address registry with geolocation data.
      - string
      - Geolocation and other details in JSON format
 
-webhook_logs
-~~~~~~~~~~~~
+``webhook_logs``
+~~~~~~~~~~~~~~~~
 
 Webhook execution logs.
 
@@ -2111,7 +2111,7 @@ Webhook execution logs.
      - Description
    * - ``date_added``
      - datetime
-     - Date and time when the webhook was executed
+     - Date and time when Mautic executed the webhook
    * - ``id``
      - int
      - Primary key
