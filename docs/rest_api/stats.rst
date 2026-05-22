@@ -765,7 +765,7 @@ Device information tracked for Contacts.
      - Description
    * - ``client_info``
      - string
-     - Client application information
+     - Client information
    * - ``date_added``
      - datetime
      - Date and time when Mautic first tracked the device
@@ -806,6 +806,8 @@ Device information tracked for Contacts.
 ``lead_donotcontact``
 ~~~~~~~~~~~~~~~~~~~~~
 
+.. vale off
+
 Do-not-contact preferences by Contact and Channel.
 
 .. list-table::
@@ -836,6 +838,8 @@ Do-not-contact preferences by Contact and Channel.
    * - ``reason``
      - int
      - Reason code for the do-not-contact status
+
+.. vale on
 
 ``lead_event_log``
 ~~~~~~~~~~~~~~~~~~
@@ -1051,7 +1055,7 @@ UTM parameters tracked for Contacts.
      - Full URL visited
    * - ``user_agent``
      - string
-     - Browser user agent string
+     - User agent string
    * - ``utm_campaign``
      - string
      - UTM Campaign parameter value
@@ -1445,7 +1449,11 @@ Page statistics
 ``page_hits``
 ~~~~~~~~~~~~~
 
+.. vale off
+
 Web page visit tracking.
+
+.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -1531,7 +1539,7 @@ Web page visit tracking.
      - Title of the visited page
    * - ``user_agent``
      - string
-     - Browser user agent string
+     - User agent string
 
 ``page_redirects``
 ~~~~~~~~~~~~~~~~~~
@@ -1671,7 +1679,7 @@ Video viewing analytics.
      - URL of the video
    * - ``user_agent``
      - string
-     - Browser user agent string
+     - User agent string
 
 ``channel_url_trackables``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2102,6 +2110,8 @@ IP address registry with geolocation data.
 
 Webhook execution logs.
 
+.. vale off
+
 .. list-table::
    :header-rows: 1
    :widths: 25 15 60
@@ -2127,3 +2137,5 @@ Webhook execution logs.
    * - ``webhook_id``
      - int
      - ID of the Webhook
+
+.. vale on
