@@ -655,6 +655,419 @@ Contact statistics
 
 .. vale on
 
+companies_leads
+~~~~~~~~~~~~~~~
+
+Association between Contacts and Companies.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``company_id``
+     - int
+     - ID of the Company
+   * - ``date_added``
+     - datetime
+     - Date and time when the association was created
+   * - ``is_primary``
+     - boolean
+     - Whether this is the Contact's primary Company
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``manually_added``
+     - boolean
+     - Whether the association was added manually
+   * - ``manually_removed``
+     - boolean
+     - Whether the association was removed manually
+
+lead_categories
+~~~~~~~~~~~~~~~
+
+Contact Category assignments.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``category_id``
+     - int
+     - ID of the Category
+   * - ``date_added``
+     - datetime
+     - Date and time when the Category was assigned
+   * - ``id``
+     - int
+     - Primary key
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``manually_added``
+     - boolean
+     - Whether the Category was added manually
+   * - ``manually_removed``
+     - boolean
+     - Whether the Category was removed manually
+
+lead_companies_change_log
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Log of Contact Company association changes.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``action_name``
+     - string
+     - Name of the action performed
+   * - ``company_id``
+     - int
+     - ID of the Company
+   * - ``date_added``
+     - datetime
+     - Date and time of the change
+   * - ``event_name``
+     - string
+     - Name of the event that triggered the change
+   * - ``id``
+     - int
+     - Primary key
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``type``
+     - string
+     - Type of change
+
+lead_devices
+~~~~~~~~~~~~
+
+Device information tracked for Contacts.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``client_info``
+     - string
+     - Client application information
+   * - ``date_added``
+     - datetime
+     - Date and time when the device was first tracked
+   * - ``device``
+     - string
+     - Device type
+   * - ``device_brand``
+     - string
+     - Device manufacturer or brand
+   * - ``device_fingerprint``
+     - string
+     - Unique device fingerprint
+   * - ``device_model``
+     - string
+     - Device model name
+   * - ``device_os_name``
+     - string
+     - Operating system name
+   * - ``device_os_platform``
+     - string
+     - Operating system platform
+   * - ``device_os_shortname``
+     - string
+     - Abbreviated operating system name
+   * - ``device_os_version``
+     - string
+     - Operating system version
+   * - ``id``
+     - int
+     - Primary key
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``tracking_id``
+     - string
+     - Tracking identifier for the device
+
+lead_donotcontact
+~~~~~~~~~~~~~~~~~
+
+Do-not-contact preferences by Contact and Channel.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``channel``
+     - string
+     - Communication Channel such as ``email`` or ``sms``
+   * - ``channel_id``
+     - int
+     - ID of the specific Channel item
+   * - ``comments``
+     - string
+     - Additional comments about the do-not-contact entry
+   * - ``date_added``
+     - datetime
+     - Date and time when the preference was added
+   * - ``id``
+     - int
+     - Primary key
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``reason``
+     - int
+     - Reason code for the do-not-contact status
+
+lead_event_log
+~~~~~~~~~~~~~~
+
+Generic Contact event activity log.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``action``
+     - string
+     - Action that was performed
+   * - ``bundle``
+     - string
+     - Mautic bundle that triggered the event
+   * - ``date_added``
+     - datetime
+     - Date and time of the event
+   * - ``id``
+     - int
+     - Primary key
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``object``
+     - string
+     - Object type involved in the event
+   * - ``object_id``
+     - int
+     - ID of the object
+   * - ``properties``
+     - string
+     - Additional event properties in JSON format
+   * - ``user_id``
+     - int
+     - ID of the User who triggered the event
+   * - ``user_name``
+     - string
+     - Name of the User who triggered the event
+
+lead_frequencyrules
+~~~~~~~~~~~~~~~~~~~
+
+Contact frequency and Channel preferences.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``channel``
+     - string
+     - Communication Channel
+   * - ``date_added``
+     - datetime
+     - Date and time when the rule was created
+   * - ``frequency_number``
+     - int
+     - Maximum number of messages allowed
+   * - ``frequency_time``
+     - string
+     - Time period for the frequency limit
+   * - ``id``
+     - int
+     - Primary key
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``pause_from_date``
+     - datetime
+     - Start date for communication pause
+   * - ``pause_to_date``
+     - datetime
+     - End date for communication pause
+   * - ``preferred_channel``
+     - boolean
+     - Whether this is the Contact's preferred Channel
+
+lead_lists_leads
+~~~~~~~~~~~~~~~~
+
+Contact membership in Segments.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``date_added``
+     - datetime
+     - Date and time when the Contact was added to the Segment
+   * - ``leadlist_id``
+     - int
+     - ID of the Segment
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``manually_added``
+     - boolean
+     - Whether the Contact was added manually
+   * - ``manually_removed``
+     - boolean
+     - Whether the Contact was removed manually
+
+lead_points_change_log
+~~~~~~~~~~~~~~~~~~~~~~
+
+Log of Contact Points changes.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``action_name``
+     - string
+     - Name of the action that changed the Points
+   * - ``date_added``
+     - datetime
+     - Date and time of the Points change
+   * - ``delta``
+     - int
+     - Number of Points added or removed
+   * - ``event_name``
+     - string
+     - Name of the event that triggered the change
+   * - ``id``
+     - int
+     - Primary key
+   * - ``ip_id``
+     - int
+     - ID of the IP address associated with the change
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``type``
+     - string
+     - Type of Points change
+
+lead_stages_change_log
+~~~~~~~~~~~~~~~~~~~~~~
+
+Log of Contact Stage transitions.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``action_name``
+     - string
+     - Name of the action that changed the Stage
+   * - ``date_added``
+     - datetime
+     - Date and time of the Stage change
+   * - ``event_name``
+     - string
+     - Name of the event that triggered the change
+   * - ``id``
+     - int
+     - Primary key
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``stage_id``
+     - int
+     - ID of the Stage
+
+lead_utmtags
+~~~~~~~~~~~~
+
+UTM parameters tracked for Contacts.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``date_added``
+     - datetime
+     - Date and time when the UTM data was tracked
+   * - ``id``
+     - int
+     - Primary key
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``query``
+     - string
+     - Full query string from the URL
+   * - ``referer``
+     - string
+     - Referring URL
+   * - ``remote_host``
+     - string
+     - Remote host name
+   * - ``url``
+     - string
+     - Full URL visited
+   * - ``user_agent``
+     - string
+     - Browser user agent string
+   * - ``utm_campaign``
+     - string
+     - UTM Campaign parameter value
+   * - ``utm_content``
+     - string
+     - UTM Content parameter value
+   * - ``utm_medium``
+     - string
+     - UTM Medium parameter value
+   * - ``utm_source``
+     - string
+     - UTM Source parameter value
+   * - ``utm_term``
+     - string
+     - UTM Term parameter value
+
 Asset statistics
 ----------------
 
@@ -665,6 +1078,52 @@ Asset statistics
      - Description
    * - ``asset_downloads``
      - Asset download events
+
+asset_downloads
+~~~~~~~~~~~~~~~
+
+Asset download events.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``asset_id``
+     - int
+     - ID of the downloaded Asset
+   * - ``code``
+     - string
+     - HTTP response code
+   * - ``date_download``
+     - datetime
+     - Date and time of the download
+   * - ``email_id``
+     - int
+     - ID of the Email that contained the Asset link
+   * - ``id``
+     - int
+     - Primary key
+   * - ``ip_id``
+     - int
+     - ID of the IP address
+   * - ``lead_id``
+     - int
+     - ID of the Contact who downloaded the Asset
+   * - ``referer``
+     - string
+     - Referring URL
+   * - ``source``
+     - string
+     - Source of the download
+   * - ``source_id``
+     - int
+     - ID of the source item
+   * - ``tracking_id``
+     - string
+     - Tracking identifier
 
 Campaign statistics
 -------------------
@@ -678,6 +1137,95 @@ Campaign statistics
      - Contacts in Campaigns
    * - ``campaign_lead_event_log``
      - Campaign Event execution log
+
+campaign_leads
+~~~~~~~~~~~~~~
+
+Contacts in Campaigns.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``campaign_id``
+     - int
+     - ID of the Campaign
+   * - ``date_added``
+     - datetime
+     - Date and time when the Contact was added to the Campaign
+   * - ``date_last_exited``
+     - datetime
+     - Date and time when the Contact last exited the Campaign
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``manually_added``
+     - boolean
+     - Whether the Contact was added manually
+   * - ``manually_removed``
+     - boolean
+     - Whether the Contact was removed manually
+   * - ``rotation``
+     - int
+     - Number of times the Contact has been through the Campaign
+
+campaign_lead_event_log
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Campaign Event execution log.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``campaign_id``
+     - int
+     - ID of the Campaign
+   * - ``channel``
+     - string
+     - Communication Channel used
+   * - ``channel_id``
+     - int
+     - ID of the Channel item
+   * - ``date_triggered``
+     - datetime
+     - Date and time when the event was triggered
+   * - ``event_id``
+     - int
+     - ID of the Campaign Event
+   * - ``id``
+     - int
+     - Primary key
+   * - ``ip_id``
+     - int
+     - ID of the IP address
+   * - ``is_scheduled``
+     - boolean
+     - Whether the event execution was scheduled
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``metadata``
+     - string
+     - Additional event metadata in JSON format
+   * - ``non_action_path_taken``
+     - boolean
+     - Whether the Contact took the non-action path
+   * - ``rotation``
+     - int
+     - Campaign rotation number
+   * - ``system_triggered``
+     - boolean
+     - Whether the system automatically triggered the event
+   * - ``trigger_date``
+     - datetime
+     - Scheduled trigger date and time
 
 Email statistics
 ----------------
@@ -694,6 +1242,132 @@ Email statistics
    * - ``email_stat_replies``
      - Email reply tracking
 
+email_stats
+~~~~~~~~~~~
+
+Email send, open, and click statistics.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``copy_id``
+     - int
+     - ID of the Email copy
+   * - ``date_read``
+     - datetime
+     - Date and time when the Email was first read
+   * - ``date_sent``
+     - datetime
+     - Date and time when the Email was sent
+   * - ``email_address``
+     - string
+     - Recipient Email address
+   * - ``email_id``
+     - int
+     - ID of the Email
+   * - ``id``
+     - int
+     - Primary key
+   * - ``ip_id``
+     - int
+     - ID of the IP address that opened the Email
+   * - ``is_failed``
+     - boolean
+     - Whether the Email delivery failed
+   * - ``is_read``
+     - boolean
+     - Whether the Email was read
+   * - ``last_opened``
+     - datetime
+     - Date and time when the Email was last opened
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``list_id``
+     - int
+     - ID of the Segment the Email was sent to
+   * - ``open_count``
+     - int
+     - Number of times the Email was opened
+   * - ``open_details``
+     - string
+     - Details about Email opens in JSON format
+   * - ``retry_count``
+     - int
+     - Number of delivery retry attempts
+   * - ``source``
+     - string
+     - Source of the Email send
+   * - ``source_id``
+     - int
+     - ID of the source item
+   * - ``tokens``
+     - string
+     - Token values used in the Email in JSON format
+   * - ``tracking_hash``
+     - string
+     - Unique hash for tracking this Email send
+   * - ``viewed_in_browser``
+     - boolean
+     - Whether the Email was viewed in browser
+
+email_stats_devices
+~~~~~~~~~~~~~~~~~~~
+
+Device information for Email opens.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``date_opened``
+     - datetime
+     - Date and time when the Email was opened on this device
+   * - ``device_id``
+     - int
+     - ID of the device
+   * - ``id``
+     - int
+     - Primary key
+   * - ``ip_id``
+     - int
+     - ID of the IP address
+   * - ``stat_id``
+     - int
+     - ID of the Email stat record
+
+email_stat_replies
+~~~~~~~~~~~~~~~~~~
+
+Email reply tracking.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``date_replied``
+     - datetime
+     - Date and time when the reply was received
+   * - ``id``
+     - int
+     - Primary key
+   * - ``message_id``
+     - string
+     - Email message ID from the reply
+   * - ``stat_id``
+     - int
+     - ID of the Email stat record
+
 Form statistics
 ---------------
 
@@ -704,6 +1378,43 @@ Form statistics
      - Description
    * - ``form_submissions``
      - Form submission records
+
+form_submissions
+~~~~~~~~~~~~~~~~
+
+Form submission records.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``date_submitted``
+     - datetime
+     - Date and time when the Form was submitted
+   * - ``form_id``
+     - int
+     - ID of the Form
+   * - ``id``
+     - int
+     - Primary key
+   * - ``ip_id``
+     - int
+     - ID of the IP address
+   * - ``lead_id``
+     - int
+     - ID of the Contact who submitted the Form
+   * - ``page_id``
+     - int
+     - ID of the Landing Page containing the Form
+   * - ``referer``
+     - string
+     - Referring URL
+   * - ``tracking_id``
+     - string
+     - Tracking identifier
 
 
 .. vale off
@@ -731,6 +1442,265 @@ Page statistics
 
 .. vale on
 
+page_hits
+~~~~~~~~~
+
+Web page visit tracking.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``browser_languages``
+     - string
+     - Browser language preferences
+   * - ``city``
+     - string
+     - City from geolocation
+   * - ``code``
+     - string
+     - HTTP response code
+   * - ``country``
+     - string
+     - Country from geolocation
+   * - ``date_hit``
+     - datetime
+     - Date and time of the page visit
+   * - ``date_left``
+     - datetime
+     - Date and time when the visitor left the page
+   * - ``device_id``
+     - int
+     - ID of the device
+   * - ``email_id``
+     - int
+     - ID of the Email that contained the page link
+   * - ``id``
+     - int
+     - Primary key
+   * - ``ip_id``
+     - int
+     - ID of the IP address
+   * - ``isp``
+     - string
+     - Internet service provider
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``organization``
+     - string
+     - Organization from IP lookup
+   * - ``page_id``
+     - int
+     - ID of the Landing Page
+   * - ``page_language``
+     - string
+     - Language of the page
+   * - ``query``
+     - string
+     - Query string from the URL
+   * - ``redirect_id``
+     - int
+     - ID of the redirect if applicable
+   * - ``referer``
+     - string
+     - Referring URL
+   * - ``region``
+     - string
+     - Region or state from geolocation
+   * - ``remote_host``
+     - string
+     - Remote host name
+   * - ``source``
+     - string
+     - Source of the page hit
+   * - ``source_id``
+     - int
+     - ID of the source item
+   * - ``tracking_id``
+     - string
+     - Tracking identifier
+   * - ``url``
+     - string
+     - Full URL visited
+   * - ``url_title``
+     - string
+     - Title of the visited page
+   * - ``user_agent``
+     - string
+     - Browser user agent string
+
+page_redirects
+~~~~~~~~~~~~~~
+
+Redirect URL hit tracking.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``checked_out``
+     - datetime
+     - Date and time when the redirect was checked out for editing
+   * - ``checked_out_by``
+     - int
+     - ID of the User who checked out the redirect
+   * - ``checked_out_by_user``
+     - string
+     - Name of the User who checked out the redirect
+   * - ``created_by``
+     - int
+     - ID of the User who created the redirect
+   * - ``created_by_user``
+     - string
+     - Name of the User who created the redirect
+   * - ``date_added``
+     - datetime
+     - Date and time when the redirect was created
+   * - ``date_modified``
+     - datetime
+     - Date and time when the redirect was last modified
+   * - ``hits``
+     - int
+     - Total number of hits
+   * - ``id``
+     - int
+     - Primary key
+   * - ``is_published``
+     - boolean
+     - Whether the redirect is published
+   * - ``modified_by``
+     - int
+     - ID of the User who last modified the redirect
+   * - ``modified_by_user``
+     - string
+     - Name of the User who last modified the redirect
+   * - ``redirect_id``
+     - string
+     - Unique redirect identifier
+   * - ``unique_hits``
+     - int
+     - Number of unique hits
+   * - ``url``
+     - string
+     - Target URL for the redirect
+
+video_hits
+~~~~~~~~~~
+
+Video viewing analytics.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``browser_languages``
+     - string
+     - Browser language preferences
+   * - ``channel``
+     - string
+     - Communication Channel
+   * - ``channel_id``
+     - int
+     - ID of the Channel item
+   * - ``city``
+     - string
+     - City from geolocation
+   * - ``code``
+     - string
+     - HTTP response code
+   * - ``country``
+     - string
+     - Country from geolocation
+   * - ``date_hit``
+     - datetime
+     - Date and time when the video was accessed
+   * - ``date_left``
+     - datetime
+     - Date and time when the viewer left
+   * - ``duration``
+     - int
+     - Total duration of the video in seconds
+   * - ``guid``
+     - string
+     - Global unique identifier for the video
+   * - ``id``
+     - int
+     - Primary key
+   * - ``ip_id``
+     - int
+     - ID of the IP address
+   * - ``isp``
+     - string
+     - Internet service provider
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``organization``
+     - string
+     - Organization from IP lookup
+   * - ``page_language``
+     - string
+     - Language of the page containing the video
+   * - ``query``
+     - string
+     - Query string from the URL
+   * - ``referer``
+     - string
+     - Referring URL
+   * - ``region``
+     - string
+     - Region or state from geolocation
+   * - ``remote_host``
+     - string
+     - Remote host name
+   * - ``time_watched``
+     - int
+     - Time spent watching the video in seconds
+   * - ``url``
+     - string
+     - URL of the video
+   * - ``user_agent``
+     - string
+     - Browser user agent string
+
+channel_url_trackables
+~~~~~~~~~~~~~~~~~~~~~~
+
+Cross-Channel URL tracking.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``channel``
+     - string
+     - Communication Channel
+   * - ``channel_id``
+     - int
+     - ID of the Channel item
+   * - ``hits``
+     - int
+     - Total number of hits
+   * - ``redirect_id``
+     - int
+     - ID of the redirect
+   * - ``unique_hits``
+     - int
+     - Number of unique hits
+
 Point statistics
 ----------------
 
@@ -744,6 +1714,56 @@ Point statistics
    * - ``point_lead_event_log``
      - Point Trigger Event execution log
 
+point_lead_action_log
+~~~~~~~~~~~~~~~~~~~~~
+
+Point Action execution log.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``date_fired``
+     - datetime
+     - Date and time when the Point Action was executed
+   * - ``ip_id``
+     - int
+     - ID of the IP address
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``point_id``
+     - int
+     - ID of the Point Action
+
+point_lead_event_log
+~~~~~~~~~~~~~~~~~~~~
+
+Point Trigger Event execution log.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``date_fired``
+     - datetime
+     - Date and time when the Point Trigger Event was executed
+   * - ``event_id``
+     - int
+     - ID of the Point Trigger Event
+   * - ``ip_id``
+     - int
+     - ID of the IP address
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+
 Stage statistics
 ----------------
 
@@ -754,6 +1774,31 @@ Stage statistics
      - Description
    * - ``stage_lead_action_log``
      - Stage assignment log
+
+stage_lead_action_log
+~~~~~~~~~~~~~~~~~~~~~
+
+Stage assignment log.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``date_fired``
+     - datetime
+     - Date and time when the Stage was assigned
+   * - ``ip_id``
+     - int
+     - ID of the IP address
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``stage_id``
+     - int
+     - ID of the Stage
 
 .. vale off
 
@@ -772,6 +1817,77 @@ Dynamic Content statistics
    * - ``dynamic_content_lead_data``
      - Contact-level Dynamic Content interactions
 
+dynamic_content_stats
+~~~~~~~~~~~~~~~~~~~~~
+
+Dynamic Content display statistics.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``date_sent``
+     - datetime
+     - Date and time when the Dynamic Content was first sent
+   * - ``dynamic_content_id``
+     - int
+     - ID of the Dynamic Content item
+   * - ``id``
+     - int
+     - Primary key
+   * - ``last_sent``
+     - datetime
+     - Date and time when the Dynamic Content was last sent
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``sent_count``
+     - int
+     - Number of times the Dynamic Content was sent
+   * - ``sent_details``
+     - string
+     - Details about Dynamic Content sends in JSON format
+   * - ``source``
+     - string
+     - Source of the Dynamic Content display
+   * - ``source_id``
+     - int
+     - ID of the source item
+   * - ``tokens``
+     - string
+     - Token values used in JSON format
+
+dynamic_content_lead_data
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Contact-level Dynamic Content interactions.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``date_added``
+     - datetime
+     - Date and time when the interaction was recorded
+   * - ``dynamic_content_id``
+     - int
+     - ID of the Dynamic Content item
+   * - ``id``
+     - int
+     - Primary key
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``slot``
+     - string
+     - Slot name where the Dynamic Content was displayed
+
 Notification statistics
 -----------------------
 
@@ -783,6 +1899,70 @@ Notification statistics
    * - ``push_notification_stats``
      - Push Notification delivery and engagement
 
+push_notification_stats
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Push Notification delivery and engagement.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``click_count``
+     - int
+     - Number of times the notification was clicked
+   * - ``click_details``
+     - string
+     - Details about clicks in JSON format
+   * - ``date_clicked``
+     - datetime
+     - Date and time when the notification was first clicked
+   * - ``date_read``
+     - datetime
+     - Date and time when the notification was read
+   * - ``date_sent``
+     - datetime
+     - Date and time when the notification was sent
+   * - ``id``
+     - int
+     - Primary key
+   * - ``ip_id``
+     - int
+     - ID of the IP address
+   * - ``is_clicked``
+     - boolean
+     - Whether the notification was clicked
+   * - ``last_clicked``
+     - datetime
+     - Date and time when the notification was last clicked
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``list_id``
+     - int
+     - ID of the Segment the notification was sent to
+   * - ``notification_id``
+     - int
+     - ID of the Push Notification
+   * - ``retry_count``
+     - int
+     - Number of delivery retry attempts
+   * - ``source``
+     - string
+     - Source of the notification send
+   * - ``source_id``
+     - int
+     - ID of the source item
+   * - ``tokens``
+     - string
+     - Token values used in JSON format
+   * - ``tracking_hash``
+     - string
+     - Unique hash for tracking this notification send
+
 SMS statistics
 --------------
 
@@ -793,6 +1973,49 @@ SMS statistics
      - Description
    * - ``sms_message_stats``
      - SMS delivery statistics
+
+sms_message_stats
+~~~~~~~~~~~~~~~~~
+
+SMS delivery statistics.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``date_sent``
+     - datetime
+     - Date and time when the SMS was sent
+   * - ``id``
+     - int
+     - Primary key
+   * - ``ip_id``
+     - int
+     - ID of the IP address
+   * - ``lead_id``
+     - int
+     - ID of the Contact
+   * - ``list_id``
+     - int
+     - ID of the Segment the SMS was sent to
+   * - ``sms_id``
+     - int
+     - ID of the SMS message
+   * - ``source``
+     - string
+     - Source of the SMS send
+   * - ``source_id``
+     - int
+     - ID of the source item
+   * - ``tokens``
+     - string
+     - Token values used in JSON format
+   * - ``tracking_hash``
+     - string
+     - Unique hash for tracking this SMS send
 
 System statistics
 -----------------
@@ -808,3 +2031,99 @@ System statistics
      - IP address registry with geolocation data
    * - ``webhook_logs``
      - Webhook execution logs
+
+audit_log
+~~~~~~~~~
+
+System-wide audit trail of User Actions.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``action``
+     - string
+     - Action that was performed
+   * - ``bundle``
+     - string
+     - Mautic bundle that triggered the action
+   * - ``date_added``
+     - datetime
+     - Date and time of the action
+   * - ``details``
+     - string
+     - Additional details about the action in JSON format
+   * - ``id``
+     - int
+     - Primary key
+   * - ``ip_address``
+     - string
+     - IP address of the User who performed the action
+   * - ``object``
+     - string
+     - Object type affected by the action
+   * - ``object_id``
+     - int
+     - ID of the affected object
+   * - ``user_id``
+     - int
+     - ID of the User who performed the action
+   * - ``user_name``
+     - string
+     - Name of the User who performed the action
+
+ip_addresses
+~~~~~~~~~~~~
+
+IP address registry with geolocation data.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``id``
+     - int
+     - Primary key
+   * - ``ip_address``
+     - string
+     - The IP address
+   * - ``ip_details``
+     - string
+     - Geolocation and other details in JSON format
+
+webhook_logs
+~~~~~~~~~~~~
+
+Webhook execution logs.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Column
+     - Type
+     - Description
+   * - ``date_added``
+     - datetime
+     - Date and time when the webhook was executed
+   * - ``id``
+     - int
+     - Primary key
+   * - ``note``
+     - string
+     - Notes about the webhook execution
+   * - ``runtime``
+     - float
+     - Execution time in seconds
+   * - ``status_code``
+     - int
+     - HTTP response status code
+   * - ``webhook_id``
+     - int
+     - ID of the Webhook
