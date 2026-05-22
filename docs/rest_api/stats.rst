@@ -1170,7 +1170,7 @@ Contacts in Campaigns.
      - Whether a User removed the Contact manually
    * - ``rotation``
      - int
-     - Number of times the Contact has been through the Campaign
+     - Number of times the Contact went through the Campaign
 
 ``campaign_lead_event_log``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
