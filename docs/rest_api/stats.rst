@@ -1088,6 +1088,8 @@ Asset statistics
 
 Asset download events.
 
+.. vale off
+
 .. list-table::
    :header-rows: 1
    :widths: 25 15 60
@@ -1128,6 +1130,8 @@ Asset download events.
    * - ``tracking_id``
      - string
      - Tracking identifier
+
+.. vale on
 
 Campaign statistics
 -------------------
@@ -1539,6 +1543,8 @@ Web page visit tracking.
      - string
      - User agent string
 
+.. vale on
+
 ``page_redirects``
 ~~~~~~~~~~~~~~~~~~
 
@@ -1605,6 +1611,8 @@ Redirect URL hit tracking.
 ~~~~~~~~~~~~~~
 
 Video viewing analytics.
+
+.. vale off
 
 .. list-table::
    :header-rows: 1
@@ -1682,6 +1690,8 @@ Video viewing analytics.
    * - ``user_agent``
      - string
      - User agent string
+
+.. vale on
 
 ``channel_url_trackables``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
