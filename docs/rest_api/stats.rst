@@ -1453,8 +1453,6 @@ Page statistics
 
 Web page visit tracking.
 
-.. vale on
-
 .. list-table::
    :header-rows: 1
    :widths: 25 15 60
@@ -1544,6 +1542,8 @@ Web page visit tracking.
 ``page_redirects``
 ~~~~~~~~~~~~~~~~~~
 
+.. vale off
+
 Redirect URL hit tracking.
 
 .. list-table::
@@ -1598,6 +1598,8 @@ Redirect URL hit tracking.
    * - ``url``
      - string
      - Target URL for the redirect
+
+.. vale on
 
 ``video_hits``
 ~~~~~~~~~~~~~~
