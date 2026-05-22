@@ -41,8 +41,12 @@ Retrieves the Theme as a zip file with the ``application/zip`` header on success
    //...
    $response = $themesApi->get($themeName);
 
+.. vale off
+
 HTTP request
 ============
+
+.. vale on
 
 ``GET /themes/THEME_NAME``
 
@@ -101,8 +105,12 @@ Lists all installed Themes with details from their ``config.json`` files.
    //...
    $response = $themesApi->getList();
 
+.. vale off
+
 HTTP request
 ============
+
+.. vale on
 
 ``GET /themes``
 
@@ -218,8 +226,12 @@ Creates a new Theme or updates an existing one from the provided zip file. The T
 
 Mautic sends the file through a standard POST files array, the same way a browser sends files during upload.
 
+.. vale off
+
 HTTP request
 ============
+
+.. vale on
 
 ``POST /themes/new``
 
@@ -274,8 +286,12 @@ Deletes a Theme. The system prevents deletion of stock Themes.
    //...
    $response = $themesApi->delete($themeName);
 
+.. vale off
+
 HTTP request
 ============
+
+.. vale on
 
 ``DELETE /themes/THEME_NAME/delete``
 
@@ -292,4 +308,4 @@ Response
 
 .. note::
 
-   Mautic prevents permanent deletion of default Themes bundled with the application. Attempting to delete a default Theme hides it instead. Use the Theme visibility toggle in the Mautic UI to restore hidden default Themes.
+   Mautic prevents permanent deletion of default Themes bundled with the app. Attempting to delete a default Theme hides it instead. Use the Theme visibility toggle in the Mautic UI to restore hidden default Themes.
