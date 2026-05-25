@@ -724,6 +724,16 @@ HTTP request
 
 ``POST /emails/ID/contact/CONTACT_ID/send``
 
+Do Not Contact behavior
+-----------------------
+
+This endpoint respects the Email's ``sendToDnc`` setting:
+
+* When ``sendToDnc`` is ``false`` (default): the endpoint skips Contacts with Do Not Contact status, and the send fails silently.
+* When ``sendToDnc`` is ``true``: the endpoint sends to Contacts with UNSUBSCRIBED or MANUAL Do Not Contact status, while still respecting BOUNCED status.
+
+To send to Contacts regardless of their subscription status, set ``sendToDnc: true`` on the Email entity before calling this endpoint.
+
 Parameters
 ----------
 
