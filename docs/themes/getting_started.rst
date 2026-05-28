@@ -218,6 +218,39 @@ See :ref:`themes/forms:Customizing forms` on how to customize Form fields.
         </body>
     </html>
 
+Template sandbox restrictions
+=============================
+
+Mautic renders user-uploaded Theme templates in a sandboxed Twig environment to prevent security vulnerabilities. This sandbox blocks certain functions and filters that could enable remote code execution or data leakage.
+
+**Blocked functions**
+
+The following Twig functions aren't available in Theme templates:
+
+- ``configGetParameter`` - could expose database credentials and secret keys
+- ``getEntity`` - could extract arbitrary data from the database
+- ``getEntities`` - could extract arbitrary data from the database
+- ``source`` - could read arbitrary files from the server
+- ``ini_get`` - could expose PHP configuration
+- ``is_file`` - could probe the filesystem
+- ``get_class`` - could enable reflection attacks
+- ``method_exists`` - could enable reflection attacks
+- ``is_class`` - could enable reflection attacks
+- ``is_extension_loaded`` - could probe system configuration
+- ``is_function`` - could enable reflection attacks
+
+**Blocked filters**
+
+The following Twig filters aren't available in Theme templates because they accept PHP callable strings:
+
+- ``map``
+- ``reduce``
+- ``filter``
+
+If your Theme template uses any of these functions or filters, Mautic throws a ``SecurityNotAllowedFilterError`` or ``SecurityNotAllowedFunctionError`` exception. Use alternative approaches that don't require these restricted operations.
+
+All other Mautic and Plugin Twig functions remain available in Theme templates.
+
 Thumbnails
 ==========
 
