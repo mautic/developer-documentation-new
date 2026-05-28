@@ -28,6 +28,7 @@ Below is a list of documented events with their event types and the structure of
    lead_channel_subscription_changed
    lead_company_change
    company_post_save
+   company_soft_delete
    company_post_delete
    email_on_send
    email_on_open
