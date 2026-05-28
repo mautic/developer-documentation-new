@@ -1049,3 +1049,57 @@ Request body
 *   **If sending a ZIP file:** upload the ZIP file using form-data.
 
 .. vale on
+
+.. vale off
+
+Campaign lifecycle events
+*************************
+
+.. vale on
+
+Mautic dispatches lifecycle events at various points during Campaign processing. Plugins can subscribe to these events to extend Campaign functionality.
+
+Membership change event
+=======================
+
+The ``CampaignEvents::ON_AFTER_CAMPAIGN_ACTION_CHANGE_MEMBERSHIP`` event fires after a Campaign action modifies a Contact's Campaign membership. This occurs when a Campaign action adds or removes a Contact from another Campaign.
+
+Listeners receive a ``Mautic\CampaignBundle\Event\CampaignEvent`` object containing the Campaign that was modified.
+
+.. code-block:: php
+
+    <?php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\CampaignBundle\CampaignEvents;
+    use Mautic\CampaignBundle\Event\CampaignEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    class CampaignMembershipSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                CampaignEvents::ON_AFTER_CAMPAIGN_ACTION_CHANGE_MEMBERSHIP => ['onMembershipChange', 0],
+            ];
+        }
+
+        public function onMembershipChange(CampaignEvent $event): void
+        {
+            $campaign = $event->getCampaign();
+
+            // Perform custom logic when a Contact's Campaign membership changes
+        }
+    }
+
+.. php:class:: Mautic\CampaignBundle\Event\CampaignEvent
+
+    .. php:method:: public getCampaign()
+
+        Returns the Campaign entity that was modified.
+
+        :return: The Campaign whose membership changed.
+        :returntype: \\Mautic\\CampaignBundle\\Entity\\Campaign
