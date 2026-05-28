@@ -91,7 +91,9 @@ html_css_files = ['tablefix.css']
 # A little context on the reason for ignoring is greatly appreciated!
 linkcheck_ignore = [
    # github anchors cause failures, so do not check any github url with an anchor
-   r'^https://github.com/.*#.*'
+   r'^https://github.com/.*#.*',
+   # 403 client error from these domains
+   r"https://opencollective.com/mautic",
 ]
 
 # Ensure that autosectionlabel will produce unique names
