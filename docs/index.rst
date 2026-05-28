@@ -67,6 +67,7 @@ There are several ways to support Mautic other than contributing with code.
    development-environment/how_to_install_with_ddev
    development-environment/setup
    development-environment/environments
+   development-environment/building_assets
 
 .. toctree::
    :maxdepth: 2
