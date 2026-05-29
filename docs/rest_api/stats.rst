@@ -25,8 +25,8 @@ You can interact with this API using the :xref:`Mautic API Library` as below, or
    $api      = new MauticApi();
    $statsApi = $api->newApi("stats", $auth, $apiUrl);
 
-Get available stat tables
-*************************
+Get stat tables
+***************
 
 Retrieves a list of all available stat tables and their columns.
 
@@ -462,7 +462,7 @@ Stats properties
 
 .. list-table::
    :header-rows: 1
-   :widths: 25 10 65
+   :widths: 25 15 60
 
    * - Name
      - Type
@@ -534,8 +534,8 @@ Query parameters
      - array
      - Array of filter conditions. Each condition has ``col`` for column name, ``expr`` for expression type, and ``val`` for the value.
 
-Where expressions
-~~~~~~~~~~~~~~~~~
+The ``expr`` parameter in ``where`` expressions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The ``expr`` parameter supports most methods from Doctrine's ExpressionBuilder:
 
