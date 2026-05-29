@@ -506,6 +506,89 @@ Email stat helpers
 
 This section is in progress. See  ``\Mautic\EmailBundle\Stats\Helper\StatHelperInterface``
 
+Preview PDF generation
+----------------------
+
+Users can download Email previews as PDF files. Mautic uses an event-driven PDF generation process, enabling plugins and distributions to provide custom PDF renderers.
+
+Mautic dispatches the ``\Mautic\EmailBundle\EmailEvents::EMAIL_PREVIEW_GENERATE_PDF`` event when a user downloads an Email preview as a PDF. The default community implementation uses Dompdf when available, falling back to a basic stdlib-based PDF generator.
+
+Event details
+=============
+
+* **Event name:** ``mautic.email_preview_generate_pdf``
+* **Constant:** ``\Mautic\EmailBundle\EmailEvents::EMAIL_PREVIEW_GENERATE_PDF``
+* **Event class:** ``\Mautic\EmailBundle\Event\EmailPreviewPdfGenerationEvent``
+
+Event payload
+=============
+
+The event provides access to:
+
+* ``getHtmlContent()`` - The rendered HTML preview content
+* ``getEmail()`` - The Email entity
+* ``getContact()`` - The Contact context, if selected for preview
+* ``getRequest()`` - The HTTP Request object
+* ``getFileName()`` - The suggested PDF filename
+
+Event methods
+=============
+
+To provide a custom PDF:
+
+1. Generate binary PDF bytes from the HTML content using ``getHtmlContent()``
+2. Call ``setPdfContent($bytes)`` to set the PDF content
+3. Optionally call ``setFileName()`` to customize the output filename
+4. Use ``hasPdfContent()`` to check if another subscriber already provided PDF content
+
+Custom PDF generator example
+============================
+
+This example shows how to create a custom PDF generator using a hypothetical premium PDF service:
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/EmailPdfSubscriber.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\EmailBundle\EmailEvents;
+    use Mautic\EmailBundle\Event\EmailPreviewPdfGenerationEvent;
+    use MauticPlugin\HelloWorldBundle\Service\PremiumPdfService;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class EmailPdfSubscriber implements EventSubscriberInterface
+    {
+        public function __construct(
+            private PremiumPdfService $pdfService,
+        ) {
+        }
+
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                EmailEvents::EMAIL_PREVIEW_GENERATE_PDF => ['onEmailPreviewGeneratePdf', 0],
+            ];
+        }
+
+        public function onEmailPreviewGeneratePdf(EmailPreviewPdfGenerationEvent $event): void
+        {
+            if ($event->hasPdfContent()) {
+                return;
+            }
+
+            $pdfBytes = $this->pdfService->htmlToPdf($event->getHtmlContent());
+            $event->setPdfContent($pdfBytes);
+        }
+    }
+
+.. note::
+
+   The default community subscriber runs at priority ``-255``. Register your subscriber at a higher priority, such as ``0``, to override the default PDF generation
+
 .. vale off
 
 Testing Email transports

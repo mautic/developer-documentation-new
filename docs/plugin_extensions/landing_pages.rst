@@ -115,3 +115,86 @@ Below is an example of both Landing Page Tokens and Landing Page A/B Test Winner
             $event->setContent($content);
         }
     }
+
+Preview PDF generation
+**********************
+
+Users can download Landing Page previews as PDF files. Mautic uses an event-driven PDF generation process, enabling plugins and distributions to provide custom PDF renderers.
+
+Mautic dispatches the ``\Mautic\PageBundle\PageEvents::PAGE_PREVIEW_GENERATE_PDF`` event when a user downloads a Landing Page preview as a PDF. The default community implementation uses Dompdf when available, falling back to a basic stdlib-based PDF generator.
+
+Event details
+=============
+
+* **Event name:** ``mautic.page_preview_generate_pdf``
+* **Constant:** ``\Mautic\PageBundle\PageEvents::PAGE_PREVIEW_GENERATE_PDF``
+* **Event class:** ``\Mautic\PageBundle\Event\PagePreviewPdfGenerationEvent``
+
+Event payload
+=============
+
+The event provides access to:
+
+* ``getHtmlContent()`` - The rendered HTML preview content
+* ``getPage()`` - The Page entity
+* ``getContact()`` - The Contact context, if selected for preview
+* ``getRequest()`` - The HTTP Request object
+* ``getFileName()`` - The suggested PDF filename
+
+Event methods
+=============
+
+To provide a custom PDF:
+
+1. Generate binary PDF bytes from the HTML content using ``getHtmlContent()``
+2. Call ``setPdfContent($bytes)`` to set the PDF content
+3. Optionally call ``setFileName()`` to customize the output filename
+4. Use ``hasPdfContent()`` to check if another subscriber already provided PDF content
+
+Custom PDF generator example
+============================
+
+This example shows how to create a custom PDF generator using a hypothetical premium PDF service:
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/PagePdfSubscriber.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\PageBundle\Event\PagePreviewPdfGenerationEvent;
+    use Mautic\PageBundle\PageEvents;
+    use MauticPlugin\HelloWorldBundle\Service\PremiumPdfService;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class PagePdfSubscriber implements EventSubscriberInterface
+    {
+        public function __construct(
+            private PremiumPdfService $pdfService,
+        ) {
+        }
+
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                PageEvents::PAGE_PREVIEW_GENERATE_PDF => ['onPagePreviewGeneratePdf', 0],
+            ];
+        }
+
+        public function onPagePreviewGeneratePdf(PagePreviewPdfGenerationEvent $event): void
+        {
+            if ($event->hasPdfContent()) {
+                return;
+            }
+
+            $pdfBytes = $this->pdfService->htmlToPdf($event->getHtmlContent());
+            $event->setPdfContent($pdfBytes);
+        }
+    }
+
+.. note::
+
+   The default community subscriber runs at priority ``-255``. Register your subscriber at a higher priority, such as ``0``, to override the default PDF generation.
