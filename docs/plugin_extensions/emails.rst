@@ -506,12 +506,16 @@ Email stat helpers
 
 This section is in progress. See  ``\Mautic\EmailBundle\Stats\Helper\StatHelperInterface``
 
+.. vale off
+
 Preview PDF generation
 ----------------------
 
-Users can download Email previews as PDF files. Mautic uses an event-driven PDF generation process, enabling plugins and distributions to provide custom PDF renderers.
+.. vale on
 
-Mautic dispatches the ``\Mautic\EmailBundle\EmailEvents::EMAIL_PREVIEW_GENERATE_PDF`` event when a user downloads an Email preview as a PDF. The default community implementation uses Dompdf when available, falling back to a basic stdlib-based PDF generator.
+Users can download Email previews as PDF files. Mautic uses an event-driven PDF generation process, enabling Plugins and distributions to provide custom PDF generators.
+
+Mautic dispatches the ``\Mautic\EmailBundle\EmailEvents::EMAIL_PREVIEW_GENERATE_PDF`` event when a User downloads an Email preview as a PDF. The default community implementation uses Dompdf when available, falling back to a basic stdlib-based PDF generator.
 
 Event details
 =============
@@ -550,7 +554,7 @@ The event provides access to:
 * ``getHtmlContent()`` - The rendered HTML preview content
 * ``getEmail()`` - The Email entity
 * ``getContact()`` - The Contact context, if selected for preview
-* ``getRequest()`` - The HTTP Request object
+* ``getRequest()`` - The HTTP request object
 * ``getFileName()`` - The suggested PDF filename
 
 Event methods
@@ -558,13 +562,17 @@ Event methods
 
 To provide a custom PDF:
 
-1. Generate binary PDF bytes from the HTML content using ``getHtmlContent()``
-2. Call ``setPdfContent($bytes)`` to set the PDF content
-3. Optionally call ``setFileName()`` to customize the output filename
-4. Use ``hasPdfContent()`` to check if another subscriber already provided PDF content
+#. Generate binary PDF bytes from the HTML content using ``getHtmlContent()``
+#. Call ``setPdfContent($bytes)`` to set the PDF content
+#. Optionally call ``setFileName()`` to customize the output filename
+#. Use ``hasPdfContent()`` to verify if another subscriber already provided PDF content
+
+.. vale off
 
 Custom PDF generator example
 ============================
+
+.. vale on
 
 This example shows how to create a custom PDF generator using a hypothetical premium PDF service:
 
