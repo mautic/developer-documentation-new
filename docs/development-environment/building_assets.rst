@@ -1,10 +1,14 @@
-Building CSS and frontend assets
-################################
+Building CSS and frontend Assets
+#################################
 
-Mautic uses SCSS for styling core UI components and the SymfonyCasts Sass Bundle to compile them during development and for production builds.
+Mautic uses SCSS for styling core UI Components and the SymfonyCasts Sass Bundle to compile them during development and for production builds.
+
+.. vale off
 
 Building SCSS during development
 ================================
+
+.. vale on
 
 To compile Sass files, run:
 
@@ -18,18 +22,18 @@ To automatically rebuild on file changes during development:
 
     composer sass:watch
 
-The SCSS source files live in ``app/bundles/CoreBundle/Assets/css/``. The watch command recompiles when files in this directory change.
+The SCSS source files live in ``app/bundles/CoreBundle/Assets/css/``. The watch command rebuilds CSS automatically when files in this directory change.
 
-Building assets for production
+Building Assets for production
 ==============================
 
-To build all frontend assets for production:
+To build all frontend Assets for production:
 
 .. code-block:: bash
 
     composer generate-assets
 
-This builds the Sass files, compiles Asset Mapper assets, and generates minified CSS and JavaScript files in the ``media/`` directory.
+This builds the Sass files, compiles Assets through Asset Mapper to ``var/assets/`` and ``public/assets/``, and generates minified CSS and JavaScript files in the ``media/`` directory.
 
 You can also run the console command directly:
 
@@ -49,4 +53,8 @@ Asset architecture
 
 Mautic uses Symfony Asset Mapper and Importmap for managing frontend JavaScript modules. The Asset Mapper configuration lives in ``app/config/config.php`` and the import map in ``importmap.php``.
 
+.. vale off
+
 Compiled CSS outputs to ``var/sass/``. Asset Mapper serves it through Symfony's asset system in development. Production builds copy finalized assets to ``media/css/``.
+
+.. vale on
