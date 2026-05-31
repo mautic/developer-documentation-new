@@ -52,10 +52,18 @@ Bootstrap framework
 
 Mautic uses Bootstrap 3.4.1 for its UI framework. The Bootstrap source files come from the ``twbs/bootstrap-sass`` Composer package and are available for importing in your SCSS files.
 
+.. vale off
+
 Asset architecture
 ==================
 
+.. vale on
+
+.. vale off
+
 Mautic uses Symfony Asset Mapper and Importmap for managing frontend JavaScript modules. The Asset Mapper configuration lives in ``app/config/config.php`` and the import map in ``importmap.php``.
+
+.. vale on
 
 .. vale off
 
