@@ -221,7 +221,7 @@ See :ref:`themes/forms:Customizing forms` on how to customize Form fields.
 Template sandbox restrictions
 =============================
 
-Mautic renders user-uploaded Theme templates in a sandboxed Twig environment to prevent security vulnerabilities. This sandbox blocks certain functions and filters that could enable remote code execution or data leakage.
+Mautic renders User-uploaded Theme templates in a Twig sandbox environment to prevent security vulnerabilities. This sandbox blocks certain functions and filters that could enable remote code execution or data leakage.
 
 **Blocked functions**
 
