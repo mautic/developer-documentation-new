@@ -24,8 +24,12 @@ To automatically rebuild on file changes during development:
 
 The SCSS source files live in ``app/bundles/CoreBundle/Assets/css/``. The watch command rebuilds CSS automatically when files in this directory change.
 
+.. vale off
+
 Building Assets for production
 ==============================
+
+.. vale on
 
 To build all frontend Assets for production:
 
