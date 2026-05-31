@@ -534,24 +534,43 @@ Query parameters
      - array
      - Array of filter conditions. Each condition has ``col`` for column name, ``expr`` for expression type, and ``val`` for the value.
 
-The ``expr`` parameter in ``where`` expressions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The ``expr`` parameter in ``$where`` arrays
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The ``expr`` parameter supports most methods from Doctrine's ExpressionBuilder:
 
-- ``eq`` - equals
-- ``neq`` - not equals
-- ``lt`` - less than
-- ``lte`` - less than or equal
-- ``gt`` - greater than
-- ``gte`` - greater than or equal
-- ``isNull`` - is null
-- ``isNotNull`` - isn't null
-- ``like`` - like pattern matching
-- ``notLike`` - not like pattern matching
-- ``in`` - in array of values
-- ``notIn`` - not in array of values
-- ``between`` - between two values
+.. list-table::
+   :widths: 30 70
+   :header-rows: 1
+
+   * - Method
+     - Description
+   * - ``eq``
+     - Value equal to the specified value
+   * - ``neq``
+     - Value not equal to the specified value
+   * - ``lt``
+     - Value less than the specified value
+   * - ``lte``
+     - Value less than or equal to the specified value
+   * - ``gt``
+     - Value greater than the specified value
+   * - ``gte``
+     - Value greater than or equal to the specified value
+   * - ``isNull``
+     - Identification of fields with no data
+   * - ``isNotNull``
+     - Identification of fields with any data
+   * - ``like``
+     - Value matching a specific text pattern
+   * - ``notLike``
+     - Value not matching a specific text pattern
+   * - ``in``
+     - Match for any value within the provided list
+   * - ``notIn``
+     - Exclusion of all values within the provided list
+   * - ``between``
+     - Value falling between two specified values
 
 Response
 ========
