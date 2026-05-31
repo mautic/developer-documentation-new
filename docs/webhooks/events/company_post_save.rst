@@ -28,6 +28,8 @@ Event properties
       - string
       - Date/time the event occurred in ISO 8601 format.
 
+.. _Company properties at Company created updated event:
+
 Company properties
 ******************
 

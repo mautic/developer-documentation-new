@@ -1,7 +1,11 @@
 Company soft deleted event
 ##########################
 
+.. vale off
+
 Triggered when Mautic marks a Company as soft deleted. The soft delete mechanism marks the Company for deletion without immediately removing it from the database. Depending on the ``update_company_mapping_data_in_background`` configuration parameter, the permanent deletion and Contact cleanup either happens synchronously or through a CLI command.
+
+.. vale on
 
 .. _company_soft_deleted_event_type:
 
@@ -26,15 +30,15 @@ Event properties
       - ID of the soft-deleted Company
     * - ``company``
       - object
-      - :ref:`Company object<webhooks/events/company_post_save:Company properties>`.
+      - :ref:`Company properties at Company created updated event`
     * - ``timestamp``
       - string
-      - Date/time the event occurred in ISO 8601 format.
+      - Date/time the event occurred in ISO 8601 format
 
 Listening to the event
 **********************
 
-Developers can subscribe to this event to react when Companies are marked for deletion. For example, you might synchronize the deletion to an external CRM or trigger cleanup processes.
+Developers can subscribe to this event to react when Companies are marked for deletion. For example, you might synchronize the deletion to an external Customer Relationship Management (CRM) system or trigger cleanup processes.
 
 .. code-block:: php
 
