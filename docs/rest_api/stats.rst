@@ -546,17 +546,17 @@ The ``expr`` parameter supports most methods from Doctrine's ExpressionBuilder:
    * - Method
      - Description
    * - ``eq``
-     - Value equal to the specified value
+     - Value equal to the specified input
    * - ``neq``
-     - Value not equal to the specified value
+     - Value not equal to the specified input
    * - ``lt``
-     - Value less than the specified value
+     - Value less than the specified input
    * - ``lte``
-     - Value less than or equal to the specified value
+     - Value less than or equal to the specified input
    * - ``gt``
-     - Value greater than the specified value
+     - Value greater than the specified input
    * - ``gte``
-     - Value greater than or equal to the specified value
+     - Value greater than or equal to the specified input
    * - ``isNull``
      - Identification of fields with no data
    * - ``isNotNull``
@@ -566,11 +566,11 @@ The ``expr`` parameter supports most methods from Doctrine's ExpressionBuilder:
    * - ``notLike``
      - Value not matching a specific text pattern
    * - ``in``
-     - Match for any value within the provided list
+     - Match for any value within the specified array
    * - ``notIn``
-     - Exclusion of all values within the provided list
+     - Exclusion of all values within the specified array
    * - ``between``
-     - Value falling between two specified values
+     - Value falling between two specified inputs
 
 Response
 ========
