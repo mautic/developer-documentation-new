@@ -1057,14 +1057,14 @@ Campaign lifecycle events
 
 .. vale on
 
-Mautic dispatches lifecycle events at various points during Campaign processing. Plugins can subscribe to these events to extend Campaign functionality.
+Mautic dispatches lifecycle events at various Points during Campaign processing. Plugins can subscribe to these events to extend Campaign capability.
 
 Membership change event
 =======================
 
 The ``CampaignEvents::ON_AFTER_CAMPAIGN_ACTION_CHANGE_MEMBERSHIP`` event fires after a Campaign action modifies a Contact's Campaign membership. This occurs when a Campaign action adds or removes a Contact from another Campaign.
 
-Listeners receive a ``Mautic\CampaignBundle\Event\CampaignEvent`` object containing the Campaign that was modified.
+Listeners receive a ``Mautic\CampaignBundle\Event\CampaignEvent`` object containing the modified Campaign.
 
 .. code-block:: php
 
@@ -1099,7 +1099,7 @@ Listeners receive a ``Mautic\CampaignBundle\Event\CampaignEvent`` object contain
 
     .. php:method:: public getCampaign()
 
-        Returns the Campaign entity that was modified.
+        Returns the modified Campaign entity.
 
         :return: The Campaign whose membership changed.
         :returntype: \\Mautic\\CampaignBundle\\Entity\\Campaign
