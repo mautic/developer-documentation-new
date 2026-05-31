@@ -520,6 +520,28 @@ Event details
 * **Constant:** ``\Mautic\EmailBundle\EmailEvents::EMAIL_PREVIEW_GENERATE_PDF``
 * **Event class:** ``\Mautic\EmailBundle\Event\EmailPreviewPdfGenerationEvent``
 
+Default implementation
+======================
+
+Mautic provides default PDF generation through:
+
+* **Subscriber:** ``\Mautic\EmailBundle\EventListener\EmailPreviewPdfSubscriber``
+* **Generator:** ``\Mautic\EmailBundle\Pdf\EmailPreviewPdfGenerator``
+
+The default subscriber runs at priority ``-255``, allowing custom implementations to take precedence.
+
+If no listener sets PDF content, the controller returns a 500 error.
+
+Routes
+======
+
+Email preview PDF downloads use these routes:
+
+* ``/email/preview/{objectId}/download/{downloadType}``
+* ``/email/preview/{objectId}/draft/download/{downloadType}``
+
+The ``downloadType`` parameter defaults to ``pdf``.
+
 Event payload
 =============
 
@@ -587,7 +609,7 @@ This example shows how to create a custom PDF generator using a hypothetical pre
 
 .. note::
 
-   The default community subscriber runs at priority ``-255``. Register your subscriber at a higher priority, such as ``0``, to override the default PDF generation
+   Register your subscriber at a higher priority, such as ``0`` or ``100``, to override the default PDF generation.
 
 .. vale off
 

@@ -130,6 +130,28 @@ Event details
 * **Constant:** ``\Mautic\PageBundle\PageEvents::PAGE_PREVIEW_GENERATE_PDF``
 * **Event class:** ``\Mautic\PageBundle\Event\PagePreviewPdfGenerationEvent``
 
+Default implementation
+======================
+
+Mautic provides default PDF generation through:
+
+* **Subscriber:** ``\Mautic\PageBundle\EventListener\PagePreviewPdfSubscriber``
+* **Generator:** ``\Mautic\PageBundle\Pdf\PagePreviewPdfGenerator``
+
+The default subscriber runs at priority ``-255``, allowing custom implementations to take precedence.
+
+If no listener sets PDF content, the controller returns a 500 error.
+
+Routes
+======
+
+Landing Page preview PDF downloads use these routes:
+
+* ``/page/preview/{id}/download/{downloadType}``
+* ``/page/preview/{id}/draft/download/{downloadType}``
+
+The ``downloadType`` parameter defaults to ``pdf``.
+
 Event payload
 =============
 
@@ -197,4 +219,4 @@ This example shows how to create a custom PDF generator using a hypothetical pre
 
 .. note::
 
-   The default community subscriber runs at priority ``-255``. Register your subscriber at a higher priority, such as ``0``, to override the default PDF generation.
+   Register your subscriber at a higher priority, such as ``0`` or ``100``, to override the default PDF generation.
