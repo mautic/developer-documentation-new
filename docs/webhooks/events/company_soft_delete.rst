@@ -30,7 +30,7 @@ Event properties
       - ID of the soft-deleted Company
     * - ``company``
       - object
-      - :ref:`Company properties at Company created updated event`
+      - See :ref:`Company properties at Company created updated event`
     * - ``timestamp``
       - string
       - Date/time the event occurred in ISO 8601 format
