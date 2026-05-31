@@ -162,7 +162,7 @@ Event payload
 The event provides access to:
 
 * ``getHtmlContent()`` - The rendered HTML preview content
-* ``getPage()`` - The page entity
+* ``getPage()`` - The Landing Page entity
 * ``getContact()`` - The Contact context, if selected for preview
 * ``getRequest()`` - The HTTP request object
 * ``getFileName()`` - The suggested PDF filename
