@@ -38,7 +38,7 @@ Event properties
 Listening to the event
 **********************
 
-Developers can subscribe to this event to react when Companies are marked for deletion. For example, you might synchronize the deletion to an external Customer Relationship Management (CRM) system or trigger cleanup processes.
+Developers can subscribe to this event to react when Mautic marks Companies for deletion. For example, you might synchronize the deletion to an external Customer Relationship Management - CRM - system or trigger cleanup processes.
 
 .. code-block:: php
 
