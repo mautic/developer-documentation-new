@@ -59,14 +59,6 @@ Asset architecture
 
 .. vale on
 
-.. vale off
-
 Mautic uses Symfony Asset Mapper and Importmap for managing frontend JavaScript modules. The Asset Mapper configuration lives in ``app/config/config.php`` and the import map in ``importmap.php``.
 
-.. vale on
-
-.. vale off
-
 Compiled CSS outputs to ``var/sass/``. Asset Mapper serves it through Symfony's asset system in development. Production builds copy finalized assets to ``media/css/``.
-
-.. vale on
