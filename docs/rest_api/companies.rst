@@ -942,6 +942,199 @@ Response
 
 .. vale off
 
+Batch add Contacts to Companies
+*******************************
+
+.. vale on
+
+.. versionadded:: 5.3
+
+Assigns multiple Contacts to multiple Companies in a single request.
+
+.. vale off
+
+HTTP request
+============
+
+.. vale on
+
+``POST /companies/batch/addcontacts``
+
+POST parameters
+---------------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``assignments``
+     - array
+     - **Required.**
+
+       Array of assignment objects, each containing ``contactId`` and ``companyId``.
+
+Assignment object
+~~~~~~~~~~~~~~~~~
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``contactId``
+     - integer
+     - **Required.**
+
+       ID of the Contact to assign
+   * - ``companyId``
+     - integer
+     - **Required.**
+
+       ID of the Company to assign the Contact to
+
+Example request body
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: json
+
+   {
+       "assignments": [
+           {"contactId": 1, "companyId": 10},
+           {"contactId": 2, "companyId": 10},
+           {"contactId": 1, "companyId": 20}
+       ]
+   }
+
+Response
+========
+
+* Returns ``200 OK`` with per-assignment results.
+
+.. code-block:: json
+
+   {
+       "results": [
+           {
+               "contactId": 1,
+               "companyId": 10,
+               "status": 200,
+               "message": "Contact added to company"
+           },
+           {
+               "contactId": 2,
+               "companyId": 10,
+               "status": 200,
+               "message": "Contact added to company"
+           },
+           {
+               "contactId": 1,
+               "companyId": 20,
+               "status": 200,
+               "message": "Contact added to company"
+           }
+       ],
+       "summary": {
+           "total": 3,
+           "succeeded": 3,
+           "failed": 0
+       }
+   }
+
+Properties
+----------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``results``
+     - array
+     - Array of result objects for each assignment in the request, in the same order as the input
+   * - ``summary``
+     - object
+     - Summary of the batch operation
+
+Result object
+~~~~~~~~~~~~~
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``contactId``
+     - integer
+     - ID of the Contact
+   * - ``companyId``
+     - integer
+     - ID of the Company
+   * - ``status``
+     - integer
+     - HTTP status code for this assignment
+   * - ``message``
+     - string
+     - Human-readable status message
+
+Summary object
+~~~~~~~~~~~~~~
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``total``
+     - integer
+     - Total number of assignments in the request
+   * - ``succeeded``
+     - integer
+     - Number of successful assignments
+   * - ``failed``
+     - integer
+     - Number of failed assignments
+
+Status codes
+~~~~~~~~~~~~
+
+Each result object contains a ``status`` field indicating the outcome:
+
+.. list-table::
+   :widths: 25 75
+   :header-rows: 1
+
+   * - Status
+     - Description
+   * - ``200``
+     - Contact added to Company
+   * - ``403``
+     - Access denied - user lacks permission to edit the Contact
+   * - ``404``
+     - Contact or Company not found
+
+Authorization
+-------------
+
+Requires ``lead:leads:editown`` or ``lead:leads:editother`` permission. If the user lacks both permissions, the request returns ``403 Forbidden``. For individual assignments, the endpoint checks entity-level permissions - if a user can only edit their own Contacts, assignments to Contacts owned by other users return ``403`` in the result.
+
+Duplicate handling
+------------------
+
+If the request contains duplicate ``contactId``/``companyId`` pairs, Mautic deduplicates them internally but returns a result for each input entry. Both results show ``200`` status, though the Contact-Company association is only created once.
+
+.. vale off
+
 Remove Contact from Company
 ***************************
 
