@@ -181,7 +181,7 @@ Review the sample code on how to obtain the currently tracked Contact.
 Skipping last active logging
 ============================
 
-When Mautic tracks a Contact, it automatically updates the Contact's 'last active' timestamp. Sometimes you want to prevent this update, for example, when automated processes access pages or when tracking pixel loads shouldn't count as real User activity.
+When Mautic tracks a Contact, it automatically updates the Contact's 'last active' timestamp. You may want to prevent this update in several scenarios, such as when automated processes access pages or when you don't want tracking pixel loads to count as real User activity.
 
 To skip the last active logging, subscribe to the ``LeadGetCurrentEvent`` and call ``skipContactLastActiveLogged()`` when your conditions apply.
 
