@@ -126,7 +126,7 @@ Query parameters
    * - Name
      - Description
    * - ``search``
-     - String or search command to filter entities
+     - String or search command to filter entities. The search matches against both the Tag name and description.
    * - ``start``
      - Starting row for the returned entities - defaults to 0
    * - ``limit``
@@ -182,6 +182,16 @@ Properties
 For the rest of the properties, refer to :ref:`Tag properties <get Tag properties>`.
 
 .. vale on
+
+Search behavior
+---------------
+
+The ``search`` parameter matches against both the Tag name and description. This lets you find Tags by keywords in their description, even if the keyword isn't in the Tag name.
+
+For example, ``GET /tags?search=test`` returns Tags where either:
+
+* The Tag name contains 'test', OR
+* The Tag description contains 'test'
 
 .. vale off
 
