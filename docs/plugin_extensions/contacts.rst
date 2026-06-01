@@ -181,9 +181,9 @@ Review the sample code on how to obtain the currently tracked Contact.
 Skipping last active logging
 ============================
 
-When Mautic tracks a Contact, it automatically updates the Contact's 'last active' timestamp. Sometimes you'll want to prevent this update - for example, when automated processes access pages or when tracking pixel loads shouldn't count as real user activity.
+When Mautic tracks a Contact, it automatically updates the Contact's 'last active' timestamp. Sometimes you want to prevent this update, for example, when automated processes access pages or when tracking pixel loads shouldn't count as real User activity.
 
-To skip the last active logging, subscribe to the ``LeadGetCurrentEvent`` and call ``skipContactLastActiveLogged()`` when your conditions are met.
+To skip the last active logging, subscribe to the ``LeadGetCurrentEvent`` and call ``skipContactLastActiveLogged()`` when your conditions apply.
 
 .. code-block:: PHP
 
@@ -231,13 +231,13 @@ The ``LeadGetCurrentEvent`` provides the following methods:
    * - ``getRequest()``
      - Returns the current HTTP request, or ``null`` if not available.
    * - ``getContact()``
-     - Returns the Contact that was set by a previous listener, or ``null``.
+     - Returns the Contact that a previous listener set, or ``null``.
    * - ``setContact(?Lead $contact)``
      - Sets the Contact to use for tracking.
    * - ``skipContactLastActiveLogged()``
-     - Prevents the Contact's 'last active' timestamp from being updated.
+     - Prevents Mautic from updating the Contact's 'last active' timestamp.
    * - ``isSkipContactLastActiveLogged()``
-     - Returns whether the last active logging should be skipped.
+     - Returns whether to skip the last active logging.
 
 Contact timeline/history
 ************************
