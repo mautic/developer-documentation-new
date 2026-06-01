@@ -32,7 +32,7 @@ Get Theme
 
 .. vale on
 
-Retrieves the Theme as a zip file with the ``application/zip`` header on success, or a JSON response with error messages on failure. The PHP API library saves the zip file to the system's temporary directory and retrieves the path.
+Retrieves the Theme as a ZIP file with the ``application/zip`` header on success, or a JSON response with error messages on failure. The PHP API library saves the ZIP file to the system's temporary directory and retrieves the path.
 
 .. code-block:: php
 
@@ -53,7 +53,7 @@ HTTP request
 Response
 ========
 
-* Returns ``200 OK`` when the request successfully retrieves the Theme zip file.
+* Returns ``200 OK`` when the request successfully retrieves the Theme ZIP file.
 
 .. code-block:: json
 
@@ -68,7 +68,7 @@ Set temporary file path
 
 .. vale on
 
-Changes the default temporary directory where the PHP API library creates the zip file. Creates the directory if it doesn't exist.
+Changes the default temporary directory where the PHP API library creates the ZIP file. Creates the directory if it doesn't exist.
 
 .. code-block:: php
 
@@ -211,7 +211,7 @@ Create Theme
 
 .. vale on
 
-Creates a new Theme or updates an existing one from the provided zip file. The Theme name comes from the zip filename.
+Creates a new Theme or updates an existing one from the provided ZIP file. The Theme name comes from the ZIP filename.
 
 .. code-block:: php
 
@@ -247,7 +247,7 @@ POST parameters
      - Description
    * - ``file``
      - file
-     - The zip file containing the Theme - **required**
+     - The ZIP file containing the Theme - **required**
 
 Response
 ========
@@ -267,8 +267,8 @@ The API returns error messages if:
 
 * The request includes no uploaded file
 * The uploaded file doesn't have a ``.zip`` extension
-* The zip file is missing required files - ``config.json`` and ``html/message.html.twig``
-* The zip file contains disallowed file extensions
+* The ZIP file is missing required files - ``config.json`` and ``html/message.html.twig``
+* The ZIP file contains disallowed file extensions
 
 .. vale off
 
