@@ -19,27 +19,6 @@ Event instance
 
 ``\Mautic\LeadBundle\Event\CompanyEvent``
 
-.. _company_soft_deleted_event_properties:
-
-Event properties
-****************
-
-.. list-table::
-    :header-rows: 1
-
-    * - Key
-      - Type
-      - Description
-    * - ``id``
-      - int
-      - ID of the soft-deleted Company
-    * - ``company``
-      - object
-      - See :ref:`Company properties at Company created updated event`
-    * - ``timestamp``
-      - string
-      - Date/time the event occurred in ISO 8601 format
-
 Listening to the event
 **********************
 
