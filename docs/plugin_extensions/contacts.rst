@@ -223,6 +223,8 @@ To skip the last active logging, subscribe to the ``LeadGetCurrentEvent`` and ca
 
 The ``LeadGetCurrentEvent`` provides the following methods:
 
+.. vale off
+
 .. list-table::
    :header-rows: 1
 
@@ -238,6 +240,8 @@ The ``LeadGetCurrentEvent`` provides the following methods:
      - Prevents Mautic from updating the Contact's 'last active' timestamp.
    * - ``isSkipContactLastActiveLogged()``
      - Returns whether to skip the last active logging.
+
+.. vale on
 
 Contact timeline/history
 ************************
