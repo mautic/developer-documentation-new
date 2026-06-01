@@ -551,11 +551,15 @@ Event payload
 
 The event provides access to:
 
+.. vale off
+
 * ``getHtmlContent()`` - The rendered HTML preview content
 * ``getEmail()`` - The Email entity
 * ``getContact()`` - The Contact context, if selected for preview
 * ``getRequest()`` - The HTTP request object
 * ``getFileName()`` - The suggested PDF filename
+
+.. vale on
 
 Event methods
 =============
