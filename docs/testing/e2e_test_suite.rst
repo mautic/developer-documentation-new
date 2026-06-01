@@ -258,21 +258,21 @@ Configuring your test environment for PostgreSQL
 
 To run tests locally against PostgreSQL:
 
-1. Update your ``.env.test.local`` with PostgreSQL credentials:
+#. Update your ``.env.test.local`` with PostgreSQL credentials:
 
-.. code-block:: bash
+   .. code-block:: bash
 
-    # .env.test.local
-    DB_DRIVER=pdo_pgsql
-    DB_HOST=localhost
-    DB_PORT=5432
-    DB_USER=postgres
-    DB_PASSWD=your_password
-    DB_NAME=mautic_test
+      # .env.test.local
+      DB_DRIVER=pdo_pgsql
+      DB_HOST=localhost
+      DB_PORT=5432
+      DB_USER=postgres
+      DB_PASSWD=your_password
+      DB_NAME=mautic_test
 
-2. Ensure the ``pdo_pgsql`` PHP extension is installed and enabled.
+#. Install and enable the ``pdo_pgsql`` PHP extension.
 
-3. Run the test suite as normal:
+#. Run the test suite as normal:
 
 .. code-block:: bash
 
@@ -283,13 +283,19 @@ Database-specific test considerations
 
 Keep these database differences in mind when writing tests:
 
-- **Case sensitivity**: PostgreSQL ``LIKE`` is case-sensitive; MySQL/MariaDB ``LIKE`` isn't. Use Mautic's helper methods for case-insensitive matching.
+.. vale off
 
+* **Case sensitivity**: PostgreSQL ``LIKE`` is case-sensitive; MySQL/MariaDB ``LIKE`` isn't. Use Mautic's helper methods for case-insensitive matching.
 - **GROUP BY strictness**: PostgreSQL and MySQL 8+ strict mode require all non-aggregated ``SELECT`` columns in ``GROUP BY``.
-
 - **Identifier quoting**: PostgreSQL lowercases unquoted identifiers. Quote ``camelCase`` aliases in raw SQL.
 
+.. vale on
+
+.. vale off
+
 For detailed guidance on writing database-agnostic code, refer to the :doc:`/plugins/database` documentation.
+
+.. vale on
 
 Contributing
 ************

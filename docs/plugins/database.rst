@@ -418,8 +418,8 @@ MySQL and MariaDB use case-insensitive ``LIKE`` comparisons by default. PostgreS
 
 **Available methods in CommonRepository:**
 
-- ``getILikeExpression(QueryBuilder $qb, string $column, string $parameter)``: Returns platform-appropriate case-insensitive ``LIKE`` expression
-- ``getLowerLikeExpression(QueryBuilder $qb, string $column, string $parameter)``: Wraps the column with ``LOWER()`` for case-insensitive comparison
+* ``getILikeExpression(QueryBuilder $qb, string $column, string $parameter)``: returns platform-appropriate case-insensitive ``LIKE`` expression
+* ``getLowerLikeExpression(QueryBuilder $qb, string $column, string $parameter)``: wraps the column with ``LOWER()`` for case-insensitive comparison
 - ``isPostgreSql()``: Returns ``TRUE`` if connected to a PostgreSQL database
 
 .. vale off
@@ -431,7 +431,11 @@ Column and alias quoting
 
 PostgreSQL lowercases unquoted identifiers automatically. This causes issues with Mautic's ``camelCase`` column aliases. Always quote identifiers in raw SQL queries that use mixed-case names.
 
+.. vale off
+
 **Use quoted identifiers for camelCase aliases:**
+
+.. vale on
 
 .. code-block:: php
 
@@ -450,7 +454,7 @@ GROUP BY requirements
 
 .. vale on
 
-PostgreSQL enforces strict ``GROUP BY`` rules, and MySQL 8+ does the same when ``ONLY_FULL_GROUP_BY`` SQL mode is enabled - the default in strict mode. Every column in the ``SELECT`` clause must appear in the ``GROUP BY`` clause or use an aggregate function.
+PostgreSQL enforces strict ``GROUP BY`` rules, and MySQL 8+ does the same when ``ONLY_FULL_GROUP_BY`` SQL mode is active - the default in strict mode. Every column in the ``SELECT`` clause must appear in the ``GROUP BY`` clause or use an aggregate function.
 
 Writing compliant ``GROUP BY`` clauses ensures compatibility across all supported databases and SQL modes.
 
@@ -498,10 +502,7 @@ Repositories extending ``CommonRepository`` can use the ``isPostgreSql()`` helpe
 Best practices
 ==============
 
-1. **Use Doctrine's ORM and QueryBuilder** - Doctrine abstracts most database differences. Avoid raw SQL when possible.
-
-2. **Test on multiple databases** - Mautic's CI tests against MySQL, MariaDB, and PostgreSQL. Run your Plugin tests against all platforms before release.
-
-3. **Quote mixed-case aliases** - When using custom column aliases with ``camelCase`` names in raw SQL, always quote them.
-
-4. **Use repository helper methods** - ``CommonRepository`` provides cross-platform helpers for common operations like case-insensitive searches.
+#. **Use Doctrine's ORM and QueryBuilder** - Doctrine abstracts most database differences. Avoid raw SQL when possible.
+#. **Test on multiple databases** - Mautic's CI tests against MySQL, MariaDB, and PostgreSQL. Run your Plugin tests against all platforms before release.
+#. **Quote mixed-case aliases** - When using custom column aliases with ``camelCase`` names in raw SQL, always quote them.
+#. **Use repository helper methods** - ``CommonRepository`` provides cross-platform helpers for common operations like case-insensitive searches.

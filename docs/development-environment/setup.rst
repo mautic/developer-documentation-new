@@ -56,7 +56,7 @@ You can also run the install process from command line:
 
 .. note::
 
-    PostgreSQL 16 or later is required for PostgreSQL support. Ensure the ``pdo_pgsql`` PHP extension is installed.
+    PostgreSQL support requires PostgreSQL 16 or later. Install the ``pdo_pgsql`` PHP extension before proceeding.
 
 * Run the following command and add your own options:
 
