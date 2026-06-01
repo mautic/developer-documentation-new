@@ -14,6 +14,11 @@ Event type
 
 ``mautic.company_soft_delete``
 
+Event instance
+**************
+
+``\Mautic\LeadBundle\Event\CompanyEvent``
+
 .. _company_soft_deleted_event_properties:
 
 Event properties
