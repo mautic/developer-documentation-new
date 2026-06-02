@@ -7,8 +7,6 @@ Triggered when Mautic marks a Company as soft deleted. The soft delete mechanism
 
 .. vale on
 
-.. _company_soft_deleted_event_type:
-
 Event type
 **********
 
