@@ -1549,6 +1549,8 @@ Get a list of notes for a specific Contact.
 
 ``GET /contacts/ID/notes``
 
+**Required permissions:** ``lead:notes:viewown`` or ``lead:notes:viewother``
+
 **Query Parameters**
 
 .. list-table::
