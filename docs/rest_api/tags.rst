@@ -183,8 +183,8 @@ For the rest of the properties, refer to :ref:`Tag properties <get Tag propertie
 
 .. vale on
 
-Search behavior
----------------
+The ``search`` parameter behavior
+---------------------------------
 
 The ``search`` parameter matches against both the Tag name and description. This lets you find Tags by keywords in their description, even if the keyword isn't in the Tag name.
 
