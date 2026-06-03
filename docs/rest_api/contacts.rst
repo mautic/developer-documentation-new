@@ -1577,14 +1577,15 @@ Get a list of notes for a specific Contact.
 .. code-block:: json
 
    {
-       "total": 1,
+       "total": 2,
        "notes": [
            {
                  "id": 1,
-                 "text": "<p>Jim is super cool!</p>",
+                 "text": "<p>Discussed product demo requirements. Follow-up scheduled for next week.</p>",
                  "type": "general",
                  "dateTime": "2015-07-23T13:14:00-05:00"
-           }
+           },
+           // ...
        ]
    }
 
