@@ -78,6 +78,87 @@
         "doc",
         "review"
       ]
+    },
+    {
+      "login": "kuzmany",
+      "name": "Zdeno Kuzmany",
+      "avatar_url": "https://avatars.githubusercontent.com/u/462477?v=4",
+      "profile": "https://webmecanik.com",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "OfficialJhimmy",
+      "name": "The ERIN",
+      "avatar_url": "https://avatars.githubusercontent.com/u/72657872?v=4",
+      "profile": "https://onlyoneerin.com",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "Teebarh",
+      "name": "Toyibat Adele",
+      "avatar_url": "https://avatars.githubusercontent.com/u/112214060?v=4",
+      "profile": "http://linktr.ee/teebarh",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "putzwasser",
+      "name": "putzwasser",
+      "avatar_url": "https://avatars.githubusercontent.com/u/26040044?v=4",
+      "profile": "https://github.com/putzwasser",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "dcjarvis",
+      "name": "David Jarvis aka DJ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8997755?v=4",
+      "profile": "https://github.com/dcjarvis",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "abhisekmazumdar",
+      "name": "Abhisek Mazumdar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/12195330?v=4",
+      "profile": "http://abhisek.xyz",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "fengfeng-zi",
+      "name": "fengfeng-zi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/269969865?v=4",
+      "profile": "https://github.com/fengfeng-zi",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "tlfranko-star",
+      "name": "tlfranko-star",
+      "avatar_url": "https://avatars.githubusercontent.com/u/234299102?v=4",
+      "profile": "https://github.com/tlfranko-star",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "khawarlatifkhan",
+      "name": "klkhan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66240534?v=4",
+      "profile": "https://github.com/khawarlatifkhan",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
