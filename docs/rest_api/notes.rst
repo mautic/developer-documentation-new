@@ -12,8 +12,6 @@ Permissions
 
 The Notes API uses the ``lead:notes`` permission set. This permission set is separate from ``lead:leads`` permissions, allowing administrators to grant Note-specific access without full Contact access.
 
-Available permissions:
-
 .. list-table::
    :widths: 30 70
    :header-rows: 1
