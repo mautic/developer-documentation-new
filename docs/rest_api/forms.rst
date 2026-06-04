@@ -260,13 +260,13 @@ Form properties
      - The language code for the Form, such as ``en_US``, ``fr``, and so on
    * - ``submissionLimit``
      - integer
-     - Maximum number of submissions allowed for this Form. When the limit is reached, the Form stops accepting new submissions. Set to ``null`` for unlimited submissions
+     - Maximum number of submissions allowed for this Form. When the Form reaches this limit, it stops accepting new submissions. Set to ``null`` for unlimited submissions
    * - ``submissionLimitMessage``
      - string
-     - Custom message displayed when the submission limit is reached. When not set, Mautic displays a default message
+     - Custom message displayed when the Form reaches its submission limit. When not set, Mautic displays a default message
    * - ``submissionCount``
      - integer
-     - **Read-only.** Current number of submissions for the Form. Mautic increments this value when a submission is saved and decrements it when a submission is deleted
+     - **Read-only.** Current number of submissions for the Form. Mautic increments this value when it saves a submission and decrements it when you delete a submission
 
 .. vale on
 
@@ -688,10 +688,10 @@ POST parameters
      - Form publication status
    * - ``submissionLimit``
      - integer
-     - Maximum number of submissions allowed for the Form. When the limit is reached, the Form stops accepting new submissions
+     - Maximum number of submissions allowed for the Form. When the Form reaches this limit, it stops accepting new submissions
    * - ``submissionLimitMessage``
      - string
-     - Custom message displayed when the submission limit is reached
+     - Custom message displayed when the Form reaches its submission limit
 
 .. _Field parameters:
 
