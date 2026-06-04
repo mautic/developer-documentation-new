@@ -171,7 +171,9 @@ Each column array can include the following properties:
 Example: percentage column with suffix
 --------------------------------------
 
-When creating columns that display percentages or other formatted numbers, use ``formula`` with ``suffix`` to ensure the column sorts numerically rather than alphabetically:
+Columns that display percentages or other formatted numbers need special handling to sort correctly. If you embed the formatting symbol directly in the formula using ``CONCAT``, the column sorts alphabetically as text rather than numerically, producing incorrect ordering like ``1%``, ``27%``, ``3%`` instead of ``1%``, ``3%``, ``27%``.
+
+To keep the underlying value numeric for proper sorting while still displaying the formatted result, use ``formula`` to compute the numeric value and ``suffix`` (or ``prefix``) to add the display formatting:
 
 .. code-block:: php
 
@@ -182,8 +184,6 @@ When creating columns that display percentages or other formatted numbers, use `
         'formula' => 'ROUND((' . $prefix . 'read_count/' . $prefix . 'sent_count)*100)',
         'suffix'  => '%',
     ],
-
-Without the ``suffix`` property, you might use ``CONCAT`` in the formula to append the ``%`` symbol. However, this causes the column to sort as text, resulting in incorrect ordering such as ``1%``, ``27%``, ``3%`` instead of ``1%``, ``3%``, ``27%``.
 
 Filter definition
 =================
