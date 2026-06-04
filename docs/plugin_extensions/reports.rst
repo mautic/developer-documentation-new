@@ -161,6 +161,29 @@ Each column array can include the following properties:
     * - ``link``
       - string
       - Route name to convert the value into a hyperlink. Typically used with an entity's ID. The route must accept ``objectAction`` and ``objectId`` parameters.
+    * - ``prefix``
+      - string
+      - Text to prepend to the displayed value. For formula columns, this separates display formatting from the underlying numeric value, ensuring proper sorting. For example, ``'prefix' => '$'`` for currency.
+    * - ``suffix``
+      - string
+      - Text to append to the displayed value. For formula columns, this separates display formatting from the underlying numeric value, ensuring proper sorting. For example, ``'suffix' => '%'`` for percentages.
+
+Example: percentage column with suffix
+--------------------------------------
+
+Columns that display percentages or other formatted numbers need special handling to sort correctly. If you embed the formatting symbol directly in the formula using ``CONCAT``, the column sorts alphabetically as text rather than numerically, producing incorrect ordering like ``1%``, ``27%``, ``3%`` instead of ``1%``, ``3%``, ``27%``.
+
+To keep the underlying value numeric for proper sorting while still displaying the formatted result, use ``formula`` to compute the numeric value and ``suffix`` or ``prefix`` to add the display formatting:
+
+.. code-block:: php
+
+    'read_ratio' => [
+        'alias'   => 'read_ratio',
+        'label'   => 'mautic.report.read_ratio',
+        'type'    => 'string',
+        'formula' => 'ROUND((' . $prefix . 'read_count/' . $prefix . 'sent_count)*100)',
+        'suffix'  => '%',
+    ],
 
 Filter definition
 =================
