@@ -221,7 +221,7 @@ See :ref:`themes/forms:Customizing forms` on how to customize Form fields.
 Template sandbox restrictions
 =============================
 
-Mautic renders user-uploaded Theme templates in a restricted Twig sandbox environment. Certain functions and filters that could enable remote code execution, data leakage, or filesystem probing are blocked.
+Mautic renders User-uploaded Theme templates in a restricted Twig sandbox environment. The sandbox blocks certain functions and filters that could enable remote code execution, data leakage, or filesystem probing.
 
 If your Theme template uses a restricted function or filter, Mautic throws an exception such as ``SecurityNotAllowedFilterError`` or ``SecurityNotAllowedFunctionError``. Use alternative approaches that don't require the restricted operation.
 
