@@ -173,7 +173,7 @@ Example: percentage column with suffix
 
 Columns that display percentages or other formatted numbers need special handling to sort correctly. If you embed the formatting symbol directly in the formula using ``CONCAT``, the column sorts alphabetically as text rather than numerically, producing incorrect ordering like ``1%``, ``27%``, ``3%`` instead of ``1%``, ``3%``, ``27%``.
 
-To keep the underlying value numeric for proper sorting while still displaying the formatted result, use ``formula`` to compute the numeric value and ``suffix`` (or ``prefix``) to add the display formatting:
+To keep the underlying value numeric for proper sorting while still displaying the formatted result, use ``formula`` to compute the numeric value and ``suffix`` or ``prefix`` to add the display formatting:
 
 .. code-block:: php
 
