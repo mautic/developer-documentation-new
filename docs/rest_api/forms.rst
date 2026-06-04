@@ -155,7 +155,10 @@ Response
           "postActionProperty": "Thank you for registering and see you there!",
           "noIndex": false,
           "formAttributes": null,
-          "language": "en_US"
+          "language": "en_US",
+          "submissionLimit": 100,
+          "submissionLimitMessage": "This form is no longer accepting submissions.",
+          "submissionCount": 42
       }
    }
 
@@ -255,6 +258,15 @@ Form properties
    * - ``language``
      - string
      - The language code for the Form, such as ``en_US``, ``fr``, and so on
+   * - ``submissionLimit``
+     - integer
+     - Maximum number of submissions allowed for this Form. When the limit is reached, the Form stops accepting new submissions. Set to ``null`` for unlimited submissions
+   * - ``submissionLimitMessage``
+     - string
+     - Custom message displayed when the submission limit is reached. When not set, Mautic displays a default message
+   * - ``submissionCount``
+     - integer
+     - **Read-only.** Current number of submissions for the Form. Mautic increments this value when a submission is saved and decrements it when a submission is deleted
 
 .. vale on
 
@@ -540,7 +552,10 @@ Response
               "postActionProperty": "Thank you for registering and see you there!",
               "noIndex": false,
               "formAttributes": null,
-              "language": "en_US"
+              "language": "en_US",
+              "submissionLimit": 100,
+              "submissionLimitMessage": "This form is no longer accepting submissions.",
+              "submissionCount": 42
           },
           // ...
       ]
@@ -671,6 +686,12 @@ POST parameters
    * - ``isPublished``
      - boolean
      - Form publication status
+   * - ``submissionLimit``
+     - integer
+     - Maximum number of submissions allowed for the Form. When the limit is reached, the Form stops accepting new submissions
+   * - ``submissionLimitMessage``
+     - string
+     - Custom message displayed when the submission limit is reached
 
 .. _Field parameters:
 
