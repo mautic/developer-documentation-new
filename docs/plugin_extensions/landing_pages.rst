@@ -21,7 +21,7 @@ Both leverage the ``\Mautic\PageBundle\PageEvents::PAGE_ON_BUILD`` event. Read m
 
 .. vale off
 
-Landing Page tokens
+Landing page tokens
 *******************
 
 .. vale on
@@ -30,7 +30,7 @@ Landing Page tokens get handled exactly the same as :ref:`Email tokens<component
 
 .. vale off
 
-Page A/B Test Winner Criteria
+Page A/B test winner criteria
 *****************************
 
 Custom Landing Page A/B test winner criteria get handled exactly the same as :ref:`Email A/B test winner criteria<components/emails:Email tokens and A/B testing>` with the only differences being that the ``callback`` function gets passed ``Mautic\PageBundle\Entity\Page $page`` and ``Mautic\PageBundle\Entity\Page $parent`` instead.
@@ -118,7 +118,7 @@ Below is an example of both Landing Page Tokens and Landing Page A/B Test Winner
 
 .. vale off
 
-URL Token Replacement
+URL token replacement
 *********************
 
 .. vale on
