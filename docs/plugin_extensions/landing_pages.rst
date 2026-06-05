@@ -1,4 +1,4 @@
-Landing pages
+Landing Pages
 #############
 
 .. vale off
@@ -14,14 +14,15 @@ Landing pages
 .. vale on
 
 There are two way to extend Landing Pages:
-- Landing Page tokens used to insert Dynamic Content into a Landing Page
-- A/B test winning criteria
+
+* Landing Page tokens used to insert Dynamic Content into a Landing Page
+* A/B test winning criteria
 
 Both leverage the ``\Mautic\PageBundle\PageEvents::PAGE_ON_BUILD`` event. Read more about :ref:`plugins/event_listeners:Event listeners`.
 
 .. vale off
 
-Landing page tokens
+Landing Page tokens
 *******************
 
 .. vale on
