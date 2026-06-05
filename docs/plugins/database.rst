@@ -420,7 +420,7 @@ MySQL and MariaDB use case-insensitive ``LIKE`` comparisons by default. PostgreS
 
 * ``getILikeExpression(QueryBuilder $qb, string $column, string $parameter)``: returns platform-appropriate case-insensitive ``LIKE`` expression
 * ``getLowerLikeExpression(QueryBuilder $qb, string $column, string $parameter)``: wraps the column with ``LOWER()`` for case-insensitive comparison
-- ``isPostgreSql()``: Returns ``TRUE`` if connected to a PostgreSQL database
+* ``isPostgreSql()``: returns ``TRUE`` if connected to a PostgreSQL database
 
 .. vale off
 
@@ -502,7 +502,7 @@ Repositories extending ``CommonRepository`` can use the ``isPostgreSql()`` helpe
 Best practices
 ==============
 
-#. **Use Doctrine's ORM and QueryBuilder** - Doctrine abstracts most database differences. Avoid raw SQL when possible.
+#. **Use Doctrine's Object Relational Mapper - ORM - and QueryBuilder** - Doctrine abstracts most database differences. Avoid raw SQL when possible.
 #. **Test on multiple databases** - Mautic's CI tests against MySQL, MariaDB, and PostgreSQL. Run your Plugin tests against all platforms before release.
 #. **Quote mixed-case aliases** - When using custom column aliases with ``camelCase`` names in raw SQL, always quote them.
 #. **Use repository helper methods** - ``CommonRepository`` provides cross-platform helpers for common operations like case-insensitive searches.
