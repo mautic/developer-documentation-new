@@ -129,17 +129,17 @@ The ``Mautic\PageBundle\Event\UrlTokenReplaceEvent`` event dispatches during the
 
 Use cases for this event include:
 
-- Adding custom token types beyond Contact fields
-- Transforming token values before URL insertion
-- Implementing conditional token replacement based on Email context
-- Logging or auditing token replacements
+* Adding custom token types beyond Contact fields
+* Transforming token values before URL insertion
+* Implementing conditional token replacement based on Email context
+* Logging or auditing token replacements
 
 The event provides:
 
-- ``getContent()`` - Returns the current URL string
-- ``setContent(string $url)`` - Sets the modified URL
-- ``getLead()`` - Returns the ``Mautic\LeadBundle\Entity\Lead`` Contact entity
-- ``getEmailId()`` - Returns the Email ID if the redirect originated from an Email click, or ``null`` otherwise
+* ``getContent()`` - Returns the current URL string
+* ``setContent(string $url)`` - Sets the modified URL
+* ``getLead()`` - Returns the ``Mautic\LeadBundle\Entity\Lead`` Contact entity
+* ``getEmailId()`` - Returns the Email ID if the redirect originated from an Email click, or ``null`` otherwise
 
 .. code-block:: php
 
@@ -193,4 +193,4 @@ The event provides:
 
 .. note::
 
-    The ``TokenHelper::REGEX`` constant provides the regular expression pattern for matching Contact field tokens. Use this to check whether a URL contains tokens before performing replacements.
+   The ``TokenHelper::REGEX`` constant provides the regular expression pattern for matching Contact field tokens. Use this to check whether a URL contains tokens before performing replacements.
