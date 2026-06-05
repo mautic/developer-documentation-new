@@ -1,4 +1,4 @@
-Building CSS and frontend Assets
+Building CSS and frontend assets
 #################################
 
 Mautic uses SCSS for styling core UI Components and the SymfonyCasts Sass Bundle to compile them during development and for production builds.
@@ -26,18 +26,18 @@ The SCSS source files live in ``app/bundles/CoreBundle/Assets/css/``. The watch 
 
 .. vale off
 
-Building Assets for production
+Building assets for production
 ==============================
 
 .. vale on
 
-To build all frontend Assets for production:
+To build all frontend assets for production:
 
 .. code-block:: bash
 
     composer generate-assets
 
-This builds the Sass files, compiles Assets through Asset Mapper to ``var/assets/`` and ``public/assets/``, and generates minified CSS and JavaScript files in the ``media/`` directory.
+This builds the Sass files, compiles assets through Asset Mapper to ``var/assets/`` and ``public/assets/``, and generates minified CSS and JavaScript files in the ``media/`` directory.
 
 You can also run the console command directly:
 
@@ -54,8 +54,8 @@ Mautic uses Bootstrap 3.4.1 for its UI framework. The Bootstrap source files com
 
 .. vale off
 
-Asset architecture
-==================
+Asset Mapper architecture
+=========================
 
 .. vale on
 
