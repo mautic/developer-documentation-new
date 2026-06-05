@@ -814,7 +814,7 @@ Refer to :ref:`Company properties <get Company properties>`.
 
 .. vale off
 
-Create Batch Companies
+Create batch Companies
 **********************
 
 .. vale on
@@ -902,6 +902,8 @@ Response
 Properties
 ----------
 
+.. vale off
+
 .. list-table::
    :widths: 25 25 50
    :header-rows: 1
@@ -914,7 +916,11 @@ Properties
      - HTTP status codes for each Company in the request: ``201`` for created, ``200`` for duplicates
    * - ``companies``
      - object
-     - A mapped collection of Companies indexed by their position in the request. Refer to :ref:`Company properties <get Company properties>` for the structure of each Company object.
+     - A mapped collection of Companies indexed by their ID
+
+For the rest of the properties, refer to :ref:`Company properties <get Company properties>`.
+
+.. vale on
 
 .. vale off
 
