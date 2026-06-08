@@ -397,30 +397,43 @@ Case-insensitive string matching
 
 .. vale on
 
-MySQL and MariaDB use case-insensitive ``LIKE`` comparisons by default. PostgreSQL's ``LIKE`` is case-sensitive. Mautic provides helper methods in ``CommonRepository`` to handle this.
+MySQL and MariaDB use case-insensitive ``LIKE`` comparisons by default. PostgreSQL's ``LIKE`` is case-sensitive. Mautic centralizes all platform-specific helpers in ``Mautic\CoreBundle\Doctrine\DatabasePlatform``.
 
 **Using the helper methods:**
 
 .. code-block:: php
 
-    // In a repository extending CommonRepository
-    $qb = $this->getEntityManager()->getConnection()->createQueryBuilder();
+    use Mautic\CoreBundle\Doctrine\DatabasePlatform;
+
+    $connection = $this->getEntityManager()->getConnection();
+    $platform   = $connection->getDatabasePlatform();
+    $qb         = $connection->createQueryBuilder();
 
     // Case-insensitive LIKE - uses ILIKE on PostgreSQL, LIKE on MySQL/MariaDB
     $qb->andWhere(
-        $this->getILikeExpression($qb, 'l.email', ':search')
+        DatabasePlatform::getCaseInsensitiveLike($platform, 'l.email', ':search')
     );
 
-    // Or wrap the column with LOWER() for case-insensitive comparison
+    // Apply LOWER() to the column for case-insensitive comparison
     $qb->andWhere(
-        $this->getLowerLikeExpression($qb, 'l.firstname', ':search')
+        DatabasePlatform::getCaseInsensitiveLike(
+            $platform,
+            'l.firstname',
+            ':search',
+            DatabasePlatform::FLAG_LOWER_COLUMN
+        )
     );
 
-**Available methods in CommonRepository:**
+.. vale off
 
-* ``getILikeExpression(QueryBuilder $qb, string $column, string $parameter)``: returns platform-appropriate case-insensitive ``LIKE`` expression
-* ``getLowerLikeExpression(QueryBuilder $qb, string $column, string $parameter)``: wraps the column with ``LOWER()`` for case-insensitive comparison
-* ``isPostgreSql()``: returns ``TRUE`` if connected to a PostgreSQL database
+**Available methods in DatabasePlatform:**
+
+.. vale on
+
+* ``getCaseInsensitiveLike($platform, $column, $valueOrParameter, $flags)``: returns platform-appropriate case-insensitive ``LIKE`` expression. Supports flags for ``LOWER()`` handling and negation.
+* ``getRegexpExpression($platform, $column, $pattern, $negative)``: handles ``REGEXP`` differences between MySQL and PostgreSQL.
+* ``isPostgreSQL($platform)``: returns ``TRUE`` if the platform is PostgreSQL.
+* ``isMySQL($platform)``: returns ``TRUE`` if the platform is MySQL or MariaDB.
 
 .. vale off
 
@@ -482,22 +495,22 @@ Mautic's Report Builder corrects ``GROUP BY`` clauses automatically. If you're b
 Detecting the database platform
 ===============================
 
-When you need platform-specific query logic, detect the database type using the connection's platform:
+When you need platform-specific query logic, use the static helpers in ``DatabasePlatform``:
 
 .. code-block:: php
 
-    use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
+    use Mautic\CoreBundle\Doctrine\DatabasePlatform;
 
     $connection = $this->getEntityManager()->getConnection();
-    $platform = $connection->getDatabasePlatform();
+    $platform   = $connection->getDatabasePlatform();
 
-    if ($platform instanceof PostgreSQLPlatform) {
+    if (DatabasePlatform::isPostgreSQL($platform)) {
         // PostgreSQL-specific logic
     } else {
         // MySQL/MariaDB logic
     }
 
-Repositories extending ``CommonRepository`` can use the ``isPostgreSql()`` helper method.
+``DatabasePlatform`` is the single source of truth for platform differences. Use its helpers instead of writing platform checks manually to avoid drift as the codebase evolves.
 
 Best practices
 ==============
@@ -505,4 +518,4 @@ Best practices
 #. **Use Doctrine's Object Relational Mapper - ORM - and QueryBuilder** - Doctrine abstracts most database differences. Avoid raw SQL when possible.
 #. **Test on multiple databases** - Mautic's CI tests against MySQL, MariaDB, and PostgreSQL. Run your Plugin tests against all platforms before release.
 #. **Quote mixed-case aliases** - When using custom column aliases with ``camelCase`` names in raw SQL, always quote them.
-#. **Use repository helper methods** - ``CommonRepository`` provides cross-platform helpers for common operations like case-insensitive searches.
+#. **Use DatabasePlatform helpers** - ``Mautic\CoreBundle\Doctrine\DatabasePlatform`` provides cross-platform helpers for case-insensitive searches, regular expressions, date handling, and platform detection. Consult its source for the full list of available methods.
