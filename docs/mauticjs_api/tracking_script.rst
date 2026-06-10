@@ -442,3 +442,35 @@ This method inserts a script tag with the provided URL in the head of your docum
 .. code-block:: js
 
    MauticJS.insertScript('http://google.com/ga.js');
+
+``MauticJS.setTrackedContact(response)``
+========================================
+
+This method sets the tracked Contact from an API response object.
+The response object must contain ``id`` (the Contact ID) and ``sid`` or ``device_id`` (the device tracking ID).
+Mautic uses this internally when tracking endpoint responses include updated Contact identification.
+
+.. code-block:: js
+
+   // Example response structure from a tracking endpoint
+   var response = {
+       id: 123,        // Contact ID
+       sid: 'abc123',  // Session/device ID
+       device_id: 'abc123'
+   };
+
+   MauticJS.setTrackedContact(response);
+
+``MauticJS.beforeFirstEventDelivery(callback)``
+===============================================
+
+This method registers a callback function that runs before the first tracking event gets delivered to Mautic.
+Use it when you need to perform actions after tracking initializes but before any events fire.
+It's useful for loading additional content based on the tracked Contact's profile.
+
+.. code-block:: js
+
+   MauticJS.beforeFirstEventDelivery(function() {
+       // This runs after mtc.js initializes but before the first tracking event
+       console.log('Ready to load contact-specific content');
+   });
