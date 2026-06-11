@@ -34,7 +34,7 @@ Landing Page tokens get handled exactly the same as :ref:`Email tokens<component
 Page A/B test winner criteria
 *****************************
 
-Custom Landing Page A/B test winner criteria get handled exactly the same as :ref:`Email A/B testing`, except the callback function receives the following arguments:
+Custom Landing Page A/B test winner criteria get handled exactly the same as :ref:`Email A/B testing`, except the ``callback`` function receives the following arguments:
 
 * ``Mautic\PageBundle\Entity\Page $page``
 * ``Mautic\PageBundle\Entity\Page $parent``
