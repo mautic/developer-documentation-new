@@ -199,3 +199,49 @@ The event provides:
 .. note::
 
    The ``TokenHelper::REGEX`` constant provides the regular expression pattern for matching Contact field tokens. Use this to check whether a URL contains tokens before performing replacements.
+
+Page lifecycle events
+*********************
+
+Mautic dispatches events at key points in a Page's lifecycle. Plugins can use these events to react to or modify behavior when Pages are created, updated, deleted, or have their publish status changed.
+
+Toggle publish event
+====================
+
+The ``\Mautic\PageBundle\PageEvents::PAGE_ON_TOGGLE_PUBLISH`` event dispatches when a User toggles the publish status of a Landing Page. This occurs before Mautic persists the status change to the database, so plugins can perform actions or validations before the Page is published or unpublished.
+
+An event listener receives a ``Mautic\PageBundle\Event\PageEvent`` instance.
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/PageLifecycleSubscriber.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\PageBundle\PageEvents;
+    use Mautic\PageBundle\Event\PageEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class PageLifecycleSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                PageEvents::PAGE_ON_TOGGLE_PUBLISH => ['onPageTogglePublish', 0],
+            ];
+        }
+
+        public function onPageTogglePublish(PageEvent $event): void
+        {
+            $page = $event->getPage();
+
+            // Check current publish status (before toggle)
+            $isCurrentlyPublished = $page->isPublished();
+
+            // Perform custom logic before the status changes
+            // For example, notify an external service or invalidate a cache
+        }
+    }
