@@ -13,7 +13,7 @@ Landing Pages
 
 .. vale on
 
-There are two way to extend Landing Pages:
+There are two ways to extend Landing Pages:
 
 * Landing Page tokens used to insert Dynamic Content into a Landing Page
 * A/B test winning criteria
@@ -34,7 +34,11 @@ Landing Page tokens get handled exactly the same as :ref:`Email tokens<component
 Page A/B test winner criteria
 *****************************
 
-Custom Landing Page A/B test winner criteria get handled exactly the same as :ref:`Email A/B test winner criteria<components/emails:Email tokens and A/B testing>` with the only differences being that the ``callback`` function gets passed ``Mautic\PageBundle\Entity\Page $page`` and ``Mautic\PageBundle\Entity\Page $parent`` instead.
+Custom Landing Page A/B test winner criteria get handled exactly the same as :ref:`Email A/B testing`, except the callback function receives the following arguments:
+
+* ``Mautic\PageBundle\Entity\Page $page``
+* ``Mautic\PageBundle\Entity\Page $parent``
+
 ``$children`` is an ArrayCollection of Page entities as well.
 
 .. vale on
