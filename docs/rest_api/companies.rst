@@ -1052,6 +1052,145 @@ Response
 
 .. vale off
 
+Batch Add Contacts to Companies
+*******************************
+
+.. vale on
+
+Assigns multiple Contacts to multiple Companies in a single request.
+
+.. vale off
+
+HTTP request
+============
+
+.. vale on
+
+``POST /companies/batch/addcontacts``
+
+.. _batch add contacts POST parameters:
+
+POST parameters
+---------------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``assignments``
+     - array
+     - **Required.**
+
+       An array of Contact-Company pairs. Each entry must contain ``contactId`` and ``companyId``.
+
+.. code-block:: json
+
+   {
+       "assignments": [
+           {"contactId": 123, "companyId": 456},
+           {"contactId": 789, "companyId": 456},
+           {"contactId": 123, "companyId": 101}
+       ]
+   }
+
+Response
+========
+
+* Returns ``200 OK`` when the request processes successfully. Individual assignments may succeed or fail independently.
+* Returns ``400 Bad Request`` when the ``assignments`` parameter is missing or empty.
+* Returns ``403 Forbidden`` when the user doesn't have the ``lead:leads:editown`` or ``lead:leads:editother`` permission.
+
+.. code-block:: json
+
+   {
+       "results": [
+           {
+               "contactId": 123,
+               "companyId": 456,
+               "status": 200,
+               "message": "Contact added to company"
+           },
+           {
+               "contactId": 789,
+               "companyId": 456,
+               "status": 404,
+               "message": "Contact not found"
+           },
+           {
+               "contactId": 123,
+               "companyId": 101,
+               "status": 200,
+               "message": "Contact added to company"
+           }
+       ],
+       "summary": {
+           "total": 3,
+           "succeeded": 2,
+           "failed": 1
+       }
+   }
+
+Properties
+----------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``results``
+     - array
+     - An array of result objects, one per assignment in the request, preserving the original order
+   * - ``results[].contactId``
+     - integer
+     - The Contact ID from the assignment
+   * - ``results[].companyId``
+     - integer
+     - The Company ID from the assignment
+   * - ``results[].status``
+     - integer
+     - HTTP status code for the individual assignment: ``200`` for success, ``403`` for access denied, ``404`` for not found
+   * - ``results[].message``
+     - string
+     - A description of the result, such as ``Contact added to company``, ``Contact not found``, ``Company not found``, or ``Access denied``
+   * - ``summary``
+     - object
+     - Aggregated statistics for the batch operation
+   * - ``summary.total``
+     - integer
+     - Total number of assignments in the request
+   * - ``summary.succeeded``
+     - integer
+     - Number of assignments that completed successfully
+   * - ``summary.failed``
+     - integer
+     - Number of assignments that failed
+
+Status codes
+------------
+
+Each assignment in the ``results`` array includes a ``status`` field with one of the following HTTP status codes:
+
+.. list-table::
+   :widths: 20 80
+   :header-rows: 1
+
+   * - Status
+     - Description
+   * - ``200``
+     - The Contact was successfully added to the Company, or was already assigned
+   * - ``403``
+     - Access denied. The user doesn't have permission to edit the specified Contact.
+   * - ``404``
+     - The Contact or Company wasn't found
+
+.. vale off
+
 Remove Contact from Company
 ***************************
 
