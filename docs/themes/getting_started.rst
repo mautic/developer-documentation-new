@@ -83,7 +83,11 @@ The configuration file tells Mautic how to utilize the Theme.
     ``page`` The Theme is compatible with the Page Builder. See :ref:`themes/getting_started:html/page.html.twig`.
 
     A corresponding ``html/[feature].html.twig`` file is required for each feature supported. For example, if the Theme supports ``email``, then there should be a ``html/email.html.twig`` file. See :ref:`themes/getting_started:Twig files` more information on each feature.
-builder
+
+    .. note::
+        **Form style-only Themes:** If a Theme declares the ``form`` feature and includes a Form style override file (``html/MauticFormBundle/Builder/_style.html.twig`` or ``html/MauticFormBundle/Builder/style.html.twig``), ``html/form.html.twig`` and ``html/message.html.twig`` aren't required. This lets you create lightweight Themes that only customize Form styling without full template files. See :ref:`themes/forms:Customizing Forms` for more on Form style overrides.
+
+**builder**
     This contains an array of strings declaring which Builder the Theme supports. This currently only applies to Themes that support ``page`` or ``email``. By default, Themes without this line are only recognized by Mautic's Legacy Builder. New Themes built should declare the specific Builders it supports.
 
 Twig files
