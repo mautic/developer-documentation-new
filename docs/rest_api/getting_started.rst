@@ -19,6 +19,24 @@ If there's an OAuth error, you should see a JSON-encoded array similar to:
       "error_description": "The access token provided has expired."
    }
 
+Redirect URI mismatch error
+===========================
+
+If the ``redirect_uri`` parameter in your authorization request doesn't match the Redirect URI configured in your API credential, Mautic returns an ``HTTP 400 Bad Request`` response with an error message:
+
+.. code-block:: JSON
+
+   {
+      "error": "redirect_uri_mismatch",
+      "error_description": "The OAuth redirect URI does not match the API credentials configuration.",
+      "action": "Change it in the settings."
+   }
+
+To fix this error, make sure the ``redirect_uri`` query parameter in your ``/oauth/v2/authorize`` request exactly matches the Redirect URI you configured when creating the API credential in Mautic's API settings.
+
+System errors
+=============
+
 If a system error occurs, you should see a JSON-encoded array similar to the example below:
 
 .. code-block:: JSON
