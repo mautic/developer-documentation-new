@@ -405,6 +405,8 @@ SMS event constants
 
 The ``SmsEvents`` class defines all SMS-related event constants:
 
+.. vale off
+
 .. list-table::
    :header-rows: 1
    :widths: 40 60
@@ -412,7 +414,7 @@ The ``SmsEvents`` class defines all SMS-related event constants:
    * - Event constant
      - Description
    * - ``ON_CAMPAIGN_TRIGGER_BATCH_ACTION``
-     - Fires when a campaign triggers an SMS action for a batch of Contacts.
+     - Fires when a Campaign triggers an SMS action for a batch of Contacts.
    * - ``ON_CAMPAIGN_TRIGGER_ACTION``
      - **Deprecated.** Legacy event for single-Contact Campaign SMS actions.
    * - ``DNC_FILTER_CONTACTS_ON_SEND``
@@ -421,3 +423,5 @@ The ``SmsEvents`` class defines all SMS-related event constants:
      - Fires to filter Contacts based on frequency rules.
    * - ``FILTER_CONTACTS_ON_SEND``
      - Fires for generic Contact filtering before SMS dispatch.
+
+.. vale on
