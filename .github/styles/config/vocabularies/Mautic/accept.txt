@@ -3,6 +3,9 @@ allowlist
 Amazon SES
 Ameling
 ascenders
+autoconfiguration
+autoconfigure
+autoconfigured
 autoloader
 Autoloader
 autowire

@@ -102,7 +102,7 @@ Implement the interfaces for the capabilities your provider supports. The exampl
 Registering the transport
 ==========================
 
-Register the transport in your Plugin's ``Config/config.php`` by tagging the service with ``mautic.sms_transport``. The ``integrationAlias`` tag argument sets the name shown in the UI.
+Register the transport in your Plugin's ``Config/config.php`` by tagging the service with ``mautic.sms_transport``. Mautic builds Plugin ``config.php`` services through its own ``ServicePass`` compiler pass rather than Symfony autoconfiguration, so implementing ``TransportInterface`` doesn't tag the service for you, and you must declare the tag explicitly. The ``SmsTransportPass`` compiler pass then collects every service carrying this tag, and the ``integrationAlias`` tag argument sets the name shown in the UI.
 
 .. code-block:: php
 
@@ -157,11 +157,13 @@ Use ``SmsEvents::DNC_FILTER_CONTACTS_ON_SEND`` to filter Contacts based on **Do 
 
    <?php
 
+   declare(strict_types=1);
+
    use Mautic\SmsBundle\Event\DncEvent;
    use Mautic\SmsBundle\SmsEvents;
    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-   class SmsFilterSubscriber implements EventSubscriberInterface
+   final class SmsFilterSubscriber implements EventSubscriberInterface
    {
        public static function getSubscribedEvents(): array
        {
