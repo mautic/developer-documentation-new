@@ -83,6 +83,8 @@ Basic token replacement
 
 .. vale off
 
+.. _Email A/B testing:
+
 Email A/B testing
 *****************
 
