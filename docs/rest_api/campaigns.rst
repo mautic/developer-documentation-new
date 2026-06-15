@@ -502,6 +502,10 @@ Edit a new Campaign. Note that this supports PUT or PATCH depending on the desir
 **PUT** creates a Campaign if the given ID doesn't exist and clears all the Campaign information, adds the information from the request.
 **PATCH** fails if the Campaign with the given ID doesn't exist and updates the Campaign field values with the values from the request.
 
+.. note::
+
+   The ``publishUp`` and ``publishDown`` fields accept the same ISO 8601 datetime values the API returns when you fetch a Campaign. When editing a Campaign, you can send these values back unchanged from a Get Campaign response - there's no need to reformat them.
+
 .. vale off
 
 **HTTP Request**
