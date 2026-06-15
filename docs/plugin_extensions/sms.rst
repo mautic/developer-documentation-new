@@ -1,13 +1,13 @@
 SMS and MMS
 ###########
 
-This document describes how to extend Mautic's SMS capabilities, including creating custom SMS transports, supporting bulk messaging, implementing MMS, and hooking into the contact filtering pipeline.
+This document describes how to extend Mautic's SMS capabilities, including creating custom SMS transports, supporting bulk messaging, implementing MMS, and hooking into the Contact filtering pipeline.
 
 .. vale off
 
 .. note::
 
-   Extending generally works by hooking into events using event listeners or subscribers. Read more about them in the :doc:`listeners and subscribers</plugins/event_listeners>` section.
+   Extending generally works by hooking into events using event listeners or subscribers. Read more about them in the :doc:`/plugins/event_listeners` section.
 
 .. vale on
 
@@ -48,7 +48,7 @@ BulkTransportInterface
 
 .. vale on
 
-Implement this interface to enable native batch SMS sending. Transports that only implement ``TransportInterface`` fall back to iterative per-contact sending.
+Implement this interface to enable native batch SMS sending. Transports that only implement ``TransportInterface`` fall back to iterative per-Contact sending.
 
 .. code-block:: php
 
@@ -68,7 +68,7 @@ Implement this interface to enable native batch SMS sending. Transports that onl
        public function sendBatchSms(RecipientCollection $collection, string $content): RecipientCollection;
    }
 
-The ``RecipientCollection`` contains ``SmsRecipientDTO`` objects. After processing each recipient, call ``setResult(true)`` or ``setResult(false)`` on the DTO to indicate success or failure.
+The ``RecipientCollection`` contains ``SmsRecipientDTO`` objects. After processing each recipient, call ``setResult(true)`` or ``setResult(false)`` on the Data Transfer Object (DTO) to indicate success or failure.
 
 .. vale off
 
@@ -191,12 +191,8 @@ The following example shows an SMS transport implementing all three interfaces.
        }
    }
 
-.. vale off
-
 Recipient data structures
 *************************
-
-.. vale on
 
 When using bulk SMS, Mautic provides data structures to manage recipient lists and token substitution.
 
@@ -207,7 +203,7 @@ SmsRecipientDTO
 
 .. vale on
 
-The ``SmsRecipientDTO`` wraps each contact with token substitution data.
+The ``SmsRecipientDTO`` wraps each Contact with token substitution data.
 
 .. code-block:: php
 
@@ -247,23 +243,19 @@ The ``RecipientCollection`` is a typed collection of ``SmsRecipientDTO`` objects
        public function getFieldByKey(int $key): SmsRecipientDTO;  // Get recipient by lead ID
    }
 
-.. vale off
-
 Contact filtering events
 ************************
 
-.. vale on
-
-Three events fire sequentially during SMS sending to filter contacts before dispatch. Use these events to exclude contacts based on custom criteria.
+Three events fire sequentially during SMS sending to filter Contacts before dispatch. Use these events to exclude Contacts based on custom criteria.
 
 .. vale off
 
 Do Not Contact filter
 =====================
 
-.. vale on
+Use ``SmsEvents::DNC_FILTER_CONTACTS_ON_SEND`` to filter Contacts based on **Do Not Contact** status.
 
-Use ``SmsEvents::DNC_FILTER_CONTACTS_ON_SEND`` to filter contacts based on Do Not Contact status.
+.. vale on
 
 .. code-block:: php
 
@@ -294,12 +286,8 @@ Use ``SmsEvents::DNC_FILTER_CONTACTS_ON_SEND`` to filter contacts based on Do No
        }
    }
 
-.. vale off
-
 Queue filter
 ============
-
-.. vale on
 
 Use ``SmsEvents::QUEUE_FILTER_CONTACTS_ON_SEND`` to filter contacts based on frequency rules or queueing logic.
 
@@ -323,14 +311,10 @@ Use ``SmsEvents::QUEUE_FILTER_CONTACTS_ON_SEND`` to filter contacts based on fre
        // Filter contacts based on frequency rules
    }
 
-.. vale off
-
 Generic filter
 ==============
 
-.. vale on
-
-Use ``SmsEvents::FILTER_CONTACTS_ON_SEND`` for any remaining filtering logic, such as removing contacts without phone numbers.
+Use ``SmsEvents::FILTER_CONTACTS_ON_SEND`` for any remaining filtering logic, such as removing Contacts without phone numbers.
 
 .. code-block:: php
 
@@ -355,10 +339,10 @@ Use ``SmsEvents::FILTER_CONTACTS_ON_SEND`` for any remaining filtering logic, su
 
 All three event classes share a common API:
 
-- ``getContacts()`` - Returns the array of contacts
-- ``removeContact(int $id)`` - Remove a single contact by ID
-- ``removeContacts(array $contacts)`` - Remove multiple contacts
-- ``getRemovedContacts()`` - Get the list of removed contacts
+* ``getContacts()`` - Returns the array of Contacts
+* ``removeContact(int $id)`` - Remove a single Contact by ID
+* ``removeContacts(array $contacts)`` - Remove multiple Contacts
+* ``getRemovedContacts()`` - Get the list of removed Contacts
 
 .. vale off
 
@@ -367,16 +351,12 @@ Campaign SMS events
 
 .. vale on
 
-When integrating SMS with campaigns, use the batch campaign action event for better performance.
-
-.. vale off
+When integrating SMS with Campaigns, use the batch Campaign action event for better performance.
 
 Batch action event
 ==================
 
-.. vale on
-
-Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` to handle campaign SMS actions.
+Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` to handle Campaign SMS actions.
 
 .. code-block:: php
 
@@ -409,16 +389,12 @@ Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` to handle campaign SMS actio
        }
    }
 
-.. vale off
-
 Deprecation notice
 ==================
 
-.. vale on
-
 .. deprecated:: 7.0
 
-   ``SmsEvents::ON_CAMPAIGN_TRIGGER_ACTION`` is deprecated. Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` instead for improved performance with batch contact processing.
+   Mautic deprecates ``SmsEvents::ON_CAMPAIGN_TRIGGER_ACTION``. Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` instead for improved performance with batch contact processing.
 
 .. vale off
 
@@ -436,12 +412,12 @@ The ``SmsEvents`` class defines all SMS-related event constants:
    * - Event constant
      - Description
    * - ``ON_CAMPAIGN_TRIGGER_BATCH_ACTION``
-     - Fires when a campaign triggers an SMS action for a batch of contacts.
+     - Fires when a campaign triggers an SMS action for a batch of Contacts.
    * - ``ON_CAMPAIGN_TRIGGER_ACTION``
-     - **Deprecated.** Legacy event for single-contact campaign SMS actions.
+     - **Deprecated.** Legacy event for single-Contact Campaign SMS actions.
    * - ``DNC_FILTER_CONTACTS_ON_SEND``
-     - Fires to filter contacts based on Do Not Contact status.
+     - Fires to filter Contacts based on **Do Not Contact** status.
    * - ``QUEUE_FILTER_CONTACTS_ON_SEND``
-     - Fires to filter contacts based on frequency rules.
+     - Fires to filter Contacts based on frequency rules.
    * - ``FILTER_CONTACTS_ON_SEND``
-     - Fires for generic contact filtering before SMS dispatch.
+     - Fires for generic Contact filtering before SMS dispatch.
