@@ -1,7 +1,7 @@
 SMS and MMS
 ###########
 
-This document describes how to extend Mautic's SMS capabilities, including creating custom SMS transports, supporting bulk messaging, implementing MMS, and hooking into the Contact filtering pipeline.
+This document describes how to extend Mautic's SMS capabilities by building a custom transport in a Plugin. It walks through implementing the transport interfaces, adding bulk and MMS support, registering the transport, and hooking into the Contact filtering pipeline.
 
 .. vale off
 
@@ -11,132 +11,39 @@ This document describes how to extend Mautic's SMS capabilities, including creat
 
 .. vale on
 
-SMS transports
-**************
+Transport interfaces
+********************
 
-Mautic supports custom SMS transports through a set of interfaces. Each transport must implement at least ``TransportInterface`` and can optionally implement additional interfaces for bulk messaging and MMS support.
+A custom transport implements one or more interfaces from the ``Mautic\SmsBundle\Sms`` namespace, depending on the capabilities it provides. These interfaces live in Mautic core, so your Plugin implements them rather than redefining them.
+
+* :xref:`TransportInterface source` - the base interface every transport must implement. It defines ``sendSms(Lead $lead, $content)``, which sends a single message and returns ``true`` on success or an error message string on failure.
+* :xref:`BulkTransportInterface source` - extends ``TransportInterface`` to enable native batch sending through ``sendBatchSms(RecipientCollection $collection, string $content): RecipientCollection``. Transports that implement only ``TransportInterface`` fall back to iterative per-Contact sending.
+* :xref:`MMSTransportInterface source` - adds MMS support with media attachments through ``sendMms(Lead $lead, string $content, array $media): bool|string``. Because of carrier restrictions, MMS currently works only for recipients in the US, Canada, and Australia.
+
+For the authoritative method signatures and documentation blocks, see the linked source files.
+
+Building a custom SMS transport
+*******************************
 
 .. vale off
 
-TransportInterface
-==================
+For the general Plugin layout, see the :doc:`Plugin structure</plugins/structure>` section.
 
 .. vale on
 
-This is the base interface for all SMS transports. Implement this interface to create a transport that sends SMS messages one at a time.
+The following worked example builds a transport inside a Plugin named ``HelloWorldBundle``. The transport-related files sit under the bundle's ``Sms/Transport`` directory::
 
-.. code-block:: php
+    plugins/HelloWorldBundle/
+        Config/
+            config.php
+        Sms/
+            Transport/
+                HelloWorldTransport.php
 
-   <?php
-
-   namespace Mautic\SmsBundle\Sms;
-
-   use Mautic\LeadBundle\Entity\Lead;
-
-   interface TransportInterface
-   {
-       /**
-        * @return bool|string Returns true on success or an error message
-        */
-       public function sendSms(Lead $lead, string $content);
-   }
-
-.. vale off
-
-BulkTransportInterface
-======================
-
-.. vale on
-
-Implement this interface to enable native batch SMS sending. Transports that only implement ``TransportInterface`` fall back to iterative per-Contact sending.
-
-.. code-block:: php
-
-   <?php
-
-   namespace Mautic\SmsBundle\Sms;
-
-   use Mautic\SmsBundle\Collection\RecipientCollection;
-
-   interface BulkTransportInterface extends TransportInterface
-   {
-       /**
-        * @param RecipientCollection<SmsRecipientDTO> $collection
-        *
-        * @return RecipientCollection<SmsRecipientDTO>
-        */
-       public function sendBatchSms(RecipientCollection $collection, string $content): RecipientCollection;
-   }
-
-The ``RecipientCollection`` contains ``SmsRecipientDTO`` objects. After processing each recipient, call ``setResult(true)`` or ``setResult(false)`` on the Data Transfer Object - DTO - to indicate success or failure.
-
-.. vale off
-
-MMSTransportInterface
-=====================
-
-.. vale on
-
-Implement this interface to support MMS with media attachments. Currently, MMS works for recipients in the US, Canada, and Australia due to carrier restrictions.
-
-.. code-block:: php
-
-   <?php
-
-   namespace Mautic\SmsBundle\Sms;
-
-   use Mautic\LeadBundle\Entity\Lead;
-
-   interface MMSTransportInterface
-   {
-       /**
-        * @param array<mixed> $media Array of media URLs
-        *
-        * @return bool|string Returns true on success or an error message
-        */
-       public function sendMms(Lead $lead, string $content, array $media);
-   }
-
-MMS messages can include up to 10 media files with a combined maximum size of 5 MB. For external URLs, validate that media files meet size requirements since Mautic only enforces size limits for locally uploaded files.
-
-.. vale off
-
-Registering SMS transports
+Implementing the transport
 ==========================
 
-.. vale on
-
-Register a transport by tagging the service with ``mautic.sms_transport``. Set the ``integrationAlias`` argument to display the transport name in the UI.
-
-.. code-block:: php
-
-   <?php
-
-   // config/config.php
-   return [
-       'services' => [
-           'other' => [
-               'mautic.sms.transport.helloworld' => [
-                   'class'        => \MauticPlugin\HelloWorldBundle\Sms\Transport\HelloWorldTransport::class,
-                   'tag'          => 'mautic.sms_transport',
-                   'tagArguments' => [
-                       'integrationAlias' => 'Hello World SMS',
-                   ],
-               ],
-           ],
-       ],
-   ];
-
-To handle delivery callbacks from your transport provider, register a callback handler with the ``mautic.sms_callback_handler`` tag.
-
-.. vale off
-
-Example transport implementation
-================================
-
-.. vale on
-
-The following example shows an SMS transport implementing all three interfaces.
+Implement the interfaces for the capabilities your provider supports. The example below implements all three, so the transport handles single SMS, bulk SMS, and MMS.
 
 .. code-block:: php
 
@@ -155,15 +62,15 @@ The following example shows an SMS transport implementing all three interfaces.
 
    class HelloWorldTransport implements TransportInterface, BulkTransportInterface, MMSTransportInterface
    {
-       public function sendSms(Lead $lead, string $content)
+       public function sendSms(Lead $lead, $content)
        {
            $phone = $lead->getPhone();
            if (empty($phone)) {
                return 'No phone number available';
            }
 
-           // Send SMS through your provider
-           // Return true on success or an error message
+           // Send the SMS through your provider here.
+           // Return true on success or an error message string on failure.
            return true;
        }
 
@@ -171,84 +78,73 @@ The following example shows an SMS transport implementing all three interfaces.
        {
            foreach ($collection as $recipient) {
                $lead = $recipient->getLead();
-               // Get token substitution data for this recipient
-               $tokens = $recipient->getSubstitutionData();
 
-               // Send to your provider
-               $success = $this->sendToProvider($lead, $content);
+               // getFinalMessage() returns the message with tokens already
+               // replaced for this recipient.
+               $message = $recipient->getFinalMessage();
 
-               // Mark the result
+               $success = $this->sendToProvider($lead, $message);
+
+               // Record the outcome so Mautic can report per-Contact results.
                $recipient->setResult($success);
            }
 
            return $collection;
        }
 
-       public function sendMms(Lead $lead, string $content, array $media)
+       public function sendMms(Lead $lead, string $content, array $media): bool|string
        {
-           // Send MMS with media attachments
+           // Send the MMS with its media attachments here.
            return true;
        }
    }
 
-Recipient data structures
-*************************
+Registering the transport
+==========================
 
-When using bulk SMS, Mautic provides data structures to manage recipient lists and token substitution.
-
-.. vale off
-
-SmsRecipientDTO
-===============
-
-.. vale on
-
-The ``SmsRecipientDTO`` wraps each Contact with token substitution data.
+Register the transport in your Plugin's ``Config/config.php`` by tagging the service with ``mautic.sms_transport``. The ``integrationAlias`` tag argument sets the name shown in the UI.
 
 .. code-block:: php
 
    <?php
+   // plugins/HelloWorldBundle/Config/config.php
 
-   namespace Mautic\SmsBundle\Helper\DTO;
+   return [
+       'services' => [
+           'other' => [
+               'mautic.sms.transport.helloworld' => [
+                   'class'        => \MauticPlugin\HelloWorldBundle\Sms\Transport\HelloWorldTransport::class,
+                   'tag'          => 'mautic.sms_transport',
+                   'tagArguments' => [
+                       'integrationAlias' => 'Hello World SMS',
+                   ],
+               ],
+           ],
+       ],
+   ];
 
-   use Mautic\LeadBundle\Entity\Lead;
+To handle delivery callbacks from your provider, register a callback handler service with the ``mautic.sms_callback_handler`` tag. Mautic's built-in :xref:`Twilio transport source` is a useful reference for a complete transport and callback implementation.
 
-   final class SmsRecipientDTO implements \JsonSerializable
-   {
-       public function getKey(): int;      // Returns the lead ID
-       public function getLead(): Lead;    // Returns the contact entity
-       public function getResult(): bool;  // Check if send succeeded
-       public function setResult(bool $result): void;  // Set the send result
-       public function getSubstitutionData(): array;   // Get token values for this contact
-   }
+Bulk sending and recipient data
+********************************
 
-.. vale off
+When a transport implements ``BulkTransportInterface``, Mautic passes a :xref:`RecipientCollection source` to ``sendBatchSms()``. The collection extends ``\ArrayIterator``, so you can iterate it directly, and each item is an :xref:`SmsRecipientDTO source`.
 
-RecipientCollection
-===================
+Each Data Transfer Object (DTO) wraps one Contact together with its token data. The methods most relevant to a transport are:
 
-.. vale on
-
-The ``RecipientCollection`` is a typed collection of ``SmsRecipientDTO`` objects that implements ``ArrayIterator``.
-
-.. code-block:: php
-
-   <?php
-
-   namespace Mautic\SmsBundle\Collection;
-
-   final class RecipientCollection extends \ArrayIterator
-   {
-       public function toChoices(): array;                    // Convert to choices array
-       public function getFieldByKey(int $key): SmsRecipientDTO;  // Get recipient by lead ID
-   }
+* ``getLead()`` - Returns the ``Lead`` entity for this recipient.
+* ``getFinalMessage()`` - Returns the message body with tokens already replaced for this recipient.
+* ``getSubstitutionData()`` - Returns the raw token values, useful for providers that perform their own substitution.
+* ``setResult(bool $result)`` - Records whether the send succeeded so Mautic can report per-Contact outcomes.
 
 Contact filtering events
 ************************
 
-Three events fire sequentially during SMS sending to filter Contacts before dispatch. Use these events to exclude Contacts based on custom criteria.
+Three events fire sequentially during SMS sending to filter Contacts before dispatch. Subscribe to them to exclude Contacts based on custom criteria.
 
 .. vale off
+
+For how to register a subscriber, see the :doc:`listeners and subscribers</plugins/event_listeners>` section.
 
 Do Not Contact filter
 =====================
@@ -276,9 +172,7 @@ Use ``SmsEvents::DNC_FILTER_CONTACTS_ON_SEND`` to filter Contacts based on **Do 
 
        public function onDncFilter(DncEvent $event): void
        {
-           $contacts = $event->getContacts();
-
-           foreach ($contacts as $id => $contact) {
+           foreach ($event->getContacts() as $id => $contact) {
                if ($this->shouldExclude($contact)) {
                    $event->removeContact($id);
                }
@@ -289,104 +183,47 @@ Use ``SmsEvents::DNC_FILTER_CONTACTS_ON_SEND`` to filter Contacts based on **Do 
 Queue filter
 ============
 
-Use ``SmsEvents::QUEUE_FILTER_CONTACTS_ON_SEND`` to filter contacts based on frequency rules or queueing logic.
-
-.. code-block:: php
-
-   <?php
-
-   use Mautic\SmsBundle\Event\QueueEvent;
-   use Mautic\SmsBundle\SmsEvents;
-
-   // In your subscriber
-   public static function getSubscribedEvents(): array
-   {
-       return [
-           SmsEvents::QUEUE_FILTER_CONTACTS_ON_SEND => ['onQueueFilter', 0],
-       ];
-   }
-
-   public function onQueueFilter(QueueEvent $event): void
-   {
-       // Filter contacts based on frequency rules
-   }
+Use ``SmsEvents::QUEUE_FILTER_CONTACTS_ON_SEND`` to filter Contacts based on frequency rules or queueing logic. Subscribe to it the same way, with a listener that receives a ``QueueEvent``.
 
 Generic filter
 ==============
 
-Use ``SmsEvents::FILTER_CONTACTS_ON_SEND`` for any remaining filtering logic, such as removing Contacts without phone numbers.
+Use ``SmsEvents::FILTER_CONTACTS_ON_SEND`` for any remaining filtering logic, such as removing Contacts without phone numbers. Its listener receives a ``FilterEvent``.
 
-.. code-block:: php
-
-   <?php
-
-   use Mautic\SmsBundle\Event\FilterEvent;
-   use Mautic\SmsBundle\SmsEvents;
-
-   // In your subscriber
-   public static function getSubscribedEvents(): array
-   {
-       return [
-           SmsEvents::FILTER_CONTACTS_ON_SEND => ['onFilter', 0],
-       ];
-   }
-
-   public function onFilter(FilterEvent $event): void
-   {
-       // Remove contacts that shouldn't receive SMS
-       $removedContacts = $event->getRemovedContacts();
-   }
-
-All three event classes share a common API:
+All three event classes share a common API, shown here for :xref:`FilterEvent source`:
 
 * ``getContacts()`` - Returns the array of Contacts
 * ``removeContact(int $id)`` - Remove a single Contact by ID
 * ``removeContacts(array $contacts)`` - Remove multiple Contacts
 * ``getRemovedContacts()`` - Get the list of removed Contacts
 
-.. vale off
-
 Campaign SMS events
 *******************
-
-.. vale on
 
 When integrating SMS with Campaigns, use the batch Campaign action event for better performance.
 
 Batch action event
 ==================
 
-Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` to handle Campaign SMS actions.
+Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` to handle Campaign SMS actions. Set it as the ``batchEventName`` when registering the action on ``CampaignEvents::CAMPAIGN_ON_BUILD``. See :doc:`/plugin_extensions/campaigns` for the full Campaign action workflow.
 
 .. code-block:: php
 
    <?php
 
    use Mautic\CampaignBundle\Event\CampaignBuilderEvent;
-   use Mautic\CampaignBundle\CampaignEvents;
    use Mautic\SmsBundle\SmsEvents;
-   use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-   class CampaignSubscriber implements EventSubscriberInterface
+   public function onCampaignBuild(CampaignBuilderEvent $event): void
    {
-       public static function getSubscribedEvents(): array
-       {
-           return [
-               CampaignEvents::CAMPAIGN_ON_BUILD => ['onCampaignBuild', 0],
-           ];
-       }
-
-       public function onCampaignBuild(CampaignBuilderEvent $event): void
-       {
-           $event->addAction(
-               'my_plugin.send_sms',
-               [
-                   'label'          => 'Send Custom SMS',
-                   'batchEventName' => SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION,
-                   // Other configuration...
-               ]
-           );
-       }
+       $event->addAction(
+           'my_plugin.send_sms',
+           [
+               'label'          => 'Send Custom SMS',
+               'batchEventName' => SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION,
+               // Other configuration...
+           ]
+       );
    }
 
 Deprecation notice
@@ -394,16 +231,12 @@ Deprecation notice
 
 .. deprecated:: 7.0
 
-   Mautic deprecates ``SmsEvents::ON_CAMPAIGN_TRIGGER_ACTION``. Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` instead for improved performance with batch contact processing.
-
-.. vale off
+   Mautic deprecates ``SmsEvents::ON_CAMPAIGN_TRIGGER_ACTION``. Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` instead for improved performance with batch Contact processing.
 
 SMS event constants
 *******************
 
-.. vale on
-
-The ``SmsEvents`` class defines all SMS-related event constants:
+The :xref:`SmsEvents source` class defines all SMS-related event constants:
 
 .. vale off
 
