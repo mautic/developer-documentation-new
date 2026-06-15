@@ -68,7 +68,7 @@ Implement this interface to enable native batch SMS sending. Transports that onl
        public function sendBatchSms(RecipientCollection $collection, string $content): RecipientCollection;
    }
 
-The ``RecipientCollection`` contains ``SmsRecipientDTO`` objects. After processing each recipient, call ``setResult(true)`` or ``setResult(false)`` on the Data Transfer Object (DTO) to indicate success or failure.
+The ``RecipientCollection`` contains ``SmsRecipientDTO`` objects. After processing each recipient, call ``setResult(true)`` or ``setResult(false)`` on the Data Transfer Object - DTO - to indicate success or failure.
 
 .. vale off
 
