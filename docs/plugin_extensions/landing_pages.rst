@@ -200,15 +200,23 @@ The event provides:
 
    The ``TokenHelper::REGEX`` constant provides the regular expression pattern for matching Contact field tokens. Use this to check whether a URL contains tokens before performing replacements.
 
-Page lifecycle events
-*********************
+.. vale off
 
-Mautic dispatches events at key points in a Page's lifecycle. Plugins can use these events to react to or modify behavior when Pages are created, updated, deleted, or have their publish status changed.
+Landing Page lifecycle events
+*****************************
 
-Toggle publish event
-====================
+.. vale on
 
-The ``\Mautic\PageBundle\PageEvents::PAGE_ON_TOGGLE_PUBLISH`` event dispatches when a User toggles the publish status of a Landing Page. This occurs before Mautic persists the status change to the database, so plugins can perform actions or validations before the Page is published or unpublished.
+Mautic dispatches events at key points in a Landing Page's lifecycle. Plugins can use these events to react to or modify behavior when a User creates, updates, deletes, or changes the Available for use status of a Landing Page.
+
+.. vale off
+
+Toggle 'Available for use' event
+================================
+
+.. vale on
+
+The ``\Mautic\PageBundle\PageEvents::PAGE_ON_TOGGLE_PUBLISH`` event dispatches when a User toggles the **Available for use** status of a Landing Page. Mautic dispatches it before persisting the status change to the database, so Plugins can run actions or validations before the User makes the Landing Page available or unavailable.
 
 An event listener receives a ``Mautic\PageBundle\Event\PageEvent`` instance.
 

@@ -511,12 +511,16 @@ This section is in progress. See  ``\Mautic\EmailBundle\Stats\Helper\StatHelperI
 Email lifecycle events
 ----------------------
 
-Mautic dispatches events at key points in an Email's lifecycle. Plugins can use these events to react to or modify behavior when Emails are created, updated, deleted, or have their publish status changed.
+Mautic dispatches events at key points in an Email's lifecycle. Plugins can use these events to react to or modify behavior when a User creates, updates, deletes, or changes the Active status of an Email.
 
-Toggle publish event
-====================
+.. vale off
 
-The ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_TOGGLE_PUBLISH`` event dispatches when a User toggles the publish status of an Email. This occurs before Mautic persists the status change to the database, so plugins can perform actions or validations before the Email is published or unpublished.
+Toggle 'Active' event
+=====================
+
+.. vale on
+
+The ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_TOGGLE_PUBLISH`` event dispatches when a User toggles the **Active** status of an Email. Mautic dispatches it before persisting the status change to the database, so Plugins can run actions or validations before the User activates or deactivates the Email.
 
 An event listener receives a ``Mautic\EmailBundle\Event\EmailEvent`` instance.
 
