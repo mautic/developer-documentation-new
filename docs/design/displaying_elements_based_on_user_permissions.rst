@@ -31,14 +31,14 @@ In this example, the ``securityIsGranted`` function verifies if the current User
 
    {% if securityIsGranted('user:users:create') %}
        <li>
-           <a href="{{ path('mautic_user_action', {objectAction: 'new'}) }}">
+           <a href="{{ path('mautic_user_index', {'open': 'invite'}) }}" data-toggle="ajax">
                <i class="ri-team-line"></i>
                <span>{{ 'mautic.user.profile.invite'|trans }}</span>
            </a>
        </li>
    {% endif %}
 
-If the current User has the ``user:users:create`` permission, the code inside the if block renders, displaying the link to invite new users. The path function creates the link, which generates a URL based on the specified route - ``mautic_user_action``` - and any additional parameters - ``{objectAction: 'new'}``.
+If the current User has the ``user:users:create`` permission, the code inside the if block renders and displays the link to invite new Users. The ``path`` function builds the link by generating a URL from the specified route, ``mautic_user_index``, along with any extra parameters. Here, ``{'open': 'invite'}`` opens the User invitation modal on the Users page.
 
 The ``'mautic.user.profile.invite'|trans`` expression is used to translate the text 'Invite your team' using Mautic's translation system. This ensures that the text is displayed in the appropriate language based on the user's locale settings.
 
