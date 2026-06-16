@@ -447,7 +447,7 @@ This method inserts a script tag with the provided URL in the head of your docum
 ========================================
 
 This method sets the tracked Contact from an API response object.
-The response object must contain ``id`` (the Contact ID) and ``sid`` or ``device_id`` (the device tracking ID).
+The response object must contain ``id`` - the Contact ID - and ``sid`` or ``device_id`` - the device tracking ID.
 Mautic uses this internally when tracking endpoint responses include updated Contact identification.
 
 .. code-block:: js
@@ -464,9 +464,7 @@ Mautic uses this internally when tracking endpoint responses include updated Con
 ``MauticJS.beforeFirstEventDelivery(callback)``
 ===============================================
 
-This method registers a callback function that runs before the first tracking event gets delivered to Mautic.
-Use it when you need to perform actions after tracking initializes but before any events fire.
-It's useful for loading additional content based on the tracked Contact's profile.
+This method registers a callback that runs after tracking initializes but before MauticJS delivers the first tracking event to Mautic, which is useful for loading additional content based on the tracked Contact's profile.
 
 .. code-block:: js
 
