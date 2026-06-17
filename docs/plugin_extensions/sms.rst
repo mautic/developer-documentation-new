@@ -31,7 +31,7 @@ For the general Plugin layout, see the :doc:`Plugin structure</plugins/structure
 
 .. vale on
 
-The following worked example builds a transport inside a Plugin named ``HelloWorldBundle``. The transport-related files sit under the bundle's ``Sms/Transport`` directory::
+The worked example below builds a transport inside a Plugin named ``HelloWorldBundle``. The transport-related files sit under the bundle's ``Sms/Transport`` directory::
 
     plugins/HelloWorldBundle/
         Config/
@@ -130,7 +130,7 @@ Bulk sending and recipient data
 
 When a transport implements ``BulkTransportInterface``, Mautic passes a :xref:`RecipientCollection source` to ``sendBatchSms()``. The collection extends ``\ArrayIterator``, so you can iterate it directly, and each item is an :xref:`SmsRecipientDTO source`.
 
-Each Data Transfer Object (DTO) wraps one Contact together with its token data. The methods most relevant to a transport are:
+Each Data Transfer Object - DTO - wraps one Contact together with its token data. The methods most relevant to a transport are:
 
 .. vale off
 
@@ -235,9 +235,9 @@ Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` to handle Campaign SMS actio
 Deprecation notice
 ==================
 
-.. deprecated:: 7.0
+.. important::
 
-   Mautic deprecates ``SmsEvents::ON_CAMPAIGN_TRIGGER_ACTION``. Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` instead for improved performance with batch Contact processing.
+   As of version 7.0, Mautic deprecates ``SmsEvents::ON_CAMPAIGN_TRIGGER_ACTION``. Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` instead for improved performance with batch Contact processing.
 
 SMS event constants
 *******************
