@@ -28,7 +28,7 @@ Directory structure
 
 A Theme consists of three components: the configuration, Twig files with content, and thumbnails.
 
-.. code-block:: json
+.. code-block:: text
 
     config.json
         html/
@@ -92,6 +92,8 @@ The configuration file tells Mautic how to utilize the Theme.
 
     An optional array of strings that categorizes the Theme in the Theme selector. Tags help Users filter Themes by purpose. Mautic displays them as badges below each Theme. The following built-in values are available:
 
+    .. vale off
+
     * ``adaptative`` - Themes that adapt to brand configuration in system settings. This tag has special styling with an icon and tooltip.
     * ``newsletter`` - Newsletter-style Themes.
     * ``promotion`` - Promotional or marketing Themes.
@@ -101,6 +103,8 @@ The configuration file tells Mautic how to utilize the Theme.
     * ``thank_you`` - Thank you page Themes.
     * ``download`` - Download or gated content Themes.
     * ``coming_soon`` - Coming soon or pre-launch Themes.
+
+    .. vale on
 
 Twig files
 ==========
