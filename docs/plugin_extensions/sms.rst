@@ -132,10 +132,14 @@ When a transport implements ``BulkTransportInterface``, Mautic passes a :xref:`R
 
 Each Data Transfer Object (DTO) wraps one Contact together with its token data. The methods most relevant to a transport are:
 
+.. vale off
+
 * ``getLead()`` - Returns the ``Lead`` entity for this recipient.
 * ``getFinalMessage()`` - Returns the message body with tokens already replaced for this recipient.
 * ``getSubstitutionData()`` - Returns the raw token values, useful for providers that perform their own substitution.
 * ``setResult(bool $result)`` - Records whether the send succeeded so Mautic can report per-Contact outcomes.
+
+.. vale on
 
 Contact filtering events
 ************************
