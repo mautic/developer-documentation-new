@@ -232,13 +232,6 @@ Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` to handle Campaign SMS actio
        );
    }
 
-Deprecation notice
-==================
-
-.. important::
-
-   As of version 7.0, Mautic deprecates ``SmsEvents::ON_CAMPAIGN_TRIGGER_ACTION``. Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` instead for improved performance with batch Contact processing.
-
 SMS event constants
 *******************
 
@@ -255,7 +248,7 @@ The :xref:`SmsEvents source` class defines all SMS-related event constants:
    * - ``ON_CAMPAIGN_TRIGGER_BATCH_ACTION``
      - Fires when a Campaign triggers an SMS action for a batch of Contacts.
    * - ``ON_CAMPAIGN_TRIGGER_ACTION``
-     - **Deprecated.** Legacy event for single-Contact Campaign SMS actions.
+     - Fires when a Campaign triggers an SMS action for a single Contact.
    * - ``DNC_FILTER_CONTACTS_ON_SEND``
      - Fires to filter Contacts based on **Do Not Contact** status.
    * - ``QUEUE_FILTER_CONTACTS_ON_SEND``
