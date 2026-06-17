@@ -267,7 +267,7 @@ Email properties
      - Associative array of Email builder configuration
    * - ``sendToDnc``
      - boolean
-     - When ``true``, the Email sends to Contacts with UNSUBSCRIBED or MANUAL Do Not Contact status, while still respecting BOUNCED status. Defaults to ``false``.
+     - Do Not Contact send status - set to ``true`` to send the Email to Contacts with **Unsubscribed** or **Manual** status, while still respecting **Bounced** status. Defaults to ``false``.
 
 .. vale on
 
@@ -570,7 +570,7 @@ POST parameters
      - Array of custom headers
    * - ``sendToDnc``
      - boolean
-     - When ``true``, the Email sends to Contacts with UNSUBSCRIBED or MANUAL Do Not Contact status, while still respecting BOUNCED status. Defaults to ``false``.
+     - Do Not Contact send status - set to ``true`` to send the Email to Contacts with **Unsubscribed** or **Manual** status, while still respecting **Bounced** status. Defaults to ``false``.
 
        **Permission:** Requires the ``email:emails:sendtodnc`` permission to set this field via API. If the authenticated User lacks this permission, the API ignores the ``sendToDnc`` parameter.
 
@@ -733,12 +733,8 @@ Do Not Contact behavior
 
 This endpoint respects the Email's ``sendToDnc`` setting:
 
-.. vale off
-
-* When ``sendToDnc`` is ``false`` - **default**: the endpoint skips Contacts with Do Not Contact status, and the send fails silently.
-* When ``sendToDnc`` is ``true``: the endpoint sends to Contacts with UNSUBSCRIBED or MANUAL Do Not Contact status, while still respecting BOUNCED status.
-
-.. vale on
+* When ``sendToDnc`` is ``false`` - **default**: the endpoint skips Contacts with **Do Not Contact** status, and the send fails silently.
+* When ``sendToDnc`` is ``true``: the endpoint sends to Contacts with **Unsubscribed** or **Manual** Do Not Contact status, while still respecting **Bounced** status.
 
 To send to Contacts regardless of their subscription status, set ``sendToDnc: true`` on the Email entity before calling this endpoint.
 
