@@ -209,7 +209,7 @@ Landing Page lifecycle events
 
 .. vale off
 
-Mautic dispatches events at key points in a Landing Page's lifecycle. Plugins can use these events to react to or modify behavior when a User creates, updates, deletes, or changes the Available for use status of a Landing Page.
+Mautic dispatches events at key points in a Landing Page's lifecycle. Plugins can use these events to react to or modify behavior when a User creates, updates, deletes, or changes the **Available for use** status of a Landing Page.
 
 .. vale on
 

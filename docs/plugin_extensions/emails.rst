@@ -513,7 +513,7 @@ Email lifecycle events
 
 .. vale off
 
-Mautic dispatches events at key points in an Email's lifecycle. Plugins can use these events to react to or modify behavior when a User creates, updates, deletes, or changes the Active status of an Email.
+Mautic dispatches events at key points in an Email's lifecycle. Plugins can use these events to react to or modify behavior when a User creates, updates, deletes, or changes the **Active** status of an Email.
 
 .. vale on
 
