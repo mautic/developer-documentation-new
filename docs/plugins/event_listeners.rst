@@ -152,8 +152,95 @@ Custom events require the following:
        $dispatcher = $this->get('event_dispatcher');
        if ($dispatcher->hasListeners   (HelloWorldEvents::ARMAGEDDON)) {
            $event = $dispatcher->dispatch(HelloWorldEvents::ARMAGEDDON, new ArmageddonEvent($world));
-        
+
            if ($event->shouldPanic()) {
                throw new \Exception("Run for the hills!");
            }
        }
+
+Tag merge events
+****************
+
+Mautic dispatches events when two Tags merge. Use these events to sync Tag changes to external systems, log merge operations, or trigger custom business logic.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Event constant
+     - Description
+   * - ``LeadEvents::TAG_PRE_MERGE``
+     - Dispatched before two Tags merge. The event string is ``mautic.lead_tag_pre_merge``.
+   * - ``LeadEvents::TAG_POST_MERGE``
+     - Dispatched after two Tags merge. The event string is ``mautic.lead_tag_post_merge``.
+
+Both events receive a ``Mautic\LeadBundle\Event\TagMergeEvent`` instance with the following methods:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Method
+     - Description
+   * - ``getPrimaryTag()``
+     - Returns the Tag entity that remains after the merge.
+   * - ``getSecondaryTag()``
+     - Returns the Tag entity that merges into the primary Tag and then gets deleted.
+
+Example subscriber
+==================
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/TagMergeSubscriber.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\LeadBundle\Event\TagMergeEvent;
+    use Mautic\LeadBundle\LeadEvents;
+    use Psr\Log\LoggerInterface;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class TagMergeSubscriber implements EventSubscriberInterface
+    {
+        public function __construct(private LoggerInterface $logger)
+        {
+        }
+
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                LeadEvents::TAG_PRE_MERGE  => ['onTagPreMerge', 0],
+                LeadEvents::TAG_POST_MERGE => ['onTagPostMerge', 0],
+            ];
+        }
+
+        public function onTagPreMerge(TagMergeEvent $event): void
+        {
+            $primaryTag   = $event->getPrimaryTag();
+            $secondaryTag = $event->getSecondaryTag();
+
+            $this->logger->info(sprintf(
+                'About to merge tag "%s" into "%s"',
+                $secondaryTag->getTag(),
+                $primaryTag->getTag()
+            ));
+        }
+
+        public function onTagPostMerge(TagMergeEvent $event): void
+        {
+            $primaryTag   = $event->getPrimaryTag();
+            $secondaryTag = $event->getSecondaryTag();
+
+            $this->logger->info(sprintf(
+                'Tag "%s" merged into "%s"',
+                $secondaryTag->getTag(),
+                $primaryTag->getTag()
+            ));
+
+            // Sync to external CRM, analytics platform, etc.
+        }
+    }
