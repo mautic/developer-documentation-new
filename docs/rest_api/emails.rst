@@ -735,7 +735,7 @@ This endpoint respects the Email's ``sendToDnc`` setting:
 
 .. vale off
 
-* When ``sendToDnc`` is ``false`` - **default**: the endpoint skips Contacts with **Do Not Contact** status, and the send fails silently.
+* When ``sendToDnc`` is ``false`` - **default**: the endpoint skips Contacts with Do Not Contact status, and the send fails silently.
 * When ``sendToDnc`` is ``true``: the endpoint sends to Contacts with **Unsubscribed** or **Manual** Do Not Contact status, while still respecting **Bounced** status.
 
 .. vale on
