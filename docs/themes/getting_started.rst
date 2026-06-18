@@ -86,7 +86,7 @@ The configuration file tells Mautic how to utilize the Theme.
 
        .. vale off
 
-       **Form style-only Themes:** If a Theme declares the ``form`` feature and includes a Form style override file such as ``html/MauticFormBundle/Builder/_style.html.twig`` or ``html/MauticFormBundle/Builder/style.html.twig``, it doesn't require ``html/form.html.twig`` and ``html/message.html.twig``. This lets you create lightweight Themes that only customize Form styling without full template files. See :doc:`/themes/forms` for more on Form style overrides.
+       **Form style-only Themes:** A Theme that declares only the ``form`` feature and includes a Form style override file, such as ``html/MauticFormBundle/Builder/_style.html.twig`` or ``html/MauticFormBundle/Builder/style.html.twig``, doesn't need ``html/form.html.twig`` or ``html/message.html.twig``. This lets you create lightweight Themes that only customize Form styling. The exception applies only when ``form`` is the Theme's sole feature. If the Theme also declares other features, such as ``email`` or ``page``, it must still include the usual template files for each one. See :doc:`/themes/forms` for more on Form style overrides.
 
        .. vale on
 

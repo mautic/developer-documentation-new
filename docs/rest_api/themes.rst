@@ -274,7 +274,7 @@ The API returns error messages if:
 
    .. vale off
 
-   **Form style-only Themes:** A Theme that declares the ``form`` feature and includes a Form style override file such as ``html/MauticFormBundle/Builder/_style.html.twig`` or ``html/MauticFormBundle/Builder/style.html.twig`` doesn't require ``html/message.html.twig``.
+   **Form style-only Themes:** A Theme that declares only the ``form`` feature and includes a Form style override file such as ``html/MauticFormBundle/Builder/_style.html.twig`` or ``html/MauticFormBundle/Builder/style.html.twig`` doesn't require ``html/message.html.twig``. This exception applies only when ``form`` is the Theme's sole feature; a Theme that also declares features such as ``email`` or ``page`` must still include the required files for each one.
 
    .. vale on
 
