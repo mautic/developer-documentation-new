@@ -72,21 +72,23 @@ The configuration file tells Mautic how to utilize the Theme.
 **features**
     An array of strings that tells Mautic which features the Theme supports. Currently recognized values are:
 
-    ``email`` The Theme is compatible with the Email Builder. See :ref:`themes/getting_started:html/email.html.twig`.
+    .. vale off
 
-.. vale off
+    * ``email`` - The Theme is compatible with the Email Builder. See :ref:`themes/getting_started:html/email.html.twig`.
+    * ``form`` - The Theme is compatible with customizing Forms. See :ref:`themes/getting_started:html/form.html.twig`.
+    * ``page`` - The Theme is compatible with the Page Builder. See :ref:`themes/getting_started:html/page.html.twig`.
 
-    ``form`` The Theme is compatible with the customizing Forms. See :ref:`themes/getting_started:html/form.html.twig`.
+    You must have a corresponding ``html/[feature].html.twig`` file for each feature supported. For example, if the Theme supports ``email``, then there must be a ``html/email.html.twig`` file. See :ref:`themes/getting_started:Twig files` for more information on each feature.
 
-.. vale on
-
-    ``page`` The Theme is compatible with the Page Builder. See :ref:`themes/getting_started:html/page.html.twig`.
-
-    A corresponding ``html/[feature].html.twig`` file is required for each feature supported. For example, if the Theme supports ``email``, then there should be a ``html/email.html.twig`` file. See :ref:`themes/getting_started:Twig files` more information on each feature.
+    .. vale on
 
     .. note::
 
-       **Form style-only Themes:** If a Theme declares the ``form`` feature and includes a Form style override file (``html/MauticFormBundle/Builder/_style.html.twig`` or ``html/MauticFormBundle/Builder/style.html.twig``), ``html/form.html.twig`` and ``html/message.html.twig`` aren't required. This lets you create lightweight Themes that only customize Form styling without full template files. See :ref:`themes/forms:Customizing Forms` for more on Form style overrides.
+       .. vale off
+
+       **Form style-only Themes:** If a Theme declares the ``form`` feature and includes a Form style override file such as ``html/MauticFormBundle/Builder/_style.html.twig`` or ``html/MauticFormBundle/Builder/style.html.twig``, it doesn't require ``html/form.html.twig`` and ``html/message.html.twig``. This lets you create lightweight Themes that only customize Form styling without full template files. See :ref:`themes/forms:Customizing Forms` for more on Form style overrides.
+
+       .. vale on
 
 **builder**
     This contains an array of strings declaring which Builder the Theme supports. This currently only applies to Themes that support ``page`` or ``email``. By default, Themes without this line are only recognized by Mautic's Legacy Builder. New Themes built should declare the specific Builders it supports.
