@@ -384,7 +384,7 @@ When using ``addExtendedPermissions()``, the following Same Role permissions bec
      - Delete content created by Users with the same Role
      - 8192
    * - ``publishsamerole``
-     - Publish/Unpublish content created by Users with the same Role
+     - Activate/Deactivate content created by Users with the same Role
      - 16384
 
 Permission hierarchy
@@ -396,10 +396,14 @@ The permission hierarchy from most restrictive to least restrictive is:
 #. ``samerole`` - Access content created by Users with the same Role
 #. ``other`` - Access content created by any User
 
-When checking access, Mautic evaluates permissions in this order. If a User has ``viewother``, they can view all content regardless of Same Role settings.
+When verifying access, Mautic evaluates permissions in this order. If a User has ``viewother``, they can view all content regardless of Same Role settings.
 
-Checking entity access with Roles
-=================================
+.. vale off
+
+Verifying entity access with Roles
+==================================
+
+.. vale on
 
 The ``hasEntityAccess()`` method supports Same Role permissions. When you pass ``viewown`` and ``viewother`` permissions, Mautic automatically infers the corresponding ``viewsamerole`` permission:
 
