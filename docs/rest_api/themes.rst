@@ -267,8 +267,12 @@ The API returns error messages if:
 
 * The request includes no uploaded file
 * The uploaded file doesn't have a ``.zip`` extension
-* The ZIP file is missing required files - ``config.json`` and ``html/message.html.twig`` (exception: form style-only themes that declare the ``form`` feature and include ``html/MauticFormBundle/Builder/_style.html.twig`` or ``html/MauticFormBundle/Builder/style.html.twig`` don't require ``html/message.html.twig``)
+* The ZIP file is missing required files - ``config.json`` and ``html/message.html.twig``
 * The ZIP file contains disallowed file extensions
+
+.. note::
+
+   **Form style-only Themes:** A Theme that declares the ``form`` feature and includes a Form style override file - ``html/MauticFormBundle/Builder/_style.html.twig`` or ``html/MauticFormBundle/Builder/style.html.twig`` - doesn't require ``html/message.html.twig``.
 
 .. vale off
 
