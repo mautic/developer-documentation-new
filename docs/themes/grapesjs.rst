@@ -178,7 +178,7 @@ Extending an existing Component type
 
 Plugins can also extend a Component type that already exists in the Builder instead of registering a new one. This is useful when you want to add traits to a built-in Component, such as an image, or change its HTML output.
 
-Mautic ships an example of this in its ``grapesjs-image-link`` Plugin, which turns images in the Page Builder into clickable links. It extends the built-in ``image`` Component type to add ``href``, ``target``, and ``rel`` traits, then overrides the Component's HTML output so that an image with an ``href`` set is wrapped in an anchor tag. When no ``href`` is set, the image renders as normal.
+Mautic ships an example of this in its ``grapesjs-image-link`` Plugin, which turns images in the Landing Page Builder into clickable links. It extends the built-in ``image`` Component type to add ``href``, ``target``, and ``rel`` traits, then overrides the Component's HTML output so that the Component wraps any image that has an ``href`` in an anchor tag. When the image has no ``href``, it renders as normal.
 
 To extend an existing type, get the current type definition from ``editor.DomComponents``, keep a reference to the methods you want to build on, and re-register the type with ``addType``, using ``extend`` to inherit the original behavior. The ``defaults.traits`` array controls which traits appear in the Component settings panel, ``getAttrToHTML`` controls which attributes render on the element itself, and ``toHTML`` controls the final markup the Component produces.
 
@@ -228,4 +228,4 @@ To extend an existing type, get the current type definition from ``editor.DomCom
         });
     };
 
-The Email editor has its own image-linking implementation, so this Plugin targets the Page Builder only.
+The Email editor has its own image-linking implementation, so this Plugin targets the Landing Page Builder only.
