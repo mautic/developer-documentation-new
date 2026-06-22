@@ -908,7 +908,7 @@ Parameters
      - Description
    * - ``recipients``
      - array
-     - **Required**. Array of email addresses to send the example to
+     - **Required**. Array of Email addresses to send the example to
    * - ``contactId``
      - integer
      - Fill tokens with this Contact's data instead of fake data
