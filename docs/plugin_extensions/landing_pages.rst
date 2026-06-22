@@ -202,12 +202,12 @@ The event provides:
 
 .. vale off
 
-Customizing Preference Center Pages
-***********************************
+Customizing Preference Center
+*****************************
+
+Preference Center lets Contacts manage their communication preferences. In Mautic 7.1 and later, you can programmatically customize the labels on Preference Center slot components using the ``PageEvents::PAGE_ON_DISPLAY`` event.
 
 .. vale on
-
-Preference Center pages let Contacts manage their communication preferences. In Mautic 7.1 and later, you can programmatically customize the labels on Preference Center slot components using the ``PageEvents::PAGE_ON_DISPLAY`` event.
 
 This lets you override default translated labels with custom text for branding, localization beyond built-in translations, or dynamic label generation based on context.
 
@@ -227,31 +227,31 @@ Each Preference Center slot accepts label attributes that override the default t
      - Default translation key
    * - ``segmentlist``
      - ``label-text``
-     - ``mautic.lead.form.list`` ('My segments')
+     - ``mautic.lead.form.list`` - **My segments**
    * - ``categorylist``
      - ``label-text``
-     - ``mautic.lead.form.categories`` ('My categories')
+     - ``mautic.lead.form.categories`` - **My categories**
    * - ``preferredchannel``
      - ``label-text``
-     - ``mautic.lead.list.frequency.preferred.channel`` ('I prefer communication by')
+     - ``mautic.lead.list.frequency.preferred.channel`` - **I prefer communication by**
    * - ``channelfrequency``
      - ``label-text``
-     - ``mautic.lead.contact.me.label`` ('I want to receive %channel%')
+     - ``mautic.lead.contact.me.label`` - **I want to receive %channel%**
    * - ``channelfrequency``
      - ``label-text1``
-     - ``mautic.lead.list.frequency.number`` ('Do not contact more than')
+     - ``mautic.lead.list.frequency.number`` - **Do not contact more than**
    * - ``channelfrequency``
      - ``label-text2``
-     - ``mautic.lead.list.frequency.times`` ('Messages each')
+     - ``mautic.lead.list.frequency.times`` - **Messages each**
    * - ``channelfrequency``
      - ``label-text3``
-     - ``mautic.lead.frequency.dates.label`` ('Pause from')
+     - ``mautic.lead.frequency.dates.label`` - **Pause from**
    * - ``channelfrequency``
      - ``label-text4``
-     - ``mautic.lead.frequency.contact.end.date`` ('Pause to')
+     - ``mautic.lead.frequency.contact.end.date`` - **Pause to**
    * - ``saveprefsbutton``
      - ``btnText``
-     - ``mautic.page.form.saveprefs`` ('Save preferences')
+     - ``mautic.page.form.saveprefs`` - **Save preferences**
 
 .. vale on
 
