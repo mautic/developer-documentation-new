@@ -31,14 +31,16 @@ For the general Plugin layout, see the :doc:`Plugin structure</plugins/structure
 
 .. vale on
 
-The worked example below builds a transport inside a Plugin named ``HelloWorldBundle``. The transport-related files sit under the bundle's ``Sms/Transport`` directory::
+The worked example below builds a transport inside a Plugin named ``HelloWorldBundle``. The transport-related files sit under the bundle's ``Sms/Transport`` directory:
 
-    plugins/HelloWorldBundle/
-        Config/
-            config.php
-        Sms/
-            Transport/
-                HelloWorldTransport.php
+.. code-block:: text
+
+   plugins/HelloWorldBundle/
+   ├── Config/
+   │   └── config.php
+   └── Sms/
+       └── Transport/
+           └── HelloWorldTransport.php
 
 Implementing the transport
 ==========================
