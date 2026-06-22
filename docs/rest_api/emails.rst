@@ -685,6 +685,8 @@ Refer to :ref:`Email properties <get Email properties>`.
 
 .. vale off
 
+.. _send Email to Contact:
+
 Send Email to Contact
 *********************
 
@@ -769,6 +771,8 @@ Response
 
 .. vale off
 
+.. _send Email to Segment:
+
 Send Email to Segment
 *********************
 
@@ -841,6 +845,112 @@ Properties
    * - ``failedRecipients``
      - integer
      - Total number of Emails that failed to deliver
+
+.. vale off
+
+Send example Email
+******************
+
+.. vale on
+
+Sends a one-off proof copy of an Email to one or more arbitrary addresses. It's the API equivalent of the **Send example** action in the Email builder.
+
+Unlike :ref:`Send Email to Contact <send Email to Contact>` and :ref:`Send Email to Segment <send Email to Segment>`, this endpoint:
+
+.. vale off
+
+* Sends to arbitrary email addresses rather than Contacts, so Do Not Contact status doesn't apply.
+* Records no statistics. It tracks no opens or clicks and strips the tracking pixel.
+* Works on unpublished or draft Emails, since you proof them before they go live.
+* Never changes the stored Email. It prefixes the subject with ``[TEST]`` for the send and then restores the original, so the prefix is never saved.
+
+.. vale on
+
+By default, the endpoint fills tokens with fake Contact data. Pass ``contactId`` to fill them from a real Contact instead, or use the ``tokens`` parameter to override individual values.
+
+.. code-block:: php
+
+   <?php
+
+   $data = array(
+       'recipients' => array('proof@example.com'),
+   );
+
+   $response = $emailApi->makeRequest('emails/'.$emailId.'/example/send', $data, 'POST');
+
+.. vale off
+
+HTTP request
+============
+
+.. vale on
+
+``POST /emails/ID/example/send``
+
+.. vale off
+
+Permissions
+-----------
+
+.. vale on
+
+The authenticated User needs the ``email:emails:viewown`` or ``email:emails:viewother`` permission. Supplying ``contactId`` additionally requires the ``lead:leads:viewown`` or ``lead:leads:viewother`` permission.
+
+Parameters
+----------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``recipients``
+     - array
+     - **Required**. Array of email addresses to send the example to
+   * - ``contactId``
+     - integer
+     - Fill tokens with this Contact's data instead of fake data
+   * - ``tokens``
+     - associative array
+     - Associative array of tokens to replace in the Email content, for example ``{"{custom}": "value"}``. The surrounding braces are optional
+   * - ``noSubjectPrefix``
+     - boolean
+     - Set to ``true`` to skip the ``[TEST]`` subject prefix. Defaults to ``false``
+
+Response
+========
+
+* Returns ``200 OK`` once the request runs. Check the ``errors`` array to confirm delivery: a recipient that fails appears there without failing the whole request.
+
+.. code-block:: json
+
+   {
+       "success": true,
+       "sent": ["proof@example.com"],
+       "errors": []
+   }
+
+Properties
+----------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``success``
+     - boolean
+     - ``true`` when the endpoint reaches every recipient, leaving ``errors`` empty
+   * - ``sent``
+     - array
+     - Email addresses that received the example
+   * - ``errors``
+     - array
+     - Error messages for recipients that failed
 
 .. vale off
 
