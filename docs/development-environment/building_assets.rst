@@ -47,6 +47,8 @@ You can also run the console command directly:
 
 Running ``composer install`` automatically compiles the Sass files, so fresh installations include built CSS by default.
 
+The production build also generates ``css/offline.css``, a compatibility stylesheet that combines the compiled Sass output with ``app.css``. Standalone pages that can't load assets through Asset Mapper's normal page head, such as the offline page, link to this single stylesheet directly.
+
 Bootstrap framework
 ===================
 
