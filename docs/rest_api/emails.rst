@@ -92,6 +92,7 @@ Response
           "publishUp": null,
           "publishDown": null,
           "publicPreview": false,
+          "sendToDnc": false,
           "readCount": 0,
           "sentCount": 0,
           "revision": 2,
@@ -264,6 +265,9 @@ Email properties
    * - ``grapesjsbuilder``
      - associative array
      - Associative array of Email builder configuration
+   * - ``sendToDnc``
+     - boolean
+     - Do Not Contact send status - set to ``true`` to send the Email to Contacts with **Unsubscribed** or **Manual** status, while still respecting **Bounced** status. Defaults to ``false``.
 
 .. vale on
 
@@ -368,6 +372,7 @@ Response
               "publishUp": null,
               "publishDown": null,
               "publicPreview": false,
+              "sendToDnc": false,
               "readCount": 0,
               "sentCount": 0,
               "revision": 4,
@@ -563,6 +568,13 @@ POST parameters
    * - ``headers``
      - array
      - Array of custom headers
+   * - ``sendToDnc``
+     - boolean
+     - Do Not Contact send status - set to ``true`` to send the Email to Contacts with **Unsubscribed** or **Manual** status, while still respecting **Bounced** status. Defaults to ``false``.
+
+       **Permission:** Requires the ``email:emails:sendtodnc`` permission to set this field via API. If the authenticated User lacks this permission, the API ignores the ``sendToDnc`` parameter.
+
+       **PUT behavior:** For ``PUT`` requests, this field defaults to ``false`` when not explicitly provided, preventing accidental enablement during full replacement operations.
 
 .. vale on
 
@@ -711,6 +723,24 @@ HTTP request
 .. vale on
 
 ``POST /emails/ID/contact/CONTACT_ID/send``
+
+.. vale off
+
+Do Not Contact behavior
+-----------------------
+
+.. vale on
+
+This endpoint respects the Email's ``sendToDnc`` setting:
+
+.. vale off
+
+* When ``sendToDnc`` is ``false`` - **default**: the endpoint skips Contacts with Do Not Contact status, and the send fails silently.
+* When ``sendToDnc`` is ``true``: the endpoint sends to Contacts with **Unsubscribed** or **Manual** Do Not Contact status, while still respecting **Bounced** status.
+
+.. vale on
+
+To send to Contacts regardless of their subscription status, set ``sendToDnc: true`` on the Email entity before calling this endpoint.
 
 Parameters
 ----------

@@ -43,6 +43,48 @@ The GrapesJS Builder doesn't require any special HTML syntax to edit content in 
       </mj-body>
     </mjml>
 
+.. vale off
+
+MJML Theme tokens
+*****************
+
+.. vale on
+
+From Mautic 7, the GrapesJS Builder supports MJML Theme tokens. You can define reusable style classes in the ``<mj-head>`` section of your MJML Email templates using ``<mj-class>`` elements inside an ``<mj-attributes>`` block. When Users drop new Components into the Email Builder, Mautic automatically applies the matching Theme tokens, keeping styling consistent across the Email.
+
+.. vale off
+
+Defining Theme tokens
+=====================
+
+.. vale on
+
+Define Theme tokens in the ``<mj-head>`` section of your MJML template using ``<mj-class>`` elements wrapped in ``<mj-attributes>``. Each class specifies CSS properties that apply to Components using it. Self-closing syntax - for example ``<mj-class ... />`` - causes parsing issues. Always use explicit open/close pairs.
+
+.. code-block:: html
+
+    <mjml>
+      <mj-head>
+        <mj-attributes>
+          <mj-class name="t-body" color="#333333" font-family="Arial, sans-serif"></mj-class>
+          <mj-class name="t-btn" background-color="#007bff" color="#ffffff"></mj-class>
+          <mj-class name="t-btn-primary" border-radius="4px"></mj-class>
+          <mj-class name="t-section" padding="20px"></mj-class>
+          <mj-class name="t-surface-1" background-color="#f8f9fa"></mj-class>
+        </mj-attributes>
+      </mj-head>
+      <mj-body>
+        <mj-section mj-class="t-section t-surface-1">
+          <mj-column>
+            <mj-text mj-class="t-body">Welcome to our newsletter</mj-text>
+            <mj-button mj-class="t-btn t-btn-primary" href="#">Click here</mj-button>
+          </mj-column>
+        </mj-section>
+      </mj-body>
+    </mjml>
+
+The builder parses these ``<mj-class>`` definitions and applies them to matching Component types automatically.
+
 GrapesJS Builder Plugins
 ************************
 
