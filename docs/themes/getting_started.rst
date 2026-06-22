@@ -30,12 +30,12 @@ A Theme consists of three components: the configuration, Twig files with content
 
 .. code-block:: text
 
+    html/
+    ├── email.html.twig
+    ├── form.html.twig
+    ├── message.html.twig
+    └── page.html.twig
     config.json
-        html/
-            email.html.twig
-            form.html.twig
-            message.html.twig
-            page.html.twig
     thumbnail.png
     thumbnail_email.png
     thumbnail_form.png
