@@ -31,13 +31,21 @@ Building assets for production
 
 .. vale on
 
+.. vale off
+
 To build all frontend assets for production:
+
+.. vale on
 
 .. code-block:: bash
 
     composer generate-assets
 
+.. vale off
+
 This builds the Sass files, compiles assets through Asset Mapper to ``var/assets/`` and ``public/assets/``, and generates minified CSS and JavaScript files in the ``media/`` directory.
+
+.. vale on
 
 You can also run the console command directly:
 
@@ -47,7 +55,11 @@ You can also run the console command directly:
 
 Running ``composer install`` automatically compiles the Sass files, so fresh installations include built CSS by default.
 
-The production build also generates ``css/offline.css``, a compatibility stylesheet that combines the compiled Sass output with ``app.css``. Standalone pages that can't load assets through Asset Mapper's normal page head, such as the offline page, link to this single stylesheet directly.
+.. vale off
+
+The production build also generates ``css/offline.css``, a compatibility stylesheet that combines the compiled Sass output with ``app.css``. Standalone pages that can't load assets through Asset Mapper's normal page head, such as the offline page, link to this single style sheet directly.
+
+.. vale on
 
 Bootstrap framework
 ===================
