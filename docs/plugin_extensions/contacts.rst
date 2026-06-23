@@ -499,8 +499,12 @@ To leverage this, accept the array from ``$event->getQueryOptions()`` in the rep
       - callback
       - Callback to custom parse a result. This is optional and mainly used to handle a column result when all results are already looped over for ``$serializedColumns`` and $dateTimeColumns.
 
+.. vale off
+
 Customizing Custom Field Groups
 ******************************
+
+.. vale on
 
 Mautic organizes Contact and Company Custom Fields into groups, which appear as tabs on the Contact and Company view and edit pages. Beyond the built-in groups, admins can create their own Custom Field Groups under :guilabel:`Settings → Custom Field Groups`.
 
