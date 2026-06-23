@@ -18,10 +18,16 @@ Use this endpoint to manage Custom Field Groups in Mautic. Custom Field Groups o
 
 .. note::
 
-   Mautic generates a group's ``alias`` from its ``name`` when you create the group, and the alias never changes after that. The API ignores any ``alias`` you send in a create or edit payload. This keeps Contact and Company Fields that reference a group by alias from being orphaned when you rename the group.
+   Mautic generates a group's ``alias`` from its ``name`` when you create the group, and the alias never changes after that. The API ignores any ``alias`` you send in a create or edit payload. This way, renaming a group never orphans the Contact and Company Fields that reference it by alias.
+
+.. vale off
 
 Get Field Group
 ***************
+
+.. vale on
+
+Retrieves an individual Field Group.
 
 .. code-block:: php
 
@@ -42,8 +48,6 @@ Get Field Group
      }
    }
 
-Get an individual Field Group by ID.
-
 .. vale off
 
 HTTP request
@@ -62,8 +66,12 @@ When the ID doesn't exist, the endpoint returns an ``HTTP 404 (Not Found)`` resp
 
 See the JSON code example.
 
+.. vale off
+
 Field Group properties
 ======================
+
+.. vale on
 
 .. list-table::
    :header-rows: 1
@@ -87,8 +95,14 @@ Field Group properties
      - int
      - Position of the group in the tab order on Contact and Company views
 
+.. vale off
+
 List Field Groups
 *****************
+
+.. vale on
+
+Retrieves a list of Field Groups.
 
 .. code-block:: php
 
@@ -163,8 +177,14 @@ Properties
      - int
      - Position of the group in the tab order on Contact and Company views
 
+.. vale off
+
 Create Field Group
 ******************
+
+.. vale on
+
+Creates a new Field Group. Mautic generates the ``alias`` from the ``name``, so you don't need to send one.
 
 .. code-block:: php
 
@@ -176,8 +196,6 @@ Create Field Group
    ];
 
    $fieldGroup = $fieldGroupApi->create($data);
-
-Create a new Field Group. Mautic generates the ``alias`` from the ``name``, so you don't need to send one.
 
 .. vale off
 
@@ -223,8 +241,19 @@ Properties
 
 Same as `Get Field Group`_.
 
+.. vale off
+
 Edit Field Group
 ****************
+
+.. vale on
+
+Edits a Field Group.
+
+This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
+
+* ``PUT``: **full replacement**. The request creates a new Field Group if the ID is missing. If the ID exists, the request clears all existing data and replaces it with the provided values.
+* ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the Field Group ID doesn't exist.
 
 .. code-block:: php
 
@@ -238,6 +267,8 @@ Edit Field Group
 
    $fieldGroup = $fieldGroupApi->edit($id, $data);
 
+The ``alias`` stays the same when you rename a group, and Mautic ignores any ``alias`` value in the payload.
+
 .. vale off
 
 HTTP request
@@ -245,9 +276,8 @@ HTTP request
 
 .. vale on
 
-``PATCH /field-groups/ID/edit``
-
-The ``alias`` stays the same when you rename a group, and Mautic ignores any ``alias`` value in the payload.
+* ``PUT /field-groups/ID/edit``: updates an existing Field Group or creates a new one when the ID doesn't exist.
+* ``PATCH /field-groups/ID/edit``: updates an existing Field Group. The request fails when the ID doesn't exist.
 
 .. vale off
 
@@ -275,23 +305,28 @@ POST parameters
 Response
 ========
 
-``Expected Response Code: 200``
+* ``PUT``: returns ``200 OK`` when the request successfully updates the Field Group or ``201 Created`` when the request creates a Field Group.
+* ``PATCH``: returns ``200 OK`` when the request successfully updates the Field Group or ``404 Not Found`` error when the Field Group ID doesn't exist.
 
 Properties
 ==========
 
 Same as `Get Field Group`_.
 
+.. vale off
+
 Delete Field Group
 ******************
+
+.. vale on
+
+Deletes a Field Group.
 
 .. code-block:: php
 
    <?php
 
    $fieldGroup = $fieldGroupApi->delete($id);
-
-Delete a Field Group.
 
 .. vale off
 
