@@ -3,6 +3,9 @@ allowlist
 Amazon SES
 Ameling
 ascenders
+autoconfiguration
+autoconfigure
+autoconfigured
 autoloader
 Autoloader
 autowire
@@ -48,6 +51,7 @@ DDEV
 DNC
 Do Not Contact
 Dripflow
+DTO
 Dynamic Web Content
 Esbonio
 FALSE
@@ -96,6 +100,7 @@ middleware
 Middlewares
 middlewares
 MJML
+MMS
 Multiselect
 multiselect
 MVC
