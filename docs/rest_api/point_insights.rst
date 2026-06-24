@@ -14,7 +14,7 @@ Get Point Insight
 
 .. vale on
 
-Get an individual Point Insight by ID.
+Retrieves an individual Point Insight.
 
 .. vale off
 
@@ -60,7 +60,7 @@ Point Insight properties
      - Type
      - Description
    * - ``id``
-     - integer
+     - int
      - ID of the Point Insight
    * - ``name``
      - string
@@ -90,6 +90,8 @@ List Point Insights
 *******************
 
 .. vale on
+
+Retrieves a list of Point Insights.
 
 .. vale off
 
@@ -131,7 +133,7 @@ Properties
      - Type
      - Description
    * - ``total``
-     - integer
+     - int
      - Total count of Point Insights
    * - ``insights``
      - array
@@ -151,6 +153,8 @@ Create Point Insight
 ********************
 
 .. vale on
+
+Creates a new Point Insight.
 
 .. code-block:: json
 
@@ -226,6 +230,13 @@ Edit Point Insight
 
 .. vale on
 
+Edits a Point Insight.
+
+This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
+
+* ``PUT``: **full replacement**. The request creates a new Point Insight if the ID is missing. If the ID exists, the request clears all existing data and replaces it with the provided values.
+* ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the Point Insight ID doesn't exist.
+
 .. code-block:: json
 
    {
@@ -241,11 +252,7 @@ HTTP request
 .. vale on
 
 * ``PUT /points/insights/ID/edit``: updates an existing Point Insight, or creates a new one when the ID doesn't exist.
-* ``PATCH /points/insights/ID/edit``: updates an existing Point Insight. The request fails when Mautic can't find the ID.
-
-.. note::
-
-   ``PUT`` resets any fields you don't supply to their defaults. ``PATCH`` updates only the fields you supply.
+* ``PATCH /points/insights/ID/edit``: updates an existing Point Insight. The request fails when the ID doesn't exist.
 
 POST parameters
 ---------------
@@ -256,7 +263,7 @@ Response
 ========
 
 * ``PUT``: returns ``200 OK`` when the request successfully updates the Point Insight, or ``201 Created`` when the request creates a Point Insight.
-* ``PATCH``: returns ``200 OK`` when the request successfully updates the Point Insight, or a ``404 Not Found`` error when Mautic can't find the Point Insight ID.
+* ``PATCH``: returns ``200 OK`` when the request successfully updates the Point Insight, or a ``404 Not Found`` error when the Point Insight ID doesn't exist.
 
 Properties
 ----------
@@ -269,6 +276,8 @@ Delete Point Insight
 ********************
 
 .. vale on
+
+Deletes a Point Insight.
 
 .. vale off
 
@@ -283,6 +292,8 @@ Response
 ========
 
 * Returns ``200 OK`` when the request successfully deletes the Point Insight.
+
+The response is a JSON object containing the data of the deleted Point Insight, similar to :ref:`Get Point Insight <get Point Insight response>`.
 
 Properties
 ----------
