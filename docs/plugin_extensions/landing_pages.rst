@@ -205,7 +205,7 @@ The event provides:
 Customizing Preference Center
 *****************************
 
-Preference Center lets Contacts manage their communication preferences. In Mautic 7.1 and later, you can programmatically customize the labels on Preference Center slot components using the ``PageEvents::PAGE_ON_DISPLAY`` event.
+Preference Center lets Contacts manage their communication preferences. Since Mautic 7.2, you can programmatically customize the labels on Preference Center slot components using the ``PageEvents::PAGE_ON_DISPLAY`` event.
 
 .. vale on
 
