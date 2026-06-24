@@ -316,27 +316,7 @@ Create an event subscriber that listens to ``PAGE_ON_DISPLAY`` and modifies the 
         }
     }
 
-Register the subscriber in your Plugin's service configuration:
-
-.. code-block:: php
-
-    <?php
-    // plugins/HelloWorldBundle/Config/services.php
-
-    declare(strict_types=1);
-
-    use MauticPlugin\HelloWorldBundle\EventListener\PreferenceCenterSubscriber;
-    use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-    return static function (ContainerConfigurator $configurator): void {
-        $services = $configurator->services()
-            ->defaults()
-            ->autowire()
-            ->autoconfigure();
-
-        $services->set(PreferenceCenterSubscriber::class)
-            ->tag('kernel.event_subscriber');
-    };
+Mautic autowires and registers event subscribers automatically, so you don't need to configure the service manually.
 
 .. vale off
 
