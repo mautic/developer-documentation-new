@@ -3,22 +3,10 @@ Field Groups
 
 Use this endpoint to manage Custom Field Groups in Mautic. Custom Field Groups organize Contact and Company Custom Fields into named tabs, alongside the built-in groups such as 'core', 'social', 'personal', and 'professional'.
 
-.. code-block:: php
-
-   <?php
-   use Mautic\MauticApi;
-   use Mautic\Auth\ApiAuth;
-
-   // ...
-   $initAuth = new ApiAuth();
-   $auth     = $initAuth->newAuth($settings);
-   $apiUrl   = "https://your-mautic.com";
-   $api      = new MauticApi();
-   $fieldGroupApi = $api->newApi("fieldGroups", $auth, $apiUrl);
-
 .. note::
 
-   Mautic generates a group's ``alias`` from its ``name`` when you create the group, and the alias never changes after that. The API ignores any ``alias`` you send in a create or edit payload. This way, renaming a group never orphans the Contact and Company Fields that reference it by alias.
+   * The Mautic API Library doesn't support the Field Groups API yet, so use the http endpoints described in this document instead.
+   * Mautic generates a group's ``alias`` from its ``name`` when you create the group, and the alias never changes after that. The API ignores any ``alias`` you send in a create or edit payload. This way, renaming a group never orphans the Contact and Company Fields that reference it by alias.
 
 .. vale off
 
@@ -28,25 +16,6 @@ Get Field Group
 .. vale on
 
 Retrieves an individual Field Group.
-
-.. code-block:: php
-
-   <?php
-
-   //...
-   $fieldGroup = $fieldGroupApi->get($id);
-
-.. code-block:: json
-
-   {
-     "fieldGroup": {
-       "id": 12,
-       "name": "Billing",
-       "alias": "billing",
-       "description": "Invoicing fields",
-       "order": 5
-     }
-   }
 
 .. vale off
 
@@ -60,20 +29,31 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Field Group.
 
-When the ID doesn't exist, the endpoint returns an ``HTTP 404 (Not Found)`` response.
+When the ID doesn't exist, the endpoint returns a ``404 Not Found`` error.
 
-See the JSON code example.
+.. _get Field Group response:
 
-.. vale off
+.. code-block:: json
+
+   {
+       "fieldGroup": {
+           "id": 12,
+           "name": "Billing",
+           "alias": "billing",
+           "description": "Invoicing fields",
+           "order": 5
+       }
+   }
+
+.. _get Field Group properties:
 
 Field Group properties
-======================
-
-.. vale on
+----------------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -87,9 +67,9 @@ Field Group properties
      - Field Group name
    * - ``alias``
      - string
-     - Unique, auto-generated alias used by Custom Fields to reference the group. Immutable after creation.
+     - Unique, auto-generated alias used by Custom Fields to reference the group. Immutable after creation
    * - ``description``
-     - string/null
+     - string or null
      - Field Group description
    * - ``order``
      - int
@@ -104,35 +84,6 @@ List Field Groups
 
 Retrieves a list of Field Groups.
 
-.. code-block:: php
-
-   <?php
-
-   //...
-   $fieldGroups = $fieldGroupApi->getList($searchFilter, $start, $limit, $orderBy, $orderByDir, $publishedOnly, $minimal);
-
-.. code-block:: json
-
-   {
-     "total": 2,
-     "fieldGroups": [
-       {
-         "id": 12,
-         "name": "Billing",
-         "alias": "billing",
-         "description": "Invoicing fields",
-         "order": 5
-       },
-       {
-         "id": 13,
-         "name": "Logistics",
-         "alias": "logistics",
-         "description": null,
-         "order": 6
-       }
-     ]
-   }
-
 .. vale off
 
 HTTP request
@@ -145,14 +96,35 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Field Groups list.
 
-See the JSON code example.
+.. code-block:: json
+
+   {
+       "total": 2,
+       "fieldGroups": [
+           {
+               "id": 12,
+               "name": "Billing",
+               "alias": "billing",
+               "description": "Invoicing fields",
+               "order": 5
+           },
+           {
+               "id": 13,
+               "name": "Logistics",
+               "alias": "logistics",
+               "description": null,
+               "order": 6
+           }
+       ]
+   }
 
 Properties
-==========
+----------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -160,22 +132,16 @@ Properties
      - Description
    * - ``total``
      - int
-     - Count of all Field Groups
-   * - ``id``
-     - int
-     - ID of the Field Group
-   * - ``name``
-     - string
-     - Field Group name
-   * - ``alias``
-     - string
-     - Unique, auto-generated alias used by Custom Fields to reference the group
-   * - ``description``
-     - string/null
-     - Field Group description
-   * - ``order``
-     - int
-     - Position of the group in the tab order on Contact and Company views
+     - Total count of Field Groups
+   * - ``fieldGroups``
+     - array
+     - Array of Field Groups
+
+.. vale off
+
+For the rest of the properties, refer to :ref:`Field Group properties <get Field Group properties>`.
+
+.. vale on
 
 .. vale off
 
@@ -186,16 +152,12 @@ Create Field Group
 
 Creates a new Field Group. Mautic generates the ``alias`` from the ``name``, so you don't need to send one.
 
-.. code-block:: php
+.. code-block:: json
 
-   <?php
-
-   $data = [
-       'name'        => 'Billing',
-       'description' => 'Invoicing fields'
-   ];
-
-   $fieldGroup = $fieldGroupApi->create($data);
+   {
+       "name": "Billing",
+       "description": "Invoicing fields"
+   }
 
 .. vale off
 
@@ -206,14 +168,13 @@ HTTP request
 
 ``POST /field-groups/new``
 
-.. vale off
+.. _create Field Group POST parameters:
 
 POST parameters
-===============
-
-.. vale on
+---------------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
@@ -221,25 +182,27 @@ POST parameters
      - Description
    * - ``name``
      - string
-     - Field Group name. This is the only required parameter, and can only contain letters, numbers, and spaces.
+     - **Required.**
+
+       Field Group name. Can only contain letters, numbers, and spaces
    * - ``description``
-     - string/null
+     - string or null
      - Field Group description
    * - ``order``
      - int
-     - Optional position of the group in the tab order. Defaults to the end of the list when omitted.
+     - Position of the group in the tab order. Defaults to the end of the list when omitted
 
 Response
 ========
 
-``Expected Response Code: 201``
+* Returns ``201 Created`` when the request successfully creates a Field Group.
 
 When the ``name`` is missing, the endpoint returns a validation error response.
 
 Properties
-==========
+----------
 
-Same as `Get Field Group`_.
+Refer to :ref:`Field Group properties <get Field Group properties>`.
 
 .. vale off
 
@@ -255,17 +218,12 @@ This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
 * ``PUT``: **full replacement**. The request creates a new Field Group if the ID is missing. If the ID exists, the request clears all existing data and replaces it with the provided values.
 * ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the Field Group ID doesn't exist.
 
-.. code-block:: php
+.. code-block:: json
 
-   <?php
-
-   $id   = 12;
-   $data = [
-       'name'        => 'Billing Updated',
-       'description' => 'Updated description'
-   ];
-
-   $fieldGroup = $fieldGroupApi->edit($id, $data);
+   {
+       "name": "Billing Updated",
+       "description": "Updated description"
+   }
 
 The ``alias`` stays the same when you rename a group, and Mautic ignores any ``alias`` value in the payload.
 
@@ -276,42 +234,24 @@ HTTP request
 
 .. vale on
 
-* ``PUT /field-groups/ID/edit``: updates an existing Field Group or creates a new one when the ID doesn't exist.
+* ``PUT /field-groups/ID/edit``: updates an existing Field Group, or creates a new one when the ID doesn't exist.
 * ``PATCH /field-groups/ID/edit``: updates an existing Field Group. The request fails when the ID doesn't exist.
 
-.. vale off
-
 POST parameters
-===============
+---------------
 
-.. vale on
-
-.. list-table::
-   :header-rows: 1
-
-   * - Name
-     - Type
-     - Description
-   * - ``name``
-     - string
-     - Field Group name. Can only contain letters, numbers, and spaces.
-   * - ``description``
-     - string/null
-     - Field Group description
-   * - ``order``
-     - int
-     - Position of the group in the tab order on Contact and Company views
+Accepts the same parameters as those described in :ref:`Create Field Group <create Field Group POST parameters>`. All parameters are optional.
 
 Response
 ========
 
-* ``PUT``: returns ``200 OK`` when the request successfully updates the Field Group or ``201 Created`` when the request creates a Field Group.
-* ``PATCH``: returns ``200 OK`` when the request successfully updates the Field Group or ``404 Not Found`` error when the Field Group ID doesn't exist.
+* ``PUT``: returns ``200 OK`` when the request successfully updates the Field Group, or ``201 Created`` when the request creates a Field Group.
+* ``PATCH``: returns ``200 OK`` when the request successfully updates the Field Group, or a ``404 Not Found`` error when the Field Group ID doesn't exist.
 
 Properties
-==========
+----------
 
-Same as `Get Field Group`_.
+Refer to :ref:`Field Group properties <get Field Group properties>`.
 
 .. vale off
 
@@ -321,12 +261,6 @@ Delete Field Group
 .. vale on
 
 Deletes a Field Group.
-
-.. code-block:: php
-
-   <?php
-
-   $fieldGroup = $fieldGroupApi->delete($id);
 
 .. vale off
 
@@ -340,9 +274,11 @@ HTTP request
 Response
 ========
 
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully deletes the Field Group.
+
+The response is a JSON object containing the data of the deleted Field Group, similar to :ref:`Get Field Group <get Field Group response>`.
 
 Properties
-==========
+----------
 
-Same as `Get Field Group`_.
+Refer to :ref:`Field Group properties <get Field Group properties>`.
