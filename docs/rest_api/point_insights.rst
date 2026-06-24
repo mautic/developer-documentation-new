@@ -119,7 +119,7 @@ Response
            "category": null,
            "description": null
        },
-       ...
+       // ...
      ]
    }
 
