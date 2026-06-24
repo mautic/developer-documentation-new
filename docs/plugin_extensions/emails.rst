@@ -508,6 +508,60 @@ Email stat helpers
 
 This section is in progress. See  ``\Mautic\EmailBundle\Stats\Helper\StatHelperInterface``
 
+Email lifecycle events
+----------------------
+
+.. vale off
+
+Mautic dispatches events at key points in an Email's lifecycle. Plugins can use these events to react to or modify behavior when a User creates, updates, deletes, or changes the **Active** status of an Email.
+
+.. vale on
+
+.. vale off
+
+Toggle 'Active' event
+=====================
+
+.. vale on
+
+The ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_TOGGLE_PUBLISH`` event dispatches when a User toggles the **Active** status of an Email. Mautic dispatches it before persisting the status change to the database, so Plugins can run actions or validations before the User activates or deactivates the Email.
+
+An event listener receives a ``Mautic\EmailBundle\Event\EmailEvent`` instance.
+
+.. code-block:: PHP
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/EmailLifecycleSubscriber.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\EmailBundle\EmailEvents;
+    use Mautic\EmailBundle\Event\EmailEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class EmailLifecycleSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                EmailEvents::EMAIL_ON_TOGGLE_PUBLISH => ['onEmailTogglePublish', 0],
+            ];
+        }
+
+        public function onEmailTogglePublish(EmailEvent $event): void
+        {
+            $email = $event->getEmail();
+
+            // Check current publish status (before toggle)
+            $isCurrentlyPublished = $email->isPublished();
+
+            // Perform custom logic before the status changes
+            // For example, notify an external service
+        }
+    }
+
 .. vale off
 
 Testing Email transports
