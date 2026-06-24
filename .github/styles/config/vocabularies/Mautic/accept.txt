@@ -94,6 +94,7 @@ LinkedIn
 Mailjet
 Marketing Messages
 Mautic
+Matomo
 MaxMind
 middleware
 Middlewares
@@ -152,6 +153,7 @@ SNS
 SparkPost
 SSO
 sublicense
+substring
 SugarCRM
 Suhosin
 Symfony
