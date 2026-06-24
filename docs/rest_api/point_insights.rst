@@ -5,7 +5,8 @@ Use this endpoint to manage Point Insights in Mautic. A Point Insight of type ``
 
 .. note::
 
-   Mautic 7 introduced Point Insights. The endpoints below require the ``point:insights`` permission set - ``view``, ``create``, ``edit``, ``delete``, ``publish``, and ``full``.
+   * Mautic 7 introduced Point Insights. The endpoints below require the ``point:insights`` permission set - ``view``, ``create``, ``edit``, ``delete``, ``publish``, and ``full``.
+   * The Mautic API Library doesn't support the Point Insights API yet, so use the http endpoints described in this document instead.
 
 .. vale off
 
