@@ -506,7 +506,11 @@ Customizing Custom Field Groups
 
 .. vale on
 
+.. vale off
+
 Mautic organizes Contact and Company Custom Fields into groups, which appear as tabs on the Contact and Company view and edit pages. Beyond the built-in groups, admins can create their own Custom Field Groups under **Settings** > **Custom Field Groups**.
+
+.. vale on
 
 As Mautic builds the group list for a view, it dispatches the ``LeadEvents::FIELD_GROUP_LIST_ON_GENERATE`` event. Listen to this event to add your own groups or rename an existing group. Mautic resolves each group's display name through this event, so a Plugin can label custom groups without registering static translation keys.
 
