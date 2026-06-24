@@ -57,4 +57,4 @@ Developers can subscribe to this event to react when Mautic marks Companies for 
 .. seealso::
 
     * :doc:`company_post_delete` - Triggered after permanent deletion
-    * :doc:`company_post_save` - Triggered when Companies are created or updated
+    * :doc:`company_post_save` - Triggered when Mautic creates or updates a Company
