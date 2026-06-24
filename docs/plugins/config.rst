@@ -356,7 +356,7 @@ Key each item with its respective :ref:`language string key<plugins/translations
     * - ``uri``
       - conditional
       - string
-      - Explicit URL for the menu item's link, used instead of a ``route``. Use this to link to an external or static URL, for example ``https://mautic.org``. Mautic keeps any item that defines a ``route``, a ``uri``, or ``children``; items that define only a ``uri`` render starting in Mautic 7.2.
+      - Explicit URL for the menu item's link, used instead of a ``route``. Use this to link to an external or static URL, for example, ``https://mautic.org``. Mautic keeps any item that defines a ``route``, a ``uri``, or ``children``; items that define only a ``uri`` render starting in Mautic 7.2.
     * - ``parent``
       - no
       - string
