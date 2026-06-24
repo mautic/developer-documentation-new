@@ -49,8 +49,12 @@ When the ID doesn't exist, the endpoint returns a ``404 Not Found`` error.
 
 .. _get Field Group properties:
 
+.. vale off
+
 Field Group properties
 ----------------------
+
+.. vale on
 
 .. list-table::
    :widths: 25 25 50
