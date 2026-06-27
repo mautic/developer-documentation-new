@@ -1,7 +1,11 @@
 Company Segments
 ################
 
-Use this endpoint to manipulate and obtain details on Mautic's Company Segments, which enable Account-Based Marketing (ABM).
+Use this endpoint to manipulate and obtain details on Mautic's Company Segments, which enable Account-Based Marketing - ABM.
+
+.. note::
+
+   The Mautic API Library doesn't support the Company Segment API yet, so use the http endpoints described in this document instead.
 
 .. vale off
 
@@ -162,7 +166,7 @@ Query parameters
      - Order direction - ``asc`` or ``desc``
    * - ``publishedOnly``
      - boolean
-     - Returns only currently published entities
+     - Returns only entities that are currently Active or Available
    * - ``minimal``
      - boolean
      - Returns only a simple mapped object of entities without additional lists in it
@@ -360,7 +364,7 @@ Response
 ========
 
 * Returns ``200 OK`` when the request successfully deletes the Company Segment.
-* Returns ``HTTP 409 (Conflict)`` when the Company Segment is referenced by other Segment filters. The response includes the names of the dependent Segments.
+* Returns ``HTTP 409 (Conflict)`` when other Segment filters reference the Company Segment. The response includes the names of the dependent Segments.
 
 .. code-block:: json
 
@@ -545,7 +549,7 @@ Response
 --------
 
 * Returns ``200 OK`` with the deleted Company Segments and individual status codes.
-* Returns ``HTTP 409 (Conflict)`` for any Company Segment that is referenced by other Segment filters.
+* Returns ``HTTP 409 (Conflict)`` for any Company Segment that other Segment filters reference.
 
 .. code-block:: json
 
@@ -692,4 +696,4 @@ You can create Company Segments that reference other Company Segments. This filt
 
 .. note::
 
-   You can't delete a Company Segment that is referenced by other Segment filters. The API returns an ``HTTP 409 (Conflict)`` response with the names of the dependent Segments.
+   You can't delete a Company Segment that other Segment filters reference. The API returns an ``HTTP 409 (Conflict)`` response with the names of the dependent Segments.
