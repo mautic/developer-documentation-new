@@ -1,7 +1,7 @@
 Company Segments
 ################
 
-Use this endpoint to manipulate and obtain details on Mautic's Company Segments, which enable Account-Based Marketing (ABM) functionality.
+Use this endpoint to manipulate and obtain details on Mautic's Company Segments, which enable Account-Based Marketing (ABM).
 
 .. vale off
 
