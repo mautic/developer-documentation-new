@@ -113,7 +113,9 @@ Instead of reading and writing the whole array, you can access a single setting 
 
 Reading a key that doesn't exist returns ``null``. This mechanism doesn't affect properties that don't start with ``settings_``.
 
-Because the ``settings_`` prefix resolves to a real property at runtime, you can bind a form type field to it directly and let it round-trip through the entity. For example, expose two settings in a view template like this:
+.. vale off
+
+Because the ``settings_`` prefix resolves to a real property at runtime, you can bind a Symfony form-type field to it directly and let it round-trip through the entity. For example, expose two settings in a view template like this:
 
 .. code-block:: twig
 
@@ -121,6 +123,8 @@ Because the ``settings_`` prefix resolves to a real property at runtime, you can
     {{ form_row(form.settings_pauseTo) }}
 
 This pattern lets you add new per-Email settings and surface them in a Symfony form field without writing a getter and setter for each one.
+
+.. vale on
 
 .. vale off
 
