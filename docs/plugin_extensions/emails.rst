@@ -4,7 +4,7 @@ Emails
 There are multiple ways to extend the way Mautic works with Emails. This document describes the following options for extending Mautic's Email capabilities:
 
 * Email tokens
-* Per-Email settings
+* Email settings
 * A/B testing
 * Monitored inbox Integration
 * Email transport or Email providers
@@ -82,8 +82,8 @@ Basic token replacement
 
    For more complex replacements, use the event's ``$event->getContent()`` and ``$event->setContent()`` methods.
 
-Per-Email settings
-******************
+Email settings
+**************
 
 Every Email carries a ``settings`` JSON column that stores per-Email configuration as a flexible key-value structure. Use it to attach your own configuration to an Email without adding a dedicated database column, getter, and setter for each new option.
 
@@ -113,14 +113,14 @@ Instead of reading and writing the whole array, you can access a single setting 
 
 Reading a key that doesn't exist returns ``null``. This mechanism doesn't affect properties that don't start with ``settings_``.
 
-Because the ``settings_`` prefix resolves to a real property at runtime, you can bind a form field to it directly and let it round-trip through the entity. For example, expose two settings in a view template like this:
+Because the ``settings_`` prefix resolves to a real property at runtime, you can bind a form type field to it directly and let it round-trip through the entity. For example, expose two settings in a view template like this:
 
 .. code-block:: twig
 
     {{ form_row(form.settings_pauseFrom) }}
     {{ form_row(form.settings_pauseTo) }}
 
-This pattern lets you add new per-Email settings and surface them in a form without writing a getter and setter for each one.
+This pattern lets you add new per-Email settings and surface them in a Symfony form field without writing a getter and setter for each one.
 
 .. vale off
 
