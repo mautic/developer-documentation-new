@@ -122,7 +122,7 @@ A Plugin creates its own set of permissions by defining a Permission class. Each
 
    class HelloWorldPermissions extends AbstractPermissions
    {
-       public function __construct(array $params)
+       public function __construct($params)
        {
            parent::__construct($params);
 

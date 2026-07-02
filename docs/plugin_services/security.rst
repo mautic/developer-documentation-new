@@ -125,7 +125,7 @@ It's possible to define your own custom permissions within your Plugin. Make sur
 
    class HelloWorldPermissions extends AbstractPermissions
    {
-       public function __construct(array $params)
+       public function __construct($params)
        {
            parent::__construct($params);
 
