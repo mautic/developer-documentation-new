@@ -347,7 +347,7 @@ To link entities to a Project, send the ``projects`` property with an array of P
      "projects": [1, 2, 3]
    }
 
-To unlink a Project, send the ``projects`` array again with only the IDs you want to keep linked, leaving out the IDs you want to remove. An empty array unlinks every Project from the entity.
+To remove a Project link, send the ``projects`` array again with only the IDs you want to keep linked, leaving out the IDs you want to remove. An empty array removes every Project link from the entity.
 
 The entities that support linking to a Project are Assets, Campaigns, Companies, Dynamic Content, Emails, Focus Items, Forms, Landing Pages, Marketing Messages, Points, Point Triggers, Segments, Stages, and Text Messages.
 
