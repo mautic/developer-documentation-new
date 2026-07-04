@@ -3,8 +3,6 @@ Projects
 
 Use this endpoint to get details on Mautic's Projects and to create, edit, and delete them. You can also link other entities, such as Emails or Campaigns, to a Project.
 
-Mautic exposes Projects through both the v1 REST API described here and the :ref:`Mautic API v2 <rest_api/api_v2:Mautic API v2>`.
-
 .. vale off
 
 Get Project
@@ -352,8 +350,3 @@ To remove a Project link, send the ``projects`` array again with only the IDs yo
 The entities that support linking to a Project are Assets, Campaigns, Companies, Dynamic Content, Emails, Focus Items, Forms, Landing Pages, Marketing Messages, Points, Point Triggers, Segments, Stages, and Text Messages.
 
 When an entity links to one or more Projects, the API serializes the ``projects`` association with the ``id`` and ``name`` of each linked Project.
-
-Projects in the Mautic API v2
-*****************************
-
-Projects are also available through the :ref:`Mautic API v2 <rest_api/api_v2:Mautic API v2>` under the ``/api/v2/projects`` endpoint, which supports retrieving, creating, editing, and deleting Projects. For the full list of operations, parameters, and response formats, use the self-documenting interface at the ``/api/v2`` endpoint as described in :ref:`Mautic API v2 <rest_api/api_v2:Mautic API v2>`.
