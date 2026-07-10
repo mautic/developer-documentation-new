@@ -174,13 +174,11 @@ You can download a :xref:`GrapesJS Demo Plugin` to get you started.
 Building the Builder assets
 ***************************
 
-.. vale on
+From Mautic 7, Mautic no longer commits the GrapesJS Builder's compiled JavaScript and CSS to the repository. The build output lives in the Plugin's ``Assets/library/js/dist/`` directory, which ``.gitignore`` now excludes, and Mautic generates it at build time instead - the same way it handles other compiled assets such as ``media/css`` and ``media/js``.
 
-From Mautic 7, the GrapesJS Builder's compiled JavaScript and CSS aren't committed to the repository. The build output lives in the Plugin's ``Assets/library/js/dist/`` directory, which ``.gitignore`` now excludes, and Mautic generates it at build time instead - the same way it handles other compiled assets like ``media/css`` and ``media/js``.
+This matters when you work from a git checkout. After a fresh clone, the ``dist/`` directory doesn't exist yet, so the Builder can't load until you build the assets. Missing assets don't cause Mautic to fail. It logs a warning and skips loading the Builder scripts. Build them before you use the GrapesJS Builder.
 
-This matters when you work from a git checkout. After a fresh clone, the ``dist/`` directory doesn't exist yet, so the Builder can't load until you build the assets. Missing assets don't cause Mautic to fail: it logs a warning and skips loading the Builder scripts. Build them before you use the GrapesJS Builder.
-
-Building the assets requires Node, and Mautic builds them with Node 24. In most cases you don't need to run the build by hand, because Mautic builds the assets automatically at these points:
+Building the assets requires Node, and Mautic builds them with Node 24. In most cases, you don't need to run the build by hand because Mautic builds the assets automatically at these points:
 
 * When you run ``composer install`` or ``composer update``. This step is non-fatal - if Node isn't available, Composer prints a warning and continues, so you can build the assets later.
 * When you start the DDEV environment, as part of the bootstrap.
@@ -197,4 +195,6 @@ With DDEV, run:
 
     ddev gjs-build
 
-Both commands install the Plugin's ``npm`` dependencies if needed, then build the assets. Under the hood, the build uses Parcel, which content-hashes the output filenames - for example ``builder.4f2a.css`` - and writes a ``manifest.json`` that maps the logical asset names to the hashed files. At runtime, the Builder's ``AssetsSubscriber`` reads this manifest to resolve and inject the correct files.
+Both commands install the Plugin's ``npm`` dependencies if needed, then build the assets. Under the hood, the build uses Parcel, which content-hashes the output filenames - for example, ``builder.4f2a.css`` - and writes a ``manifest.json`` that maps the logical asset names to the hashed files. At runtime, the Builder's ``AssetsSubscriber`` reads this manifest to resolve and inject the correct files.
+
+.. vale on
