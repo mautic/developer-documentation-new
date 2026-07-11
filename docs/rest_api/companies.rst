@@ -1057,7 +1057,7 @@ Batch add Contacts to Companies
 
 .. vale on
 
-Assigns multiple Contacts to Companies in a single request. Each item is a Contact-Company pair, and the response reports the outcome of every pair separately, along with an overall summary. Use this endpoint for integrations that synchronize many Contact-Company relationships at once, instead of calling the 'Add Contact to Company' endpoint once per pair.
+Assigns multiple Contacts to Companies in a single request. Each item is a Contact-Company pair, and the response includes the outcome of every pair separately, along with an overall summary. Use this endpoint for Integrations that synchronize many Contact-Company relationships at once, instead of calling the 'Add Contact to Company' endpoint once per pair.
 
 .. vale off
 
@@ -1068,8 +1068,8 @@ HTTP request
 
 ``POST /companies/batch/addcontacts``
 
-Request body
-------------
+POST parameters
+---------------
 
 Pass an ``assignments`` array. Each item is an object with the following properties.
 
@@ -1198,19 +1198,19 @@ Per-pair ``status`` values:
      - Message
      - Meaning
    * - ``200``
-     - 'Contact added to company'
+     - ``Contact added to company``
      - Mautic added the Contact to the Company, or the Contact already belonged to it
    * - ``404``
-     - 'Contact not found'
+     - ``Contact not found``
      - No Contact matches ``contactId``
    * - ``404``
-     - 'Company not found'
+     - ``Company not found``
      - No Company matches ``companyId``
    * - ``403``
-     - 'Access denied'
+     - ``Access denied``
      - The authenticated User can't edit this Contact
    * - ``500``
-     - 'An unexpected error occurred'
+     - ``An unexpected error occurred``
      - Mautic couldn't process the pair
 
 Mautic records each new assignment made through this endpoint in the Contact's Company change log. It doesn't add a log entry when the Contact already belongs to the Company, and a pair for an existing link still returns a ``200`` status in its result. The 'Add Contact to Company' endpoint doesn't write to this log.
