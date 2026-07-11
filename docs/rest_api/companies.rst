@@ -1190,7 +1190,8 @@ The ``summary`` object properties
      - integer
      - Number of pairs with any other status
 
-Per-pair ``status`` values:
+Per-pair ``status`` values
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. list-table::
    :widths: 20 30 50
