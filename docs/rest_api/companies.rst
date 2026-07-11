@@ -1147,7 +1147,8 @@ Properties
      - object
      - Overall counts for the batch
 
-Each entry in ``results`` contains the following properties.
+The ``results`` entry properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. list-table::
    :widths: 25 25 50
@@ -1169,7 +1170,8 @@ Each entry in ``results`` contains the following properties.
      - string
      - Human-readable outcome for the pair
 
-The ``summary`` object contains the following properties.
+The ``summary`` object properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. list-table::
    :widths: 25 25 50
