@@ -297,10 +297,55 @@ HTTP request
 
 ``POST /points/new``
 
+.. _create Point Action POST parameters:
+
+.. vale off
+
 POST parameters
 ---------------
 
-Refer to :ref:`Point Action properties <get Point Action properties>`.
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``name``
+     - string
+     - **Required.**
+
+       Name of the Point Action
+   * - ``type``
+     - string
+     - **Required.**
+
+       Point Action type. Refer to :ref:`Get Point Action types <get Point Action Types>` for the available types
+   * - ``delta``
+     - int
+     - **Required.**
+
+       Number of points to award the Contact when Mautic executes this action
+   * - ``description``
+     - string
+     - Description of the Point Action
+   * - ``category``
+     - int
+     - ID of the Category to assign to the Point Action
+   * - ``isPublished``
+     - boolean
+     - Point Action activation status
+   * - ``publishUp``
+     - datetime
+     - Activation date and time for the Point Action
+   * - ``publishDown``
+     - datetime
+     - Deactivation date and time for the Point Action
+   * - ``properties``
+     - object
+     - Configured properties for the specific Point Action type
+
+.. vale on
 
 Response
 ========
@@ -358,7 +403,7 @@ HTTP request
 POST parameters
 ---------------
 
-Refer to :ref:`Point Action properties <get Point Action properties>`.
+Accepts the same parameters as those described in :ref:`Create Point Action <create Point Action POST parameters>`. All parameters are optional.
 
 Response
 ========
