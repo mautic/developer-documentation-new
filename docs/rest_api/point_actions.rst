@@ -1,23 +1,16 @@
 Point Actions
 #############
 
+Use this endpoint to manipulate and obtain details on Mautic's Point Actions.
+
+Using the Mautic API library
+****************************
+
 .. vale off
 
-.. note::
-
-   The content for this page requires a major update. The legacy page contains outdated and potentially inaccurate information. You can still access it in the :xref:`legacy repository`.
-
-   If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
-
-   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
+You can interact with this API using the :xref:`Mautic API Library` as below, or the various HTTP endpoints described in this document.
 
 .. vale on
-
-Use this endpoint to obtain details on Mautic's Point Actions.
-
-**Using Mautic's API Library**
-
-You can interact with this API through the :xref:`Mautic API Library` as follows, or use the various http endpoints as described in this document.
 
 .. code-block:: php
 
@@ -26,11 +19,11 @@ You can interact with this API through the :xref:`Mautic API Library` as follows
    use Mautic\Auth\ApiAuth;
 
    // ...
-   $initAuth   = new ApiAuth();
-   $auth       = $initAuth->newAuth($settings);
-   $apiUrl     = "https://example.com";
-   $api        = new MauticApi();
-   $pointApi   = $api->newApi("points", $auth, $apiUrl);
+   $initAuth = new ApiAuth();
+   $auth     = $initAuth->newAuth($settings);
+   $apiUrl   = "https://example.com";
+   $api      = new MauticApi();
+   $pointApi = $api->newApi("points", $auth, $apiUrl);
 
 .. vale off
 
@@ -39,12 +32,30 @@ Get Point Action
 
 .. vale on
 
+Retrieves an individual Point Action.
+
 .. code-block:: php
 
    <?php
 
    //...
    $point = $pointApi->get($id);
+
+.. vale off
+
+HTTP request
+============
+
+.. vale on
+
+``GET /points/ID``
+
+Response
+========
+
+* Returns ``200 OK`` when the request successfully retrieves the Point Action.
+
+.. _get Point Action response:
 
 .. code-block:: json
 
@@ -73,82 +84,70 @@ Get Point Action
        }
    }
 
-Get an individual Point Action by ID.
+.. _get Point Action properties:
+
+Point Action properties
+-----------------------
 
 .. vale off
-
-**HTTP Request**
-
-.. vale on
-
-``GET /points/ID``
-
-.. vale off
-
-**Response**
-
-.. vale on
-
-``Expected Response Code: 200``
-
-See JSON code example.
-
-**Point Action properties**
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
      - Type
      - Description
    * - ``id``
-     - int
+     - integer
      - ID of the Point Action
    * - ``name``
      - string
      - Name of the Point Action
    * - ``description``
-     - string/null
+     - string
      - Description of the Point Action
    * - ``category``
      - string
-     - Category name
+     - The Category assigned to the Point Action
    * - ``type``
      - string
-     - Point Action type
+     - Point Action type. Refer to :ref:`Get Point Action Types <get Point Action Types>` for the available types
    * - ``isPublished``
      - boolean
-     - Published state
+     - Point Action publication status
    * - ``publishUp``
-     - datetime/null
-     - Date/time when the Point Action should be published
+     - datetime
+     - Activation date and time for the Point Action
    * - ``publishDown``
-     - datetime/null
-     - Date/time the Point Action should be unpublished
+     - datetime
+     - Deactivation date and time for the Point Action
    * - ``dateAdded``
      - datetime
-     - Date/time the Point Action was created
+     - Point Action record creation date and time
    * - ``createdBy``
-     - int
-     - ID of the User that created the Point Action
+     - integer
+     - ID of the User who created the Point Action
    * - ``createdByUser``
      - string
-     - Name of the User that created the Point Action
+     - Name of the User who created the Point Action
    * - ``dateModified``
-     - datetime/null
-     - Date/time the Point Action was last modified
+     - datetime
+     - Point Action record last modification date and time
    * - ``modifiedBy``
-     - int
-     - ID of the User that last modified the Point Action
+     - integer
+     - ID of the User who last modified the Point Action
    * - ``modifiedByUser``
      - string
-     - Name of the User that last modified the Point Action
+     - Name of the User who last modified the Point Action
    * - ``delta``
-     - int
-     - The number of points to give the Contact when executing this action
+     - integer
+     - Number of points to award the Contact when Mautic executes this action
    * - ``properties``
-     - array
-     - Configured properties for this Point Action
+     - object
+     - Configured properties for the specific Point Action type
+
+.. vale on
 
 .. vale off
 
@@ -157,12 +156,62 @@ List Point Actions
 
 .. vale on
 
+Retrieves a list of Point Actions.
+
 .. code-block:: php
 
    <?php
-   // ...
 
+   //...
    $points = $pointApi->getList($searchFilter, $start, $limit, $orderBy, $orderByDir, $publishedOnly, $minimal);
+
+.. vale off
+
+HTTP request
+============
+
+.. vale on
+
+``GET /points``
+
+Query parameters
+----------------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``searchFilter``
+     - string
+     - String or search command to filter entities
+   * - ``start``
+     - integer
+     - Starting row for the returned entities - defaults to 0
+   * - ``limit``
+     - integer
+     - Maximum number of entities to return - defaults to 30
+   * - ``orderBy``
+     - string
+     - Column to sort by. Any column in the response is valid.
+
+       **Note**: convert ``camelCase`` properties to ``snake_case``. For example, ``dateAdded`` becomes ``date_added``, ``publishUp`` becomes ``publish_up``, and so on
+   * - ``orderByDir``
+     - string
+     - Order direction - ``asc`` or ``desc``
+   * - ``publishedOnly``
+     - boolean
+     - Returns only currently published entities
+   * - ``minimal``
+     - boolean
+     - Returns only a simple mapped object of entities without additional lists in it
+
+Response
+========
+
+* Returns ``200 OK`` when the request successfully retrieves the Point Actions list.
 
 .. code-block:: json
 
@@ -194,57 +243,28 @@ List Point Actions
        ]
    }
 
-.. vale off
-
-**HTTP Request**
-
-.. vale on
-
-``GET /points``
-
-.. vale off
-
-**Query Parameters**
-
-.. vale on
+Properties
+----------
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Name
+     - Type
      - Description
-   * - ``search``
-     - String or search command to filter entities by.
-   * - ``start``
-     - Starting row for the entities returned. Defaults to 0.
-   * - ``limit``
-     - Limit number of entities to return. Defaults to the system configuration for pagination (30).
-   * - ``orderBy``
-     - Column to sort by. Can use any column listed in the response.
-   * - ``orderByDir``
-     - Sort direction: ``asc`` or ``desc``.
-   * - ``publishedOnly``
-     - Only return currently published entities.
-   * - ``minimal``
-     - Return only array of entities without additional lists in it.
+   * - ``total``
+     - integer
+     - Total count of Point Actions
+   * - ``points``
+     - array
+     - Array of Point Actions
 
 .. vale off
 
-**Response**
+For the rest of the properties, refer to :ref:`Point Action properties <get Point Action properties>`.
 
 .. vale on
-
-``Expected Response Code: 200``
-
-See JSON code example.
-
-.. vale off
-
-**Properties**
-
-.. vale on
-
-Same as `Get Point Action <#get-point-action>`_.
 
 .. vale off
 
@@ -253,52 +273,46 @@ Create Point Action
 
 .. vale on
 
+Creates a new Point Action.
+
 .. code-block:: php
 
    <?php
 
    $data = array(
-       'name' => 'test',
-       'delta' => 5,
-       'type' => 'page.hit',
-       'description' => 'created as a API test'
+       'name'        => 'test',
+       'delta'       => 5,
+       'type'        => 'page.hit',
+       'description' => 'created as an API test'
    );
 
    $point = $pointApi->create($data);
 
-Create a new Point Action.
-
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``POST /points/new``
 
-.. vale off
+POST parameters
+---------------
 
-**Post Parameters**
+Refer to :ref:`Point Action properties <get Point Action properties>`.
 
-.. vale on
+Response
+========
 
-Same as `Get Point Action <#get-point-action>`_. Point Action fields and actions can be created/edited via the point actions/actions arrays in the Point Action array.
+* Returns ``201 Created`` when the request successfully creates a Point Action.
 
-.. vale off
+The response is a JSON object similar to :ref:`Get Point Action <get Point Action response>`.
 
-**Response**
+Properties
+----------
 
-.. vale on
-
-``Expected Response Code: 201``
-
-.. vale off
-
-**Properties**
-
-.. vale on
-
-Same as `Get Point Action <#get-point-action>`_.
+Refer to :ref:`Point Action properties <get Point Action properties>`.
 
 .. vale off
 
@@ -307,67 +321,57 @@ Edit Point Action
 
 .. vale on
 
+Edits a Point Action.
+
+This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
+
+* ``PUT``: **full replacement**. The request creates a new Point Action if the ID is missing. If the ID exists, the request clears all existing data and replaces it with the provided values.
+* ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the Point Action ID doesn't exist.
+
 .. code-block:: php
 
    <?php
 
    $id   = 1;
    $data = array(
-       'name' => 'test',
-       'delta' => 5,
-       'type' => 'page.hit',
-       'description' => 'created as a API test'
+       'name'        => 'test',
+       'delta'       => 5,
+       'type'        => 'page.hit',
+       'description' => 'created as an API test'
    );
 
-   // Create new a Point Action if ID 1 isn't found?
+   // Create a new Point Action if ID 1 isn't found
    $createIfNotFound = true;
 
    $point = $pointApi->edit($id, $data, $createIfNotFound);
 
-Edit a new Point Action. Note that this supports PUT or PATCH depending on the desired behavior.
-
-**PUT** creates a Point Action if the given ID doesn't exist and clears all the Point Action information, adds the information from the request. Point Action fields and actions are also deleted if not present in the request.
-**PATCH** fails if the Point Action with the given ID doesn't exist and updates the Point Action field values with the values from the request.
-
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
-To edit a Point Action and return a 404 if the Point Action isn't found:
+* ``PUT /points/ID/edit``: updates an existing Point Action or creates a new one when the ID doesn't exist.
+* ``PATCH /points/ID/edit``: updates an existing Point Action. The request fails when the ID doesn't exist.
 
-``PATCH /points/ID/edit``
+POST parameters
+---------------
 
-To edit a Point Action and create a new one if the Point Action isn't found:
+Refer to :ref:`Point Action properties <get Point Action properties>`.
 
-``PUT /points/ID/edit``
+Response
+========
 
-.. vale off
+* ``PUT``: returns ``200 OK`` when the request successfully updates the Point Action or ``201 Created`` when the request creates a Point Action.
+* ``PATCH``: returns ``200 OK`` when the request successfully updates the Point Action or ``404 Not Found`` error when the Point Action ID doesn't exist.
 
-**Post Parameters**
+The response is a JSON object similar to :ref:`Get Point Action <get Point Action response>`.
 
-.. vale on
+Properties
+----------
 
-Same as `Get Point Action <#get-point-action>`_. Point Action fields and actions can be created/edited via the point actions/actions arrays in the Point Action array.
-
-.. vale off
-
-**Response**
-
-.. vale on
-
-If using ``PUT``, the expected response code is ``200`` if the Point Action was edited or ``201`` if created.
-
-If ``PATCH``, the expected response code is ``200``.
-
-.. vale off
-
-**Properties**
-
-.. vale on
-
-Same as `Get Point Action <#get-point-action>`_.
+Refer to :ref:`Point Action properties <get Point Action properties>`.
 
 .. vale off
 
@@ -376,37 +380,36 @@ Delete Point Action
 
 .. vale on
 
+Deletes a Point Action.
+
 .. code-block:: php
 
    <?php
 
    $point = $pointApi->delete($id);
 
-Delete a Point Action.
-
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``DELETE /points/ID/delete``
 
-.. vale off
+Response
+========
 
-**Response**
+* Returns ``200 OK`` when the request successfully deletes the Point Action.
 
-.. vale on
+The response is a JSON object containing the data of the deleted Point Action, similar to :ref:`Get Point Action <get Point Action response>`.
 
-``Expected Response Code: 200``
+Properties
+----------
 
-.. vale off
+Refer to :ref:`Point Action properties <get Point Action properties>`.
 
-**Properties**
-
-.. vale on
-
-Same as `Get Point Action <#get-point-action>`_.
+.. _get Point Action Types:
 
 .. vale off
 
@@ -415,29 +418,28 @@ Get Point Action Types
 
 .. vale on
 
+Retrieves an array of available Point Action Types.
+
 .. code-block:: php
 
    <?php
 
-   $point = $pointApi->getPointActionTypes();
-
-Get array of available Point Action Types.
+   //...
+   $pointActionTypes = $pointApi->getPointActionTypes();
 
 .. vale off
 
-**HTTP Request**
+HTTP request
+============
 
 .. vale on
 
 ``GET /points/actions/types``
 
-.. vale off
+Response
+========
 
-**Response**
-
-.. vale on
-
-``Expected Response Code: 200``
+* Returns ``200 OK`` when the request successfully retrieves the Point Action Types.
 
 .. code-block:: json
 
@@ -451,5 +453,3 @@ Get array of available Point Action Types.
            "url.hit": "Visits specific URL"
        }
    }
-
-See JSON code example.

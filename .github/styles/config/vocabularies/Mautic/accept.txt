@@ -121,6 +121,8 @@ PhpStorm
 PHPUnit.xml
 Pipedrive
 Piwik
+Point Action
+Point Actions
 Plugin
 Plugins
 post
