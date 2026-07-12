@@ -86,10 +86,10 @@ Response
 
 .. _get Point Action properties:
 
+.. vale off
+
 Point Action properties
 -----------------------
-
-.. vale off
 
 .. list-table::
    :widths: 25 25 50
@@ -99,7 +99,7 @@ Point Action properties
      - Type
      - Description
    * - ``id``
-     - integer
+     - int
      - ID of the Point Action
    * - ``name``
      - string
@@ -112,7 +112,7 @@ Point Action properties
      - The Category assigned to the Point Action
    * - ``type``
      - string
-     - Point Action type. Refer to :ref:`Get Point Action Types <get Point Action Types>` for the available types
+     - Point Action type. Refer to :ref:`Get Point Action types <get Point Action Types>` for the available types
    * - ``isPublished``
      - boolean
      - Point Action publication status
@@ -126,7 +126,7 @@ Point Action properties
      - datetime
      - Point Action record creation date and time
    * - ``createdBy``
-     - integer
+     - int
      - ID of the User who created the Point Action
    * - ``createdByUser``
      - string
@@ -135,13 +135,13 @@ Point Action properties
      - datetime
      - Point Action record last modification date and time
    * - ``modifiedBy``
-     - integer
+     - int
      - ID of the User who last modified the Point Action
    * - ``modifiedByUser``
      - string
      - Name of the User who last modified the Point Action
    * - ``delta``
-     - integer
+     - int
      - Number of points to award the Contact when Mautic executes this action
    * - ``properties``
      - object
@@ -188,10 +188,10 @@ Query parameters
      - string
      - String or search command to filter entities
    * - ``start``
-     - integer
+     - int
      - Starting row for the returned entities - defaults to 0
    * - ``limit``
-     - integer
+     - int
      - Maximum number of entities to return - defaults to 30
    * - ``orderBy``
      - string
@@ -203,7 +203,7 @@ Query parameters
      - Order direction - ``asc`` or ``desc``
    * - ``publishedOnly``
      - boolean
-     - Returns only currently published entities
+     - Returns only currently activated entities
    * - ``minimal``
      - boolean
      - Returns only a simple mapped object of entities without additional lists in it
@@ -254,7 +254,7 @@ Properties
      - Type
      - Description
    * - ``total``
-     - integer
+     - int
      - Total count of Point Actions
    * - ``points``
      - array
@@ -413,12 +413,12 @@ Refer to :ref:`Point Action properties <get Point Action properties>`.
 
 .. vale off
 
-Get Point Action Types
+Get Point Action types
 **********************
 
 .. vale on
 
-Retrieves an array of available Point Action Types.
+Retrieves an array of available Point Action types.
 
 .. code-block:: php
 
@@ -439,7 +439,7 @@ HTTP request
 Response
 ========
 
-* Returns ``200 OK`` when the request successfully retrieves the Point Action Types.
+* Returns ``200 OK`` when the request successfully retrieves the Point Action types.
 
 .. code-block:: json
 
