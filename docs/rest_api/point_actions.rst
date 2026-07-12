@@ -115,7 +115,7 @@ Point Action properties
      - Point Action type. Refer to :ref:`Get Point Action types <get Point Action Types>` for the available types
    * - ``isPublished``
      - boolean
-     - Point Action publication status
+     - Point Action activation status
    * - ``publishUp``
      - datetime
      - Activation date and time for the Point Action
