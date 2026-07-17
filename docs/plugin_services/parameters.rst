@@ -33,4 +33,4 @@ Use ``Mautic\CoreBundle\Helper\CoreParametersHelper`` to read Mautic's configura
         }
     }
 
-Call ``get(string $name, $default = null)`` to read a single parameter with a fallback value. ``CoreParametersHelper`` also provides ``has()`` to confirm whether a parameter is set and ``all()`` to return every parameter.
+Call ``get(string $name, $default = null)`` to read a single parameter with a fallback value. ``CoreParametersHelper`` also provides ``has()`` to confirm whether a parameter exists and ``all()`` to return every parameter.
