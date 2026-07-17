@@ -3,6 +3,9 @@ allowlist
 Amazon SES
 Ameling
 ascenders
+autoconfiguration
+autoconfigure
+autoconfigured
 autoloader
 Autoloader
 autowire
@@ -38,6 +41,7 @@ Contact Points
 Continuous Integration
 Contribution(s)
 CORS
+CRM
 cron
 Cron
 CTRL
@@ -47,6 +51,7 @@ DDEV
 DNC
 Do Not Contact
 Dripflow
+DTO
 Dynamic Web Content
 Esbonio
 FALSE
@@ -96,6 +101,7 @@ middleware
 Middlewares
 middlewares
 MJML
+MMS
 Multiselect
 multiselect
 MVC

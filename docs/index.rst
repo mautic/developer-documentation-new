@@ -171,6 +171,7 @@ There are several ways to support Mautic other than contributing with code.
    plugin_extensions/maintenance
    plugin_extensions/points
    plugin_extensions/reports
+   plugin_extensions/sms
    plugin_extensions/ui
    plugin_extensions/webhooks
 
@@ -242,6 +243,7 @@ There are several ways to support Mautic other than contributing with code.
    rest_api/pages
    rest_api/point_actions
    rest_api/point_groups
+   rest_api/point_insights
    rest_api/point_triggers
    rest_api/reports
    rest_api/roles

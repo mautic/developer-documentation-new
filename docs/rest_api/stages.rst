@@ -298,7 +298,7 @@ POST parameters
        Stage name
    * - ``weight``
      - integer
-     - Stage weight
+     - Stage weight. Each Stage must have a unique weight. The request fails with ``400 Bad Request`` when the weight matches another Stage.
    * - ``description``
      - string
      - Description of the Stage
@@ -319,6 +319,7 @@ Response
 ========
 
 * Returns ``201 Created`` when the request successfully creates a Stage.
+* Returns ``400 Bad Request`` with the message ``weight: Another stage with this weight already exists.`` when the ``weight`` matches another Stage.
 
 The response is a JSON object similar to :ref:`Get Stage <get Stage response>`.
 
@@ -376,6 +377,7 @@ Response
 
 * ``PUT``: returns ``200 OK`` when the request successfully updates the Stage or ``201 Created`` when the request creates a Stage.
 * ``PATCH``: returns ``200 OK`` when the request successfully updates the Stage or ``404 Not Found`` when the ID doesn't exist.
+* Either method returns ``400 Bad Request`` with the message ``weight: Another stage with this weight already exists.`` when the ``weight`` matches another Stage.
 
 The response is a JSON object similar to :ref:`Get Stage <get Stage response>`.
 
