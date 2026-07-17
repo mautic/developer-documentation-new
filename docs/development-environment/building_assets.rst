@@ -1,5 +1,14 @@
+.. vale off
+
+..
+
+   'assets' in the title below refers to compiled frontend build output, not the
+   Mautic Asset feature, so the Mautic.FeatureList substitution rule is suppressed here.
+
 Building CSS and frontend assets
 #################################
+
+.. vale on
 
 Mautic uses SCSS for styling core UI Components and the SymfonyCasts Sass Bundle to compile them during development and for production builds.
 
