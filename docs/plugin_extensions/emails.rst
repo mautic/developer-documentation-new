@@ -153,12 +153,12 @@ Use ``getFormattedTokens()`` to retrieve tokens with properly formatted labels. 
         $tokenHelper = $this->builderTokenHelperFactory->getBuilderTokenHelper('page');
         $tokenFilter = $event->getTokenFilter();
 
-        // Get tokens with formatted labels like "Page: My Landing Page (123)"
+        // Get tokens with formatted labels like "Page link: my-landing-page (123)"
         $tokens = $tokenHelper->getFormattedTokens(
-            'pagelink=(\d+)',                                              // Token regex pattern
-            TokenFormatOptions::linkWithId('mautic.page.page', 'pagelink=(\d+)'), // Format options
-            'label' === $tokenFilter['target'] ? $tokenFilter['filter'] : '',     // Search filter
-            'title'                                                        // Label column
+            'pagelink=(\d+)',                                                // Token regex pattern
+            TokenFormatOptions::linkWithId('mautic.page.token.pagelink', 'pagelink=(\d+)'),  // Format options
+            'label' === $tokenFilter['target'] ? $tokenFilter['filter'] : '',                // Search filter
+            'title'                                                                          // Label column
         );
 
         if ($tokens) {
@@ -182,12 +182,16 @@ The ``TokenFormatOptions`` class provides two factory methods for common label f
     TokenFormatOptions::simplePrefix('mautic.form.form')
     // Result: "Form: Contact Form"
 
-**Link with ID** - Creates labels like 'Landing Page: alias 123' for linkable entities:
+.. vale off
+
+**Link with ID** - Creates labels like 'Page link: my-landing-page (456)' for linkable entities:
+
+.. vale on
 
 .. code-block:: PHP
 
-    TokenFormatOptions::linkWithId('mautic.page.page', 'pagelink=(\d+)')
-    // Result: "a:Page: my-landing-page (456)"
+    TokenFormatOptions::linkWithId('mautic.page.token.pagelink', 'pagelink=(\d+)')
+    // Result: "a:Page link: my-landing-page (456)"
 
 The ``a:`` prefix indicates a link token. The second parameter is a regular expression pattern to extract the entity ID from the token.
 
@@ -196,32 +200,11 @@ Token sorting
 
 .. vale off
 
-Mautic automatically sorts tokens in the builder dropdown by category. The sort order is:
+Mautic automatically groups tokens in the builder dropdown by type, such as Contact, Company, Owner, Page link, Dynamic Content, Focus Item, Asset, Email. Custom or unrecognized tokens fall into an 'Other' group.
 
 .. vale on
 
-.. vale off
-
-#. Contact fields
-#. Company fields
-#. Owner fields
-#. Page links
-#. Dynamic Web Content
-#. Focus Items
-#. Assets
-#. This Page tokens - Landing Page builder only
-#. Email tokens
-#. Other tokens
-
-.. vale on
-
-.. vale off
-
-Within the Contact category, the following fields appear first: First Name, Last Name, and Title.
-
-Within each category, tokens sort alphabetically by label.
-
-.. vale on
+Within the Contact group, First Name, Last Name, and Title appear first. Tokens then sort alphabetically by label within each group. The ``TokenSorter`` class constants in Mautic core define the authoritative order.
 
 Deprecated methods
 ------------------
@@ -252,7 +235,8 @@ Deprecated methods
             $tokenRegex,
             TokenFormatOptions::simplePrefix('mautic.page.page'),
             'label' === $tokenFilter['target'] ? $tokenFilter['filter'] : '',
-            'label'
+            'label',                                                       // Label column
+            'alias'                                                        // Value column
         );
 
         if ($tokens) {
