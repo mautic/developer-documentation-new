@@ -10,7 +10,9 @@ Permissions
 
 .. vale on
 
-The Notes API uses the ``lead:notes`` permission set. This permission set is separate from ``lead:leads`` permissions, allowing administrators to grant Note-specific access without full Contact access.
+The Notes API uses the ``lead:notes`` permission set, which is separate from the ``lead:leads`` (Contact) permission set. However, ``lead:notes`` permissions don't grant access to the associated Contact: any operation involving a Contact still requires the appropriate ``lead:leads`` permission.
+
+For the standalone ``/notes`` endpoints, Mautic evaluates ``viewown``/``viewother``, ``editown``/``editother``, and ``deleteown``/``deleteother`` against the User who created the Note, not the owner of the associated Contact. The Note's ``createdBy`` field determines ownership.
 
 .. list-table::
    :widths: 30 70
@@ -253,6 +255,10 @@ HTTP request
 
 **Required permissions:** ``lead:notes:create``
 
+.. note::
+
+   In addition to ``lead:notes:create``, the User must have permission to view the associated Contact (``lead:leads:viewown`` or ``lead:leads:viewother``). Mautic checks view access against the Contact owner before creating the Note.
+
 .. _create Note POST parameters:
 
 POST parameters
@@ -292,7 +298,7 @@ Edit Note
 
 .. vale on
 
-Edits an Note. This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
+Edits a Note. This operation supports ``PUT`` or ``PATCH`` depending on the desired behavior:
 
 * ``PUT``: **full replacement**. The request creates a new Note if the ID is missing. If the ID exists, the request clears all existing data and replaces it with the provided values.
 * ``PATCH``: **partial update**. The request only updates field values based on the request data. The request fails when the Note ID doesn't exist.
