@@ -1,18 +1,6 @@
 Webhooks
 ########
 
-.. vale off
-
-.. note::
-
-   The content for this page requires a major update. The legacy page contains outdated and potentially inaccurate information. You can still access it in the :xref:`legacy repository`.
-
-   If you're interested in helping develop the new content for this page and others, consider joining the documentation efforts.
-
-   Please read the :xref:`dev docs contributing guidelines` and :xref:`Contributing to Mautic’s documentation` to get started.
-
-.. vale on
-
 Webhooks let Mautic send data to external services through an endpoint URL. Extending them relies on event listeners with two responsibilities:
 
 #. An event listener that adds Webhook types to the Webhook interface.
@@ -20,7 +8,7 @@ Webhooks let Mautic send data to external services through an endpoint URL. Exte
 
 .. vale off
 
-In your own bundle you also need to dispatch your custom event and payload, register your listeners as services, and - in the receiving app - accept the payload. Refer to :ref:`Receiving Webhook payloads<plugin_extensions/webhooks:Receiving Webhook payloads>` for the receiving side.
+In your own bundle, you also need to dispatch your custom event and payload, register your listeners as services, and - in the receiving app - accept the payload. Refer to :ref:`Receiving Webhook payloads<plugin_extensions/webhooks:Receiving Webhook payloads>` for the receiving side.
 
 .. vale on
 
@@ -110,10 +98,14 @@ Add a listener for the action that should create a payload. Inject ``Mautic\Webh
         }
     }
 
-The event constant returned in ``getSubscribedEvents()`` must match the type from the type listener exactly, because it's used in a database query to decide which payloads to include in the POST. Register the listener as a service in your bundle's configuration file.
+The event constant returned in ``getSubscribedEvents()`` must match the type from the type listener exactly, because Mautic uses it in a database query to decide which payloads to include in the POST. Register the listener as a service in your bundle's configuration file.
+
+.. vale off
 
 Receiving Webhook payloads
 **************************
+
+.. vale on
 
 Webhooks send data for Contacts, Points, Email opens, and more to outside applications. Mautic takes the app's endpoint URL and sends a POST request there, including the data relevant to the event that fired.
 
