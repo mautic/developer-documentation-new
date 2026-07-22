@@ -15,16 +15,16 @@ Manipulating Contacts
 
 Many Plugins that extend Mautic manipulate Contacts in some way. This guide shows you how to read the currently tracked Contact and how to create and merge Contacts from your own code.
 
-.. vale off
-
 .. note::
 
-   Contacts were originally called 'leads'. Much of the code still refers to Contacts as leads - for example, the ``lead`` model key and the ``Mautic\LeadBundle\Entity\Lead`` entity.
+   Mautic originally called Contacts ``leads``. Much of the code still refers to Contacts as ``leads`` - for example, the ``lead`` model key and the ``Mautic\LeadBundle\Entity\Lead`` entity.
 
-.. vale on
+.. vale off
 
 Reading and setting the tracked Contact
 ***************************************
+
+.. vale on
 
 Inject ``Mautic\LeadBundle\Tracker\ContactTracker`` to read or set the currently tracked Contact. These methods used to live on ``LeadModel``, but they now belong to the tracker service.
 
@@ -62,7 +62,7 @@ Inject ``Mautic\LeadBundle\Tracker\ContactTracker`` to read or set the currently
 Contact tracking
 ****************
 
-Mautic tracks Contacts with two cookies. The first records the ID that Mautic tracks the Contact under. The second tracks the Contact's activity for the current session. It defaults to 30 minutes and resets on each interaction. ``mautic_session_id`` holds the Contact's current session ID, which in turn names the cookie that holds the Contact's ID.
+Mautic tracks Contacts with two cookies. The first records the ID that Mautic tracks the Contact under. The second tracks the Contact's activity for the current session. It defaults to 30 minutes and resets on each interaction. The ``mautic_session_id`` holds the Contact's current session ID, which in turn names the cookie that holds the Contact's ID.
 
 Mautic also places a cookie named ``mtc_id`` on any domain with ``mtc.js`` embedded that its CORS settings allow. This cookie contains the ID of the currently tracked Contact.
 
