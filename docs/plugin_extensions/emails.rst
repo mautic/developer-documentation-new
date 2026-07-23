@@ -200,7 +200,7 @@ Token sorting
 
 .. vale off
 
-Mautic automatically groups tokens in the builder dropdown by type, such as Contact, Company, Owner, Page link, Dynamic Content, Focus Item, Asset, Email. Custom or unrecognized tokens fall into an 'Other' group.
+Mautic automatically groups tokens in the builder dropdown by type, such as Contact, Company, Owner, Page link, Dynamic Content, Focus Item, Asset, This page, Email. Custom or unrecognized tokens fall into an 'Other' group.
 
 .. vale on
 
@@ -209,7 +209,7 @@ Within the Contact group, First Name, Last Name, and Title appear first. Tokens 
 Deprecated methods
 ------------------
 
-.. deprecated:: 7.0
+.. deprecated:: 7.2
 
    The following ``BuilderEvent`` methods are deprecated and will be removed in a future version:
 
