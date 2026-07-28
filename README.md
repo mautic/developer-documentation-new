@@ -38,6 +38,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://adiati.com"><img src="https://avatars.githubusercontent.com/u/45172775?v=4?s=100" width="100px;" alt="Ayu Adiati"/><br /><sub><b>Ayu Adiati</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/commits?author=adiati98" title="Documentation">📖</a> <a href="https://github.com/mautic/developer-documentation-new/pulls?q=is%3Apr+reviewed-by%3Aadiati98" title="Reviewed Pull Requests">👀</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://www.linkedin.com/in/miroslavfedeles"><img src="https://avatars.githubusercontent.com/u/6388925?v=4?s=100" width="100px;" alt="Miroslav Fedeleš"/><br /><sub><b>Miroslav Fedeleš</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/pulls?q=is%3Apr+reviewed-by%3Afedys" title="Reviewed Pull Requests">👀</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://andersonjeccel.com.br"><img src="https://avatars.githubusercontent.com/u/116097999?v=4?s=100" width="100px;" alt="Anderson J. Eccel"/><br /><sub><b>Anderson J. Eccel</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/pulls?q=is%3Apr+reviewed-by%3Aandersonjeccel" title="Reviewed Pull Requests">👀</a></td>
     </tr>
   </tbody>
 </table>
