@@ -83,14 +83,14 @@ Script scopes and split scripts
 Mautic generates its JavaScript under a scope model defined by ``Mautic\CoreBundle\Event\BuildJsScope``, an ``enum`` with three cases:
 
 * ``RUNTIME`` - the anonymous bootstrap runtime that the other scopes depend on. It performs no tracking.
-* ``ESSENTIAL`` - pre-consent features that need no identity, such as Dynamic Content rendering and Form injection.
+* ``ESSENTIAL`` - pre-consent features that need no identity, such as preserving existing Dynamic Content fallback content without making a new request, and initializing Forms already embedded in that fallback content.
 * ``TRACKING`` - the identity and tracking code, including the tracking pixel and the ``/mtc/event`` call.
 
 When you subscribe to ``CoreEvents::BUILD_MAUTIC_JS``, the ``BuildJsEvent`` reports which scopes the current build accepts. Its constructor accepts an ``array $acceptedScopes`` that defaults to all three cases (``[BuildJsScope::RUNTIME, BuildJsScope::ESSENTIAL, BuildJsScope::TRACKING]``), so a single subscriber can contribute code to more than one generated script depending on the scope it targets.
 
 .. warning::
 
-   A subscriber that only calls the legacy ``appendJs()`` now contributes ``TRACKING`` scoped code and is therefore excluded from ``/mautic-essential.js``. If a Plugin's code must run in the essential, pre-consent context, the subscriber must call ``appendJsForScope()`` with ``BuildJsScope::ESSENTIAL`` - or ``BuildJsScope::RUNTIME`` - and/or gate on ``acceptsScope()``.
+   A subscriber that only calls the legacy ``appendJs()`` now contributes ``TRACKING`` scoped code and is therefore excluded from ``/mautic-essential.js``. If a Plugin's code must run in the essential, pre-consent context, the subscriber must call ``appendJsForScope()`` with ``BuildJsScope::ESSENTIAL``. It can also gate on ``acceptsScope()`` first to skip building a payload the build would discard.
 
    Mind the argument positions when migrating: the legacy ``appendJs($js, $section)`` takes the section name as the 2nd argument, whereas ``appendJsForScope($js, BuildJsScope $scope, $section = '')`` inserts the scope as the 2nd argument and moves the section name to the 3rd. A mechanical find-and-replace that keeps the old argument order would pass the section string where the scope now goes.
 
@@ -203,7 +203,7 @@ Mautic serves the scopes through separate endpoints so that a site can load only
      - Purpose
    * - ``/mautic-essential.js``
      - ``RUNTIME`` and ``ESSENTIAL``
-     - Anonymous runtime, Dynamic Content rendering, and Form injection. No tracking.
+     - Anonymous runtime, Dynamic Content fallback handling, and initializing Forms already embedded in fallback content. No tracking.
    * - ``/mautic-tracking.js``
      - ``TRACKING``
      - The identity and tracking layer.
@@ -238,6 +238,8 @@ Because the essential script may have finished loading before your code runs - i
            MauticJS.log('runtime ready');
        });
    }
+
+The ``mauticEssentialReady`` event comes only from the shipped consent-managed loader snippet, not from ``/mautic-essential.js`` itself. If you use a custom loader instead, run your code from your own script tag's ``load`` or ``onload`` callback once ``MauticJS.runtimeReady === true``, or dispatch an equivalent event yourself.
 
 
 Hooking into the tracking process and returning custom responses
