@@ -52,7 +52,7 @@ Supporting Mautic
 
 There are several ways to support Mautic other than contributing with code.
 
-1. Help with testing bugs and features using Gitpod in the browser - head to the :xref:`Mautic Tester Docs`
+1. Help with testing bugs and features using GitHub Codespaces in the browser - head to the :xref:`Mautic Tester Docs`
 2. Help with improving the documentation on this site, and the :xref:`Mautic End User Docs`.
 3. :xref:`Contribute to Mautic` with other skills
 4. Become a :xref:`Become a Member of Mautic`
@@ -67,6 +67,7 @@ There are several ways to support Mautic other than contributing with code.
    development-environment/how_to_install_with_ddev
    development-environment/setup
    development-environment/environments
+   development-environment/building_assets
 
 .. toctree::
    :maxdepth: 2
@@ -170,6 +171,7 @@ There are several ways to support Mautic other than contributing with code.
    plugin_extensions/maintenance
    plugin_extensions/points
    plugin_extensions/reports
+   plugin_extensions/sms
    plugin_extensions/ui
    plugin_extensions/webhooks
 
@@ -241,6 +243,7 @@ There are several ways to support Mautic other than contributing with code.
    rest_api/pages
    rest_api/point_actions
    rest_api/point_groups
+   rest_api/point_insights
    rest_api/point_triggers
    rest_api/reports
    rest_api/roles

@@ -4,6 +4,7 @@ Emails
 There are multiple ways to extend the way Mautic works with Emails. This document describes the following options for extending Mautic's Email capabilities:
 
 * Email tokens
+* Email settings
 * A/B testing
 * Monitored inbox Integration
 * Email transport or Email providers
@@ -81,7 +82,53 @@ Basic token replacement
 
    For more complex replacements, use the event's ``$event->getContent()`` and ``$event->setContent()`` methods.
 
+Email settings
+**************
+
+Every Email carries a ``settings`` JSON column that stores per-Email configuration as a flexible key-value structure. Use it to attach your own configuration to an Email without adding a dedicated database column, getter, and setter for each new option.
+
+Read and write the whole structure with ``getSettings()`` and ``setSettings()``:
+
+.. code-block:: php
+
+    <?php
+
+    $settings = $email->getSettings();   // Returns an array, or [] when nothing is stored yet
+    $settings['pauseFrom'] = '2026-07-01';
+    $email->setSettings($settings);
+
+``getSettings()`` always returns an array, so an Email with no stored settings returns ``[]`` rather than ``null``.
+
+Accessing individual settings
+=============================
+
+Instead of reading and writing the whole array, you can access a single setting through a magic property prefixed with ``settings_``. The ``Email`` entity maps any property named ``settings_<key>`` to the matching ``<key>`` inside the ``settings`` array:
+
+.. code-block:: php
+
+    <?php
+
+    $email->settings_pauseFrom = '2026-07-01';   // Stores 'pauseFrom' in the settings array
+    $value = $email->settings_pauseFrom;          // Reads 'pauseFrom' from the settings array
+
+Reading a key that doesn't exist returns ``null``. This mechanism doesn't affect properties that don't start with ``settings_``.
+
 .. vale off
+
+Because the ``settings_`` prefix resolves to a real property at runtime, you can bind a Symfony form-type field to it directly and let it round-trip through the entity. For example, expose two settings in a view template like this:
+
+.. code-block:: twig
+
+    {{ form_row(form.settings_pauseFrom) }}
+    {{ form_row(form.settings_pauseTo) }}
+
+This pattern lets you add new per-Email settings and surface them in a Symfony form field without writing a getter and setter for each one.
+
+.. vale on
+
+.. vale off
+
+.. _Email A/B testing:
 
 Email A/B testing
 *****************
@@ -505,6 +552,60 @@ Email stat helpers
 ------------------
 
 This section is in progress. See  ``\Mautic\EmailBundle\Stats\Helper\StatHelperInterface``
+
+Email lifecycle events
+----------------------
+
+.. vale off
+
+Mautic dispatches events at key points in an Email's lifecycle. Plugins can use these events to react to or modify behavior when a User creates, updates, deletes, or changes the **Active** status of an Email.
+
+.. vale on
+
+.. vale off
+
+Toggle 'Active' event
+=====================
+
+.. vale on
+
+The ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_TOGGLE_PUBLISH`` event dispatches when a User toggles the **Active** status of an Email. Mautic dispatches it before persisting the status change to the database, so Plugins can run actions or validations before the User activates or deactivates the Email.
+
+An event listener receives a ``Mautic\EmailBundle\Event\EmailEvent`` instance.
+
+.. code-block:: PHP
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/EmailLifecycleSubscriber.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\EmailBundle\EmailEvents;
+    use Mautic\EmailBundle\Event\EmailEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class EmailLifecycleSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                EmailEvents::EMAIL_ON_TOGGLE_PUBLISH => ['onEmailTogglePublish', 0],
+            ];
+        }
+
+        public function onEmailTogglePublish(EmailEvent $event): void
+        {
+            $email = $event->getEmail();
+
+            // Check current publish status (before toggle)
+            $isCurrentlyPublished = $email->isPublished();
+
+            // Perform custom logic before the status changes
+            // For example, notify an external service
+        }
+    }
 
 .. vale off
 

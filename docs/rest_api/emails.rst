@@ -92,6 +92,7 @@ Response
           "publishUp": null,
           "publishDown": null,
           "publicPreview": false,
+          "sendToDnc": false,
           "readCount": 0,
           "sentCount": 0,
           "revision": 2,
@@ -118,6 +119,9 @@ Response
           ],
           "lists": [],
           "headers": [],
+          "settings": {
+              "pauseFrom": "2026-07-01"
+          },
           "grapesjsbuilder": {
               "customMjml": "<mjml>\r\n  <mj-head>\r\n\t<!-- CSS-STYLE -->\r\n\t<mj-style inline=\"inline\"> p, li {margin:0 !important; padding:0; line-height:1.4em;}\r\n\t</mj-style>\r\n  </mj-head>\r\n  <!-- BODY -->\r\n  <mj-body background-color=\"#f4f4f4\">\r\n\t<mj-section padding-top=\"40px\" background-color=\"#ffffff\">\r\n\t  <mj-column>\r\n\t\t<mj-text font-size=\"11px\" align=\"center\">\r\n\t\t  <p>\r\n\t\t\t<span data-fr-verified=\"true\"><span data-fr-verified=\"true\" class=\"atwho-inserted\">{webview_text}</span>⁠⁠⁠⁠⁠⁠⁠</span>\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-spacer>\r\n\t\t</mj-spacer>\r\n\t\t<mj-image src=\"/app/assets/images/placeholder-logo.png?v5214f417\" width=\"70px\" padding-bottom=\"0px\" padding-top=\"0px\">\r\n\t\t</mj-image>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n\t<mj-section background-color=\"#ffffff\">\r\n\t  <mj-column width=\"550px\">\r\n\t\t<mj-text font-size=\"16px\" align=\"center\" font-style=\"italic\" color=\"#525252\">\r\n\t\t  <p>Ok, let's make an announcement\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-spacer height=\"40px\">\r\n\t\t</mj-spacer>\r\n\t\t<mj-text font-size=\"24px\" align=\"center\" font-weight=\"700\">\r\n\t\t  <p>Start customizing your email\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n\t<mj-section background-color=\"#ffffff\" padding-top=\"0px\">\r\n\t  <mj-column padding-top=\"0px\">\r\n\t\t<mj-image src=\"/app/assets/images/placeholder-image.png?v5214f417\" padding-right=\"0px\" padding-left=\"0px\" padding-bottom=\"0px\" padding-top=\"0px\">\r\n\t\t</mj-image>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n\t<mj-section background-color=\"#ffffff\" padding-top=\"0px\">\r\n\t  <mj-column padding-top=\"0px\">\r\n\t\t<mj-image src=\"/app/assets/images/placeholder-image.png?v5214f417\" padding-top=\"0px\">\r\n\t\t</mj-image>\r\n\t  </mj-column>\r\n\t  <mj-column padding-top=\"0px\">\r\n\t\t<mj-image src=\"/app/assets/images/placeholder-image.png?v5214f417\" padding-top=\"0px\">\r\n\t\t</mj-image>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n\t<mj-section background-color=\"#ffffff\">\r\n\t  <mj-column width=\"550px\">\r\n\t\t<mj-text font-size=\"16px\" align=\"center\">\r\n\t\t  <p>Make your announcements pop with an eye-catching visual, then provide the crucial details for engagement.\r\n\t\t  </p>\r\n\t\t  <p>⁠⁠⁠⁠⁠⁠⁠\r\n\t\t\t<br/>Customize this section by inserting your own images or choosing a striking solid color backdrop.\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-spacer height=\"30px\">\r\n\t\t</mj-spacer>\r\n\t\t<mj-divider border-width=\"2px\" border-color=\"#d0d0d0\">\r\n\t\t</mj-divider>\r\n\t\t<mj-spacer height=\"30px\">\r\n\t\t</mj-spacer>\r\n\t\t<mj-text font-size=\"22px\" font-weight=\"700\">\r\n\t\t  <p>Lead with an eye-catching title\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-text font-size=\"16px\">\r\n\t\t  <p>Present your news in a brief paragraph. For crucial points, use a bulleted list:\r\n\t\t  </p>\r\n\t\t  <ul>\r\n\t\t\t<li>\r\n\t\t\t  <span class=\"ck-list-bogus-paragraph\"><span class=\"ck-list-bogus-paragraph\">What's on offer</span></span>\r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t  <span class=\"ck-list-bogus-paragraph\"><span class=\"ck-list-bogus-paragraph\">Where to find us</span></span>\r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t  <span class=\"ck-list-bogus-paragraph\"><span class=\"ck-list-bogus-paragraph\">Timing specifics</span></span>\r\n\t\t\t</li>\r\n\t\t  </ul>\r\n\t\t  <p>Be concise to motivate readers to explore your website for the full story.\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-button href=\"https://\" background-color=\"#000000\" inner-padding=\"16px 32px\" border-radius=\"0px 0px 0px 0px\" font-size=\"16px\" align=\"left\">Button\r\n\t\t</mj-button>\r\n\t\t<mj-spacer align=\"center\">\r\n\t\t</mj-spacer>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n\t<mj-section padding-top=\"0\" padding-bottom=\"20px\" background-color=\"#000000\">\r\n\t  <mj-column>\r\n\t\t<mj-spacer height=\"40px\">\r\n\t\t</mj-spacer>\r\n\t\t<mj-image src=\"/app/assets/images/placeholder-logo-inverse.png?v5214f417\" width=\"70px\" padding-bottom=\"0px\">\r\n\t\t</mj-image>\r\n\t\t<mj-spacer>\r\n\t\t</mj-spacer>\r\n\t\t<mj-text font-family=\"Ubuntu, Helvetica, Arial, sans-serif\" line-height=\"1.5\" align=\"center\" padding-top=\"0px\" padding-bottom=\"0px\" font-size=\"12px\" color=\"white\">\r\n\t\t  <p>Amazing Company\r\n\t\t\t<br/>11111 Beautiful City, 1212 Nice Street\r\n\t\t\t<br/>Brazil\r\n\t\t\t<br/>\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-spacer>\r\n\t\t</mj-spacer>\r\n\t\t<mj-text font-size=\"11px\" align=\"center\" color=\"#a1a1a1\">\r\n\t\t  <p>Fancy seeing you down here. You’re getting this email because you gave us your email address.\r\n\t\t  </p>\r\n\t\t  <p>Want to change how you receive these emails?\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-text font-size=\"11px\" align=\"center\" color=\"#a1a1a1\">\r\n\t\t  <p>\r\n\t\t\t<span data-fr-verified=\"true\"><span data-fr-verified=\"true\" class=\"atwho-inserted\">{unsubscribe_text}</span>⁠⁠⁠⁠⁠⁠⁠</span>\r\n\t\t  </p>\r\n\t\t</mj-text>\r\n\t\t<mj-spacer>\r\n\t\t</mj-spacer>\r\n\t  </mj-column>\r\n\t</mj-section>\r\n  </mj-body>\r\n</mjml>\r\n"
           }
@@ -261,9 +265,15 @@ Email properties
    * - ``headers``
      - array
      - Array of custom headers
+   * - ``settings``
+     - associative array
+     - Associative array of per-Email settings stored as key-value pairs. Returns ``[]`` when no settings are stored
    * - ``grapesjsbuilder``
      - associative array
      - Associative array of Email builder configuration
+   * - ``sendToDnc``
+     - boolean
+     - Do Not Contact send status - set to ``true`` to send the Email to Contacts with **Unsubscribed** or **Manual** status, while still respecting **Bounced** status. Defaults to ``false``.
 
 .. vale on
 
@@ -368,6 +378,7 @@ Response
               "publishUp": null,
               "publishDown": null,
               "publicPreview": false,
+              "sendToDnc": false,
               "readCount": 0,
               "sentCount": 0,
               "revision": 4,
@@ -563,6 +574,16 @@ POST parameters
    * - ``headers``
      - array
      - Array of custom headers
+   * - ``sendToDnc``
+     - boolean
+     - Do Not Contact send status - set to ``true`` to send the Email to Contacts with **Unsubscribed** or **Manual** status, while still respecting **Bounced** status. Defaults to ``false``.
+
+       **Permission:** Requires the ``email:emails:sendtodnc`` permission to set this field via API. If the authenticated User lacks this permission, the API ignores the ``sendToDnc`` parameter.
+
+       **PUT behavior:** For ``PUT`` requests, this field defaults to ``false`` when not explicitly provided, preventing accidental enablement during full replacement operations.
+   * - ``settings``
+     - associative array
+     - Associative array of per-Email settings stored as key-value pairs
 
 .. vale on
 
@@ -711,6 +732,24 @@ HTTP request
 .. vale on
 
 ``POST /emails/ID/contact/CONTACT_ID/send``
+
+.. vale off
+
+Do Not Contact behavior
+-----------------------
+
+.. vale on
+
+This endpoint respects the Email's ``sendToDnc`` setting:
+
+.. vale off
+
+* When ``sendToDnc`` is ``false`` - **default**: the endpoint skips Contacts with Do Not Contact status, and the send fails silently.
+* When ``sendToDnc`` is ``true``: the endpoint sends to Contacts with **Unsubscribed** or **Manual** Do Not Contact status, while still respecting **Bounced** status.
+
+.. vale on
+
+To send to Contacts regardless of their subscription status, set ``sendToDnc: true`` on the Email entity before calling this endpoint.
 
 Parameters
 ----------

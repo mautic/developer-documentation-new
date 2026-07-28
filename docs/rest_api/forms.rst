@@ -155,7 +155,10 @@ Response
           "postActionProperty": "Thank you for registering and see you there!",
           "noIndex": false,
           "formAttributes": null,
-          "language": "en_US"
+          "language": "en_US",
+          "submissionLimit": 100,
+          "submissionLimitMessage": "This form is no longer accepting submissions.",
+          "submissionCount": 42
       }
    }
 
@@ -255,6 +258,15 @@ Form properties
    * - ``language``
      - string
      - The language code for the Form, such as ``en_US``, ``fr``, and so on
+   * - ``submissionLimit``
+     - integer
+     - Maximum number of submissions allowed for this Form. When the Form reaches this limit, it stops accepting new submissions. Set to ``null`` for unlimited submissions
+   * - ``submissionLimitMessage``
+     - string
+     - Custom message displayed when the Form reaches its submission limit. When not set, Mautic displays a default message
+   * - ``submissionCount``
+     - integer
+     - **Read-only.** Current number of submissions for the Form. Mautic increments this value when it saves a submission and decrements it when you delete a submission
 
 .. vale on
 
@@ -540,7 +552,10 @@ Response
               "postActionProperty": "Thank you for registering and see you there!",
               "noIndex": false,
               "formAttributes": null,
-              "language": "en_US"
+              "language": "en_US",
+              "submissionLimit": 100,
+              "submissionLimitMessage": "This form is no longer accepting submissions.",
+              "submissionCount": 42
           },
           // ...
       ]
@@ -671,6 +686,12 @@ POST parameters
    * - ``isPublished``
      - boolean
      - Form publication status
+   * - ``submissionLimit``
+     - integer
+     - Maximum number of submissions allowed for the Form. When the Form reaches this limit, it stops accepting new submissions
+   * - ``submissionLimitMessage``
+     - string
+     - Custom message displayed when the Form reaches its submission limit
 
 .. _Field parameters:
 
@@ -1410,6 +1431,9 @@ Mautic supports various Form Field types to collect and validate Contact data. E
    * - ``radiogrp``
      - Radio group
      - ``syncList``, ``optionlist`` - an object of ``list`` arrays, ``labelAttributes``
+   * - ``rating``
+     - Star rating field
+     - ``star_count`` - number of symbols a Contact can select, from 1 to 10, ``symbol`` - the character used for each rating symbol, ``star_color`` - hex color for selected symbols, ``base_color`` - hex color for unselected symbols
    * - ``country``
      - Country selection dropdown
      - ``placeholder``, ``multiple``
