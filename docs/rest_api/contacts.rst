@@ -1553,7 +1553,7 @@ Get a list of notes for a specific Contact.
 
 .. note::
 
-   For this endpoint, Mautic evaluates ``viewown``/``viewother`` against the owner of the Contact, not the User who created each Note. This differs from the standalone ``/notes`` endpoints, where Mautic evaluates ``own``/``other`` against the Note's creator (``createdBy``).
+   For this endpoint, Mautic evaluates ``viewown``/``viewother`` against the owner of the Contact, not the User who created each Note. This differs from the standalone ``/notes`` endpoints, where Mautic evaluates ``own``/``other`` against the Note's creator—the ``createdBy`` field.
 
 **Query Parameters**
 

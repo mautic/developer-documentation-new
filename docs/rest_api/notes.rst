@@ -10,7 +10,7 @@ Permissions
 
 .. vale on
 
-The Notes API uses the ``lead:notes`` permission set, which is separate from the ``lead:leads``—Contact—permission set. However, ``lead:notes`` permissions don't grant access to the associated Contact: any operation involving a Contact still requires the appropriate ``lead:leads`` permission.
+The Notes API uses the ``lead:notes`` permission set, which is separate from the ``lead:leads`` - Contact on UI - permission set. However, ``lead:notes`` permissions don't grant access to the associated Contact: any operation involving a Contact still requires the appropriate ``lead:leads`` permission.
 
 For the standalone ``/notes`` endpoints, Mautic evaluates ``viewown``/``viewother``, ``editown``/``editother``, and ``deleteown``/``deleteother`` against the User who created the Note, not the owner of the associated Contact. The Note's ``createdBy`` field determines ownership.
 
@@ -257,7 +257,7 @@ HTTP request
 
 .. note::
 
-   In addition to ``lead:notes:create``, the User must have permission to view the associated Contact—``lead:leads:viewown`` or ``lead:leads:viewother``. Mautic checks view access against the Contact owner before creating the Note.
+   In addition to ``lead:notes:create``, the User must have permission to view the associated Contact - ``lead:leads:viewown`` or ``lead:leads:viewother``. Mautic checks view access against the Contact owner before creating the Note.
 
 .. _create Note POST parameters:
 
@@ -379,6 +379,20 @@ The response is a JSON object containing the data of the deleted Note, similar t
 
 .. code-block:: json
 
+   {
+       "note": {
+           "id": 1,
+           "text": "<p>Discussed product demo requirements. Follow-up scheduled for next week.</p>",
+           "type": "general",
+           "dateTime": "2015-07-23T13:14:00-05:00",
+           "lead": {
+               "id": 47
+           },
+           "dateAdded": "2015-07-23T13:14:00-05:00",
+           "createdBy": 1,
+           "createdByUser": "Joe Smith"
+       }
+   }
 
 Properties
 ----------
