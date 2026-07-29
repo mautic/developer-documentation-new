@@ -1549,6 +1549,12 @@ Get a list of notes for a specific Contact.
 
 ``GET /contacts/ID/notes``
 
+**Required permissions:** ``lead:notes:viewown`` or ``lead:notes:viewother``
+
+.. note::
+
+   For this endpoint, Mautic evaluates ``viewown``/``viewother`` against the owner of the Contact, not the User who created each Note. This differs from the standalone ``/notes`` endpoints, where Mautic evaluates ``own``/``other`` against the Note's creator - the ``createdBy`` field.
+
 **Query Parameters**
 
 .. list-table::
@@ -1575,14 +1581,15 @@ Get a list of notes for a specific Contact.
 .. code-block:: json
 
    {
-       "total": 1,
+       "total": 2,
        "notes": [
            {
                  "id": 1,
-                 "text": "<p>Jim is super cool!</p>",
+                 "text": "<p>Discussed product demo requirements. Follow-up scheduled for next week.</p>",
                  "type": "general",
                  "dateTime": "2015-07-23T13:14:00-05:00"
-           }
+           },
+           // ...
        ]
    }
 
