@@ -174,14 +174,14 @@ You can download a :xref:`GrapesJS Demo Plugin` to get you started.
 Building the Builder assets
 ***************************
 
-From Mautic 7, Mautic no longer commits the GrapesJS Builder's compiled JavaScript and CSS to the repository. The build output lives in the Plugin's ``Assets/library/js/dist/`` directory, which ``.gitignore`` now excludes, and Mautic generates it at build time instead - the same way it handles other compiled assets such as ``media/css`` and ``media/js``.
+From Mautic 7.2, Mautic no longer commits the GrapesJS Builder's compiled JavaScript and CSS to the repository. The build output lives in the Plugin's ``Assets/library/js/dist/`` directory, which ``.gitignore`` now excludes, and Mautic generates it at build time instead - the same way it handles other compiled assets such as ``media/css`` and ``media/js``.
 
 This matters when you work from a git checkout. After a fresh clone, the ``dist/`` directory doesn't exist yet, so the Builder can't load until you build the assets. Missing assets don't cause Mautic to fail. It logs a warning and skips loading the Builder scripts. Build them before you use the GrapesJS Builder.
 
 Building the assets requires Node, and Mautic builds them with Node 24. In most cases, you don't need to run the build by hand because Mautic builds the assets automatically at these points:
 
 * When you run ``composer install`` or ``composer update``. This step is non-fatal - if Node isn't available, Composer prints a warning and continues, so you can build the assets later.
-* When you start the DDEV environment, as part of the bootstrap.
+* When DDEV provisions the environment for the first time, not on every start, so for an existing environment, run ``ddev gjs-build`` to rebuild.
 
 To build or rebuild the assets manually with Composer, run:
 
