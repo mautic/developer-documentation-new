@@ -66,7 +66,7 @@ This event receives a ``Mautic\CoreBundle\Event\BuildJsEvent`` object where ``$e
 
 .. note::
 
-   ``appendJs()`` still works but now delegates to ``appendJsForScope()`` with ``BuildJsScope::TRACKING``, so code appended this way is treated as ``TRACKING`` scope and only appears in tracking-enabled builds - including ``/mtc.js`` and ``/mautic-tracking.js``. It's excluded from ``/mautic-essential.js``. See :ref:`Script scopes and split scripts<mauticjs_api/tracking_script:Script scopes and split scripts>`.
+   ``appendJs()`` still works but now delegates to ``appendJsForScope()`` with ``BuildJsScope::TRACKING``, so Mautic treats code appended this way as ``TRACKING`` scope and includes it only in tracking-enabled builds - including ``/mtc.js`` and ``/mautic-tracking.js`` - but excludes it from ``/mautic-essential.js``. See :ref:`Script scopes and split scripts<mauticjs_api/tracking_script:Script scopes and split scripts>`.
 
 .. warning:: Note that the code that triggers the tracking call to Mautic has a priority of -255. Thus, any listener to this event should use a priority greater than -255.
 
@@ -86,7 +86,7 @@ Mautic generates its JavaScript under a scope model defined by ``Mautic\CoreBund
 * ``ESSENTIAL`` - pre-consent features that need no identity, such as preserving existing Dynamic Content fallback content without making a new request, and initializing Forms already embedded in that fallback content.
 * ``TRACKING`` - the identity and tracking code, including the tracking pixel and the ``/mtc/event`` call.
 
-When you subscribe to ``CoreEvents::BUILD_MAUTIC_JS``, the ``BuildJsEvent`` reports which scopes the current build accepts. Its constructor accepts an ``array $acceptedScopes`` that defaults to all three cases (``[BuildJsScope::RUNTIME, BuildJsScope::ESSENTIAL, BuildJsScope::TRACKING]``), so a single subscriber can contribute code to more than one generated script depending on the scope it targets.
+When you subscribe to ``CoreEvents::BUILD_MAUTIC_JS``, the ``BuildJsEvent`` exposes which scopes the current build accepts. Its constructor accepts an ``array $acceptedScopes`` that defaults to all three cases - ``[BuildJsScope::RUNTIME, BuildJsScope::ESSENTIAL, BuildJsScope::TRACKING]`` - so a single subscriber can contribute code to more than one generated script depending on the scope it targets.
 
 .. warning::
 
