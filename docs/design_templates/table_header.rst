@@ -1,9 +1,6 @@
 Table header template
 #####################
 
-Introduction
-************
-
 The ``tableheader.html.twig`` template renders the ``<th>`` header cells for Mautic's list views. It handles the bulk-select checkbox column, plain non-sortable columns, and sortable or filterable columns, wiring up the sort links, per-column filter inputs, and session-persisted sort state for you. Include it once per column when you build a list table, rather than writing the header markup by hand.
 
 Adding a header tooltip
