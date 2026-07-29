@@ -24,7 +24,7 @@ Mautic passes ``tooltip`` through the ``trans`` filter, so you can supply either
 
 Columns that don't pass ``tooltip`` render as before, with no tooltip markup, so existing list views stay unaffected until you opt in.
 
-You don't need any JavaScript setup. Mautic initializes tooltips globally for any element carrying ``data-toggle="tooltip"``, so emitting the attribute is enough for the tooltip to appear. Mautic escapes the value you pass with the ``html_attr`` filter before rendering it into the ``data-original-title`` attribute.
+You don't need any JavaScript setup. Mautic initializes tooltip support globally for any element carrying ``data-toggle="tooltip"``, so emitting the attribute is enough for the tooltip to appear. Mautic escapes the value you pass with the ``html_attr`` filter before rendering it into the ``data-original-title`` attribute.
 
 Common parameters
 *****************
@@ -34,7 +34,7 @@ Configure the header by passing keys when you include the template. The most com
 * ``text``: the column label. Passed through the ``trans`` filter, so it accepts a translation key or a literal string.
 * ``tooltip``: optional tooltip text shown on hover. Passed through the ``trans`` filter.
 * ``sessionVar``: the session namespace for the list. When set, the header renders as a sortable or filterable column, and Mautic persists the sort and filter state under this key.
-* ``orderBy``: the field to sort by. When set, the label becomes a clickable sort link; when omitted, it renders as a static label.
+* ``orderBy``: the field to sort by. When set, the label becomes a clickable sort link, and when omitted, it renders as a static label.
 * ``class``: extra CSS class or classes to add to the ``<th>`` element.
 * ``filterBy``: the field to filter by. When set, the header renders a per-column filter input.
 * ``target``: the CSS selector for the table container that receives the sort and filter updates. Defaults to ``.page-list``.

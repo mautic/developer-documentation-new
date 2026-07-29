@@ -160,7 +160,7 @@ themes
 Themes
 timeframe
 Todo
-tooltips?
+tooltip
 Transifex
 Translator
 TRUE
