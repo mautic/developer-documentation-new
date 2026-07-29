@@ -218,7 +218,7 @@ The ``TokenFormatOptions`` class provides two factory methods for common label f
 
 .. vale off
 
-**Simple prefix** - Creates labels like 'Form: Contact Form':
+**Simple prefix** - Creates labels like ``Form: Contact Form``:
 
 .. vale on
 
@@ -229,7 +229,7 @@ The ``TokenFormatOptions`` class provides two factory methods for common label f
 
 .. vale off
 
-**Link with ID** - Creates labels like 'Page link: my-landing-page (456)' for linkable entities:
+**Link with ID** - Creates labels like ``Page link: my-landing-page (456)`` for linkable entities:
 
 .. vale on
 
@@ -256,7 +256,7 @@ Deprecated methods
 
 .. deprecated:: 7.2
 
-   The following ``BuilderEvent`` methods are deprecated and will be removed in a future version:
+   Mautic deprecates the following ``BuilderEvent`` methods and removes them in a future version:
 
    - ``addTokensFromHelper()`` - Use ``BuilderTokenHelper::getFormattedTokens()`` and ``$event->addTokens()`` instead.
    - ``getTokensFromHelper()`` - Use ``BuilderTokenHelper::getFormattedTokens()`` instead.
