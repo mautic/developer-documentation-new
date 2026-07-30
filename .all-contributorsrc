@@ -88,6 +88,24 @@
       "contributions": [
         "review"
       ]
+    },
+    {
+      "login": "patrykgruszka",
+      "name": "Patryk Gruszka",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8580942?v=4",
+      "profile": "https://github.com/patrykgruszka",
+      "contributions": [
+        "review"
+      ]
+    },
+    {
+      "login": "adiux",
+      "name": "Adrian Schimpf",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13075514?v=4",
+      "profile": "http://aivie.ch",
+      "contributions": [
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
