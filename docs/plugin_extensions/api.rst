@@ -192,3 +192,120 @@ If the API detects a locked entity, it returns:
     }
 
 This format helps client apps identify locked records and avoid overwriting.
+
+.. vale off
+
+API permission-context event
+****************************
+
+.. vale on
+
+Mautic dispatches this event immediately before API Platform (v2) evaluates authorization, letting a subscriber rewrite the permission, the request object, or both.
+
+It fires from both API Platform authorization paths: the deny-access listener (``MauticDenyAccessListener::checkSecurity()``) and the permission voter (``ApiPermissionVoter::voteOnAttribute()``). After dispatch, Mautic re-reads ``getPermission()`` and ``getRequestObject()`` and uses those values for the ownership or ``isGranted()`` check.
+
+A Plugin uses this event to resolve dynamic permissions that contain placeholders. For example, the Custom Objects Plugin resolves ``custom_objects:[customObject]:viewown`` or the object-path-derived ownership context ``custom_objects:custom_fields:viewown(getCustomField)`` into a concrete permission and subject at runtime.
+
+The event is additive and non-breaking, so existing permission checks keep working unchanged.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Event constant
+     - Description
+   * - ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT``
+     - Dispatched before API Platform evaluates permission checks. The event string is ``mautic.api_platform_permission_context``.
+
+The event receives a ``Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent`` instance with the following methods:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Method
+     - Description
+   * - ``getSecurityExpression()``
+     - Returns the raw security expression the API Platform operation declares. On the permission-voter path, this is the same value passed as the permission attribute.
+   * - ``getPermission()``
+     - Returns the permission string extracted from the security expression. Mautic re-reads this after the event to authorize.
+   * - ``setPermission()``
+     - Overrides the permission string used for the authorization check.
+   * - ``getRequestObject()``
+     - Returns the request object the permission check runs against.
+   * - ``setRequestObject()``
+     - Overrides the request object used for the ownership or authorization check.
+   * - ``getRequest()``
+     - Returns the current Symfony ``Request``, or ``null``. It's ``null`` when the permission voter dispatches the event.
+   * - ``getAttributes()``
+     - Returns the operation attributes array. It's empty when the permission voter dispatches the event.
+
+.. note::
+
+   ``getRequest()`` and ``getAttributes()`` are only populated on the deny-access listener path. On the permission-voter path the request is ``null`` and the attributes are empty. Because a subscriber can't always tell which path dispatched the event, guard for a ``null`` request and empty attributes before you rely on them.
+
+Example subscriber
+==================
+
+.. code-block:: php
+
+    <?php
+    // plugins/CustomObjectsBundle/EventListener/ApiPermissionContextSubscriber.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\CustomObjectsBundle\EventListener;
+
+    use Mautic\ApiBundle\ApiEvents;
+    use Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class ApiPermissionContextSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                ApiEvents::API_PLATFORM_PERMISSION_CONTEXT => ['onPermissionContext', 0],
+            ];
+        }
+
+        public function onPermissionContext(ApiPlatformPermissionContextEvent $event): void
+        {
+            $permission = $event->getPermission();
+
+            // Only act on Custom Objects permissions that still contain a placeholder.
+            if (!str_contains($permission, 'custom_objects:[customObject]:')) {
+                return;
+            }
+
+            // Resolve the `[customObject]` placeholder to the concrete Custom Object
+            // alias for the current request. Real resolution reads the object from
+            // the request object or route parameters.
+            $requestObject = $event->getRequestObject();
+            $customObjectAlias = $this->resolveCustomObjectAlias($requestObject);
+
+            $resolvedPermission = str_replace(
+                'custom_objects:[customObject]:',
+                sprintf('custom_objects:%s:', $customObjectAlias),
+                $permission
+            );
+
+            $event->setPermission($resolvedPermission);
+
+            // Narrow the ownership check to the resolved Custom Object entity.
+            $resolvedSubject = $this->resolveCustomObject($requestObject);
+            $event->setRequestObject($resolvedSubject);
+        }
+
+        private function resolveCustomObjectAlias(mixed $requestObject): string
+        {
+            // Illustrative: derive the Custom Object alias from the subject.
+            return 'my_custom_object';
+        }
+
+        private function resolveCustomObject(mixed $requestObject): object
+        {
+            // Illustrative: load the concrete Custom Object entity for the subject.
+            return new \stdClass();
+        }
+    }
