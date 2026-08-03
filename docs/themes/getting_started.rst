@@ -114,6 +114,12 @@ Twig files
 
 This file is mainly used as the Landing Page for when a Contact unsubscribes or resubscribes to the system's Emails. Other areas use this so all Themes should include it.
 
+.. vale off
+
+In the unsubscribe and resubscribe flow, the email address validation step now precedes this page. See :ref:`themes/getting_started:html/email-validation.html.twig`.
+
+.. vale on
+
 It requires echoing two variables: ``message`` and ``content``.
 
 ``message`` contains the string message such as "You have been unsubscribed."
@@ -137,6 +143,45 @@ It requires echoing two variables: ``message`` and ``content``.
             </div>
         </body>
     </html>
+
+``html/email-validation.html.twig``
+-----------------------------------
+
+Mautic uses this template to render the 'Confirm your email address' validation page that recipients see before they unsubscribe or resubscribe.
+
+Unlike the feature files (``email``, ``form``, and ``page``), this template is optional. It isn't a required feature file and doesn't go in the ``features`` array. If a Theme doesn't provide it, Mautic renders the core template. A Theme only adds it to customize the validation page's appearance.
+
+The template extends the core template ``@MauticCore/Theme/email-validation.html.twig``, which in turn extends ``message.html.twig`` through the ``message_content`` block.
+
+A Theme can override the following Twig blocks:
+
+* ``message_content`` - the outer content region. The core validation template overrides this block from ``message.html.twig`` to inject the validation page.
+* ``validation_content`` - the validation card holding the heading, the instructional message, and the email address confirmation Form.
+* ``validation_error`` - the alert region shown when the submitted email address doesn't match the address the link was generated for.
+* ``validation_enhancements`` - the page's styling and the progressive-enhancement script, for example the submit button's loading state.
+
+Mautic resolves the template in the following order:
+
+#. ``html/email-validation.html.twig`` in the Theme selected for the Email.
+#. The default (``system``) Theme.
+#. All installed Themes.
+
+The blank Theme ships an example override you can copy as a starting point. Override any of the blocks above, or the ``content`` block it inherits from ``message.html.twig``, to customize the page:
+
+.. code-block:: twig
+
+    {% extends '@MauticCore/Theme/email-validation.html.twig' %}
+
+    {#
+     This file intentionally only extends the core template.
+     It exists as an example entry point for theme-level customization.
+
+     Example usage:
+
+     {% block content %}
+    	 {{ parent() }}
+     {% endblock %}
+    #}
 
 ``html/email.html.twig``
 ------------------------
