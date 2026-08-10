@@ -44,6 +44,35 @@ For a repository extension example, see :doc:`/plugin_extensions/contacts`.
 
 .. vale off
 
+AbstractPermissions
+*******************
+
+.. vale on
+
+Every bundle and Plugin defines its own ``*Permissions`` class that extends ``Mautic\CoreBundle\Security\Permissions\AbstractPermissions``. If yours overrides any of these methods, copy the new signature exactly.
+
+.. code:: diff
+
+   - public function isGranted($userPermissions, $name, $level): bool
+   + public function isGranted(array $userPermissions, $name, $level): bool
+
+   - protected function addStandardFormFields($bundle, $level, &$builder, $data, $includePublish = true)
+   + protected function addStandardFormFields($bundle, $level, &$builder, array $data, $includePublish = true)
+
+   - protected function addManageFormFields($bundle, $level, &$builder, $data)
+   + protected function addManageFormFields($bundle, $level, &$builder, array $data)
+
+   - protected function addExtendedFormFields($bundle, $level, &$builder, $data, $includePublish = true)
+   + protected function addExtendedFormFields($bundle, $level, &$builder, array $data, $includePublish = true)
+
+.. vale off
+
+For a permissions extension example, see :doc:`/plugins/permissions`.
+
+.. vale on
+
+.. vale off
+
 AbstractIntegration
 *******************
 
@@ -83,6 +112,44 @@ The ``MauticPlugin\MauticCrmBundle\Integration\CrmAbstractIntegration`` class no
    + public function getFormFieldsByObject($object, array $settings = [])
 
 The same ``array`` typing applies to ``cleanPriorityFields()``, ``getPriorityFieldsForMautic()``, ``getPriorityFieldsForIntegration()``, and ``getBlankFieldsToUpdate()``. When you override any of them, copy the parent signature exactly.
+
+.. vale off
+
+CommonController and AbstractFormController
+*******************************************
+
+.. vale on
+
+Plugins extend ``Mautic\CoreBundle\Controller\CommonController`` and ``Mautic\CoreBundle\Controller\AbstractFormController`` to build create, read, update, and delete interfaces. This section lists only the methods Plugins commonly override.
+
+.. code:: diff
+
+   - protected function getModel($modelNameKey): MauticModelInterface
+   + protected function getModel(string $modelNameKey): MauticModelInterface
+
+   - public function executeAction(Request $request, $objectAction, $objectId = 0, $objectSubId = 0, $objectModel = '')
+   + public function executeAction(Request $request, $objectAction, $objectId = 0, $objectSubId = 0, $objectModel = ''): Response
+
+   - public function ajaxAction(Request $request, $args = []): Response
+   + public function ajaxAction(Request $request, array $args = []): Response
+
+The ``AbstractFormController`` class adds parameter and return types to its lock-handling methods.
+
+.. code:: diff
+
+   - public function unlockAction(Request $request, $objectId, $objectModel)
+   + public function unlockAction(Request $request, $objectId, string $objectModel): RedirectResponse
+
+   - protected function isLocked($postActionVars, $entity, $model, $batch = false)
+   + protected function isLocked($postActionVars, $entity, string $model, $batch = false)
+
+The ``AbstractStandardFormController`` class follows the same pattern - for example ``getDefaultOrderDirection(): string`` and ``getDataForExport(): ?array`` gain return types.
+
+.. vale off
+
+For a controller extension example, see :doc:`/plugins/mvc`.
+
+.. vale on
 
 .. vale off
 
