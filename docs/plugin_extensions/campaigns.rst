@@ -749,7 +749,7 @@ Evaluating a Campaign Decision
 
 .. vale on
 
-Decisions are when a Contact takes some kind of direct action - where they made a decision to act. The code that handles the logic of the decision also needs to tell the Campaign Engine to evaluate Campaign Decisions of the given type by calling ``Mautic\CampaignBundle\Executioner\RealTimeExecutioner::execute()``, registered as the the ``mautic.campaign.executioner.realtime`` service.
+Decisions are when a Contact takes some kind of direct action - where they made a decision to act. The code that handles the logic of the decision also needs to tell the Campaign Engine to evaluate Campaign Decisions of the given type by calling ``Mautic\CampaignBundle\Executioner\RealTimeExecutioner::execute()``.
 
 The Campaign Engine then dispatches the Decision Event's ``eventName`` where listeners receive a ``\Mautic\CampaignBundle\Event\DecisionEvent`` object. This object contains the single LeadEventLog object for the Contact to evaluate this decision. The listener must call ``DecisionEvent::setAsApplicable()`` to instruct the Campaign Engine to execute or schedule Events attached to the "action" (left) path of the decision.
 
