@@ -138,3 +138,142 @@ The ``cache:clear`` command clears Mautic's cache. Use this command:
 
     bin/console mautic:cache:clear
 
+Migrating to CacheBundle in Mautic 8
+************************************
+
+Mautic 8 removes the deprecated ``CacheStorageHelper``. Developers who inject it, extend ``Mautic\PluginBundle\Integration\AbstractIntegration``, or subscribe to Dashboard Widget events must update their code as shown here.
+
+Replacing CacheStorageHelper
+============================
+
+Mautic 8 removes the ``mautic.helper.cache_storage`` service and the ``Mautic\CoreBundle\Helper\CacheStorageHelper`` class. Inject ``Mautic\CacheBundle\Cache\CacheProviderInterface`` (the same provider registered as the ``mautic.cache.provider`` service) instead and call ``getSimpleCache()`` to get the PSR-16 cache. The ``get()``, ``set()``, ``has()``, and ``delete()`` methods keep the same signatures.
+
+.. warning::
+
+   Two behaviors change with the new provider:
+
+   * A cache miss now returns ``null`` instead of ``false``, so any ``false === $value`` checks must become ``null === $value``.
+   * Cached data now lives in the adapter set by the ``cache_adapter`` parameter (filesystem by default) instead of the ``cache_items`` database table, so a cache clear now drops it. The ``cache_items`` table and ``Mautic\CoreBundle\Entity\Cache`` entity remain, but Mautic no longer writes to them.
+
+See the :ref:`plugins/cache:Configuration` and :ref:`plugins/cache:Delivered adapters` subsections above for how to set up and override the adapter.
+
+Before, in Mautic 7:
+
+.. code-block:: php
+
+    use Mautic\CoreBundle\Helper\CacheStorageHelper;
+
+    class MyService
+    {
+        public function __construct(
+            private CacheStorageHelper $cacheStorageHelper
+        ) {
+        }
+
+        public function fetch(string $key)
+        {
+            $value = $this->cacheStorageHelper->get($key);
+
+            if (false === $value) {
+                // Rebuild and store the value.
+            }
+
+            return $value;
+        }
+    }
+
+After, in Mautic 8:
+
+.. code-block:: php
+
+    use Mautic\CacheBundle\Cache\CacheProviderInterface;
+
+    class MyService
+    {
+        public function __construct(
+            private CacheProviderInterface $cacheProvider
+        ) {
+        }
+
+        public function fetch(string $key)
+        {
+            $cache = $this->cacheProvider->getSimpleCache();
+            $value = $cache->get($key);
+
+            if (null === $value) {
+                // Rebuild and store the value.
+            }
+
+            return $value;
+        }
+    }
+
+Integration cache
+=================
+
+``Mautic\PluginBundle\Integration\AbstractIntegration::getCache()`` now returns ``Psr\SimpleCache\CacheInterface``; it previously returned ``Mautic\CoreBundle\Helper\CacheStorageHelper``. Its second constructor argument is now ``Mautic\CacheBundle\Cache\CacheProviderInterface``.
+
+Keys stay namespaced per Integration, so existing calls such as ``$this->getCache()->get($key)`` and ``$this->cache->set(...)`` keep working unchanged. The one exception is the change where a cache miss now returns ``null`` instead of ``false``, described in the :ref:`plugins/cache:Replacing CacheStorageHelper` subsection, which now applies here too.
+
+The base method signature is now:
+
+.. code-block:: php
+
+    public function getCache(): \Psr\SimpleCache\CacheInterface
+    {
+        // ...
+    }
+
+    // Existing usage stays valid:
+    $fields = $this->getCache()->get('leadFields');
+
+WidgetDetailEvent changes
+=========================
+
+These changes apply to subscribers of the dispatched ``Mautic\DashboardBundle\Event\WidgetDetailEvent``:
+
+* The ``setCacheDir()`` method is removed; the legacy filesystem Widget cache is gone.
+* The ``$cacheProvider`` constructor argument is now required and typed ``Mautic\CacheBundle\Cache\CacheProviderTagAwareInterface`` (previously ``?CacheProviderTagAwareInterface $cacheProvider = null``).
+* The ``setTemplateData()`` method no longer accepts the second ``$skipCache`` parameter; the signature is now ``setTemplateData(array $templateData)``.
+
+Widget data is cached only through ``CacheProviderTagAwareInterface``.
+
+Before, in Mautic 7:
+
+.. code-block:: php
+
+    use Mautic\CacheBundle\Cache\CacheProviderTagAwareInterface;
+
+    class MyDashboardWidgetSubscriber
+    {
+        public function __construct(
+            ?CacheProviderTagAwareInterface $cacheProvider = null
+        ) {
+        }
+
+        public function onWidgetDetail(WidgetDetailEvent $event): void
+        {
+            $event->setCacheDir($this->cacheDir);
+            $event->setTemplateData($templateData, $skipCache);
+        }
+    }
+
+After, in Mautic 8:
+
+.. code-block:: php
+
+    use Mautic\CacheBundle\Cache\CacheProviderTagAwareInterface;
+
+    class MyDashboardWidgetSubscriber
+    {
+        public function __construct(
+            CacheProviderTagAwareInterface $cacheProvider
+        ) {
+        }
+
+        public function onWidgetDetail(WidgetDetailEvent $event): void
+        {
+            $event->setTemplateData($templateData);
+        }
+    }
+
