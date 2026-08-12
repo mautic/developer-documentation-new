@@ -525,9 +525,6 @@ For convenience, Mautic auto-tags services defined within specific keys.
     * - ``forms``
       - ``form.type``
       - Registers the service with :xref:`Symfony as a custom form field type<Symfony custom form field type tag>`.
-    * - ``models``
-      - ``mautic.model``
-      - Deprecated. Use service dependency injection instead.
     * - ``permissions``
       - ``mautic.permissions``
       - Registers the service with Mautic's :ref:`permission service<security-roles-and-permissions>`.
