@@ -111,6 +111,10 @@ Creating custom permissions
 
 It's possible to define your own custom permissions within your Plugin. Make sure to extend ``Mautic\CoreBundle\Security\Permissions\AbstractPermissions`` like in the following example:
 
+.. note::
+
+   This constructor pattern applies to Mautic 8 and later. The constructor no longer accepts an ``array $params`` argument, and Mautic injects ``$this->params`` after construction.
+
 .. code-block:: php
 
    <?php
@@ -125,10 +129,8 @@ It's possible to define your own custom permissions within your Plugin. Make sur
 
    class HelloWorldPermissions extends AbstractPermissions
    {
-       public function __construct(array $params)
+       public function __construct()
        {
-           parent::__construct($params);
-
            $this->permissions = array(
 
                // Custom level
@@ -222,9 +224,8 @@ You can learn more about the available options by looking at the ``Mautic\CoreBu
 
 **__construct()**
 
-The construct method should do two things. It should call ``parent::__construct($params)`` and/or it should set ``$this->params = $params;``. 
+The constructor defines the ``$this->permissions`` array - a set of permission levels that are each arrays with permissions assigned to bits - and calls the helper methods as needed. Mautic injects the resolved core parameters through an autowired setter that runs after the object is constructed, so ``$this->params`` is available in every method except ``__construct()``.
 
-Then it should define ``$this->permissions``. ``$this->permissions`` is an array of permission levels that are each arrays with permissions assigned to bits. 
 For example, in the code block, a custom permission level of ``worlds`` gets defined with the permissions of ``use_telescope``, ``send_probe``, ``visit`` and ``full``.
 To validate whether a User has permission to the level ``worlds`` and permission ``send_probe`` , ``$mauticSecurity->isGranted('plugin:helloWorld:worlds:send_probe')`` would be used.
 
