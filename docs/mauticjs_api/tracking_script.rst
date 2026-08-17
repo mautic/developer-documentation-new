@@ -64,9 +64,182 @@ You can embed ``mtc.js`` in third party websites to manage communication between
 To inject custom JavaScript into ``mtc.js``, use an :ref:`Event Listener<plugins/event_listeners:Event listeners>` for the ``CoreEvents::BUILD_MAUTIC_JS`` event.
 This event receives a ``Mautic\CoreBundle\Event\BuildJsEvent`` object where ``$event->appendJs($js, $sectionName);`` can be used to inject the script's code.
 
+.. note::
+
+   ``appendJs()`` still works but now delegates to ``appendJsForScope()`` with ``BuildJsScope::TRACKING``, so Mautic treats code appended this way as ``TRACKING`` scope and includes it only in tracking-enabled builds - including ``/mtc.js`` and ``/mautic-tracking.js`` - but excludes it from ``/mautic-essential.js``. See :ref:`Script scopes and split scripts<mauticjs_api/tracking_script:Script scopes and split scripts>`.
+
 .. warning:: Note that the code that triggers the tracking call to Mautic has a priority of -255. Thus, any listener to this event should use a priority greater than -255.
 
 .. warning:: Only use native JavaScript or <a href="#mauticjs-api-functions">MauticJS API functions</a> since ``jQuery`` and other libraries aren't guaranteed to be available in third party websites.
+
+
+.. vale off
+
+Script scopes and split scripts
+*******************************
+
+.. vale on
+
+Mautic generates its JavaScript under a scope model defined by ``Mautic\CoreBundle\Event\BuildJsScope``, an ``enum`` with three cases:
+
+* ``RUNTIME`` - the anonymous bootstrap runtime that the other scopes depend on. It performs no tracking.
+* ``ESSENTIAL`` - pre-consent features that need no identity, such as preserving existing Dynamic Content fallback content without making a new request, and initializing Forms already embedded in that fallback content.
+* ``TRACKING`` - the identity and tracking code, including the tracking pixel and the ``/mtc/event`` call.
+
+When you subscribe to ``CoreEvents::BUILD_MAUTIC_JS``, the ``BuildJsEvent`` exposes which scopes the current build accepts. Its constructor accepts an ``array $acceptedScopes`` that defaults to all three cases - ``[BuildJsScope::RUNTIME, BuildJsScope::ESSENTIAL, BuildJsScope::TRACKING]`` - so a single subscriber can contribute code to more than one generated script depending on the scope it targets.
+
+.. warning::
+
+   A subscriber that only calls the legacy ``appendJs()`` now contributes ``TRACKING`` scoped code and is therefore excluded from ``/mautic-essential.js``. If a Plugin's code must run in the essential, pre-consent context, the subscriber must call ``appendJsForScope()`` with ``BuildJsScope::ESSENTIAL``. It can also gate on ``acceptsScope()`` first to skip building a payload the build would discard.
+
+   Mind the argument positions when migrating: the legacy ``appendJs($js, $section)`` takes the section name as the 2nd argument, whereas ``appendJsForScope($js, BuildJsScope $scope, $section = '')`` inserts the scope as the 2nd argument and moves the section name to the 3rd. A mechanical find-and-replace that keeps the old argument order would pass the section string where the scope now goes.
+
+.. vale off
+
+``appendJsForScope($js, BuildJsScope $scope, $section = '')``
+=============================================================
+
+.. vale on
+
+Appends code for a specific scope. If the current build doesn't accept that scope, the call is a no-op and returns the event without appending anything. Use it when a Plugin needs to inject code into the essential, pre-consent build rather than the tracking layer.
+
+.. code-block:: php
+
+   <?php
+
+   namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+   use Mautic\CoreBundle\CoreEvents;
+   use Mautic\CoreBundle\Event\BuildJsEvent;
+   use Mautic\CoreBundle\Event\BuildJsScope;
+   use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+   class EssentialSubscriber implements EventSubscriberInterface
+   {
+       public static function getSubscribedEvents()
+       {
+           return [
+               CoreEvents::BUILD_MAUTIC_JS => ['onBuildJs', 0],
+           ];
+       }
+
+       public function onBuildJs(BuildJsEvent $event)
+       {
+           $event->appendJsForScope(
+               <<<JS
+
+           MauticJS.log('essential runtime loaded');
+
+   JS,
+               BuildJsScope::ESSENTIAL,
+               'essentialGreeting'
+           );
+       }
+   }
+
+.. vale off
+
+``acceptsScope(BuildJsScope $scope): bool``
+===========================================
+
+.. vale on
+
+Reports whether the current build accepts a given scope. Call it to return early from a subscriber when the build doesn't include the scope you target, so you avoid building a payload that Mautic would discard.
+
+.. code-block:: php
+
+   <?php
+
+   namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+   use Mautic\CoreBundle\CoreEvents;
+   use Mautic\CoreBundle\Event\BuildJsEvent;
+   use Mautic\CoreBundle\Event\BuildJsScope;
+   use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+   class TrackingLoggerSubscriber implements EventSubscriberInterface
+   {
+       public static function getSubscribedEvents()
+       {
+           return [
+               CoreEvents::BUILD_MAUTIC_JS => ['onBuildJs', 0],
+           ];
+       }
+
+       public function onBuildJs(BuildJsEvent $event)
+       {
+           if (!$event->acceptsScope(BuildJsScope::TRACKING)) {
+               return;
+           }
+
+           $event->appendJsForScope(
+               <<<JS
+
+           document.addEventListener('mauticPageEventDelivered', function (e) {
+               MauticJS.log(e.detail);
+           });
+
+   JS,
+               BuildJsScope::TRACKING,
+               'trackingLogger'
+           );
+       }
+   }
+
+.. vale off
+
+Generated scripts and endpoints
+*******************************
+
+.. vale on
+
+Mautic serves the scopes through separate endpoints so that a site can load only the code it needs before consent, then add the tracking layer later. Each endpoint path resolves against your Mautic instance's base URL.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Endpoint
+     - Included scopes
+     - Purpose
+   * - ``/mautic-essential.js``
+     - ``RUNTIME`` and ``ESSENTIAL``
+     - Anonymous runtime, Dynamic Content fallback handling, and initializing Forms already embedded in fallback content. No tracking.
+   * - ``/mautic-tracking.js``
+     - ``TRACKING``
+     - The identity and tracking layer.
+   * - ``/mtc.js``
+     - ``RUNTIME``, ``ESSENTIAL``, and ``TRACKING``
+     - The legacy aggregate script. Unchanged.
+
+.. vale off
+
+Client-side runtime globals
+***************************
+
+.. vale on
+
+The split scripts expose a small set of client-side global variables and an event so that code can detect which layers have loaded:
+
+* ``MauticJS.runtimeReady`` - set to ``true`` once the runtime bootstrap has loaded. Tracking code guards on it before running.
+* ``MauticJS.trackingEnabled`` - ``false`` in the essential or runtime build and ``true`` once the tracking layer loads.
+* ``MauticJS.requestWithCredentials`` - ``false`` by default in the essential or runtime build and ``true`` once tracking loads.
+* ``mauticEssentialReady`` - a convention event, not something the generated runtime emits on its own. The authoritative readiness flag is ``MauticJS.runtimeReady``; the consent-managed essential loader snippet - the copy-paste snippet that loads ``/mautic-essential.js`` - dispatches ``mauticEssentialReady`` once ``MauticJS.runtimeReady === true`` by calling ``MauticJS.dispatchEvent('mauticEssentialReady')``. That helper builds a native ``CustomEvent`` and dispatches it on ``document``, so browser-side code following the split-script loader pattern can rely on it as a readiness hook and listen with ``document.addEventListener('mauticEssentialReady', ...)``.
+
+Because the essential script may have finished loading before your code runs - in which case the event has already fired and a late listener would never run - guard on ``MauticJS.runtimeReady`` first and run immediately when it's already ``true``, falling back to the listener only when the runtime isn't ready yet. The shipped tracking add-on snippet follows this same dual path. This handles both cases safely:
+
+.. code-block:: js
+
+   if (window.MauticJS && MauticJS.runtimeReady === true) {
+       // essential runtime is already ready - run now
+       MauticJS.log('runtime ready');
+   } else {
+       document.addEventListener('mauticEssentialReady', function () {
+           // essential runtime is now ready - run here
+           MauticJS.log('runtime ready');
+       });
+   }
+
+The ``mauticEssentialReady`` event comes only from the shipped consent-managed loader snippet, not from ``/mautic-essential.js`` itself. If you use a custom loader instead, run your code from your own script tag's ``load`` or ``onload`` callback once ``MauticJS.runtimeReady === true``, or dispatch an equivalent event yourself.
 
 
 Hooking into the tracking process and returning custom responses

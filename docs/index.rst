@@ -67,6 +67,7 @@ There are several ways to support Mautic other than contributing with code.
    development-environment/how_to_install_with_ddev
    development-environment/setup
    development-environment/environments
+   development-environment/building_assets
 
 .. toctree::
    :maxdepth: 2
@@ -90,6 +91,7 @@ There are several ways to support Mautic other than contributing with code.
 
    design_templates/accordion
    design_templates/protip
+   design_templates/table_header
    design_templates/tiles
 
 .. toctree::
@@ -242,6 +244,7 @@ There are several ways to support Mautic other than contributing with code.
    rest_api/pages
    rest_api/point_actions
    rest_api/point_groups
+   rest_api/point_insights
    rest_api/point_triggers
    rest_api/reports
    rest_api/roles

@@ -41,6 +41,7 @@ Contact Points
 Continuous Integration
 Contribution(s)
 CORS
+CRM
 cron
 Cron
 CTRL
@@ -80,6 +81,7 @@ HTTPS
 HubSpot
 IDP
 IMAP
+Importmap
 infographics
 Initialisms
 initialisms
