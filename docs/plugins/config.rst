@@ -320,6 +320,8 @@ There are currently four menus built into Mautic.
     * - ``extra``
       - Menu not used by Core but available to Plugins.
 
+A Plugin can also register its own top-level Menu instead of adding items to these. See :ref:`plugins/config:Registering a custom Menu`.
+
 Menu definitions
 ================
 
@@ -458,6 +460,83 @@ Of course, you can also combine multiple checks. All must evaluate to TRUE to di
     ],
 
     // ...
+
+.. vale off
+
+Registering a custom Menu
+*************************
+
+.. vale on
+
+The :ref:`plugins/config:Menu config items` section adds items to Mautic's four built-in menus through the ``menu`` config array. This section covers the opposite direction: registering a Plugin's own top-level Menu, with its own template and renderer.
+
+.. note::
+
+   Mautic 8 removed the ``ServicePass`` compiler pass and the ``services > menus`` array in ``Config/config.php``. A Plugin now declares its Menu item and renderer explicitly in ``Config/services.php``.
+
+Registering a custom Menu takes two services in your Plugin's ``Config/services.php``:
+
+- A ``Knp\Menu\MenuItem`` tagged ``knp_menu.menu``.
+- A ``Mautic\CoreBundle\Menu\MenuRenderer`` tagged ``knp_menu.renderer``.
+
+Give each tag an ``['alias' => '<alias>']`` argument so Mautic pairs the item with its renderer.
+
+Earlier versions registered the Menu through the ``services > menus`` array in ``Config/config.php``:
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/Config/config.php
+
+    'services' => [
+        'menus' => [
+            'mautic.menu.mybundle' => [
+                'alias'   => 'mybundle',
+                'options' => ['template' => '@MyBundle/Menu/mybundle.html.twig'],
+            ],
+        ],
+    ],
+
+The following snippet is the Mautic 8 equivalent. This is a partial example. The ``use`` statements go at the top of ``Config/services.php``, and the ``$services->set(...)`` definitions go inside its configurator closure. The bundle Extension and this ``$services`` configurator setup are described in :ref:`plugins/autowiring:Autowiring`:
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/Config/services.php
+
+    use Knp\Menu\MenuItem;
+    use Mautic\CoreBundle\Menu\MenuBuilder;
+    use Mautic\CoreBundle\Menu\MenuRenderer;
+
+    use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+
+    // ... inside the configurator closure, using the same $services
+
+    $services->set('mautic.menu.mybundle', MenuItem::class)
+        ->factory([service(MenuBuilder::class), 'mybundleMenu'])
+        ->tag('knp_menu.menu', ['alias' => 'mybundle']);
+
+    $services->set('mautic.menu_renderer.mybundle', MenuRenderer::class)
+        ->args([service('knp_menu.matcher'), service('twig'), ['template' => '@MyBundle/Menu/mybundle.html.twig']])
+        ->tag('knp_menu.renderer', ['alias' => 'mybundle']);
+
+Reference the Menu builder by class through ``service(Mautic\CoreBundle\Menu\MenuBuilder::class)``. Mautic 8 removed the ``mautic.menu.builder`` string alias, so it no longer resolves.
+
+These two services register and render the Menu, while the ``<alias>Menu`` method the factory calls on the Menu builder, here ``mybundleMenu``, supplies the Menu's contents.
+
+If your bundle has several menus, register them in a loop. ``$menuTemplates`` is the alias-to-options array you supply:
+
+.. code-block:: php
+
+    foreach ($menuTemplates as $alias => $options) {
+        $services->set('mautic.menu.'.$alias, MenuItem::class)
+            ->factory([service(MenuBuilder::class), $alias.'Menu'])
+            ->tag('knp_menu.menu', ['alias' => $alias]);
+
+        $services->set('mautic.menu_renderer.'.$alias, MenuRenderer::class)
+            ->args([service('knp_menu.matcher'), service('twig'), $options])
+            ->tag('knp_menu.renderer', ['alias' => $alias]);
+    }
 
 Service config items
 ********************
