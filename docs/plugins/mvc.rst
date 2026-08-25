@@ -396,6 +396,32 @@ The ``FormModel`` class extends ``AbstractCommonModel`` and includes helper meth
 
 .. vale on
 
+Registering a model
+====================
+
+To make a custom Model resolvable through ``getModel('yourbundle.yourmodel')`` from a Controller, the Model class declares a static ``getName()`` method that returns that key string. The Model must also implement ``Mautic\CoreBundle\Model\MauticModelInterface``. Extending one of the base classes in Base model classes satisfies that interface requirement, but not the registration: you still declare ``getName()`` on the Model to make it resolvable by key. Declaring ``getName()`` only matters for this key-based lookup - a Model you always inject or type-hint by its concrete class, as described in :ref:`Getting model objects <getting model objects>`, doesn't need it.
+
+Add the method to a Model class that extends ``AbstractCommonModel`` or ``FormModel``. For example, a ``ContactModel`` built on one of those base classes returns ``'helloworld.contact'``:
+
+.. code-block:: php
+
+    public static function getName(): string
+    {
+        return 'helloworld.contact';
+    }
+
+Mautic core follows the same pattern - its ``LeadModel`` returns ``'lead.lead'``.
+
+Declaring ``getName()`` is the whole registration step: there's no separate tag, service alias, or compiler-pass step to add. If a Model omits ``getName()``, ``getModel()`` can't resolve it by key.
+
+.. note::
+
+   ``getName()``-based resolution is the Mautic 8 mechanism. It replaces the removed ``mautic.model`` auto-tag, the manual ``mautic.<bundle>.model.<name>`` service-alias convention, and the ``ModelPass`` compiler pass.
+
+``getModel()`` accepts only the ``getName()`` key, not a fully qualified class name. Fetching a Model by its class means injecting or type-hinting the concrete class instead, as described in :ref:`Getting model objects <getting model objects>`.
+
+.. _getting model objects:
+
 Getting model objects
 =====================
 
