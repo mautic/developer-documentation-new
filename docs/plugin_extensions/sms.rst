@@ -16,7 +16,7 @@ Transport interfaces
 
 A custom transport implements one or more interfaces from the ``Mautic\SmsBundle\Sms`` namespace, depending on the capabilities it provides. These interfaces live in Mautic core, so your Plugin implements them rather than redefining them.
 
-* :xref:`TransportInterface source` - the base interface every transport must implement. It defines ``sendSms(Lead $lead, $content)``, which sends a single message and returns ``true`` on success or an error message string on failure.
+* :xref:`TransportInterface source` - the base interface every transport must implement. It defines ``sendSms(Lead $lead, $content)``, which sends a single message and returns ``true`` on success or an error message string on failure. It also declares ``getIntegrationAlias(): string``, which returns the transport's integration alias - the name shown in the UI for this transport.
 * :xref:`BulkTransportInterface source` - extends ``TransportInterface`` to enable native batch sending through ``sendBatchSms(RecipientCollection $collection, string $content): RecipientCollection``. Transports that implement only ``TransportInterface`` fall back to iterative per-Contact sending.
 * :xref:`MMSTransportInterface source` - adds MMS support with media attachments through ``sendMms(Lead $lead, string $content, array $media): bool|string``. Because of carrier restrictions, MMS currently works only for recipients in the US, Canada, and Australia.
 
@@ -64,6 +64,11 @@ Implement the interfaces for the capabilities your provider supports. The exampl
 
    class HelloWorldTransport implements TransportInterface, BulkTransportInterface, MMSTransportInterface
    {
+       public function getIntegrationAlias(): string
+       {
+           return 'Hello World SMS';
+       }
+
        public function sendSms(Lead $lead, $content)
        {
            $phone = $lead->getPhone();
@@ -104,7 +109,7 @@ Implement the interfaces for the capabilities your provider supports. The exampl
 Registering the transport
 ==========================
 
-Register the transport in your Plugin's ``Config/config.php`` by tagging the service with ``mautic.sms_transport``. Mautic builds Plugin ``config.php`` services through its own ``ServicePass`` compiler pass rather than Symfony autoconfiguration, so implementing ``TransportInterface`` doesn't tag the service for you, and you must declare the tag explicitly. The ``SmsTransportPass`` compiler pass then collects every service carrying this tag, and the ``integrationAlias`` tag argument sets the name shown in the UI.
+Register the transport in your Plugin's ``Config/config.php`` by tagging the service with ``mautic.sms_transport``. Mautic builds Plugin ``config.php`` services through its own ``ServicePass`` compiler pass rather than Symfony autoconfiguration, so implementing ``TransportInterface`` doesn't tag the service for you, and you must declare the tag explicitly. Mautic's ``TransportChain`` collects every service carrying the tag, and the name shown in the UI comes from the transport's ``getIntegrationAlias()`` method.
 
 .. code-block:: php
 
@@ -115,11 +120,8 @@ Register the transport in your Plugin's ``Config/config.php`` by tagging the ser
        'services' => [
            'other' => [
                'mautic.sms.transport.helloworld' => [
-                   'class'        => \MauticPlugin\HelloWorldBundle\Sms\Transport\HelloWorldTransport::class,
-                   'tag'          => 'mautic.sms_transport',
-                   'tagArguments' => [
-                       'integrationAlias' => 'Hello World SMS',
-                   ],
+                   'class' => \MauticPlugin\HelloWorldBundle\Sms\Transport\HelloWorldTransport::class,
+                   'tag'   => 'mautic.sms_transport',
                ],
            ],
        ],

@@ -632,8 +632,8 @@ Mautic uses the follow tags to register services as described below.
       - Supported tag arguments
       - Description
     * - ``mautic.sms_transport``
-      - ``['integrationAlias' => 'Name to display in the UI for this transport.']``
-      - Register this service as a Text Message transport.
+      - none
+      - Register this service as a Text Message transport. The transport's displayed name comes from its ``getIntegrationAlias()`` method rather than a tag argument.
     * - ``mautic.sms_callback_handler``
       - none
       - Registers this service to handle Webhooks from a Text Message transport.
