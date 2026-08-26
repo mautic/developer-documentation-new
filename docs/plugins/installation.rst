@@ -10,7 +10,7 @@ Install and update events
 
 .. note:: The events below are available since Mautic 4.2.0.
 
-You can create event listeners as follows:
+Since Mautic 8, key your subscriber on the event class, ``PluginInstallEvent::class`` and ``PluginUpdateEvent::class``, rather than on a ``PluginEvents`` constant:
 
 .. code-block:: php
 
@@ -22,7 +22,6 @@ You can create event listeners as follows:
 
     use Mautic\PluginBundle\Event\PluginInstallEvent;
     use Mautic\PluginBundle\Event\PluginUpdateEvent;
-    use Mautic\PluginBundle\PluginEvents;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
     class InstallUpdateSubscriber implements EventSubscriberInterface
@@ -30,8 +29,8 @@ You can create event listeners as follows:
         public static function getSubscribedEvents(): array
         {
             return [
-                PluginEvents::ON_PLUGIN_INSTALL => ['onPluginInstall', 0],
-                PluginEvents::ON_PLUGIN_UPDATE  => ['onPluginUpdate', 0],
+                PluginInstallEvent::class => ['onPluginInstall', 0],
+                PluginUpdateEvent::class  => ['onPluginUpdate', 0],
             ];
         }
 
@@ -45,6 +44,15 @@ You can create event listeners as follows:
             // Handle your logic here   
         }
     }
+
+.. note::
+
+   Since Mautic 8, Mautic dispatches these events by the event object alone, so the event's class name serves as the event name, matching the Symfony 4.3 dispatch style. This means:
+
+   * The ``PluginEvents`` constants remain defined in the codebase, but Mautic no longer uses them for dispatch.
+   * A subscriber still keyed on a ``PluginEvents`` constant, or on the old event string, fails silently. Mautic throws no exception and logs nothing, so the listener never runs.
+   * Before Mautic 8, those ``PluginEvents`` constants were the correct keys.
+   * Event families that still dispatch by string constant should keep keying on those constants.
 
 Database migrations
 ===================
