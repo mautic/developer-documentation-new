@@ -700,6 +700,44 @@ Listeners to the event's ``eventName`` receives a ``\Mautic\CampaignBundle\Event
         }
     }
 
+Migrating a pre-8.0 Condition listener
+======================================
+
+.. note::
+
+   Mautic 8.0 removes ``getResult()`` and ``setResult()`` from ``ConditionEvent`` (deprecated since 2.13.0). Custom Condition listeners must type-hint the event argument as ``ConditionEvent`` instead of the deprecated parent ``CampaignExecutionEvent``, and call ``pass()`` or ``fail()``.
+
+**Migration example** (showing only the changed method inside the same subscriber class):
+
+.. code-block:: php
+
+    // Before (removed in Mautic 8.0): typed the parent event and set a boolean result.
+    use Mautic\CampaignBundle\Event\CampaignExecutionEvent;
+
+    public function onEvaluateCampaignCondition(CampaignExecutionEvent $event): void
+    {
+        if ($satisfied) {
+            $event->setResult(true);
+        } else {
+            $event->setResult(false);
+        }
+    }
+
+    // After (Mautic 8.0): type the ConditionEvent and call pass() or fail().
+    use Mautic\CampaignBundle\Event\ConditionEvent;
+
+    public function onEvaluateCampaignCondition(ConditionEvent $event): void
+    {
+        if ($satisfied) {
+            $event->pass();
+        } else {
+            $event->fail();
+        }
+    }
+
+To read the outcome back, replace ``getResult()`` with ``wasConditionSatisfied()``.
+After migrating, trigger the Campaign to confirm the listener records the expected pass or fail outcome for the Contact.
+
 .. php:class:: Mautic\CampaignBundle\Events\ConditionEvent
 
     .. php:method:: public checkContext(string $eventType)
@@ -741,6 +779,13 @@ Listeners to the event's ``eventName`` receives a ``\Mautic\CampaignBundle\Event
         :param mixed $channelId: ID of the Channel entity.
 
         :returntype: void
+
+    .. php:method:: public wasConditionSatisfied()
+
+        Returns whether the Condition passed. ``TRUE`` when ``pass()`` was called; ``FALSE`` when ``fail()`` was called or neither was called.
+
+        :return: ``TRUE`` if the Condition passed.
+        :returntype: bool
 
 .. vale off
 
@@ -825,6 +870,48 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
         }
     }
 
+Migrating a pre-8.0 Decision listener
+=====================================
+
+.. note::
+
+   Mautic 8.0 removes ``getResult()`` and ``setResult()`` from ``DecisionEvent`` (deprecated since 2.13.0). Custom Decision listeners must:
+
+   * Type-hint the event argument as ``DecisionEvent`` instead of the deprecated parent ``CampaignExecutionEvent``.
+   * Call ``setAsApplicable()`` only when the Decision applies. There's no ``setAsInapplicable()``; not-applicable is the default, so remove the old ``setResult(false)`` branch instead of replacing it.
+   * Return ``void`` instead of returning a value (such as ``false`` or the event) to signal the result, and mutate the event instead.
+
+**Migration example** (showing only the changed method inside the same subscriber class):
+
+.. code-block:: php
+
+    // Before (removed in Mautic 8.0): typed the parent event, set a boolean result, and returned a value.
+    use Mautic\CampaignBundle\Event\CampaignExecutionEvent;
+
+    public function onEvaluateCampaignDecision(CampaignExecutionEvent $event)
+    {
+        if (!$applicable) {
+            return false;
+        }
+
+        return $event->setResult(true);
+    }
+
+    // After (Mautic 8.0): type the DecisionEvent, call setAsApplicable() only when applicable, and return void.
+    use Mautic\CampaignBundle\Event\DecisionEvent;
+
+    public function onEvaluateCampaignDecision(DecisionEvent $event): void
+    {
+        if (!$applicable) {
+            return;
+        }
+
+        $event->setAsApplicable();
+    }
+
+To read the outcome back, replace ``getResult()`` with ``wasDecisionApplicable()``.
+After migrating, trigger the Campaign to confirm the listener marks the Decision applicable only when it should for the Contact.
+
 .. php:class:: Mautic\CampaignBundle\Events\DecisionEvent
 
     .. php:method:: public checkContext(string $eventType)
@@ -867,6 +954,13 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
         :param mixed $channelId: ID of the Channel entity.
 
     :returntype: void
+
+    .. php:method:: public wasDecisionApplicable()
+
+        Returns whether the Decision was marked applicable. ``TRUE`` when ``setAsApplicable()`` was called; ``FALSE`` otherwise.
+
+        :return: ``TRUE`` if the Decision was applicable.
+        :returntype: bool
 
 .. vale off
 
