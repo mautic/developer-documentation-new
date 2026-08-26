@@ -72,7 +72,15 @@ Plugin event subscribers can extend ``Symfony\Component\EventDispatcher\EventSub
 Available events
 ****************
 
-There are many events available throughout Mautic. Depending on what you're trying to implement, look at the ``*Event.php`` for the core bundle, located in the root of the bundle. For example, the ``app\bundles\LeadBundle\LeadEvents.php`` file defines and describes events relating to Contacts. The final classes provide the names of the events to listen to. Always use the event constants to ensure future changes to event names won't break the Plugin.
+There are many events available throughout Mautic. Depending on what you're trying to implement, look at the ``*Event.php`` for the core bundle, located in the root of the bundle. For example, the ``app\bundles\LeadBundle\LeadEvents.php`` file defines and describes events relating to Contacts. The final classes provide the names of the events to listen to. For event families that still use string constants, such as ``LeadEvents`` and ``PageEvents``, always use the event constant to ensure future changes to event names won't break the Plugin.
+
+.. note::
+
+   Since Mautic 8, Mautic dispatches CoreBundle events, the ``Mautic\CoreBundle\CoreEvents`` family, by the event object alone, so the event class is the event name. This matches the Symfony 4.3 dispatch style.
+
+   * Key ``getSubscribedEvents()`` on the event class, for example ``MenuEvent::class``, not on the ``CoreEvents::*`` constant or the raw string name such as ``mautic.build_menu``.
+   * The ``CoreEvents`` constants remain in the codebase but are no longer used for dispatch, so a subscriber still keyed on the constant or string won't fire. It fails silently: it throws no exception and logs nothing, and simply never runs.
+   * Other event families, such as ``LeadEvents`` and ``PageEvents``, still use their constants. Keep keying on those.
 
 Custom events
 *************

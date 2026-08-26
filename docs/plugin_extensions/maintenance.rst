@@ -13,7 +13,8 @@ Maintenance cleanup
 
 .. vale on
 
-To hook into the ``mautic:maintenance:cleanup`` command, create a listener for the ``\Mautic\CoreBundle\CoreEvents::MAINTENANCE_CLEANUP_DATA`` event.
+To hook into the ``mautic:maintenance:cleanup`` command, create a listener for the ``Mautic\CoreBundle\Event\MaintenanceEvent`` event.
+Since Mautic 8, key your subscriber on the event class rather than a ``CoreEvents`` constant - see :ref:`Available events <plugins/event_listeners:Available events>` for what breaks if you don't.
 Use ``$event->setStat($key, $affectedRows, $sql, $sqlParameters)`` to give feedback to the CLI command.
 Note that ``$sql`` and ``$sqlParameters`` are only used for debugging and shown only in the ``dev`` environment.
 
@@ -29,7 +30,6 @@ Note that ``$sql`` and ``$sqlParameters`` are only used for debugging and shown 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
     use Doctrine\DBAL\Connection;
-    use Mautic\CoreBundle\CoreEvents;
     use Mautic\CoreBundle\Event\MaintenanceEvent;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
     use Symfony\Contracts\Translation\TranslatorInterface;
@@ -48,7 +48,7 @@ Note that ``$sql`` and ``$sqlParameters`` are only used for debugging and shown 
         public static function getSubscribedEvents()
         {
             return [
-                CoreEvents::MAINTENANCE_CLEANUP_DATA => ['onDataCleanup', -50]
+                MaintenanceEvent::class => ['onDataCleanup', -50]
             ];
         }
 
