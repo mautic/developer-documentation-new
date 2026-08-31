@@ -20,9 +20,13 @@ Registering Campaign Events
 
 .. vale on
 
-Mautic dispatches the Event ``\Mautic\CampaignBundle\CampaignEvents::CAMPAIGN_ON_BUILD`` for Plugins to register their Campaign Actions, Conditions and Decisions. Listeners receive a ``Mautic\CampaignBundle\Events\CampaignBuilderEvent`` object. Register the Event using the appropriate ``add`` method as described below.
+In Mautic 8.0, Mautic dispatches the ``Mautic\CampaignBundle\Event\CampaignBuilderEvent`` by its class name for Plugins to register their Campaign Actions, Conditions, and Decisions. Subscribers register by keying ``getSubscribedEvents()`` on ``CampaignBuilderEvent::class``. Listeners receive a ``Mautic\CampaignBundle\Event\CampaignBuilderEvent`` object. Register the Event using the appropriate ``add`` method as described below.
 
-.. php:namespace:: Mautic\CampaignBundle\Events
+.. note::
+
+   In Mautic 8.0, Mautic dispatches this Event by its class name, so a subscriber must key ``getSubscribedEvents()`` on ``CampaignBuilderEvent::class``. A subscriber still keyed on the string constant ``CampaignEvents::CAMPAIGN_ON_BUILD`` no longer receives the Event in Mautic 8.0, even though that constant remains defined in Mautic's code.
+
+.. php:namespace:: Mautic\CampaignBundle\Event
 .. php:class:: CampaignBuilderEvent
 
   CampaignBuilderEvent class
@@ -78,7 +82,6 @@ Registering a Campaign Action
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\CampaignBundle\CampaignEvents;
     use Mautic\CampaignBundle\Event\CampaignBuilderEvent;
     use MauticPlugin\HelloWorldBundle\HelloWorldEvents;
     use MauticPlugin\HelloWorldBundle\Form\Type\TravelType;
@@ -91,7 +94,7 @@ Registering a Campaign Action
         public static function getSubscribedEvents(): array
         {
             return [
-                CampaignEvents::CAMPAIGN_ON_BUILD => ['onCampaignBuild', 0],
+                CampaignBuilderEvent::class => ['onCampaignBuild', 0],
             ];
         }
 
@@ -187,7 +190,6 @@ Registering a Campaign Condition
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\CampaignBundle\CampaignEvents;
     use Mautic\CampaignBundle\Event\CampaignBuilderEvent;
     use MauticPlugin\HelloWorldBundle\HelloWorldEvents;
     use MauticPlugin\HelloWorldBundle\Form\Type\TravelType;
@@ -200,7 +202,7 @@ Registering a Campaign Condition
         public static function getSubscribedEvents(): array
         {
             return [
-                CampaignEvents::CAMPAIGN_ON_BUILD => ['onCampaignBuild', 0],
+                CampaignBuilderEvent::class => ['onCampaignBuild', 0],
             ];
         }
 
@@ -296,7 +298,6 @@ Registering a Campaign Decision
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\CampaignBundle\CampaignEvents;
     use Mautic\CampaignBundle\Event\CampaignBuilderEvent;
     use MauticPlugin\HelloWorldBundle\HelloWorldEvents;
     use MauticPlugin\HelloWorldBundle\Form\Type\TravelType;
@@ -309,7 +310,7 @@ Registering a Campaign Decision
         public static function getSubscribedEvents(): array
         {
             return [
-                CampaignEvents::CAMPAIGN_ON_BUILD => ['onCampaignBuild', 0],
+                CampaignBuilderEvent::class => ['onCampaignBuild', 0],
             ];
         }
 
@@ -416,7 +417,6 @@ Listeners to the event's ``batchEventName`` receives a ``\Mautic\CampaignBundle\
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\CampaignBundle\CampaignEvents;
     use Mautic\CampaignBundle\Event\CampaignBuilderEvent;
     use Mautic\CampaignBundle\Event\PendingEvent;
     use MauticPlugin\HelloWorldBundle\HelloWorldEvents;
@@ -441,7 +441,7 @@ Listeners to the event's ``batchEventName`` receives a ``\Mautic\CampaignBundle\
         public static function getSubscribedEvents(): array
         {
             return [
-                CampaignEvents::CAMPAIGN_ON_BUILD         => ['onCampaignBuild', 0],
+                CampaignBuilderEvent::class               => ['onCampaignBuild', 0],
                 HelloWorldEvents::EXECUTE_CAMPAIGN_ACTION => ['onExecuteCampaignAction', 0],
             ];
         }
@@ -646,7 +646,6 @@ Listeners to the event's ``eventName`` receives a ``\Mautic\CampaignBundle\Event
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\CampaignBundle\CampaignEvents;
     use Mautic\CampaignBundle\Event\CampaignBuilderEvent;
     use Mautic\CampaignBundle\Event\ConditionEvent;
     use MauticPlugin\HelloWorldBundle\HelloWorldEvents;
@@ -668,7 +667,7 @@ Listeners to the event's ``eventName`` receives a ``\Mautic\CampaignBundle\Event
         public static function getSubscribedEvents(): array
         {
             return [
-                CampaignEvents::CAMPAIGN_ON_BUILD             => ['onCampaignBuild', 0],
+                CampaignBuilderEvent::class                   => ['onCampaignBuild', 0],
                 HelloWorldEvents::EVALUATE_CAMPAIGN_CONDITION => ['onEvaluateCampaignCondition', 0],
             ];
         }
@@ -761,7 +760,6 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\CampaignBundle\CampaignEvents;
     use Mautic\CampaignBundle\Event\CampaignBuilderEvent;
     use Mautic\CampaignBundle\Event\DecisionEvent;
     use Mautic\CampaignBundle\Executioner\RealTimeExecutioner;
@@ -787,7 +785,7 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
         public static function getSubscribedEvents()
         {
             return [
-                CampaignEvents::CAMPAIGN_ON_BUILD                  => ['onCampaignBuild', 0],
+                CampaignBuilderEvent::class                        => ['onCampaignBuild', 0],
                 HelloWorldEvents::EVALUATE_CAMPAIGN_DECISION       => ['onEvaluateCampaignDecision', 0],
                 HelloWorldEvents::CONTACT_TRAVEL_DOCUMENTS_CREATED => ['onContactTravelDocumentsCreated', 0],
             ];
