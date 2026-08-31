@@ -29,7 +29,7 @@ You can find several events through the ``ChannelEvents`` class.
     public static function getSubscribedEvents()
     {
         return [
-            ChannelEvents::ADD_CHANNEL => ['onAddChannel', 100],
+            ChannelEvent::class => ['onAddChannel', 100],
         ];
     }
 
@@ -56,13 +56,17 @@ You can find several events through the ``ChannelEvents`` class.
         );
     }
 
+.. note::
+
+   From Mautic 8.0, Mautic dispatches and subscribes to these ChannelBundle events by their event class name (for example ``ChannelEvent::class``) rather than the ``ChannelEvents`` constant. A subscriber still keyed on the old ``ChannelEvents`` constant silently stops receiving the event, so re-key it on the event class. The ``ChannelEvents`` constants stay defined for backward compatibility but no longer route dispatch for these events.
+
 Extending broadcasts
 --------------------
 
 Broadcasts are communications sent in bulk through a Channel such as Email.
 An event is available to execute the sending of these bulk communications via the ``mautic:broadcasts:send`` command.
 
-To hook into the ``mautic:broadcasts:send`` command, create a listener for the ``\Mautic\CoreBundle\CoreEvents::CHANNEL_BROADCAST`` event.
+To hook into the ``mautic:broadcasts:send`` command, create a listener for the ``\Mautic\ChannelBundle\Event\ChannelBroadcastEvent`` event.
 The event listener should check for the appropriate context and ID.
 
 .. code-block:: php
@@ -74,7 +78,6 @@ The event listener should check for the appropriate context and ID.
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\ChannelBundle\ChannelEvents;
     use Mautic\ChannelBundle\Event\ChannelBroadcastEvent;
     use MauticPlugin\HelloWorldPlugin\Model\WorldModel;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -91,7 +94,7 @@ The event listener should check for the appropriate context and ID.
         public static function getSubscribedEvents(): array
         {
             return [
-                ChannelEvents::CHANNEL_BROADCAST => ['onChannelBroadcast', 0]
+                ChannelBroadcastEvent::class => ['onChannelBroadcast', 0],
             ];
         }
 
