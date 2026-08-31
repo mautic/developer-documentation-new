@@ -1588,6 +1588,8 @@ Get a list of notes for a specific Contact.
                  "text": "<p>Discussed product demo requirements. Follow-up scheduled for next week.</p>",
                  "type": "general",
                  "dateTime": "2015-07-23T13:14:00-05:00",
+                 "isPublished": true,
+                 "dateAdded": "2015-07-23T13:14:00-05:00",
                  "createdBy": 1,
                  "createdByUser": "Joe Smith",
                  "dateModified": "2015-07-24T09:30:00-05:00",
@@ -1618,6 +1620,12 @@ Get a list of notes for a specific Contact.
    * - ``dateTime``
      - ``datetime``
      - Date/time string of when the note got created.
+   * - ``isPublished``
+     - boolean
+     - Published state
+   * - ``dateAdded``
+     - ``datetime``
+     - Date/time the Note record was created
    * - ``createdBy``
      - int
      - ID of the User who created the Note
