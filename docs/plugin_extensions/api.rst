@@ -200,9 +200,9 @@ API permission-context event
 
 .. vale on
 
-Mautic dispatches this event immediately before API Platform (v2) evaluates authorization, letting a subscriber rewrite the permission, the request object, or both.
+Mautic dispatches this event immediately before API Platform v2 evaluates authorization, letting a subscriber rewrite the permission, the request object, or both.
 
-It fires from both API Platform authorization paths: the deny-access listener (``MauticDenyAccessListener::checkSecurity()``) and the permission voter (``ApiPermissionVoter::voteOnAttribute()``). After dispatch, Mautic re-reads ``getPermission()`` and ``getRequestObject()`` and uses those values for the ownership or ``isGranted()`` check.
+It fires from both API Platform authorization paths: the deny-access listener (``MauticDenyAccessListener::checkSecurity()``) and the permission voter (``ApiPermissionVoter::voteOnAttribute()``). After dispatch, Mautic re-reads ``getPermission()`` and ``getRequestObject()``, then runs the ownership or ``isGranted()`` authorization against them.
 
 A Plugin uses this event to resolve dynamic permissions that contain placeholders. For example, the Custom Objects Plugin resolves ``custom_objects:[customObject]:viewown`` or the object-path-derived ownership context ``custom_objects:custom_fields:viewown(getCustomField)`` into a concrete permission and subject at runtime.
 
@@ -215,7 +215,7 @@ The event is additive and non-breaking, so existing permission checks keep worki
    * - Event constant
      - Description
    * - ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT``
-     - Dispatched before API Platform evaluates permission checks. The event string is ``mautic.api_platform_permission_context``.
+     - Mautic dispatches this before API Platform evaluates authorization. The event string is ``mautic.api_platform_permission_context``.
 
 The event receives a ``Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent`` instance with the following methods:
 
@@ -226,15 +226,15 @@ The event receives a ``Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent`
    * - Method
      - Description
    * - ``getSecurityExpression()``
-     - Returns the raw security expression the API Platform operation declares. On the permission-voter path, this is the same value passed as the permission attribute.
+     - Returns the raw security expression the API Platform operation declares. On the permission-voter path, this matches the value passed as the permission attribute.
    * - ``getPermission()``
      - Returns the permission string extracted from the security expression. Mautic re-reads this after the event to authorize.
    * - ``setPermission()``
-     - Overrides the permission string used for the authorization check.
+     - Sets the permission string Mautic authorizes against.
    * - ``getRequestObject()``
-     - Returns the request object the permission check runs against.
+     - Returns the request object Mautic authorizes against.
    * - ``setRequestObject()``
-     - Overrides the request object used for the ownership or authorization check.
+     - Sets the request object Mautic runs the ownership or ``isGranted()`` authorization against.
    * - ``getRequest()``
      - Returns the current Symfony ``Request``, or ``null``. It's ``null`` when the permission voter dispatches the event.
    * - ``getAttributes()``
@@ -242,7 +242,7 @@ The event receives a ``Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent`
 
 .. note::
 
-   ``getRequest()`` and ``getAttributes()`` are only populated on the deny-access listener path. On the permission-voter path the request is ``null`` and the attributes are empty. Because a subscriber can't always tell which path dispatched the event, guard for a ``null`` request and empty attributes before you rely on them.
+   Mautic populates ``getRequest()`` and ``getAttributes()`` only on the deny-access listener path. On the permission-voter path, the request is ``null`` and the attributes are empty. Because a subscriber can't always tell which path dispatched the event, guard for a ``null`` request and empty attributes before you rely on them.
 
 Example subscriber
 ==================
