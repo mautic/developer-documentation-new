@@ -82,6 +82,55 @@ There are many events available throughout Mautic. Depending on what you're tryi
    * The ``CoreEvents`` constants remain in the codebase but are no longer used for dispatch, so a subscriber still keyed on the constant or string won't fire. It fails silently: it throws no exception and logs nothing, and simply never runs.
    * Other event families, such as ``LeadEvents`` and ``PageEvents``, still use their constants. Keep keying on those.
 
+The following table is the complete migration reference for CoreBundle event subscribers, mapping each old event name and ``CoreEvents`` constant to its new event class, all of which live in the ``Mautic\CoreBundle\Event`` namespace.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 35 25
+
+   * - Old event name
+     - CoreEvents constant
+     - New event class
+   * - ``mautic.build_menu``
+     - ``CoreEvents::BUILD_MENU``
+     - ``MenuEvent``
+   * - ``mautic.build_route``
+     - ``CoreEvents::BUILD_ROUTE``
+     - ``RouteEvent``
+   * - ``mautic.global_search``
+     - ``CoreEvents::GLOBAL_SEARCH``
+     - ``GlobalSearchEvent``
+   * - ``mautic.list_stats``
+     - ``CoreEvents::LIST_STATS``
+     - ``StatsEvent``
+   * - ``mautic.build_command_list``
+     - ``CoreEvents::BUILD_COMMAND_LIST``
+     - ``CommandListEvent``
+   * - ``mautic.on_fetch_icons``
+     - ``CoreEvents::FETCH_ICONS``
+     - ``IconEvent``
+   * - ``mautic.build_embeddable_js``
+     - ``CoreEvents::BUILD_MAUTIC_JS``
+     - ``BuildJsEvent``
+   * - ``mautic.maintenance_cleanup_data``
+     - ``CoreEvents::MAINTENANCE_CLEANUP_DATA``
+     - ``MaintenanceEvent``
+   * - ``mautic.view_inject_custom_buttons``
+     - ``CoreEvents::VIEW_INJECT_CUSTOM_BUTTONS``
+     - ``CustomButtonEvent``
+   * - ``mautic.view_inject_custom_content``
+     - ``CoreEvents::VIEW_INJECT_CUSTOM_CONTENT``
+     - ``CustomContentEvent``
+   * - ``mautic.view_inject_custom_template``
+     - ``CoreEvents::VIEW_INJECT_CUSTOM_TEMPLATE``
+     - ``CustomTemplateEvent``
+   * - ``mautic.view_inject_custom_assets``
+     - ``CoreEvents::VIEW_INJECT_CUSTOM_ASSETS``
+     - ``CustomAssetsEvent``
+   * - ``mautic.on_generated_columns_build``
+     - ``CoreEvents::ON_GENERATED_COLUMNS_BUILD``
+     - ``GeneratedColumnsEvent``
+
 Custom events
 *************
 
