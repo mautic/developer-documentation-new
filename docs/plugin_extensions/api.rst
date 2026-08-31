@@ -202,7 +202,12 @@ API permission-context event
 
 Mautic dispatches this event immediately before API Platform v2 evaluates authorization, letting a subscriber rewrite the permission, the request object, or both.
 
-It fires from both API Platform authorization paths: the deny-access listener (``MauticDenyAccessListener::checkSecurity()``) and the permission voter (``ApiPermissionVoter::voteOnAttribute()``). After dispatch, Mautic re-reads ``getPermission()`` and ``getRequestObject()``, then runs the ownership or ``isGranted()`` authorization against them.
+It fires from both API Platform authorization paths:
+
+* The deny-access listener - ``MauticDenyAccessListener::checkSecurity()``
+* The permission voter - ``ApiPermissionVoter::voteOnAttribute()``
+
+After dispatch, Mautic re-reads ``getPermission()`` and ``getRequestObject()``, then runs the ownership or ``isGranted()`` authorization against them.
 
 A Plugin uses this event to resolve dynamic permissions that contain placeholders. For example, the Custom Objects Plugin resolves ``custom_objects:[customObject]:viewown`` or the object-path-derived ownership context ``custom_objects:custom_fields:viewown(getCustomField)`` into a concrete permission and subject at runtime.
 
