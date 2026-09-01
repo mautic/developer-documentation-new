@@ -52,7 +52,7 @@ Supporting Mautic
 
 There are several ways to support Mautic other than contributing with code.
 
-1. Help with testing bugs and features using Gitpod in the browser - head to the :xref:`Mautic Tester Docs`
+1. Help with testing bugs and features using GitHub Codespaces in the browser - head to the :xref:`Mautic Tester Docs`
 2. Help with improving the documentation on this site, and the :xref:`Mautic End User Docs`.
 3. :xref:`Contribute to Mautic` with other skills
 4. Become a :xref:`Become a Member of Mautic`
