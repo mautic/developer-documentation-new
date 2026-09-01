@@ -348,11 +348,15 @@ Key each item with its respective :ref:`language string key<plugins/translations
     * - ``route``
       - conditional
       - string
-      - Name of the :ref:`Routing config items<plugins/config:Route definitions>` for this item. Leave undefined if the item is a placeholder for a sub-menu.
+      - Name of the :ref:`Routing config items<plugins/config:Route definitions>` for this item. Leave undefined if the item is a placeholder for a sub-menu or if you define a ``uri`` instead.
     * - ``routeParameters``
       - no
       - array
       - Key/value pairs of :ref:`path parameters<plugins/config:Route definitions>` for the given ``route``.
+    * - ``uri``
+      - conditional
+      - string
+      - Explicit URL for the menu item's link, used instead of a ``route``. Use this to link to an external or static URL, for example, ``https://mautic.org``. Mautic keeps any item that defines a ``route``, a ``uri``, or ``children``; items that define only a ``uri`` render starting in Mautic 7.2.
     * - ``parent``
       - no
       - string
@@ -377,6 +381,10 @@ Key each item with its respective :ref:`language string key<plugins/translations
       - no
       - string
       - Font Awesome class to set the icon for the menu item.
+    * - ``linkAttributes``
+      - no
+      - array
+      - Key/value pairs of HTML attributes to add to the item's link element, ``<a />``. For example, set ``['target' => '_blank', 'rel' => 'noopener noreferrer']`` to open the link in a new tab.
 
 Menu item checks
 ----------------
