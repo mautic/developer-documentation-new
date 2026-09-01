@@ -498,3 +498,77 @@ To leverage this, accept the array from ``$event->getQueryOptions()`` in the rep
       - Optional
       - callback
       - Callback to custom parse a result. This is optional and mainly used to handle a column result when all results are already looped over for ``$serializedColumns`` and $dateTimeColumns.
+
+.. vale off
+
+Customizing Custom Field Groups
+******************************
+
+.. vale on
+
+.. vale off
+
+Mautic organizes Contact and Company Custom Fields into groups, which appear as tabs on the Contact and Company view and edit pages. Beyond the built-in groups, admins can create their own Custom Field Groups under **Settings** > **Custom Field Groups**.
+
+.. vale on
+
+As Mautic builds the group list for a view, it dispatches the ``LeadEvents::FIELD_GROUP_LIST_ON_GENERATE`` event. Listen to this event to add your own groups or rename an existing group. Mautic resolves each group's display name through this event, so a Plugin can label custom groups without registering static translation keys.
+
+The event listener receives a ``Mautic\LeadBundle\Event\FieldGroupListEvent`` object. The groups are an associative array keyed by group alias, with the translated display name as the value.
+
+.. code-block:: PHP
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/FieldGroupSubscriber.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\LeadBundle\Event\FieldGroupListEvent;
+    use Mautic\LeadBundle\LeadEvents;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+    use Symfony\Contracts\Translation\TranslatorInterface;
+
+    final class FieldGroupSubscriber implements EventSubscriberInterface
+    {
+        public function __construct(private TranslatorInterface $translator)
+        {
+        }
+
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                LeadEvents::FIELD_GROUP_LIST_ON_GENERATE => ['onFieldGroupGenerate', 0],
+            ];
+        }
+
+        public function onFieldGroupGenerate(FieldGroupListEvent $event): void
+        {
+            // Only act on Contact (lead) field groups.
+            if ('lead' !== $event->getObject()) {
+                return;
+            }
+
+            $groups = $event->getGroups();
+
+            // Add a new group, keyed by its alias.
+            $groups['loyalty'] = $this->translator->trans('mautic.hello.world.field_group.loyalty');
+
+            $event->setGroups($groups);
+        }
+    }
+
+The ``FieldGroupListEvent`` provides the following methods:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method
+     - Description
+   * - ``getGroups()``
+     - Returns the current groups as an ``[alias => displayName]`` array.
+   * - ``setGroups(array $groups)``
+     - Replaces the group list. Use this to add groups or override display names.
+   * - ``getObject()``
+     - Returns the object the list applies to, either ``'lead'`` or ``'company'``.
