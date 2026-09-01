@@ -136,7 +136,7 @@ Each firewall accepts an array of defined routes. Each key, the route's name, mu
 
 .. warning:: Each route's name must be unique across all bundles and firewalls and paths must be unique within the same firewall.
 
-.. warning:: Order of routes matters as Symfony uses the first route that matches the URL.
+.. warning:: Order of routes matters as Symfony uses the first route that matches the URL. Set a route's ``priority`` to control this order.
 
 Route definitions
 =================
@@ -179,6 +179,10 @@ Route definitions define the route's method, path, controller, parameters, and o
       - no
       - boolean
       - If the firewall is ``api``, setting this to ``TRUE`` automatically registers GET, POST, PUT, PATCH, and DELETE API endpoints for single and batch handling of entities.
+    * - ``priority``
+      - no
+      - integer
+      - Sets the order in which Mautic registers the route, relative to other routes. Symfony matches higher-priority routes first, and routes with equal priority keep their definition order. Use this to resolve match-order conflicts between overlapping paths. Defaults to ``0`` when omitted.
 
 Special routing parameters
 --------------------------
