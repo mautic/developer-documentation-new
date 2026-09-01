@@ -474,9 +474,13 @@ The Plugin also has access to inject specific search criteria for the processed 
 
 To do this, the Plugin needs to add an event listener for three events:
 
-1. ``EmailEvents::MONITORED_EMAIL_CONFIG`` This event is dispatched to inject the fields into Mautic's Configuration to configure the IMAP inbox and folder that should be monitored.
+1. ``MonitoredEmailEvent`` This event is dispatched to inject the fields into Mautic's Configuration to configure the IMAP inbox and folder that should be monitored.
 2. ``EmailEvents::EMAIL_PRE_FETCH`` This event is dispatched during the execution of the ``mautic:email:fetch`` command. It's used to inject search criteria for the messages desired.
 3. ``EmailEvents::EMAIL_PARSE`` This event parses the messages fetched by the command.
+
+.. note::
+
+   Since Mautic 8, ``MonitoredEmailEvent`` is dispatched by the event object alone. Key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``, not on ``EmailEvents::MONITORED_EMAIL_CONFIG`` or the string ``mautic.monitored_email_config``. The constant remains for backward compatibility but no longer dispatches this event, so a subscriber still keyed on ``EmailEvents::MONITORED_EMAIL_CONFIG`` never fires—no exception is thrown and nothing is logged. Only ``MONITORED_EMAIL_CONFIG`` changed: ``EmailEvents::EMAIL_PRE_FETCH`` and ``EmailEvents::EMAIL_PARSE`` still dispatch by their string constants, so keep subscribing to those two on the constants.
 
 .. code-block:: PHP
 
@@ -501,7 +505,7 @@ To do this, the Plugin needs to add an event listener for three events:
         static public function getSubscribedEvents(): array
         {
             return [
-                EmailEvents::MONITORED_EMAIL_CONFIG => ['onConfig', 0],
+                MonitoredEmailEvent::class          => ['onConfig', 0],
                 EmailEvents::EMAIL_PRE_FETCH        => ['onPreFetch', 0],
                 EmailEvents::EMAIL_PARSE            => ['onParse', 0],
             ];
@@ -542,6 +546,12 @@ To do this, the Plugin needs to add an event listener for three events:
             }
         }
     }
+
+To confirm Mautic registered the subscriber, list the event's listeners. The subscriber's class and method appear in the listing when Mautic has wired it up:
+
+.. code-block:: console
+
+    bin/console debug:event-dispatcher 'Mautic\EmailBundle\Event\MonitoredEmailEvent'
 
 Email transports
 ----------------

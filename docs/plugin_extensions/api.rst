@@ -217,10 +217,14 @@ The event is additive and non-breaking, so existing permission checks keep worki
    :header-rows: 1
    :widths: 30 70
 
-   * - Event constant
+   * - Event
      - Description
-   * - ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT``
-     - Mautic dispatches this before API Platform evaluates authorization. The event string is ``mautic.api_platform_permission_context``.
+   * - ``ApiPlatformPermissionContextEvent``
+     - Since Mautic 8, Mautic dispatches this event by its class rather than a string constant, before API Platform evaluates authorization. The ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT`` constant remains for backward compatibility.
+
+.. note::
+
+   Since Mautic 8, ``ApiPlatformPermissionContextEvent`` is dispatched by the event object alone. Key ``getSubscribedEvents()`` on ``ApiPlatformPermissionContextEvent::class``, not on ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT`` or the string ``mautic.api_platform_permission_context``. The constant remains for backward compatibility but no longer dispatches this event, so a subscriber still keyed on the old constant never fires—no exception is thrown and nothing is logged.
 
 The event receives a ``Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent`` instance with the following methods:
 
@@ -261,7 +265,6 @@ Example subscriber
 
     namespace MauticPlugin\CustomObjectsBundle\EventListener;
 
-    use Mautic\ApiBundle\ApiEvents;
     use Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -270,7 +273,7 @@ Example subscriber
         public static function getSubscribedEvents(): array
         {
             return [
-                ApiEvents::API_PLATFORM_PERMISSION_CONTEXT => ['onPermissionContext', 0],
+                ApiPlatformPermissionContextEvent::class => ['onPermissionContext', 0],
             ];
         }
 
@@ -314,3 +317,9 @@ Example subscriber
             return new \stdClass();
         }
     }
+
+To confirm Mautic registered the subscriber, list the event's listeners. The subscriber's class and method appear in the listing when Mautic has wired it up:
+
+.. code-block:: console
+
+    bin/console debug:event-dispatcher 'Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent'
