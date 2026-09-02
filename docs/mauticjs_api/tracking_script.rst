@@ -251,7 +251,7 @@ Hooking into the tracking process and returning custom responses
 
 If you need to do something during the request to track the Contact through ``/mtc/event``, or append to the payload returned to the tracking code, which you can use from custom JavaScript injected through ``CoreEvents::BUILD_MAUTIC_JS``, subscribe to the tracking event with an :ref:`Event Listener<plugins/event_listeners:Event listeners>`.
 The listener can inject a custom payload through the ``Mautic\PageBundle\Event\TrackingEvent::set`` method.
-This will expose the payload to the tracking code's ``mauticPageEventDelivered`` event in the ``detail.response.events`` object. See the PHP code example.
+This exposes the payload to the tracking code's ``mauticPageEventDelivered`` event in the ``detail.response.events`` object. See the PHP code example.
 
 .. note::
 
