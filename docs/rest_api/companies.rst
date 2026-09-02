@@ -1052,6 +1052,174 @@ Response
 
 .. vale off
 
+Batch add Contacts to Companies
+*******************************
+
+.. vale on
+
+Assigns multiple Contacts to Companies in a single request. Each item is a Contact-Company pair, and the response includes the outcome of every pair separately, along with an overall summary. Use this endpoint for Integrations that synchronize many Contact-Company relationships at once, instead of calling the 'Add Contact to Company' endpoint once per pair.
+
+.. vale off
+
+HTTP request
+============
+
+.. vale on
+
+``POST /companies/batch/addcontacts``
+
+POST parameters
+---------------
+
+Pass an ``assignments`` array. Each item is an object with the following properties.
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``contactId``
+     - integer
+     - **Required.**
+
+       ID of the Contact to add to the Company
+   * - ``companyId``
+     - integer
+     - **Required.**
+
+       ID of the Company to add the Contact to
+
+.. note::
+
+   The number of assignments per request can't exceed the API batch size limit, which defaults to 200. Configure this limit with the ``api_batch_max_limit`` setting.
+
+Example request body:
+
+.. code-block:: json
+
+   {
+       "assignments": [
+           {"contactId": 1, "companyId": 5},
+           {"contactId": 2, "companyId": 5}
+       ]
+   }
+
+Mautic processes each duplicate pair in a request only once and groups all assignments for the same Contact into a single database operation. Every pair you send still appears in the ``results`` array, including duplicates.
+
+Response
+========
+
+* Returns ``200 OK`` when Mautic processes the batch, even if some pairs fail. Check the ``status`` of each item in ``results`` for per-pair outcomes.
+* Returns ``400 Bad Request`` when the ``assignments`` parameter is missing, empty, or not an array, or when an item isn't an object.
+* Returns ``403 Forbidden`` when the authenticated User has neither the ``lead:leads:editown`` nor the ``lead:leads:editother`` permission.
+* Returns ``500 Internal Server Error`` when the number of assignments exceeds the batch size limit.
+
+.. code-block:: json
+
+   {
+       "results": [
+           {"contactId": 1, "companyId": 5, "status": 200, "message": "Contact added to company"},
+           {"contactId": 2, "companyId": 5, "status": 404, "message": "Contact not found"}
+       ],
+       "summary": {
+           "total": 2,
+           "succeeded": 1,
+           "failed": 1
+       }
+   }
+
+Properties
+----------
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``results``
+     - array
+     - One entry for every pair in the request, in the same order. Duplicated pairs each get their own entry.
+   * - ``summary``
+     - object
+     - Overall counts for the batch
+
+The ``results`` entry properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``contactId``
+     - integer
+     - ID of the Contact in the pair
+   * - ``companyId``
+     - integer
+     - ID of the Company in the pair
+   * - ``status``
+     - integer
+     - Per-pair status code. See the status values below.
+   * - ``message``
+     - string
+     - Human-readable outcome for the pair
+
+The ``summary`` object properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``total``
+     - integer
+     - Total number of pairs in the request
+   * - ``succeeded``
+     - integer
+     - Number of pairs with a ``200`` status
+   * - ``failed``
+     - integer
+     - Number of pairs with any other status
+
+Per-pair ``status`` values
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. list-table::
+   :widths: 20 30 50
+   :header-rows: 1
+
+   * - Status
+     - Message
+     - Meaning
+   * - ``200``
+     - ``Contact added to company``
+     - Mautic added the Contact to the Company, or the Contact already belonged to it
+   * - ``404``
+     - ``Contact not found``
+     - No Contact matches ``contactId``
+   * - ``404``
+     - ``Company not found``
+     - No Company matches ``companyId``
+   * - ``403``
+     - ``Access denied``
+     - The authenticated User can't edit this Contact
+   * - ``500``
+     - ``An unexpected error occurred``
+     - Mautic couldn't process the pair
+
+Mautic records each new assignment made through this endpoint in the Contact's Company change log. It doesn't add a log entry when the Contact already belongs to the Company, and a pair for an existing link still returns a ``200`` status in its result. The 'Add Contact to Company' endpoint doesn't write to this log.
+
+.. vale off
+
 Remove Contact from Company
 ***************************
 
