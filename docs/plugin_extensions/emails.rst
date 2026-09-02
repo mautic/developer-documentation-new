@@ -474,13 +474,13 @@ The Plugin also has access to inject specific search criteria for the processed 
 
 To do this, the Plugin needs to add an event listener for three events:
 
-1. ``MonitoredEmailEvent`` This event is dispatched to inject the fields into Mautic's Configuration to configure the IMAP inbox and folder that should be monitored.
+1. ``MonitoredEmailEvent`` Mautic dispatches this event to inject the fields into Mautic's Configuration to configure the IMAP inbox and folder to monitor.
 2. ``EmailEvents::EMAIL_PRE_FETCH`` This event is dispatched during the execution of the ``mautic:email:fetch`` command. It's used to inject search criteria for the messages desired.
 3. ``EmailEvents::EMAIL_PARSE`` This event parses the messages fetched by the command.
 
 .. note::
 
-   Since Mautic 8, ``MonitoredEmailEvent`` is dispatched by the event object alone. Key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``, not on ``EmailEvents::MONITORED_EMAIL_CONFIG`` or the string ``mautic.monitored_email_config``. The constant remains for backward compatibility but no longer dispatches this event, so a subscriber still keyed on ``EmailEvents::MONITORED_EMAIL_CONFIG`` never fires—no exception is thrown and nothing is logged. Only ``MONITORED_EMAIL_CONFIG`` changed: ``EmailEvents::EMAIL_PRE_FETCH`` and ``EmailEvents::EMAIL_PARSE`` still dispatch by their string constants, so keep subscribing to those two on the constants.
+   Since Mautic 8, Mautic dispatches ``MonitoredEmailEvent`` by its class alone, not by a string constant. Key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``, not on ``EmailEvents::MONITORED_EMAIL_CONFIG`` or the string ``mautic.monitored_email_config``. The constant remains for backward compatibility but no longer dispatches this event, so a subscriber still keyed on ``EmailEvents::MONITORED_EMAIL_CONFIG`` never fires—Mautic throws no exception and logs nothing. Only ``MONITORED_EMAIL_CONFIG`` changed: ``EmailEvents::EMAIL_PRE_FETCH`` and ``EmailEvents::EMAIL_PARSE`` still dispatch by their string constants, so keep subscribing to those two on the constants.
 
 .. code-block:: PHP
 

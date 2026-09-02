@@ -224,7 +224,7 @@ The event is additive and non-breaking, so existing permission checks keep worki
 
 .. note::
 
-   Since Mautic 8, ``ApiPlatformPermissionContextEvent`` is dispatched by the event object alone. Key ``getSubscribedEvents()`` on ``ApiPlatformPermissionContextEvent::class``, not on ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT`` or the string ``mautic.api_platform_permission_context``. The constant remains for backward compatibility but no longer dispatches this event, so a subscriber still keyed on the old constant never fires—no exception is thrown and nothing is logged.
+   Since Mautic 8, Mautic dispatches ``ApiPlatformPermissionContextEvent`` by its class alone, not by a string constant. Key ``getSubscribedEvents()`` on ``ApiPlatformPermissionContextEvent::class``, not on ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT`` or the string ``mautic.api_platform_permission_context``. The constant remains for backward compatibility but no longer dispatches this event, so a subscriber still keyed on the old constant never fires—Mautic throws no exception and logs nothing.
 
 The event receives a ``Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent`` instance with the following methods:
 
