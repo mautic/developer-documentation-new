@@ -9,7 +9,7 @@ To add and render custom Reports in Mautic, your Plugin needs to listen to the f
 
 .. note::
 
-   Since Mautic 8, subscribers key ``getSubscribedEvents()`` on the event class (for example, ``ReportBuilderEvent::class``), following the Symfony 4.3 style rather than a ``ReportEvents`` constant. The ``ReportEvents`` constants remain defined, so code that references them still compiles. However, a subscriber that still keys on one of these ``ReportEvents`` constants no longer receives the event, and you must update it to key on the event class instead.
+   Since Mautic 8, subscribers key ``getSubscribedEvents()`` on the event class - for example, ``ReportBuilderEvent::class`` - following the Symfony 4.3 style rather than a ``ReportEvents`` constant. The ``ReportEvents`` constants remain defined, so code that references them still compiles. However, a subscriber that still keys on one of these ``ReportEvents`` constants no longer receives the event, and you must update it to key on the event class instead.
 
 If you're updating an existing Plugin, replace each ``ReportEvents`` constant with its event class:
 
