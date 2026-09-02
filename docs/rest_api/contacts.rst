@@ -1587,7 +1587,14 @@ Get a list of notes for a specific Contact.
                  "id": 1,
                  "text": "<p>Discussed product demo requirements. Follow-up scheduled for next week.</p>",
                  "type": "general",
-                 "dateTime": "2015-07-23T13:14:00-05:00"
+                 "dateTime": "2015-07-23T13:14:00-05:00",
+                 "isPublished": true,
+                 "dateAdded": "2015-07-23T13:14:00-05:00",
+                 "createdBy": 1,
+                 "createdByUser": "Joe Smith",
+                 "dateModified": "2015-07-24T09:30:00-05:00",
+                 "modifiedBy": 1,
+                 "modifiedByUser": "Joe Smith"
            },
            // ...
        ]
@@ -1613,6 +1620,27 @@ Get a list of notes for a specific Contact.
    * - ``dateTime``
      - ``datetime``
      - Date/time string of when the note got created.
+   * - ``isPublished``
+     - boolean
+     - ``true`` if the Note is Active
+   * - ``dateAdded``
+     - ``datetime``
+     - Date/time Mautic created the Note record
+   * - ``createdBy``
+     - int
+     - ID of the User who created the Note
+   * - ``createdByUser``
+     - string
+     - Name of the User who created the Note
+   * - ``dateModified``
+     - datetime/null
+     - Date/time Note was last modified
+   * - ``modifiedBy``
+     - int
+     - ID of the User who last modified the Note
+   * - ``modifiedByUser``
+     - string
+     - Name of the User who last modified the Note
 
 .. vale off
 
