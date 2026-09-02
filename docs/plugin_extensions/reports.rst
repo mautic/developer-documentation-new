@@ -3,9 +3,28 @@ Reports
 
 To add and render custom Reports in Mautic, your Plugin needs to listen to the following events:
 
-* ``\Mautic\ReportBundle\ReportEvents::REPORT_ON_BUILD``
-* ``ReportEvents::REPORT_ON_GENERATE``
-* ``ReportEvents::REPORT_ON_GRAPH_GENERATE``
+* ``\Mautic\ReportBundle\Event\ReportBuilderEvent``
+* ``\Mautic\ReportBundle\Event\ReportGeneratorEvent``
+* ``\Mautic\ReportBundle\Event\ReportGraphEvent``
+
+.. note::
+
+   Since Mautic 8, subscribers key ``getSubscribedEvents()`` on the event class - for example, ``ReportBuilderEvent::class`` - following the Symfony 4.3 style rather than a ``ReportEvents`` constant. The ``ReportEvents`` constants remain defined, so code that references them still compiles. However, a subscriber that still keys on one of these ``ReportEvents`` constants no longer receives the event, and you must update it to key on the event class instead.
+
+If you're updating an existing Plugin, replace each ``ReportEvents`` constant with its event class:
+
+.. list-table:: Migrating from ``ReportEvents`` constants
+    :widths: 50 50
+    :header-rows: 1
+
+    * - Mautic 7 constant
+      - Mautic 8 event class
+    * - ``ReportEvents::REPORT_ON_BUILD``
+      - ``ReportBuilderEvent``
+    * - ``ReportEvents::REPORT_ON_GENERATE``
+      - ``ReportGeneratorEvent``
+    * - ``ReportEvents::REPORT_ON_GRAPH_GENERATE``
+      - ``ReportGraphEvent``
 
 .. code-block:: php
 
@@ -19,7 +38,6 @@ To add and render custom Reports in Mautic, your Plugin needs to listen to the f
    use Mautic\ReportBundle\Event\ReportBuilderEvent;
    use Mautic\ReportBundle\Event\ReportGeneratorEvent;
    use Mautic\ReportBundle\Event\ReportGraphEvent;
-   use Mautic\ReportBundle\ReportEvents;
    use Mautic\CoreBundle\Helper\Chart\ChartQuery;
    use Mautic\CoreBundle\Helper\Chart\LineChart;
 
@@ -28,9 +46,9 @@ To add and render custom Reports in Mautic, your Plugin needs to listen to the f
       public static function getSubscribedEvents(): array
       {
          return [
-               ReportEvents::REPORT_ON_BUILD => ['onReportBuilder', 0],
-               ReportEvents::REPORT_ON_GENERATE => ['onReportGenerate', 0],
-               ReportEvents::REPORT_ON_GRAPH_GENERATE => ['onReportGraphGenerate', 0],
+               ReportBuilderEvent::class => ['onReportBuilder', 0],
+               ReportGeneratorEvent::class => ['onReportGenerate', 0],
+               ReportGraphEvent::class => ['onReportGraphGenerate', 0],
          ];
       }
 
@@ -123,7 +141,7 @@ Defining a Report
 
 .. vale on
 
-Mautic dispatches the ``ReportEvents::REPORT_ON_BUILD`` event to define a report. In this event, the Plugin defines:
+Mautic dispatches the ``ReportBuilderEvent`` event to define a Report. In this event, the Plugin defines:
 
 * The Report context
 * Available columns for table data
@@ -215,7 +233,7 @@ Generating the QueryBuilder
 
 .. vale on
 
-Mautic dispatches the ``ReportEvents::REPORT_ON_GENERATE`` event when it generates and displays a report. Use this event to define the QueryBuilder object that generates the table data.
+Mautic dispatches the ``ReportGeneratorEvent`` event when it generates and displays a Report. Use this event to define the QueryBuilder object that generates the table data.
 
 * Use ``$event->checkContext()`` to determine if the requested report belongs to the subscriber.
 * Use Doctrine's DBAL layer QueryBuilder by obtaining it via ``$qb = $event->getQueryBuilder();``.
@@ -225,7 +243,7 @@ The ``ReportGeneratorEvent`` class provides several helper functions to append j
 Generating graphs
 =================
 
-Mautic dispatches the ``ReportEvents::REPORT_ON_GRAPH_GENERATE`` event to generate graphs for a report. Use this event to define the visual data representation.
+Mautic dispatches the ``ReportGraphEvent`` event to generate graphs for a Report. Use this event to define the visual data representation.
 
 * Verify the Report context with ``$event->checkContext()``.
 * Clone the base ``QueryBuilder`` to safely manipulate queries for multiple graphs.
