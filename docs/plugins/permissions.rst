@@ -178,7 +178,7 @@ Most permission classes require three methods: ``__construct()``, ``buildForm()`
 
 The constructor defines the ``$this->permissions`` array and calls the helper methods - ``addStandardPermissions()``, ``addExtendedPermissions()``, or ``addManagePermission()`` - as needed. This array organizes permissions into levels, where each level contains specific permissions assigned to bits.
 
-Don't rely on ``$this->params`` inside the constructor. Mautic injects the resolved core parameters through an autowired setter that runs after the object is constructed, so ``$this->params`` is available in every method except ``__construct()``. Keep any logic that needs those parameters in a method other than the constructor.
+Don't rely on ``$this->params`` inside the constructor. Mautic injects the resolved core parameters through an autowired setter that runs after construction completes, so ``$this->params`` is available in every method except ``__construct()``. Keep any logic that needs those parameters in a method other than the constructor.
 
 For example, in the code sample, a custom level of ``worlds`` includes ``use_telescope``, ``send_probe``, ``visit``, and ``full``. To verify if a User has the ``send_probe`` permission for the ``worlds`` level, use:
 
