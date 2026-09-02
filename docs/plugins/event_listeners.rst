@@ -76,10 +76,10 @@ There are many events available throughout Mautic. Depending on what you're tryi
 
 .. note::
 
-   Since Mautic 8, Mautic dispatches events in the ``Mautic\AssetBundle\AssetEvents`` family by the event class itself rather than by a string name—the class you dispatch is the name Symfony matches against. This matches the Symfony 4.3 dispatch style.
+   Since Mautic 8, Mautic dispatches events in the ``Mautic\AssetBundle\AssetEvents`` family by the event class itself rather than by a string name - the class you dispatch is the name Symfony matches against. This matches the Symfony 4.3 dispatch style.
 
-   * Key ``getSubscribedEvents()`` on the event class, for example ``AssetLoadEvent::class`` (in the ``Mautic\AssetBundle\Event`` namespace), not on the ``AssetEvents::*`` constant or the raw string name such as ``mautic.asset_on_load``.
-   * The ``AssetEvents`` constants remain in the codebase but are no longer used for dispatch, so a subscriber still keyed on the constant or string won't fire. It fails silently—no exception, no log entry, and the listener never runs. To confirm your re-keyed listener now fires on the event class, run ``bin/console debug:event-dispatcher``, which lists the registered listeners per event and accepts an event class to filter by.
+   * Key ``getSubscribedEvents()`` on the event class - for example ``AssetLoadEvent::class`` in the ``Mautic\AssetBundle\Event`` namespace - not on the ``AssetEvents::*`` constant or the raw string name such as ``mautic.asset_on_load``.
+   * The ``AssetEvents`` constants remain in the codebase but are no longer used for dispatch, so a subscriber still keyed on the constant or string won't fire. It fails silently - no exception, no log entry, and the listener never runs. To confirm your re-keyed listener now fires on the event class, run ``bin/console debug:event-dispatcher``, which lists the registered listeners per event and accepts an event class to filter by.
    * Other event families, such as ``LeadEvents`` and ``PageEvents``, still use their constants. Keep keying on those.
    * Mautic removed the dead ``ASSET_ON_UPLOAD`` constant, which it never dispatched or listened to.
 
