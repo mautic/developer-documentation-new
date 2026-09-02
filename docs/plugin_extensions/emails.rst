@@ -128,6 +128,169 @@ This pattern lets you add new per-Email settings and surface them in a Symfony f
 
 .. vale off
 
+Database-sourced tokens with BuilderTokenHelper
+===============================================
+
+.. vale on
+
+When your tokens represent database entities like Landing Pages, Assets, or Forms, use the ``BuilderTokenHelper`` to query and format them. This helper handles permission checks, search filtering, and consistent label formatting.
+
+Getting the helper
+------------------
+
+Inject ``BuilderTokenHelperFactory`` and create a helper for your entity type:
+
+.. code-block:: PHP
+
+    <?php
+
+    // plugins/HelloWorldBundle/EventListener/BuilderSubscriber.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\CoreBundle\Helper\BuilderTokenHelperFactory;
+    use Mautic\EmailBundle\EmailEvents;
+    use Mautic\EmailBundle\Event\EmailBuilderEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class BuilderSubscriber implements EventSubscriberInterface
+    {
+        public function __construct(
+            private BuilderTokenHelperFactory $builderTokenHelperFactory,
+        ) {
+        }
+
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                EmailEvents::EMAIL_ON_BUILD => ['onEmailBuild', 0],
+            ];
+        }
+
+        public function onEmailBuild(EmailBuilderEvent $event): void
+        {
+            // Create a helper for the 'page' model
+            $tokenHelper = $this->builderTokenHelperFactory->getBuilderTokenHelper('page');
+        }
+    }
+
+.. vale off
+
+Formatting tokens with getFormattedTokens()
+-------------------------------------------
+
+.. vale on
+
+Use ``getFormattedTokens()`` to retrieve tokens with properly formatted labels. This method accepts ``TokenFormatOptions`` to control the label format:
+
+.. code-block:: PHP
+
+    <?php
+
+    use Mautic\CoreBundle\DTO\TokenFormatOptions;
+    use Mautic\CoreBundle\Event\BuilderEvent;
+    use Mautic\CoreBundle\Helper\BuilderTokenHelperFactory;
+
+    public function onBuilderBuild(BuilderEvent $event): void
+    {
+        $tokenHelper = $this->builderTokenHelperFactory->getBuilderTokenHelper('page');
+        $tokenFilter = $event->getTokenFilter();
+
+        // Get tokens with formatted labels like "Page link: my-landing-page (123)"
+        $tokens = $tokenHelper->getFormattedTokens(
+            'pagelink=(\d+)',                                                // Token regex pattern
+            TokenFormatOptions::linkWithId('mautic.page.token.pagelink', 'pagelink=(\d+)'),  // Format options
+            'label' === $tokenFilter['target'] ? $tokenFilter['filter'] : '',                // Search filter
+            'title'                                                                          // Label column
+        );
+
+        if ($tokens) {
+            $event->addTokens($tokens);
+        }
+    }
+
+Token format options
+--------------------
+
+The ``TokenFormatOptions`` class provides two factory methods for common label formats:
+
+.. vale off
+
+**Simple prefix** - Creates labels like ``Form: Contact Form``:
+
+.. vale on
+
+.. code-block:: PHP
+
+    TokenFormatOptions::simplePrefix('mautic.form.form')
+    // Result: "Form: Contact Form"
+
+.. vale off
+
+**Link with ID** - Creates labels like ``Page link: my-landing-page (456)`` for linkable entities:
+
+.. vale on
+
+.. code-block:: PHP
+
+    TokenFormatOptions::linkWithId('mautic.page.token.pagelink', 'pagelink=(\d+)')
+    // Result: "a:Page link: my-landing-page (456)"
+
+The ``a:`` prefix indicates a link token. The second parameter is a regular expression pattern to extract the entity ID from the token.
+
+Token sorting
+-------------
+
+.. vale off
+
+Mautic automatically groups tokens in the builder dropdown by type, such as Contact, Company, Owner, Page link, Dynamic Content, Focus Item, Asset, This page, Email. Custom or unrecognized tokens fall into an 'Other' group.
+
+.. vale on
+
+Within the Contact group, First Name, Last Name, and Title appear first. Tokens then sort alphabetically by label within each group. The ``TokenSorter`` class constants in Mautic core define the authoritative order.
+
+Deprecated methods
+------------------
+
+.. deprecated:: 7.2
+
+   Mautic deprecates the following ``BuilderEvent`` methods and removes them in a future version:
+
+   - ``addTokensFromHelper()`` - Use ``BuilderTokenHelper::getFormattedTokens()`` and ``$event->addTokens()`` instead.
+   - ``getTokensFromHelper()`` - Use ``BuilderTokenHelper::getFormattedTokens()`` instead.
+
+**Migration example:**
+
+.. code-block:: PHP
+
+    // Before (deprecated):
+    public function onEmailBuild(EmailBuilderEvent $event): void
+    {
+        $event->addTokensFromHelper($tokenHelper, $tokenRegex, 'label', 'alias');
+    }
+
+    // After:
+    public function onEmailBuild(EmailBuilderEvent $event): void
+    {
+        $tokenHelper = $this->builderTokenHelperFactory->getBuilderTokenHelper('page');
+        $tokenFilter = $event->getTokenFilter();
+        $tokens = $tokenHelper->getFormattedTokens(
+            $tokenRegex,
+            TokenFormatOptions::simplePrefix('mautic.page.page'),
+            'label' === $tokenFilter['target'] ? $tokenFilter['filter'] : '',
+            'label',                                                       // Label column
+            'alias'                                                        // Value column
+        );
+
+        if ($tokens) {
+            $event->addTokens($tokens);
+        }
+    }
+
+.. vale off
+
 .. _Email A/B testing:
 
 Email A/B testing
