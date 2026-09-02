@@ -205,7 +205,7 @@ Mautic defaults the following route definitions if not declared otherwise by the
 Advanced routing
 ================
 
-Configure custom routes by writing a listener for the ``Mautic\CoreBundle\Event\RouteEvent`` event. Listeners to this event receive the ``RouteEvent`` object. Mautic dispatches an event for each firewall when compiling routes. Since Mautic 8, key your subscriber on the event class rather than a ``CoreEvents`` constant - see :ref:`Available events <plugins/event_listeners:Available events>` for what breaks if you don't.
+Configure custom routes by writing a listener for the ``Mautic\CoreBundle\Event\RouteEvent`` event. Listeners to this event receive the ``RouteEvent`` object. Mautic dispatches an event for each firewall when compiling routes. Since Mautic 8, key your subscriber on the event class rather than a ``CoreEvents`` constant - see :ref:`Available events <available events>` for what breaks if you don't.
 
 .. php:class:: Mautic\CoreBundle\Event\RouteEvent
 

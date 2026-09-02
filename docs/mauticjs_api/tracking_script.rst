@@ -61,7 +61,7 @@ You can embed ``mtc.js`` in third party websites to manage communication between
        }
    }
 
-To inject custom JavaScript into ``mtc.js``, use an :ref:`Event Listener <plugins/event_listeners:Available events>` for the ``BuildJsEvent`` event.
+To inject custom JavaScript into ``mtc.js``, use an :ref:`Event Listener <available events>` for the ``BuildJsEvent`` event.
 This event receives a ``Mautic\CoreBundle\Event\BuildJsEvent`` object where ``$event->appendJs($js, $sectionName);`` can be used to inject the script's code.
 
 .. note::

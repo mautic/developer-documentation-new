@@ -69,6 +69,8 @@ Plugin event subscribers can extend ``Symfony\Component\EventDispatcher\EventSub
 
 .. vale on
     
+.. _available events:
+
 Available events
 ****************
 
