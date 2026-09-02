@@ -595,7 +595,7 @@ Key each service with a unique name to all of Mautic, including other Plugins.
     * - ``methodCalls``
       - no
       - array[]
-      - Define methods to call after the service is instantiated. Use an array of arrays with keys as the method name and values the arguments to pass into the given method. For example,  ``['methodCalls' => ['setSecurity' => [\Mautic\CoreBundle\Security\Permissions\CorePermissions::class],],],``.
+      - Define methods to call after Mautic instantiates the service. Use an array of arrays with keys as the method name and values the arguments to pass into the given method. For example,  ``['methodCalls' => ['setSecurity' => [\Mautic\CoreBundle\Security\Permissions\CorePermissions::class],],],``.
     * - ``decoratedService``
       - no
       - string
