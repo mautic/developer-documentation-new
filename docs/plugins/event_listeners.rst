@@ -80,7 +80,7 @@ There are many events available throughout Mautic. Depending on what you're tryi
 
    * For a converted event, key ``getSubscribedEvents()`` on the event class, for example ``WebhookBuilderEvent::class``, not on the matching ``Mautic\WebhookBundle\WebhookEvents`` constant or its string value.
    * The ``WebhookEvents`` constants remain in the codebase but are no longer used to dispatch these events, so a subscriber still keyed on a converted constant won't fire. It fails silently: it throws no exception and logs nothing, and simply never runs.
-   * Mautic 8 converted only ``WebhookBuilderEvent``, ``WebhookQueueEvent``, and ``WebhookRequestEvent``, each of whose class maps to a single name. Families whose class serves several names, such as ``WebhookEvent`` (dispatched for ``WEBHOOK_PRE_SAVE``, ``WEBHOOK_POST_SAVE``, ``WEBHOOK_PRE_DELETE``, ``WEBHOOK_POST_DELETE``, and ``WEBHOOK_KILL``), still dispatch by their ``WebhookEvents`` constants, so keep keying on the constant for those.
+   * Mautic 8 converted only ``WebhookBuilderEvent``, ``WebhookQueueEvent``, and ``WebhookRequestEvent``, each of whose class maps to a single name. Families whose class serves several names, such as ``WebhookEvent`` - dispatched for ``WEBHOOK_PRE_SAVE``, ``WEBHOOK_POST_SAVE``, ``WEBHOOK_PRE_DELETE``, ``WEBHOOK_POST_DELETE``, and ``WEBHOOK_KILL`` - still dispatch by their ``WebhookEvents`` constants, so keep keying on the constant for those.
 
 Custom events
 *************
