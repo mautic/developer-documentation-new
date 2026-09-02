@@ -76,11 +76,11 @@ There are many events available throughout Mautic. Depending on what you're tryi
 
 .. vale off
 
-That advice holds for every event dispatched by a string constant. Since Mautic 8, some bundles instead dispatch an event by the event object alone (Symfony 4.3+ class-name dispatch), so the event name is the event class rather than a string constant. For a converted event, the event class — not a string constant — is the stable dispatch identifier, and you key ``getSubscribedEvents()`` on the class. The notes below cover the StageBundle and DashboardBundle events; other bundles received similar conversions in this release.
+That advice holds for every event dispatched by a string constant. Since Mautic 8, some bundles instead dispatch an event by the event object alone - Symfony 4.3+ class-name dispatch - so the event name is the event class rather than a string constant. For a converted event, the event class - not a string constant - is the stable dispatch identifier, and you key ``getSubscribedEvents()`` on the class. The notes below cover the StageBundle and DashboardBundle events. Other bundles received similar conversions in this release.
 
 .. note::
 
-   Since Mautic 8, ``Mautic\StageBundle\Event\StageBuilderEvent`` is dispatched by the event object alone. Key ``getSubscribedEvents()`` on ``StageBuilderEvent::class``, not on ``StageEvents::STAGE_ON_BUILD`` or the string ``mautic.stage_on_build``. Those constants remain for backward compatibility but no longer dispatch this event, so a subscriber still keyed on the old constant never fires — no exception is thrown and nothing is logged. The ``StageEvent`` CRUD group, ``STAGE_ON_ACTION``, and ``ON_CAMPAIGN_BATCH_ACTION`` are unchanged.
+   Since Mautic 8, Mautic dispatches ``Mautic\StageBundle\Event\StageBuilderEvent`` by the event object alone. Key ``getSubscribedEvents()`` on ``StageBuilderEvent::class``, not on ``StageEvents::STAGE_ON_BUILD`` or the string ``mautic.stage_on_build``. Those constants remain for backward compatibility but no longer dispatch this event, so a subscriber still keyed on the old constant never fires - no exception is thrown and nothing is logged. The ``StageEvent`` CRUD group, ``STAGE_ON_ACTION``, and ``ON_CAMPAIGN_BATCH_ACTION`` are unchanged.
 
    .. code-block:: php
 
@@ -91,20 +91,20 @@ That advice holds for every event dispatched by a string constant. Since Mautic 
 
 .. note::
 
-   Since Mautic 8, two DashboardBundle widget events are dispatched by the event object alone. Key ``getSubscribedEvents()`` on the event class rather than on the former constant. The classes live in ``Mautic\DashboardBundle\Event``.
+   Since Mautic 8, Mautic dispatches two DashboardBundle widget events by the event object alone. Key ``getSubscribedEvents()`` on the event class rather than on the former constant. The classes live in ``Mautic\DashboardBundle\Event``.
 
    .. list-table::
       :header-rows: 1
       :widths: 50 50
 
       * - Former event constant
-        - Mautic 8 event class (subscription key)
+        - Mautic 8 event class - subscription key
       * - ``DASHBOARD_ON_MODULE_LIST_GENERATE``
         - ``WidgetTypeListEvent``
       * - ``DASHBOARD_ON_MODULE_FORM_GENERATE``
         - ``WidgetFormEvent``
 
-   The former constants remain for backward compatibility but no longer dispatch these events, so a subscriber still keyed on an old constant stays silent: it never fires, and nothing signals why. ``DASHBOARD_ON_MODULE_DETAIL_GENERATE`` and ``DASHBOARD_ON_MODULE_DETAIL_PRE_LOAD`` (both sharing ``WidgetDetailEvent``) remain string-keyed and unchanged.
+   The former constants remain for backward compatibility but no longer dispatch these events, so a subscriber still keyed on an old constant stays silent: it never fires, and nothing signals why. ``DASHBOARD_ON_MODULE_DETAIL_GENERATE`` and ``DASHBOARD_ON_MODULE_DETAIL_PRE_LOAD`` - both sharing ``WidgetDetailEvent`` - remain string-keyed and unchanged.
 
    .. code-block:: php
 
@@ -116,13 +116,13 @@ That advice holds for every event dispatched by a string constant. Since Mautic 
 
 .. note::
 
-   To confirm a subscriber is registered under an event's class name, run ``bin/console debug:event-dispatcher`` with the event's fully-qualified class name, for example:
+   To confirm Mautic registered a subscriber under an event's class name, run ``bin/console debug:event-dispatcher`` with the event's fully-qualified class name, for example:
 
    .. code-block:: bash
 
       bin/console debug:event-dispatcher 'Mautic\StageBundle\Event\StageBuilderEvent'
 
-   Your subscriber's class and method appear in the listing for that event; if they're absent, the subscriber isn't registered for it. This works for any event — pass the class name of whichever event you subscribe to.
+   Your subscriber's class and method appear in the listing for that event. If they're absent, you haven't registered the subscriber for it. This works for any event - pass the class name of whichever event you subscribe to.
 
 .. vale on
 

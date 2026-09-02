@@ -152,24 +152,24 @@ Three events fire sequentially during SMS sending to filter Contacts before disp
 
 .. note::
 
-   Since Mautic 8, these three filtering events are dispatched by the event object alone (Symfony 4.3+ class-name dispatch), so you subscribe by the event class. The ``SmsEvents`` constants remain for backward compatibility but no longer dispatch these three events. A subscriber still keyed on an old constant fails silently: no exception is thrown, nothing is logged, and the listener never runs. Within the SmsBundle, this section covers the three Contact-filtering events. Other SmsBundle events converted in Mautic 8 (such as ``SmsSendEvent`` and ``TokensBuildEvent``) aren't covered here. The Campaign trigger, CRUD, and reply events still key on their ``SmsEvents`` constants.
+   Since Mautic 8, Mautic dispatches these three filtering events by the event object alone - Symfony 4.3+ class-name dispatch - so you subscribe by the event class. The ``SmsEvents`` constants remain for backward compatibility but no longer dispatch these three events. A subscriber still keyed on an old constant fails silently: Mautic throws no exception, logs nothing, and the listener never runs. Within the SmsBundle, this section covers the three Contact-filtering events. Other SmsBundle events converted in Mautic 8 - such as ``SmsSendEvent`` and ``TokensBuildEvent`` - aren't covered here. The Campaign trigger, CRUD, and reply events still key on their ``SmsEvents`` constants.
 
    * If you maintain a Plugin across Mautic versions, note that a class-keyed subscriber fails silently in the same way on a pre-Mautic 8 site, because those versions still dispatch these events by the string constant.
 
-   To confirm your listener is registered under the event's class name, run:
+   To confirm Mautic registered your listener under the event's class name, run:
 
    .. code-block:: bash
 
       bin/console debug:event-dispatcher 'Mautic\SmsBundle\Event\DncEvent'
 
-   Your subscriber's class and method appear in the listing for ``Mautic\SmsBundle\Event\DncEvent``; if they're absent, the subscriber isn't registered for that event.
+   Your subscriber's class and method appear in the listing for ``Mautic\SmsBundle\Event\DncEvent``. If they're absent, the subscriber isn't registered for that event.
 
 For how to register a subscriber, see the :doc:`listeners and subscribers</plugins/event_listeners>` section.
 
 Do Not Contact filter
 =====================
 
-Subscribe by ``DncEvent::class`` (formerly ``SmsEvents::DNC_FILTER_CONTACTS_ON_SEND``) to filter Contacts based on **Do Not Contact** status.
+Subscribe by ``DncEvent::class`` - formerly ``SmsEvents::DNC_FILTER_CONTACTS_ON_SEND`` - to filter Contacts based on **Do Not Contact** status.
 
 .. vale on
 
@@ -207,7 +207,7 @@ Queue filter
 
 .. vale off
 
-Subscribe by ``QueueEvent::class`` (formerly ``SmsEvents::QUEUE_FILTER_CONTACTS_ON_SEND``) to filter Contacts based on frequency rules or queueing logic. Its listener receives a ``QueueEvent``. See the Mautic 8 note at the start of this section about class-name dispatch.
+Subscribe by ``QueueEvent::class`` - formerly ``SmsEvents::QUEUE_FILTER_CONTACTS_ON_SEND`` - to filter Contacts based on frequency rules or queueing logic. Its listener receives a ``QueueEvent``. See the Mautic 8 note at the start of this section about class-name dispatch.
 
 .. vale on
 
@@ -216,7 +216,7 @@ Generic filter
 
 .. vale off
 
-Subscribe by ``FilterEvent::class`` (formerly ``SmsEvents::FILTER_CONTACTS_ON_SEND``) for any remaining filtering logic, such as removing Contacts without phone numbers. Its listener receives a ``FilterEvent``. See the Mautic 8 note at the start of this section about class-name dispatch.
+Subscribe by ``FilterEvent::class`` - formerly ``SmsEvents::FILTER_CONTACTS_ON_SEND`` - for any remaining filtering logic, such as removing Contacts without phone numbers. Its listener receives a ``FilterEvent``. See the Mautic 8 note at the start of this section about class-name dispatch.
 
 .. vale on
 
@@ -274,10 +274,10 @@ The :xref:`SmsEvents source` class defines all SMS-related event constants:
    * - ``ON_CAMPAIGN_TRIGGER_ACTION``
      - Fires when a Campaign triggers an SMS action for a single Contact.
    * - ``DNC_FILTER_CONTACTS_ON_SEND``
-     - Fires to filter Contacts based on **Do Not Contact** status. Since Mautic 8, this event is dispatched by class (``DncEvent``); the constant is no longer the subscription key.
+     - Fires to filter Contacts based on **Do Not Contact** status. Since Mautic 8, Mautic dispatches this event by class - ``DncEvent``. The constant is no longer the subscription key.
    * - ``QUEUE_FILTER_CONTACTS_ON_SEND``
-     - Fires to filter Contacts based on frequency rules. Since Mautic 8, this event is dispatched by class (``QueueEvent``); the constant is no longer the subscription key.
+     - Fires to filter Contacts based on frequency rules. Since Mautic 8, Mautic dispatches this event by class - ``QueueEvent``. The constant is no longer the subscription key.
    * - ``FILTER_CONTACTS_ON_SEND``
-     - Fires for generic Contact filtering before SMS dispatch. Since Mautic 8, this event is dispatched by class (``FilterEvent``); the constant is no longer the subscription key.
+     - Fires for generic Contact filtering before SMS dispatch. Since Mautic 8, Mautic dispatches this event by class - ``FilterEvent``. The constant is no longer the subscription key.
 
 .. vale on
