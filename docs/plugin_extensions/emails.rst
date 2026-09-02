@@ -31,9 +31,9 @@ Email token capabilities consist of two parts:
 Registering custom tokens in builders
 =====================================
 
-Registering tokens leverages the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_BUILD`` event. The event is dispatched before displaying the email builder form, to allow adding of tokens.
+Registering tokens uses the ``Mautic\EmailBundle\Event\EmailOnBuildEvent`` event. Since Mautic 8.0, Mautic dispatches this event by class name, so subscribers key on ``EmailOnBuildEvent::class``. Mautic dispatches it before displaying the Email builder form, so subscribers can add tokens before the form displays.
 
-An event listener receives the ``Mautic\EmailBundle\Event\EmailBuilderEvent``.
+An event listener receives the ``Mautic\EmailBundle\Event\EmailOnBuildEvent``.
 Use its ``$event->addToken($token, $htmlContent)`` to add your token.
 
 .. note::
@@ -43,9 +43,13 @@ Use its ``$event->addToken($token, $htmlContent)`` to add your token.
 Rendering custom tokens
 =======================
 
-To render custom tokens, use the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_SEND`` event when Mautic sends the Email, or the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_DISPLAY`` event when the Email displays in a browser such as after the Contact clicks the ``{webview_url}`` link.
+To render custom tokens, key on the ``Mautic\EmailBundle\Event\EmailSendEvent`` event (``EmailSendEvent::class``) when Mautic sends the Email, or the ``Mautic\EmailBundle\Event\EmailDisplayEvent`` event (``EmailDisplayEvent::class``) when the Email displays in a browser, for example, when the Contact clicks the ``{webview_url}`` link.
 
-An event listener receives in both cases the ``Mautic\EmailBundle\Event\EmailSendEvent``. You can replace a custom token using the events ``$event->addToken($token, $contentToReplaceToken)``.
+The send path receives a ``Mautic\EmailBundle\Event\EmailSendEvent``. The display path receives a ``Mautic\EmailBundle\Event\EmailDisplayEvent``, a subclass of ``EmailSendEvent`` that exposes the same ``addToken()``, ``getContent()``, and ``setContent()`` API. These are now separate classes, keyed separately: a listener keyed only on ``EmailSendEvent::class`` doesn't receive ``EmailDisplayEvent``, so a handler serving both paths must register under both keys. Replace a custom token using the event's ``$event->addToken($token, $contentToReplaceToken)``.
+
+.. note::
+
+   Since Mautic 8.0, the build, send, and display events dispatch by class name, so key ``getSubscribedEvents()`` on ``EmailOnBuildEvent::class``, ``EmailSendEvent::class``, or ``EmailDisplayEvent::class``. Mautic renamed ``EmailBuilderEvent`` to ``EmailOnBuildEvent`` and removed the ``EMAIL_ON_BUILD`` and ``EMAIL_ON_DISPLAY`` constants, so code that still references ``EmailEvents::EMAIL_ON_BUILD`` or ``EmailEvents::EMAIL_ON_DISPLAY`` throws a PHP fatal error (``Error: Undefined constant``). The ``EMAIL_ON_SEND`` constant remains, but Mautic no longer dispatches by it, so a subscriber keyed on ``EmailEvents::EMAIL_ON_SEND`` silently stops firing — key on ``EmailSendEvent::class`` instead.
 
 Basic token replacement
 =======================
@@ -61,13 +65,13 @@ Basic token replacement
       public static function getSubscribedEvents(): array
       {
         return [
-          EmailEvents::EMAIL_ON_BUILD => ['onEmailBuild', 0],
-          EmailEvents::EMAIL_ON_SEND => ['onEmailGenerate', 0],
-          EmailEvents::EMAIL_ON_DISPLAY => ['onEmailGenerate', 0],
+          EmailOnBuildEvent::class => ['onEmailBuild', 0],
+          EmailSendEvent::class => ['onEmailGenerate', 0],
+          EmailDisplayEvent::class => ['onEmailGenerate', 0],
         ];
       }
-    
-      public function onEmailBuild(EmailBuilderEvent $event): void
+
+      public function onEmailBuild(EmailOnBuildEvent $event): void
       {
         $event->addToken('{my_custom_token}', 'My Custom Token');
       }
@@ -151,8 +155,7 @@ Inject ``BuilderTokenHelperFactory`` and create a helper for your entity type:
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
     use Mautic\CoreBundle\Helper\BuilderTokenHelperFactory;
-    use Mautic\EmailBundle\EmailEvents;
-    use Mautic\EmailBundle\Event\EmailBuilderEvent;
+    use Mautic\EmailBundle\Event\EmailOnBuildEvent;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
     final class BuilderSubscriber implements EventSubscriberInterface
@@ -165,11 +168,11 @@ Inject ``BuilderTokenHelperFactory`` and create a helper for your entity type:
         public static function getSubscribedEvents(): array
         {
             return [
-                EmailEvents::EMAIL_ON_BUILD => ['onEmailBuild', 0],
+                EmailOnBuildEvent::class => ['onEmailBuild', 0],
             ];
         }
 
-        public function onEmailBuild(EmailBuilderEvent $event): void
+        public function onEmailBuild(EmailOnBuildEvent $event): void
         {
             // Create a helper for the 'page' model
             $tokenHelper = $this->builderTokenHelperFactory->getBuilderTokenHelper('page');
@@ -266,13 +269,13 @@ Deprecated methods
 .. code-block:: PHP
 
     // Before (deprecated):
-    public function onEmailBuild(EmailBuilderEvent $event): void
+    public function onEmailBuild(EmailOnBuildEvent $event): void
     {
         $event->addTokensFromHelper($tokenHelper, $tokenRegex, 'label', 'alias');
     }
 
     // After:
-    public function onEmailBuild(EmailBuilderEvent $event): void
+    public function onEmailBuild(EmailOnBuildEvent $event): void
     {
         $tokenHelper = $this->builderTokenHelperFactory->getBuilderTokenHelper('page');
         $tokenFilter = $event->getTokenFilter();
@@ -320,8 +323,8 @@ A/B testing examples
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
     use Mautic\CoreBundle\Helper\TemplatingHelper;
-    use Mautic\EmailBundle\EmailEvents;
-    use Mautic\EmailBundle\Event\EmailBuilderEvent;
+    use Mautic\EmailBundle\Event\EmailDisplayEvent;
+    use Mautic\EmailBundle\Event\EmailOnBuildEvent;
     use Mautic\EmailBundle\Event\EmailSendEvent;
     use MauticPlugin\HelloWorldBundle\HelloWorldEvents;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -338,16 +341,16 @@ A/B testing examples
         public static function getSubscribedEvents(): array
         {
             return [
-                EmailEvents::EMAIL_ON_BUILD   => ['onEmailBuild', 0],
-                EmailEvents::EMAIL_ON_SEND    => ['onEmailGenerate', 0],
-                EmailEvents::EMAIL_ON_DISPLAY => ['onEmailGenerate', 0],
+                EmailOnBuildEvent::class   => ['onEmailBuild', 0],
+                EmailSendEvent::class    => ['onEmailGenerate', 0],
+                EmailDisplayEvent::class => ['onEmailGenerate', 0],
             ];
         }
 
         /**
         * Register the token and a custom A/B test winner
         */
-        public function onEmailBuild(EmailBuilderEvent $event): void
+        public function onEmailBuild(EmailOnBuildEvent $event): void
         {
             // Displays the token in the email builder, so that users can easily find it and add it to their emails
             $event->addToken('helloworld.token', 'Hello world token');
@@ -732,9 +735,13 @@ Toggle 'Active' event
 
 .. vale on
 
-The ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_TOGGLE_PUBLISH`` event dispatches when a User toggles the **Active** status of an Email. Mautic dispatches it before persisting the status change to the database, so Plugins can run actions or validations before the User activates or deactivates the Email.
+The ``Mautic\EmailBundle\Event\EmailOnTogglePublishEvent`` event fires when a User toggles the **Active** status of an Email. Since Mautic 8.0, Mautic dispatches it by class name, before persisting the status change to the database, so Plugins can run actions or validations before the User activates or deactivates the Email.
 
-An event listener receives a ``Mautic\EmailBundle\Event\EmailEvent`` instance.
+An event listener receives a ``Mautic\EmailBundle\Event\EmailOnTogglePublishEvent`` instance, a subclass of ``EmailEvent``. Call ``getEmail()`` to get the Email, then ``isPublished()`` on that Email entity to read its current **Active** status.
+
+.. note::
+
+   Since Mautic 8.0, this event dispatches by class name, so key ``getSubscribedEvents()`` on ``EmailOnTogglePublishEvent::class``. Mautic removed the ``EMAIL_ON_TOGGLE_PUBLISH`` constant, so code that still references ``EmailEvents::EMAIL_ON_TOGGLE_PUBLISH`` throws a PHP fatal error (``Error: Undefined constant``).
 
 .. code-block:: PHP
 
@@ -745,8 +752,7 @@ An event listener receives a ``Mautic\EmailBundle\Event\EmailEvent`` instance.
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\EmailBundle\EmailEvents;
-    use Mautic\EmailBundle\Event\EmailEvent;
+    use Mautic\EmailBundle\Event\EmailOnTogglePublishEvent;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
     final class EmailLifecycleSubscriber implements EventSubscriberInterface
@@ -754,11 +760,11 @@ An event listener receives a ``Mautic\EmailBundle\Event\EmailEvent`` instance.
         public static function getSubscribedEvents(): array
         {
             return [
-                EmailEvents::EMAIL_ON_TOGGLE_PUBLISH => ['onEmailTogglePublish', 0],
+                EmailOnTogglePublishEvent::class => ['onEmailTogglePublish', 0],
             ];
         }
 
-        public function onEmailTogglePublish(EmailEvent $event): void
+        public function onEmailTogglePublish(EmailOnTogglePublishEvent $event): void
         {
             $email = $event->getEmail();
 
