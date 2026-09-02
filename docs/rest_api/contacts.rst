@@ -1622,10 +1622,10 @@ Get a list of notes for a specific Contact.
      - Date/time string of when the note got created.
    * - ``isPublished``
      - boolean
-     - Published state
+     - ``true`` if the Note is Active
    * - ``dateAdded``
      - ``datetime``
-     - Date/time the Note record was created
+     - Date/time Mautic created the Note record
    * - ``createdBy``
      - int
      - ID of the User who created the Note
