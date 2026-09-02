@@ -48,7 +48,7 @@ You can use permissions as follows in your controllers and services:
    declare(strict_types=1);
 
    /** @var \Mautic\CoreBundle\Security\Permissions\CorePermissions */
-   $security = $this->get('mautic.security');
+   $security = $this->get(\Mautic\CoreBundle\Security\Permissions\CorePermissions::class);
 
    // Check if user is granted a single permission
    if ($security->isGranted('plugin:helloWorld:worlds:view')) {
@@ -96,7 +96,7 @@ You can use permissions as follows in your controllers and services:
        // do something
    }
 
-To determine if a User has a specific permission, use Mautic's security service which has the ``mautic.security`` alias. The class is ``Mautic\CoreBundle\Security\Permissions\CorePermissions``.
+To determine if a User has a specific permission, use Mautic's security service, provided by the ``Mautic\CoreBundle\Security\Permissions\CorePermissions`` class.
 
 As suggested in the preceding section, Mautic uses a special permission notation to refer to a specific permission.
 For core bundles, use ``bundleName:permissionLevel:permission``.
