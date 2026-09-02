@@ -705,13 +705,13 @@ Migrating a pre-8.0 Condition listener
 
 .. note::
 
-   Mautic 8.0 removes ``getResult()`` and ``setResult()`` from ``ConditionEvent`` (deprecated since 2.13.0). Custom Condition listeners must type-hint the event argument as ``ConditionEvent`` instead of the deprecated parent ``CampaignExecutionEvent``, and call ``pass()`` or ``fail()``.
+   Mautic 8.0 removes ``getResult()`` and ``setResult()`` from ``ConditionEvent`` - both deprecated since 2.13.0. Custom Condition listeners must type-hint the event argument as ``ConditionEvent`` instead of the deprecated parent ``CampaignExecutionEvent``, and call ``pass()`` or ``fail()``.
 
 .. warning::
 
-   This migration isn't enforced. A Condition listener you leave un-migrated can still call ``setResult()`` and ``getResult()`` without triggering a fatal error, because ``ConditionEvent`` still extends ``CampaignExecutionEvent`` and that parent still declares both methods. Those calls now write and read an unused parent property, while the Campaign Engine acts only on the outcome of ``pass()`` or ``fail()`` and reads it back through ``wasConditionSatisfied()``. An un-migrated Condition therefore always evaluates as failed, and nothing in Mautic's logs or output flags it.
+   Mautic doesn't enforce this migration. A Condition listener you leave un-migrated can still call ``setResult()`` and ``getResult()`` without triggering a fatal error, because ``ConditionEvent`` still extends ``CampaignExecutionEvent`` and that parent still declares both methods. Those calls now write and read an unused parent property, while the Campaign Engine acts only on the outcome of ``pass()`` or ``fail()`` and reads it back through ``wasConditionSatisfied()``. An un-migrated Condition therefore always evaluates as failed, and nothing in Mautic's logs or output flags it.
 
-**Migration example** (showing only the changed method inside the same subscriber class):
+**Migration example** - showing only the changed method inside the same subscriber class:
 
 .. code-block:: php
 
@@ -786,7 +786,7 @@ After migrating, trigger the Campaign to confirm the listener records the expect
 
     .. php:method:: public wasConditionSatisfied()
 
-        Returns whether the Condition passed. ``TRUE`` when ``pass()`` was called; ``FALSE`` when ``fail()`` was called or neither was called.
+        Returns whether the Condition passed. It returns ``TRUE`` when ``pass()`` was called, and ``FALSE`` when ``fail()`` was called or neither was called.
 
         :return: ``TRUE`` if the Condition passed.
         :returntype: bool
@@ -879,17 +879,17 @@ Migrating a pre-8.0 Decision listener
 
 .. note::
 
-   Mautic 8.0 removes ``getResult()`` and ``setResult()`` from ``DecisionEvent`` (deprecated since 2.13.0). Custom Decision listeners must:
+   Mautic 8.0 removes ``getResult()`` and ``setResult()`` from ``DecisionEvent`` - both deprecated since 2.13.0. Custom Decision listeners must:
 
    * Type-hint the event argument as ``DecisionEvent`` instead of the deprecated parent ``CampaignExecutionEvent``.
-   * Call ``setAsApplicable()`` only when the Decision applies. There's no ``setAsInapplicable()``; not-applicable is the default, so remove the old ``setResult(false)`` branch instead of replacing it.
-   * Return ``void`` instead of returning a value (such as ``false`` or the event) to signal the result, and mutate the event instead.
+   * Call ``setAsApplicable()`` only when the Decision applies. There's no ``setAsInapplicable()``. Not-applicable is the default, so remove the old ``setResult(false)`` branch instead of replacing it.
+   * Return ``void`` and mutate the event to signal the result, rather than returning a value such as ``false`` or the event.
 
 .. warning::
 
-   Migrating remains optional, and nothing in Mautic requires it. If you leave a Decision listener on the old API, its ``setResult()`` and ``getResult()`` calls still run without a fatal error: ``DecisionEvent`` continues to extend ``CampaignExecutionEvent``, which still declares those methods. The values simply land in an unused parent property, whereas the Campaign Engine reads the applicable flag back through ``wasDecisionApplicable()``. The result is that an un-migrated Decision is always treated as not applicable, and no runtime error or log entry reveals the cause.
+   Mautic doesn't require this migration either. If you leave a Decision listener on the old API, its ``setResult()`` and ``getResult()`` calls still run without a fatal error: ``DecisionEvent`` continues to extend ``CampaignExecutionEvent``, which still declares those methods. The values simply land in an unused parent property, whereas the Campaign Engine reads the applicable flag back through ``wasDecisionApplicable()``. The result is that Mautic always treats an un-migrated Decision as not applicable, and no runtime error or log entry reveals the cause.
 
-**Migration example** (showing only the changed method inside the same subscriber class):
+**Migration example** - showing only the changed method inside the same subscriber class:
 
 .. code-block:: php
 
@@ -965,7 +965,7 @@ After migrating, trigger the Campaign to confirm the listener marks the Decision
 
     .. php:method:: public wasDecisionApplicable()
 
-        Returns whether the Decision was marked applicable. ``TRUE`` when ``setAsApplicable()`` was called; ``FALSE`` otherwise.
+        Returns whether the Decision was marked applicable. It returns ``TRUE`` when ``setAsApplicable()`` was called, and ``FALSE`` otherwise.
 
         :return: ``TRUE`` if the Decision was applicable.
         :returntype: bool
