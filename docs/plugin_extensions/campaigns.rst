@@ -20,11 +20,16 @@ Registering Campaign Events
 
 .. vale on
 
-In Mautic 8.0, Mautic dispatches the ``Mautic\CampaignBundle\Event\CampaignBuilderEvent`` by its class name for Plugins to register their Campaign Actions, Conditions, and Decisions. Subscribers register by keying ``getSubscribedEvents()`` on ``CampaignBuilderEvent::class``. Listeners receive a ``Mautic\CampaignBundle\Event\CampaignBuilderEvent`` object. Register the Event using the appropriate ``add`` method as described below.
+Since Mautic 8.0, Mautic dispatches the ``Mautic\CampaignBundle\Event\CampaignBuilderEvent`` by its class name so Plugins can register their Campaign Actions, Conditions, and Decisions. Subscribers key ``getSubscribedEvents()`` on ``CampaignBuilderEvent::class`` and receive a ``CampaignBuilderEvent`` object. The string constant ``CampaignEvents::CAMPAIGN_ON_BUILD`` remains defined in Mautic's code but no longer receives the Event in Mautic 8.0, so a subscriber still keyed on it breaks silently. Register the Event using the appropriate ``addAction()``, ``addCondition()``, or ``addDecision()`` method, as described below.
 
-.. note::
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   In Mautic 8.0, Mautic dispatches this Event by its class name, so a subscriber must key ``getSubscribedEvents()`` on ``CampaignBuilderEvent::class``. A subscriber still keyed on the string constant ``CampaignEvents::CAMPAIGN_ON_BUILD`` no longer receives the Event in Mautic 8.0, even though that constant remains defined in Mautic's code.
+   * - Former Event constant
+     - Mautic 8.0 subscription key
+   * - ``CampaignEvents::CAMPAIGN_ON_BUILD``
+     - ``CampaignBuilderEvent::class``
 
 .. php:namespace:: Mautic\CampaignBundle\Event
 .. php:class:: CampaignBuilderEvent
