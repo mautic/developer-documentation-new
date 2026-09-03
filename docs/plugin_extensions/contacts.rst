@@ -250,8 +250,12 @@ The ``LeadGetCurrentEvent`` provides the following methods:
 Contact timeline/history
 ************************
 
-To inject events into a Contact's timeline, create an event listener that listens to the ``LeadEvents::TIMELINE_ON_GENERATE`` event.
+To inject events into a Contact's timeline, create an event listener that subscribes to the ``LeadTimelineEvent`` event. The identifier you key the listener on depends on your Mautic version, as the note below explains.
 Using this event, the Plugin can inject unique items into the timeline and also into the engagements graph on each page.
+
+.. note::
+
+   Before Mautic 8, key your listener on the ``LeadEvents::TIMELINE_ON_GENERATE`` constant, which is the name Mautic dispatches the event under on those versions. Starting in Mautic 8, Mautic dispatches this event by its class name, following the Symfony 4.3+ convention, so the identifier you subscribe to is the event class (``LeadTimelineEvent::class``) rather than the ``LeadEvents::TIMELINE_ON_GENERATE`` string constant. The constant remains defined and still holds its value ``mautic.lead_timeline_on_generate``, so referencing it causes no fatal error. On Mautic 8, a listener still keyed on that constant, or on the raw ``mautic.lead_timeline_on_generate`` string, receives nothing, because Mautic no longer dispatches the event under that string name. This produces no error and writes no log entry. Re-key such a listener on ``LeadTimelineEvent::class`` so it receives the event again.
 
 .. note:: Before using this event listener, you'll need to ensure that you store your custom events in a custom database table. See :ref:`components/contacts:Generating timeline events from your own custom events` below for more details.
 
@@ -268,7 +272,6 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
 
     use Doctrine\ORM\EntityManager;
     use Mautic\LeadBundle\Event\LeadTimelineEvent;
-    use Mautic\LeadBundle\LeadEvents;
     use MauticPlugin\HelloWorldBundle\Entity\WorldRepository;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
     use Symfony\Component\Routing\RouterInterface;
@@ -290,7 +293,7 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
         public static function getSubscribedEvents(): array
         {
             return [
-                LeadEvents::TIMELINE_ON_GENERATE => ['onTimelineGenerate', 0]
+                LeadTimelineEvent::class => ['onTimelineGenerate', 0]
             ];
         }
 
