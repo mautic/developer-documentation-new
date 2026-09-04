@@ -15,7 +15,6 @@ You can embed ``mtc.js`` in third party websites to manage communication between
 
    namespace Mautic\PageBundle\EventListener;
 
-   use Mautic\CoreBundle\CoreEvents;
    use Mautic\CoreBundle\Event\BuildJsEvent;
    use Mautic\PageBundle\Event\TrackingEvent;
    use Mautic\PageBundle\PageEvents;
@@ -26,7 +25,8 @@ You can embed ``mtc.js`` in third party websites to manage communication between
        public static function getSubscribedEvents()
        {
            return [
-               CoreEvents::BUILD_MAUTIC_JS    => ['onBuildJs', 0],
+               BuildJsEvent::class            => ['onBuildJs', 0],
+               // PageEvents still uses its string constant; only CoreBundle events key by class
                PageEvents::ON_CONTACT_TRACKED => ['onContactTracked', 0],
            ];
        }
@@ -61,7 +61,7 @@ You can embed ``mtc.js`` in third party websites to manage communication between
        }
    }
 
-To inject custom JavaScript into ``mtc.js``, use an :ref:`Event Listener<plugins/event_listeners:Event listeners>` for the ``CoreEvents::BUILD_MAUTIC_JS`` event.
+To inject custom JavaScript into ``mtc.js``, use an :ref:`Event Listener <available events>` for the ``BuildJsEvent`` event.
 This event receives a ``Mautic\CoreBundle\Event\BuildJsEvent`` object where ``$event->appendJs($js, $sectionName);`` can be used to inject the script's code.
 
 .. note::
@@ -86,7 +86,7 @@ Mautic generates its JavaScript under a scope model defined by ``Mautic\CoreBund
 * ``ESSENTIAL`` - pre-consent features that need no identity, such as preserving existing Dynamic Content fallback content without making a new request, and initializing Forms already embedded in that fallback content.
 * ``TRACKING`` - the identity and tracking code, including the tracking pixel and the ``/mtc/event`` call.
 
-When you subscribe to ``CoreEvents::BUILD_MAUTIC_JS``, the ``BuildJsEvent`` exposes which scopes the current build accepts. Its constructor accepts an ``array $acceptedScopes`` that defaults to all three cases - ``[BuildJsScope::RUNTIME, BuildJsScope::ESSENTIAL, BuildJsScope::TRACKING]`` - so a single subscriber can contribute code to more than one generated script depending on the scope it targets.
+When you key your subscriber on ``BuildJsEvent::class``, the ``BuildJsEvent`` object exposes which scopes the current build accepts. Its constructor accepts an ``array $acceptedScopes`` that defaults to all three cases - ``[BuildJsScope::RUNTIME, BuildJsScope::ESSENTIAL, BuildJsScope::TRACKING]`` - so a single subscriber can contribute code to more than one generated script depending on the scope it targets.
 
 .. warning::
 
@@ -109,7 +109,6 @@ Appends code for a specific scope. If the current build doesn't accept that scop
 
    namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-   use Mautic\CoreBundle\CoreEvents;
    use Mautic\CoreBundle\Event\BuildJsEvent;
    use Mautic\CoreBundle\Event\BuildJsScope;
    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -119,7 +118,7 @@ Appends code for a specific scope. If the current build doesn't accept that scop
        public static function getSubscribedEvents()
        {
            return [
-               CoreEvents::BUILD_MAUTIC_JS => ['onBuildJs', 0],
+               BuildJsEvent::class => ['onBuildJs', 0],
            ];
        }
 
@@ -152,7 +151,6 @@ Reports whether the current build accepts a given scope. Call it to return early
 
    namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-   use Mautic\CoreBundle\CoreEvents;
    use Mautic\CoreBundle\Event\BuildJsEvent;
    use Mautic\CoreBundle\Event\BuildJsScope;
    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -162,7 +160,7 @@ Reports whether the current build accepts a given scope. Call it to return early
        public static function getSubscribedEvents()
        {
            return [
-               CoreEvents::BUILD_MAUTIC_JS => ['onBuildJs', 0],
+               BuildJsEvent::class => ['onBuildJs', 0],
            ];
        }
 
@@ -246,7 +244,7 @@ Hooking into the tracking process and returning custom responses
 ****************************************************************
 
 
-If you need to do something during the request to track the Contact through ``/mtc/event``, or append to the payload returned to the tracking code which you can leverage by custom JavaScript injected through ``CoreEvents::BUILD_MAUTIC_JS``, subscribe to the ``PageEvents::ON_CONTACT_TRACKED`` event.
+If you need to do something during the request to track the Contact through ``/mtc/event``, or append to the payload returned to the tracking code which you can leverage by custom JavaScript injected through ``BuildJsEvent``, subscribe to the ``PageEvents::ON_CONTACT_TRACKED`` event.
 The listener can inject a custom payload through the ``Mautic\PageBundle\Event\TrackingEvent::set`` method.
 This will expose the payload to the tracking code's ``mauticPageEventDelivered`` event in the ``detail.response.events`` object. See the PHP code example. 
 

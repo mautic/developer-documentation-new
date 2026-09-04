@@ -69,10 +69,69 @@ Plugin event subscribers can extend ``Symfony\Component\EventDispatcher\EventSub
 
 .. vale on
     
+.. _available events:
+
 Available events
 ****************
 
-There are many events available throughout Mautic. Depending on what you're trying to implement, look at the ``*Event.php`` for the core bundle, located in the root of the bundle. For example, the ``app\bundles\LeadBundle\LeadEvents.php`` file defines and describes events relating to Contacts. The final classes provide the names of the events to listen to. Always use the event constants to ensure future changes to event names won't break the Plugin.
+There are many events available throughout Mautic. Depending on what you're trying to implement, look at the ``*Event.php`` for the core bundle, located in the root of the bundle. For example, the ``app\bundles\LeadBundle\LeadEvents.php`` file defines and describes events relating to Contacts. The final classes provide the names of the events to listen to. For event families that still use string constants, such as ``LeadEvents`` and ``PageEvents``, always use the event constant to ensure future changes to event names won't break the Plugin.
+
+.. note::
+
+   Since Mautic 8, Mautic dispatches CoreBundle events, the ``Mautic\CoreBundle\CoreEvents`` family, by the event object alone, so the event class is the event name. This matches the Symfony 4.3 dispatch style.
+
+   * Key ``getSubscribedEvents()`` on the event class, for example ``MenuEvent::class``, not on the ``CoreEvents::*`` constant or the raw string name such as ``mautic.build_menu``.
+   * The ``CoreEvents`` constants remain in the codebase but are no longer used for dispatch, so a subscriber still keyed on the constant or string won't fire. It fails silently: it throws no exception and logs nothing, and simply never runs.
+   * Other event families, such as ``LeadEvents`` and ``PageEvents``, still use their constants. Keep keying on those.
+
+The following table is the complete migration reference for CoreBundle event subscribers, mapping each old event name and ``CoreEvents`` constant to its new event class, all of which live in the ``Mautic\CoreBundle\Event`` namespace.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 35 25
+
+   * - Old event name
+     - CoreEvents constant
+     - New event class
+   * - ``mautic.build_menu``
+     - ``CoreEvents::BUILD_MENU``
+     - ``MenuEvent``
+   * - ``mautic.build_route``
+     - ``CoreEvents::BUILD_ROUTE``
+     - ``RouteEvent``
+   * - ``mautic.global_search``
+     - ``CoreEvents::GLOBAL_SEARCH``
+     - ``GlobalSearchEvent``
+   * - ``mautic.list_stats``
+     - ``CoreEvents::LIST_STATS``
+     - ``StatsEvent``
+   * - ``mautic.build_command_list``
+     - ``CoreEvents::BUILD_COMMAND_LIST``
+     - ``CommandListEvent``
+   * - ``mautic.on_fetch_icons``
+     - ``CoreEvents::FETCH_ICONS``
+     - ``IconEvent``
+   * - ``mautic.build_embeddable_js``
+     - ``CoreEvents::BUILD_MAUTIC_JS``
+     - ``BuildJsEvent``
+   * - ``mautic.maintenance_cleanup_data``
+     - ``CoreEvents::MAINTENANCE_CLEANUP_DATA``
+     - ``MaintenanceEvent``
+   * - ``mautic.view_inject_custom_buttons``
+     - ``CoreEvents::VIEW_INJECT_CUSTOM_BUTTONS``
+     - ``CustomButtonEvent``
+   * - ``mautic.view_inject_custom_content``
+     - ``CoreEvents::VIEW_INJECT_CUSTOM_CONTENT``
+     - ``CustomContentEvent``
+   * - ``mautic.view_inject_custom_template``
+     - ``CoreEvents::VIEW_INJECT_CUSTOM_TEMPLATE``
+     - ``CustomTemplateEvent``
+   * - ``mautic.view_inject_custom_assets``
+     - ``CoreEvents::VIEW_INJECT_CUSTOM_ASSETS``
+     - ``CustomAssetsEvent``
+   * - ``mautic.on_generated_columns_build``
+     - ``CoreEvents::ON_GENERATED_COLUMNS_BUILD``
+     - ``GeneratedColumnsEvent``
 
 Custom events
 *************
