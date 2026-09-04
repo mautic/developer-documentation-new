@@ -155,7 +155,7 @@ Using entity attribute constraints
 
 Mautic 7.x enables Symfony's ``framework.validation.enable_attributes``, so Symfony now reads and enforces validation constraints declared as native PHP attributes on Entity properties. Declaring constraints this way is an alternative to ``loadValidatorMetadata()`` for property constraints.
 
-The static callback remains fully supported (Mautic core still uses it, for example, to declare class-level constraints), so you can choose either approach.
+The static callback remains fully supported - Mautic core still uses it, for example, to declare class-level constraints - so you can choose either approach.
 
 .. code-block:: php
 
