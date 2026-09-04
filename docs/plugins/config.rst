@@ -499,7 +499,7 @@ Services define the Plugin's classes and their dependencies with Mautic and Symf
             'helloworld.mars.validator' => [
                 'class'     => MauticPlugin\HelloWorldBundle\Form\Validator\Constraints\MarsValidator::class,
                 'arguments' => [
-                    'mautic.helper.core_parameters',
+                    \Mautic\CoreBundle\Helper\CoreParametersHelper::class,
                     'helloworld.helper.world',
                 ],
                 'tag'       => 'validator.constraint_validator',

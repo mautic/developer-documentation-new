@@ -571,7 +571,7 @@ The most important thing here is to create a service that's tagged as ``mautic.e
                     'class'        => \MauticPlugin\HelloWorldBundle\Swiftmailer\Transport\HelloWorldApiTransport::class,
                     'serviceAlias' => 'swiftmailer.mailer.transport.%s',
                     'arguments'    => [
-                        'mautic.helper.core_parameters',
+                        \Mautic\CoreBundle\Helper\CoreParametersHelper::class,
                     ],
                     'tag'          => 'mautic.email_transport',
                     'tagArguments' => [
