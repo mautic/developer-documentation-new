@@ -47,7 +47,7 @@ Since Mautic 8, key your subscriber on the event class, ``PluginInstallEvent::cl
 
 .. note::
 
-   Mautic dispatches these events by the event object alone, so the event's class name serves as the event name. This matches the Symfony 4.3 dispatch style. Only PluginBundle event dispatch changed in Mautic 8. Event families that still dispatch by a string constant should keep keying subscribers on that constant.
+   Mautic dispatches these events by the event object alone, so the event's class name serves as the event name. This matches the Symfony 4.3 dispatch style.
 
 Database migrations
 ===================
