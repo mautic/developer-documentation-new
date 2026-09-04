@@ -106,6 +106,15 @@
       "contributions": [
         "review"
       ]
+    },
+    {
+      "login": "TomasVotruba",
+      "name": "Tomas Votruba",
+      "avatar_url": "https://avatars.githubusercontent.com/u/924196?v=4",
+      "profile": "https://tomasvotruba.com",
+      "contributions": [
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
