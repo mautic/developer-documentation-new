@@ -70,9 +70,13 @@ Examining permission files
 
 When opening one of these permission files, they'll typically find:
 
-- A ``definePermissions`` method that outlines all available permissions for the bundle.
+- A ``__construct()`` method that defines the bundle's available permissions in the ``$this->permissions`` array.
 - Constants defining permission levels - for example, ``LEVEL_VIEW, LEVEL_EDIT, LEVEL_FULL``.
 - Methods for checking specific permissions - for example, ``canViewUsers``, ``canEditEmails``.
+
+.. note::
+
+   This pattern applies to Mautic 8 and later. Permission classes define their permissions in the ``__construct()`` method. Earlier Mautic versions used a ``definePermissions()`` method instead.
 
 For example, in the ``UserPermissions.php`` file, the ``UserPermissions`` class defines the available permissions for the ``UserBundle`` using a more structured approach. Here are the important parts:
 
