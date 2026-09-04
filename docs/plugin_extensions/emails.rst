@@ -477,9 +477,13 @@ The Plugin also has access to inject specific search criteria for the processed 
 
 To do this, the Plugin needs to add an event listener for three events:
 
-1. ``EmailEvents::MONITORED_EMAIL_CONFIG`` This event is dispatched to inject the fields into Mautic's Configuration to configure the IMAP inbox and folder that should be monitored.
+1. ``Mautic\EmailBundle\Event\MonitoredEmailEvent`` This event injects the fields into Mautic's Configuration to configure the IMAP inbox and folder to monitor. Since Mautic 8.0, Mautic dispatches it by class name, so subscribers key on ``MonitoredEmailEvent::class``.
 2. ``EmailEvents::EMAIL_PRE_FETCH`` This event is dispatched during the execution of the ``mautic:email:fetch`` command. It's used to inject search criteria for the messages desired.
 3. ``EmailEvents::EMAIL_PARSE`` This event parses the messages fetched by the command.
+
+.. note::
+
+   Since Mautic 8.0, the monitored inbox configuration event dispatches by class name, so key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``. Mautic removed the ``MONITORED_EMAIL_CONFIG`` constant, so code that still references ``EmailEvents::MONITORED_EMAIL_CONFIG`` throws a PHP fatal error (``Error: Undefined constant``). ``EMAIL_PRE_FETCH`` and ``EMAIL_PARSE`` remain string-dispatched constants.
 
 .. code-block:: PHP
 
@@ -504,9 +508,9 @@ To do this, the Plugin needs to add an event listener for three events:
         static public function getSubscribedEvents(): array
         {
             return [
-                EmailEvents::MONITORED_EMAIL_CONFIG => ['onConfig', 0],
-                EmailEvents::EMAIL_PRE_FETCH        => ['onPreFetch', 0],
-                EmailEvents::EMAIL_PARSE            => ['onParse', 0],
+                MonitoredEmailEvent::class   => ['onConfig', 0],
+                EmailEvents::EMAIL_PRE_FETCH => ['onPreFetch', 0],
+                EmailEvents::EMAIL_PARSE     => ['onParse', 0],
             ];
         }
 
