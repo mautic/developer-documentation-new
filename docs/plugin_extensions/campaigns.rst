@@ -700,48 +700,6 @@ Listeners to the event's ``eventName`` receives a ``\Mautic\CampaignBundle\Event
         }
     }
 
-Migrating a pre-8.0 Condition listener
-======================================
-
-.. note::
-
-   Mautic 8.0 removes ``getResult()`` and ``setResult()`` from ``ConditionEvent`` - both deprecated since 2.13.0. Custom Condition listeners must type-hint the event argument as ``ConditionEvent`` instead of the deprecated parent ``CampaignExecutionEvent``, and call ``pass()`` or ``fail()``.
-
-.. warning::
-
-   Mautic doesn't enforce this migration. A Condition listener you leave un-migrated can still call ``setResult()`` and ``getResult()`` without triggering a fatal error, because ``ConditionEvent`` still extends ``CampaignExecutionEvent`` and that parent still declares both methods. Those calls now write and read an unused parent property, while the Campaign Engine acts only on the outcome of ``pass()`` or ``fail()`` and reads it back through ``wasConditionSatisfied()``. An un-migrated Condition therefore always evaluates as failed, and nothing in Mautic's logs or output flags it.
-
-**Migration example** - showing only the changed method inside the same subscriber class:
-
-.. code-block:: php
-
-    // Before (removed in Mautic 8.0): typed the parent event and set a boolean result.
-    use Mautic\CampaignBundle\Event\CampaignExecutionEvent;
-
-    public function onEvaluateCampaignCondition(CampaignExecutionEvent $event): void
-    {
-        if ($satisfied) {
-            $event->setResult(true);
-        } else {
-            $event->setResult(false);
-        }
-    }
-
-    // After (Mautic 8.0): type the ConditionEvent and call pass() or fail().
-    use Mautic\CampaignBundle\Event\ConditionEvent;
-
-    public function onEvaluateCampaignCondition(ConditionEvent $event): void
-    {
-        if ($satisfied) {
-            $event->pass();
-        } else {
-            $event->fail();
-        }
-    }
-
-To read the outcome back, replace ``getResult()`` with ``wasConditionSatisfied()``.
-After migrating, trigger the Campaign to confirm the listener records the expected pass or fail outcome for the Contact.
-
 .. php:class:: Mautic\CampaignBundle\Events\ConditionEvent
 
     .. php:method:: public checkContext(string $eventType)
@@ -873,52 +831,6 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
             $event->setChannel('world', $travelDocumentEvent->getWorldId());
         }
     }
-
-Migrating a pre-8.0 Decision listener
-=====================================
-
-.. note::
-
-   Mautic 8.0 removes ``getResult()`` and ``setResult()`` from ``DecisionEvent`` - both deprecated since 2.13.0. Custom Decision listeners must:
-
-   * Type-hint the event argument as ``DecisionEvent`` instead of the deprecated parent ``CampaignExecutionEvent``.
-   * Call ``setAsApplicable()`` only when the Decision applies. There's no ``setAsInapplicable()``. Not-applicable is the default, so remove the old ``setResult(false)`` branch instead of replacing it.
-   * Return ``void`` and mutate the event to signal the result, rather than returning a value such as ``false`` or the event.
-
-.. warning::
-
-   Mautic doesn't require this migration either. If you leave a Decision listener on the old API, its ``setResult()`` and ``getResult()`` calls still run without a fatal error: ``DecisionEvent`` continues to extend ``CampaignExecutionEvent``, which still declares those methods. The values simply land in an unused parent property, whereas the Campaign Engine reads the applicable flag back through ``wasDecisionApplicable()``. The result is that Mautic always treats an un-migrated Decision as not applicable, and no runtime error or log entry reveals the cause.
-
-**Migration example** - showing only the changed method inside the same subscriber class:
-
-.. code-block:: php
-
-    // Before (removed in Mautic 8.0): typed the parent event, set a boolean result, and returned a value.
-    use Mautic\CampaignBundle\Event\CampaignExecutionEvent;
-
-    public function onEvaluateCampaignDecision(CampaignExecutionEvent $event)
-    {
-        if (!$applicable) {
-            return false;
-        }
-
-        return $event->setResult(true);
-    }
-
-    // After (Mautic 8.0): type the DecisionEvent, call setAsApplicable() only when applicable, and return void.
-    use Mautic\CampaignBundle\Event\DecisionEvent;
-
-    public function onEvaluateCampaignDecision(DecisionEvent $event): void
-    {
-        if (!$applicable) {
-            return;
-        }
-
-        $event->setAsApplicable();
-    }
-
-To read the outcome back, replace ``getResult()`` with ``wasDecisionApplicable()``.
-After migrating, trigger the Campaign to confirm the listener marks the Decision applicable only when it should for the Contact.
 
 .. php:class:: Mautic\CampaignBundle\Events\DecisionEvent
 
