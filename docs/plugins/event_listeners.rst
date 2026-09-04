@@ -78,10 +78,6 @@ There are many events available throughout Mautic. Depending on what you're tryi
 
    Since Mautic 8, Mautic dispatches the ``ContactFiltersEvaluateEvent`` event by the event object alone, so the event class is the event name. This matches the Symfony 4.3 dispatch style.
 
-   * Key ``getSubscribedEvents()`` on ``ContactFiltersEvaluateEvent::class``, not on the matching ``Mautic\DynamicContentBundle\DynamicContentEvents`` constant ``ON_CONTACTS_FILTER_EVALUATE`` or its string value.
-   * The converted ``DynamicContentEvents`` constant ``ON_CONTACTS_FILTER_EVALUATE`` remains in the codebase for backward compatibility, but Mautic no longer uses it to dispatch this event, so a subscriber still keyed on it won't fire. It fails silently: it throws no exception and logs nothing, and simply never runs.
-   * Mautic 8 converted only events whose class maps to a single name. The ``DynamicContentEvent`` save-and-delete event group shares one event object that Mautic dispatches under four names: ``PRE_SAVE``, ``POST_SAVE``, ``PRE_DELETE``, and ``POST_DELETE``. Keep keying those on the ``DynamicContentEvents`` constants.
-
 Custom events
 *************
 
