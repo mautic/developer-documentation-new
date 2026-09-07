@@ -126,11 +126,11 @@ Only these seven events changed. Mautic keeps an event as a string constant when
 
 .. warning::
 
-   The string value of ``FormEvents::FORM_ON_SUBMIT`` is ``mautic.form_on_submit``, which is also the persisted Webhook event-type identifier in ``WebhookSubscriber``. Only the event-dispatch subscription moved to ``SubmissionEvent::class``. Webhook configuration and the type identifier are unaffected, so only your event-subscription code needs to change.
+   The string value of ``FormEvents::FORM_ON_SUBMIT`` is ``mautic.form_on_submit``, which is also the persisted Webhook event-type identifier in ``WebhookSubscriber``. Only the event-dispatch subscription moved to ``SubmissionEvent::class``. This change doesn't affect Webhook configuration or the type identifier, so only your event-subscription code needs to change.
 
 .. warning::
 
-   ``FocusEventTypes::FOCUS_ON_VIEW`` is a separate stat-type identifier and is untouched. Only ``FocusEvents::FOCUS_ON_VIEW`` converted to class-name dispatch. Don't confuse the two.
+   ``FocusEventTypes::FOCUS_ON_VIEW`` is a separate stat-type identifier, and the change doesn't touch it. Only ``FocusEvents::FOCUS_ON_VIEW`` converted to class-name dispatch. Don't confuse the two.
 
 The following partial subscribers show the change for the FormBundle ``SubmissionEvent``. Each is a fragment, and only the ``getSubscribedEvents()`` key changes. Here's the pre-Mautic 8 subscriber:
 
@@ -191,7 +191,7 @@ Here's the Mautic 8 subscriber:
 
 .. tip::
 
-   Run ``bin/console debug:event-dispatcher`` to list the listeners registered for an event, optionally passing the event class to scope the output to one event. Run it before and after re-keying to confirm the subscriber is bound to the new event-class name.
+   Run ``bin/console debug:event-dispatcher`` to list the listeners registered for an event, optionally passing the event class to scope the output to one event. Run it before and after re-keying to confirm the subscriber binds to the new event-class name.
 
    .. code-block:: console
 
