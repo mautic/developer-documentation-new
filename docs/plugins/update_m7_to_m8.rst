@@ -9,12 +9,10 @@ Mautic 8 adds native PHP parameter, return, and property type declarations to th
 
 Watch for four kinds of break:
 
-* New parameter type: an override without the identical type is a fatal error.
-* New return type: an override must declare the same return type, and an override that returns ``null`` or nothing now throws a ``TypeError``.
-* New property type: a subclass that declares the property again without a type is a fatal error.
-* Removed property: a subclass that read it must stop.
-
-These changes land in Mautic 8 via the *Common class type changes* work in PR #17005.
+* **New parameter type**: an override without the identical type is a fatal error.
+* **New return type**: an override must declare the same return type, and an override that returns ``null`` or nothing now throws a ``TypeError``.
+* **New property type**: a subclass that declares the property again without a type is a fatal error.
+* **Removed property**: a subclass that read it must stop.
 
 .. vale off
 
@@ -209,8 +207,3 @@ A subclass that declares any of these properties again must use the same type:
    + protected array $serializerGroups = [];
 
 Mautic 8 removes the ``protected $parametersContainer;`` property. Mautic never assigned it, so any read already failed. A subclass that referenced it must stop doing so.
-
-Conclusion
-**********
-
-Mautic Plugin developers compiled this list for other Mautic Plugin developers. If you hit a common case that isn't covered here, please contribute it.
