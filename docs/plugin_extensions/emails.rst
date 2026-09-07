@@ -43,13 +43,13 @@ Use its ``$event->addToken($token, $htmlContent)`` to add your token.
 Rendering custom tokens
 =======================
 
-To render custom tokens, key on the ``Mautic\EmailBundle\Event\EmailSendEvent`` event (``EmailSendEvent::class``) when Mautic sends the Email, or the ``Mautic\EmailBundle\Event\EmailDisplayEvent`` event (``EmailDisplayEvent::class``) when the Email displays in a browser, for example, when the Contact clicks the ``{webview_url}`` link.
+To render custom tokens, key on the ``Mautic\EmailBundle\Event\EmailSendEvent`` event - ``EmailSendEvent::class`` - when Mautic sends the Email, or the ``Mautic\EmailBundle\Event\EmailDisplayEvent`` event - ``EmailDisplayEvent::class`` - when the Email displays in a browser, for example, when the Contact clicks the ``{webview_url}`` link.
 
 The send path receives a ``Mautic\EmailBundle\Event\EmailSendEvent``. The display path receives a ``Mautic\EmailBundle\Event\EmailDisplayEvent``, a subclass of ``EmailSendEvent`` that exposes the same ``addToken()``, ``getContent()``, and ``setContent()`` API. These are now separate classes, keyed separately: a listener keyed only on ``EmailSendEvent::class`` doesn't receive ``EmailDisplayEvent``, so a handler serving both paths must register under both keys. Replace a custom token using the event's ``$event->addToken($token, $contentToReplaceToken)``.
 
 .. note::
 
-   Since Mautic 8.0, the build, send, and display events dispatch by class name, so key ``getSubscribedEvents()`` on ``EmailOnBuildEvent::class``, ``EmailSendEvent::class``, or ``EmailDisplayEvent::class``. Mautic renamed ``EmailBuilderEvent`` to ``EmailOnBuildEvent`` and removed the ``EMAIL_ON_BUILD`` and ``EMAIL_ON_DISPLAY`` constants, so code that still references ``EmailEvents::EMAIL_ON_BUILD`` or ``EmailEvents::EMAIL_ON_DISPLAY`` throws a PHP fatal error (``Error: Undefined constant``). The ``EMAIL_ON_SEND`` constant remains, but Mautic no longer dispatches by it, so a subscriber keyed on ``EmailEvents::EMAIL_ON_SEND`` silently stops firing — key on ``EmailSendEvent::class`` instead.
+   Since Mautic 8.0, the build, send, and display events dispatch by class name, so key ``getSubscribedEvents()`` on ``EmailOnBuildEvent::class``, ``EmailSendEvent::class``, or ``EmailDisplayEvent::class``. Mautic renamed ``EmailBuilderEvent`` to ``EmailOnBuildEvent`` and removed the ``EMAIL_ON_BUILD`` and ``EMAIL_ON_DISPLAY`` constants, so code that still references ``EmailEvents::EMAIL_ON_BUILD`` or ``EmailEvents::EMAIL_ON_DISPLAY`` throws a PHP fatal error - ``Error: Undefined constant``. The ``EMAIL_ON_SEND`` constant remains, but Mautic no longer dispatches by it, so a subscriber keyed on ``EmailEvents::EMAIL_ON_SEND`` silently stops firing - key on ``EmailSendEvent::class`` instead.
 
 Basic token replacement
 =======================
@@ -477,13 +477,13 @@ The Plugin also has access to inject specific search criteria for the processed 
 
 To do this, the Plugin needs to add an event listener for three events:
 
-1. ``Mautic\EmailBundle\Event\MonitoredEmailEvent`` This event injects the fields into Mautic's Configuration to configure the IMAP inbox and folder to monitor. Since Mautic 8.0, Mautic dispatches it by class name, so subscribers key on ``MonitoredEmailEvent::class``.
-2. ``EmailEvents::EMAIL_PRE_FETCH`` This event is dispatched during the execution of the ``mautic:email:fetch`` command. It's used to inject search criteria for the messages desired.
-3. ``EmailEvents::EMAIL_PARSE`` This event parses the messages fetched by the command.
+#. ``Mautic\EmailBundle\Event\MonitoredEmailEvent`` This event injects the fields into Mautic's Configuration to configure the IMAP inbox and folder to monitor. Since Mautic 8.0, Mautic dispatches it by class name, so subscribers key on ``MonitoredEmailEvent::class``.
+#. ``EmailEvents::EMAIL_PRE_FETCH`` Mautic dispatches this event during the execution of the ``mautic:email:fetch`` command. Use it to inject search criteria for the desired messages.
+#. ``EmailEvents::EMAIL_PARSE`` This event parses the messages that the command fetched.
 
 .. note::
 
-   Since Mautic 8.0, the monitored inbox configuration event dispatches by class name, so key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``. Mautic removed the ``MONITORED_EMAIL_CONFIG`` constant, so code that still references ``EmailEvents::MONITORED_EMAIL_CONFIG`` throws a PHP fatal error (``Error: Undefined constant``). ``EMAIL_PRE_FETCH`` and ``EMAIL_PARSE`` remain string-dispatched constants.
+   Since Mautic 8.0, the monitored inbox configuration event dispatches by class name, so key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``. Mautic removed the ``MONITORED_EMAIL_CONFIG`` constant, so code that still references ``EmailEvents::MONITORED_EMAIL_CONFIG`` throws a PHP fatal error - ``Error: Undefined constant``. ``EMAIL_PRE_FETCH`` and ``EMAIL_PARSE`` remain string-dispatched constants.
 
 .. code-block:: PHP
 
@@ -745,7 +745,7 @@ An event listener receives a ``Mautic\EmailBundle\Event\EmailOnTogglePublishEven
 
 .. note::
 
-   Since Mautic 8.0, this event dispatches by class name, so key ``getSubscribedEvents()`` on ``EmailOnTogglePublishEvent::class``. Mautic removed the ``EMAIL_ON_TOGGLE_PUBLISH`` constant, so code that still references ``EmailEvents::EMAIL_ON_TOGGLE_PUBLISH`` throws a PHP fatal error (``Error: Undefined constant``).
+   Since Mautic 8.0, this event dispatches by class name, so key ``getSubscribedEvents()`` on ``EmailOnTogglePublishEvent::class``. Mautic removed the ``EMAIL_ON_TOGGLE_PUBLISH`` constant, so code that still references ``EmailEvents::EMAIL_ON_TOGGLE_PUBLISH`` throws a PHP fatal error - ``Error: Undefined constant``.
 
 .. code-block:: PHP
 
