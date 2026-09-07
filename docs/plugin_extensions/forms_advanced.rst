@@ -73,7 +73,7 @@ Data validation
 
 Review Symfony's Form validation documentation for a general overview: :xref:`Symfony form validation`
 
-There are two common means of validating Form data.
+There are three common means of validating Form data.
 
 Using entity static callback
 ============================
@@ -150,6 +150,29 @@ When registering a validation group in the Form type class, you can use a static
         }
     }
 
+Using entity attribute constraints
+==================================
+
+Mautic 7.x enables Symfony's ``framework.validation.enable_attributes``, so Symfony now reads and enforces validation constraints declared as native PHP attributes on Entity properties. Declaring constraints this way is an alternative to ``loadValidatorMetadata()`` for property constraints.
+
+The static callback remains fully supported - Mautic core still uses it, for example, to declare class-level constraints - so you can choose either approach.
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/Entity/World.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\Entity;
+
+    use Symfony\Component\Validator\Constraints as Assert;
+
+    class World
+    {
+        #[Assert\NotBlank(message: 'mautic.core.name.required')]
+        private ?string $name = '';
+    }
 
 Using constraints
 =================
