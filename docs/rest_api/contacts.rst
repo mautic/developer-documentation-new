@@ -1634,7 +1634,7 @@ Get a list of notes for a specific Contact.
      - Name of the User who created the Note
    * - ``dateModified``
      - datetime/null
-     - Date/time Note was last modified
+     - Date/time Mautic last modified the Note record
    * - ``modifiedBy``
      - int
      - ID of the User who last modified the Note
