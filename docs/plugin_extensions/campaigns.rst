@@ -744,7 +744,7 @@ Listeners to the event's ``eventName`` receives a ``\Mautic\CampaignBundle\Event
 
     .. php:method:: public wasConditionSatisfied()
 
-        Returns whether the Condition passed. It returns ``TRUE`` when ``pass()`` was called, and ``FALSE`` when ``fail()`` was called or neither was called.
+        Returns whether the Condition passed. It returns ``TRUE`` when the listener called ``pass()``, and ``FALSE`` when the listener called ``fail()`` or called neither method.
 
         :return: ``TRUE`` if the Condition passed.
         :returntype: bool
@@ -877,7 +877,7 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
 
     .. php:method:: public wasDecisionApplicable()
 
-        Returns whether the Decision was marked applicable. It returns ``TRUE`` when ``setAsApplicable()`` was called, and ``FALSE`` otherwise.
+        Returns whether the Decision was applicable. It returns ``TRUE`` when the listener called ``setAsApplicable()``, and ``FALSE`` otherwise.
 
         :return: ``TRUE`` if the Decision was applicable.
         :returntype: bool
