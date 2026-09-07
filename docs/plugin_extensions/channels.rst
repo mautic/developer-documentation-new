@@ -58,7 +58,7 @@ You can find several events through the ``ChannelEvents`` class.
 
 .. note::
 
-   From Mautic 8.0, key subscribers to these ChannelBundle events on the event class—for example, ``ChannelEvent::class``—following the Symfony convention for dispatching events by class name since Symfony 4.3.
+   From Mautic 8.0, key subscribers to these ChannelBundle events on the event class - for example, ``ChannelEvent::class`` - following the Symfony convention for dispatching events by class name since Symfony 4.3.
 
 Extending broadcasts
 --------------------
