@@ -320,7 +320,11 @@ There are currently four menus built into Mautic.
     * - ``extra``
       - Menu not used by Core but available to Plugins.
 
+.. vale off
+
 A Plugin can also register its own top-level Menu instead of adding items to these. See :ref:`plugins/config:Registering a custom Menu`.
+
+.. vale on
 
 Menu definitions
 ================
@@ -476,7 +480,11 @@ Registering a custom Menu
 
 .. vale on
 
+.. vale off
+
 The :ref:`plugins/config:Menu config items` section adds items to Mautic's four built-in menus through the ``menu`` config array. This section covers the opposite direction: registering a Plugin's own top-level Menu, with its own template and renderer.
+
+.. vale on
 
 .. note::
 
@@ -490,6 +498,8 @@ Registering a custom Menu takes two services in your Plugin's ``Config/services.
 Give each tag an ``['alias' => '<alias>']`` argument so Mautic pairs the item with its renderer.
 
 Earlier versions registered the Menu through the ``services > menus`` array in ``Config/config.php``:
+
+.. vale off
 
 .. code-block:: php
 
@@ -505,7 +515,13 @@ Earlier versions registered the Menu through the ``services > menus`` array in `
         ],
     ],
 
-The following snippet is the Mautic 8 equivalent. This is a partial example. The ``use`` statements go at the top of ``Config/services.php``, and the ``$services->set(...)`` definitions go inside its configurator closure. The bundle Extension and this ``$services`` configurator setup are described in :ref:`plugins/autowiring:Autowiring`:
+.. vale on
+
+.. vale off
+
+The following snippet is the Mautic 8 equivalent. This is a partial example. The ``use`` statements go at the top of ``Config/services.php``, and the ``$services->set(...)`` definitions go inside its configurator closure. :ref:`plugins/autowiring:Autowiring` describes the bundle Extension and this ``$services`` configurator setup:
+
+.. vale on
 
 .. code-block:: php
 
