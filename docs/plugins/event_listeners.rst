@@ -76,7 +76,7 @@ There are many events available throughout Mautic. Depending on what you're tryi
 
 .. note::
 
-   Starting in Mautic 8, Mautic dispatches these events by their event object, following the Symfony 4.3+ convention, so the identifier you subscribe to is the event class, written ``EventClass::class``, rather than the ``*Events`` string constant. The constants remain defined in Mautic 8, so referencing one won't cause a fatal error, but dispatch no longer emits the old string name, so any listener still registered under the old event name receives nothing. This affects a subscriber whose ``getSubscribedEvents()`` still keys on one of these converted constants, or on the raw ``mautic.*`` string, and equally a service tagged ``kernel.event_listener`` whose ``event`` attribute is the old string. It produces no error and writes no log entry, because the dispatcher finds no listener under the class-name event. Re-key each affected subscriber or tagged listener on the event class so it receives the event again.
+   Starting in Mautic 8, Mautic dispatches some events by their event class rather than the ``*Events`` string constant. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 Form, Integration, and Focus events dispatched by class name in Mautic 8
 ========================================================================
