@@ -152,9 +152,7 @@ Three events fire sequentially during SMS sending to filter Contacts before disp
 
 .. note::
 
-   Since Mautic 8, Mautic dispatches these three filtering events by the event object alone - Symfony 4.3+ class-name dispatch - so you subscribe by the event class. The ``SmsEvents`` constants remain for backward compatibility but no longer dispatch these three events. A subscriber still keyed on an old constant fails silently: Mautic throws no exception, logs nothing, and the listener never runs. Within the SmsBundle, this section covers the three Contact-filtering events. Other SmsBundle events converted in Mautic 8 - such as ``SmsSendEvent`` and ``TokensBuildEvent`` - aren't covered here. The Campaign trigger, CRUD, and reply events still key on their ``SmsEvents`` constants.
-
-   * If you maintain a Plugin across Mautic versions, note that a class-keyed subscriber fails silently in the same way on a pre-Mautic 8 site, because those versions still dispatch these events by the string constant.
+   Since Mautic 8, Mautic dispatches these three filtering events by the event object alone, so you subscribe by the event class. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rule. The ``SmsEvents`` constants remain for backward compatibility but no longer dispatch these three events. Other SmsBundle events converted in Mautic 8 - such as ``SmsSendEvent`` and ``TokensBuildEvent`` - aren't covered here. The Campaign trigger, CRUD, and reply events still key on their ``SmsEvents`` constants.
 
    To confirm Mautic registered your listener under the event's class name, run:
 
