@@ -76,7 +76,7 @@ There are many events available throughout Mautic. Depending on what you're tryi
 
 .. note::
 
-   Since Mautic 8, Mautic dispatches the ``ContactFiltersEvaluateEvent`` event by the event object alone, so the event class is the event name. This matches the Symfony 4.3 dispatch style.
+   In Mautic 8, Mautic dispatches the ``ContactFiltersEvaluateEvent`` by class name, so key ``getSubscribedEvents()`` on ``ContactFiltersEvaluateEvent::class``. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rationale.
 
 Custom events
 *************
