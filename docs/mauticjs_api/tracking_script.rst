@@ -62,7 +62,7 @@ You can embed ``mtc.js`` in third party websites to manage communication between
 
 .. note::
 
-   In Mautic 8.0, ``TrackingEvent`` dispatches by its class name, so the subscriber keys ``getSubscribedEvents()`` on ``TrackingEvent::class``, as shown. A subscriber left on the old ``PageEvents::ON_CONTACT_TRACKED`` constant silently stops receiving it, and Mautic raises no error. See :ref:`hooking into the tracking process<mauticjs_api/tracking_script:Hooking into the tracking process and returning custom responses>` for the full explanation.
+   In Mautic 8.0, ``TrackingEvent`` dispatches by its class name, so the subscriber keys ``getSubscribedEvents()`` on ``TrackingEvent::class``, as shown. A subscriber left on the old ``PageEvents::ON_CONTACT_TRACKED`` constant silently stops receiving it, and Mautic raises no error. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the full explanation.
 
 To inject custom JavaScript into ``mtc.js``, use an :ref:`Event Listener<plugins/event_listeners:Event listeners>` for the ``CoreEvents::BUILD_MAUTIC_JS`` event.
 This event receives a ``Mautic\CoreBundle\Event\BuildJsEvent`` object where ``$event->appendJs($js, $sectionName);`` can be used to inject the script's code.
@@ -255,7 +255,7 @@ This exposes the payload to the tracking code's ``mauticPageEventDelivered`` eve
 
 .. note::
 
-   In Mautic 8.0, Mautic dispatches the ``TrackingEvent`` by its class name. Subscribers key ``getSubscribedEvents()`` on ``TrackingEvent::class``. A subscriber still keyed on the old ``PageEvents::ON_CONTACT_TRACKED`` string constant no longer receives the event in Mautic 8.0, even though ``PageEvents`` keeps the constant defined for backward compatibility. The failure is silent. Mautic raises no error, warning, or deprecation, and the subscriber method attached to the old key never runs.
+   In Mautic 8.0, Mautic dispatches the ``TrackingEvent`` by its class name, so subscribers key ``getSubscribedEvents()`` on ``TrackingEvent::class``. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks on the old key and why.
 
 .. vale off
 

@@ -124,7 +124,7 @@ Below is an example of both Landing Page Tokens and Landing Page A/B Test Winner
 
 .. note::
 
-   A subscriber left on the old ``PageEvents::PAGE_ON_DISPLAY`` constant silently stops receiving the event in Mautic 8.0, because Mautic raises no error to flag the change. Re-key it on ``PageDisplayEvent::class``, as shown above.
+   In Mautic 8.0, Mautic dispatches the ``PageDisplayEvent`` by its class name, so re-key ``getSubscribedEvents()`` on ``PageDisplayEvent::class``, as shown above. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks on the old key and why.
 
 .. vale off
 
@@ -218,7 +218,7 @@ This lets you override default translated labels with custom text for branding, 
 
 .. note::
 
-   In Mautic 8.0, Mautic dispatches the ``PageDisplayEvent`` by its class name. Subscribers key ``getSubscribedEvents()`` on ``PageDisplayEvent::class``. A subscriber still keyed on the old ``PageEvents::PAGE_ON_DISPLAY`` string constant no longer receives the event in Mautic 8.0, even though ``PageEvents`` keeps the constant defined for backward compatibility.
+   In Mautic 8.0, Mautic dispatches the ``PageDisplayEvent`` by its class name, so subscribers key ``getSubscribedEvents()`` on ``PageDisplayEvent::class``. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks on the old key and why.
 
 Available slot parameters
 =========================
