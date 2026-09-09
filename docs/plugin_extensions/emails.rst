@@ -480,7 +480,7 @@ To do this, the Plugin needs to add an event listener for three events:
 
 .. note::
 
-   Since Mautic 8, Mautic dispatches ``MonitoredEmailEvent`` by its class alone, not by a string constant. Key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``, not on ``EmailEvents::MONITORED_EMAIL_CONFIG`` or the string ``mautic.monitored_email_config``. The constant remains for backward compatibility but no longer dispatches this event, so a subscriber still keyed on ``EmailEvents::MONITORED_EMAIL_CONFIG`` never fires—Mautic throws no exception and logs nothing. Only ``MONITORED_EMAIL_CONFIG`` changed: ``EmailEvents::EMAIL_PRE_FETCH`` and ``EmailEvents::EMAIL_PARSE`` still dispatch by their string constants, so keep subscribing to those two on the constants.
+   Key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``, not on ``EmailEvents::MONITORED_EMAIL_CONFIG`` or the string ``mautic.monitored_email_config``. The constant remains for backward compatibility. Only ``MONITORED_EMAIL_CONFIG`` changed: ``EmailEvents::EMAIL_PRE_FETCH`` and ``EmailEvents::EMAIL_PARSE`` still dispatch by their string constants, so keep subscribing to those two on the constants. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 .. code-block:: PHP
 
