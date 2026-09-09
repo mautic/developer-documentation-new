@@ -49,7 +49,9 @@ The send path receives a ``Mautic\EmailBundle\Event\EmailSendEvent``. The displa
 
 .. note::
 
-   Since Mautic 8.0, the build, send, and display events dispatch by class name, so key ``getSubscribedEvents()`` on ``EmailOnBuildEvent::class``, ``EmailSendEvent::class``, or ``EmailDisplayEvent::class``. Mautic renamed ``EmailBuilderEvent`` to ``EmailOnBuildEvent`` and removed the ``EMAIL_ON_BUILD`` and ``EMAIL_ON_DISPLAY`` constants, so code that still references ``EmailEvents::EMAIL_ON_BUILD`` or ``EmailEvents::EMAIL_ON_DISPLAY`` throws a PHP fatal error - ``Error: Undefined constant``. The ``EMAIL_ON_SEND`` constant remains, but Mautic no longer dispatches by it, so a subscriber keyed on ``EmailEvents::EMAIL_ON_SEND`` silently stops firing - key on ``EmailSendEvent::class`` instead.
+   Since Mautic 8.0, the build, send, and display events dispatch by class name - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`. Key ``getSubscribedEvents()`` on ``EmailOnBuildEvent::class``, ``EmailSendEvent::class``, or ``EmailDisplayEvent::class``.
+
+   The EmailBundle is an exception to the general rule that constants remain defined. Mautic renamed ``EmailBuilderEvent`` to ``EmailOnBuildEvent`` and removed the ``EMAIL_ON_BUILD`` and ``EMAIL_ON_DISPLAY`` constants, so code that still references ``EmailEvents::EMAIL_ON_BUILD`` or ``EmailEvents::EMAIL_ON_DISPLAY`` throws a PHP fatal error - 'Error: Undefined constant'. The ``EMAIL_ON_SEND`` constant remains, but Mautic no longer dispatches by it, so a subscriber keyed on ``EmailEvents::EMAIL_ON_SEND`` silently stops firing - key on ``EmailSendEvent::class`` instead.
 
 Basic token replacement
 =======================
