@@ -124,7 +124,7 @@ CoreBundle events dispatched by class name in Mautic 8
 
 .. note::
 
-   The CoreBundle events below dispatch by class name in Mautic 8, so key ``getSubscribedEvents()`` on the event class, for example ``MenuEvent::class``. For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <mautic 8 class-name event dispatch>`.
+   The CoreBundle events below dispatch by class name in Mautic 8, so key ``getSubscribedEvents()`` on the event class, for example ``MenuEvent::class``. For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 The following table is the complete migration reference for CoreBundle event subscribers, mapping each old event name and ``CoreEvents`` constant to its new event class, all of which live in the ``Mautic\CoreBundle\Event`` namespace.
 
