@@ -1,5 +1,3 @@
-.. vale off
-
 .. note::
 
    The content for this page requires a major update. The legacy page contains outdated and potentially inaccurate information. You can still access it in the :xref:`legacy repository`.
@@ -76,11 +74,7 @@ There are many events available throughout Mautic. Depending on what you're tryi
 
 .. note::
 
-   Since Mautic 8, Mautic dispatches many ``Mautic\IntegrationsBundle\Event`` events by the event object alone, so the event class is the event name. This matches the Symfony 4.3 dispatch style.
-
-   * For a converted event, key ``getSubscribedEvents()`` on the event class - for example ``InternalObjectEvent::class`` - not on the matching ``Mautic\IntegrationsBundle\IntegrationEvents`` constant or its string value.
-   * The ``IntegrationEvents`` constants remain in the codebase, but Mautic no longer uses them to dispatch these events, so a subscriber still keyed on a converted constant won't fire. It fails silently: it throws no exception and logs nothing, and simply never runs.
-   * Mautic 8 converted only events whose class maps to a single name. Families whose class serves several names, such as ``ConfigSaveEvent`` and ``InternalObjectFindEvent``, still dispatch by their ``IntegrationEvents`` constants, so keep keying on the constant for those.
+   In Mautic 8, ``Mautic\IntegrationsBundle\Event`` events whose class maps to a single event name dispatch by the event object alone. Key ``getSubscribedEvents()`` on the event class - for example ``InternalObjectEvent::class`` - for those. Families whose class serves several names, such as ``ConfigSaveEvent`` and ``InternalObjectFindEvent``, still dispatch by their ``IntegrationEvents`` constants, so keep keying on the constant for those. For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 Custom events
 *************
