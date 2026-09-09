@@ -76,11 +76,9 @@ There are many events available throughout Mautic. Depending on what you're tryi
 
 .. note::
 
-   Since Mautic 8, Mautic dispatches three ``Mautic\WebhookBundle\Event`` events by the event object alone, so the event class is the event name. This matches the Symfony 4.3 dispatch style.
+   The WebhookBundle applies the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` change. Mautic 8 converted only ``WebhookBuilderEvent``, ``WebhookQueueEvent``, and ``WebhookRequestEvent``, so key ``getSubscribedEvents()`` on the event class, for example ``WebhookBuilderEvent::class``, not on the matching ``Mautic\WebhookBundle\WebhookEvents`` constant.
 
-   * For a converted event, key ``getSubscribedEvents()`` on the event class, for example ``WebhookBuilderEvent::class``, not on the matching ``Mautic\WebhookBundle\WebhookEvents`` constant or its string value.
-   * The ``WebhookEvents`` constants remain in the codebase but are no longer used to dispatch these events, so a subscriber still keyed on a converted constant won't fire. It fails silently: it throws no exception and logs nothing, and simply never runs.
-   * Mautic 8 converted only ``WebhookBuilderEvent``, ``WebhookQueueEvent``, and ``WebhookRequestEvent``, each of whose class maps to a single name. Families whose class serves several names, such as ``WebhookEvent`` - dispatched for ``WEBHOOK_PRE_SAVE``, ``WEBHOOK_POST_SAVE``, ``WEBHOOK_PRE_DELETE``, ``WEBHOOK_POST_DELETE``, and ``WEBHOOK_KILL`` - still dispatch by their ``WebhookEvents`` constants, so keep keying on the constant for those.
+   ``WebhookEvent`` - dispatched for ``WEBHOOK_PRE_SAVE``, ``WEBHOOK_POST_SAVE``, ``WEBHOOK_PRE_DELETE``, ``WEBHOOK_POST_DELETE``, and ``WEBHOOK_KILL`` - still dispatches by its ``WebhookEvents`` constants, so keep keying on the constant for those.
 
 Custom events
 *************
