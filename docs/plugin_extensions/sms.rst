@@ -213,7 +213,7 @@ When integrating SMS with Campaigns, use the batch Campaign action event for bet
 Batch action event
 ==================
 
-Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` to handle Campaign SMS actions. Set it as the ``batchEventName`` when registering the action on ``CampaignEvents::CAMPAIGN_ON_BUILD``. See :doc:`/plugin_extensions/campaigns` for the full Campaign action workflow.
+Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` to handle Campaign SMS actions. Set it as the ``batchEventName`` when registering the action on ``CampaignBuilderEvent::class``. See :doc:`/plugin_extensions/campaigns` for the full Campaign action workflow.
 
 .. code-block:: php
 
