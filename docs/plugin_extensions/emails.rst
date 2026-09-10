@@ -256,7 +256,7 @@ Deprecated methods
 
 .. deprecated:: 7.2
 
-   Mautic deprecates the following ``BuilderEvent`` methods and removes them in a future version:
+   Mautic deprecates the following ``BuilderEvent`` methods in Mautic 7.2 and removes them in Mautic 8.0:
 
    - ``addTokensFromHelper()`` - Use ``BuilderTokenHelper::getFormattedTokens()`` and ``$event->addTokens()`` instead.
    - ``getTokensFromHelper()`` - Use ``BuilderTokenHelper::getFormattedTokens()`` instead.
