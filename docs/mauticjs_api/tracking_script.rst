@@ -26,7 +26,6 @@ You can embed ``mtc.js`` in third party websites to manage communication between
        {
            return [
                BuildJsEvent::class            => ['onBuildJs', 0],
-               // PageEvents still uses its string constant; only CoreBundle events key by class
                PageEvents::ON_CONTACT_TRACKED => ['onContactTracked', 0],
            ];
        }

@@ -74,108 +74,24 @@ Plugin event subscribers can extend ``Symfony\Component\EventDispatcher\EventSub
 Available events
 ****************
 
-There are many events available throughout Mautic. Depending on what you're trying to implement, look at the ``*Events.php`` for the core bundle, located in the root of the bundle. For example, the ``app\bundles\LeadBundle\LeadEvents.php`` file defines and describes events relating to Contacts. The final classes provide the names of the events to listen to. For event families that still use string constants, such as ``LeadEvents`` and ``PageEvents``, always use the event constant to ensure future changes to event names won't break the Plugin.
+There are many events available throughout Mautic. To discover which events Mautic dispatches, run ``bin/console debug:event-dispatcher``. With no argument, it lists every event alongside its registered listeners. Pass an event name, or a partial name, to filter the output to matching events.
 
 .. _mautic 8 class-name event dispatch:
 
 Mautic 8: class-name event dispatch
 ===================================
 
-Since Mautic 8, Mautic dispatches selected events by the event object, following the Symfony 4.3+ convention, so you subscribe on ``EventClass::class`` instead of the ``*Events`` string constant.
+Since Mautic 8, CoreBundle dispatches selected events by the event object, following the Symfony 4.3+ convention, so you subscribe on ``EventClass::class`` instead of the ``CoreEvents`` string constant.
 
-The ``*Events`` constants generally remain defined, so referencing one causes no fatal error. But dispatch no longer emits the old string name, so a subscriber still keyed on the constant or the raw ``mautic.*`` string silently receives nothing - no exception, no log entry. The same silent-failure behavior affects a service tagged ``kernel.event_listener`` whose ``event`` attribute is the old string.
+A subscriber still keyed on the old constant or the raw string silently receives nothing - no error, no log entry.
 
-To fix it, re-key each affected subscriber or tagged listener on the event class.
-
-Mautic hasn't converted every event. It keeps a string constant when several event names share one event object or the event crosses bundle boundaries. Those events still dispatch by the string name, so keep using the event constant for them.
-
-Each bundle documents the events it converted on its own extension page. Run ``bin/console debug:event-dispatcher`` to see the name Mautic dispatches under for any event.
-
-This partial fragment shows the change inside an existing subscriber's ``getSubscribedEvents()`` method, keyed on the CoreBundle ``MenuEvent``. Nothing else in the class changes.
-
-Before:
-
-.. code-block:: php
-
-    use Mautic\CoreBundle\CoreEvents;
-
-    // inside getSubscribedEvents()
-    return [
-        CoreEvents::BUILD_MENU => ['onBuildMenu', 0],
-    ];
-
-After:
-
-.. code-block:: php
-
-    use Mautic\CoreBundle\Event\MenuEvent;
-
-    // inside getSubscribedEvents()
-    return [
-        MenuEvent::class => ['onBuildMenu', 0],
-    ];
-
-Run ``bin/console debug:event-dispatcher`` before and after you re-key, to confirm the listener moves from the old string name to the event class. Pass the event class to narrow the output:
+To find the name Mautic dispatches an event under, and to confirm a re-key, run ``bin/console debug:event-dispatcher``, optionally passing the event class:
 
 .. code-block:: console
 
     bin/console debug:event-dispatcher "Mautic\CoreBundle\Event\MenuEvent"
 
-Migration reference for CoreBundle event subscribers
-====================================================
-
-.. note::
-
-   The CoreBundle events below dispatch by class name in Mautic 8, so key ``getSubscribedEvents()`` on the event class, for example ``MenuEvent::class``. For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
-
-The following table is the complete migration reference for CoreBundle event subscribers, mapping each old event name and ``CoreEvents`` constant to its new event class, all of which live in the ``Mautic\CoreBundle\Event`` namespace.
-
-.. list-table::
-   :header-rows: 1
-   :widths: 40 35 25
-
-   * - Old event name
-     - CoreEvents constant
-     - New event class
-   * - ``mautic.build_menu``
-     - ``CoreEvents::BUILD_MENU``
-     - ``MenuEvent``
-   * - ``mautic.build_route``
-     - ``CoreEvents::BUILD_ROUTE``
-     - ``RouteEvent``
-   * - ``mautic.global_search``
-     - ``CoreEvents::GLOBAL_SEARCH``
-     - ``GlobalSearchEvent``
-   * - ``mautic.list_stats``
-     - ``CoreEvents::LIST_STATS``
-     - ``StatsEvent``
-   * - ``mautic.build_command_list``
-     - ``CoreEvents::BUILD_COMMAND_LIST``
-     - ``CommandListEvent``
-   * - ``mautic.on_fetch_icons``
-     - ``CoreEvents::FETCH_ICONS``
-     - ``IconEvent``
-   * - ``mautic.build_embeddable_js``
-     - ``CoreEvents::BUILD_MAUTIC_JS``
-     - ``BuildJsEvent``
-   * - ``mautic.maintenance_cleanup_data``
-     - ``CoreEvents::MAINTENANCE_CLEANUP_DATA``
-     - ``MaintenanceEvent``
-   * - ``mautic.view_inject_custom_buttons``
-     - ``CoreEvents::VIEW_INJECT_CUSTOM_BUTTONS``
-     - ``CustomButtonEvent``
-   * - ``mautic.view_inject_custom_content``
-     - ``CoreEvents::VIEW_INJECT_CUSTOM_CONTENT``
-     - ``CustomContentEvent``
-   * - ``mautic.view_inject_custom_template``
-     - ``CoreEvents::VIEW_INJECT_CUSTOM_TEMPLATE``
-     - ``CustomTemplateEvent``
-   * - ``mautic.view_inject_custom_assets``
-     - ``CoreEvents::VIEW_INJECT_CUSTOM_ASSETS``
-     - ``CustomAssetsEvent``
-   * - ``mautic.on_generated_columns_build``
-     - ``CoreEvents::ON_GENERATED_COLUMNS_BUILD``
-     - ``GeneratedColumnsEvent``
+For the full CoreBundle event mapping (old event name, ``CoreEvents`` constant, and event class), see :xref:`UPGRADE_GUIDE_8`.
 
 Custom events
 *************
