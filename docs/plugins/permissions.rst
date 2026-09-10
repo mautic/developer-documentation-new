@@ -287,7 +287,7 @@ To re-adjust permissions based on factors outside the Plugin's control, return `
 Advanced ``isGranted()`` logic
 ==============================
 
-Override the parent method - ``public function isGranted($userPermissions, $name, $level)`` - to run custom logic rather than simple bit comparisons. Use this to define unique behavior for the class's own levels and individual permissions.
+Override the parent method - ``public function isGranted(array $userPermissions, $name, $level): bool`` - to run custom logic rather than simple bit comparisons. Use this to define unique behavior for the class's own levels and individual permissions.
 
 Advanced ``isSupported()`` logic
 ================================
