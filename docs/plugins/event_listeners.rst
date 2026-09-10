@@ -10,6 +10,8 @@
 
 .. vale on
 
+.. _event listeners:
+
 Event listeners
 ###############
 
@@ -119,8 +121,8 @@ Run ``bin/console debug:event-dispatcher`` before and after you re-key, to confi
 
     bin/console debug:event-dispatcher "Mautic\CoreBundle\Event\MenuEvent"
 
-CoreBundle events dispatched by class name in Mautic 8
-======================================================
+Migration reference for CoreBundle event subscribers
+====================================================
 
 .. note::
 
