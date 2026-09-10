@@ -10,6 +10,8 @@
 
 .. vale on
 
+.. _event listeners:
+
 Event listeners
 ###############
 
@@ -72,7 +74,24 @@ Plugin event subscribers can extend ``Symfony\Component\EventDispatcher\EventSub
 Available events
 ****************
 
-There are many events available throughout Mautic. Depending on what you're trying to implement, look at the ``*Event.php`` for the core bundle, located in the root of the bundle. For example, the ``app\bundles\LeadBundle\LeadEvents.php`` file defines and describes events relating to Contacts. The final classes provide the names of the events to listen to. Always use the event constants to ensure future changes to event names won't break the Plugin.
+There are many events available throughout Mautic. To discover which events Mautic dispatches, run ``bin/console debug:event-dispatcher``. With no argument, it lists every event alongside its registered listeners. Pass an event name, or a partial name, to filter the output to matching events.
+
+.. _mautic 8 class-name event dispatch:
+
+Mautic 8: class-name event dispatch
+===================================
+
+Since Mautic 8, CoreBundle dispatches selected events by the event object, following the Symfony 4.3+ convention, so you subscribe on ``EventClass::class`` instead of the ``CoreEvents`` string constant.
+
+A subscriber still keyed on the old constant or the raw string silently receives nothing - no error, no log entry.
+
+To find the name Mautic dispatches an event under, and to confirm a re-key, run ``bin/console debug:event-dispatcher``, optionally passing the event class:
+
+.. code-block:: console
+
+    bin/console debug:event-dispatcher "Mautic\CoreBundle\Event\MenuEvent"
+
+For the full CoreBundle event mapping (old event name, ``CoreEvents`` constant, and event class), see :xref:`UPGRADE_GUIDE_8`.
 
 Custom events
 *************

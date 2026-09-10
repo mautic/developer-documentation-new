@@ -20,7 +20,11 @@ Injecting Buttons
 
 .. vale on
 
-Mautic dispatches the Event ``\Mautic\CoreBundle\CoreEvents::VIEW_INJECT_CUSTOM_BUTTONS`` for Plugins to register their Buttons. Listeners receive a ``Mautic\CoreBundle\Event\CustomButtonEvent`` object. Register the Event using the ``addButton`` method as described below.
+Mautic dispatches the ``Mautic\CoreBundle\Event\CustomButtonEvent`` for Plugins to register their Buttons. Listeners key on this event class and receive the ``CustomButtonEvent`` object. Register the event using the ``addButton`` method as described below.
+
+.. note::
+
+   Since Mautic 8, this dispatches by class instead of a ``CoreEvents`` constant - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks if you don't re-key.
 
 .. php:class:: Mautic\CoreBundle\Event\CustomButtonEvent
 
@@ -83,7 +87,6 @@ Registering Integration to inject buttons
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
 
-    use Mautic\CoreBundle\CoreEvents;
     use Mautic\CoreBundle\Event\CustomButtonEvent;
     use Mautic\CoreBundle\EventListener\CommonSubscriber;
     use Mautic\CoreBundle\Templating\Helper\ButtonHelper;
@@ -94,7 +97,7 @@ Registering Integration to inject buttons
         public static function getSubscribedEvents()
         {
             return [
-                CoreEvents::VIEW_INJECT_CUSTOM_BUTTONS => ['injectViewButtons', 0]
+                CustomButtonEvent::class => ['injectViewButtons', 0]
             ];
         }
 
