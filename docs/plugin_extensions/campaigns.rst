@@ -742,6 +742,13 @@ Listeners to the event's ``eventName`` receives a ``\Mautic\CampaignBundle\Event
 
         :returntype: void
 
+    .. php:method:: public wasConditionSatisfied()
+
+        Returns whether the Condition passed. It returns ``TRUE`` when the listener called ``pass()``, and ``FALSE`` when the listener called ``fail()`` or called neither method.
+
+        :return: ``TRUE`` if the Condition passed.
+        :returntype: bool
+
 .. vale off
 
 Evaluating a Campaign Decision
@@ -867,6 +874,13 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
         :param mixed $channelId: ID of the Channel entity.
 
     :returntype: void
+
+    .. php:method:: public wasDecisionApplicable()
+
+        Returns whether the Decision was applicable. It returns ``TRUE`` when the listener called ``setAsApplicable()``, and ``FALSE`` otherwise.
+
+        :return: ``TRUE`` if the Decision was applicable.
+        :returntype: bool
 
 .. vale off
 
