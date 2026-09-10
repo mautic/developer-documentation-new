@@ -74,6 +74,38 @@ Available events
 
 There are many events available throughout Mautic. Depending on what you're trying to implement, look at the ``*Event.php`` for the core bundle, located in the root of the bundle. For example, the ``app\bundles\LeadBundle\LeadEvents.php`` file defines and describes events relating to Contacts. The final classes provide the names of the events to listen to. Always use the event constants to ensure future changes to event names won't break the Plugin.
 
+.. note::
+
+   The ``Mautic\AssetBundle\AssetEvents`` family follows the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule. Key ``getSubscribedEvents()`` on the event class - for example ``AssetLoadEvent::class`` in the ``Mautic\AssetBundle\Event`` namespace - not on the ``AssetEvents::*`` constant or the raw string name such as ``mautic.asset_on_load``. Mautic also removed the dead ``ASSET_ON_UPLOAD`` constant, which it never dispatched or listened to.
+
+The following table is the complete migration reference for AssetBundle event subscribers. It maps each old event name and ``AssetEvents`` constant to its new event class. All new event classes live in the ``Mautic\AssetBundle\Event`` namespace, and ``app/bundles/AssetBundle/AssetEvents.php`` defines the constants.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 35 25
+
+   * - Old event name
+     - AssetEvents constant
+     - New event class
+   * - ``mautic.asset_on_load``
+     - ``AssetEvents::ASSET_ON_LOAD``
+     - ``AssetLoadEvent``
+   * - ``mautic.asset_on_remote_browse``
+     - ``AssetEvents::ASSET_ON_REMOTE_BROWSE``
+     - ``RemoteAssetBrowseEvent``
+   * - ``mautic.asset_pre_save``
+     - ``AssetEvents::ASSET_PRE_SAVE``
+     - ``AssetPreSaveEvent``
+   * - ``mautic.asset_post_save``
+     - ``AssetEvents::ASSET_POST_SAVE``
+     - ``AssetPostSaveEvent``
+   * - ``mautic.asset_pre_delete``
+     - ``AssetEvents::ASSET_PRE_DELETE``
+     - ``AssetPreDeleteEvent``
+   * - ``mautic.asset_post_delete``
+     - ``AssetEvents::ASSET_POST_DELETE``
+     - ``AssetPostDeleteEvent``
+
 Custom events
 *************
 
