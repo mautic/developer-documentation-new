@@ -43,7 +43,7 @@ From Symfony 3.4, the cache uses tag-aware adapters. If you want to clear all re
 .. code-block:: php
 
     /** @var CacheProvider $cache */
-    $cache = $this->get('mautic.cache.provider');
+    $cache = $this->get(\Mautic\CacheBundle\Cache\CacheProvider::class);
     /** @var CacheItemInterface $item */
     $item = $cache->getItem('test_tagged_Item');
     $item->set('yesa!!!');
