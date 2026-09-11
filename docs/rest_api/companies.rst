@@ -1112,9 +1112,8 @@ Response
 ========
 
 * Returns ``200 OK`` when Mautic processes the batch, even if some pairs fail. Check the ``status`` of each item in ``results`` for per-pair outcomes.
-* Returns ``400 Bad Request`` when the ``assignments`` parameter is missing, empty, or not an array, or when an item isn't an object.
+* Returns ``400 Bad Request`` when the ``assignments`` parameter is missing, empty, or not an array, when an item isn't an object, or when the number of assignments exceeds the batch size limit.
 * Returns ``403 Forbidden`` when the authenticated User has neither the ``lead:leads:editown`` nor the ``lead:leads:editother`` permission.
-* Returns ``500 Internal Server Error`` when the number of assignments exceeds the batch size limit.
 
 .. code-block:: json
 
@@ -1216,7 +1215,7 @@ Per-pair ``status`` values
      - ``An unexpected error occurred``
      - Mautic couldn't process the pair
 
-Mautic records each new assignment made through this endpoint in the Contact's Company change log. It doesn't add a log entry when the Contact already belongs to the Company, and a pair for an existing link still returns a ``200`` status in its result. The 'Add Contact to Company' endpoint doesn't write to this log.
+Mautic records each new assignment made through this endpoint in the Contact's Company change log. It doesn't add a log entry when the Contact already belongs to the Company, and a pair for an existing link still returns a ``200`` status in its result. The 'Add Contact to Company' endpoint also writes to this log for each new assignment. Both endpoints record a ``type`` of ``api`` and an action of 'Lead added to the company, <company name>', and differ only in the event name: this endpoint records 'API batch assignment', while the 'Add Contact to Company' endpoint records 'API assignment'.
 
 .. vale off
 
