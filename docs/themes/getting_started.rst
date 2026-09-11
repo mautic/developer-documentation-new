@@ -116,7 +116,7 @@ This file is mainly used as the Landing Page for when a Contact unsubscribes or 
 
 .. vale off
 
-In the unsubscribe and resubscribe flow, the email address validation step now precedes this page. See :ref:`themes/getting_started:html/email-validation.html.twig`.
+In the unsubscribe and resubscribe flow, the email address validation step now precedes this page. See :ref:`html/email-validation.html.twig <email-validation Twig file>`.
 
 .. vale on
 
@@ -143,6 +143,8 @@ It requires echoing two variables: ``message`` and ``content``.
             </div>
         </body>
     </html>
+
+.. _email-validation Twig file:
 
 ``html/email-validation.html.twig``
 -----------------------------------
