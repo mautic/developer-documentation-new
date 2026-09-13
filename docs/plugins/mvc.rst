@@ -427,6 +427,8 @@ The upgrade risk is a signature mismatch. If your Plugin's Model subclass overri
 
 Mautic types the entity parameter as ``object`` rather than a concrete entity class on purpose, because PHP fails with a fatal error when an inherited signature narrows a parameter type. The method-specific ``@param <Entity>`` annotations stay in place for that specificity.
 
+Mautic 8 also types one public method on the parent ``AbstractCommonModel`` class, which ``FormModel`` and Plugin Models both extend: ``encodeArrayForUrl($array)`` becomes ``encodeArrayForUrl(array $array)``. The same override-compatibility rule applies.
+
 Getting model objects
 =====================
 
