@@ -56,6 +56,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="http://aivie.ch"><img src="https://avatars.githubusercontent.com/u/13075514?v=4?s=100" width="100px;" alt="Adrian Schimpf"/><br /><sub><b>Adrian Schimpf</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/pulls?q=is%3Apr+reviewed-by%3Aadiux" title="Reviewed Pull Requests">👀</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://tomasvotruba.com"><img src="https://avatars.githubusercontent.com/u/924196?v=4?s=100" width="100px;" alt="Tomas Votruba"/><br /><sub><b>Tomas Votruba</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/pulls?q=is%3Apr+reviewed-by%3ATomasVotruba" title="Reviewed Pull Requests">👀</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://johnlinhart.com"><img src="https://avatars.githubusercontent.com/u/1235442?v=4?s=100" width="100px;" alt="John Linhart"/><br /><sub><b>John Linhart</b></sub></a><br /><a href="https://github.com/mautic/developer-documentation-new/pulls?q=is%3Apr+reviewed-by%3Aescopecz" title="Reviewed Pull Requests">👀</a></td>
     </tr>
   </tbody>
 </table>
