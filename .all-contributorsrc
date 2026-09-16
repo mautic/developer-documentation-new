@@ -35,6 +35,24 @@
       ]
     },
     {
+      "login": "thmclellan",
+      "name": "Tom McLellan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9682900?v=4",
+      "profile": "https://www.growthclick.com",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "Entrepositive",
+      "name": "Entrepositive",
+      "avatar_url": "https://avatars.githubusercontent.com/u/74878645?v=4",
+      "profile": "https://entrepositive.com",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
       "login": "ifeoluwafavour",
       "name": "Ife",
       "avatar_url": "https://avatars.githubusercontent.com/u/64481442?v=4",
@@ -77,42 +95,6 @@
       "profile": "https://adiati.com",
       "contributions": [
         "doc",
-        "review"
-      ]
-    },
-    {
-      "login": "fedys",
-      "name": "Miroslav Fedeleš",
-      "avatar_url": "https://avatars.githubusercontent.com/u/6388925?v=4",
-      "profile": "https://www.linkedin.com/in/miroslavfedeles",
-      "contributions": [
-        "review"
-      ]
-    },
-    {
-      "login": "patrykgruszka",
-      "name": "Patryk Gruszka",
-      "avatar_url": "https://avatars.githubusercontent.com/u/8580942?v=4",
-      "profile": "https://github.com/patrykgruszka",
-      "contributions": [
-        "review"
-      ]
-    },
-    {
-      "login": "adiux",
-      "name": "Adrian Schimpf",
-      "avatar_url": "https://avatars.githubusercontent.com/u/13075514?v=4",
-      "profile": "http://aivie.ch",
-      "contributions": [
-        "review"
-      ]
-    },
-    {
-      "login": "TomasVotruba",
-      "name": "Tomas Votruba",
-      "avatar_url": "https://avatars.githubusercontent.com/u/924196?v=4",
-      "profile": "https://tomasvotruba.com",
-      "contributions": [
         "review"
       ]
     },
@@ -198,21 +180,39 @@
       ]
     },
     {
-      "login": "thmclellan",
-      "name": "Tom McLellan",
-      "avatar_url": "https://avatars.githubusercontent.com/u/9682900?v=4",
-      "profile": "https://www.growthclick.com",
+      "login": "fedys",
+      "name": "Miroslav Fedeleš",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6388925?v=4",
+      "profile": "https://www.linkedin.com/in/miroslavfedeles",
       "contributions": [
-        "doc"
+        "review"
       ]
     },
     {
-      "login": "Entrepositive",
-      "name": "Entrepositive",
-      "avatar_url": "https://avatars.githubusercontent.com/u/74878645?v=4",
-      "profile": "https://entrepositive.com",
+      "login": "patrykgruszka",
+      "name": "Patryk Gruszka",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8580942?v=4",
+      "profile": "https://github.com/patrykgruszka",
       "contributions": [
-        "doc"
+        "review"
+      ]
+    },
+    {
+      "login": "adiux",
+      "name": "Adrian Schimpf",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13075514?v=4",
+      "profile": "http://aivie.ch",
+      "contributions": [
+        "review"
+      ]
+    },
+    {
+      "login": "TomasVotruba",
+      "name": "Tomas Votruba",
+      "avatar_url": "https://avatars.githubusercontent.com/u/924196?v=4",
+      "profile": "https://tomasvotruba.com",
+      "contributions": [
+        "review"
       ]
     }
   ],
