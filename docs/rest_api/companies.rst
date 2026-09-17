@@ -1147,7 +1147,7 @@ Properties
      - Overall counts for the batch
 
 The ``results`` entry properties
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. list-table::
    :widths: 25 25 50
@@ -1170,7 +1170,7 @@ The ``results`` entry properties
      - Human-readable outcome for the pair
 
 The ``summary`` object properties
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. list-table::
    :widths: 25 25 50
@@ -1190,7 +1190,7 @@ The ``summary`` object properties
      - Number of pairs with any other status
 
 Per-pair ``status`` values
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. list-table::
    :widths: 20 30 50
