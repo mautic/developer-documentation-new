@@ -150,6 +150,7 @@ There are several ways to support Mautic other than contributing with code.
    plugins/translations
    plugins/continuous_integration
    plugins/update_m4_to_m5
+   plugins/update_m7_to_m8
    plugins/mvc
    plugins/permissions
 
