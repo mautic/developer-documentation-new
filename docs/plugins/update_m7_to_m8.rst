@@ -125,9 +125,9 @@ Campaign action subscribers use ``Mautic\CampaignBundle\Event\PendingEvent``, a 
 
 ``failAll()``, ``failRemaining()``, ``failRemainingPending()``, and ``failLogs()`` all narrow ``$reason`` to ``string`` in the same way.
 
-For a Campaign extension example, see :doc:`/plugin_extensions/campaigns`.
-
 .. vale off
+
+For a Campaign extension example, see :doc:`/plugin_extensions/campaigns`.
 
 ChannelBundle
 *************
@@ -185,9 +185,9 @@ Subscribers that process a queued message batch use ``Mautic\ChannelBundle\Event
    - public function checkContext($channel): bool
    + public function checkContext(string $channel): bool
 
-For a Channel extension example, see :doc:`/plugin_extensions/channels`.
-
 .. vale off
+
+For a Channel extension example, see :doc:`/plugin_extensions/channels`.
 
 ConfigBundle
 ************
@@ -362,9 +362,9 @@ Subscribers that parse fetched mail use ``Mautic\EmailBundle\Event\ParseEmailEve
    - public function setCriteriaRequest($bundleKey, $folderKeys, $criteria, bool $markAsSeen = true): void
    + public function setCriteriaRequest(string $bundleKey, string|array $folderKeys, $criteria, bool $markAsSeen = true): void
 
-For an Email extension example, see :doc:`/plugin_extensions/emails`.
-
 .. vale off
+
+For an Email extension example, see :doc:`/plugin_extensions/emails`.
 
 FormBundle
 **********
@@ -423,9 +423,9 @@ Of all the classes on this list, ``Mautic\FormBundle\Event\SubmissionEvent`` has
    - public function setPostSubmitResponse($response): void
    + public function setPostSubmitResponse(array|\Symfony\Component\HttpFoundation\Response $response): void
 
-For a Form extension example, see :doc:`/plugin_extensions/forms`.
-
 .. vale off
+
+For a Form extension example, see :doc:`/plugin_extensions/forms`.
 
 IntegrationsBundle
 ******************
@@ -532,9 +532,9 @@ Plugins register a custom Point trigger on ``Mautic\PointBundle\Event\TriggerBui
    - public function addEvent($key, array $event): void
    + public function addEvent(string $key, array $event): void
 
-For a Point extension example, see :doc:`/plugin_extensions/points`.
-
 .. vale off
+
+For a Point extension example, see :doc:`/plugin_extensions/points`.
 
 UserBundle
 **********
