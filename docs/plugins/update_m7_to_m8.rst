@@ -1,11 +1,19 @@
 Update Plugins for Mautic 8
 ###########################
 
-Mautic 8 adds native type declarations to several ``CoreBundle`` Event classes that Plugins subscribe to and dispatch. For how a Plugin subscribes to Events, see :doc:`/plugins/event_listeners`. Where a type narrowed, a subscriber or caller that passes a previously tolerated type now throws a ``TypeError`` at runtime under ``strict_types``. This guide covers only these ``CoreBundle`` Event type-declaration changes, not the full Mautic 8 upgrade process. It names each changed signature so you can align your Plugin when upgrading from Mautic 7 to Mautic 8. For the earlier upgrade, see :doc:`/plugins/update_m4_to_m5`.
+Mautic 8 adds native type declarations to several ``CoreBundle`` Event classes that Plugins subscribe to and dispatch. Where a type narrowed, a subscriber or caller that passes a previously tolerated type now throws a ``TypeError`` at runtime under ``strict_types``. This guide covers only these ``CoreBundle`` Event type-declaration changes, not the full Mautic 8 upgrade process. It names each changed signature so you can align your Plugin when upgrading from Mautic 7 to Mautic 8.
+
+.. vale off
+
+.. seealso::
+
+   For how a Plugin subscribes to Events, see :doc:`/plugins/event_listeners`. For the earlier upgrade, see :doc:`/plugins/update_m4_to_m5`.
+
+.. vale on
 
 .. note::
 
-   Mautic updates its own in-tree callers as part of this change. Only out-of-tree Plugins that pass a previously tolerated type to these Events are affected.
+   Mautic updates its own in-tree callers as part of this change. This change affects only out-of-tree Plugins that pass a previously tolerated type to these Events.
 
 These Event classes all live under the ``Mautic\CoreBundle\Event\`` namespace, so you can grep your ``use`` statements to find the ones your Plugin references.
 
@@ -26,7 +34,7 @@ These signatures narrowed a parameter or return type. Where your Plugin passes a
    -    public function setContent($content): void
    +    public function setContent(string $content): void
 
-If your Plugin dispatches this Event, the constructor and ``getLead()`` are also typed. Note the asymmetry: the constructor accepts ``Lead|array|string|null`` for ``$content``, while ``setContent()`` accepts only ``string``. These diffs show the signature changes:
+If your Plugin dispatches this Event, Mautic 8 also types the constructor and ``getLead()``. Note the asymmetry: the constructor accepts ``Lead|array|string|null`` for ``$content``, while ``setContent()`` accepts only ``string``. These diffs show the signature changes:
 
 .. code:: diff
 
@@ -54,7 +62,7 @@ If your Plugin dispatches this Event, the constructor and ``getLead()`` are also
    -    public function checkContext($viewName, $context): bool
    +    public function checkContext(string $viewName, string $context): bool
 
-If your Plugin dispatches this Event, the constructor promotes both parameters to ``readonly`` typed properties, ``readonly ?string $viewName`` and ``readonly ?string $context``. The getters are now typed ``getViewName(): string`` and ``getContext(): ?string``. This diff shows the constructor change:
+If your Plugin dispatches this Event, the constructor promotes both parameters to ``readonly`` typed properties, ``readonly ?string $viewName`` and ``readonly ?string $context``. The getters now carry the types ``getViewName(): string`` and ``getContext(): ?string``. This diff shows the constructor change:
 
 .. code:: diff
 
@@ -93,7 +101,7 @@ These changes preserve behavior in most cases. Review your Plugin against each o
 ``BuilderEvent``
 ================
 
-``getRequested()`` now requires a ``string $type`` argument, and ``$requested`` is typed ``string|array``. The internal comparison changed from loose ``==`` to strict ``===``, which is equivalent under the new types. Because ``getRequested()`` is ``protected``, this affects only a Plugin that subclasses ``BuilderEvent``. A subclass that overrides the method must add the required ``string $type`` parameter to its override. A subclass that assigns to the newly typed ``protected`` ``$requested`` property directly must assign a ``string`` or ``array``. These diffs show the changes:
+``getRequested()`` now requires a ``string $type`` argument, and ``$requested`` now carries the type ``string|array``. The internal comparison changed from loose ``==`` to strict ``===``, which is equivalent under the new types. Because ``getRequested()`` is ``protected``, this affects only a Plugin that subclasses ``BuilderEvent``. A subclass that overrides the method must add the required ``string $type`` parameter to its override. A subclass that assigns to the newly typed ``protected`` ``$requested`` property directly must assign a ``string`` or ``array``. These diffs show the changes:
 
 .. code:: diff
 
@@ -108,7 +116,7 @@ These changes preserve behavior in most cases. Review your Plugin against each o
 ``MaintenanceEvent``
 ====================
 
-The constructor now promotes ``$daysOld`` to a typed ``int`` property, which removes the explicit ``(int)`` cast. This preserves behavior for ``int`` or numeric-string input, because ``MaintenanceEvent`` doesn't declare ``strict_types``. A subscriber calls the public ``setStat()`` method to record maintenance stats. It now types ``$parameters`` as ``array``, which keeps its ``= []`` default, so only a caller passing a non-array value breaks. If your Plugin subscribes to this Event and calls ``setStat()``, pass an array for ``$parameters`` (or omit it). These diffs show the changes:
+The constructor now promotes ``$daysOld`` to a typed ``int`` property, which removes the explicit ``(int)`` cast. This preserves behavior for ``int`` or numeric-string input, because ``MaintenanceEvent`` doesn't declare ``strict_types``. A subscriber calls the public ``setStat()`` method to record maintenance stats. It now types ``$parameters`` as ``array``, which keeps its ``= []`` default, so only a caller passing a non-array value breaks. If your Plugin subscribes to this Event and calls ``setStat()``, pass an array for ``$parameters`` - or omit it. These diffs show the changes:
 
 .. code:: diff
 
@@ -125,7 +133,7 @@ The constructor now promotes ``$daysOld`` to a typed ``int`` property, which rem
 Classes typed to match existing ``PHPDoc``
 *******************************************
 
-These Event classes gained native types that match their previously documented ``PHPDoc``, so no Plugin action is needed:
+These Event classes gained native types that match their previously documented ``PHPDoc``, so your Plugin needs no action:
 
 * ``CustomAssetsEvent``
 * ``BuildJsEvent`` - a ``final`` class
