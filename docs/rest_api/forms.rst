@@ -1431,6 +1431,9 @@ Mautic supports various Form Field types to collect and validate Contact data. E
    * - ``radiogrp``
      - Radio group
      - ``syncList``, ``optionlist`` - an object of ``list`` arrays, ``labelAttributes``
+   * - ``rating``
+     - Star rating field
+     - ``star_count`` - number of symbols a Contact can select, from 1 to 10, ``symbol`` - the character used for each rating symbol, ``star_color`` - hex color for selected symbols, ``base_color`` - hex color for unselected symbols
    * - ``country``
      - Country selection dropdown
      - ``placeholder``, ``multiple``
