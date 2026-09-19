@@ -813,6 +813,12 @@ Date fields
      - Occurrence before the specified date
    * - ``lte``
      - Occurrence on or before the specified date
+   * - ``inLast``
+     - Occurrence within the interval leading up to today
+   * - ``inNext``
+     - Occurrence between today and the end of the interval
+
+For ``inLast`` and ``inNext``, send ``properties.filter`` as an object with an ``interval`` integer and a ``unit`` of ``day``, ``month``, or ``year`` instead of a scalar value. Refer to :ref:`In the last and In the next filter <in the last and in the next filter>` for an example.
 
 Select or multi-select fields
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -896,5 +902,28 @@ Behavior action filter
        "operator": "startsWith",
        "properties": {
            "filter": "acme"
+       }
+   }
+
+.. _in the last and in the next filter:
+
+In the last and In the next filter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``inLast`` and ``inNext`` operators take an interval and a unit instead of a scalar date. Send ``properties.filter`` as an object with an ``interval`` integer and a ``unit`` of ``day``, ``month``, or ``year``:
+
+.. code-block:: json
+
+   {
+       "glue": "and",
+       "field": "date_modified",
+       "object": "lead",
+       "type": "datetime",
+       "operator": "inLast",
+       "properties": {
+           "filter": {
+               "interval": 1,
+               "unit": "day"
+           }
        }
    }
