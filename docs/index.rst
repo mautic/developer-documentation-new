@@ -235,6 +235,7 @@ There are several ways to support Mautic other than contributing with code.
    rest_api/dynamic_content
    rest_api/emails
    rest_api/fields
+   rest_api/field_groups
    rest_api/files
    rest_api/focus
    rest_api/forms
