@@ -28,14 +28,14 @@ Directory structure
 
 A Theme consists of three components: the configuration, Twig files with content, and thumbnails.
 
-.. code-block:: json
+.. code-block:: text
 
+    html/
+    ├── email.html.twig
+    ├── form.html.twig
+    ├── message.html.twig
+    └── page.html.twig
     config.json
-        html/
-            email.html.twig
-            form.html.twig
-            message.html.twig
-            page.html.twig
     thumbnail.png
     thumbnail_email.png
     thumbnail_form.png
@@ -57,7 +57,8 @@ The configuration file tells Mautic how to utilize the Theme.
         "form",
         "page"
       ],
-      "builder": ["legacy", "grapesjsbuilder"]
+      "builder": ["legacy", "grapesjsbuilder"],
+      "tags": ["adaptative", "newsletter"]
     }
 
 **name**
@@ -83,8 +84,27 @@ The configuration file tells Mautic how to utilize the Theme.
     ``page`` The Theme is compatible with the Page Builder. See :ref:`themes/getting_started:html/page.html.twig`.
 
     A corresponding ``html/[feature].html.twig`` file is required for each feature supported. For example, if the Theme supports ``email``, then there should be a ``html/email.html.twig`` file. See :ref:`themes/getting_started:Twig files` more information on each feature.
-builder
+**builder**
     This contains an array of strings declaring which Builder the Theme supports. This currently only applies to Themes that support ``page`` or ``email``. By default, Themes without this line are only recognized by Mautic's Legacy Builder. New Themes built should declare the specific Builders it supports.
+
+**tags**
+    .. versionadded:: 7.2
+
+    An optional array of strings that categorizes the Theme in the Theme selector. Tags help Users filter Themes by purpose. Mautic displays them as badges below each Theme. The following built-in values are available:
+
+    .. vale off
+
+    * ``adaptative`` - Themes that adapt to brand configuration in system settings. This tag has special styling with an icon and tooltip.
+    * ``newsletter`` - Newsletter-style Themes.
+    * ``promotion`` - Promotional or marketing Themes.
+    * ``transactional`` - Transactional Email Themes.
+    * ``registration`` - Registration or sign-up Themes.
+    * ``contact`` - Contact form or inquiry Themes.
+    * ``thank_you`` - Thank you page Themes.
+    * ``download`` - Download or gated content Themes.
+    * ``coming_soon`` - Coming soon or pre-launch Themes.
+
+    .. vale on
 
 Twig files
 ==========
