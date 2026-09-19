@@ -193,7 +193,7 @@ Mautic provides helper methods for common permission sets:
    * - ``addStandardPermissions()``
      - Sets ``view``, ``edit``, ``create``, ``delete``, ``publish`` - with an option to exclude - and ``full`` permissions.
    * - ``addExtendedPermissions()``
-     - Sets creator-level restrictions - ``viewown``, ``viewother``, ``editown``, ``editother``, ``create``, ``deleteown``, ``deleteother``, ``publishown``, ``publishother``, and ``full``.
+     - Sets creator-level restrictions - ``viewown``, ``viewsamerole``, ``viewother``, ``editown``, ``editsamerole``, ``editother``, ``create``, ``deleteown``, ``deletesamerole``, ``deleteother``, ``publishown``, ``publishsamerole``, ``publishother``, and ``full``. The ``samerole`` permissions allow Users to access content created by other Users who share the same Role.
    * - ``addManagePermission()``
      - Sets a single ``manage`` permission.
 
@@ -217,7 +217,7 @@ Mautic provides complementary helper methods for common permission sets:
    * - ``addStandardFormFields()``
      - Appends the standard permission sets to the Form.
    * - ``addExtendedFormFields()``
-     - Appends the extended - creator restricted - permissions to the Form.
+     - Appends the extended - creator restricted - permissions to the Form, including Same Role permissions.
    * - ``addManageFormFields()``
      - Appends the single manager element to the Form.
 

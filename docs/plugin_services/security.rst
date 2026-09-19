@@ -238,7 +238,7 @@ Mautic provides a few helper methods for common permission sets:
    * - ``addStandardPermissions()``
      - Set view, edit, create, delete, publish - with option to exclude, and full permissions.
    * - ``addExtendedPermissions()``
-     - Set creator level restrictions: ``viewown``, ``viewother``, ``editown``, ``editother``, ``create``, ``deleteown``, ``deleteother``, ``publishown`` - with option to exclude, ``publishother`` - with option to exclude, and ``full``
+     - Set creator level restrictions: ``viewown``, ``viewsamerole``, ``viewother``, ``editown``, ``editsamerole``, ``editother``, ``create``, ``deleteown``, ``deletesamerole``, ``deleteother``, ``publishown`` - with option to exclude, ``publishsamerole`` - with option to exclude, ``publishother`` - with option to exclude, and ``full``. The ``samerole`` permissions allow Users to access content created by other Users who share the same Role.
    * - ``addManagePermission()``
      - Add a single ``manage`` permission, which is the same as ``full``. Use this in cases where you only need a single permission for everything, also known as an "all or nothing" approach.
 
@@ -257,7 +257,7 @@ There are complimentary helper methods for the common permission sets:
    * - ``addStandardFormFields()``
      - Appends the standard permission sets to the Form
    * - ``addExtendedFormFields()``
-     - Appends the extended, aka creator restricted, permissions to the Form 
+     - Appends the extended, aka creator restricted, permissions to the Form, including Same Role permissions
    * - ``addManageFormFields()``
      - Appends the single manager element to the Form
 
@@ -349,3 +349,120 @@ Advanced ``isSupported`` logic
 
 The same applies for the method ``isSupported()`` which you can use to determine if a bundle or Plugin includes the requested permission and permission level.
 You can also use this to provide BC support.
+
+.. vale off
+
+Same Role permissions
+*********************
+
+.. vale on
+
+Same Role permissions provide a middle ground between ``own`` and ``other`` permissions. A Same Role permission such as ``viewsamerole`` allows a User to access content created by any User who has the same Role assigned to them.
+
+.. vale off
+
+Available Same Role permissions
+===============================
+
+.. vale on
+
+When using ``addExtendedPermissions()``, the following Same Role permissions become available:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Permission
+     - Description
+     - Bit
+   * - ``viewsamerole``
+     - View content created by Users with the same Role
+     - 2048
+   * - ``editsamerole``
+     - Edit content created by Users with the same Role
+     - 4096
+   * - ``deletesamerole``
+     - Delete content created by Users with the same Role
+     - 8192
+   * - ``publishsamerole``
+     - Activate/Deactivate content created by Users with the same Role
+     - 16384
+
+Permission hierarchy
+====================
+
+The permission hierarchy from most restrictive to least restrictive is:
+
+#. ``own`` - Access only content created by the current User
+#. ``samerole`` - Access content created by Users with the same Role
+#. ``other`` - Access content created by any User
+
+When verifying access, Mautic evaluates permissions in this order. If a User has ``viewother``, they can view all content regardless of Same Role settings.
+
+.. vale off
+
+Verifying entity access with Roles
+==================================
+
+.. vale on
+
+The ``hasEntityAccess()`` method supports Same Role permissions. When you pass ``viewown`` and ``viewother`` permissions, Mautic automatically infers the corresponding ``viewsamerole`` permission:
+
+.. code-block:: php
+
+   <?php
+
+   // Mautic automatically checks viewsamerole when viewown/viewother are passed
+   if ($this->security->hasEntityAccess(
+       'email:emails:viewown',
+       'email:emails:viewother',
+       $entity->getCreatedBy()
+   )) {
+       // User has access via own, same-role, or other permission
+   }
+
+You can also explicitly pass a Same Role permission as the fourth parameter:
+
+.. code-block:: php
+
+   <?php
+
+   if ($this->security->hasEntityAccess(
+       'lead:lists:viewown',
+       'lead:lists:viewother',
+       $entity->getCreatedBy(),
+       'lead:lists:viewsamerole'
+   )) {
+       // Explicit same-role permission check
+   }
+
+.. vale off
+
+Controller helpers for Role-based filtering
+===========================================
+
+.. vale on
+
+Controllers extending ``CommonController`` have access to helper methods that handle Role-based filtering of entity lists:
+
+.. code-block:: php
+
+   <?php
+
+   // Get standard permissions including Same Role permissions
+   $permissionBase = 'email:emails';
+   $permissions = $this->getStandardPermissions($permissionBase);
+
+   // Check if user has any view permission - Own, Same Role, or other
+   if (!$this->hasStandardViewPermission($permissions, $permissionBase)) {
+       return $this->accessDenied();
+   }
+
+   // Add Role-based filtering to entity queries
+   $filter = ['string' => $search, 'force' => []];
+   $this->addStandardRoleBasedFilter($filter, $permissions, $permissionBase, 'e.createdBy');
+
+The ``addStandardRoleBasedFilter()`` method:
+
+* Does nothing if the User has ``viewother`` permission
+* Filters to Users with the same Role if the User has ``viewsamerole`` permission
+* Filters to only the current User if the User has neither ``viewother`` nor ``viewsamerole``
