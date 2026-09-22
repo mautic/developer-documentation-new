@@ -74,9 +74,10 @@ Service scope
 
 Services are public by default to have backwards compatibility with Mautic 3 and Symfony 3. You can change the scope of your service by setting ``public`` to ``false`` when defining the service in the Plugin's ``Config/config.php``.
 
-Support for entity annotations
-******************************
-By default, Mautic uses Doctrine's PHP driver instead of annotations which requires a ``public static function loadMetadata(ORM\ClassMetadata $metadata)`` method. However, Plugins can use annotations if desired but should use only annotations or only PHP ``loadMetadata``. A Plugin can't use a mix of both. See :ref:`plugins/data:Entities and schema` for more information.
+Support for entity attributes
+*****************************
+
+By default, Mautic uses Doctrine's PHP static function mapping, which requires a ``public static function loadMetadata(ORM\ClassMetadata $metadata)`` method. Plugins can use PHP 8 attributes (``#[ORM\...]``) instead, but can't mix attributes with PHP ``loadMetadata`` in the same entity. See :ref:`plugins/database:Entities and schema` for more information.
 
 Firewalls and User access management
 ************************************
