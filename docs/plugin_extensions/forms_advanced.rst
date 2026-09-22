@@ -77,7 +77,7 @@ There are three common means of validating Form data.
 
 .. note::
 
-   Construct constraints with named arguments - for example ``new NotBlank(message: 'mautic.core.name.required')`` - or with PHP attributes, rather than the older array-of-options constructor. Passing an options array such as ``new NotBlank(array('message' => ...))`` is deprecated on Symfony 7 and removed on Symfony 8, where it throws an error. Named arguments and attributes work on both versions.
+   Construct constraints with named arguments - for example ``new NotBlank(message: 'mautic.core.name.required')`` - or with PHP attributes, rather than the older array-of-options constructor. Passing an options array such as ``new NotBlank(array('message' => ...))`` is deprecated since Symfony 7.3 and unsupported on Symfony 8, which Mautic 8 ships. Built-in constraints throw an ``InvalidArgumentException``; a custom constraint that doesn't override ``__construct`` accepts the array and silently ignores it, leaving every option at its default. Named arguments and attributes work on both versions.
 
 Using entity static callback
 ============================
