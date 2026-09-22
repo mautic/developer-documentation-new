@@ -75,6 +75,10 @@ Review Symfony's Form validation documentation for a general overview: :xref:`Sy
 
 There are three common means of validating Form data.
 
+.. note::
+
+   Construct constraints with named arguments - for example ``new NotBlank(message: 'mautic.core.name.required')`` - or with PHP attributes, rather than the older array-of-options constructor. Passing an options array such as ``new NotBlank(array('message' => ...))`` is deprecated on Symfony 7 and removed on Symfony 8, where it throws an error. Named arguments and attributes work on both versions.
+
 Using entity static callback
 ============================
 
@@ -119,20 +123,15 @@ When registering a validation group in the Form type class, you can use a static
             $metadata->addPropertyConstraint(
                 'name',
                 new NotBlank(
-                    array(
-                        'message' => 'mautic.core.name.required'
-                    )
+                    message: 'mautic.core.name.required'
                 )
             );
-            
+
             $metadata->addPropertyConstraint(
-                'population', 
+                'population',
                 new NotBlank(
-                    array(
-                        'message' => 'mautic.core.value.required',
-                        'groups'  => array('VisitedWorld')
-                    )
-                
+                    message: 'mautic.core.value.required',
+                    groups: array('VisitedWorld')
                 )
             );
         }
@@ -208,9 +207,7 @@ A :xref:`Form type service<Symfony custom Form field type>` can also register :x
                     ),
                     'constraints' => array(
                         new NotBlank(
-                            array(
-                                'message' => 'mautic.core.value.required'
-                            )
+                            message: 'mautic.core.value.required'
                         )
                     )
                 )
