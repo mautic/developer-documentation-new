@@ -309,7 +309,7 @@ A Plugin registers these listeners the same way as any Symfony event subscriber.
 
 .. note::
 
-   All three events share ``SearchEventTrait`` and CoreBundle dispatches them, so every listener must call ``$event->checkContext('email')`` and return early otherwise. Without this guard a listener would act outside the Email list. ``getContext()`` reads the current context, and ``checkContext(string): bool`` compares it against the context you pass.
+   All three events extend ``AbstractSearchEvent`` and CoreBundle dispatches them, so every listener must call ``$event->checkContext('email')`` and return early otherwise. Without this guard a listener would act outside the Email list. ``getContext()`` reads the current context, and ``checkContext(string): bool`` compares it against the context you pass.
 
 Register the command with SearchCommandEvent
 ============================================
