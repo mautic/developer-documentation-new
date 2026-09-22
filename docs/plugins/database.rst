@@ -157,7 +157,7 @@ You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\Class
 
     .. php:method:: createManyToOne(string $name, string $targetEntity)
 
-        Creates a field with a many to one relationship to the targeted entity. Instantiates and returns a ``Mautic\CoreBundle\Doctrine\Mapping\AssociationBuilder`` object that decorates ``Doctrine\ORM\Mapping\Builder\AssociationBuilder`` with ``orphanRemoval()`` and ``isPrimaryKey()`` support.
+        Creates a field with a many to one relationship to the targeted entity. Instantiates and returns a ``Mautic\CoreBundle\Doctrine\Mapping\AssociationBuilder`` object that decorates ``Doctrine\ORM\Mapping\Builder\AssociationBuilder`` with ``isPrimaryKey()`` support.
 
         :param string $name: Name of the ORM field.
         :param string $targetEntity: Fully qualified classname for the targeted entity.
@@ -175,7 +175,7 @@ You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\Class
 
     .. php:method:: createOneToOne(string $name, string $targetEntity)
 
-        Creates a field with a one to one relationship to the targeted entity. Instantiates and returns a ``Mautic\CoreBundle\Doctrine\Mapping\AssociationBuilder`` object that decorates ``Doctrine\ORM\Mapping\Builder\AssociationBuilder`` with ``orphanRemoval()`` and ``isPrimaryKey()`` support.
+        Creates a field with a one to one relationship to the targeted entity. Instantiates and returns a ``Mautic\CoreBundle\Doctrine\Mapping\AssociationBuilder`` object that decorates ``Doctrine\ORM\Mapping\Builder\AssociationBuilder`` with ``isPrimaryKey()`` support.
 
         :param string $name: Name of the ORM field.
         :param string $targetEntity: Fully qualified classname for the targeted entity.
