@@ -296,14 +296,16 @@ Custom search commands
 A custom search command is a ``command:value`` search-bar filter that a User types into the Email list's search box, alongside built-in search commands such as ``is:published``. A Plugin registers its own search command by listening to three events that CoreBundle dispatches:
 
 * ``SearchCommandEvent`` registers the command.
-* ``SearchQueryEvent`` builds the WHERE clause that filters the Email list.
+* ``SearchQueryEvent`` builds the ``WHERE`` clause that filters the Email list.
 * ``SearchHelpEvent`` supplies the help text Mautic shows for the Email list's search commands.
 
 Mautic wires this mechanism only for the Email list - the context ``'email'`` - and no custom search command ships by default.
 
+A Plugin registers these listeners the same way as any Symfony event subscriber. The complete, ready-to-copy pattern is the **Example** subsection below, which registers all three events in one subscriber. Use it as the reference.
+
 .. vale off
 
-A Plugin registers these listeners the same way as any Symfony event subscriber. The complete, ready-to-copy pattern is the **Example** subsection below, which registers all three events in one subscriber. Use it as the reference. For supplementary background on event listeners and subscribers, see the :doc:`listeners and subscribers</plugins/event_listeners>` section.
+For supplementary background on event listeners and subscribers, see the :doc:`listeners and subscribers</plugins/event_listeners>` section.
 
 .. vale on
 
@@ -316,18 +318,14 @@ Register the command with SearchCommandEvent
 
 ``SearchCommandEvent`` makes the Email list recognize your command as a valid search command and suggest it in the search box as the User types. Your listener calls ``addCommand()`` to add a single command string, and can read or replace the whole list with ``getCommands()`` and ``setCommands(array)``. ``EmailRepository::getSearchCommands()`` dispatches this event.
 
-.. vale off
+Filter the list with SearchQueryEvent
+======================================
 
-Build the WHERE clause with SearchQueryEvent
-============================================
-
-.. vale on
-
-``SearchQueryEvent`` carries the active filter and the query it's assembling. Your listener reads ``$event->getFilter()`` and compares ``$filter->command`` to the command string it registered with ``addCommand()``. When they match, it calls ``$event->setExpr(...)`` and ``$event->setParameters([...])`` to contribute the WHERE clause. Build the expression from ``$event->getQuery()`` and the entity alias from ``$event->getAlias()``. ``EmailRepository::addSearchCommandWhereClause()`` dispatches this event while it resolves a search command to its WHERE clause.
+``SearchQueryEvent`` carries the active filter and the query it's assembling. Your listener reads ``$event->getFilter()`` and compares ``$filter->command`` to the command string it registered with ``addCommand()``. When they match, it calls ``$event->setExpr(...)`` and ``$event->setParameters([...])`` to contribute the ``WHERE`` clause. Build the expression from ``$event->getQuery()`` and the entity alias from ``$event->getAlias()``. ``EmailRepository::addSearchCommandWhereClause()`` dispatches this event while it resolves a search command to its ``WHERE`` clause.
 
 .. note::
 
-   ``getQuery()`` may return either an ORM ``QueryBuilder`` or a DBAL ``QueryBuilder``, so your listener must not assume one or the other.
+   ``getQuery()`` may return either an ``ORM QueryBuilder`` or a ``DBAL QueryBuilder``, so your listener must not assume one or the other.
 
    Mautic resolves its standard search commands first, then dispatches ``SearchQueryEvent`` for Plugin listeners, and only then falls back to its built-in Email command switch. So a listener-supplied expression takes precedence over the built-in Email commands: once a listener sets an expression, ``EmailRepository`` returns it and short-circuits that switch.
 
@@ -404,7 +402,7 @@ The subscriber below registers an ``is:special`` command on the Email list and f
         }
     }
 
-The :doc:`Quick filters for searches</design/quick_filters>` page covers a complementary task: surfacing existing search commands as clickable quick-filter buttons. This section covers registering new commands instead. The two features compose, so you can register a command here and then optionally surface it as a quick-filter button using that page.
+The :doc:`Quick filters for searches</design/quick_filters>` documentation covers a complementary task: surfacing existing search commands as clickable quick-filter buttons. This section covers registering new commands instead. The two features compose, so you can register a command here and then optionally surface it as a quick-filter button as described there.
 
 .. vale off
 
