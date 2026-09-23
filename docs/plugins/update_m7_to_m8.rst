@@ -21,7 +21,7 @@ Many of Mautic's repositories extend ``Mautic\CoreBundle\Entity\CommonRepository
 .. code:: diff
 
    - public function checkUniqueAlias($alias, $entity = null)
-   + public function checkUniqueAlias($alias, $entity = null): mixed
+   + public function checkUniqueAlias($alias, $entity = null): int
    - public function findOneBySlugs($alias, $catAlias = null, $lang = null)
    + public function findOneBySlugs($alias, $catAlias = null, $lang = null): ?object
    - public function getBaseColumns($entityClass, bool $returnColumnNames = false)
