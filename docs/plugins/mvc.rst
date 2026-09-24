@@ -396,6 +396,25 @@ The ``FormModel`` class extends ``AbstractCommonModel`` and includes helper meth
 
 .. vale on
 
+Mautic 8 type changes
+---------------------
+
+Mautic 8 adds a native ``object`` type to the ``$entity`` parameter of these public methods on the base ``FormModel`` class:
+
+.. code:: diff
+
+   - public function saveEntity($entity, bool $unlock = true): void
+   + public function saveEntity(object $entity, bool $unlock = true): void
+
+   - public function saveAndDetachEntity($entity, bool $unlock = true): void
+   + public function saveAndDetachEntity(object $entity, bool $unlock = true): void
+
+This changes no runtime behavior. Both methods already worked with entity objects, so Mautic 8 only makes that expectation explicit in the signature. The method-specific ``@param <Entity>`` annotations stay in place for that specificity.
+
+The upgrade risk is a signature mismatch. If your Plugin's Model subclass overrides ``saveEntity()`` or ``saveAndDetachEntity()`` with a parameter type that's narrower than or incompatible with the new parent type - for example a concrete entity class instead of ``object`` - PHP throws a fatal ``TypeError``. An override that declares no parameter type stays compatible. To fix an incompatible override, match the parent signature with ``object $entity`` or remove the parameter type. Mautic types the parameter as ``object`` rather than a concrete entity class on purpose, because PHP fails when an inherited signature narrows a parameter type.
+
+The core ``saveEntity()`` overrides adopt the ``object`` type in Mautic 8 for the same reason - for example ``AssetModel``, ``EmailModel``, ``LeadModel``, ``PageModel``, and ``UserModel``. If your Plugin extends one of these Models rather than ``FormModel`` directly, apply the same rule to your override.
+
 Getting model objects
 =====================
 
