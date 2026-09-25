@@ -10,6 +10,8 @@ Plugins interact with these events by subscribing to them and calling their meth
 
 If your Plugin doesn't subscribe to, call, or extend any of the classes listed below, you have nothing to change.
 
+Mautic 8 also changes the helper methods on the base controllers. See :ref:`Controller helper methods <Mautic 8 controller helper methods>` if your Plugin has a controller that extends a Mautic controller.
+
 .. note::
 
    When you call one of these methods, pass arguments of the declared types. When you extend one of these events and override a typed method, copy the parent signature exactly, using the same parameter types, return type, and property type.
@@ -598,3 +600,129 @@ Plugins register a Webhook event on ``Mautic\WebhookBundle\Event\WebhookBuilderE
 
    - public function addEvent($key, array $event): void
    + public function addEvent(string $key, array $event): void
+
+.. _mautic 8 controller helper methods:
+
+.. vale off
+
+Controller helper methods
+*************************
+
+.. vale on
+
+In Mautic 8, a controller exposes only its route actions as public methods. Helper methods on the base controllers are now ``protected``, and several gain native return types. Your Plugin controllers can still call these helpers through ``$this``, so a controller that only calls them needs no changes. Two kinds of Plugin code break:
+
+* Code outside the controller that calls one of these helpers, such as a service or a test, raises an ``Error`` for calling a protected method.
+* A Plugin controller that overrides one of the helpers that gained a return type, but omits the return type or declares an incompatible one, causes a fatal error when PHP loads the class.
+
+.. vale off
+
+CommonController
+================
+
+.. vale on
+
+These methods on ``Mautic\CoreBundle\Controller\CommonController`` change from ``public`` to ``protected``, with no signature change otherwise:
+
+* ``addFlashMessage()``
+* ``delegateRedirect()``
+* ``delegateView()``
+* ``eventAwareRenderView()``
+* ``exportResultsAs()``
+* ``forwardWithPost()``
+* ``getAccessDeniedFlash()``
+* ``modalAccessDenied()``
+* ``notFound()``
+* ``postActionRedirect()``
+* ``renderException()``
+* ``throwAccessDenied()``
+
+``Mautic\CoreBundle\Controller\AjaxLookupControllerTrait`` now declares ``renderException()`` as ``abstract protected`` to match.
+
+.. vale off
+
+FetchCommonApiController
+========================
+
+.. vale on
+
+``Mautic\ApiBundle\Controller\FetchCommonApiController`` is the parent of ``CommonApiController``, which Plugin API controllers extend. Three of its methods change from ``public`` to ``protected``:
+
+.. code:: diff
+
+   - public function getNewEntity(array $params)
+   + protected function getNewEntity(array $params)
+
+.. code:: diff
+
+   - public function getCurrentRequest(): Request
+   + protected function getCurrentRequest(): Request
+
+.. code:: diff
+
+   - public function postActionRedirect(array $args = [])
+   + protected function postActionRedirect(array $args = []): Response
+
+These ``protected`` methods gain native return types:
+
+.. code:: diff
+
+   - protected function accessDenied(string $msg = 'mautic.core.error.accessdenied')
+   + protected function accessDenied(string $msg = 'mautic.core.error.accessdenied'): Response
+
+.. code:: diff
+
+   - protected function badRequest(string $msg = 'mautic.core.error.badrequest')
+   + protected function badRequest(string $msg = 'mautic.core.error.badrequest'): Response
+
+.. code:: diff
+
+   - protected function checkEntityAccess($entity, $action = 'view')
+   + protected function checkEntityAccess($entity, $action = 'view'): bool|Response
+
+.. code:: diff
+
+   - protected function notFound(string $msg = 'mautic.core.error.notfound')
+   + protected function notFound(string $msg = 'mautic.core.error.notfound'): Response
+
+.. code:: diff
+
+   - protected function returnError(string $msg, int $code = Response::HTTP_INTERNAL_SERVER_ERROR, array $details = [])
+   + protected function returnError(string $msg, int $code = Response::HTTP_INTERNAL_SERVER_ERROR, array $details = []): Response|array
+
+.. code:: diff
+
+   - protected function validateBatchPayload(array $parameters)
+   + protected function validateBatchPayload(array $parameters): \Symfony\Component\HttpFoundation\Response|array|true
+
+``validateBatchPayload()`` declares ``true`` where its annotation previously documented ``bool``, so an override can't return ``false``.
+
+.. vale off
+
+FormController
+==============
+
+.. vale on
+
+``clearSessionComponents()`` on ``Mautic\FormBundle\Controller\FormController`` changes from ``public`` to ``protected``.
+
+.. vale off
+
+Bundle controllers
+==================
+
+.. vale on
+
+Helper methods that only their own class used are now ``private``. Examples include ``getMapOptions()`` on the Campaign and Email map stats controllers and ``getUnsubscribeMessage()`` on ``Mautic\EmailBundle\Controller\PublicController``. A Plugin controller that extends one of these bundle controllers can no longer call or override these methods.
+
+.. vale off
+
+Update your Plugin
+==================
+
+.. vale on
+
+To update your Plugin:
+
+#. Move any logic that calls a controller helper from outside the controller into the controller itself, or into a service that both the controller and the calling code use.
+#. In each Plugin controller that overrides one of these helpers, copy the parent's return type into the override. An override can keep ``public`` visibility, because PHP lets a child class widen visibility.

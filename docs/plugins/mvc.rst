@@ -86,7 +86,7 @@ Mautic has several controllers that provide some helper functions.
 
 .. vale on
 
-The ``CommonController`` also provides the following helper methods:
+The ``CommonController`` also provides the following helper methods. They're ``protected``, so call them through ``$this`` from your controller's actions.
 
 1.1 ``delegateView($args)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
