@@ -23,8 +23,12 @@ Mautic 8 changes event or entity class signatures in these bundles:
 * EmailBundle
 * FormBundle
 * IntegrationsBundle
+* LeadBundle
+* NotificationBundle
 * PageBundle
 * PointBundle
+* SmsBundle
+* StageBundle
 * UserBundle
 * WebhookBundle
 
@@ -447,6 +451,101 @@ Integration subscribers register mapped-object tokens on ``Mautic\IntegrationsBu
 
    - public function addToken($integrationName, $objectName, $objectLink, $title = '', $linkText = 'Link Text', $default = 'Default Value'): void
    + public function addToken($integrationName, $objectName, $objectLink, string $title = '', string $linkText = 'Link Text', string $default = 'Default Value'): void
+
+.. vale off
+
+LeadBundle
+**********
+
+.. vale on
+
+Mautic 8 adds type declarations to three Contact and Segment event classes and to the ``ContactTracker`` service.
+
+.. vale off
+
+ContactIdentificationEvent
+==========================
+
+.. vale on
+
+Subscribers that identify a Contact from a tracked link click use ``Mautic\LeadBundle\Event\ContactIdentificationEvent``, a ``final`` class, so the override risk doesn't apply. ``setIdentifiedContact()`` types ``$channel`` as ``string``, and ``getIdentifier()`` gains a ``?string`` return type:
+
+.. code:: diff
+
+   - public function setIdentifiedContact(Lead $contact, $channel): void
+   + public function setIdentifiedContact(Lead $contact, string $channel): void
+
+.. code:: diff
+
+   - public function getIdentifier()
+   + public function getIdentifier(): ?string
+
+.. vale off
+
+LeadListFiltersOperatorsEvent
+=============================
+
+.. vale on
+
+Plugins register custom Segment filter operators on ``Mautic\LeadBundle\Event\LeadListFiltersOperatorsEvent``, a ``final`` class. ``addOperator()`` types ``$operatorKey`` as ``string`` and ``$operatorConfig`` as ``array``:
+
+.. code:: diff
+
+   - public function addOperator($operatorKey, $operatorConfig): void
+   + public function addOperator(string $operatorKey, array $operatorConfig): void
+
+.. vale off
+
+ListPreProcessListEvent
+=======================
+
+.. vale on
+
+Subscribers that pre-process a Segment use ``Mautic\LeadBundle\Event\ListPreProcessListEvent``, a ``final`` class. ``setResult()`` now requires a ``bool``, and ``getResult()`` returns ``?bool``, which is ``null`` until a subscriber sets a result:
+
+.. code:: diff
+
+   - public function setResult($result): static
+   + public function setResult(bool $result): static
+
+.. code:: diff
+
+   - public function getResult()
+   + public function getResult(): ?bool
+
+.. vale off
+
+ContactTracker
+==============
+
+.. vale on
+
+Plugins that read or set the tracked Contact use the ``Mautic\LeadBundle\Tracker\ContactTracker`` service. ``setUseSystemContact()`` no longer accepts ``null``, so passing ``null`` now raises a ``TypeError`` at runtime:
+
+.. code:: diff
+
+   - public function setUseSystemContact(?bool $useSystemContact): void
+   + public function setUseSystemContact(bool $useSystemContact): void
+
+.. vale off
+
+For a Contact extension example that uses ``ContactTracker``, see :doc:`/plugin_extensions/contacts`.
+
+NotificationBundle
+******************
+
+.. vale on
+
+Mautic 8 adds parameter types to three Notification entity classes. Plugins that create or update these entities must pass arguments of the declared types:
+
+* ``Mautic\NotificationBundle\Entity\Notification`` - ``setName()``, ``setButton()``, and ``setMessage()`` take ``?string``, ``setNotificationType()`` takes ``string``, ``setUtmTags()`` takes ``array``, and ``setMobile()`` takes ``bool``.
+* ``Mautic\NotificationBundle\Entity\PushID`` - ``setEnabled()`` and ``setMobile()`` take ``bool``.
+* ``Mautic\NotificationBundle\Entity\Stat`` - ``setDateSent()`` narrows from ``mixed`` to ``\DateTimeInterface``, so passing a date string now raises a ``TypeError`` at runtime.
+
+.. code:: diff
+
+   - public function setDateSent($dateSent): void
+   + public function setDateSent(\DateTimeInterface $dateSent): void
 
 .. vale off
 
