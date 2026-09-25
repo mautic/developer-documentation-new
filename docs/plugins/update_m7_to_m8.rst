@@ -19,6 +19,7 @@ Mautic 8 changes event or entity class signatures in these bundles:
 * CampaignBundle
 * ChannelBundle
 * ConfigBundle
+* CoreBundle
 * DashboardBundle
 * EmailBundle
 * FormBundle
@@ -157,6 +158,20 @@ Channel broadcast subscribers record send results on ``Mautic\ChannelBundle\Even
    - public function checkContext($channel): bool
    + public function checkContext(string $channel): bool
 
+The Contact ID filters that split a broadcast across parallel processes now use ``int``. Both setters take an ``int``, and both get methods return ``?int``, which is ``null`` when the broadcast has no filter:
+
+.. code:: diff
+
+   - public function setMinContactIdFilter($minContactIdFilter): void
+   + public function setMinContactIdFilter(int $minContactIdFilter): void
+
+.. code:: diff
+
+   - public function getMinContactIdFilter()
+   + public function getMinContactIdFilter(): ?int
+
+``setMaxContactIdFilter()`` and ``getMaxContactIdFilter()`` change in the same way.
+
 .. vale off
 
 ChannelEvent
@@ -210,6 +225,25 @@ Plugins contribute their configuration through ``Mautic\ConfigBundle\Event\Confi
    - public function getParametersFromConfig($bundle)
    + public function getParametersFromConfig(string $bundle)
 
+``addFileFields()`` now requires an ``array``. In Mautic 7 it also accepted a single field name as a ``string`` and wrapped it in an array, so a call that still passes a ``string`` raises a ``TypeError`` at runtime. Wrap a single field name in an array:
+
+.. code:: diff
+
+   - public function addFileFields($fields): static
+   + public function addFileFields(array $fields): static
+
+.. code:: diff
+
+   - $event->addFileFields('my_file_field');
+   + $event->addFileFields(['my_file_field']);
+
+``removeForm()`` types ``$formAlias`` as ``string``:
+
+.. code:: diff
+
+   - public function removeForm($formAlias): bool
+   + public function removeForm(string $formAlias): bool
+
 .. vale off
 
 ConfigEvent
@@ -241,6 +275,50 @@ Subscribers that read and validate saved configuration values use ``Mautic\Confi
    - public function setError($message, $messageVars = [], $key = null, $field = null): static
    + public function setError(string $message, array $messageVars = [], ?string $key = null, ?string $field = null): static
 
+``encodeFileContents()`` types ``$content`` as ``string``:
+
+.. code:: diff
+
+   - public function encodeFileContents($content): string
+   + public function encodeFileContents(string $content): string
+
+.. vale off
+
+CoreBundle
+**********
+
+.. vale on
+
+Mautic 8 adds type declarations to two CoreBundle event classes that Plugins use to add tokens and inject content into views.
+
+.. vale off
+
+BuilderEvent
+============
+
+.. vale on
+
+Email and Landing Page builder subscribers receive a subclass of ``Mautic\CoreBundle\Event\BuilderEvent``, such as ``EmailBuilderEvent`` or ``PageBuilderEvent``, and call ``tokensRequested()`` before adding tokens. ``$tokenKeys`` now accepts only a ``string``, an ``array`` of token keys, or ``null``:
+
+.. code:: diff
+
+   - public function tokensRequested($tokenKeys = null): bool
+   + public function tokensRequested(string|array|null $tokenKeys = null): bool
+
+.. vale off
+
+CustomContentEvent
+==================
+
+.. vale on
+
+Plugins inject content into a view through ``Mautic\CoreBundle\Event\CustomContentEvent``, a ``final`` class, so the override risk doesn't apply. ``addContent()`` types ``$content`` as ``string``, so pass rendered HTML rather than an object or ``null``:
+
+.. code:: diff
+
+   - public function addContent($content): void
+   + public function addContent(string $content): void
+
 .. vale off
 
 DashboardBundle
@@ -263,6 +341,13 @@ Widget subscribers set the Widget template on ``Mautic\DashboardBundle\Event\Wid
 
    - public function setTemplate($template): void
    + public function setTemplate(string $template): void
+
+``setErrorMessage()`` types ``$errorMessage`` as ``string``:
+
+.. code:: diff
+
+   - public function setErrorMessage($errorMessage): void
+   + public function setErrorMessage(string $errorMessage): void
 
 .. vale off
 
