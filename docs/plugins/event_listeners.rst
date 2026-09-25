@@ -74,6 +74,10 @@ Available events
 
 There are many events available throughout Mautic. Depending on what you're trying to implement, look at the ``*Event.php`` for the core bundle, located in the root of the bundle. For example, the ``app\bundles\LeadBundle\LeadEvents.php`` file defines and describes events relating to Contacts. The final classes provide the names of the events to listen to. Always use the event constants to ensure future changes to event names won't break the Plugin.
 
+.. note::
+
+   The ``Mautic\UserBundle`` User and Role save and delete lifecycle events follow the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule. Key ``getSubscribedEvents()`` on the event class - for example ``PostSaveUserEvent::class`` in the ``Mautic\UserBundle\Event`` namespace - not on a ``UserEvents`` constant. Mautic 8 removed the eight User and Role save and delete constants from ``Mautic\UserBundle\UserEvents``, so a subscriber still keyed on one, such as ``UserEvents::USER_POST_SAVE``, raises an undefined-constant error instead of silently receiving nothing. The base ``UserEvent`` and ``RoleEvent`` classes are now abstract, so dispatch or type-hint the concrete ``Pre*`` or ``Post*`` subclass. Mautic 8 leaves the authentication constants, such as ``USER_LOGIN`` and ``USER_LOGOUT``, in place, so they still dispatch by their string names. The ``UPGRADE-8.0.md`` guide lists each removed constant with its replacement event class.
+
 Custom events
 *************
 
