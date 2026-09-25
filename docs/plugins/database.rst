@@ -13,9 +13,9 @@ Entities and schema
 
 .. vale on
 
-Mautic uses :xref:`Doctrine ORM` to define the schema. Plugins define their schema using entity classes stored in its ``Entity`` directory. Define the schema for the entity through Doctrine's :xref:`PHP static function mapping<Doctrine ORM PHP mapping>` or :xref:`annotations<Doctrine ORM annotations>`.
+Mautic uses :xref:`Doctrine ORM` to define the schema. Plugins define their schema using entity classes stored in their own ``Entity`` directory. Define the schema for the entity through Doctrine's :xref:`PHP static function mapping<Doctrine ORM PHP mapping>` or :xref:`PHP 8 attributes<Doctrine ORM attributes>`.
 
-.. warning:: You use the PHP mapping **or** annotations. You can't use a mix of the two.
+.. warning:: You use the PHP mapping **or** attributes. You can't use a mix of the two.
 
 Entity PHP static function mapping
 **********************************
@@ -189,10 +189,14 @@ You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\Class
         :returns: Returns ``TRUE`` if the field is a ``string`` type or is indexed.
         :returntype: bool
 
-Entity annotations
-******************
+Entity attributes
+*****************
 
-You can choose to use annotations instead of the PHP static method. Refer to :xref:`Doctrine's documentation on available annotations<Doctrine ORM annotations>`.
+You can choose to use PHP 8 attributes instead of the PHP static method. Refer to :xref:`Doctrine's documentation on available attributes<Doctrine ORM attributes>`.
+
+.. note::
+
+   Mautic 8 uses Doctrine ORM 3, which maps entities with either PHP 8 attributes - ``#[ORM\...]`` - or the PHP static function mapping shown above. Doctrine ORM 3 doesn't support docblock annotations - ``@ORM\...`` - so if you're upgrading a Plugin that uses them, convert them to attributes.
 
 .. code-block:: php
 
@@ -200,26 +204,21 @@ You can choose to use annotations instead of the PHP static method. Refer to :xr
 
     declare(strict_types=1);
 
-    namespace Mautic\UserBundle\Entity;
+    namespace MauticPlugin\HelloWorldBundle\Entity;
 
     use Doctrine\ORM\Mapping as ORM;
     use Ramsey\Uuid\Uuid;
 
-    /**
-     * @ORM\Table (name="worlds")
-     */
+    #[ORM\Entity]
+    #[ORM\Table(name: 'worlds')]
     class World
     {
-        /**
-         * @ORM\Column(type="guid")
-         * @ORM\Id
-         */
-        private $id;
+        #[ORM\Id]
+        #[ORM\Column(type: 'guid')]
+        private string $id;
 
-        /**
-         * @ORM\Column(type="string", length=191)
-         */
-        private $name;
+        #[ORM\Column(type: 'string', length: 191)]
+        private string $name;
 
         public function __construct()
         {
@@ -247,7 +246,7 @@ Plugin schema migrations
 
 Mautic Core uses :xref:`Doctrine migrations<Doctrine migrations bundle>` to manage schema changes. Plugins don't have access to this as migration files are in Core's ``migrations`` directory.
 
-Mautic provides a way for Plugins to manage their schema changes through the Integration bundle's ``\Mautic\IntegrationsBundle\Migration\Engine``. Mautic automatically handles migrations if the :ref:`Plugin's bundle class<plugins/structure:File and directory structure>` extends ``Mautic\IntegrationsBundle\Bundle\AbstractPluginBundle``.
+Mautic provides a way for Plugins to manage their schema changes through the Integration bundle's ``\Mautic\IntegrationsBundle\Migration\Engine``. Mautic automatically handles migrations if the :ref:`Plugin's bundle class<Plugins/structure:File and directory structure>` extends ``Mautic\IntegrationsBundle\Bundle\AbstractPluginBundle``.
 
 .. code-block:: php
 
