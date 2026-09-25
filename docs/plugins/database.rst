@@ -196,7 +196,7 @@ You can choose to use PHP 8 attributes instead of the PHP static method. Refer t
 
 .. note::
 
-   Mautic 8 uses Doctrine ORM 3, which maps entities with PHP 8 attributes (``#[ORM\...]``) or the PHP static function mapping shown above. Docblock annotations (``@ORM\...``) aren't supported. If you're upgrading a Plugin that defined entities with ``@ORM\*`` annotations, convert them to attributes.
+   Mautic 8 uses Doctrine ORM 3, which maps entities with either PHP 8 attributes - ``#[ORM\...]`` - or the PHP static function mapping shown above. Doctrine ORM 3 doesn't support docblock annotations - ``@ORM\...`` - so if you're upgrading a Plugin that uses them, convert them to attributes.
 
 .. code-block:: php
 
@@ -246,7 +246,7 @@ Plugin schema migrations
 
 Mautic Core uses :xref:`Doctrine migrations<Doctrine migrations bundle>` to manage schema changes. Plugins don't have access to this as migration files are in Core's ``migrations`` directory.
 
-Mautic provides a way for Plugins to manage their schema changes through the Integration bundle's ``\Mautic\IntegrationsBundle\Migration\Engine``. Mautic automatically handles migrations if the :ref:`Plugin's bundle class<plugins/structure:File and directory structure>` extends ``Mautic\IntegrationsBundle\Bundle\AbstractPluginBundle``.
+Mautic provides a way for Plugins to manage their schema changes through the Integration bundle's ``\Mautic\IntegrationsBundle\Migration\Engine``. Mautic automatically handles migrations if the :ref:`Plugin's bundle class<Plugins/structure:File and directory structure>` extends ``Mautic\IntegrationsBundle\Bundle\AbstractPluginBundle``.
 
 .. code-block:: php
 
