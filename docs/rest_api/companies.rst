@@ -1164,7 +1164,7 @@ The ``results`` entry properties
      - ID of the Company in the pair
    * - ``status``
      - integer
-     - Per-pair status code. See the status values below.
+     - Per-pair status code. See the :ref:`status values section <per-pair status values>`
    * - ``message``
      - string
      - Human-readable outcome for the pair
@@ -1188,6 +1188,8 @@ The ``summary`` object properties
    * - ``failed``
      - integer
      - Number of pairs with any other status
+
+.. _per-pair status values:
 
 Per-pair ``status`` values
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1215,7 +1217,7 @@ Per-pair ``status`` values
      - ``An unexpected error occurred``
      - Mautic couldn't process the pair
 
-Mautic records each new assignment made through this endpoint in the Contact's Company change log. It doesn't add a log entry when the Contact already belongs to the Company, and a pair for an existing link still returns a ``200`` status in its result. The 'Add Contact to Company' endpoint also writes to this log for each new assignment. Both endpoints record a ``type`` of ``api`` and an action of 'Lead added to the company, <company name>', and differ only in the event name: this endpoint records 'API batch assignment', while the 'Add Contact to Company' endpoint records 'API assignment'.
+Mautic records each new assignment made through this endpoint in the Contact's Company change log. It doesn't add a log entry when the Contact already belongs to the Company, and a pair for an existing link still returns a ``200`` status in its result. The 'Add Contact to Company' endpoint also writes to this log for each new assignment. Both endpoints record a ``type`` of ``api`` and an action of ``Lead added to the company, {company name}``, and differ only in the event name. This endpoint records 'API batch assignment', while the 'Add Contact to Company' endpoint records 'API assignment'.
 
 .. vale off
 
