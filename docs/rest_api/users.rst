@@ -632,19 +632,6 @@ Response
               ],
               "email:emails": [
                   "full"
-              ],
-              "mauticSocial:categories": [
-                  "full"
-              ],
-              "mauticSocial:monitoring": [
-                  "full"
-              ],
-              "mauticSocial:tweets": [
-                  "viewown",
-                  "editown",
-                  "create",
-                  "deleteown",
-                  "publishown"
               ]
           }
       },
