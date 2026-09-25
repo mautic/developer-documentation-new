@@ -23,8 +23,12 @@ Mautic 8 changes event or entity class signatures in these bundles:
 * EmailBundle
 * FormBundle
 * IntegrationsBundle
+* LeadBundle
+* NotificationBundle
 * PageBundle
 * PointBundle
+* SmsBundle
+* StageBundle
 * UserBundle
 * WebhookBundle
 
@@ -450,6 +454,101 @@ Integration subscribers register mapped-object tokens on ``Mautic\IntegrationsBu
 
 .. vale off
 
+LeadBundle
+**********
+
+.. vale on
+
+Mautic 8 adds type declarations to three Contact and Segment event classes and to the ``ContactTracker`` service.
+
+.. vale off
+
+ContactIdentificationEvent
+==========================
+
+.. vale on
+
+Subscribers that identify a Contact from a tracked link click use ``Mautic\LeadBundle\Event\ContactIdentificationEvent``, a ``final`` class, so the override risk doesn't apply. ``setIdentifiedContact()`` types ``$channel`` as ``string``, and ``getIdentifier()`` gains a ``?string`` return type:
+
+.. code:: diff
+
+   - public function setIdentifiedContact(Lead $contact, $channel): void
+   + public function setIdentifiedContact(Lead $contact, string $channel): void
+
+.. code:: diff
+
+   - public function getIdentifier()
+   + public function getIdentifier(): ?string
+
+.. vale off
+
+LeadListFiltersOperatorsEvent
+=============================
+
+.. vale on
+
+Plugins register custom Segment filter operators on ``Mautic\LeadBundle\Event\LeadListFiltersOperatorsEvent``, a ``final`` class. ``addOperator()`` types ``$operatorKey`` as ``string`` and ``$operatorConfig`` as ``array``:
+
+.. code:: diff
+
+   - public function addOperator($operatorKey, $operatorConfig): void
+   + public function addOperator(string $operatorKey, array $operatorConfig): void
+
+.. vale off
+
+ListPreProcessListEvent
+=======================
+
+.. vale on
+
+Subscribers that pre-process a Segment use ``Mautic\LeadBundle\Event\ListPreProcessListEvent``, a ``final`` class. ``setResult()`` now requires a ``bool``, and ``getResult()`` returns ``?bool``, which is ``null`` until a subscriber sets a result:
+
+.. code:: diff
+
+   - public function setResult($result): static
+   + public function setResult(bool $result): static
+
+.. code:: diff
+
+   - public function getResult()
+   + public function getResult(): ?bool
+
+.. vale off
+
+ContactTracker
+==============
+
+.. vale on
+
+Plugins that read or set the tracked Contact use the ``Mautic\LeadBundle\Tracker\ContactTracker`` service. ``setUseSystemContact()`` no longer accepts ``null``, so passing ``null`` now raises a ``TypeError`` at runtime:
+
+.. code:: diff
+
+   - public function setUseSystemContact(?bool $useSystemContact): void
+   + public function setUseSystemContact(bool $useSystemContact): void
+
+.. vale off
+
+For a Contact extension example that uses ``ContactTracker``, see :doc:`/plugin_extensions/contacts`.
+
+NotificationBundle
+******************
+
+.. vale on
+
+Mautic 8 adds parameter types to three Notification entity classes. Plugins that create or update these entities must pass arguments of the declared types:
+
+* ``Mautic\NotificationBundle\Entity\Notification`` - ``setName()``, ``setButton()``, and ``setMessage()`` take ``?string``, ``setNotificationType()`` takes ``string``, ``setUtmTags()`` takes ``array``, and ``setMobile()`` takes ``bool``.
+* ``Mautic\NotificationBundle\Entity\PushID`` - ``setEnabled()`` and ``setMobile()`` take ``bool``.
+* ``Mautic\NotificationBundle\Entity\Stat`` - ``setDateSent()`` narrows from ``mixed`` to ``\DateTimeInterface``, so passing a date string now raises a ``TypeError`` at runtime.
+
+.. code:: diff
+
+   - public function setDateSent($dateSent): void
+   + public function setDateSent(\DateTimeInterface $dateSent): void
+
+.. vale off
+
 PageBundle
 **********
 
@@ -535,6 +634,63 @@ Plugins register a custom Point trigger on ``Mautic\PointBundle\Event\TriggerBui
 .. vale off
 
 For a Point extension example, see :doc:`/plugin_extensions/points`.
+
+SmsBundle
+*********
+
+.. vale on
+
+Mautic 8 adds parameter types to the SMS and SMS Stat entities. Plugins that create or update these entities must pass arguments of the declared types:
+
+* ``Mautic\SmsBundle\Entity\Sms`` - ``setName()`` takes ``?string``, and ``setSmsType()`` takes ``string``.
+* ``Mautic\SmsBundle\Entity\Stat`` - ``setTrackingHash()`` takes ``string``, ``setIsFailed()`` takes ``bool``, and ``setDateSent()`` now requires a ``\DateTimeInterface``, so passing a date string now raises a ``TypeError`` at runtime.
+
+.. code:: diff
+
+   - public function setDateSent($dateSent): static
+   + public function setDateSent(\DateTimeInterface $dateSent): static
+
+.. vale off
+
+For an SMS transport example, see :doc:`/plugin_extensions/sms`.
+
+StageBundle
+***********
+
+.. vale on
+
+Mautic 8 adds parameter types to the Stage and Contact Stage log entities.
+
+``Mautic\StageBundle\Entity\Stage`` types ``setDescription()`` as ``?string`` and ``setCategory()`` as a Category entity or ``null``:
+
+.. code:: diff
+
+   - public function setCategory($category): void
+   + public function setCategory(?\Mautic\CategoryBundle\Entity\Category $category): void
+
+``Mautic\StageBundle\Entity\LeadStageLog`` adds entity and date types to its setters, so passing an ID or a date string instead of the object now raises a ``TypeError`` at runtime:
+
+.. code:: diff
+
+   - public function setLead($lead): void
+   + public function setLead(\Mautic\LeadBundle\Entity\Lead $lead): void
+
+.. code:: diff
+
+   - public function setStage($stage): void
+   + public function setStage(\Mautic\StageBundle\Entity\Stage $stage): void
+
+.. code:: diff
+
+   - public function setDateFired($dateFired): void
+   + public function setDateFired(\DateTimeInterface $dateFired): void
+
+.. code:: diff
+
+   - public function setIpAddress($ipAddress): void
+   + public function setIpAddress(\Mautic\CoreBundle\Entity\IpAddress $ipAddress): void
+
+.. vale off
 
 UserBundle
 **********
