@@ -433,7 +433,7 @@ The upgrade risk is a signature mismatch. If your Plugin's Model subclass overri
 
 Mautic types the entity parameter as ``object`` rather than a concrete entity class on purpose, because PHP fails with a fatal error when an inherited signature narrows a parameter type. The method-specific ``@param <Entity>`` annotations stay in place for that specificity.
 
-The core ``saveEntity()`` overrides adopt the ``object`` type in Mautic 8 for the same reason - for example ``AssetModel``, ``EmailModel``, ``LeadModel``, ``PageModel``, and ``UserModel``. If your Plugin extends one of these Models rather than ``FormModel`` directly, apply the same rule to your override.
+The core ``saveEntity()`` overrides adopt the ``object`` type in Mautic 8 for the same reason - for example ``AssetModel``, ``EmailModel``, ``LeadModel``, ``PageModel``, and ``UserModel``. If your Plugin extends ``EmailModel`` or ``LeadModel`` rather than ``FormModel`` directly, apply the same rule to your override. ``AssetModel``, ``PageModel``, and ``UserModel`` are ``final`` in Mautic 8, so a Plugin can't extend them. See :ref:`Final classes <Mautic 8 final classes>`.
 
 Mautic 8 also types one public method on the parent ``AbstractCommonModel`` class, which ``FormModel`` and Plugin Models both extend: ``encodeArrayForUrl($array)`` becomes ``encodeArrayForUrl(array $array)``. The same override-compatibility rule applies.
 

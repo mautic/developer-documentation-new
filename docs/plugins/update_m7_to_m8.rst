@@ -658,7 +658,7 @@ The other ``final`` classes include:
 
 .. vale off
 
-* Models such as ``AssetModel``, ``CampaignModel``, ``EventModel``, ``FieldModel``, ``PageModel``, ``PointModel``, ``ReportModel``, ``SmsModel``, ``UserModel``, and ``WebhookModel``
+* Models such as ``AssetModel``, ``CampaignModel``, ``EventModel``, the Form ``FieldModel``, ``PageModel``, ``PointModel``, ``ReportModel``, ``SmsModel``, ``UserModel``, and ``WebhookModel``
 * Repositories such as ``LeadRepository``, ``LeadListRepository``, ``CompanyRepository``, ``FormRepository``, ``PageRepository``, and ``UserRepository``
 * Helpers such as ``MailHelper``, ``IpLookupHelper``, ``CookieHelper``, ``DateTimeHelper``, ``IntegrationHelper``, and the Asset, Form, Page, and Focus ``TokenHelper`` classes
 * The ``ConnectwiseIntegration``, ``HubspotIntegration``, ``SalesforceIntegration``, and ``VtigerIntegration`` classes in ``MauticPlugin\MauticCrmBundle\Integration``
