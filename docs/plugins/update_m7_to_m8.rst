@@ -10,6 +10,8 @@ Plugins interact with these events by subscribing to them and calling their meth
 
 If your Plugin doesn't subscribe to, call, or extend any of the classes listed below, you have nothing to change.
 
+Mautic 8 also makes many core classes ``final``, so a Plugin can no longer extend them. See :ref:`Final classes <Mautic 8 final classes>` if your Plugin extends a Mautic class or mocks one in its tests.
+
 .. note::
 
    When you call one of these methods, pass arguments of the declared types. When you extend one of these events and override a typed method, copy the parent signature exactly, using the same parameter types, return type, and property type.
@@ -598,3 +600,109 @@ Plugins register a Webhook event on ``Mautic\WebhookBundle\Event\WebhookBuilderE
 
    - public function addEvent($key, array $event): void
    + public function addEvent(string $key, array $event): void
+
+.. _mautic 8 final classes:
+
+Final classes
+*************
+
+Mautic 8 declares more than 300 core classes ``final``, because no Mautic class extends them and Mautic doesn't intend them as base classes. Nothing changes for code that gets these classes through dependency injection, calls their public methods, or subscribes to their events. Two kinds of Plugin code break:
+
+* A Plugin class that extends one of these classes causes a fatal error when PHP loads it, for example ``Class MauticPlugin\HelloWorldBundle\Model\MyPageModel cannot extend final class Mautic\PageBundle\Model\PageModel``.
+* A Plugin test that mocks one of these classes with :xref:`phpunit` fails, because the test framework can't create a test double of a ``final`` class.
+
+Some of the event classes described earlier in this guide are now ``final``, including ``ConfigBuilderEvent``, ``ConfigEvent``, ``WidgetDetailEvent``, ``EmailValidationEvent``, ``SubmissionEvent``, ``PointBuilderEvent``, ``AuthenticationEvent``, and ``WebhookBuilderEvent``. For these classes, the guidance about overriding typed methods no longer applies, because you can't extend them.
+
+.. vale off
+
+Affected classes
+================
+
+.. vale on
+
+These event classes are now ``final``:
+
+.. vale off
+
+* ``Mautic\ConfigBundle\Event\ConfigBuilderEvent``
+* ``Mautic\ConfigBundle\Event\ConfigEvent``
+* ``Mautic\CoreBundle\Event\MaintenanceEvent``
+* ``Mautic\CoreBundle\Event\StatsEvent``
+* ``Mautic\DashboardBundle\Event\WidgetDetailEvent``
+* ``Mautic\EmailBundle\Event\EmailValidationEvent``
+* ``Mautic\FormBundle\Event\SubmissionEvent``
+* ``Mautic\IntegrationsBundle\Event\MauticSyncFieldsLoadEvent``
+* ``Mautic\LeadBundle\Event\CompanyEvent``
+* ``Mautic\LeadBundle\Event\ImportValidateEvent``
+* ``Mautic\LeadBundle\Event\LeadListEvent``
+* ``Mautic\LeadBundle\Event\ListChangeEvent``
+* ``Mautic\PageBundle\Event\PageDisplayEvent``
+* ``Mautic\PageBundle\Event\PageHitEvent``
+* ``Mautic\PluginBundle\Event\PluginIntegrationRequestEvent``
+* ``Mautic\PluginBundle\Event\PluginIsPublishedEvent``
+* ``Mautic\PointBundle\Event\PointBuilderEvent``
+* ``Mautic\PointBundle\Event\TriggerExecutedEvent``
+* ``Mautic\ReportBundle\Event\ReportDataEvent``
+* ``Mautic\ReportBundle\Event\ReportGeneratorEvent``
+* ``Mautic\ReportBundle\Event\ReportGraphEvent``
+* ``Mautic\SmsBundle\Event\SmsSendEvent``
+* ``Mautic\UserBundle\Event\AuthenticationEvent``
+* ``Mautic\UserBundle\Event\LoginEvent``
+* ``Mautic\WebhookBundle\Event\WebhookBuilderEvent``
+* ``Mautic\WebhookBundle\Event\WebhookEvent``
+* ``Mautic\WebhookBundle\Event\WebhookNotificationEvent``
+
+.. vale on
+
+The other ``final`` classes include:
+
+.. vale off
+
+* Models such as ``AssetModel``, ``CampaignModel``, ``EventModel``, the Form ``FieldModel``, ``PageModel``, ``PointModel``, ``ReportModel``, ``SmsModel``, ``UserModel``, and ``WebhookModel``
+* Repositories such as ``LeadRepository``, ``LeadListRepository``, ``CompanyRepository``, ``FormRepository``, ``PageRepository``, and ``UserRepository``
+* Helpers such as ``MailHelper``, ``IpLookupHelper``, ``CookieHelper``, ``DateTimeHelper``, ``IntegrationHelper``, and the Asset, Form, Page, and Focus ``TokenHelper`` classes
+* The ``ConnectwiseIntegration``, ``HubspotIntegration``, ``SalesforceIntegration``, and ``VtigerIntegration`` classes in ``MauticPlugin\MauticCrmBundle\Integration``
+
+.. vale on
+
+To find out whether a class you use is ``final``, open it in your Mautic 8 codebase and look for the ``final`` keyword in its declaration.
+
+.. vale off
+
+Removed methods
+===============
+
+.. vale on
+
+Mautic 8 removes two unused public methods:
+
+* ``Mautic\LeadBundle\Entity\LeadListRepository::autowireLeadListRepository()``, which injected an event dispatcher that the repository never used.
+* ``Mautic\PluginBundle\Model\IntegrationEntityModel::logDataSync()``, which had an empty body.
+
+Remove any calls to these methods from your Plugin.
+
+.. vale off
+
+Update your Plugin
+==================
+
+.. vale on
+
+If your Plugin extends one of these classes, inject the Mautic class into your own service and call its public methods instead of inheriting from it. To change what an event carries, subscribe to the event and call its setters rather than dispatching a subclass.
+
+If your Plugin's tests mock one of these classes, enable ``DG\BypassFinals`` before the tests load the classes. Mautic lists ``dg/bypass-finals`` as a development dependency and enables it in ``app/tests/bootstrap.php``. The example Plugin workflow in :doc:`continuous_integration` bootstraps with ``vendor/autoload.php`` only, so add a bootstrap file to your Plugin that enables ``DG\BypassFinals``:
+
+.. code-block:: php
+
+   <?php
+
+   declare(strict_types=1);
+
+   use DG\BypassFinals;
+
+   require __DIR__.'/../../../vendor/autoload.php';
+
+   BypassFinals::enable(bypassReadOnly: false);
+   BypassFinals::denyPaths(['*/vendor/*']);
+
+Point the ``--bootstrap`` option of ``bin/phpunit`` at this file instead of ``vendor/autoload.php``. Adjust the ``require`` path to match where the file sits in your Plugin.
