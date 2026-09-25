@@ -22,41 +22,42 @@ Mautic leverages Symfony's EventDispatcher to execute and communicate various ac
 .. code-block:: php
 
     <?php
-    //plugins\HelloWorldBundle\EventListener\LeadSubscriber
+    // plugins/HelloWorldBundle/EventListener/LeadSubscriber.php
 
-    namespace MauticPlugin\HelloWorldBundle\EventListener;  
+    declare(strict_types=1);
 
-    use Mautic\LeadBundle\LeadEvent;  
-    use Mautic\LeadBundle\LeadEvents;  
-    use Symfony\Component\EventDispatcher\EventSubscriberInterface;  
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    final class LeadSubscriber extends EventSubscriberInterface  
-    {  
-        static public function getSubscribedEvents(): array  
-        {  
-            return [  
-                LeadEvents::LEAD_POST_SAVE     => ['onLeadPostSave', 0],  
-                LeadEvents::LEAD_POST_DELETE   => ['onLeadDelete', 0],  
-            ];  
-        }  
-    
-        public function onLeadPostSave(LeadEvent $event): void  
-        {  
-            $lead = $event->getLead();  
-            
-            // do something  
-        }  
-    
-        public function onLeadDelete(LeadEvent $event): void  
-        {  
-            $lead = $event->getLead();  
-            
-            $deletedId = $lead->deletedId;  
-            
-            // do something  
-        }  
-    }  
-    // ...
+    use Mautic\LeadBundle\Event\LeadPostDeleteEvent;
+    use Mautic\LeadBundle\Event\LeadPostSaveEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class LeadSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                LeadPostSaveEvent::class   => ['onLeadPostSave', 0],
+                LeadPostDeleteEvent::class => ['onLeadDelete', 0],
+            ];
+        }
+
+        public function onLeadPostSave(LeadPostSaveEvent $event): void
+        {
+            $lead = $event->getLead();
+
+            // do something
+        }
+
+        public function onLeadDelete(LeadPostDeleteEvent $event): void
+        {
+            $lead = $event->getLead();
+
+            $deletedId = $lead->deletedId;
+
+            // do something
+        }
+    }
 
 Event subscribers
 *****************
@@ -158,6 +159,165 @@ Custom events require the following:
            }
        }
 
+.. _leadbundle events dispatched by event class:
+
+.. vale off
+
+LeadBundle events dispatched by event class
+*******************************************
+
+.. vale on
+
+Since Mautic 8, Mautic dispatches the LeadBundle events for Contacts, Companies, Segments, Custom Fields, Tags, notes, devices, imports, and Contact exports by their event class instead of a ``LeadEvents`` string constant. Key ``getSubscribedEvents()`` on ``EventClass::class``. All the event classes below live in the ``Mautic\LeadBundle\Event`` namespace.
+
+Where several ``LeadEvents`` constants used to share one event class, each event now has its own subclass of that shared class. For example, ``LeadPreSaveEvent`` and ``LeadPostSaveEvent`` both extend ``LeadEvent``. Listener methods that type-hint the former shared class keep working.
+
+Mautic 8 keeps these ``LeadEvents`` constants because their string values remain the Webhook event type identifiers. Mautic no longer dispatches events under these names, so a subscriber still keyed on one of these constants silently stops receiving the event - no error, no log entry. Re-key it on the event class:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Kept ``LeadEvents`` constant
+     - Event class to subscribe to
+   * - ``LEAD_POST_SAVE``
+     - ``LeadPostSaveEvent``
+   * - ``LEAD_POST_DELETE``
+     - ``LeadPostDeleteEvent``
+   * - ``LEAD_POINTS_CHANGE``
+     - ``PointsChangeEvent``
+   * - ``LEAD_COMPANY_CHANGE``
+     - ``LeadChangeCompanyEvent``
+   * - ``LEAD_LIST_CHANGE``
+     - ``ListChangeEvent``
+   * - ``COMPANY_POST_SAVE``
+     - ``CompanyPostSaveEvent``
+   * - ``COMPANY_POST_DELETE``
+     - ``CompanyPostDeleteEvent``
+
+Mautic 8 removes these ``LeadEvents`` constants. Code that still references one of them throws a PHP fatal error - ``Error: Undefined constant``. Subscribe to the event class instead:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``LeadEvents`` constant
+     - Event class to subscribe to
+   * - ``LEAD_PRE_SAVE``
+     - ``LeadPreSaveEvent``
+   * - ``LEAD_PRE_DELETE``
+     - ``LeadPreDeleteEvent``
+   * - ``LEAD_PRE_MERGE``
+     - ``LeadPreMergeEvent``
+   * - ``LEAD_POST_MERGE``
+     - ``LeadPostMergeEvent``
+   * - ``LEAD_IDENTIFIED``
+     - ``LeadIdentifiedEvent``
+   * - ``LEAD_LIST_BATCH_CHANGE``
+     - ``ListBatchChangeEvent``
+   * - ``LEAD_PRE_BATCH_SAVE``
+     - ``LeadPreBatchSaveEvent``
+   * - ``LEAD_POST_BATCH_SAVE``
+     - ``LeadPostBatchSaveEvent``
+   * - ``CURRENT_LEAD_CHANGED``
+     - ``LeadChangeEvent``
+   * - ``LIST_PRE_SAVE``
+     - ``ListPreSaveEvent``
+   * - ``LIST_POST_SAVE``
+     - ``ListPostSaveEvent``
+   * - ``LIST_PRE_UNPUBLISH``
+     - ``ListPreUnpublishEvent``
+   * - ``LIST_PRE_DELETE``
+     - ``ListPreDeleteEvent``
+   * - ``ON_LIST_DELETE``
+     - ``ListDeleteEvent``
+   * - ``LIST_POST_DELETE``
+     - ``ListPostDeleteEvent``
+   * - ``FIELD_PRE_SAVE``
+     - ``FieldPreSaveEvent``
+   * - ``FIELD_POST_SAVE``
+     - ``FieldPostSaveEvent``
+   * - ``FIELD_PRE_DELETE``
+     - ``FieldPreDeleteEvent``
+   * - ``FIELD_POST_DELETE``
+     - ``FieldPostDeleteEvent``
+   * - ``NOTE_PRE_SAVE``
+     - ``NotePreSaveEvent``
+   * - ``NOTE_POST_SAVE``
+     - ``NotePostSaveEvent``
+   * - ``NOTE_PRE_DELETE``
+     - ``NotePreDeleteEvent``
+   * - ``NOTE_POST_DELETE``
+     - ``NotePostDeleteEvent``
+   * - ``IMPORT_PRE_SAVE``
+     - ``ImportPreSaveEvent``
+   * - ``IMPORT_POST_SAVE``
+     - ``ImportPostSaveEvent``
+   * - ``IMPORT_PRE_DELETE``
+     - ``ImportPreDeleteEvent``
+   * - ``IMPORT_POST_DELETE``
+     - ``ImportPostDeleteEvent``
+   * - ``IMPORT_BATCH_PROCESSED``
+     - ``ImportBatchProcessedEvent``
+   * - ``DEVICE_PRE_SAVE``
+     - ``DevicePreSaveEvent``
+   * - ``DEVICE_POST_SAVE``
+     - ``DevicePostSaveEvent``
+   * - ``DEVICE_PRE_DELETE``
+     - ``DevicePreDeleteEvent``
+   * - ``DEVICE_POST_DELETE``
+     - ``DevicePostDeleteEvent``
+   * - ``TAG_PRE_SAVE``
+     - ``TagPreSaveEvent``
+   * - ``TAG_POST_SAVE``
+     - ``TagPostSaveEvent``
+   * - ``TAG_PRE_DELETE``
+     - ``TagPreDeleteEvent``
+   * - ``TAG_POST_DELETE``
+     - ``TagPostDeleteEvent``
+   * - ``TAG_PRE_MERGE``
+     - ``TagPreMergeEvent``
+   * - ``TAG_POST_MERGE``
+     - ``TagPostMergeEvent``
+   * - ``COMPANY_PRE_SAVE``
+     - ``CompanyPreSaveEvent``
+   * - ``COMPANY_PRE_DELETE``
+     - ``CompanyPreDeleteEvent``
+   * - ``COMPANY_SOFT_DELETE``
+     - ``CompanySoftDeleteEvent``
+   * - ``COMPANY_PRE_MERGE``
+     - ``CompanyPreMergeEvent``
+   * - ``COMPANY_POST_MERGE``
+     - ``CompanyPostMergeEvent``
+   * - ``LIST_FILTERS_CHOICES_ON_GENERATE``
+     - ``LeadListFiltersChoicesEvent``
+   * - ``SEGMENT_DICTIONARY_ON_GENERATE``
+     - ``SegmentDictionaryGenerationEvent``
+   * - ``LIST_FILTERS_ON_FILTERING``
+     - ``LeadListFilteringEvent``
+   * - ``LIST_PRE_PROCESS_LIST``
+     - ``ListPreProcessListEvent``
+   * - ``ON_CLICKTHROUGH_IDENTIFICATION``
+     - ``ContactIdentificationEvent``
+   * - ``POST_CONTACT_EXPORT``
+     - ``ContactExportEvent``
+   * - ``POST_CONTACT_EXPORT_SCHEDULED``
+     - ``ContactExportScheduledEvent``
+   * - ``CONTACT_EXPORT_PREPARE_FILE``
+     - ``ContactExportPrepareFileEvent``
+   * - ``CONTACT_EXPORT_SEND_EMAIL``
+     - ``ContactExportSendEmailEvent``
+   * - ``POST_CONTACT_EXPORT_SEND_EMAIL``
+     - ``ContactExportEmailSentEvent``
+
+Mautic 8 also changes how these events behave for code that creates or reads them:
+
+* Mautic 8 makes 12 former shared classes ``abstract``: ``CompanyEvent``, ``CompanyMergeEvent``, ``ContactExportSchedulerEvent``, ``ImportEvent``, ``LeadDeviceEvent``, ``LeadFieldEvent``, ``LeadListEvent``, ``LeadMergeEvent``, ``LeadNoteEvent``, ``SaveBatchLeadsEvent``, ``TagEvent``, and ``TagMergeEvent``. If your Plugin creates one of these events with ``new``, create the matching subclass from the preceding tables instead. ``LeadEvent`` and ``ListChangeEvent`` are no longer ``final``, and Mautic still dispatches them directly.
+* The event Mautic dispatches before a save, delete, or merge and the event it dispatches afterward are now separate objects. A value that a listener sets on the earlier event isn't available to listeners of the later one.
+* ``Mautic\LeadBundle\Field\Dispatcher\FieldSaveDispatcher::dispatchEvent()`` now takes the ``LeadFieldEvent`` subclass to dispatch, instead of an event name, the field entity, and an ``isNew`` flag.
+
+For the full list of Mautic 8 changes, see :xref:`UPGRADE_GUIDE_8`.
+
 Tag merge events
 ****************
 
@@ -167,14 +327,14 @@ Mautic dispatches events when two Tags merge. Use these events to sync Tag chang
    :header-rows: 1
    :widths: 30 70
 
-   * - Event constant
+   * - Event class
      - Description
-   * - ``LeadEvents::TAG_PRE_MERGE``
-     - Dispatched before two Tags merge. The event string is ``mautic.lead_tag_pre_merge``.
-   * - ``LeadEvents::TAG_POST_MERGE``
-     - Dispatched after two Tags merge. The event string is ``mautic.lead_tag_post_merge``.
+   * - ``Mautic\LeadBundle\Event\TagPreMergeEvent``
+     - Dispatched before two Tags merge.
+   * - ``Mautic\LeadBundle\Event\TagPostMergeEvent``
+     - Dispatched after two Tags merge.
 
-Both events receive a ``Mautic\LeadBundle\Event\TagMergeEvent`` instance with the following methods:
+Both event classes extend ``Mautic\LeadBundle\Event\TagMergeEvent`` and provide the following methods:
 
 .. list-table::
    :header-rows: 1
@@ -199,8 +359,8 @@ Example subscriber
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\LeadBundle\Event\TagMergeEvent;
-    use Mautic\LeadBundle\LeadEvents;
+    use Mautic\LeadBundle\Event\TagPostMergeEvent;
+    use Mautic\LeadBundle\Event\TagPreMergeEvent;
     use Psr\Log\LoggerInterface;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -213,12 +373,12 @@ Example subscriber
         public static function getSubscribedEvents(): array
         {
             return [
-                LeadEvents::TAG_PRE_MERGE  => ['onTagPreMerge', 0],
-                LeadEvents::TAG_POST_MERGE => ['onTagPostMerge', 0],
+                TagPreMergeEvent::class  => ['onTagPreMerge', 0],
+                TagPostMergeEvent::class => ['onTagPostMerge', 0],
             ];
         }
 
-        public function onTagPreMerge(TagMergeEvent $event): void
+        public function onTagPreMerge(TagPreMergeEvent $event): void
         {
             $primaryTag   = $event->getPrimaryTag();
             $secondaryTag = $event->getSecondaryTag();
@@ -230,7 +390,7 @@ Example subscriber
             ));
         }
 
-        public function onTagPostMerge(TagMergeEvent $event): void
+        public function onTagPostMerge(TagPostMergeEvent $event): void
         {
             $primaryTag   = $event->getPrimaryTag();
             $secondaryTag = $event->getSecondaryTag();
