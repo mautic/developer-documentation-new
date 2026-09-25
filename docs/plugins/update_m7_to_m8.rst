@@ -10,6 +10,8 @@ Plugins interact with these events by subscribing to them and calling their meth
 
 If your Plugin doesn't subscribe to, call, or extend any of the classes listed below, you have nothing to change.
 
+Mautic 8 also adds a native type to every class and interface constant. See :ref:`Typed class constants <Mautic 8 typed class constants>` if your Plugin overrides a constant from a Mautic class or interface.
+
 .. note::
 
    When you call one of these methods, pass arguments of the declared types. When you extend one of these events and override a typed method, copy the parent signature exactly, using the same parameter types, return type, and property type.
@@ -598,3 +600,41 @@ Plugins register a Webhook event on ``Mautic\WebhookBundle\Event\WebhookBuilderE
 
    - public function addEvent($key, array $event): void
    + public function addEvent(string $key, array $event): void
+
+.. _mautic 8 typed class constants:
+
+Typed class constants
+*********************
+
+Mautic 8 declares a native type on every class and interface constant, using PHP 8.3 typed class constants. For example, ``ConfigFormFeaturesInterface::FEATURE_SYNC`` changes from ``public const FEATURE_SYNC = 'sync';`` to ``public const string FEATURE_SYNC = 'sync';``. The values don't change, so code that only reads these constants keeps working.
+
+A Plugin class that overrides a constant from a Mautic parent class or interface must declare a compatible type on its own constant. If the overriding constant has no type, or a type that isn't compatible, PHP stops with a fatal error like this when it loads the class:
+
+.. code-block:: text
+
+   Type of MauticPlugin\HelloWorldBundle\Command\SyncWorldsCommand::MODE_PID must be compatible with Mautic\CoreBundle\Command\ModeratedCommand::MODE_PID of type string
+
+To fix it, add the parent's type to the constant in your Plugin. A narrower type also works, such as ``string`` where the parent declares ``?string``:
+
+.. code:: diff
+
+   - public const MODE_PID = 'pid';
+   + public const string MODE_PID = 'pid';
+
+Constants that a Plugin is most likely to override come from these base classes and interfaces:
+
+.. vale off
+
+* ``Mautic\CoreBundle\Command\ModeratedCommand``: ``MODE_PID``, ``MODE_FLOCK``, and ``MODE_REDIS`` are ``string``
+* ``Mautic\CoreBundle\Doctrine\AbstractMauticMigration``: ``TABLE_NAME`` is ``?string``, and ``COLUMN_TYPE_SIGNED`` and ``COLUMN_TYPE_UNSIGNED`` are ``string``
+* ``Mautic\CoreBundle\Entity\OptimisticLockInterface``: ``INITIAL_VERSION`` is ``int``
+* ``Mautic\CoreBundle\Entity\UpsertInterface``: ``ROWS_AFFECTED_ON_INSERT`` and ``ROWS_AFFECTED_ON_UPDATE`` are ``int``
+* ``Mautic\CoreBundle\Helper\AbstractFormFieldHelper``: the ``FORMAT_*`` constants are ``string``
+* ``Mautic\CoreBundle\IpLookup\AbstractLocalDataLookup``: ``TAR_CACHE_FOLDER`` and ``TAR_TEMP_FILE`` are ``string``
+* ``Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeaturesInterface``: ``FEATURE_SYNC`` and ``FEATURE_PUSH_ACTIVITY`` are ``string``
+* ``Mautic\IntegrationsBundle\Sync\SyncJudge\SyncJudgeInterface``: the evidence mode and winner constants are ``string``
+* ``Mautic\PluginBundle\Integration\AbstractIntegration``: the ``FIELD_TYPE_*`` constants are ``string``
+
+.. vale on
+
+Because ``AbstractMauticMigration::TABLE_NAME`` is ``?string``, a migration that sets a table name declares it as ``protected const string TABLE_NAME = 'table_name';``.
