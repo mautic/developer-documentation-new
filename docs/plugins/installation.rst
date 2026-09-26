@@ -10,7 +10,7 @@ Install and update events
 
 .. note:: The events below are available since Mautic 4.2.0.
 
-You can create event listeners as follows:
+Since Mautic 8, key your subscriber on the event class, ``PluginInstallEvent::class`` and ``PluginUpdateEvent::class``, rather than on a ``PluginEvents`` constant:
 
 .. code-block:: php
 
@@ -22,7 +22,6 @@ You can create event listeners as follows:
 
     use Mautic\PluginBundle\Event\PluginInstallEvent;
     use Mautic\PluginBundle\Event\PluginUpdateEvent;
-    use Mautic\PluginBundle\PluginEvents;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
     class InstallUpdateSubscriber implements EventSubscriberInterface
@@ -30,8 +29,8 @@ You can create event listeners as follows:
         public static function getSubscribedEvents(): array
         {
             return [
-                PluginEvents::ON_PLUGIN_INSTALL => ['onPluginInstall', 0],
-                PluginEvents::ON_PLUGIN_UPDATE  => ['onPluginUpdate', 0],
+                PluginInstallEvent::class => ['onPluginInstall', 0],
+                PluginUpdateEvent::class  => ['onPluginUpdate', 0],
             ];
         }
 
@@ -45,6 +44,8 @@ You can create event listeners as follows:
             // Handle your logic here   
         }
     }
+
+For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 Database migrations
 ===================
