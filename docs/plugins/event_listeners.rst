@@ -74,6 +74,48 @@ Available events
 
 There are many events available throughout Mautic. Depending on what you're trying to implement, look at the ``*Event.php`` for the core bundle, located in the root of the bundle. For example, the ``app\bundles\LeadBundle\LeadEvents.php`` file defines and describes events relating to Contacts. The final classes provide the names of the events to listen to. Always use the event constants to ensure future changes to event names won't break the Plugin.
 
+.. vale off
+
+Since Mautic 8, some bundles dispatch an event by the event object alone rather than by a string constant, so you key ``getSubscribedEvents()`` on the event class. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rule. The notes below cover the StageBundle and DashboardBundle events.
+
+.. note::
+
+   Since Mautic 8, Mautic dispatches ``Mautic\StageBundle\Event\StageBuilderEvent`` by the event object alone. Key ``getSubscribedEvents()`` on ``StageBuilderEvent::class``, not on ``StageEvents::STAGE_ON_BUILD`` or the string ``mautic.stage_on_build``. Those constants remain for backward compatibility but no longer dispatch this event. The ``StageEvent`` CRUD group, ``STAGE_ON_ACTION``, and ``ON_CAMPAIGN_BATCH_ACTION`` are unchanged.
+
+   .. code-block:: php
+
+      return [
+          StageBuilderEvent::class => ['onStageBuild', 0],
+          // ...
+      ];
+
+.. note::
+
+   Since Mautic 8, Mautic dispatches two DashboardBundle widget events by the event object alone. Key ``getSubscribedEvents()`` on the event class rather than on the former constant. The classes live in ``Mautic\DashboardBundle\Event``.
+
+   .. list-table::
+      :header-rows: 1
+      :widths: 50 50
+
+      * - Former event constant
+        - Mautic 8 event class - subscription key
+      * - ``DASHBOARD_ON_MODULE_LIST_GENERATE``
+        - ``WidgetTypeListEvent``
+      * - ``DASHBOARD_ON_MODULE_FORM_GENERATE``
+        - ``WidgetFormEvent``
+
+   The former constants remain for backward compatibility but no longer dispatch these events. ``DASHBOARD_ON_MODULE_DETAIL_GENERATE`` and ``DASHBOARD_ON_MODULE_DETAIL_PRE_LOAD`` - both sharing ``WidgetDetailEvent`` - remain string-keyed and unchanged.
+
+   .. code-block:: php
+
+      return [
+          WidgetTypeListEvent::class => ['onWidgetListGenerate', 0],
+          WidgetFormEvent::class     => ['onWidgetFormGenerate', 0],
+          // ...
+      ];
+
+.. vale on
+
 Custom events
 *************
 
