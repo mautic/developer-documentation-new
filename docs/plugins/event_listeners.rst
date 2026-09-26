@@ -74,6 +74,131 @@ Available events
 
 There are many events available throughout Mautic. Depending on what you're trying to implement, look at the ``*Event.php`` for the core bundle, located in the root of the bundle. For example, the ``app\bundles\LeadBundle\LeadEvents.php`` file defines and describes events relating to Contacts. The final classes provide the names of the events to listen to. Always use the event constants to ensure future changes to event names won't break the Plugin.
 
+.. note::
+
+   Starting in Mautic 8, Mautic dispatches the LeadBundle events listed below by their event class rather than the ``LeadEvents::*`` string constant, so you subscribe to the event class shown in the table. For the general convention and how to re-key an affected subscriber or tagged listener, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+
+LeadBundle events dispatched by class name in Mautic 8
+======================================================
+
+.. list-table::
+   :header-rows: 1
+   :widths: 34 33 33
+
+   * - Old event name
+     - ``LeadEvents`` constant
+     - New event class
+   * - ``mautic.lead_utmtags_add``
+     - ``LEAD_UTMTAGS_ADD``
+     - ``LeadUtmTagsEvent``
+   * - ``mautic.lead_category_change``
+     - ``LEAD_CATEGORY_CHANGE``
+     - ``CategoryChangeEvent``
+   * - ``mautic.lead_channel_subscription_changed``
+     - ``CHANNEL_SUBSCRIPTION_CHANGED``
+     - ``ChannelSubscriptionChange``
+   * - ``mautic.lead_build_search_commands``
+     - ``LEAD_BUILD_SEARCH_COMMANDS``
+     - ``LeadBuildSearchEvent``
+   * - ``mautic.company_build_search_commands``
+     - ``COMPANY_BUILD_SEARCH_COMMANDS``
+     - ``CompanyBuildSearchEvent``
+   * - ``mautic.adjust_filter_form_type_for_field``
+     - ``ADJUST_FILTER_FORM_TYPE_FOR_FIELD``
+     - ``FormAdjustmentEvent``
+   * - ``mautic.collect_operators_for_field_type``
+     - ``COLLECT_OPERATORS_FOR_FIELD_TYPE``
+     - ``TypeOperatorsEvent``
+   * - ``mautic.collect_operators_for_field``
+     - ``COLLECT_OPERATORS_FOR_FIELD``
+     - ``FieldOperatorsEvent``
+   * - ``mautic.collect_filter_choices_for_list_field_type``
+     - ``COLLECT_FILTER_CHOICES_FOR_LIST_FIELD_TYPE``
+     - ``ListFieldChoicesEvent``
+   * - ``mautic.list_filters_delegate_decorator``
+     - ``SEGMENT_ON_DECORATOR_DELEGATE``
+     - ``LeadListFiltersDecoratorDelegateEvent``
+   * - ``mautic.list_filters_merge``
+     - ``LIST_FILTERS_MERGE``
+     - ``LeadListMergeFiltersEvent``
+   * - ``mautic.list_filters_operators_on_generate``
+     - ``LIST_FILTERS_OPERATORS_ON_GENERATE``
+     - ``LeadListFiltersOperatorsEvent``
+   * - ``mautic.list_filters_operator_querybuilder_on_generate``
+     - ``LIST_FILTERS_OPERATOR_QUERYBUILDER_ON_GENERATE``
+     - ``SegmentOperatorQueryBuilderEvent``
+   * - ``mautic.list_filters_querybuilder_generated``
+     - ``LIST_FILTERS_QUERYBUILDER_GENERATED``
+     - ``LeadListQueryBuilderGeneratedEvent``
+   * - ``mautic.lead_import_on_initialize``
+     - ``IMPORT_ON_INITIALIZE``
+     - ``ImportInitEvent``
+   * - ``mautic.lead_import_on_field_mapping``
+     - ``IMPORT_ON_FIELD_MAPPING``
+     - ``ImportMappingEvent``
+   * - ``mautic.lead_import_on_process``
+     - ``IMPORT_ON_PROCESS``
+     - ``ImportProcessEvent``
+   * - ``mautic.lead_import_on_validate``
+     - ``IMPORT_ON_VALIDATE``
+     - ``ImportValidateEvent``
+   * - ``mautic.lead_field_pre_add_column``
+     - ``LEAD_FIELD_PRE_ADD_COLUMN``
+     - ``AddColumnEvent``
+   * - ``mautic.lead_field_pre_add_column_background_job``
+     - ``LEAD_FIELD_PRE_ADD_COLUMN_BACKGROUND_JOB``
+     - ``AddColumnBackgroundEvent``
+   * - ``mautic.lead_field_pre_update_column``
+     - ``LEAD_FIELD_PRE_UPDATE_COLUMN``
+     - ``UpdateColumnEvent``
+   * - ``mautic.lead_field_pre_update_column_background_job``
+     - ``LEAD_FIELD_PRE_UPDATE_COLUMN_BACKGROUND_JOB``
+     - ``UpdateColumnBackgroundEvent``
+   * - ``mautic.lead_field_pre_delete_column``
+     - ``LEAD_FIELD_PRE_DELETE_COLUMN``
+     - ``DeleteColumnEvent``
+   * - ``mautic.lead_field_pre_delete_column_background_job``
+     - ``LEAD_FIELD_PRE_DELETE_COLUMN_BACKGROUND_JOB``
+     - ``DeleteColumnBackgroundEvent``
+
+Six field-column classes live in the ``Mautic\LeadBundle\Field\Event`` namespace: ``AddColumnEvent``, ``AddColumnBackgroundEvent``, ``UpdateColumnEvent``, ``UpdateColumnBackgroundEvent``, ``DeleteColumnEvent``, and ``DeleteColumnBackgroundEvent``. The other 18 live in the ``Mautic\LeadBundle\Event`` namespace.
+
+``CHANNEL_SUBSCRIPTION_CHANGED`` is the one exception to watch: its event dispatch and subscription move to the ``ChannelSubscriptionChange`` event class, but its string value ``mautic.lead_channel_subscription_changed`` stays the Webhook type identifier. Webhook configuration and receivers keep working, so you only need to change your event-subscription code.
+
+These illustrative fragments show the change inside an existing subscriber's ``getSubscribedEvents()`` method, using the ``LEAD_BUILD_SEARCH_COMMANDS`` event. Before Mautic 8, the subscriber keys on the constant:
+
+.. code-block:: php
+
+    <?php
+
+    use Mautic\LeadBundle\LeadEvents;
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            LeadEvents::LEAD_BUILD_SEARCH_COMMANDS => ['onBuildSearchCommands', 0],
+        ];
+    }
+
+In Mautic 8, the subscriber keys on the event class:
+
+.. code-block:: php
+
+    <?php
+
+    use Mautic\LeadBundle\Event\LeadBuildSearchEvent;
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            LeadBuildSearchEvent::class => ['onBuildSearchCommands', 0],
+        ];
+    }
+
+.. tip::
+
+   To list the listeners registered for an event, run the Symfony console command ``bin/console debug:event-dispatcher``, optionally passing the event class to list only that event's listeners. Run it before and after re-keying a subscriber to confirm the subscriber now appears under the new event-class name.
+
 Custom events
 *************
 
