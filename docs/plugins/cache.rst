@@ -79,7 +79,7 @@ These are the default settings:
 
 .. code-block:: php
 
-    'cache_adapter' => 'mautic.cache.adapter.filesystem',
+    'cache_adapter' => \Mautic\CacheBundle\Cache\Adapter\FilesystemTagAwareAdapter::class,
     'cache_prefix' => 'app',
     'cache_lifetime' => 86400
 
@@ -87,7 +87,7 @@ They can be overridden in ``local.php`` like this:
 
 .. code-block:: php
 
-    'cache_adapter'  => 'mautic.cache.adapter.redis',
+    'cache_adapter'  => \Mautic\CacheBundle\Cache\Adapter\RedisAdapter::class,
     'cache_prefix'   => 'app_cache',
     'cache_lifetime' => 86400,
 
@@ -95,7 +95,7 @@ Delivered adapters
 ------------------
 .. vale off
 
-- ``mautic.cache.adapter.filesystem``
+- ``\Mautic\CacheBundle\Cache\Adapter\FilesystemTagAwareAdapter``
 - ``mautic.cache.adapter.memcached``
 
 .. code-block:: php
@@ -109,7 +109,7 @@ Delivered adapters
         ],
     ],
     
-- ``mautic.cache.adapter.redis``
+- ``\Mautic\CacheBundle\Cache\Adapter\RedisAdapter``
 
 Redis configuration in ``local.php``:
 
