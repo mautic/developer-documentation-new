@@ -34,7 +34,7 @@ This places the route behind ``/api`` which is only accessible to authorized Use
                 'plugin.hello_world.controller.api' => [
                     'class' => \MauticPlugin\HelloWorldBundle\Controller\ApiController::class,
                     'arguments' => [
-                        'mautic.security',
+                        \Mautic\CoreBundle\Security\Permissions\CorePermissions::class,
                         'plugin.hello_world.model.worlds'
                     ],
                     'methodCalls' => [
