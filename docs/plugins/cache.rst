@@ -138,3 +138,14 @@ The ``cache:clear`` command clears Mautic's cache. Use this command:
 
     bin/console mautic:cache:clear
 
+WidgetDetailEvent changes in Mautic 8
+*************************************
+
+When you upgrade to Mautic 8, remove any ``setCacheTimeout()`` call from your subscribers to ``Mautic\DashboardBundle\Event\WidgetDetailEvent``, which the Dashboard bundle dispatches. Mautic 8 removes the ``setCacheTimeout()`` method and its backing ``$cacheTimeout`` state from the event. That state was write-only - nothing read it - so removing it changes no behavior. ``setTemplateData()`` has always taken the Widget cache lifetime from ``Widget::getCacheTimeout()``, and ``CacheProviderTagAwareInterface`` remains the only thing that caches Widget data.
+
+Remove this line from your event handler:
+
+.. code-block:: php
+
+    $event->setCacheTimeout($widget->getCacheTimeout());
+
