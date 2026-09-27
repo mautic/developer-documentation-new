@@ -233,7 +233,7 @@ Permission aliases
 
    <?php
 
-   protected function getSynonym($name, $level)
+   protected function getSynonym($name, $level): array
    {
        if ($name == 'send_satellite') {
            $name = 'send_probe';
