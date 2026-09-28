@@ -248,7 +248,26 @@ DashboardBundle
 
 .. vale on
 
-Mautic 8 adds type declarations to two Dashboard Widget event classes.
+Mautic 8 adds type declarations to the Dashboard Widget entity and two Dashboard Widget event classes.
+
+.. vale off
+
+Widget entity
+=============
+
+.. vale on
+
+Widget subscribers read the settings and data of a Widget from ``Mautic\DashboardBundle\Entity\Widget``. ``getParams()`` and ``getTemplateData()`` now declare the ``array`` return type they already returned, so calls to them need no change. If your Plugin extends ``Widget`` and overrides either method, add the ``array`` return type to the override. Otherwise PHP raises a fatal error when it loads your class:
+
+.. code:: diff
+
+   - public function getParams()
+   + public function getParams(): array
+
+.. code:: diff
+
+   - public function getTemplateData()
+   + public function getTemplateData(): array
 
 .. vale off
 
