@@ -80,7 +80,7 @@ Support for entity attributes
 By default, Mautic uses Doctrine's PHP static function mapping, which requires a ``public static function loadMetadata(ORM\ClassMetadata $metadata)`` method. Plugins can use PHP 8 attributes - ``#[ORM\...]`` - instead, but can't mix attributes with PHP ``loadMetadata`` in the same entity. See :ref:`Plugins/database:Entities and schema` for more information.
 
 User access management and firewalls
-*************************************
+************************************
 ``app/config/security.php`` lists Mautic's firewalls. For the most part, Mautic uses Symfony's standard way of registering firewalls and authentication with a means for Plugins to hook into the authentication process through listeners to the ``UserEvents::USER_PRE_AUTHENTICATION`` and ``UserEvents::USER_FORM_AUTHENTICATION`` events.
 
 Mautic has its own permission system based on bitwise permissions and thus doesn't leverage Symfony voters.
