@@ -18,11 +18,11 @@ Mautic uses directory paths that aren't typical in Symfony to make it distributa
     * - ``app/middlewares/``
       - See :ref:`Plugins/mautic_vs_symfony:Application middlewares`
     * - ``app/migrations/``
-      - Doctrine migrations that updates Core's database schema
+      - Doctrine migrations that update Core's database schema
     * - ``bin/console/``
       - Used to execute Symfony/Mautic commands
     * - ``media/``
-      - Contains combined and minified production assets along with default images
+      - Contains combined and minified production CSS and JavaScript files along with default images
     * - ``plugins/``
       - Mautic Plugins as Symfony bundles
     * - ``themes/``
@@ -93,4 +93,4 @@ Mautic leverages middlewares before booting Symfony, see ``app/middlewares``. Fo
 Custom Translator
 *****************
 
-Mautic has a custom Translator that extends Symfony's ``Translator`` component and enables Mautic's distributable language package model. All Plugins and bundles should contain US English language strings by default. https://github.com/mautic/language-packer integrates with Transifex to create language packs stored in https://github.com/mautic/language-packs.
+Mautic has a custom Translator that extends Symfony's ``Translator`` class and enables Mautic's distributable language package model. All Plugins and bundles should contain US English language strings by default. https://github.com/mautic/language-packer integrates with Transifex to create language packs stored in https://github.com/mautic/language-packs.
