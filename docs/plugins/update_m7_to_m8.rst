@@ -208,7 +208,7 @@ Plugins contribute their configuration through ``Mautic\ConfigBundle\Event\Confi
 .. code:: diff
 
    - public function getParametersFromConfig($bundle)
-   + public function getParametersFromConfig(string $bundle)
+   + public function getParametersFromConfig(string $bundle): array
 
 .. vale off
 
@@ -222,7 +222,7 @@ Subscribers that read and validate saved configuration values use ``Mautic\Confi
 .. code:: diff
 
    - public function getConfig($key = null)
-   + public function getConfig(?string $key = null)
+   + public function getConfig(?string $key = null): array
 
 .. code:: diff
 
@@ -601,18 +601,18 @@ Plugins register a Webhook event on ``Mautic\WebhookBundle\Event\WebhookBuilderE
 
 .. vale off
 
-Array return types on base classes and interfaces
-*************************************************
+Return types on Core base classes and interfaces
+************************************************
 
 .. vale on
 
-Mautic 8 replaces ``@return array`` annotations with native ``: array`` return types on methods across core bundles and the bundled Plugins. The methods already returned arrays, so code that only calls them needs no change.
+Mautic 8 replaces ``@return array`` annotations with native return types on Core base classes and interfaces that Plugins implement or extend. The methods already returned these types, so code that only calls them needs no change.
 
-The break affects Plugins that implement one of these interfaces or extend one of these base classes. If your class overrides a listed method without declaring ``: array``, PHP raises a fatal error when it loads your class.
+The break affects Plugins that implement one of these interfaces or extend one of these base classes. If your class overrides a listed method without the same return type, PHP raises a fatal error when it loads your class.
 
 .. note::
 
-   PHP lets a child method declare a return type that its parent leaves out. Add ``: array`` to your overrides now, and the same code runs on both Mautic 7 and Mautic 8.
+   PHP lets a child method declare a return type that its parent leaves out. Add the return type to your overrides now, and the same code runs on both Mautic 7 and Mautic 8.
 
 .. vale off
 
@@ -647,14 +647,6 @@ Every class that implements one of these interfaces must declare the ``array`` r
    - public function getCommandList();
    + public function getCommandList(): array;
 
-   // Mautic\EmailBundle\Entity\EmailReplyRepositoryInterface
-   - public function getByLeadIdForTimeline($leadId, $options);
-   + public function getByLeadIdForTimeline($leadId, $options): array;
-
-   // Mautic\LeadBundle\Entity\CustomFieldRepositoryInterface
-   - public function getFieldGroups();
-   + public function getFieldGroups(): array;
-
    // Mautic\StatsBundle\Aggregate\Collection\Stats\StatInterface
    - public function getStats();
    + public function getStats(): array;
@@ -666,7 +658,7 @@ AbstractPermissions
 
 .. vale on
 
-Every Plugin permissions class extends ``Mautic\CoreBundle\Security\Permissions\AbstractPermissions``. If yours defines permission aliases in ``getSynonym()``, add the return type:
+Every Plugin permissions class extends ``Mautic\CoreBundle\Security\Permissions\AbstractPermissions``. If yours defines permission aliases in ``getSynonym()``, or overrides one of the other listed methods, add the return type:
 
 .. code:: diff
 
@@ -685,35 +677,28 @@ For a ``getSynonym()`` example, see :doc:`/plugins/permissions`.
 
 .. vale off
 
-AbstractIntegration
+Models and entities
 ===================
 
 .. vale on
 
-Legacy Integrations extend ``Mautic\PluginBundle\Integration\AbstractIntegration`` and often override its API key and field methods. These methods now declare ``: array``:
+Plugin models that extend ``Mautic\CoreBundle\Model\AbstractCommonModel`` must match these return types. ``getEntities()`` declares ``iterable`` rather than ``array``, because it can return a Doctrine ``Paginator``:
 
 .. code:: diff
 
-   - public function getSecretKeys()
-   + public function getSecretKeys(): array
-   - public function getRefreshTokenKeys()
-   + public function getRefreshTokenKeys(): array
-   - public function getRequiredKeyFields()
-   + public function getRequiredKeyFields(): array
-   - public function getFormNotes($section)
-   + public function getFormNotes($section): array
-   - public function getFormDisplaySettings()
-   + public function getFormDisplaySettings(): array
-   - public function getFormLeadFields(array $settings = [])
-   + public function getFormLeadFields(array $settings = []): array
-   - public function getFormCompanyFields(array $settings = [])
-   + public function getFormCompanyFields(array $settings = []): array
-   - public function prepareRequest(string $url, $parameters, string $method, array $settings, $authType)
-   + public function prepareRequest(string $url, $parameters, string $method, array $settings, $authType): array
+   - public function getEntities(array $args = [])
+   + public function getEntities(array $args = []): iterable
+   - public function getSupportedSearchCommands()
+   + public function getSupportedSearchCommands(): array
+   - public function getCommandList()
+   + public function getCommandList(): array
 
-The same change applies to ``encryptApiKeys()``, ``decryptApiKeys()``, ``cleanUpFields()``, ``getRequiredFields()``, ``populateLeadData()``, ``populateCompanyData()``, ``populateMauticLeadData()``, ``matchUpData()``, ``dispatchIntegrationKeyEvent()``, and ``formatMatchedFields()``.
+Plugin entities that extend ``Mautic\CoreBundle\Entity\CommonEntity`` and override ``getChanges()`` must declare ``: array``:
 
-If your Integration extends ``MauticPlugin\MauticCrmBundle\Integration\CrmAbstractIntegration``, these protected methods also declare ``: array``: ``getFormFieldsByObject()``, ``getPriorityFieldsForMautic()``, ``getPriorityFieldsForIntegration()``, ``getFieldsByPriority()``, ``cleanPriorityFields()``, and ``prepareFieldsForPush()``.
+.. code:: diff
+
+   - public function getChanges(bool $includePast = false)
+   + public function getChanges(bool $includePast = false): array
 
 .. vale off
 
@@ -753,12 +738,9 @@ Other base classes
 
 These base classes also gain ``: array`` return types on the listed methods:
 
-* ``Mautic\CoreBundle\Entity\CommonEntity::getChanges()``
-* ``Mautic\CoreBundle\Model\AbstractCommonModel::getSupportedSearchCommands()`` and ``getCommandList()``
 * ``Mautic\CoreBundle\Doctrine\AbstractMauticMigration::generateKeys()``
 * ``Mautic\CoreBundle\IpLookup\AbstractLookup::getDetails()``, ``AbstractLocalDataLookup::getConfigFormThemes()``, and ``getHeaders()`` on ``AbstractMaxmindLookup`` and ``AbstractRemoteDataLookup``, plus ``AbstractRemoteDataLookup::getParameters()``
-* ``Mautic\CampaignBundle\EventCollector\Accessor\Event\AbstractEventAccessor::getFormTypeOptions()``, ``getConnectionRestrictions()``, and ``getExtraProperties()``
-* ``Mautic\CampaignBundle\Event\AbstractLogCollectionEvent::getContactIds()``
-* ``Mautic\EmailBundle\Stats\Helper\AbstractHelper::fetchStats()``
+* ``Mautic\CoreBundle\Event\BuilderEvent::getTokens()`` and ``filterTokens()``
+* ``Mautic\CoreBundle\Event\TokenReplacementEvent::getTokens()``
 
 Run :xref:`phpstan` against your Plugin on Mautic 8 to find any override whose return type no longer matches its parent.
