@@ -10,6 +10,8 @@ Plugins interact with these events by subscribing to them and calling their meth
 
 If your Plugin doesn't subscribe to, call, or extend any of the classes listed below, you have nothing to change.
 
+Mautic 8 also removes the deprecated ``FormController`` base controller. See :ref:`Removed FormController <Mautic 8 removed FormController>` if your Plugin has a controller that extends it.
+
 .. note::
 
    When you call one of these methods, pass arguments of the declared types. When you extend one of these events and override a typed method, copy the parent signature exactly, using the same parameter types, return type, and property type.
@@ -598,3 +600,104 @@ Plugins register a Webhook event on ``Mautic\WebhookBundle\Event\WebhookBuilderE
 
    - public function addEvent($key, array $event): void
    + public function addEvent(string $key, array $event): void
+
+.. _mautic 8 removed FormController:
+
+.. vale off
+
+Removed FormController
+**********************
+
+.. vale on
+
+Mautic 8 removes ``Mautic\CoreBundle\Controller\FormController``, which Mautic deprecated in version 2.3. A Plugin controller that still extends it causes a fatal error when PHP loads the class. Change the parent class to one of these controllers:
+
+* ``Mautic\CoreBundle\Controller\AbstractFormController`` if your controller handles Symfony form objects with helpers such as ``isFormCancelled()`` and ``isFormValid()``, but doesn't use the standard entity actions.
+* ``Mautic\CoreBundle\Controller\AbstractStandardFormController`` if your controller calls the standard entity helpers, such as ``indexStandard()``, ``newStandard()``, ``editStandard()``, or ``deleteStandard()``.
+
+.. code:: diff
+
+   - use Mautic\CoreBundle\Controller\FormController;
+   + use Mautic\CoreBundle\Controller\AbstractFormController;
+
+   - class DefaultController extends FormController
+   + class DefaultController extends AbstractFormController
+
+``FormController`` also provided ``setStandardParameters()``, which a controller called from its constructor to set the values that the standard helpers read. That method no longer exists. If your controller called it, extend ``AbstractStandardFormController`` and return each value from the matching method instead:
+
+.. list-table:: ``setStandardParameters()`` arguments and their replacement methods
+   :widths: 40 60
+   :header-rows: 1
+
+   * - Argument
+     - Method to override
+   * - ``$modelName``
+     - ``getModelName()`` - required, because ``AbstractStandardFormController`` declares it ``abstract``
+   * - ``$permissionBase``
+     - ``getPermissionBase()``
+   * - ``$routeBase``
+     - ``getRouteBase()``
+   * - ``$sessionBase``
+     - ``getSessionBase()`` - ``setStandardParameters()`` prefixed this value with ``mautic.``, so include that prefix in the returned value to keep existing session keys
+   * - ``$translationBase``
+     - ``getTranslationBase()``
+   * - ``$templateBase``
+     - ``getTemplateBase()``
+   * - ``$mauticContent``
+     - ``getJsLoadMethodPrefix()``
+
+``AbstractStandardFormController`` derives defaults for most of these methods from ``getModelName()``, while ``FormController`` returned exactly the values you passed. Override every method whose default differs from the value your controller passed before. For example:
+
+.. code:: diff
+
+   - public function __construct(...)
+   - {
+   -     $this->setStandardParameters(
+   -         'helloworld.world',  // model name
+   -         'helloworld:worlds', // permission base
+   -         'mautic_helloworld', // route base
+   -         'mautic_helloworld', // session base
+   -         'plugin.helloworld', // translation base
+   -         '@HelloWorld/World', // template base
+   -         'plugin_helloworld', // activeLink
+   -         'helloWorld'         // mauticContent
+   -     );
+   -
+   -     parent::__construct(...);
+   - }
+   + protected function getModelName(): string
+   + {
+   +     return 'helloworld.world';
+   + }
+   +
+   + protected function getPermissionBase(): string
+   + {
+   +     return 'helloworld:worlds';
+   + }
+   +
+   + protected function getRouteBase(): string
+   + {
+   +     return 'mautic_helloworld';
+   + }
+   +
+   + protected function getSessionBase($objectId = null): string
+   + {
+   +     return 'mautic.mautic_helloworld';
+   + }
+   +
+   + protected function getTranslationBase(): string
+   + {
+   +     return 'plugin.helloworld';
+   + }
+   +
+   + protected function getTemplateBase(): string
+   + {
+   +     return '@HelloWorld/World';
+   + }
+   +
+   + protected function getJsLoadMethodPrefix(): string
+   + {
+   +     return 'helloWorld';
+   + }
+
+Mautic's generic entity unlock route, ``mautic_core_form_action``, moves to the new ``Mautic\CoreBundle\Controller\LockController``. The route path and its ``unlockAction()`` behavior don't change, so Plugins that link to this route need no update.
