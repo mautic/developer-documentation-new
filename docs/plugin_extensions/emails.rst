@@ -319,7 +319,7 @@ Register the command with SearchCommandEvent
 ``SearchCommandEvent`` makes the Email list recognize your command as a valid search command and suggest it in the search box as the User types. Your listener calls ``addCommand()`` to add a single command string, and can read or replace the whole list with ``getCommands()`` and ``setCommands(array)``. ``EmailRepository::getSearchCommands()`` dispatches this event.
 
 Filter the list with SearchQueryEvent
-======================================
+=====================================
 
 ``SearchQueryEvent`` carries the active filter and the query it's assembling. Your listener reads ``$event->getFilter()`` and compares ``$filter->command`` to the command string it registered with ``addCommand()``. When they match, it calls ``$event->setExpr(...)`` and ``$event->setParameters([...])`` to contribute the ``WHERE`` clause. Build the expression from ``$event->getQuery()`` and the entity alias from ``$event->getAlias()``. ``EmailRepository::addSearchCommandWhereClause()`` dispatches this event while it resolves a search command to its ``WHERE`` clause.
 
