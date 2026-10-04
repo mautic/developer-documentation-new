@@ -1,7 +1,7 @@
 SMS and MMS
 ###########
 
-This document describes how to extend Mautic's SMS capabilities by building a custom transport in a Plugin. It walks through implementing the transport interfaces, adding bulk and MMS support, registering the transport, and hooking into the Contact filtering pipeline.
+This document describes how to extend Mautic's SMS capabilities by building a custom transport in a Plugin. It walks through implementing the transport interfaces, adding bulk and MMS support, registering the transport, hooking into the Contact filtering pipeline, and reacting to SMS lifecycle and reply events.
 
 .. vale off
 
@@ -234,10 +234,77 @@ Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` to handle Campaign SMS actio
        );
    }
 
+SMS lifecycle and reply events
+******************************
+
+Subscribe to these events to run custom logic when a User saves or deletes an SMS, or when a Contact replies to one. Mautic dispatches each of them by its event class, so key ``getSubscribedEvents()`` on the class name. All classes live in the ``Mautic\SmsBundle\Event`` namespace.
+
+.. vale off
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Event class
+     - Fires
+   * - ``SmsPreSaveEvent``
+     - Before Mautic saves an SMS.
+   * - ``SmsPostSaveEvent``
+     - After Mautic saves an SMS.
+   * - ``SmsPreDeleteEvent``
+     - Before Mautic deletes an SMS.
+   * - ``SmsPostDeleteEvent``
+     - After Mautic deletes an SMS.
+   * - ``ReplyEvent``
+     - When Mautic receives an SMS reply from a Contact.
+
+.. vale on
+
+The four lifecycle classes extend the abstract ``SmsEvent`` class. Use ``getSms()`` to read the SMS entity and ``isNew()`` to tell whether the save created it. Because each lifecycle class is a subclass, a listener type-hinted against ``SmsEvent`` keeps working. ``ReplyEvent`` exposes the Contact through ``getContact()`` and the reply text through ``getMessage()``.
+
+.. code-block:: php
+
+   <?php
+
+   declare(strict_types=1);
+
+   use Mautic\SmsBundle\Event\ReplyEvent;
+   use Mautic\SmsBundle\Event\SmsEvent;
+   use Mautic\SmsBundle\Event\SmsPostSaveEvent;
+   use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+   final class SmsLifecycleSubscriber implements EventSubscriberInterface
+   {
+       public static function getSubscribedEvents(): array
+       {
+           return [
+               SmsPostSaveEvent::class => ['onSmsPostSave', 0],
+               ReplyEvent::class       => ['onSmsReply', 0],
+           ];
+       }
+
+       public function onSmsPostSave(SmsEvent $event): void
+       {
+           $sms = $event->getSms();
+           // Sync $sms to an external system, for example.
+       }
+
+       public function onSmsReply(ReplyEvent $event): void
+       {
+           $contact = $event->getContact();
+           $message = $event->getMessage();
+           // Handle the reply, for example by forwarding it to a support tool.
+       }
+   }
+
+.. note::
+
+   Mautic 8 removed the ``SMS_PRE_SAVE``, ``SMS_POST_SAVE``, ``SMS_PRE_DELETE``, ``SMS_POST_DELETE``, and ``ON_REPLY`` constants from ``SmsEvents``. Before Mautic 8, the four lifecycle events shared one ``SmsEvent`` object under four constant names. Code that still references one of these constants throws a PHP ``Error`` with the message 'Undefined constant'. Replace each constant with the matching event class from the preceding table.
+
 SMS event constants
 *******************
 
-The :xref:`SmsEvents source` class defines all SMS-related event constants:
+The :xref:`SmsEvents source` class defines the SMS event constants that remain string-keyed:
 
 .. vale off
 
@@ -247,15 +314,15 @@ The :xref:`SmsEvents source` class defines all SMS-related event constants:
 
    * - Event constant
      - Description
+   * - ``TOKEN_REPLACEMENT``
+     - Fires right before Mautic returns SMS content, so listeners can replace tokens. The listener receives a ``Mautic\CoreBundle\Event\TokenReplacementEvent``.
+   * - ``SMS_ON_SEND``
+     - Registers the Webhook event type for sent SMS messages.
    * - ``ON_CAMPAIGN_TRIGGER_BATCH_ACTION``
      - Fires when a Campaign triggers an SMS action for a batch of Contacts.
-   * - ``ON_CAMPAIGN_TRIGGER_ACTION``
-     - Fires when a Campaign triggers an SMS action for a single Contact.
-   * - ``DNC_FILTER_CONTACTS_ON_SEND``
-     - Fires to filter Contacts based on **Do Not Contact** status.
-   * - ``QUEUE_FILTER_CONTACTS_ON_SEND``
-     - Fires to filter Contacts based on frequency rules.
-   * - ``FILTER_CONTACTS_ON_SEND``
-     - Fires for generic Contact filtering before SMS dispatch.
+   * - ``ON_CAMPAIGN_REPLY``
+     - Identifies the Campaign decision that fires when a Contact replies to an SMS. The listener receives a ``ReplyEvent``.
 
 .. vale on
+
+Mautic 8 also removed the unused ``ON_CAMPAIGN_TRIGGER_ACTION``, ``ON_SMS_TOKENS_BUILD``, ``DNC_FILTER_CONTACTS_ON_SEND``, ``QUEUE_FILTER_CONTACTS_ON_SEND``, and ``FILTER_CONTACTS_ON_SEND`` constants from ``SmsEvents``.
