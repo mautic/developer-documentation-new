@@ -74,6 +74,10 @@ Available events
 
 There are many events available throughout Mautic. Depending on what you're trying to implement, look at the ``*Event.php`` for the core bundle, located in the root of the bundle. For example, the ``app\bundles\LeadBundle\LeadEvents.php`` file defines and describes events relating to Contacts. The final classes provide the names of the events to listen to. Always use the event constants to ensure future changes to event names won't break the Plugin.
 
+.. note::
+
+   Since Mautic 8.0, Mautic dispatches the authentication content and Segment filtering events by class name - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`. To inject HTML into the login UI, key ``getSubscribedEvents()`` on ``Mautic\UserBundle\Event\AuthenticationContentEvent::class``. To apply custom Segment filter logic, key it on ``Mautic\LeadBundle\Event\LeadListFilteringEvent::class``. The ``UserEvents::USER_AUTHENTICATION_CONTENT`` and ``LeadEvents::LIST_FILTERS_ON_FILTERING`` constants remain defined, but a subscriber still keyed on either one silently receives nothing.
+
 Custom events
 *************
 
