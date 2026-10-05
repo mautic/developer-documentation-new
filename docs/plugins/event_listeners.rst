@@ -93,6 +93,14 @@ To find the name Mautic dispatches an event under, and to confirm a re-key, run 
 
 :xref:`UPGRADE_GUIDE_8` maps each old CoreBundle event name and ``CoreEvents`` constant to its new event class.
 
+.. note::
+
+   In Mautic 8, Mautic dispatches the ``ContactFiltersEvaluateEvent`` by class name, so key ``getSubscribedEvents()`` on ``ContactFiltersEvaluateEvent::class``. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rationale.
+
+.. note::
+
+   The ``Mautic\UserBundle`` User and Role save and delete lifecycle events follow the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule. Key ``getSubscribedEvents()`` on the event class - for example ``PostSaveUserEvent::class`` in the ``Mautic\UserBundle\Event`` namespace - not on a ``UserEvents`` constant. Mautic 8 removed the eight User and Role save and delete constants from ``Mautic\UserBundle\UserEvents``, so a subscriber still keyed on one, such as ``UserEvents::USER_POST_SAVE``, raises an undefined-constant error instead of silently receiving nothing. The base ``UserEvent`` and ``RoleEvent`` classes are now abstract, so dispatch or type-hint the concrete ``Pre*`` or ``Post*`` subclass. Mautic 8 leaves the authentication constants, such as ``USER_LOGIN`` and ``USER_LOGOUT``, in place, so they still dispatch by their string names. The ``UPGRADE-8.0.md`` guide lists each removed constant with its replacement event class.
+
 Custom events
 *************
 
