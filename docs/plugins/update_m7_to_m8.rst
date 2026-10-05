@@ -1075,8 +1075,8 @@ Run :xref:`phpstan` against your Plugin on Mautic 8 to find any override whose r
 
 .. _mautic 8 final classes:
 
-Final classes
-*************
+``final`` classes
+*****************
 
 Mautic 8 declares more than 300 core classes ``final``, because no Mautic class extends them and Mautic doesn't intend them as base classes. Nothing changes for code that gets these classes through dependency injection, calls their public methods, or subscribes to their events. Two kinds of Plugin code break:
 
