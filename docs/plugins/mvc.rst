@@ -430,7 +430,7 @@ Mautic types the entity parameter as ``object`` rather than a concrete entity cl
 Mautic 8 also types one public method on the parent ``AbstractCommonModel`` class, which ``FormModel`` and Plugin Models both extend: ``encodeArrayForUrl($array)`` becomes ``encodeArrayForUrl(array $array)``. The same override-compatibility rule applies.
 
 Registering a model
-====================
+===================
 
 To make a custom Model resolvable through ``getModel('yourbundle.yourmodel')`` from a Controller, the Model class declares a static ``getName()`` method that returns that key string. The Model must also implement ``Mautic\CoreBundle\Model\MauticModelInterface``. Extending one of the base classes in Base model classes satisfies that interface requirement, but not the registration. You still declare ``getName()`` on the Model to make it resolvable by key. Declaring ``getName()`` only matters for this key-based lookup - a Model you always inject or type-hint by its concrete class, as described in :ref:`Getting model objects <getting model objects>`, doesn't need it.
 
