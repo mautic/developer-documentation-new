@@ -146,7 +146,7 @@ Each Data Transfer Object - DTO - wraps one Contact together with its token data
 Contact filtering events
 ************************
 
-Three events fire sequentially during SMS sending to filter Contacts before dispatch. Subscribe to them to exclude Contacts based on custom criteria.
+Three events fire sequentially during SMS sending to filter Contacts before dispatch. Subscribe to them to exclude Contacts based on custom criteria. Mautic dispatches each of them by its event class, so key ``getSubscribedEvents()`` on the class name.
 
 .. vale off
 
@@ -155,7 +155,7 @@ For how to register a subscriber, see the :doc:`listeners and subscribers</plugi
 Do Not Contact filter
 =====================
 
-Use ``SmsEvents::DNC_FILTER_CONTACTS_ON_SEND`` to filter Contacts based on **Do Not Contact** status.
+Subscribe to ``DncEvent::class`` to filter Contacts based on **Do Not Contact** status.
 
 .. vale on
 
@@ -166,7 +166,6 @@ Use ``SmsEvents::DNC_FILTER_CONTACTS_ON_SEND`` to filter Contacts based on **Do 
    declare(strict_types=1);
 
    use Mautic\SmsBundle\Event\DncEvent;
-   use Mautic\SmsBundle\SmsEvents;
    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
    final class SmsFilterSubscriber implements EventSubscriberInterface
@@ -174,7 +173,7 @@ Use ``SmsEvents::DNC_FILTER_CONTACTS_ON_SEND`` to filter Contacts based on **Do 
        public static function getSubscribedEvents(): array
        {
            return [
-               SmsEvents::DNC_FILTER_CONTACTS_ON_SEND => ['onDncFilter', 0],
+               DncEvent::class => ['onDncFilter', 0],
            ];
        }
 
@@ -191,12 +190,12 @@ Use ``SmsEvents::DNC_FILTER_CONTACTS_ON_SEND`` to filter Contacts based on **Do 
 Queue filter
 ============
 
-Use ``SmsEvents::QUEUE_FILTER_CONTACTS_ON_SEND`` to filter Contacts based on frequency rules or queueing logic. Subscribe to it the same way, with a listener that receives a ``QueueEvent``.
+Subscribe to ``QueueEvent::class`` to filter Contacts based on frequency rules or queueing logic. The listener receives a ``QueueEvent``.
 
 Generic filter
 ==============
 
-Use ``SmsEvents::FILTER_CONTACTS_ON_SEND`` for any remaining filtering logic, such as removing Contacts without phone numbers. Its listener receives a ``FilterEvent``.
+Subscribe to ``FilterEvent::class`` for any remaining filtering logic, such as removing Contacts without phone numbers. The listener receives a ``FilterEvent``.
 
 All three event classes share a common API, shown here for :xref:`FilterEvent source`:
 
@@ -325,4 +324,4 @@ The :xref:`SmsEvents source` class defines the SMS event constants that remain s
 
 .. vale on
 
-Mautic 8 also removed the unused ``ON_CAMPAIGN_TRIGGER_ACTION``, ``ON_SMS_TOKENS_BUILD``, ``DNC_FILTER_CONTACTS_ON_SEND``, ``QUEUE_FILTER_CONTACTS_ON_SEND``, and ``FILTER_CONTACTS_ON_SEND`` constants from ``SmsEvents``.
+Mautic 8 also removed the ``ON_CAMPAIGN_TRIGGER_ACTION``, ``ON_SMS_TOKENS_BUILD``, ``DNC_FILTER_CONTACTS_ON_SEND``, ``QUEUE_FILTER_CONTACTS_ON_SEND``, and ``FILTER_CONTACTS_ON_SEND`` constants from ``SmsEvents``. Mautic 8 dispatches no events under these names. To filter Contacts, subscribe to the event classes in `Contact filtering events`_.

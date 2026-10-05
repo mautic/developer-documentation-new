@@ -27,7 +27,7 @@ link.xref_links.update({
     ),
     "FilterEvent source": (
         "FilterEvent",
-        "https://github.com/mautic/mautic/blob/7.x/app/bundles/SmsBundle/Event/FilterEvent.php",
+        "https://github.com/mautic/mautic/blob/8.x/app/bundles/SmsBundle/Event/FilterEvent.php",
     ),
     "Twilio transport source": (
         "TwilioTransport",
