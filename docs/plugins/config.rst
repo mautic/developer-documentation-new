@@ -496,19 +496,16 @@ The :ref:`plugins/config:Menu config items` section adds items to Mautic's four 
 
 Registering a custom Menu takes two services in your Plugin's ``Config/services.php``:
 
-- A ``Knp\Menu\MenuItem`` tagged ``knp_menu.menu``.
-- A ``Mautic\CoreBundle\Menu\MenuRenderer`` tagged ``knp_menu.renderer``.
+* A ``Knp\Menu\MenuItem`` tagged ``knp_menu.menu``.
+* A ``Mautic\CoreBundle\Menu\MenuRenderer`` tagged ``knp_menu.renderer``.
 
 Give each tag an ``['alias' => '<alias>']`` argument so Mautic pairs the item with its renderer.
 
 Earlier versions registered the Menu through the ``services > menus`` array in ``Config/config.php``:
 
-.. vale off
-
 .. code-block:: php
 
     <?php
-    // plugins/HelloWorldBundle/Config/config.php
 
     'services' => [
         'menus' => [
@@ -519,8 +516,6 @@ Earlier versions registered the Menu through the ``services > menus`` array in `
         ],
     ],
 
-.. vale on
-
 .. vale off
 
 The following snippet is the Mautic 8 equivalent. This is a partial example. The ``use`` statements go at the top of ``Config/services.php``, and the ``$services->set(...)`` definitions go inside its configurator closure. :ref:`plugins/autowiring:Autowiring` describes the bundle Extension and this ``$services`` configurator setup:
@@ -530,7 +525,6 @@ The following snippet is the Mautic 8 equivalent. This is a partial example. The
 .. code-block:: php
 
     <?php
-    // plugins/HelloWorldBundle/Config/services.php
 
     use Knp\Menu\MenuItem;
     use Mautic\CoreBundle\Menu\MenuBuilder;
