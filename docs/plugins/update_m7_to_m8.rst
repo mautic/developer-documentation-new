@@ -808,3 +808,98 @@ Plugins register a Webhook event on ``Mautic\WebhookBundle\Event\WebhookBuilderE
 
    - public function addEvent($key, array $event): void
    + public function addEvent(string $key, array $event): void
+
+.. vale off
+
+Return types in Campaign, Email, Point, Notification, Dynamic Content, and SMS bundles
+**************************************************************************************
+
+.. vale on
+
+Mautic 8 replaces ``@return array`` annotations with native return types on methods in the CampaignBundle, EmailBundle, PointBundle, NotificationBundle, DynamicContentBundle, and SmsBundle. The methods already returned these types, so code that only calls them needs no change.
+
+The break affects Plugins that implement one of these interfaces or extend one of these classes. If your class overrides a listed method without a compatible return type, PHP raises a fatal error when it loads your class, because the override's declaration isn't compatible with the parent method.
+
+.. note::
+
+   PHP lets a child method declare a return type that its parent leaves out. Add the return type to your overrides now, and the same code runs on both Mautic 7 and Mautic 8.
+
+.. vale off
+
+Interfaces and abstract base classes
+====================================
+
+.. vale on
+
+Every class that implements or extends one of these must declare the ``array`` return type on the listed methods:
+
+.. code:: diff
+
+   // Mautic\EmailBundle\Entity\EmailReplyRepositoryInterface
+   - public function getByLeadIdForTimeline($leadId, $options);
+   + public function getByLeadIdForTimeline($leadId, $options): array;
+
+   // Mautic\CampaignBundle\Event\AbstractLogCollectionEvent
+   - public function getContactIds()
+   + public function getContactIds(): array
+
+   // Mautic\CampaignBundle\EventCollector\Accessor\Event\AbstractEventAccessor
+   - public function getFormTypeOptions()
+   + public function getFormTypeOptions(): array
+   - public function getConnectionRestrictions()
+   + public function getConnectionRestrictions(): array
+   - public function getExtraProperties()
+   + public function getExtraProperties(): array
+
+   // Mautic\EmailBundle\Stats\Helper\AbstractHelper
+   - public function fetchStats(\DateTime $fromDateTime, \DateTime $toDateTime, EmailStatOptions $options)
+   + public function fetchStats(\DateTime $fromDateTime, \DateTime $toDateTime, EmailStatOptions $options): array
+
+.. vale off
+
+Event classes
+=============
+
+.. vale on
+
+If your Plugin extends ``Mautic\EmailBundle\Event\EmailSendEvent`` or the deprecated ``Mautic\CampaignBundle\Event\CampaignExecutionEvent``, add the return type to any of these overrides:
+
+.. code:: diff
+
+   // Mautic\EmailBundle\Event\EmailSendEvent
+   - public function getSource()
+   + public function getSource(): array
+
+   // Mautic\CampaignBundle\Event\CampaignExecutionEvent
+   - public function getLeadFields()
+   + public function getLeadFields(): array
+   - public function getEvent()
+   + public function getEvent(): array
+   - protected function getEventArray(CampaignEvent $event)
+   + protected function getEventArray(CampaignEvent $event): array
+   - public function getConfig()
+   + public function getConfig(): array
+
+``CampaignBuilderEvent::getActions()``, ``getConditions()``, and ``getDecisions()``, and ``ScheduledEvent::getEvent()`` and ``getConfig()`` also gain ``: array``. Both classes are ``final``, so the override risk doesn't apply.
+
+.. vale off
+
+Entities
+========
+
+.. vale on
+
+If your Plugin extends one of these entities, add the return type to any override of the listed methods. The return type is ``array`` unless noted:
+
+* ``Mautic\CampaignBundle\Entity\Event::getProperties()``
+* ``Mautic\CampaignBundle\Entity\LeadEventLog::getMetadata()``
+* ``Mautic\EmailBundle\Entity\Email::getContent()``, which returns ``array|string``, plus ``getUtmTags()`` and ``getHeaders()``
+* ``Mautic\EmailBundle\Entity\Stat::getOpenDetails()``
+* ``Mautic\NotificationBundle\Entity\Notification::getUtmTags()`` and ``getMobileSettings()``
+* ``Mautic\NotificationBundle\Entity\Stat::getTokens()`` and ``getClickDetails()``
+* ``Mautic\DynamicContentBundle\Entity\Stat::getSentDetails()`` and ``getTokens()``
+* ``Mautic\SmsBundle\Entity\Stat::getTokens()`` and ``getDetails()``
+* ``Mautic\PointBundle\Entity\Point::getProperties()`` and ``Mautic\PointBundle\Entity\TriggerEvent::getProperties()``
+* ``Mautic\PointBundle\Entity\PointInsight::getPointGroups()``
+
+Run :xref:`phpstan` against your Plugin on Mautic 8 to find any override whose return type no longer matches its parent.
