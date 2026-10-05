@@ -222,6 +222,8 @@ If your Plugin doesn't subscribe to, call, or extend any of the classes listed b
 
 Mautic 8 also changes the helper methods on the base controllers. See :ref:`Controller helper methods <Mautic 8 controller helper methods>` if your Plugin has a controller that extends a Mautic controller.
 
+Mautic 8 also adds a native type to every class and interface constant. See :ref:`Typed class constants <Mautic 8 typed class constants>` if your Plugin overrides a constant from a Mautic class or interface.
+
 .. note::
 
    When you call one of these methods, pass arguments of the declared types. When you extend one of these events and override a typed method, copy the parent signature exactly, using the same parameter types, return type, and property type.
@@ -420,7 +422,7 @@ Plugins contribute their configuration through ``Mautic\ConfigBundle\Event\Confi
 .. code:: diff
 
    - public function getParametersFromConfig($bundle)
-   + public function getParametersFromConfig(string $bundle)
+   + public function getParametersFromConfig(string $bundle): array
 
 .. vale off
 
@@ -434,7 +436,7 @@ Subscribers that read and validate saved configuration values use ``Mautic\Confi
 .. code:: diff
 
    - public function getConfig($key = null)
-   + public function getConfig(?string $key = null)
+   + public function getConfig(?string $key = null): array
 
 .. code:: diff
 
@@ -460,7 +462,26 @@ DashboardBundle
 
 .. vale on
 
-Mautic 8 adds type declarations to two Dashboard Widget event classes.
+Mautic 8 adds type declarations to the Dashboard Widget entity and two Dashboard Widget event classes.
+
+.. vale off
+
+Widget entity
+=============
+
+.. vale on
+
+Widget subscribers read the settings and data of a Widget from ``Mautic\DashboardBundle\Entity\Widget``. ``getParams()`` and ``getTemplateData()`` now declare the ``array`` return type they already returned, so calls to them need no change. If your Plugin extends ``Widget`` and overrides either method, add the ``array`` return type to the override. Otherwise PHP raises a fatal error when it loads your class:
+
+.. code:: diff
+
+   - public function getParams()
+   + public function getParams(): array
+
+.. code:: diff
+
+   - public function getTemplateData()
+   + public function getTemplateData(): array
 
 .. vale off
 
@@ -1031,3 +1052,187 @@ If your Plugin extends one of these entities, add the return type to any overrid
 * ``Mautic\PointBundle\Entity\PointInsight::getPointGroups()``
 
 Run :xref:`phpstan` against your Plugin on Mautic 8 to find any override whose return type no longer matches its parent.
+
+.. vale off
+
+Return types on Core base classes and interfaces
+************************************************
+
+.. vale on
+
+Mautic 8 replaces ``@return array`` annotations with native return types on Core base classes and interfaces that Plugins implement or extend. The methods already returned these types, so code that only calls them needs no change.
+
+The break affects Plugins that implement one of these interfaces or extend one of these base classes. If your class overrides a listed method without the same return type, PHP raises a fatal error when it loads your class.
+
+.. note::
+
+   PHP lets a child method declare a return type that its parent leaves out. Add the return type to your overrides now, and the same code runs on both Mautic 7 and Mautic 8.
+
+.. vale off
+
+Interfaces
+==========
+
+.. vale on
+
+Every class that implements one of these interfaces must declare the ``array`` return type:
+
+.. code:: diff
+
+   // Mautic\CoreBundle\Configurator\Step\StepInterface
+   - public function checkRequirements();
+   + public function checkRequirements(): array;
+   - public function checkOptionalSettings();
+   + public function checkOptionalSettings(): array;
+   - public function update(self $data);
+   + public function update(self $data): array;
+
+   // Mautic\CoreBundle\Helper\ThemeHelperInterface
+   - public function getDefaultThemes();
+   + public function getDefaultThemes(): array;
+   - public function getOptionalSettings();
+   + public function getOptionalSettings(): array;
+
+   // Mautic\CoreBundle\IpLookup\IpLookupFormInterface
+   - public function getConfigFormThemes();
+   + public function getConfigFormThemes(): array;
+
+   // Mautic\CoreBundle\Model\SearchCommandListInterface
+   - public function getCommandList();
+   + public function getCommandList(): array;
+
+   // Mautic\StatsBundle\Aggregate\Collection\Stats\StatInterface
+   - public function getStats();
+   + public function getStats(): array;
+
+.. vale off
+
+AbstractPermissions
+===================
+
+.. vale on
+
+Every Plugin permissions class extends ``Mautic\CoreBundle\Security\Permissions\AbstractPermissions``. If yours defines permission aliases in ``getSynonym()``, or overrides one of the other listed methods, add the return type:
+
+.. code:: diff
+
+   - public function getPermissions()
+   + public function getPermissions(): array
+   - protected function getSynonym($name, $level)
+   + protected function getSynonym($name, $level): array
+   - public function getPermissionRatio(array $data)
+   + public function getPermissionRatio(array $data): array
+
+.. vale off
+
+For a ``getSynonym()`` example, see :doc:`/plugins/permissions`.
+
+.. vale on
+
+.. vale off
+
+Models and entities
+===================
+
+.. vale on
+
+Plugin models that extend ``Mautic\CoreBundle\Model\AbstractCommonModel`` must match these return types. ``getEntities()`` declares ``iterable`` rather than ``array``, because it can return a Doctrine ``Paginator``:
+
+.. code:: diff
+
+   - public function getEntities(array $args = [])
+   + public function getEntities(array $args = []): iterable
+   - public function getSupportedSearchCommands()
+   + public function getSupportedSearchCommands(): array
+   - public function getCommandList()
+   + public function getCommandList(): array
+
+Plugin entities that extend ``Mautic\CoreBundle\Entity\CommonEntity`` and override ``getChanges()`` must declare ``: array``:
+
+.. code:: diff
+
+   - public function getChanges(bool $includePast = false)
+   + public function getChanges(bool $includePast = false): array
+
+.. vale off
+
+Controllers
+===========
+
+.. vale on
+
+Plugin controllers that extend these Mautic controller classes must declare ``: array`` on these overrides:
+
+.. code:: diff
+
+   // Mautic\CoreBundle\Controller\AbstractFormController
+   - protected function refererPostActionVars(array $vars)
+   + protected function refererPostActionVars(array $vars): array
+
+   // Mautic\CoreBundle\Controller\AbstractStandardFormController
+   - protected function afterEntityClone($newEntity, $entity)
+   + protected function afterEntityClone($newEntity, $entity): array
+   - protected function getEntityFormOptions()
+   + protected function getEntityFormOptions(): array
+   - protected function getUpdateSelectParams($updateSelect, $entity, $nameMethod = 'getName', $groupMethod = 'getLanguage')
+   + protected function getUpdateSelectParams($updateSelect, $entity, $nameMethod = 'getName', $groupMethod = 'getLanguage'): array
+   - protected function getViewDateRange(Request $request, $objectId, $returnUrl, $timezone = 'local', &$dateRangeForm = null)
+   + protected function getViewDateRange(Request $request, $objectId, $returnUrl, $timezone = 'local', &$dateRangeForm = null): array
+
+   // Mautic\ApiBundle\Controller\FetchCommonApiController
+   - protected function getWhereFromRequest(Request $request)
+   + protected function getWhereFromRequest(Request $request): array
+
+.. vale off
+
+Other base classes
+==================
+
+.. vale on
+
+These base classes also gain ``: array`` return types on the listed methods:
+
+* ``Mautic\CoreBundle\Doctrine\AbstractMauticMigration::generateKeys()``
+* ``Mautic\CoreBundle\IpLookup\AbstractLookup::getDetails()``, ``AbstractLocalDataLookup::getConfigFormThemes()``, and ``getHeaders()`` on ``AbstractMaxmindLookup`` and ``AbstractRemoteDataLookup``, plus ``AbstractRemoteDataLookup::getParameters()``
+* ``Mautic\CoreBundle\Event\BuilderEvent::getTokens()`` and ``filterTokens()``
+* ``Mautic\CoreBundle\Event\TokenReplacementEvent::getTokens()``
+
+Run :xref:`phpstan` against your Plugin on Mautic 8 to find any override whose return type no longer matches its parent.
+
+.. _mautic 8 typed class constants:
+
+Typed class constants
+*********************
+
+Mautic 8 declares a native type on every class and interface constant, using PHP 8.3 typed class constants. For example, ``ConfigFormFeaturesInterface::FEATURE_SYNC`` changes from ``public const FEATURE_SYNC = 'sync';`` to ``public const string FEATURE_SYNC = 'sync';``. The values don't change, so code that only reads these constants keeps working.
+
+A Plugin class that overrides a constant from a Mautic parent class or interface must declare a compatible type on its own constant. If the overriding constant has no type, or a type that isn't compatible, PHP stops with a fatal error like this when it loads the class:
+
+.. code-block:: text
+
+   Type of MauticPlugin\HelloWorldBundle\Command\SyncWorldsCommand::MODE_PID must be compatible with Mautic\CoreBundle\Command\ModeratedCommand::MODE_PID of type string
+
+To fix it, add the parent's type to the constant in your Plugin. A narrower type also works, such as ``string`` where the parent declares ``?string``:
+
+.. code:: diff
+
+   - public const MODE_PID = 'pid';
+   + public const string MODE_PID = 'pid';
+
+Constants that a Plugin is most likely to override come from these base classes and interfaces:
+
+.. vale off
+
+* ``Mautic\CoreBundle\Command\ModeratedCommand``: ``MODE_PID``, ``MODE_FLOCK``, and ``MODE_REDIS`` are ``string``
+* ``Mautic\CoreBundle\Doctrine\AbstractMauticMigration``: ``TABLE_NAME`` is ``?string``, and ``COLUMN_TYPE_SIGNED`` and ``COLUMN_TYPE_UNSIGNED`` are ``string``
+* ``Mautic\CoreBundle\Entity\OptimisticLockInterface``: ``INITIAL_VERSION`` is ``int``
+* ``Mautic\CoreBundle\Entity\UpsertInterface``: ``ROWS_AFFECTED_ON_INSERT`` and ``ROWS_AFFECTED_ON_UPDATE`` are ``int``
+* ``Mautic\CoreBundle\Helper\AbstractFormFieldHelper``: the ``FORMAT_*`` constants are ``string``
+* ``Mautic\CoreBundle\IpLookup\AbstractLocalDataLookup``: ``TAR_CACHE_FOLDER`` and ``TAR_TEMP_FILE`` are ``string``
+* ``Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeaturesInterface``: ``FEATURE_SYNC`` and ``FEATURE_PUSH_ACTIVITY`` are ``string``
+* ``Mautic\IntegrationsBundle\Sync\SyncJudge\SyncJudgeInterface``: the evidence mode and winner constants are ``string``
+* ``Mautic\PluginBundle\Integration\AbstractIntegration``: the ``FIELD_TYPE_*`` constants are ``string``
+
+.. vale on
+
+Because ``AbstractMauticMigration::TABLE_NAME`` is ``?string``, a migration that sets a table name declares it as ``protected const string TABLE_NAME = 'table_name';``.
