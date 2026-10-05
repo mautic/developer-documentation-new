@@ -1,6 +1,216 @@
 Update Plugins for Mautic 8
 ###########################
 
+Mautic 8 adds native PHP parameter, return, and property type declarations to the base and abstract classes that Plugins and Integrations commonly extend. There's no runtime behavior change - the types that these classes already relied on are only made explicit. Your only upgrade risk is a signature mismatch in your subclasses. If an override or a re-declared property no longer matches the parent's now-explicit signature, PHP throws a fatal ``TypeError`` or compile error.
+
+.. note::
+
+   When you override a method or declare one of these properties again, copy the parent signature exactly - same parameter types, same return type, same property type.
+
+Watch for four kinds of break:
+
+* **New parameter type**: an override without the identical type is a fatal error.
+* **New return type**: an override must declare the same return type, and an override that returns ``null`` or nothing now throws a ``TypeError``.
+* **New property type**: a subclass that declares the property again without a type is a fatal error.
+* **Removed property**: a subclass that read it must stop.
+
+.. vale off
+
+CommonRepository
+****************
+
+.. vale on
+
+This has the widest impact - this change hits every repository that overrides these methods. The class is ``Mautic\CoreBundle\Entity\CommonRepository``.
+
+.. code:: diff
+
+   - public function saveEntity($entity, $flush = true): void
+   + public function saveEntity(object $entity, $flush = true): void
+
+   - public function deleteEntity($entity, $flush = true): void
+   + public function deleteEntity(object $entity, $flush = true): void
+
+   - protected function validateOrderByClause($clause)
+   + protected function validateOrderByClause(array $clause): array
+
+.. vale off
+
+For a repository extension example, see :doc:`/plugin_extensions/contacts`.
+
+.. vale on
+
+.. vale off
+
+AbstractPermissions
+*******************
+
+.. vale on
+
+Every bundle and Plugin defines its own ``*Permissions`` class that extends ``Mautic\CoreBundle\Security\Permissions\AbstractPermissions``. If yours overrides any of these methods, copy the new signature exactly.
+
+.. code:: diff
+
+   - public function isGranted($userPermissions, $name, $level): bool
+   + public function isGranted(array $userPermissions, $name, $level): bool
+
+   - protected function addStandardFormFields($bundle, $level, &$builder, $data, $includePublish = true)
+   + protected function addStandardFormFields($bundle, $level, &$builder, array $data, $includePublish = true)
+
+   - protected function addManageFormFields($bundle, $level, &$builder, $data)
+   + protected function addManageFormFields($bundle, $level, &$builder, array $data)
+
+   - protected function addExtendedFormFields($bundle, $level, &$builder, $data, $includePublish = true)
+   + protected function addExtendedFormFields($bundle, $level, &$builder, array $data, $includePublish = true)
+
+.. vale off
+
+For a permissions extension example, see :doc:`/plugins/permissions`.
+
+.. vale on
+
+.. vale off
+
+AbstractIntegration
+*******************
+
+.. vale on
+
+Every third-party Integration extends ``Mautic\PluginBundle\Integration\AbstractIntegration``, so review any of these methods you override.
+
+.. code:: diff
+
+   - public function makeRequest($url, $parameters = [], $method = 'GET', $settings = [])
+   + public function makeRequest($url, $parameters = [], $method = 'GET', array $settings = [])
+
+   - public function prepareRequest($url, $parameters, $method, $settings, $authType)
+   + public function prepareRequest(string $url, $parameters, string $method, array $settings, $authType)
+
+   - public function authCallback($settings = [], $parameters = [])
+   + public function authCallback(array $settings = [], $parameters = [])
+
+   - public function mergeConfigToFeatureSettings($config = [])
+   + public function mergeConfigToFeatureSettings(array $config = [])
+
+   - public function getFormCompanyFields($settings = [])
+   + public function getFormCompanyFields(array $settings = [])
+
+.. vale off
+
+CrmAbstractIntegration
+**********************
+
+.. vale on
+
+The ``MauticPlugin\MauticCrmBundle\Integration\CrmAbstractIntegration`` class now types the ``$config``, ``$fields``, and ``$fieldsToUpdate`` parameters as ``array`` across several methods. Here's a representative change on ``getFormFieldsByObject()``:
+
+.. code:: diff
+
+   - public function getFormFieldsByObject($object, $settings = [])
+   + public function getFormFieldsByObject($object, array $settings = [])
+
+The same ``array`` typing applies to ``cleanPriorityFields()``, ``getPriorityFieldsForMautic()``, ``getPriorityFieldsForIntegration()``, and ``getBlankFieldsToUpdate()``. When you override any of them, copy the parent signature exactly.
+
+.. vale off
+
+CommonController and AbstractFormController
+*******************************************
+
+.. vale on
+
+Plugins extend ``Mautic\CoreBundle\Controller\CommonController`` and ``Mautic\CoreBundle\Controller\AbstractFormController`` to build create, read, update, and delete interfaces. This section lists only the methods Plugins commonly override.
+
+.. code:: diff
+
+   - protected function getModel($modelNameKey): MauticModelInterface
+   + protected function getModel(string $modelNameKey): MauticModelInterface
+
+   - public function executeAction(Request $request, $objectAction, $objectId = 0, $objectSubId = 0, $objectModel = '')
+   + public function executeAction(Request $request, $objectAction, $objectId = 0, $objectSubId = 0, $objectModel = ''): Response
+
+   - public function ajaxAction(Request $request, $args = []): Response
+   + public function ajaxAction(Request $request, array $args = []): Response
+
+The ``AbstractFormController`` class adds parameter and return types to its lock-handling methods.
+
+.. code:: diff
+
+   - public function unlockAction(Request $request, $objectId, $objectModel)
+   + public function unlockAction(Request $request, $objectId, string $objectModel): RedirectResponse
+
+   - protected function isLocked($postActionVars, $entity, $model, $batch = false)
+   + protected function isLocked($postActionVars, $entity, string $model, $batch = false)
+
+The ``AbstractStandardFormController`` class follows the same pattern - for example ``getDefaultOrderDirection(): string`` and ``getDataForExport(): ?array`` gain return types.
+
+.. vale off
+
+For a controller extension example, see :doc:`/plugins/mvc`.
+
+.. vale on
+
+.. vale off
+
+CommonApiController
+*******************
+
+.. vale on
+
+The ``Mautic\ApiBundle\Controller\CommonApiController`` class gains explicit parameter and return types in two areas.
+
+.. code:: diff
+
+   - protected function prepareParametersForBinding(Request $request, $parameters, $entity, $action)
+   + protected function prepareParametersForBinding(Request $request, array $parameters, object $entity, string $action): array|Response
+
+.. note::
+
+   The old ``@return`` annotation was ``mixed``. An override that falls through without a ``return`` now throws a ``TypeError``, so the override must ``return $parameters;``.
+
+The batch actions now declare a ``Response`` return type:
+
+.. code:: diff
+
+   - public function newEntitiesAction(Request $request)
+   + public function newEntitiesAction(Request $request): Response
+
+The same return type now applies to ``editEntitiesAction()`` and ``deleteEntitiesAction()``. An override may no longer return an array.
+
+For an API controller extension example, see :doc:`/plugin_extensions/api`.
+
+.. vale off
+
+FetchCommonApiController
+************************
+
+.. vale on
+
+The ``Mautic\ApiBundle\Controller\FetchCommonApiController`` class adds property types, and removes one property.
+
+A subclass that declares any of these properties again must use the same type:
+
+.. code:: diff
+
+   - protected $entityClass;
+   + protected string $entityClass = '';
+
+   - protected $entityNameOne;
+   + protected string $entityNameOne;
+
+   - protected $entityNameMulti;
+   + protected string $entityNameMulti;
+
+   - protected $permissionBase;
+   + protected ?string $permissionBase = null;
+
+   - protected $serializerGroups = [];
+   + protected array $serializerGroups = [];
+
+Mautic 8 removes the ``protected $parametersContainer;`` property. Mautic never assigned it, so any read already failed. A subclass that referenced it must stop doing so.
+
+Event and entity classes
+************************
+
 When you upgrade a Plugin to Mautic 8, review the event and entity classes your Plugin subscribes to, calls, or extends. Mautic 8 adds native PHP parameter, return, and property type declarations to the event and entity classes listed below. These types match what the methods already accepted, so there's no runtime behavior change - most were already recorded in the classes' ``@param`` and ``@return`` annotations, and Mautic 8 now enforces them in the signatures.
 
 Plugins interact with these events by subscribing to them and calling their methods, and some Plugins extend them. This creates two kinds of break:
@@ -617,3 +827,98 @@ Plugins register a Webhook event on ``Mautic\WebhookBundle\Event\WebhookBuilderE
 
    - public function addEvent($key, array $event): void
    + public function addEvent(string $key, array $event): void
+
+.. vale off
+
+Return types in Campaign, Email, Point, Notification, Dynamic Content, and SMS bundles
+**************************************************************************************
+
+.. vale on
+
+Mautic 8 replaces ``@return array`` annotations with native return types on methods in the CampaignBundle, EmailBundle, PointBundle, NotificationBundle, DynamicContentBundle, and SmsBundle. The methods already returned these types, so code that only calls them needs no change.
+
+The break affects Plugins that implement one of these interfaces or extend one of these classes. If your class overrides a listed method without a compatible return type, PHP raises a fatal error when it loads your class, because the override's declaration isn't compatible with the parent method.
+
+.. note::
+
+   PHP lets a child method declare a return type that its parent leaves out. Add the return type to your overrides now, and the same code runs on both Mautic 7 and Mautic 8.
+
+.. vale off
+
+Interfaces and abstract base classes
+====================================
+
+.. vale on
+
+Every class that implements or extends one of these must declare the ``array`` return type on the listed methods:
+
+.. code:: diff
+
+   // Mautic\EmailBundle\Entity\EmailReplyRepositoryInterface
+   - public function getByLeadIdForTimeline($leadId, $options);
+   + public function getByLeadIdForTimeline($leadId, $options): array;
+
+   // Mautic\CampaignBundle\Event\AbstractLogCollectionEvent
+   - public function getContactIds()
+   + public function getContactIds(): array
+
+   // Mautic\CampaignBundle\EventCollector\Accessor\Event\AbstractEventAccessor
+   - public function getFormTypeOptions()
+   + public function getFormTypeOptions(): array
+   - public function getConnectionRestrictions()
+   + public function getConnectionRestrictions(): array
+   - public function getExtraProperties()
+   + public function getExtraProperties(): array
+
+   // Mautic\EmailBundle\Stats\Helper\AbstractHelper
+   - public function fetchStats(\DateTime $fromDateTime, \DateTime $toDateTime, EmailStatOptions $options)
+   + public function fetchStats(\DateTime $fromDateTime, \DateTime $toDateTime, EmailStatOptions $options): array
+
+.. vale off
+
+Event classes
+=============
+
+.. vale on
+
+If your Plugin extends ``Mautic\EmailBundle\Event\EmailSendEvent`` or the deprecated ``Mautic\CampaignBundle\Event\CampaignExecutionEvent``, add the return type to any of these overrides:
+
+.. code:: diff
+
+   // Mautic\EmailBundle\Event\EmailSendEvent
+   - public function getSource()
+   + public function getSource(): array
+
+   // Mautic\CampaignBundle\Event\CampaignExecutionEvent
+   - public function getLeadFields()
+   + public function getLeadFields(): array
+   - public function getEvent()
+   + public function getEvent(): array
+   - protected function getEventArray(CampaignEvent $event)
+   + protected function getEventArray(CampaignEvent $event): array
+   - public function getConfig()
+   + public function getConfig(): array
+
+``CampaignBuilderEvent::getActions()``, ``getConditions()``, and ``getDecisions()``, and ``ScheduledEvent::getEvent()`` and ``getConfig()`` also gain ``: array``. Both classes are ``final``, so the override risk doesn't apply.
+
+.. vale off
+
+Entities
+========
+
+.. vale on
+
+If your Plugin extends one of these entities, add the return type to any override of the listed methods. The return type is ``array`` unless noted:
+
+* ``Mautic\CampaignBundle\Entity\Event::getProperties()``
+* ``Mautic\CampaignBundle\Entity\LeadEventLog::getMetadata()``
+* ``Mautic\EmailBundle\Entity\Email::getContent()``, which returns ``array|string``, plus ``getUtmTags()`` and ``getHeaders()``
+* ``Mautic\EmailBundle\Entity\Stat::getOpenDetails()``
+* ``Mautic\NotificationBundle\Entity\Notification::getUtmTags()`` and ``getMobileSettings()``
+* ``Mautic\NotificationBundle\Entity\Stat::getTokens()`` and ``getClickDetails()``
+* ``Mautic\DynamicContentBundle\Entity\Stat::getSentDetails()`` and ``getTokens()``
+* ``Mautic\SmsBundle\Entity\Stat::getTokens()`` and ``getDetails()``
+* ``Mautic\PointBundle\Entity\Point::getProperties()`` and ``Mautic\PointBundle\Entity\TriggerEvent::getProperties()``
+* ``Mautic\PointBundle\Entity\PointInsight::getPointGroups()``
+
+Run :xref:`phpstan` against your Plugin on Mautic 8 to find any override whose return type no longer matches its parent.
