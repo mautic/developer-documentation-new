@@ -161,9 +161,18 @@ LeadBundle events dispatched by class name in Mautic 8
      - ``LEAD_FIELD_PRE_DELETE_COLUMN_BACKGROUND_JOB``
      - ``DeleteColumnBackgroundEvent``
 
-Six field-column classes live in the ``Mautic\LeadBundle\Field\Event`` namespace: ``AddColumnEvent``, ``AddColumnBackgroundEvent``, ``UpdateColumnEvent``, ``UpdateColumnBackgroundEvent``, ``DeleteColumnEvent``, and ``DeleteColumnBackgroundEvent``. The other 18 live in the ``Mautic\LeadBundle\Event`` namespace.
+Six field-column classes live in the ``Mautic\LeadBundle\Field\Event`` namespace:
 
-``CHANNEL_SUBSCRIPTION_CHANGED`` is the one exception to watch: its event dispatch and subscription move to the ``ChannelSubscriptionChange`` event class, but its string value ``mautic.lead_channel_subscription_changed`` stays the Webhook type identifier. Webhook configuration and receivers keep working, so you only need to change your event-subscription code.
+* ``AddColumnEvent``
+* ``AddColumnBackgroundEvent``
+* ``UpdateColumnEvent``
+* ``UpdateColumnBackgroundEvent``
+* ``DeleteColumnEvent``
+* ``DeleteColumnBackgroundEvent``
+
+The other 18 live in the ``Mautic\LeadBundle\Event`` namespace.
+
+``CHANNEL_SUBSCRIPTION_CHANGED`` is the one exception to watch. Its event dispatch and subscription move to the ``ChannelSubscriptionChange`` event class, but its string value ``mautic.lead_channel_subscription_changed`` stays the Webhook type identifier. Webhook configuration and receivers keep working, so you only need to change your event-subscription code.
 
 These illustrative fragments show the change inside an existing subscriber's ``getSubscribedEvents()`` method, using the ``LEAD_BUILD_SEARCH_COMMANDS`` event. Before Mautic 8, the subscriber keys on the constant:
 
