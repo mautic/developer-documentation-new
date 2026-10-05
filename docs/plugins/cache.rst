@@ -79,7 +79,7 @@ These are the default settings:
 
 .. code-block:: php
 
-    'cache_adapter' => 'mautic.cache.adapter.filesystem',
+    'cache_adapter' => \Mautic\CacheBundle\Cache\Adapter\FilesystemTagAwareAdapter::class,
     'cache_prefix' => 'app',
     'cache_lifetime' => 86400
 
@@ -87,7 +87,7 @@ They can be overridden in ``local.php`` like this:
 
 .. code-block:: php
 
-    'cache_adapter'  => 'mautic.cache.adapter.redis',
+    'cache_adapter'  => \Mautic\CacheBundle\Cache\Adapter\RedisAdapter::class,
     'cache_prefix'   => 'app_cache',
     'cache_lifetime' => 86400,
 
@@ -95,7 +95,7 @@ Delivered adapters
 ------------------
 .. vale off
 
-- ``mautic.cache.adapter.filesystem``
+- ``\Mautic\CacheBundle\Cache\Adapter\FilesystemTagAwareAdapter``
 - ``mautic.cache.adapter.memcached``
 
 .. code-block:: php
@@ -109,7 +109,7 @@ Delivered adapters
         ],
     ],
     
-- ``mautic.cache.adapter.redis``
+- ``\Mautic\CacheBundle\Cache\Adapter\RedisAdapter``
 
 Redis configuration in ``local.php``:
 
@@ -137,4 +137,15 @@ The ``cache:clear`` command clears Mautic's cache. Use this command:
 .. code-block:: bash
 
     bin/console mautic:cache:clear
+
+WidgetDetailEvent changes in Mautic 8
+*************************************
+
+When you upgrade to Mautic 8, remove any ``setCacheTimeout()`` call from your subscribers to ``Mautic\DashboardBundle\Event\WidgetDetailEvent``, which the Dashboard bundle dispatches. Mautic 8 removes the ``setCacheTimeout()`` method and its backing ``$cacheTimeout`` state from the event. That state was write-only - nothing read it - so removing it changes no behavior. ``setTemplateData()`` has always taken the Widget cache lifetime from ``Widget::getCacheTimeout()``, and ``CacheProviderTagAwareInterface`` remains the only thing that caches Widget data.
+
+Remove this line from your event handler:
+
+.. code-block:: php
+
+    $event->setCacheTimeout($widget->getCacheTimeout());
 
