@@ -103,7 +103,19 @@ To find the name Mautic dispatches an event under, and to confirm a re-key, run 
 
 .. note::
 
-   The ``MauticPlugin\MauticSocialBundle`` Social Monitoring and Tweet save and delete events follow the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule. Key ``getSubscribedEvents()`` on the event class in the ``MauticPlugin\MauticSocialBundle\Event`` namespace - for example ``TweetPostSaveEvent::class`` or ``MonitorPreDeleteEvent::class`` - not on a ``SocialEvents`` constant. Mautic 8 removed the ``MONITOR_*`` and ``TWEET_*`` constants from ``MauticPlugin\MauticSocialBundle\SocialEvents``, so a subscriber still keyed on one, such as ``SocialEvents::TWEET_POST_SAVE``, raises an undefined-constant error. Mautic 8 also removed the ``SocialEvent`` class. Monitor events extend ``AbstractMonitorEvent`` and provide ``getMonitoring()``, and Tweet events extend ``AbstractTweetEvent`` and provide ``getTweet()``. For the event Mautic dispatches after it processes a Monitor, subscribe to ``SocialMonitorEvent::class``, which already dispatched by class. The ``UPGRADE-8.0.md`` guide lists each removed constant with its replacement event class.
+   Mautic 8 dispatches the ``MauticPlugin\MauticSocialBundle`` Monitor and Tweet save and delete events by event class, following the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule. Mautic 8 removed the matching constants from ``MauticPlugin\MauticSocialBundle\SocialEvents``, so a subscriber still keyed on one, such as ``SocialEvents::TWEET_POST_SAVE``, raises an undefined-constant error. Key ``getSubscribedEvents()`` on the replacement class in the ``MauticPlugin\MauticSocialBundle\Event`` namespace instead:
+
+   * ``MONITOR_PRE_SAVE`` - ``MonitorPreSaveEvent``
+   * ``MONITOR_POST_SAVE`` - ``MonitorPostSaveEvent``
+   * ``MONITOR_PRE_DELETE`` - ``MonitorPreDeleteEvent``
+   * ``MONITOR_POST_DELETE`` - ``MonitorPostDeleteEvent``
+   * ``MONITOR_POST_PROCESS`` - ``SocialMonitorEvent``, which Mautic already dispatched by class
+   * ``TWEET_PRE_SAVE`` - ``TweetPreSaveEvent``
+   * ``TWEET_POST_SAVE`` - ``TweetPostSaveEvent``
+   * ``TWEET_PRE_DELETE`` - ``TweetPreDeleteEvent``
+   * ``TWEET_POST_DELETE`` - ``TweetPostDeleteEvent``
+
+   Mautic 8 also removed the ``SocialEvent`` class. The Monitor events extend ``AbstractMonitorEvent``, which provides ``getMonitoring()``, and the Tweet events extend ``AbstractTweetEvent``, which provides ``getTweet()``.
 
 Custom events
 *************
