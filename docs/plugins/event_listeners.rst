@@ -93,6 +93,10 @@ To find the name Mautic dispatches an event under, and to confirm a re-key, run 
 
 :xref:`UPGRADE_GUIDE_8` maps each old CoreBundle event name and ``CoreEvents`` constant to its new event class.
 
+.. note::
+
+   In Mautic 8, Mautic dispatches the ``ContactFiltersEvaluateEvent`` by class name, so key ``getSubscribedEvents()`` on ``ContactFiltersEvaluateEvent::class``. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rationale.
+
 Custom events
 *************
 
