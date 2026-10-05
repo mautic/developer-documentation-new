@@ -324,7 +324,7 @@ There are currently four menus built into Mautic.
     * - ``extra``
       - Menu not used by Core but available to Plugins.
 
-A Plugin can also register its own top-level menu instead of adding items to these. See :ref:`plugins/config:Registering a custom menu`.
+A Plugin can also register its own top-level menu instead of adding items to these. See :ref:`Plugins/config:Registering a custom menu`.
 
 Menu definitions
 ================
@@ -476,7 +476,7 @@ Of course, you can also combine multiple checks. All must evaluate to TRUE to di
 Registering a custom menu
 *************************
 
-The :ref:`plugins/config:Menu config items` section adds items to Mautic's four built-in menus through the ``menu`` config array. This section covers the opposite direction: registering a Plugin's own top-level menu, with its own template and renderer.
+The :ref:`Plugins/config:Menu config items` section adds items to Mautic's four built-in menus through the ``menu`` config array. This section covers the opposite direction: registering a Plugin's own top-level menu, with its own template and renderer.
 
 .. note::
 
