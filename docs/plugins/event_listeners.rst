@@ -91,7 +91,7 @@ To find the name Mautic dispatches an event under, and to confirm a re-key, run 
 
     bin/console debug:event-dispatcher "Mautic\CoreBundle\Event\MenuEvent"
 
-For the full CoreBundle event mapping (old event name, ``CoreEvents`` constant, and event class), see :xref:`UPGRADE_GUIDE_8`.
+:xref:`UPGRADE_GUIDE_8` maps each old CoreBundle event name and ``CoreEvents`` constant to its new event class.
 
 Custom events
 *************

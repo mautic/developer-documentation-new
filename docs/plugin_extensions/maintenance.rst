@@ -19,7 +19,7 @@ To hook into the ``mautic:maintenance:cleanup`` command, create a listener for t
 
    Since Mautic 8, key your subscriber on the event class rather than a ``CoreEvents`` constant - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks if you don't.
 
-Use ``$event->setStat($key, $affectedRows, $sql, $sqlParameters)`` to give feedback to the CLI command.
+Use ``$event->setStat($key, $affectedRows, $sql, $sqlParameters)`` to give feedback to the command.
 Note that ``$sql`` and ``$sqlParameters`` are only used for debugging and shown only in the ``dev`` environment.
 
 .. warning:: Don't delete records when the event is a dry run. You can use ``$event->isDryRun()`` to validate whether this is the case. See the code sample below for more details.
