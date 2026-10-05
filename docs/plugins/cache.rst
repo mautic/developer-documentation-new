@@ -79,7 +79,7 @@ These are the default settings:
 
 .. code-block:: php
 
-    'cache_adapter' => 'mautic.cache.adapter.filesystem',
+    'cache_adapter' => \Mautic\CacheBundle\Cache\Adapter\FilesystemTagAwareAdapter::class,
     'cache_prefix' => 'app',
     'cache_lifetime' => 86400
 
@@ -87,7 +87,7 @@ They can be overridden in ``local.php`` like this:
 
 .. code-block:: php
 
-    'cache_adapter'  => 'mautic.cache.adapter.redis',
+    'cache_adapter'  => \Mautic\CacheBundle\Cache\Adapter\RedisAdapter::class,
     'cache_prefix'   => 'app_cache',
     'cache_lifetime' => 86400,
 
@@ -95,7 +95,7 @@ Delivered adapters
 ------------------
 .. vale off
 
-- ``mautic.cache.adapter.filesystem``
+- ``\Mautic\CacheBundle\Cache\Adapter\FilesystemTagAwareAdapter``
 - ``mautic.cache.adapter.memcached``
 
 .. code-block:: php
@@ -109,7 +109,7 @@ Delivered adapters
         ],
     ],
     
-- ``mautic.cache.adapter.redis``
+- ``\Mautic\CacheBundle\Cache\Adapter\RedisAdapter``
 
 Redis configuration in ``local.php``:
 
@@ -235,6 +235,7 @@ These changes apply to subscribers of the dispatched ``Mautic\DashboardBundle\Ev
 * Mautic 8 removes the ``setCacheDir()`` method and drops the legacy filesystem Widget cache.
 * ``WidgetDetailEvent`` now requires the ``$cacheProvider`` constructor argument and types it ``Mautic\CacheBundle\Cache\CacheProviderTagAwareInterface`` - previously ``?CacheProviderTagAwareInterface $cacheProvider = null``.
 * The ``setTemplateData()`` method no longer accepts the second ``$skipCache`` parameter. The signature is now ``setTemplateData(array $templateData)``.
+* Mautic 8 removes the ``setCacheTimeout()`` method and its backing ``$cacheTimeout`` state. That state was write-only - nothing read it - so removing it changes no behavior. ``setTemplateData()`` has always taken the Widget cache lifetime from ``Widget::getCacheTimeout()``. Remove any ``setCacheTimeout()`` call from your subscribers.
 
 ``WidgetDetailEvent`` caches Widget data only through ``CacheProviderTagAwareInterface``.
 
@@ -254,6 +255,7 @@ Before, in Mautic 7:
         public function onWidgetDetail(WidgetDetailEvent $event): void
         {
             $event->setCacheDir($this->cacheDir);
+            $event->setCacheTimeout($widget->getCacheTimeout());
             $event->setTemplateData($templateData, $skipCache);
         }
     }
@@ -276,4 +278,3 @@ After, in Mautic 8:
             $event->setTemplateData($templateData);
         }
     }
-
