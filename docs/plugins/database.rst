@@ -47,18 +47,6 @@ You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\Class
         :returns: ``$this``
         :returntype: \\Mautic\\CoreBundle\\Doctrine\\Mapping\\ClassMetadataBuilder
 
-    .. php:method:: addContact([bool $nullable = false, string $onDelete = 'CASCADE', bool $isPrimaryKey = false, ?string $inversedBy = null)
-
-        Creates a many to one relationship with `Mautic\LeadBundle\Entity\Lead`. Defines a ``contact`` ORM property mapped to a ``contact_id`` column on the table with a foreign key to ``leads.id``.
-
-        :param bool $nullable: ``TRUE`` to allow ``NULL`` values.
-        :param string $onDelete: Foreign key reference option such as ``CASCADE`` or ``SET NULL``.
-        :param bool $isPrimaryKey: ``TRUE`` to configure this field as a primary key for the table.
-        :param string|null $inversedBy: Property on the ``Mautic\LeadBundle\Entity\Lead`` entity this relates to. This is only used by Core.
-
-        :returns: ``$this``
-        :returntype: \\Mautic\\CoreBundle\\Doctrine\\Mapping\\ClassMetadataBuilder
-
     .. php:method:: addDateAdded([bool $nullable = false])
 
         Creates a mutable date/time field. Defines a ``dateAdded`` ORM property mapped to a ``date_added`` column on the table.
