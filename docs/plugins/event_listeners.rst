@@ -394,6 +394,62 @@ The following table is the complete migration reference for AssetBundle event su
 
    ``WebhookEvent`` - dispatched for ``WEBHOOK_PRE_SAVE``, ``WEBHOOK_POST_SAVE``, ``WEBHOOK_PRE_DELETE``, ``WEBHOOK_POST_DELETE``, and ``WEBHOOK_KILL`` - still dispatches by its ``WebhookEvents`` constants, so keep keying on the constant for those.
 
+.. note::
+
+   The DashboardBundle applies the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` change to all four Widget events and removes the ``Mautic\DashboardBundle\DashboardEvents`` class. A subscriber that still references a ``DashboardEvents`` constant raises a ``Class "Mautic\DashboardBundle\DashboardEvents" not found`` error, and a subscriber keyed on a raw string name such as ``mautic.dashboard_on_widget_detail_generate`` silently receives nothing.
+
+The following table maps each old event name and ``DashboardEvents`` constant to the event class to key ``getSubscribedEvents()`` on. All event classes live in the ``Mautic\DashboardBundle\Event`` namespace:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 35 25
+
+   * - Old event name
+     - Removed ``DashboardEvents`` constant
+     - New event class
+   * - ``mautic.dashboard_on_widget_list_generate``
+     - ``DASHBOARD_ON_MODULE_LIST_GENERATE``
+     - ``WidgetTypeListEvent``
+   * - ``mautic.dashboard_on_widget_form_generate``
+     - ``DASHBOARD_ON_MODULE_FORM_GENERATE``
+     - ``WidgetFormEvent``
+   * - ``mautic.dashboard_on_widget_detail_pre_load``
+     - ``DASHBOARD_ON_MODULE_DETAIL_PRE_LOAD``
+     - ``PreLoadWidgetDetailEvent``
+   * - ``mautic.dashboard_on_widget_detail_generate``
+     - ``DASHBOARD_ON_MODULE_DETAIL_GENERATE``
+     - ``GenerateWidgetDetailEvent``
+
+Mautic previously dispatched ``WidgetDetailEvent`` under both detail event names. ``WidgetDetailEvent`` is now an abstract base class with two ``final`` subclasses, so each detail event has its own class:
+
+* ``PreLoadWidgetDetailEvent`` renders a Widget preview without data.
+* ``GenerateWidgetDetailEvent`` loads the Widget content with its data.
+
+Your listener methods can keep the ``WidgetDetailEvent`` type hint, because both subclasses extend it. Only the subscription keys change:
+
+.. code-block:: php
+
+    <?php
+
+    use Mautic\DashboardBundle\Event\GenerateWidgetDetailEvent;
+    use Mautic\DashboardBundle\Event\WidgetDetailEvent;
+    use Mautic\DashboardBundle\Event\WidgetTypeListEvent;
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            WidgetTypeListEvent::class       => ['onWidgetListGenerate', 0],
+            GenerateWidgetDetailEvent::class => ['onWidgetDetailGenerate', 0],
+        ];
+    }
+
+    public function onWidgetDetailGenerate(WidgetDetailEvent $event): void
+    {
+        // Set the Widget template and data.
+    }
+
+PHP can't instantiate an abstract class, so code that creates a ``WidgetDetailEvent`` directly, such as a Plugin test, must create ``GenerateWidgetDetailEvent`` or ``PreLoadWidgetDetailEvent`` instead. ``WidgetDetailEventFactory`` replaces its ``create()`` method with ``createPreLoad()`` and ``createGenerate()``.
+
 Custom events
 *************
 

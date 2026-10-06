@@ -537,6 +537,8 @@ Widget subscribers set the Widget template on ``Mautic\DashboardBundle\Event\Wid
    - public function setTemplate($template): void
    + public function setTemplate(string $template): void
 
+``WidgetDetailEvent`` is an abstract base class for the ``final`` ``PreLoadWidgetDetailEvent`` and ``GenerateWidgetDetailEvent`` classes that Mautic dispatches. For the event classes to subscribe to, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+
 .. vale off
 
 WidgetTypeListEvent
@@ -1249,7 +1251,7 @@ Mautic 8 declares more than 300 core classes ``final``, because no Mautic class 
 * A Plugin class that extends one of these classes causes a fatal error when PHP loads it, for example ``Class MauticPlugin\HelloWorldBundle\Model\MyPageModel cannot extend final class Mautic\PageBundle\Model\PageModel``.
 * A Plugin test that mocks one of these classes with :xref:`phpunit` fails, because the test framework can't create a test double of a ``final`` class.
 
-Some of the event classes described earlier in this guide are now ``final``, including ``ConfigBuilderEvent``, ``ConfigEvent``, ``WidgetDetailEvent``, ``EmailValidationEvent``, ``SubmissionEvent``, ``PointBuilderEvent``, ``AuthenticationEvent``, and ``WebhookBuilderEvent``. For these classes, the guidance about overriding typed methods no longer applies, because you can't extend them.
+Some of the event classes described earlier in this guide are now ``final``, including ``ConfigBuilderEvent``, ``ConfigEvent``, ``EmailValidationEvent``, ``SubmissionEvent``, ``PointBuilderEvent``, ``AuthenticationEvent``, and ``WebhookBuilderEvent``. For these classes, the guidance about overriding typed methods no longer applies, because you can't extend them.
 
 .. vale off
 
@@ -1266,7 +1268,6 @@ These event classes are now ``final``:
 * ``Mautic\ConfigBundle\Event\ConfigEvent``
 * ``Mautic\CoreBundle\Event\MaintenanceEvent``
 * ``Mautic\CoreBundle\Event\StatsEvent``
-* ``Mautic\DashboardBundle\Event\WidgetDetailEvent``
 * ``Mautic\EmailBundle\Event\EmailValidationEvent``
 * ``Mautic\FormBundle\Event\SubmissionEvent``
 * ``Mautic\IntegrationsBundle\Event\MauticSyncFieldsLoadEvent``
