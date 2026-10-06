@@ -108,7 +108,7 @@ To find the name Mautic dispatches an event under, and to confirm a re-key, run 
 Form, Integration, and Focus events dispatched by class name in Mautic 8
 ========================================================================
 
-Seven events across three bundles moved to class-name dispatch in Mautic 8. Those bundles are FormBundle, IntegrationsBundle, and MauticFocusBundle. You now subscribe using the event class shown in the table below.
+Nine events across three bundles moved to class-name dispatch in Mautic 8. Those bundles are FormBundle, IntegrationsBundle, and MauticFocusBundle. You now subscribe using the event class shown in the table below.
 
 .. list-table::
    :header-rows: 1
@@ -142,6 +142,14 @@ Seven events across three bundles moved to class-name dispatch in Mautic 8. Thos
      - ``mautic.integration.INTEGRATION_FIND_OWNER_IDS``
      - ``IntegrationEvents::INTEGRATION_FIND_OWNER_IDS``
      - ``Mautic\IntegrationsBundle\Event\InternalObjectOwnerEvent``
+   * - IntegrationsBundle
+     - ``mautic.integration.config_before_save``
+     - ``IntegrationEvents::INTEGRATION_CONFIG_BEFORE_SAVE``
+     - ``Mautic\IntegrationsBundle\Event\ConfigBeforeSaveEvent``
+   * - IntegrationsBundle
+     - ``mautic.integration.config_after_save``
+     - ``IntegrationEvents::INTEGRATION_CONFIG_AFTER_SAVE``
+     - ``Mautic\IntegrationsBundle\Event\ConfigAfterSaveEvent``
    * - MauticFocusBundle
      - ``mautic.focus.on_view``
      - ``FocusEvents::FOCUS_ON_VIEW``
@@ -149,7 +157,13 @@ Seven events across three bundles moved to class-name dispatch in Mautic 8. Thos
 
 The FormBundle event classes live in the ``Mautic\FormBundle\Event`` namespace and the IntegrationsBundle event classes in the ``Mautic\IntegrationsBundle\Event`` namespace, both under ``app/bundles/``. MauticFocusBundle is a Plugin under ``plugins/``, so its event class is in the ``MauticPlugin\MauticFocusBundle\Event`` namespace. Note the different top-level namespace.
 
-Only these seven events changed. Mautic keeps an event as a string constant when several event names share one event object, or when the event crosses bundle boundaries, so those events still dispatch by the string name. For example, the IntegrationsBundle ``INTEGRATION_CONFIG_*`` before-and-after pair reuses one ``ConfigSaveEvent``, and FormBundle's create, read, update, and delete group constants do the same. For those, the guidance in the :ref:`Available events <Plugins/event_listeners:Available events>` intro to always use the event constants still holds.
+Only these nine events changed. Mautic keeps an event as a string constant when several event names share one event object, or when the event crosses bundle boundaries, so those events still dispatch by the string name. For example, FormBundle's create, read, update, and delete group constants share one event object. For those, the guidance in the :ref:`Available events <Plugins/event_listeners:Available events>` intro to always use the event constants still holds.
+
+The IntegrationsBundle configuration save events used to follow that rule too, because the before-save and after-save names shared one ``ConfigSaveEvent``. Mautic 8 gives each its own class and removes both constants, so update these subscribers as follows:
+
+* Key ``getSubscribedEvents()`` on ``ConfigBeforeSaveEvent::class`` or ``ConfigAfterSaveEvent::class``. A subscriber still keyed on the raw string, such as ``mautic.integration.config_before_save``, silently receives nothing.
+* Remove references to ``IntegrationEvents::INTEGRATION_CONFIG_BEFORE_SAVE`` and ``IntegrationEvents::INTEGRATION_CONFIG_AFTER_SAVE``. Code that still references either constant raises an undefined-constant error.
+* Type-hint your listener method on the concrete subclass. ``ConfigSaveEvent`` is now abstract, but both subclasses keep its ``getIntegrationConfiguration()`` and ``getIntegration()`` methods.
 
 .. warning::
 
