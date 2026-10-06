@@ -396,6 +396,10 @@ The following table is the complete migration reference for AssetBundle event su
 
    In Mautic 8, ``Mautic\IntegrationsBundle\Event`` events whose class maps to a single event name dispatch by the event object alone. Key ``getSubscribedEvents()`` on the event class - for example ``InternalObjectEvent::class`` - for those. Families whose class serves several names, such as ``ConfigSaveEvent`` and ``InternalObjectFindEvent``, still dispatch by their ``IntegrationEvents`` constants, so keep keying on the constant for those. For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
+.. note::
+
+   The StatsBundle applies the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` change to the aggregate stat request event. Key ``getSubscribedEvents()`` on ``AggregateStatRequestEvent::class``, from the ``Mautic\StatsBundle\Event`` namespace. Mautic 8 removes the ``Mautic\StatsBundle\StatEvents`` class, so a subscriber that still references ``StatEvents::AGGREGATE_STAT_REQUEST`` raises a ``Class "Mautic\StatsBundle\StatEvents" not found`` error. A subscriber keyed on the raw ``mautic.aggregate_stat_request`` string silently receives nothing.
+
 Custom events
 *************
 
