@@ -150,9 +150,11 @@ Three events fire sequentially during SMS sending to filter Contacts before disp
 
 .. vale off
 
+.. _SMS filtering class-name dispatch note:
+
 .. note::
 
-   Since Mautic 8, Mautic dispatches these three filtering events by the event object alone, so you subscribe by the event class. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rule. The ``SmsEvents`` constants remain for backward compatibility but no longer dispatch these three events. Other SmsBundle events converted in Mautic 8 - such as ``SmsSendEvent`` and ``TokensBuildEvent`` - aren't covered here. The Campaign trigger, CRUD, and reply events still key on their ``SmsEvents`` constants.
+   Since Mautic 8, Mautic dispatches these three filtering events by the event object alone, so you subscribe by the event class. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rule. The ``SmsEvents`` constants remain for backward compatibility but no longer dispatch these three events. This section doesn't cover the other SmsBundle events that Mautic 8 converted, such as ``SmsSendEvent`` and ``TokensBuildEvent``. The Campaign trigger, CRUD, and reply events still key on their ``SmsEvents`` constants.
 
    To confirm Mautic registered your listener under the event's class name, run:
 
@@ -160,7 +162,7 @@ Three events fire sequentially during SMS sending to filter Contacts before disp
 
       bin/console debug:event-dispatcher 'Mautic\SmsBundle\Event\DncEvent'
 
-   Your subscriber's class and method appear in the listing for ``Mautic\SmsBundle\Event\DncEvent``. If they're absent, the subscriber isn't registered for that event.
+   Your subscriber's class and method appear in the listing for ``Mautic\SmsBundle\Event\DncEvent``. If they're absent, Mautic hasn't registered the subscriber for that event.
 
 For how to register a subscriber, see the :doc:`listeners and subscribers</plugins/event_listeners>` section.
 
@@ -205,7 +207,7 @@ Queue filter
 
 .. vale off
 
-Subscribe by ``QueueEvent::class`` - formerly ``SmsEvents::QUEUE_FILTER_CONTACTS_ON_SEND`` - to filter Contacts based on frequency rules or queueing logic. Its listener receives a ``QueueEvent``. See the Mautic 8 note at the start of this section about class-name dispatch.
+Subscribe by ``QueueEvent::class`` - formerly ``SmsEvents::QUEUE_FILTER_CONTACTS_ON_SEND`` - to filter Contacts based on frequency rules or queueing logic. Its listener receives a ``QueueEvent``. See the :ref:`Mautic 8 class-name dispatch note <SMS filtering class-name dispatch note>` at the start of this section.
 
 .. vale on
 
@@ -214,7 +216,7 @@ Generic filter
 
 .. vale off
 
-Subscribe by ``FilterEvent::class`` - formerly ``SmsEvents::FILTER_CONTACTS_ON_SEND`` - for any remaining filtering logic, such as removing Contacts without phone numbers. Its listener receives a ``FilterEvent``. See the Mautic 8 note at the start of this section about class-name dispatch.
+Subscribe by ``FilterEvent::class`` - formerly ``SmsEvents::FILTER_CONTACTS_ON_SEND`` - for any remaining filtering logic, such as removing Contacts without phone numbers. Its listener receives a ``FilterEvent``. See the :ref:`Mautic 8 class-name dispatch note <SMS filtering class-name dispatch note>` at the start of this section.
 
 .. vale on
 
