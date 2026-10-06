@@ -350,3 +350,20 @@ To remove a Project link, send the ``projects`` array again with only the IDs yo
 The entities that support linking to a Project are Assets, Campaigns, Companies, Dynamic Content, Emails, Focus Items, Forms, Landing Pages, Marketing Messages, Points, Point Triggers, Segments, Stages, and Text Messages.
 
 When an entity links to one or more Projects, the API serializes the ``projects`` association with the ``id`` and ``name`` of each linked Project.
+
+.. vale off
+
+Projects in API v2
+******************
+
+.. vale on
+
+You can also manage Projects through the API v2 at ``/api/v2/projects``. API v2 uses the API Platform conventions described in :doc:`/rest_api/api_v2`, so its paths and responses differ from the v1 endpoints described earlier:
+
+* ``GET /api/v2/projects``: lists Projects. The response contains the Projects in ``member`` and the total count in ``totalItems``.
+* ``GET /api/v2/projects/ID``: retrieves a Project.
+* ``POST /api/v2/projects``: creates a Project. The request body accepts ``name``, ``description``, and ``properties``. Returns ``201 Created``.
+* ``PUT /api/v2/projects/ID`` and ``PATCH /api/v2/projects/ID``: edit a Project.
+* ``DELETE /api/v2/projects/ID``: deletes a Project. Returns ``204 No Content``.
+
+Send requests with the ``application/ld+json`` media type in the ``Content-Type`` and ``Accept`` headers. For the full schema and to try requests from your browser, open ``/api/v2`` while logged in to Mautic.
