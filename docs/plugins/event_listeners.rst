@@ -388,6 +388,12 @@ The following table is the complete migration reference for AssetBundle event su
      - ``AssetEvents::ASSET_POST_DELETE``
      - ``AssetPostDeleteEvent``
 
+.. note::
+
+   The WebhookBundle applies the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` change. Mautic 8 converted only ``WebhookBuilderEvent``, ``WebhookQueueEvent``, and ``WebhookRequestEvent``, so key ``getSubscribedEvents()`` on the event class, for example ``WebhookBuilderEvent::class``, not on the matching ``Mautic\WebhookBundle\WebhookEvents`` constant.
+
+   ``WebhookEvent`` - dispatched for ``WEBHOOK_PRE_SAVE``, ``WEBHOOK_POST_SAVE``, ``WEBHOOK_PRE_DELETE``, ``WEBHOOK_POST_DELETE``, and ``WEBHOOK_KILL`` - still dispatches by its ``WebhookEvents`` constants, so keep keying on the constant for those.
+
 Custom events
 *************
 
