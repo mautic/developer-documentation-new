@@ -47,18 +47,6 @@ You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\Class
         :returns: ``$this``
         :returntype: \\Mautic\\CoreBundle\\Doctrine\\Mapping\\ClassMetadataBuilder
 
-    .. php:method:: addContact([bool $nullable = false, string $onDelete = 'CASCADE', bool $isPrimaryKey = false, ?string $inversedBy = null)
-
-        Creates a many to one relationship with `Mautic\LeadBundle\Entity\Lead`. Defines a ``contact`` ORM property mapped to a ``contact_id`` column on the table with a foreign key to ``leads.id``.
-
-        :param bool $nullable: ``TRUE`` to allow ``NULL`` values.
-        :param string $onDelete: Foreign key reference option such as ``CASCADE`` or ``SET NULL``.
-        :param bool $isPrimaryKey: ``TRUE`` to configure this field as a primary key for the table.
-        :param string|null $inversedBy: Property on the ``Mautic\LeadBundle\Entity\Lead`` entity this relates to. This is only used by Core.
-
-        :returns: ``$this``
-        :returntype: \\Mautic\\CoreBundle\\Doctrine\\Mapping\\ClassMetadataBuilder
-
     .. php:method:: addDateAdded([bool $nullable = false])
 
         Creates a mutable date/time field. Defines a ``dateAdded`` ORM property mapped to a ``date_added`` column on the table.
@@ -148,16 +136,16 @@ You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\Class
 
     .. php:method:: createManyToMany(string $name, string $targetEntity)
 
-        Creates a many to many field to the targeted entity. Instantiates and returns a ``Mautic\CoreBundle\Doctrine\Mapping\ManyToManyAssociationBuilder`` object that decorates ``Doctrine\ORM\Mapping\Builder\ManyToManyAssociationBuilder`` with ``orphanRemoval()`` support.
+        Creates a many to many field to the targeted entity. Instantiates and returns a ``Doctrine\ORM\Mapping\Builder\ManyToManyAssociationBuilder`` object, Doctrine's own builder, which supports ``orphanRemoval()`` natively.
 
         :param string $name: Name of the ORM field.
         :param string $targetEntity: Fully qualified classname for the targeted entity.
 
-        :returns: \\Mautic\\CoreBundle\\Doctrine\\Mapping\\ManyToManyAssociationBuilder
+        :returns: \\Doctrine\\ORM\\Mapping\\Builder\\ManyToManyAssociationBuilder
 
     .. php:method:: createManyToOne(string $name, string $targetEntity)
 
-        Creates a field with a many to one relationship to the targeted entity. Instantiates and returns a ``Mautic\CoreBundle\Doctrine\Mapping\AssociationBuilder`` object that decorates ``Doctrine\ORM\Mapping\Builder\AssociationBuilder`` with ``orphanRemoval()`` and ``isPrimaryKey()`` support.
+        Creates a field with a many to one relationship to the targeted entity. Instantiates and returns a ``Mautic\CoreBundle\Doctrine\Mapping\AssociationBuilder`` object that decorates ``Doctrine\ORM\Mapping\Builder\AssociationBuilder`` with ``isPrimaryKey()`` support.
 
         :param string $name: Name of the ORM field.
         :param string $targetEntity: Fully qualified classname for the targeted entity.
@@ -166,16 +154,16 @@ You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\Class
 
     .. php:method:: createOneToMany(string $name, string $targetEntity)
 
-        Creates a field with a one to many relationship to the targeted entity. Instantiates and returns a ``Mautic\CoreBundle\Doctrine\Mapping\OneToManyAssociationBuilder`` object that decorates ``Doctrine\ORM\Mapping\Builder\OneToManyAssociationBuilder`` with ``orphanRemoval()`` support.
+        Creates a field with a one to many relationship to the targeted entity. Instantiates and returns a ``Doctrine\ORM\Mapping\Builder\OneToManyAssociationBuilder`` object, Doctrine's own builder, which supports ``orphanRemoval()`` natively.
 
         :param string $name: Name of the ORM field.
         :param string $targetEntity: Fully qualified classname for the targeted entity.
 
-        :returns: \\Mautic\\CoreBundle\\Doctrine\\Mapping\\OneToManyAssociationBuilder
+        :returns: \\Doctrine\\ORM\\Mapping\\Builder\\OneToManyAssociationBuilder
 
     .. php:method:: createOneToOne(string $name, string $targetEntity)
 
-        Creates a field with a one to one relationship to the targeted entity. Instantiates and returns a ``Mautic\CoreBundle\Doctrine\Mapping\AssociationBuilder`` object that decorates ``Doctrine\ORM\Mapping\Builder\AssociationBuilder`` with ``orphanRemoval()`` and ``isPrimaryKey()`` support.
+        Creates a field with a one to one relationship to the targeted entity. Instantiates and returns a ``Mautic\CoreBundle\Doctrine\Mapping\AssociationBuilder`` object that decorates ``Doctrine\ORM\Mapping\Builder\AssociationBuilder`` with ``isPrimaryKey()`` support.
 
         :param string $name: Name of the ORM field.
         :param string $targetEntity: Fully qualified classname for the targeted entity.

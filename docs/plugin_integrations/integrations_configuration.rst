@@ -207,8 +207,8 @@ For example, if the Integration syncs with Mautic Contacts, ``getSupportedFeatur
 
 .. php:interface:: \Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeaturesInterface
 
-.. php:attr:: public const FEATURE_SYNC = 'sync';
-.. php:attr:: public const FEATURE_PUSH_ACTIVITY = 'push_activity';
+.. php:attr:: public const string FEATURE_SYNC = 'sync';
+.. php:attr:: public const string FEATURE_PUSH_ACTIVITY = 'push_activity';
 
 .. php:method:: public function getSupportedFeatures(): array;
 

@@ -18,7 +18,7 @@ There are two ways to extend Landing Pages:
 * Landing Page tokens used to insert Dynamic Content into a Landing Page
 * A/B test winning criteria
 
-Both use the ``\Mautic\PageBundle\PageEvents::PAGE_ON_BUILD`` event, and the tokens example below also handles the Page display event. In Mautic 8.0, the display event keys on ``PageDisplayEvent::class``, while ``PAGE_ON_BUILD`` stays keyed on its string constant.
+Both use the ``\Mautic\PageBundle\PageEvents::PAGE_ON_BUILD`` event, and the tokens example below also handles ``PageDisplayEvent``. In Mautic 8.0, the display event keys on ``PageDisplayEvent::class``, while ``PAGE_ON_BUILD`` stays keyed on its string constant.
 Read more about :ref:`plugins/event_listeners:Event listeners`.
 
 .. vale off
@@ -124,7 +124,7 @@ Below is an example of both Landing Page Tokens and Landing Page A/B Test Winner
 
 .. note::
 
-   In Mautic 8.0, Mautic dispatches the ``PageDisplayEvent`` by its class name, so re-key ``getSubscribedEvents()`` on ``PageDisplayEvent::class``, as shown above. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks on the old key and why.
+   In Mautic 8.0, Mautic dispatches the ``PageDisplayEvent`` by its class name, so re-key ``getSubscribedEvents()`` on ``PageDisplayEvent::class``, as the preceding example shows. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks on the old key and why.
 
 .. vale off
 
@@ -210,7 +210,7 @@ The event provides:
 Customizing Preference Center
 *****************************
 
-Preference Center lets Contacts manage their communication preferences. Since Mautic 7.2, you can customize the labels on Preference Center slot components using the Page display event.
+Preference Center lets Contacts manage their communication preferences. Since Mautic 7.2, you can customize the labels on Preference Center slot components using ``PageDisplayEvent``.
 
 .. vale on
 
