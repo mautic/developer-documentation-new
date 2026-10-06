@@ -18,7 +18,11 @@ There are two ways to extend Landing Pages:
 * Landing Page tokens used to insert Dynamic Content into a Landing Page
 * A/B test winning criteria
 
-Both leverage the ``\Mautic\PageBundle\PageEvents::PAGE_ON_BUILD`` event. Read more about :ref:`plugins/event_listeners:Event listeners`.
+Both use the ``Mautic\PageBundle\Event\PageBuilderEvent`` event. Read more about :ref:`plugins/event_listeners:Event listeners`.
+
+.. note::
+
+   Since Mautic 8, Mautic dispatches ``PageBuilderEvent`` by its class name, so key ``getSubscribedEvents()`` on ``PageBuilderEvent::class``. A subscriber still keyed on ``PageEvents::PAGE_ON_BUILD`` or ``mautic.page_on_build`` no longer receives the event. Mautic keeps the constant for backward compatibility but no longer dispatches it. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 .. vale off
 
@@ -72,7 +76,7 @@ Below is an example of both Landing Page Tokens and Landing Page A/B Test Winner
         static public function getSubscribedEvents()
         {
             return [
-                PageEvents::PAGE_ON_BUILD   => ['onPageBuild', 0],
+                PageBuilderEvent::class     => ['onPageBuild', 0],
                 PageEvents::PAGE_ON_DISPLAY => ['onPageDisplay', 0]
             ];
         }
