@@ -10,6 +10,8 @@
 
 .. vale on
 
+.. _event listeners:
+
 Event listeners
 ###############
 
@@ -72,7 +74,153 @@ Plugin event subscribers can extend ``Symfony\Component\EventDispatcher\EventSub
 Available events
 ****************
 
-There are many events available throughout Mautic. Depending on what you're trying to implement, look at the ``*Event.php`` for the core bundle, located in the root of the bundle. For example, the ``app\bundles\LeadBundle\LeadEvents.php`` file defines and describes events relating to Contacts. The final classes provide the names of the events to listen to. Always use the event constants to ensure future changes to event names won't break the Plugin.
+There are many events available throughout Mautic. To discover which events Mautic dispatches, run ``bin/console debug:event-dispatcher``. With no argument, it lists every event alongside its registered listeners. Pass an event name, or a partial name, to filter the output to matching events.
+
+.. _mautic 8 class-name event dispatch:
+
+Mautic 8: class-name event dispatch
+===================================
+
+Since Mautic 8, CoreBundle dispatches selected events by the event object, following the Symfony 4.3+ convention, so you subscribe on ``EventClass::class`` instead of the ``CoreEvents`` string constant.
+
+A subscriber still keyed on the old constant or the raw string silently receives nothing - no error, no log entry.
+
+To find the name Mautic dispatches an event under, and to confirm a re-key, run ``bin/console debug:event-dispatcher``, optionally passing the event class:
+
+.. code-block:: console
+
+    bin/console debug:event-dispatcher "Mautic\CoreBundle\Event\MenuEvent"
+
+:xref:`UPGRADE_GUIDE_8` maps each old CoreBundle event name and ``CoreEvents`` constant to its new event class.
+
+.. note::
+
+   In Mautic 8, Mautic dispatches the ``ContactFiltersEvaluateEvent`` by class name, so key ``getSubscribedEvents()`` on ``ContactFiltersEvaluateEvent::class``. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rationale.
+
+.. note::
+
+   The ``Mautic\UserBundle`` User and Role save and delete lifecycle events follow the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule. Key ``getSubscribedEvents()`` on the event class - for example ``PostSaveUserEvent::class`` in the ``Mautic\UserBundle\Event`` namespace - not on a ``UserEvents`` constant. Mautic 8 removed the eight User and Role save and delete constants from ``Mautic\UserBundle\UserEvents``, so a subscriber still keyed on one, such as ``UserEvents::USER_POST_SAVE``, raises an undefined-constant error instead of silently receiving nothing. The base ``UserEvent`` and ``RoleEvent`` classes are now abstract, so dispatch or type-hint the concrete ``Pre*`` or ``Post*`` subclass. Mautic 8 leaves the authentication constants, such as ``USER_LOGIN`` and ``USER_LOGOUT``, in place, so they still dispatch by their string names. The ``UPGRADE-8.0.md`` guide lists each removed constant with its replacement event class.
+
+.. note::
+
+   Starting in Mautic 8, Mautic dispatches some events by their event class rather than the ``*Events`` string constant. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+
+Form, Integration, and Focus events dispatched by class name in Mautic 8
+========================================================================
+
+Seven events across three bundles moved to class-name dispatch in Mautic 8. Those bundles are FormBundle, IntegrationsBundle, and MauticFocusBundle. You now subscribe using the event class shown in the table below.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 30 30 30
+
+   * - Bundle
+     - Old event name
+     - Constant
+     - New event class
+   * - FormBundle
+     - ``mautic.form_on_submit``
+     - ``FormEvents::FORM_ON_SUBMIT``
+     - ``Mautic\FormBundle\Event\SubmissionEvent``
+   * - FormBundle
+     - ``mautic.form_on_build``
+     - ``FormEvents::FORM_ON_BUILD``
+     - ``Mautic\FormBundle\Event\FormBuilderEvent``
+   * - FormBundle
+     - ``mautic.form.on_object_collect``
+     - ``FormEvents::ON_OBJECT_COLLECT``
+     - ``Mautic\FormBundle\Event\ObjectCollectEvent``
+   * - FormBundle
+     - ``mautic.form.on_field_collect``
+     - ``FormEvents::ON_FIELD_COLLECT``
+     - ``Mautic\FormBundle\Event\FieldCollectEvent``
+   * - IntegrationsBundle
+     - ``mautic.integration.INTEGRATION_FIND_INTERNAL_RECORDS``
+     - ``IntegrationEvents::INTEGRATION_FIND_INTERNAL_RECORDS``
+     - ``Mautic\IntegrationsBundle\Event\InternalObjectFindEvent``
+   * - IntegrationsBundle
+     - ``mautic.integration.INTEGRATION_FIND_OWNER_IDS``
+     - ``IntegrationEvents::INTEGRATION_FIND_OWNER_IDS``
+     - ``Mautic\IntegrationsBundle\Event\InternalObjectOwnerEvent``
+   * - MauticFocusBundle
+     - ``mautic.focus.on_view``
+     - ``FocusEvents::FOCUS_ON_VIEW``
+     - ``MauticPlugin\MauticFocusBundle\Event\FocusViewEvent``
+
+The FormBundle event classes live in the ``Mautic\FormBundle\Event`` namespace and the IntegrationsBundle event classes in the ``Mautic\IntegrationsBundle\Event`` namespace, both under ``app/bundles/``. MauticFocusBundle is a Plugin under ``plugins/``, so its event class is in the ``MauticPlugin\MauticFocusBundle\Event`` namespace. Note the different top-level namespace.
+
+Only these seven events changed. Mautic keeps an event as a string constant when several event names share one event object, or when the event crosses bundle boundaries, so those events still dispatch by the string name. For example, the IntegrationsBundle ``INTEGRATION_CONFIG_*`` before-and-after pair reuses one ``ConfigSaveEvent``, and FormBundle's create, read, update, and delete group constants do the same. For those, the guidance in the :ref:`Available events <Plugins/event_listeners:Available events>` intro to always use the event constants still holds.
+
+.. warning::
+
+   * The string value of ``FormEvents::FORM_ON_SUBMIT`` is ``mautic.form_on_submit``, which is also the persisted Webhook event-type identifier in ``WebhookSubscriber``. Only the event-dispatch subscription moved to ``SubmissionEvent::class``. This change doesn't affect Webhook configuration or the type identifier, so only your event-subscription code needs to change.
+   * ``FocusEventTypes::FOCUS_ON_VIEW`` is a separate stat-type identifier, and the change doesn't affect it. Only ``FocusEvents::FOCUS_ON_VIEW`` converted to class-name dispatch. Don't confuse the two.
+
+The following partial subscribers show the change for the FormBundle ``SubmissionEvent``. Each is a fragment, and only the ``getSubscribedEvents()`` key changes. Here's the pre-Mautic 8 subscriber:
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/FormSubmitSubscriber.php
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\FormBundle\Event\SubmissionEvent;
+    use Mautic\FormBundle\FormEvents;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class FormSubmitSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                FormEvents::FORM_ON_SUBMIT => ['onFormSubmit', 0],
+            ];
+        }
+
+        public function onFormSubmit(SubmissionEvent $event): void
+        {
+            // ...
+        }
+    }
+    // ...
+
+Here's the Mautic 8 subscriber:
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/FormSubmitSubscriber.php
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\FormBundle\Event\SubmissionEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class FormSubmitSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                SubmissionEvent::class => ['onFormSubmit', 0],
+            ];
+        }
+
+        public function onFormSubmit(SubmissionEvent $event): void
+        {
+            // ...
+        }
+    }
+    // ...
+
+.. tip::
+
+   Run ``bin/console debug:event-dispatcher`` to list the listeners registered for an event, optionally passing the event class to scope the output to one event. Run it before and after re-keying to confirm the subscriber binds to the new event-class name.
+
+   .. code-block:: console
+
+      bin/console debug:event-dispatcher
+      bin/console debug:event-dispatcher Mautic\FormBundle\Event\SubmissionEvent
 
 .. note::
 
