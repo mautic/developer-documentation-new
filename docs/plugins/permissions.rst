@@ -46,7 +46,7 @@ Using permissions
 
    <?php
 
-   $security = $this->get('mautic.security');
+   $security = $this->get(\Mautic\CoreBundle\Security\Permissions\CorePermissions::class);
 
    // Check if user is granted a single permission
    if ($security->isGranted('plugin:helloWorld:worlds:view')) {
@@ -92,7 +92,7 @@ Using permissions
        // do something
    }
 
-To determine if a User has a specific permission, use the Mautic security service, which you can obtain from the ``mautic.security`` service.
+To determine if a User has a specific permission, use Mautic's security service, provided by the ``Mautic\CoreBundle\Security\Permissions\CorePermissions`` class.
 
 Mautic uses specific notation to identify permissions:
 
