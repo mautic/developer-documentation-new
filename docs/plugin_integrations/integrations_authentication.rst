@@ -145,7 +145,7 @@ The Integration bundle comes with a number of popular authentication protocols a
 
 **The examples below use anonymous classes. Use Object Oriented Programming with services and factories to generate credential, configuration, and client classes.**
 
-The best way to get configuration values such as username, password, consumer key, consumer secret, and so forth is by using the ``mautic.integrations.helper`` ``(\Mautic\IntegrationsBundle\Helper\IntegrationsHelper)`` service to leverage the configuration stored in the ``Integration`` entity's API keys.
+The best way to get configuration values such as username, password, consumer key, consumer secret, and so forth is by using the ``\Mautic\IntegrationsBundle\Helper\IntegrationsHelper`` service to leverage the configuration stored in the ``Integration`` entity's API keys.
 
 .. code-block:: php
 
