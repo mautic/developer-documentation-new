@@ -327,7 +327,7 @@ Filter the list with SearchQueryEvent
 
    ``getQuery()`` may return either an ``ORM QueryBuilder`` or a ``DBAL QueryBuilder``, so your listener must not assume one or the other.
 
-   Mautic resolves its standard search commands first, then dispatches ``SearchQueryEvent`` for Plugin listeners, and only then falls back to its built-in Email command switch. So a listener-supplied expression takes precedence over the built-in Email commands: once a listener sets an expression, ``EmailRepository`` returns it and short-circuits that switch.
+   Mautic resolves its standard search commands first, then dispatches ``SearchQueryEvent`` for Plugin listeners, and only then falls back to its built-in Email command switch. When a listener sets an expression, ``EmailRepository`` returns it and skips that switch, so a listener-supplied expression takes precedence over the built-in Email commands.
 
 Document the command with SearchHelpEvent
 =========================================
@@ -402,7 +402,7 @@ The subscriber below registers an ``is:special`` command on the Email list and f
         }
     }
 
-The :doc:`Quick filters for searches</design/quick_filters>` documentation covers a complementary task: surfacing existing search commands as clickable quick-filter buttons. This section covers registering new commands instead. The two features compose, so you can register a command here and then optionally surface it as a quick-filter button as described there.
+The :doc:`Quick filters for searches</design/quick_filters>` documentation covers a complementary task. It explains how to surface existing search commands as clickable quick-filter buttons, while this section explains how to register new commands. The two features compose, so you can register a command here and then optionally surface it as a quick-filter button as described there.
 
 .. vale off
 
