@@ -356,6 +356,38 @@ In Mautic 8, the subscriber keys on the event class:
 
    To list the listeners registered for an event, run the Symfony console command ``bin/console debug:event-dispatcher``, optionally passing the event class to list only that event's listeners. Run it before and after re-keying a subscriber to confirm the subscriber now appears under the new event-class name.
 
+.. note::
+
+   The ``Mautic\AssetBundle\AssetEvents`` family follows the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule. Key ``getSubscribedEvents()`` on the event class - for example ``AssetLoadEvent::class`` in the ``Mautic\AssetBundle\Event`` namespace - not on the ``AssetEvents::*`` constant or the raw string name such as ``mautic.asset_on_load``. Mautic also removed the dead ``ASSET_ON_UPLOAD`` constant, which it never dispatched or listened to.
+
+The following table is the complete migration reference for AssetBundle event subscribers. It maps each old event name and ``AssetEvents`` constant to its new event class. All new event classes live in the ``Mautic\AssetBundle\Event`` namespace, and ``app/bundles/AssetBundle/AssetEvents.php`` defines the constants.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 35 25
+
+   * - Old event name
+     - AssetEvents constant
+     - New event class
+   * - ``mautic.asset_on_load``
+     - ``AssetEvents::ASSET_ON_LOAD``
+     - ``AssetLoadEvent``
+   * - ``mautic.asset_on_remote_browse``
+     - ``AssetEvents::ASSET_ON_REMOTE_BROWSE``
+     - ``RemoteAssetBrowseEvent``
+   * - ``mautic.asset_pre_save``
+     - ``AssetEvents::ASSET_PRE_SAVE``
+     - ``AssetPreSaveEvent``
+   * - ``mautic.asset_post_save``
+     - ``AssetEvents::ASSET_POST_SAVE``
+     - ``AssetPostSaveEvent``
+   * - ``mautic.asset_pre_delete``
+     - ``AssetEvents::ASSET_PRE_DELETE``
+     - ``AssetPreDeleteEvent``
+   * - ``mautic.asset_post_delete``
+     - ``AssetEvents::ASSET_POST_DELETE``
+     - ``AssetPostDeleteEvent``
+
 Custom events
 *************
 
