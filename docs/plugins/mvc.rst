@@ -86,7 +86,7 @@ Mautic has several controllers that provide some helper functions.
 
 .. vale on
 
-The ``CommonController`` also provides the following helper methods:
+The ``CommonController`` also provides the following helper methods. Mautic declares them with PHP's ``protected`` visibility keyword, so call them through ``$this`` from your controller's actions.
 
 1.1 ``delegateView($args)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -207,12 +207,14 @@ Similar to ``delegateView()``, but used after an action like saving a Form. Acce
 
 .. vale off
 
-\2. FormController - ``Mautic\CoreBundle\Controller\FormController``
-====================================================================
-
-This controller extends ``CommonController`` and provides helper methods for managing Forms.
+\2. AbstractFormController - ``Mautic\CoreBundle\Controller\AbstractFormController``
+------------------------------------------------------------------------------------
 
 .. vale on
+
+This controller extends ``CommonController`` and adds helper methods for handling Symfony ``FormInterface`` objects, such as ``isFormCancelled()``, ``isFormApplied()``, and ``isFormValid()``, plus entity locking through ``isLocked()``. It also gives your controller the ``$this->formFactory`` service for building them.
+
+If your controller manages an entity with the standard list, view, new, edit, clone, and delete actions, extend ``Mautic\CoreBundle\Controller\AbstractStandardFormController`` instead. It extends ``AbstractFormController`` and provides those actions through helpers such as ``indexStandard()``, ``newStandard()``, and ``editStandard()``. Your controller must implement ``getModelName()``, and can override methods such as ``getTemplateBase()``, ``getRouteBase()``, and ``getSessionBase()`` when the defaults derived from the model name don't fit.
 
 .. code-block:: php
 
@@ -221,9 +223,9 @@ This controller extends ``CommonController`` and provides helper methods for man
 
     namespace MauticPlugin\HelloWorldBundle\Controller;
 
-    use Mautic\CoreBundle\Controller\FormController;
+    use Mautic\CoreBundle\Controller\AbstractFormController;
 
-    class DefaultController extends FormController
+    class DefaultController extends AbstractFormController
     {
         public function worldAction(string $world = 'earth', WorldModel $model): Response
         {
@@ -293,7 +295,7 @@ This controller extends ``CommonController`` and provides helper methods for man
                 [
                     'viewParameters'  => [
                         'form' => $form->createView()
-                    ),
+                    ],
                     'contentTemplate' => '@HelloWorld/Contact/form.html.twig',
                     'passthroughVars' => [
                         'activeLink' => 'plugin_helloworld_contact',
@@ -307,7 +309,7 @@ This controller extends ``CommonController`` and provides helper methods for man
 .. vale off
 
 \3. AjaxController - ``Mautic\CoreBundle\Controller\AjaxController``
-====================================================================
+--------------------------------------------------------------------
 
 .. vale on
 
@@ -435,7 +437,7 @@ The upgrade risk is a signature mismatch. If your Plugin's Model subclass overri
 
 Mautic types the entity parameter as ``object`` rather than a concrete entity class on purpose, because PHP fails with a fatal error when an inherited signature narrows a parameter type. The method-specific ``@param <Entity>`` annotations stay in place for that specificity.
 
-The core ``saveEntity()`` overrides adopt the ``object`` type in Mautic 8 for the same reason - for example ``AssetModel``, ``EmailModel``, ``LeadModel``, ``PageModel``, and ``UserModel``. If your Plugin extends one of these Models rather than ``FormModel`` directly, apply the same rule to your override.
+The core ``saveEntity()`` overrides adopt the ``object`` type in Mautic 8 for the same reason - for example ``AssetModel``, ``EmailModel``, ``LeadModel``, ``PageModel``, and ``UserModel``. If your Plugin extends ``EmailModel`` or ``LeadModel`` rather than ``FormModel`` directly, apply the same rule to your override. ``AssetModel``, ``PageModel``, and ``UserModel`` are ``final`` in Mautic 8, so a Plugin can't extend them. See :ref:`Final classes <Mautic 8 final classes>`.
 
 Mautic 8 also types one public method on the parent ``AbstractCommonModel`` class, which ``FormModel`` and Plugin Models both extend: ``encodeArrayForUrl($array)`` becomes ``encodeArrayForUrl(array $array)``. The same override-compatibility rule applies.
 
