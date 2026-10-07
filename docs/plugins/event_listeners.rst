@@ -97,7 +97,34 @@ To find the name Mautic dispatches an event under, and to confirm a re-key, run 
 
 .. note::
 
-   The ``Mautic\UserBundle`` User and Role save and delete lifecycle events follow the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule. Key ``getSubscribedEvents()`` on the event class - for example ``PostSaveUserEvent::class`` in the ``Mautic\UserBundle\Event`` namespace - not on a ``UserEvents`` constant. Mautic 8 removed the eight User and Role save and delete constants from ``Mautic\UserBundle\UserEvents``, so a subscriber still keyed on one, such as ``UserEvents::USER_POST_SAVE``, raises an undefined-constant error instead of silently receiving nothing. The base ``UserEvent`` and ``RoleEvent`` classes are now abstract, so dispatch or type-hint the concrete ``Pre*`` or ``Post*`` subclass. Mautic 8 leaves the authentication constants, such as ``USER_LOGIN`` and ``USER_LOGOUT``, in place, so they still dispatch by their string names. The ``UPGRADE-8.0.md`` guide lists each removed constant with its replacement event class.
+   The ``Mautic\UserBundle`` events follow the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule, and Mautic 8 removes the ``Mautic\UserBundle\UserEvents`` class. A subscriber that still references a ``UserEvents`` constant, such as ``UserEvents::USER_POST_SAVE`` or ``UserEvents::USER_LOGIN``, raises a ``Class "Mautic\UserBundle\UserEvents" not found`` error. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\UserBundle\Event`` namespace instead.
+
+   For the User and Role save and delete events, subscribe to the concrete ``Pre*`` or ``Post*`` subclass, for example ``PostSaveUserEvent::class``. The base ``UserEvent`` and ``RoleEvent`` classes are now abstract, so dispatch or type-hint the concrete subclass.
+
+   The authentication events map to these event classes:
+
+   .. list-table::
+      :header-rows: 1
+      :widths: 50 50
+
+      * - Removed ``UserEvents`` constant
+        - Event class
+      * - ``USER_LOGIN``
+        - ``LoginEvent``
+      * - ``USER_LOGOUT``
+        - ``LogoutEvent``
+      * - ``USER_PRE_AUTHENTICATION``
+        - ``PreAuthenticationEvent``
+      * - ``USER_FORM_AUTHENTICATION``
+        - ``FormAuthenticationEvent``
+      * - ``USER_AUTHENTICATION_CONTENT``
+        - ``AuthenticationContentEvent``
+      * - ``USER_PASSWORD_STRENGTH_VALIDATION``
+        - ``PasswordStrengthValidateEvent``
+
+   Mautic previously dispatched ``AuthenticationEvent`` under both the pre-authentication and the form authentication names. ``AuthenticationEvent`` is now an abstract base class for ``PreAuthenticationEvent`` and ``FormAuthenticationEvent``, so a listener method can keep its ``AuthenticationEvent`` type hint. Code that creates an ``AuthenticationEvent`` with ``new``, such as a Plugin test, must create one of the subclasses instead. Mautic also removes the ``USER_FORM_POST_LOCAL_PASSWORD_AUTHENTICATION`` constant without a replacement, because Mautic never dispatched an event under it.
+
+   The ``UPGRADE-8.0.md`` guide lists each removed constant with its replacement event class.
 
 .. note::
 
@@ -424,7 +451,7 @@ The following table is the complete migration reference for AssetBundle event su
 
 .. note::
 
-   In Mautic 8, ``Mautic\IntegrationsBundle\Event`` events whose class maps to a single event name dispatch by the event object alone. Key ``getSubscribedEvents()`` on the event class - for example ``InternalObjectEvent::class`` - for those. Families whose class serves several names, such as ``ConfigSaveEvent`` and ``InternalObjectFindEvent``, still dispatch by their ``IntegrationEvents`` constants, so keep keying on the constant for those. For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+   In Mautic 8, ``Mautic\IntegrationsBundle\Event`` events whose class maps to a single event name dispatch by the event object alone. Key ``getSubscribedEvents()`` on the event class - for example ``InternalObjectEvent::class`` - for those. Families whose class serves several names, such as ``InternalObjectFindEvent``, still dispatch by their ``IntegrationEvents`` constants, so keep keying on the constant for those. For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 .. vale off
 
@@ -501,7 +528,7 @@ PHP can't instantiate an abstract class, so code that creates a ``WidgetDetailEv
 
 .. note::
 
-   Since Mautic 8.0, Mautic dispatches the authentication content and Segment filtering events by class name - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`. To inject HTML into the login UI, key ``getSubscribedEvents()`` on ``Mautic\UserBundle\Event\AuthenticationContentEvent::class``. To apply custom Segment filter logic, key it on ``Mautic\LeadBundle\Event\LeadListFilteringEvent::class``. The ``UserEvents::USER_AUTHENTICATION_CONTENT`` and ``LeadEvents::LIST_FILTERS_ON_FILTERING`` constants remain defined, but a subscriber still keyed on either one silently receives nothing.
+   Since Mautic 8.0, Mautic dispatches the authentication content and Segment filtering events by class name - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`. To inject HTML into the login UI, key ``getSubscribedEvents()`` on ``Mautic\UserBundle\Event\AuthenticationContentEvent::class``. To apply custom Segment filter logic, key it on ``Mautic\LeadBundle\Event\LeadListFilteringEvent::class``. The ``LeadEvents::LIST_FILTERS_ON_FILTERING`` constant remains defined, but a subscriber still keyed on it silently receives nothing. Mautic 8 removes the ``UserEvents`` class, so a subscriber that still references ``UserEvents::USER_AUTHENTICATION_CONTENT`` raises a class-not-found error.
 
 .. note::
 

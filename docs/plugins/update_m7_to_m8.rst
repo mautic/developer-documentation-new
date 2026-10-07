@@ -355,7 +355,7 @@ CampaignLeadChangeEvent
 
 .. vale on
 
-Subscribers to Campaign membership changes receive ``Mautic\CampaignBundle\Event\CampaignLeadChangeEvent``, a ``final`` class, so the override risk doesn't apply. Its constructor types ``$leads``, and ``getLead()`` gains a return type:
+Subscribers to Campaign membership changes receive ``CampaignSingleLeadChangeEvent`` or ``CampaignBatchLeadChangeEvent``. Both are ``final`` subclasses of the abstract ``Mautic\CampaignBundle\Event\CampaignLeadChangeEvent``, so the override risk doesn't apply. The base class constructor types ``$leads``, and ``getLead()`` gains a return type:
 
 .. code:: diff
 
@@ -966,7 +966,7 @@ AuthenticationEvent
 
 .. vale on
 
-Authentication Integrations set the User on ``Mautic\UserBundle\Event\AuthenticationEvent``. ``setUser()`` types ``$saveUser`` and ``$createIfNotExists`` as ``bool``, and ``setIsAuthenticated()`` types ``$createIfNotExists`` as ``bool``:
+Authentication Integrations set the User on the ``PreAuthenticationEvent`` or ``FormAuthenticationEvent`` that Mautic dispatches. Both are ``final`` subclasses of the abstract ``Mautic\UserBundle\Event\AuthenticationEvent``, which defines these methods. ``setUser()`` types ``$saveUser`` and ``$createIfNotExists`` as ``bool``, and ``setIsAuthenticated()`` types ``$createIfNotExists`` as ``bool``:
 
 .. code:: diff
 
@@ -1392,7 +1392,7 @@ Mautic 8 declares more than 300 core classes ``final``, because no Mautic class 
 * A Plugin class that extends one of these classes causes a fatal error when PHP loads it, for example ``Class MauticPlugin\HelloWorldBundle\Model\MyPageModel cannot extend final class Mautic\PageBundle\Model\PageModel``.
 * A Plugin test that mocks one of these classes with :xref:`phpunit` fails, because the test framework can't create a test double of a ``final`` class.
 
-Some of the event classes described earlier in this guide are now ``final``, including ``ConfigBuilderEvent``, ``ConfigEvent``, ``EmailValidationEvent``, ``SubmissionEvent``, ``PointBuilderEvent``, ``AuthenticationEvent``, and ``WebhookBuilderEvent``. For these classes, the guidance about overriding typed methods no longer applies, because you can't extend them.
+Some of the event classes described earlier in this guide are now ``final``, including ``ConfigBuilderEvent``, ``ConfigEvent``, ``EmailValidationEvent``, ``SubmissionEvent``, ``PointBuilderEvent``, and ``WebhookBuilderEvent``. For these classes, the guidance about overriding typed methods no longer applies, because you can't extend them.
 
 .. vale off
 
@@ -1426,7 +1426,6 @@ These event classes are now ``final``:
 * ``Mautic\ReportBundle\Event\ReportGeneratorEvent``
 * ``Mautic\ReportBundle\Event\ReportGraphEvent``
 * ``Mautic\SmsBundle\Event\SmsSendEvent``
-* ``Mautic\UserBundle\Event\AuthenticationEvent``
 * ``Mautic\UserBundle\Event\LoginEvent``
 * ``Mautic\WebhookBundle\Event\WebhookBuilderEvent``
 * ``Mautic\WebhookBundle\Event\WebhookEvent``

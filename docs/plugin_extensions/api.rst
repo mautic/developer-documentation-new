@@ -423,7 +423,7 @@ Both classes extend the abstract ``Mautic\ApiBundle\Event\ClientEvent``. Call ``
 Upgrade API event subscribers to Mautic 8
 *****************************************
 
-Mautic 8 dispatches the ApiBundle events by their event class and removes their string constants from ``Mautic\ApiBundle\ApiEvents``. A subscriber that still references a removed constant raises an undefined-constant error when PHP loads it. Key ``getSubscribedEvents()`` on the replacement event class instead:
+Mautic 8 dispatches the ApiBundle events by their event class and removes the ``Mautic\ApiBundle\ApiEvents`` class. A subscriber that still references an ``ApiEvents`` constant raises a ``Class "Mautic\ApiBundle\ApiEvents" not found`` error. Key ``getSubscribedEvents()`` on the replacement event class instead:
 
 .. list-table::
    :header-rows: 1
@@ -439,11 +439,15 @@ Mautic 8 dispatches the ApiBundle events by their event class and removes their 
      - ``ClientPostSaveEvent::class``
    * - ``ApiEvents::CLIENT_POST_DELETE``
      - ``ClientPostDeleteEvent::class``
+   * - ``ApiEvents::API_PRE_SERIALIZATION_CONTEXT``
+     - ``PreSerializationContextEvent::class``
+   * - ``ApiEvents::API_POST_SERIALIZATION_CONTEXT``
+     - ``PostSerializationContextEvent::class``
    * - ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT``
      - ``ApiPlatformPermissionContextEvent::class``
 
 Mautic 8 also removes ``ApiEvents::CLIENT_PRE_SAVE`` and ``ApiEvents::BUILD_ROUTE``. Mautic didn't dispatch any event under these constants, so remove any subscriptions to them.
 
-``ApiEntityEvent`` and ``ClientEvent`` are now abstract, so code that creates them with ``new`` must create the matching ``PreSave*``, ``PostSave*``, or ``ClientPost*`` subclass instead. Only the ``ApiEvents::API_PRE_SERIALIZATION_CONTEXT`` and ``ApiEvents::API_POST_SERIALIZATION_CONTEXT`` constants remain, and those events still dispatch by their string names.
+Mautic previously dispatched one event object under each pair of names. ``ApiEntityEvent``, ``ClientEvent``, and ``ApiSerializationContextEvent`` are now abstract base classes, so listener type hints on them keep working. Code that creates one of them with ``new`` must create the matching ``PreSave*``, ``PostSave*``, ``ClientPost*``, or ``*SerializationContextEvent`` subclass instead.
 
 For the general rule, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
