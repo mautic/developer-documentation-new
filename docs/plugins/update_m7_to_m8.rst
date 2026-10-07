@@ -1491,6 +1491,113 @@ Run :xref:`phpstan` against your Plugin on Mautic 8 to find any override whose r
 
 .. vale off
 
+Nullable getter methods and Integration changes
+***********************************************
+
+.. vale on
+
+Some Mautic 7 getter methods, whose names start with ``get``, declared a return type that excludes ``null`` while returning a property that can hold ``null``. Calling one of them before Mautic set the property raised a ``TypeError``. Mautic 8 corrects these methods, and the correction also changes three Integration classes and methods that Plugins call directly.
+
+.. vale off
+
+Integration response event
+==========================
+
+.. vale on
+
+Listeners to ``PluginEvents::PLUGIN_ON_INTEGRATION_RESPONSE`` now receive a new ``Mautic\PluginBundle\Event\PluginIntegrationResponseEvent`` instead of ``PluginIntegrationRequestEvent``. ``AbstractIntegration::makeRequest()`` creates the new event with the Integration and the response, so ``getResponse()`` always returns a ``Psr\Http\Message\ResponseInterface``. ``PluginIntegrationRequestEvent`` no longer has ``getResponse()`` or ``setResponse()``.
+
+A listener that still type-hints ``PluginIntegrationRequestEvent`` raises a ``TypeError`` when Mautic dispatches the event. Change the type hint:
+
+.. code:: diff
+
+   - public function onResponse(PluginIntegrationRequestEvent $event): void
+   + public function onResponse(PluginIntegrationResponseEvent $event): void
+     {
+         $response = $event->getResponse();
+
+The new event extends ``AbstractPluginIntegrationEvent``, so ``getIntegration()`` and ``getIntegrationName()`` still work. Listeners to ``PluginEvents::PLUGIN_ON_INTEGRATION_REQUEST`` still receive ``PluginIntegrationRequestEvent``, but can no longer read the response from it.
+
+.. vale off
+
+MappingManualDAO
+================
+
+.. vale on
+
+The mapping manual, described in :doc:`/plugin_integrations/integrations_sync`, now takes its object mappings in the constructor. ``Mautic\IntegrationsBundle\Sync\DAO\Mapping\MappingManualDAO`` requires an array of ``ObjectMappingDAO`` objects as its second argument, and ``addObjectMapping()`` is now ``private``:
+
+.. code:: diff
+
+   - public function __construct(private readonly string $integration)
+   + public function __construct(private readonly string $integration, array $objectsMapping)
+
+   - public function addObjectMapping(ObjectMappingDAO $objectMappingDAO): void
+   + private function addObjectMapping(ObjectMappingDAO $objectMappingDAO): void
+
+Build each ``ObjectMappingDAO`` first, then pass them all to the constructor. You can still add field mappings to each ``ObjectMappingDAO`` after you create the manual:
+
+.. code:: diff
+
+   - $mappingManual = new MappingManualDAO(self::NAME);
+     $leadObjectMapping = new ObjectMappingDAO(Contact::NAME, 'lead');
+   - $mappingManual->addObjectMapping($leadObjectMapping);
+   + $mappingManual = new MappingManualDAO(self::NAME, [$leadObjectMapping]);
+
+.. vale off
+
+getIntegrationConfiguration()
+=============================
+
+.. vale on
+
+``getIntegrationConfiguration()`` from ``Mautic\IntegrationsBundle\Integration\ConfigurationTrait`` keeps its ``Integration`` return type. When Mautic hasn't set the configuration, the method now throws a ``\LogicException`` instead of a ``TypeError``. If your Integration code can run before Mautic sets the configuration, call ``hasIntegrationConfiguration()`` first:
+
+.. code-block:: php
+
+   if ($integration->hasIntegrationConfiguration()) {
+       $apiKeys = $integration->getIntegrationConfiguration()->getApiKeys();
+   }
+
+.. vale off
+
+Getter methods that can return null
+===================================
+
+.. vale on
+
+These getter methods now declare a return type that accepts ``null``. When the value is ``null``, Mautic 7 raised a ``TypeError`` and Mautic 8 returns ``null``. If your Plugin passes a result to a parameter that doesn't accept ``null``, handle the ``null`` case first:
+
+.. code:: diff
+
+   - public function getViewName(): string
+   + public function getViewName(): ?string                          // CustomContentEvent
+
+   - public function getContent(): string|array
+   + public function getContent(): string|array|null                 // TokenReplacementEvent
+
+   - public function getPostSubmitPayload(): array
+   + public function getPostSubmitPayload(): ?array                  // SubmissionEvent
+
+   - public function getChangeDateTime(): \DateTimeInterface
+   + public function getChangeDateTime(): ?\DateTimeInterface        // ObjectChangeDAO
+
+   - public function getObjectMapping(): ObjectMapping
+   + public function getObjectMapping(): ?ObjectMapping              // ObjectChangeDAO
+
+``CustomContentEvent`` and ``TokenReplacementEvent`` are in ``Mautic\CoreBundle\Event``, ``SubmissionEvent`` is in ``Mautic\FormBundle\Event``, and ``ObjectChangeDAO`` is in ``Mautic\IntegrationsBundle\Sync\DAO\Sync\Order``. ``ObjectChangeDAO::getObjectMapping()`` returns ``null`` until the sync engine persists the object mapping.
+
+The same change applies to these entity and DTO getter methods:
+
+* ``Mautic\ApiBundle\Entity\oAuth2\Client::getRole()`` returns ``?Role``.
+* ``Mautic\EmailBundle\Entity\EmailDraft::getHtml()`` and ``getTemplate()`` return ``?string``, and ``getPublishStatus()`` returns ``?bool``.
+* ``Mautic\PageBundle\Entity\Page::getCloneObjectId()`` returns ``?int``, and ``getPublicPreview()`` returns ``?bool``.
+* ``Mautic\CampaignBundle\DTO\PublishState::getPublished()`` returns ``?bool``.
+
+An override that keeps the old non-nullable return type is still compatible, because PHP allows a child method to narrow its return type.
+
+.. vale off
+
 Return types on Core base classes and interfaces
 ************************************************
 
