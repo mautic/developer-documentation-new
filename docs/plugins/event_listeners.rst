@@ -412,6 +412,48 @@ The following table is the complete migration reference for AssetBundle event su
 
    In Mautic 8, ``Mautic\IntegrationsBundle\Event`` events whose class maps to a single event name dispatch by the event object alone. Key ``getSubscribedEvents()`` on the event class - for example ``InternalObjectEvent::class`` - for those. Families whose class serves several names, such as ``ConfigSaveEvent`` and ``InternalObjectFindEvent``, still dispatch by their ``IntegrationEvents`` constants, so keep keying on the constant for those. For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
+.. vale off
+
+Since Mautic 8, some bundles dispatch an event by the event object alone rather than by a string constant, so you key ``getSubscribedEvents()`` on the event class. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rule. The notes below cover the StageBundle and DashboardBundle events.
+
+.. note::
+
+   Since Mautic 8, Mautic dispatches ``Mautic\StageBundle\Event\StageBuilderEvent`` by the event object alone. Key ``getSubscribedEvents()`` on ``StageBuilderEvent::class``, not on ``StageEvents::STAGE_ON_BUILD`` or the string ``mautic.stage_on_build``. Those constants remain for backward compatibility but no longer dispatch this event. Mautic still dispatches the ``StageEvent`` CRUD group, ``STAGE_ON_ACTION``, and ``ON_CAMPAIGN_BATCH_ACTION`` by their string constants.
+
+   .. code-block:: php
+
+      return [
+          StageBuilderEvent::class => ['onStageBuild', 0],
+          // ...
+      ];
+
+.. note::
+
+   Since Mautic 8, Mautic dispatches two DashboardBundle widget events by the event object alone. Key ``getSubscribedEvents()`` on the event class rather than on the former constant. The classes live in ``Mautic\DashboardBundle\Event``.
+
+   .. list-table::
+      :header-rows: 1
+      :widths: 50 50
+
+      * - Former event constant
+        - Mautic 8 event class - subscription key
+      * - ``DASHBOARD_ON_MODULE_LIST_GENERATE``
+        - ``WidgetTypeListEvent``
+      * - ``DASHBOARD_ON_MODULE_FORM_GENERATE``
+        - ``WidgetFormEvent``
+
+   The former constants remain for backward compatibility but no longer dispatch these events. Mautic still dispatches ``DASHBOARD_ON_MODULE_DETAIL_GENERATE`` and ``DASHBOARD_ON_MODULE_DETAIL_PRE_LOAD`` - both sharing ``WidgetDetailEvent`` - by their string constants.
+
+   .. code-block:: php
+
+      return [
+          WidgetTypeListEvent::class => ['onWidgetListGenerate', 0],
+          WidgetFormEvent::class     => ['onWidgetFormGenerate', 0],
+          // ...
+      ];
+
+.. vale on
+
 Custom events
 *************
 
