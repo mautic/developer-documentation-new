@@ -150,6 +150,20 @@ Three events fire sequentially during SMS sending to filter Contacts before disp
 
 .. vale off
 
+.. _SMS filtering class-name dispatch note:
+
+.. note::
+
+   Since Mautic 8, Mautic dispatches these three filtering events by the event object alone, so you subscribe by the event class. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rule. Mautic 8 removed the ``DNC_FILTER_CONTACTS_ON_SEND``, ``QUEUE_FILTER_CONTACTS_ON_SEND``, and ``FILTER_CONTACTS_ON_SEND`` constants from ``SmsEvents``. This section doesn't cover the other SmsBundle events that Mautic 8 converted, such as ``SmsSendEvent`` and ``TokensBuildEvent``. For the SMS save, delete, and reply events, see `SMS lifecycle and reply events`_.
+
+   To confirm Mautic registered your listener under the event's class name, run:
+
+   .. code-block:: bash
+
+      bin/console debug:event-dispatcher 'Mautic\SmsBundle\Event\DncEvent'
+
+   Your subscriber's class and method appear in the listing for ``Mautic\SmsBundle\Event\DncEvent``. If they're absent, Mautic hasn't registered the subscriber for that event.
+
 For how to register a subscriber, see the :doc:`listeners and subscribers</plugins/event_listeners>` section.
 
 Do Not Contact filter
@@ -180,6 +194,7 @@ Subscribe to ``DncEvent::class`` to filter Contacts based on **Do Not Contact** 
        public function onDncFilter(DncEvent $event): void
        {
            foreach ($event->getContacts() as $id => $contact) {
+               // shouldExclude() stands in for your own exclusion logic.
                if ($this->shouldExclude($contact)) {
                    $event->removeContact($id);
                }
@@ -190,12 +205,20 @@ Subscribe to ``DncEvent::class`` to filter Contacts based on **Do Not Contact** 
 Queue filter
 ============
 
-Subscribe to ``QueueEvent::class`` to filter Contacts based on frequency rules or queueing logic. The listener receives a ``QueueEvent``.
+.. vale off
+
+Subscribe to ``QueueEvent::class`` to filter Contacts based on frequency rules or queueing logic. The listener receives a ``QueueEvent``. See the :ref:`Mautic 8 class-name dispatch note <SMS filtering class-name dispatch note>`.
+
+.. vale on
 
 Generic filter
 ==============
 
-Subscribe to ``FilterEvent::class`` for any remaining filtering logic, such as removing Contacts without phone numbers. The listener receives a ``FilterEvent``.
+.. vale off
+
+Subscribe to ``FilterEvent::class`` for any remaining filtering logic, such as removing Contacts without phone numbers. The listener receives a ``FilterEvent``. See the :ref:`Mautic 8 class-name dispatch note <SMS filtering class-name dispatch note>`.
+
+.. vale on
 
 All three event classes share a common API, shown here for :xref:`FilterEvent source`:
 
@@ -212,7 +235,7 @@ When integrating SMS with Campaigns, use the batch Campaign action event for bet
 Batch action event
 ==================
 
-Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` to handle Campaign SMS actions. Set it as the ``batchEventName`` when registering the action on ``CampaignEvents::CAMPAIGN_ON_BUILD``. See :doc:`/plugin_extensions/campaigns` for the full Campaign action workflow.
+Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` to handle Campaign SMS actions. Set it as the ``batchEventName`` when registering the action on ``CampaignBuilderEvent::class``. See :doc:`/plugin_extensions/campaigns` for the full Campaign action workflow.
 
 .. code-block:: php
 
