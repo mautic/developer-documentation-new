@@ -93,4 +93,4 @@ Mautic leverages middlewares before booting Symfony, see ``app/middlewares``. Fo
 Custom Translator
 *****************
 
-Mautic has a custom Translator that extends Symfony's ``Translator`` class and enables Mautic's distributable language package model. All Plugins and bundles should contain US English language strings by default. https://github.com/mautic/language-packer integrates with Transifex to create language packs stored in https://github.com/mautic/language-packs.
+Mautic has a custom Translator that extends Symfony's ``Translator`` class and enables Mautic's distributable language package model. All Plugins and bundles should contain US English language strings by default. The :xref:`Mautic language packager` integrates with Transifex to create language packs stored in the :xref:`Mautic translation packs` repository.
