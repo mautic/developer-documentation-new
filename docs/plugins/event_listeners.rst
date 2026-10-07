@@ -428,7 +428,7 @@ The following table is the complete migration reference for AssetBundle event su
 
 .. vale off
 
-Since Mautic 8, some bundles dispatch an event by the event object alone rather than by a string constant, so you key ``getSubscribedEvents()`` on the event class. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rule. The following content covers the StageBundle and DashboardBundle events.
+Since Mautic 8, some bundles dispatch an event by the event object alone rather than by a string constant, so you key ``getSubscribedEvents()`` on the event class. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rule. The following content covers the StageBundle, DashboardBundle, and StatsBundle events.
 
 .. note::
 
@@ -502,6 +502,10 @@ PHP can't instantiate an abstract class, so code that creates a ``WidgetDetailEv
 .. note::
 
    Since Mautic 8.0, Mautic dispatches the authentication content and Segment filtering events by class name - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`. To inject HTML into the login UI, key ``getSubscribedEvents()`` on ``Mautic\UserBundle\Event\AuthenticationContentEvent::class``. To apply custom Segment filter logic, key it on ``Mautic\LeadBundle\Event\LeadListFilteringEvent::class``. The ``UserEvents::USER_AUTHENTICATION_CONTENT`` and ``LeadEvents::LIST_FILTERS_ON_FILTERING`` constants remain defined, but a subscriber still keyed on either one silently receives nothing.
+
+.. note::
+
+   The StatsBundle applies the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` change to the aggregate stat request event. Key ``getSubscribedEvents()`` on ``AggregateStatRequestEvent::class``, from the ``Mautic\StatsBundle\Event`` namespace. Mautic 8 removes the ``Mautic\StatsBundle\StatEvents`` class, so a subscriber that still references ``StatEvents::AGGREGATE_STAT_REQUEST`` raises a ``Class "Mautic\StatsBundle\StatEvents" not found`` error. A subscriber keyed on the raw ``mautic.aggregate_stat_request`` string silently receives nothing.
 
 Custom events
 *************
