@@ -106,3 +106,81 @@ ________________________
 The Sync Order contains all the changes the Sync Engine has determined, and these should inform the Integration. The Integration should communicate back the ID of any objects created or adjust objects as needed, such as if they get converted from one to another or deleted.
 
 See :xref:`OrderExecutioner`.
+
+Sync events
+===========
+
+The IntegrationsBundle dispatches events during a sync so a Plugin can act on Contact and Company data or on the results of each sync batch. Mautic dispatches each event by its class name, so key ``getSubscribedEvents()`` on the event class, such as ``InternalContactFieldChangesEvent::class``. All the classes are in the ``Mautic\IntegrationsBundle\Event`` namespace.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Event class
+     - When Mautic dispatches it
+   * - ``InternalContactFieldChangesEvent``
+     - Before Mautic stores a Contact's field changes in the ``sync_object_field_change_report`` table
+   * - ``InternalCompanyFieldChangesEvent``
+     - Before Mautic stores a Company's field changes in the ``sync_object_field_change_report`` table
+   * - ``InternalContactFullReportBuildEvent``
+     - Before the Sync Engine adds a Contact to a full object Report
+   * - ``InternalCompanyFullReportBuildEvent``
+     - Before the Sync Engine adds a Company to a full object Report
+   * - ``IntegrationToMauticSyncCompletedEvent``
+     - After the Sync Engine finishes processing a batch of objects synced from the Integration to Mautic
+   * - ``MauticToIntegrationSyncCompletedEvent``
+     - After the Sync Engine finishes processing a batch of objects synced from Mautic to the Integration
+
+Each event class extends an abstract base class that provides its methods:
+
+* The Contact events extend ``InternalContactEvent``, which provides ``getIntegrationName()`` and ``getContact()``.
+* The Company events extend ``InternalCompanyEvent``, which provides ``getIntegrationName()`` and ``getCompany()``.
+* The sync completed events extend ``CompletedSyncIterationEvent``, which provides ``getIntegration()``, ``getOrderResults()``, ``getIteration()``, ``getInputOptions()``, and ``getMappingManual()``. Use these to act on the object mappings the batch stored in the ``sync_object_mapping`` table.
+
+A listener method can type-hint the base class to handle both events that share it, but subscribe to each concrete event class separately.
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/SyncSubscriber.php
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\IntegrationsBundle\Event\InternalContactEvent;
+    use Mautic\IntegrationsBundle\Event\InternalContactFieldChangesEvent;
+    use Mautic\IntegrationsBundle\Event\InternalContactFullReportBuildEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class SyncSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                InternalContactFieldChangesEvent::class    => 'onContactEvent',
+                InternalContactFullReportBuildEvent::class => 'onContactEvent',
+            ];
+        }
+
+        public function onContactEvent(InternalContactEvent $event): void
+        {
+            if ('HelloWorld' !== $event->getIntegrationName()) {
+                return;
+            }
+
+            $contact = $event->getContact();
+            // ...
+        }
+    }
+
+.. note::
+
+   Mautic 8 removed the matching constants from ``Mautic\IntegrationsBundle\IntegrationEvents``, so code that still references one raises an undefined-constant error. Replace each constant with its event class:
+
+   * ``INTEGRATION_BEFORE_CONTACT_FIELD_CHANGES`` - ``InternalContactFieldChangesEvent``
+   * ``INTEGRATION_BEFORE_COMPANY_FIELD_CHANGES`` - ``InternalCompanyFieldChangesEvent``
+   * ``INTEGRATION_BEFORE_FULL_CONTACT_REPORT_BUILD`` - ``InternalContactFullReportBuildEvent``
+   * ``INTEGRATION_BEFORE_FULL_COMPANY_REPORT_BUILD`` - ``InternalCompanyFullReportBuildEvent``
+   * ``INTEGRATION_BATCH_SYNC_COMPLETED_INTEGRATION_TO_MAUTIC`` - ``IntegrationToMauticSyncCompletedEvent``
+   * ``INTEGRATION_BATCH_SYNC_COMPLETED_MAUTIC_TO_INTEGRATION`` - ``MauticToIntegrationSyncCompletedEvent``
+
+   For how class-name dispatch works, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
