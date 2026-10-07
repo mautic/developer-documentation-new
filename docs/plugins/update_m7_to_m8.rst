@@ -1224,7 +1224,7 @@ Add ``: array`` to each override, and make sure every code path in it returns an
 
 .. vale off
 
-Integrations built on ``Mautic\IntegrationsBundle\Integration\BasicIntegration``, as described in :doc:`/plugin_integrations/integrations`, don't extend these classes and aren't affected.
+This change doesn't affect Integrations that extend ``Mautic\IntegrationsBundle\Integration\BasicIntegration``, the base class that :doc:`/plugin_integrations/integrations` describes, because ``BasicIntegration`` doesn't inherit from these classes.
 
 AbstractIntegration
 ===================
@@ -1305,7 +1305,7 @@ SocialIntegration
 
 ``MauticPlugin\MauticSocialBundle\Integration\SocialIntegration`` overrides four ``AbstractIntegration`` methods, and its overrides now declare the same ``: array`` return type: ``getFormLeadFields()``, ``getFormCompanyFields()``, ``getRequiredKeyFields()``, and ``getFormNotes()``. If your Integration extends ``SocialIntegration`` and overrides one of these methods, add ``: array`` to the override.
 
-Run :xref:`phpstan` against your Plugin on Mautic 8 to find any override whose return type no longer matches its parent.
+Run :xref:`phpstan` against your Plugin on Mautic 8 to find any override whose return type no longer matches the return type of the parent method.
 
 .. _mautic 8 final classes:
 
