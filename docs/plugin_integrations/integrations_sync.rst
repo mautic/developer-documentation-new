@@ -174,7 +174,7 @@ A listener method can type-hint the base class to handle both events that share 
 
 .. note::
 
-   Mautic 8 removed the matching constants from ``Mautic\IntegrationsBundle\IntegrationEvents``, so code that still references one raises an undefined-constant error. Replace each constant with its event class:
+   Mautic 8 removes the ``Mautic\IntegrationsBundle\IntegrationEvents`` class, so code that still references one of its constants raises a ``Class "Mautic\IntegrationsBundle\IntegrationEvents" not found`` error. Replace each former constant with its event class:
 
    * ``INTEGRATION_BEFORE_CONTACT_FIELD_CHANGES`` - ``InternalContactFieldChangesEvent``
    * ``INTEGRATION_BEFORE_COMPANY_FIELD_CHANGES`` - ``InternalCompanyFieldChangesEvent``

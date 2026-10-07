@@ -203,7 +203,7 @@ Only these nine events changed. Mautic keeps an event as a string constant when 
 The IntegrationsBundle configuration save events used to follow that rule too, because the before-save and after-save names shared one ``ConfigSaveEvent``. Mautic 8 gives each its own class and removes both constants, so update these subscribers as follows:
 
 * Key ``getSubscribedEvents()`` on ``ConfigBeforeSaveEvent::class`` or ``ConfigAfterSaveEvent::class``. A subscriber still keyed on the raw string, such as ``mautic.integration.config_before_save``, silently receives nothing.
-* Remove references to ``IntegrationEvents::INTEGRATION_CONFIG_BEFORE_SAVE`` and ``IntegrationEvents::INTEGRATION_CONFIG_AFTER_SAVE``. Code that still references either constant raises an undefined-constant error.
+* Remove references to ``IntegrationEvents::INTEGRATION_CONFIG_BEFORE_SAVE`` and ``IntegrationEvents::INTEGRATION_CONFIG_AFTER_SAVE``. Mautic 8 removes the ``Mautic\IntegrationsBundle\IntegrationEvents`` class, so code that still references either constant raises a ``Class "Mautic\IntegrationsBundle\IntegrationEvents" not found`` error.
 * Type-hint your listener method on the concrete subclass. ``ConfigSaveEvent`` is now abstract, but both subclasses keep its ``getIntegrationConfiguration()`` and ``getIntegration()`` methods.
 
 .. warning::
@@ -451,7 +451,7 @@ The following table is the complete migration reference for AssetBundle event su
 
 .. note::
 
-   In Mautic 8, ``Mautic\IntegrationsBundle\Event`` events whose class maps to a single event name dispatch by the event object alone. Key ``getSubscribedEvents()`` on the event class - for example ``InternalObjectEvent::class`` - for those. Families whose class serves several names, such as ``InternalObjectFindEvent``, still dispatch by their ``IntegrationEvents`` constants, so keep keying on the constant for those. For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+   In Mautic 8, every ``Mautic\IntegrationsBundle\Event`` event dispatches by the event object alone, and Mautic removes the ``Mautic\IntegrationsBundle\IntegrationEvents`` class. Key ``getSubscribedEvents()`` on the event class, for example ``InternalObjectEvent::class`` or ``InternalObjectFindEvent::class``. A subscriber that still references an ``IntegrationEvents`` constant raises a ``Class "Mautic\IntegrationsBundle\IntegrationEvents" not found`` error, and a subscriber keyed on a raw string name such as ``mautic.integration.INTEGRATION_FIND_INTERNAL_RECORDS`` silently receives nothing. For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 .. vale off
 
