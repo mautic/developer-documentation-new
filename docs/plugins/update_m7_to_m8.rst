@@ -925,12 +925,12 @@ Run :xref:`phpstan` against your Plugin on Mautic 8 to find any override whose r
 
 .. vale off
 
-Nullable get methods and Integration changes
-********************************************
+Nullable getter methods and Integration changes
+***********************************************
 
 .. vale on
 
-Some Mautic 7 get methods declared a return type that excludes ``null`` while returning a property that can hold ``null``. Calling one of them before Mautic set the property raised a ``TypeError``. Mautic 8 corrects these methods, and the correction also changes three Integration classes and methods that Plugins call directly.
+Some Mautic 7 getter methods, whose names start with ``get``, declared a return type that excludes ``null`` while returning a property that can hold ``null``. Calling one of them before Mautic set the property raised a ``TypeError``. Mautic 8 corrects these methods, and the correction also changes three Integration classes and methods that Plugins call directly.
 
 .. vale off
 
@@ -995,12 +995,12 @@ getIntegrationConfiguration()
 
 .. vale off
 
-Get methods that can return null
-================================
+Getter methods that can return null
+===================================
 
 .. vale on
 
-These get methods now declare a return type that accepts ``null``. When the value is ``null``, Mautic 7 raised a ``TypeError`` and Mautic 8 returns ``null``. If your Plugin passes a result to a parameter that doesn't accept ``null``, handle the ``null`` case first:
+These getter methods now declare a return type that accepts ``null``. When the value is ``null``, Mautic 7 raised a ``TypeError`` and Mautic 8 returns ``null``. If your Plugin passes a result to a parameter that doesn't accept ``null``, handle the ``null`` case first:
 
 .. code:: diff
 
@@ -1021,7 +1021,7 @@ These get methods now declare a return type that accepts ``null``. When the valu
 
 ``CustomContentEvent`` and ``TokenReplacementEvent`` are in ``Mautic\CoreBundle\Event``, ``SubmissionEvent`` is in ``Mautic\FormBundle\Event``, and ``ObjectChangeDAO`` is in ``Mautic\IntegrationsBundle\Sync\DAO\Sync\Order``. ``ObjectChangeDAO::getObjectMapping()`` returns ``null`` until the sync engine persists the object mapping.
 
-The same change applies to these entity and DTO get methods:
+The same change applies to these entity and DTO getter methods:
 
 * ``Mautic\ApiBundle\Entity\oAuth2\Client::getRole()`` returns ``?Role``.
 * ``Mautic\EmailBundle\Entity\EmailDraft::getHtml()`` and ``getTemplate()`` return ``?string``, and ``getPublishStatus()`` returns ``?bool``.
