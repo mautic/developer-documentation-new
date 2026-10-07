@@ -46,7 +46,7 @@ Using permissions
 
    <?php
 
-   $security = $this->get('mautic.security');
+   $security = $this->get(\Mautic\CoreBundle\Security\Permissions\CorePermissions::class);
 
    // Check if user is granted a single permission
    if ($security->isGranted('plugin:helloWorld:worlds:view')) {
@@ -92,7 +92,7 @@ Using permissions
        // do something
    }
 
-To determine if a User has a specific permission, use the Mautic security service, which you can obtain from the ``mautic.security`` service.
+To determine if a User has a specific permission, use Mautic's security service, provided by the ``Mautic\CoreBundle\Security\Permissions\CorePermissions`` class.
 
 Mautic uses specific notation to identify permissions:
 
@@ -108,7 +108,11 @@ Core bundles or Plugins set the permission level and permissions. For example, t
 Creating custom permissions
 ***************************
 
-A Plugin creates its own set of permissions by defining a Permission class. Each permission class must extend ``Mautic\CoreBundle\Security\Permissions\AbstractPermissions``.
+A Plugin creates its own set of permissions by defining a permission class. Each permission class must extend ``Mautic\CoreBundle\Security\Permissions\AbstractPermissions``.
+
+.. note::
+
+   This constructor pattern applies to Mautic 8 and later, where the constructor no longer accepts an ``array $params`` argument.
 
 .. code-block:: php
 
@@ -122,10 +126,8 @@ A Plugin creates its own set of permissions by defining a Permission class. Each
 
    class HelloWorldPermissions extends AbstractPermissions
    {
-       public function __construct(array $params)
+       public function __construct()
        {
-           parent::__construct($params);
-
            $this->permissions = array(
                'worlds' => array(
                    'use_telescope' => 1,
@@ -174,7 +176,9 @@ Most permission classes require three methods: ``__construct()``, ``buildForm()`
 ``__construct()``
 =================
 
-The constructor performs two tasks. It calls ``parent::__construct($params)`` or sets ``$this->params = $params;``. It then defines the ``$this->permissions`` array. This array organizes permissions into levels, where each level contains specific permissions assigned to bits.
+The constructor defines the ``$this->permissions`` array and calls the helper methods - ``addStandardPermissions()``, ``addExtendedPermissions()``, or ``addManagePermission()`` - as needed. This array organizes permissions into levels, where each level contains specific permissions assigned to bits.
+
+Don't rely on ``$this->params`` inside the constructor. Mautic injects the resolved core parameters through an autowired setter that runs after construction completes, so ``$this->params`` is available in every method except ``__construct()``. Keep any logic that needs those parameters in a method other than the constructor.
 
 For example, in the code sample, a custom level of ``worlds`` includes ``use_telescope``, ``send_probe``, ``visit``, and ``full``. To verify if a User has the ``send_probe`` permission for the ``worlds`` level, use:
 
@@ -226,6 +230,27 @@ Mautic provides complementary helper methods for common permission sets:
 
 This method is mandatory. The return value must match the ``bundleName`` and the filename. For example, if the bundle name is ``HelloWorldBundle``, this method returns ``helloWorld`` and the file is ``HelloWorldPermissions.php``.
 
+Registering the permission class as a service
+=============================================
+
+Register the permission class in the bundle's ``Config/services.php``:
+
+.. code-block:: php
+
+   <?php
+
+   $services->set(\MauticPlugin\HelloWorldBundle\Security\Permissions\HelloWorldPermissions::class);
+
+.. vale off
+
+For the full ``services.php`` structure, see :doc:`/plugins/autowiring`.
+
+.. vale on
+
+Mautic applies autoconfiguration to every ``AbstractPermissions`` subclass container-wide and tags it with ``mautic.permissions``, so you don't need to tag the service manually once you register the class.
+
+A permission class that you don't register as a service still works through a deprecated fallback, but you should register it so the container can manage and autowire it.
+
 Permission aliases
 ******************
 
@@ -233,7 +258,7 @@ Permission aliases
 
    <?php
 
-   protected function getSynonym($name, $level)
+   protected function getSynonym($name, $level): array
    {
        if ($name == 'send_satellite') {
            $name = 'send_probe';
@@ -287,7 +312,7 @@ To re-adjust permissions based on factors outside the Plugin's control, return `
 Advanced ``isGranted()`` logic
 ==============================
 
-Override the parent method - ``public function isGranted($userPermissions, $name, $level)`` - to run custom logic rather than simple bit comparisons. Use this to define unique behavior for the class's own levels and individual permissions.
+Override the parent method - ``public function isGranted(array $userPermissions, $name, $level): bool`` - to run custom logic rather than simple bit comparisons. Use this to define unique behavior for the class's own levels and individual permissions.
 
 Advanced ``isSupported()`` logic
 ================================
