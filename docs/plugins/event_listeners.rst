@@ -459,6 +459,117 @@ Since Mautic 8, some bundles dispatch an event by the event object alone rather 
 
    Since Mautic 8.0, Mautic dispatches the authentication content and Segment filtering events by class name - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`. To inject HTML into the login UI, key ``getSubscribedEvents()`` on ``Mautic\UserBundle\Event\AuthenticationContentEvent::class``. To apply custom Segment filter logic, key it on ``Mautic\LeadBundle\Event\LeadListFilteringEvent::class``. The ``UserEvents::USER_AUTHENTICATION_CONTENT`` and ``LeadEvents::LIST_FILTERS_ON_FILTERING`` constants remain defined, but a subscriber still keyed on either one silently receives nothing.
 
+.. vale off
+
+Removed event constants
+=======================
+
+.. vale on
+
+Mautic 8 removed the string constants for the following events, which Mautic dispatches by the event object alone. A subscriber that still references one of these constants fails with ``Error: Undefined constant`` when PHP loads it. Key ``getSubscribedEvents()`` on the event class instead.
+
+.. vale off
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed constant
+     - Subscription key
+   * - ``ConfigEvents::CONFIG_PRE_SAVE``
+     - ``Mautic\ConfigBundle\Event\ConfigPreSaveEvent``
+   * - ``ConfigEvents::CONFIG_POST_SAVE``
+     - ``Mautic\ConfigBundle\Event\ConfigPostSaveEvent``
+   * - ``CampaignEvents::ON_CAMPAIGN_DELETE``
+     - ``Mautic\CampaignBundle\Event\DeleteCampaign``
+   * - ``CampaignEvents::CAMPAIGN_ON_BUILD``
+     - ``Mautic\CampaignBundle\Event\CampaignBuilderEvent``
+   * - ``CampaignEvents::CAMPAIGN_ON_TRIGGER``
+     - ``Mautic\CampaignBundle\Event\CampaignTriggerEvent``
+   * - ``CampaignEvents::ON_EVENT_EXECUTED``
+     - ``Mautic\CampaignBundle\Event\ExecutedEvent``
+   * - ``CampaignEvents::ON_EVENT_DELETE``
+     - ``Mautic\CampaignBundle\Event\DeleteEvent``
+   * - ``CampaignEvents::ON_EVENT_EXECUTED_BATCH``
+     - ``Mautic\CampaignBundle\Event\ExecutedBatchEvent``
+   * - ``CampaignEvents::ON_EVENT_SCHEDULED``
+     - ``Mautic\CampaignBundle\Event\ScheduledEvent``
+   * - ``CampaignEvents::ON_EVENT_SCHEDULED_BATCH``
+     - ``Mautic\CampaignBundle\Event\ScheduledBatchEvent``
+   * - ``CampaignEvents::ON_EVENT_FAILED``
+     - ``Mautic\CampaignBundle\Event\FailedEvent``
+   * - ``CampaignEvents::ON_EVENT_DECISION_EVALUATION_RESULTS``
+     - ``Mautic\CampaignBundle\Event\DecisionResultsEvent``
+   * - ``CampaignEvents::ON_CAMPAIGN_FAILURE_NOTIFY``
+     - ``Mautic\CampaignBundle\Event\NotifyOfFailureEvent``
+   * - ``CampaignEvents::ON_CAMPAIGN_UNPUBLISH_NOTIFY``
+     - ``Mautic\CampaignBundle\Event\NotifyOfUnpublishEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_CONFIG_SAVE``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_REQUEST``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationRequestEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_RESPONSE``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationResponseEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_AUTH_REDIRECT``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationAuthRedirectEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_GET_AUTH_CALLBACK_URL``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationAuthCallbackUrlEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_FORM_DISPLAY``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationFormDisplayEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_FORM_BUILD``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationFormBuildEvent``
+   * - ``PluginEvents::ON_PLUGIN_UPDATE``
+     - ``Mautic\PluginBundle\Event\PluginUpdateEvent``
+   * - ``PluginEvents::ON_PLUGIN_INSTALL``
+     - ``Mautic\PluginBundle\Event\PluginInstallEvent``
+   * - ``PluginEvents::PLUGIN_IS_PUBLISHED_STATE_CHANGING``
+     - ``Mautic\PluginBundle\Event\PluginIsPublishedEvent``
+   * - ``DynamicContentEvents::ON_CONTACTS_FILTER_EVALUATE``
+     - ``Mautic\DynamicContentBundle\Event\ContactFiltersEvaluateEvent``
+   * - ``DynamicContentEvents::TOKEN_REPLACEMENT``
+     - ``Mautic\CoreBundle\Event\TokenReplacementEvent``
+   * - ``DoNotContactAddEvent::ADD_DONOT_CONTACT``
+     - ``Mautic\LeadBundle\Event\DoNotContactAddEvent``
+   * - ``DoNotContactRemoveEvent::REMOVE_DONOT_CONTACT``
+     - ``Mautic\LeadBundle\Event\DoNotContactRemoveEvent``
+
+.. vale on
+
+The ``Mautic\ConfigBundle\ConfigEvents`` class no longer exists, so also remove any ``use Mautic\ConfigBundle\ConfigEvents;`` statement. Mautic 8 also removed these constants, which have no replacement event:
+
+* ``DynamicContentEvents::CATEGORY_PRE_SAVE``, ``CATEGORY_POST_SAVE``, ``CATEGORY_PRE_DELETE``, and ``CATEGORY_POST_DELETE`` duplicated the ``Mautic\CategoryBundle\CategoryEvents`` constants with the same string values. Use the ``CategoryEvents`` constants instead.
+* ``PluginEvents::ON_FORM_SUBMIT_ACTION_TRIGGERED`` had no dispatcher or listener.
+
+These illustrative fragments show the change for the Plugin Integration request event. Before Mautic 8, the subscriber keys on the constant:
+
+.. code-block:: php
+
+    <?php
+
+    use Mautic\PluginBundle\PluginEvents;
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            PluginEvents::PLUGIN_ON_INTEGRATION_REQUEST => ['onRequest', 0],
+        ];
+    }
+
+In Mautic 8, the subscriber keys on the event class:
+
+.. code-block:: php
+
+    <?php
+
+    use Mautic\PluginBundle\Event\PluginIntegrationRequestEvent;
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            PluginIntegrationRequestEvent::class => ['onRequest', 0],
+        ];
+    }
+
 Custom events
 *************
 
