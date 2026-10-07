@@ -101,6 +101,22 @@ To find the name Mautic dispatches an event under, and to confirm a re-key, run 
 
 .. note::
 
+   Mautic 8 dispatches the ``MauticPlugin\MauticSocialBundle`` Monitor and Tweet save and delete events by event class, following the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule. Mautic 8 removed the matching constants from ``MauticPlugin\MauticSocialBundle\SocialEvents``, so a subscriber still keyed on one, such as ``SocialEvents::TWEET_POST_SAVE``, raises an undefined-constant error. Key ``getSubscribedEvents()`` on the replacement class in the ``MauticPlugin\MauticSocialBundle\Event`` namespace instead:
+
+   * ``MONITOR_PRE_SAVE`` - ``MonitorPreSaveEvent``
+   * ``MONITOR_POST_SAVE`` - ``MonitorPostSaveEvent``
+   * ``MONITOR_PRE_DELETE`` - ``MonitorPreDeleteEvent``
+   * ``MONITOR_POST_DELETE`` - ``MonitorPostDeleteEvent``
+   * ``MONITOR_POST_PROCESS`` - ``SocialMonitorEvent``, which Mautic already dispatched by class
+   * ``TWEET_PRE_SAVE`` - ``TweetPreSaveEvent``
+   * ``TWEET_POST_SAVE`` - ``TweetPostSaveEvent``
+   * ``TWEET_PRE_DELETE`` - ``TweetPreDeleteEvent``
+   * ``TWEET_POST_DELETE`` - ``TweetPostDeleteEvent``
+
+   Mautic 8 also removed the ``SocialEvent`` class. The Monitor events extend ``AbstractMonitorEvent``, which provides ``getMonitoring()``, and the Tweet events extend ``AbstractTweetEvent``, which provides ``getTweet()``.
+
+.. note::
+
    Starting in Mautic 8, Mautic dispatches some events by their event class rather than the ``*Events`` string constant. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 Form, Integration, and Focus events dispatched by class name in Mautic 8
@@ -396,9 +412,51 @@ The following table is the complete migration reference for AssetBundle event su
 
    In Mautic 8, ``Mautic\IntegrationsBundle\Event`` events whose class maps to a single event name dispatch by the event object alone. Key ``getSubscribedEvents()`` on the event class - for example ``InternalObjectEvent::class`` - for those. Families whose class serves several names, such as ``ConfigSaveEvent`` and ``InternalObjectFindEvent``, still dispatch by their ``IntegrationEvents`` constants, so keep keying on the constant for those. For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
+.. vale off
+
+Since Mautic 8, some bundles dispatch an event by the event object alone rather than by a string constant, so you key ``getSubscribedEvents()`` on the event class. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rule. The notes below cover the StageBundle, DashboardBundle, and StatsBundle events.
+
+.. note::
+
+   Since Mautic 8, Mautic dispatches ``Mautic\StageBundle\Event\StageBuilderEvent`` by the event object alone. Key ``getSubscribedEvents()`` on ``StageBuilderEvent::class``, not on ``StageEvents::STAGE_ON_BUILD`` or the string ``mautic.stage_on_build``. Those constants remain for backward compatibility but no longer dispatch this event. Mautic still dispatches the ``StageEvent`` CRUD group, ``STAGE_ON_ACTION``, and ``ON_CAMPAIGN_BATCH_ACTION`` by their string constants.
+
+   .. code-block:: php
+
+      return [
+          StageBuilderEvent::class => ['onStageBuild', 0],
+          // ...
+      ];
+
+.. note::
+
+   Since Mautic 8, Mautic dispatches two DashboardBundle widget events by the event object alone. Key ``getSubscribedEvents()`` on the event class rather than on the former constant. The classes live in ``Mautic\DashboardBundle\Event``.
+
+   .. list-table::
+      :header-rows: 1
+      :widths: 50 50
+
+      * - Former event constant
+        - Mautic 8 event class - subscription key
+      * - ``DASHBOARD_ON_MODULE_LIST_GENERATE``
+        - ``WidgetTypeListEvent``
+      * - ``DASHBOARD_ON_MODULE_FORM_GENERATE``
+        - ``WidgetFormEvent``
+
+   The former constants remain for backward compatibility but no longer dispatch these events. Mautic still dispatches ``DASHBOARD_ON_MODULE_DETAIL_GENERATE`` and ``DASHBOARD_ON_MODULE_DETAIL_PRE_LOAD`` - both sharing ``WidgetDetailEvent`` - by their string constants.
+
+   .. code-block:: php
+
+      return [
+          WidgetTypeListEvent::class => ['onWidgetListGenerate', 0],
+          WidgetFormEvent::class     => ['onWidgetFormGenerate', 0],
+          // ...
+      ];
+
 .. note::
 
    The StatsBundle applies the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` change to the aggregate stat request event. Key ``getSubscribedEvents()`` on ``AggregateStatRequestEvent::class``, from the ``Mautic\StatsBundle\Event`` namespace. Mautic 8 removes the ``Mautic\StatsBundle\StatEvents`` class, so a subscriber that still references ``StatEvents::AGGREGATE_STAT_REQUEST`` raises a ``Class "Mautic\StatsBundle\StatEvents" not found`` error. A subscriber keyed on the raw ``mautic.aggregate_stat_request`` string silently receives nothing.
+
+.. vale on
 
 Custom events
 *************
