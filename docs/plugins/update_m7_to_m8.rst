@@ -14,6 +14,8 @@ Watch for four kinds of break:
 * **New property type**: a subclass that declares the property again without a type is a fatal error.
 * **Removed property**: a subclass that read it must stop.
 
+Mautic 8 also adds native PHP return type declarations to the public methods on its repository classes, and a :xref:`phpstan` rule now enforces this across Mautic's repositories. If your Plugin or Integration subclasses a Mautic repository and overrides one of these methods without declaring the same return type, PHP raises a fatal error when it loads your class.
+
 .. vale off
 
 CommonRepository
@@ -21,7 +23,24 @@ CommonRepository
 
 .. vale on
 
-This has the widest impact - this change hits every repository that overrides these methods. The class is ``Mautic\CoreBundle\Entity\CommonRepository``.
+Many of Mautic's repositories extend ``Mautic\CoreBundle\Entity\CommonRepository``, so its newly typed public methods have the widest impact. These signatures gain native return types:
+
+.. code:: diff
+
+   - public function checkUniqueAlias($alias, $entity = null)
+   + public function checkUniqueAlias($alias, $entity = null): int
+   - public function findOneBySlugs($alias, $catAlias = null, $lang = null)
+   + public function findOneBySlugs($alias, $catAlias = null, $lang = null): ?object
+   - public function getBaseColumns($entityClass, bool $returnColumnNames = false)
+   + public function getBaseColumns($entityClass, bool $returnColumnNames = false): array
+   - public function getEntities(array $args = [])
+   + public function getEntities(array $args = []): iterable
+   - public function getValue($id, $column)
+   + public function getValue($id, $column): mixed
+   - public function getTableName()
+   + public function getTableName(): string
+
+These signatures gain native parameter types:
 
 .. code:: diff
 
@@ -39,6 +58,25 @@ This has the widest impact - this change hits every repository that overrides th
 For a repository extension example, see :doc:`/plugin_extensions/contacts`.
 
 .. vale on
+
+A compliant override repeats the parent's return type:
+
+.. code:: php
+
+   public function getEntities(array $args = []): iterable
+   {
+       return parent::getEntities($args);
+   }
+
+Other repositories
+******************
+
+Concrete repositories across Mautic core also gain native return types on their public methods, so a Plugin that overrides a public method on any core repository must declare the matching return type.
+
+Find affected overrides
+***********************
+
+Run :xref:`phpstan` against your Plugin on Mautic 8 before you ship. It flags every override whose return type no longer matches its parent, so you can fix them before a fatal error reaches production.
 
 .. vale off
 
@@ -219,6 +257,10 @@ Plugins interact with these events by subscribing to them and calling their meth
 * An overridden method whose signature no longer matches the parent causes a fatal error when PHP loads your class.
 
 If your Plugin doesn't subscribe to, call, or extend any of the classes listed below, you have nothing to change.
+
+Mautic 8 also makes many core classes ``final``, so a Plugin can no longer extend them. See :ref:`Final classes <Mautic 8 final classes>` if your Plugin extends a Mautic class or mocks one in its tests.
+
+Mautic 8 also changes the helper methods on the base controllers. See :ref:`Controller helper methods <Mautic 8 controller helper methods>` if your Plugin has a controller that extends a Mautic controller.
 
 Mautic 8 also adds a native type to every class and interface constant. See :ref:`Typed class constants <Mautic 8 typed class constants>` if your Plugin overrides a constant from a Mautic class or interface.
 
@@ -967,6 +1009,132 @@ Plugins register a Webhook event on ``Mautic\WebhookBundle\Event\WebhookBuilderE
    - public function addEvent($key, array $event): void
    + public function addEvent(string $key, array $event): void
 
+.. _mautic 8 controller helper methods:
+
+.. vale off
+
+Controller helper methods
+*************************
+
+.. vale on
+
+In Mautic 8, a controller exposes only its route actions as public methods. Helper methods on the base controllers are now ``protected``, and several gain native return types. Your Plugin controllers can still call these helpers through ``$this``, so a controller that only calls them needs no changes. Two kinds of Plugin code break:
+
+* Code outside the controller that calls one of these helpers, such as a service or a test, raises an ``Error`` for calling a protected method.
+* A Plugin controller that overrides one of the helpers that gained a return type, but omits the return type or declares an incompatible one, causes a fatal error when PHP loads the class.
+
+.. vale off
+
+CommonController
+================
+
+.. vale on
+
+These methods on ``Mautic\CoreBundle\Controller\CommonController`` change from ``public`` to ``protected``, with no signature change otherwise:
+
+* ``addFlashMessage()``
+* ``delegateRedirect()``
+* ``delegateView()``
+* ``eventAwareRenderView()``
+* ``exportResultsAs()``
+* ``forwardWithPost()``
+* ``getAccessDeniedFlash()``
+* ``modalAccessDenied()``
+* ``notFound()``
+* ``postActionRedirect()``
+* ``renderException()``
+* ``throwAccessDenied()``
+
+``Mautic\CoreBundle\Controller\AjaxLookupControllerTrait`` now declares ``renderException()`` as ``abstract protected`` to match.
+
+.. vale off
+
+FetchCommonApiController
+========================
+
+.. vale on
+
+``Mautic\ApiBundle\Controller\FetchCommonApiController`` is the parent of ``CommonApiController``, which Plugin API controllers extend. Three of its methods change from ``public`` to ``protected``:
+
+.. code:: diff
+
+   - public function getNewEntity(array $params)
+   + protected function getNewEntity(array $params)
+
+.. code:: diff
+
+   - public function getCurrentRequest(): Request
+   + protected function getCurrentRequest(): Request
+
+.. code:: diff
+
+   - public function postActionRedirect(array $args = [])
+   + protected function postActionRedirect(array $args = []): Response
+
+These ``protected`` methods gain native return types:
+
+.. code:: diff
+
+   - protected function accessDenied(string $msg = 'mautic.core.error.accessdenied')
+   + protected function accessDenied(string $msg = 'mautic.core.error.accessdenied'): Response
+
+.. code:: diff
+
+   - protected function badRequest(string $msg = 'mautic.core.error.badrequest')
+   + protected function badRequest(string $msg = 'mautic.core.error.badrequest'): Response
+
+.. code:: diff
+
+   - protected function checkEntityAccess($entity, $action = 'view')
+   + protected function checkEntityAccess($entity, $action = 'view'): bool|Response
+
+.. code:: diff
+
+   - protected function notFound(string $msg = 'mautic.core.error.notfound')
+   + protected function notFound(string $msg = 'mautic.core.error.notfound'): Response
+
+.. code:: diff
+
+   - protected function returnError(string $msg, int $code = Response::HTTP_INTERNAL_SERVER_ERROR, array $details = [])
+   + protected function returnError(string $msg, int $code = Response::HTTP_INTERNAL_SERVER_ERROR, array $details = []): Response|array
+
+.. code:: diff
+
+   - protected function validateBatchPayload(array $parameters)
+   + protected function validateBatchPayload(array $parameters): \Symfony\Component\HttpFoundation\Response|array|true
+
+``validateBatchPayload()`` declares ``true`` where its annotation previously documented ``bool``, so an override can't return ``false``.
+
+.. vale off
+
+FormController
+==============
+
+.. vale on
+
+``clearSessionComponents()`` on ``Mautic\FormBundle\Controller\FormController`` changes from ``public`` to ``protected``.
+
+.. vale off
+
+Bundle controllers
+==================
+
+.. vale on
+
+Helper methods that only their own class used are now ``private``. Examples include ``getMapOptions()`` on the Campaign and Email map stats controllers and ``getUnsubscribeMessage()`` on ``Mautic\EmailBundle\Controller\PublicController``. A Plugin controller that extends one of these bundle controllers can no longer call or override these methods.
+
+.. vale off
+
+Update your Plugin
+==================
+
+.. vale on
+
+To update your Plugin:
+
+#. Move any logic that calls a controller helper from outside the controller into the controller itself, or into a service that both the controller and the calling code use.
+#. In each Plugin controller that overrides one of these helpers, copy the parent's return type into the override. An override can keep ``public`` visibility, because PHP lets a child class widen visibility.
+
 .. vale off
 
 Return types in Campaign, Email, Point, Notification, Dynamic Content, and SMS bundles
@@ -1207,6 +1375,112 @@ These base classes also gain ``: array`` return types on the listed methods:
 * ``Mautic\CoreBundle\Event\TokenReplacementEvent::getTokens()``
 
 Run :xref:`phpstan` against your Plugin on Mautic 8 to find any override whose return type no longer matches its parent.
+
+.. _mautic 8 final classes:
+
+``final`` classes
+*****************
+
+Mautic 8 declares more than 300 core classes ``final``, because no Mautic class extends them and Mautic doesn't intend them as base classes. Nothing changes for code that gets these classes through dependency injection, calls their public methods, or subscribes to their events. Two kinds of Plugin code break:
+
+* A Plugin class that extends one of these classes causes a fatal error when PHP loads it, for example ``Class MauticPlugin\HelloWorldBundle\Model\MyPageModel cannot extend final class Mautic\PageBundle\Model\PageModel``.
+* A Plugin test that mocks one of these classes with :xref:`phpunit` fails, because the test framework can't create a test double of a ``final`` class.
+
+Some of the event classes described earlier in this guide are now ``final``, including ``ConfigBuilderEvent``, ``ConfigEvent``, ``WidgetDetailEvent``, ``EmailValidationEvent``, ``SubmissionEvent``, ``PointBuilderEvent``, ``AuthenticationEvent``, and ``WebhookBuilderEvent``. For these classes, the guidance about overriding typed methods no longer applies, because you can't extend them.
+
+.. vale off
+
+Affected classes
+================
+
+.. vale on
+
+These event classes are now ``final``:
+
+.. vale off
+
+* ``Mautic\ConfigBundle\Event\ConfigBuilderEvent``
+* ``Mautic\ConfigBundle\Event\ConfigEvent``
+* ``Mautic\CoreBundle\Event\MaintenanceEvent``
+* ``Mautic\CoreBundle\Event\StatsEvent``
+* ``Mautic\DashboardBundle\Event\WidgetDetailEvent``
+* ``Mautic\EmailBundle\Event\EmailValidationEvent``
+* ``Mautic\FormBundle\Event\SubmissionEvent``
+* ``Mautic\IntegrationsBundle\Event\MauticSyncFieldsLoadEvent``
+* ``Mautic\LeadBundle\Event\CompanyEvent``
+* ``Mautic\LeadBundle\Event\ImportValidateEvent``
+* ``Mautic\LeadBundle\Event\LeadListEvent``
+* ``Mautic\LeadBundle\Event\ListChangeEvent``
+* ``Mautic\PageBundle\Event\PageDisplayEvent``
+* ``Mautic\PageBundle\Event\PageHitEvent``
+* ``Mautic\PluginBundle\Event\PluginIntegrationRequestEvent``
+* ``Mautic\PluginBundle\Event\PluginIsPublishedEvent``
+* ``Mautic\PointBundle\Event\PointBuilderEvent``
+* ``Mautic\PointBundle\Event\TriggerExecutedEvent``
+* ``Mautic\ReportBundle\Event\ReportDataEvent``
+* ``Mautic\ReportBundle\Event\ReportGeneratorEvent``
+* ``Mautic\ReportBundle\Event\ReportGraphEvent``
+* ``Mautic\SmsBundle\Event\SmsSendEvent``
+* ``Mautic\UserBundle\Event\AuthenticationEvent``
+* ``Mautic\UserBundle\Event\LoginEvent``
+* ``Mautic\WebhookBundle\Event\WebhookBuilderEvent``
+* ``Mautic\WebhookBundle\Event\WebhookEvent``
+* ``Mautic\WebhookBundle\Event\WebhookNotificationEvent``
+
+.. vale on
+
+The other ``final`` classes include:
+
+.. vale off
+
+* Models such as ``AssetModel``, ``CampaignModel``, ``EventModel``, the Form ``FieldModel``, ``PageModel``, ``PointModel``, ``ReportModel``, ``SmsModel``, ``UserModel``, and ``WebhookModel``
+* Repositories such as ``LeadRepository``, ``LeadListRepository``, ``CompanyRepository``, ``FormRepository``, ``PageRepository``, and ``UserRepository``
+* Helpers such as ``MailHelper``, ``IpLookupHelper``, ``CookieHelper``, ``DateTimeHelper``, ``IntegrationHelper``, and the Asset, Form, Page, and Focus ``TokenHelper`` classes
+* The ``ConnectwiseIntegration``, ``HubspotIntegration``, ``SalesforceIntegration``, and ``VtigerIntegration`` classes in ``MauticPlugin\MauticCrmBundle\Integration``
+
+.. vale on
+
+To find out whether a class you use is ``final``, open it in your Mautic 8 codebase and look for the ``final`` keyword in its declaration.
+
+.. vale off
+
+Removed methods
+===============
+
+.. vale on
+
+Mautic 8 removes two unused public methods:
+
+* ``Mautic\LeadBundle\Entity\LeadListRepository::autowireLeadListRepository()``, which injected an event dispatcher that the repository never used.
+* ``Mautic\PluginBundle\Model\IntegrationEntityModel::logDataSync()``, which had an empty body.
+
+Remove any calls to these methods from your Plugin.
+
+.. vale off
+
+Update your Plugin
+==================
+
+.. vale on
+
+If your Plugin extends one of these classes, inject the Mautic class into your own service and call its public methods instead of inheriting from it. To change what an event carries, subscribe to the event and call its setters rather than dispatching a subclass.
+
+If your Plugin's tests mock one of these classes, enable ``DG\BypassFinals`` before the tests load the classes. Mautic lists ``dg/bypass-finals`` as a development dependency and enables it in ``app/tests/bootstrap.php``. The example Plugin workflow in :doc:`continuous_integration` bootstraps with ``vendor/autoload.php`` only, so add a bootstrap file to your Plugin that enables ``DG\BypassFinals``:
+
+.. code-block:: php
+
+   <?php
+
+   declare(strict_types=1);
+
+   use DG\BypassFinals;
+
+   require __DIR__.'/../../../vendor/autoload.php';
+
+   BypassFinals::enable(bypassReadOnly: false);
+   BypassFinals::denyPaths(['*/vendor/*']);
+
+Point the ``--bootstrap`` option of ``bin/phpunit`` at this file instead of ``vendor/autoload.php``. Adjust the ``require`` path to match where the file sits in your Plugin.
 
 .. _mautic 8 typed class constants:
 

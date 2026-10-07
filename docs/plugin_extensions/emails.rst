@@ -485,7 +485,7 @@ To do this, the Plugin needs to add an event listener for three events:
 
 .. note::
 
-   Since Mautic 8.0, the monitored inbox configuration event dispatches by class name, so key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``. Mautic removed the ``MONITORED_EMAIL_CONFIG`` constant, so code that still references ``EmailEvents::MONITORED_EMAIL_CONFIG`` throws a PHP fatal error - ``Error: Undefined constant``. ``EMAIL_PRE_FETCH`` and ``EMAIL_PARSE`` remain string-dispatched constants.
+   Since Mautic 8.0, the monitored inbox configuration event dispatches by class name, so key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``. Mautic removed the ``MONITORED_EMAIL_CONFIG`` constant, so code that still references ``EmailEvents::MONITORED_EMAIL_CONFIG`` throws a PHP fatal error - ``Error: Undefined constant``. ``EMAIL_PRE_FETCH`` and ``EMAIL_PARSE`` remain string-dispatched constants. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 .. code-block:: PHP
 
@@ -552,6 +552,12 @@ To do this, the Plugin needs to add an event listener for three events:
         }
     }
 
+To confirm Mautic registered the subscriber, list the event's listeners. The subscriber's class and method appear in the listing when Mautic has wired it up:
+
+.. code-block:: console
+
+    bin/console debug:event-dispatcher 'Mautic\EmailBundle\Event\MonitoredEmailEvent'
+
 Email transports
 ----------------
 
@@ -580,7 +586,7 @@ The most important thing here is to create a service that's tagged as ``mautic.e
                     'class'        => \MauticPlugin\HelloWorldBundle\Swiftmailer\Transport\HelloWorldApiTransport::class,
                     'serviceAlias' => 'swiftmailer.mailer.transport.%s',
                     'arguments'    => [
-                        'mautic.helper.core_parameters',
+                        \Mautic\CoreBundle\Helper\CoreParametersHelper::class,
                     ],
                     'tag'          => 'mautic.email_transport',
                     'tagArguments' => [
