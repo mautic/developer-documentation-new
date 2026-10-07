@@ -86,7 +86,7 @@ Mautic has several controllers that provide some helper functions.
 
 .. vale on
 
-The ``CommonController`` also provides the following helper methods:
+The ``CommonController`` also provides the following helper methods. Mautic declares them with PHP's ``protected`` visibility keyword, so call them through ``$this`` from your controller's actions.
 
 1.1 ``delegateView($args)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -353,6 +353,8 @@ Model example
         }
     }
 
+.. _base model classes:
+
 Base model classes
 ==================
 
@@ -433,9 +435,35 @@ The upgrade risk is a signature mismatch. If your Plugin's Model subclass overri
 
 Mautic types the entity parameter as ``object`` rather than a concrete entity class on purpose, because PHP fails with a fatal error when an inherited signature narrows a parameter type. The method-specific ``@param <Entity>`` annotations stay in place for that specificity.
 
-The core ``saveEntity()`` overrides adopt the ``object`` type in Mautic 8 for the same reason - for example ``AssetModel``, ``EmailModel``, ``LeadModel``, ``PageModel``, and ``UserModel``. If your Plugin extends one of these Models rather than ``FormModel`` directly, apply the same rule to your override.
+The core ``saveEntity()`` overrides adopt the ``object`` type in Mautic 8 for the same reason - for example ``AssetModel``, ``EmailModel``, ``LeadModel``, ``PageModel``, and ``UserModel``. If your Plugin extends ``EmailModel`` or ``LeadModel`` rather than ``FormModel`` directly, apply the same rule to your override. ``AssetModel``, ``PageModel``, and ``UserModel`` are ``final`` in Mautic 8, so a Plugin can't extend them. See :ref:`Final classes <Mautic 8 final classes>`.
 
 Mautic 8 also types one public method on the parent ``AbstractCommonModel`` class, which ``FormModel`` and Plugin Models both extend: ``encodeArrayForUrl($array)`` becomes ``encodeArrayForUrl(array $array)``. The same override-compatibility rule applies.
+
+Registering a model
+===================
+
+To make a custom model resolvable through ``getModel('yourbundle.yourmodel')`` from a controller, the model class declares a static ``getName()`` method that returns that key string. The model must also implement ``Mautic\CoreBundle\Model\MauticModelInterface``. Extending one of the base classes in :ref:`Base model classes <base model classes>` satisfies that interface requirement, but not the registration. You still declare ``getName()`` on the model to make it resolvable by key. Declaring ``getName()`` only matters for this key-based lookup - a model you always inject or type-hint by its concrete class, as described in :ref:`Getting model objects <getting model objects>`, doesn't need it.
+
+Add the method to a model class that extends ``AbstractCommonModel`` or ``FormModel``. For example, a ``ContactModel`` built on one of those base classes returns ``'helloworld.contact'``:
+
+.. code-block:: php
+
+    public static function getName(): string
+    {
+        return 'helloworld.contact';
+    }
+
+Mautic core follows the same pattern - its ``LeadModel`` returns ``'lead.lead'``.
+
+Declaring ``getName()`` is the whole registration step. There's no separate tag, service alias, or compiler-pass step to add. If a model omits ``getName()``, ``getModel()`` can't resolve it by key.
+
+.. note::
+
+   ``getName()``-based resolution is the Mautic 8 mechanism. It replaces the removed ``mautic.model`` auto-tag, the manual ``mautic.<bundle>.model.<name>`` service-alias convention, and the ``ModelPass`` compiler pass.
+
+``getModel()`` accepts only the ``getName()`` key, not a fully qualified class name. Fetching a model by its class means injecting or type-hinting the concrete class instead, as described in :ref:`Getting model objects <getting model objects>`.
+
+.. _getting model objects:
 
 Getting model objects
 =====================
