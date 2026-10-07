@@ -207,7 +207,7 @@ Queue filter
 
 .. vale off
 
-Subscribe by ``QueueEvent::class`` - formerly ``SmsEvents::QUEUE_FILTER_CONTACTS_ON_SEND`` - to filter Contacts based on frequency rules or queueing logic. Its listener receives a ``QueueEvent``. See the :ref:`Mautic 8 class-name dispatch note <SMS filtering class-name dispatch note>` at the start of this section.
+Subscribe by ``QueueEvent::class`` - formerly ``SmsEvents::QUEUE_FILTER_CONTACTS_ON_SEND`` - to filter Contacts based on frequency rules or queueing logic. Its listener receives a ``QueueEvent``. See the :ref:`Mautic 8 class-name dispatch note <SMS filtering class-name dispatch note>`.
 
 .. vale on
 
@@ -216,7 +216,7 @@ Generic filter
 
 .. vale off
 
-Subscribe by ``FilterEvent::class`` - formerly ``SmsEvents::FILTER_CONTACTS_ON_SEND`` - for any remaining filtering logic, such as removing Contacts without phone numbers. Its listener receives a ``FilterEvent``. See the :ref:`Mautic 8 class-name dispatch note <SMS filtering class-name dispatch note>` at the start of this section.
+Subscribe by ``FilterEvent::class`` - formerly ``SmsEvents::FILTER_CONTACTS_ON_SEND`` - for any remaining filtering logic, such as removing Contacts without phone numbers. Its listener receives a ``FilterEvent``. See the :ref:`Mautic 8 class-name dispatch note <SMS filtering class-name dispatch note>`.
 
 .. vale on
 
