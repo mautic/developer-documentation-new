@@ -847,7 +847,7 @@ Removed FormController
 
 Mautic 8 removes ``Mautic\CoreBundle\Controller\FormController``, which Mautic deprecated in version 2.3. A Plugin controller that still extends it causes a fatal error when PHP loads the class. Change the parent class to one of these controllers:
 
-* ``Mautic\CoreBundle\Controller\AbstractFormController`` if your controller handles Symfony form objects with helpers such as ``isFormCancelled()`` and ``isFormValid()``, but doesn't use the standard entity actions.
+* ``Mautic\CoreBundle\Controller\AbstractFormController`` if your controller handles Symfony ``FormInterface`` objects with helpers such as ``isFormCancelled()`` and ``isFormValid()``, but doesn't use the standard entity actions.
 * ``Mautic\CoreBundle\Controller\AbstractStandardFormController`` if your controller calls the standard entity helpers, such as ``indexStandard()``, ``newStandard()``, ``editStandard()``, or ``deleteStandard()``.
 
 .. code:: diff
