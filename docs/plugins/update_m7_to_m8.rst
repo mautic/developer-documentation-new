@@ -930,6 +930,8 @@ Plugins register a custom Point action on ``Mautic\PointBundle\Event\PointBuilde
    - public function addAction($key, array $action): void
    + public function addAction(string $key, array $action): void
 
+Mautic 8 also dispatches ``PointBuilderEvent`` by its class name. Re-key your subscriber from ``PointEvents::POINT_ON_BUILD`` to ``PointBuilderEvent::class``, because a subscriber keyed on the constant or the ``mautic.point_on_build`` string silently receives nothing.
+
 .. vale off
 
 TriggerBuilderEvent
@@ -943,6 +945,8 @@ Plugins register a custom Point trigger on ``Mautic\PointBundle\Event\TriggerBui
 
    - public function addEvent($key, array $event): void
    + public function addEvent(string $key, array $event): void
+
+Mautic 8 also dispatches ``TriggerBuilderEvent`` by its class name. Re-key your subscriber from ``PointEvents::TRIGGER_ON_BUILD`` to ``TriggerBuilderEvent::class``, because a subscriber keyed on the constant or the ``mautic.trigger_on_build`` string silently receives nothing.
 
 .. vale off
 
