@@ -1532,6 +1532,112 @@ These base classes also gain ``: array`` return types on the listed methods:
 
 Run :xref:`phpstan` against your Plugin on Mautic 8 to find any override whose return type no longer matches its parent.
 
+.. vale off
+
+Return types on Plugin Integration base classes
+***********************************************
+
+.. vale on
+
+Mautic 8 replaces ``@return array`` annotations with native ``array`` return types on the base classes for Integrations built with the Plugin framework: ``Mautic\PluginBundle\Integration\AbstractIntegration``, ``MauticPlugin\MauticCrmBundle\Integration\CrmAbstractIntegration``, and ``MauticPlugin\MauticSocialBundle\Integration\SocialIntegration``. The methods already returned arrays, so code that only calls them needs no change.
+
+The break affects Plugins whose Integration class extends one of these base classes and overrides a listed method. If the override doesn't declare the ``array`` return type, PHP raises a fatal error when it loads your class:
+
+.. code-block:: text
+
+   Declaration of MauticPlugin\HelloWorldBundle\Integration\HelloWorldIntegration::getRequiredKeyFields() must be compatible with Mautic\PluginBundle\Integration\AbstractIntegration::getRequiredKeyFields(): array
+
+Add ``: array`` to each override, and make sure every code path in it returns an array. An override that still returns ``null`` or another type raises a ``TypeError`` when Mautic calls it.
+
+.. note::
+
+   PHP lets a child method declare a return type that its parent leaves out. Add the return type to your overrides now, and the same code runs on both Mautic 7 and Mautic 8.
+
+.. vale off
+
+This change doesn't affect Integrations that extend ``Mautic\IntegrationsBundle\Integration\BasicIntegration``, the base class that :doc:`/plugin_integrations/integrations` describes, because ``BasicIntegration`` doesn't inherit from these classes.
+
+AbstractIntegration
+===================
+
+.. vale on
+
+Integrations built with the Plugin framework commonly override the methods that describe the Integration's API keys and configuration Form, such as ``getRequiredKeyFields()``, ``getSecretKeys()``, ``getFormNotes()``, and ``getFormLeadFields()``. These methods on ``Mautic\PluginBundle\Integration\AbstractIntegration`` now declare ``: array``:
+
+.. code:: diff
+
+   - public function encryptApiKeys(array $keys)
+   + public function encryptApiKeys(array $keys): array
+   - public function decryptApiKeys(array $keys, bool $mainDecryptOnly = false)
+   + public function decryptApiKeys(array $keys, bool $mainDecryptOnly = false): array
+   - public function getSecretKeys()
+   + public function getSecretKeys(): array
+   - public function getRefreshTokenKeys()
+   + public function getRefreshTokenKeys(): array
+   - public function getRequiredKeyFields()
+   + public function getRequiredKeyFields(): array
+   - public function prepareRequest(string $url, $parameters, string $method, array $settings, $authType)
+   + public function prepareRequest(string $url, $parameters, string $method, array $settings, $authType): array
+   - public function cleanUpFields(Integration $entity, array $mauticLeadFields, array $mauticCompanyFields)
+   + public function cleanUpFields(Integration $entity, array $mauticLeadFields, array $mauticCompanyFields): array
+   - public function getRequiredFields(array $fields, $fieldType = '')
+   + public function getRequiredFields(array $fields, $fieldType = ''): array
+   - public function populateLeadData($lead, $config = [])
+   + public function populateLeadData($lead, $config = []): array
+   - public function populateCompanyData($entity, $config = [])
+   + public function populateCompanyData($entity, $config = []): array
+   - public function populateMauticLeadData($data, $config = [], $object = null)
+   + public function populateMauticLeadData($data, $config = [], $object = null): array
+   - protected function matchUpData($data)
+   + protected function matchUpData($data): array
+   - public function getFormNotes($section)
+   + public function getFormNotes($section): array
+   - public function getFormDisplaySettings()
+   + public function getFormDisplaySettings(): array
+   - public function getFormLeadFields(array $settings = [])
+   + public function getFormLeadFields(array $settings = []): array
+   - public function getFormCompanyFields(array $settings = [])
+   + public function getFormCompanyFields(array $settings = []): array
+   - protected function dispatchIntegrationKeyEvent(?string $eventName, array $keys = [])
+   + protected function dispatchIntegrationKeyEvent(?string $eventName, array $keys = []): array
+   - public function formatMatchedFields(array $fields)
+   + public function formatMatchedFields(array $fields): array
+
+.. vale off
+
+CrmAbstractIntegration
+======================
+
+.. vale on
+
+CRM Integrations that extend ``MauticPlugin\MauticCrmBundle\Integration\CrmAbstractIntegration`` inherit the ``AbstractIntegration`` changes in the preceding section. These field-mapping and sync methods on ``CrmAbstractIntegration`` also declare ``: array``:
+
+.. code:: diff
+
+   - protected function getFormFieldsByObject($object, array $settings = [])
+   + protected function getFormFieldsByObject($object, array $settings = []): array
+   - protected function getPriorityFieldsForMautic(array $config, $entityObject = null, $priorityObject = 'mautic')
+   + protected function getPriorityFieldsForMautic(array $config, $entityObject = null, $priorityObject = 'mautic'): array
+   - protected function getPriorityFieldsForIntegration(array $config, $entityObject = null, $priorityObject = 'mautic')
+   + protected function getPriorityFieldsForIntegration(array $config, $entityObject = null, $priorityObject = 'mautic'): array
+   - protected function getFieldsByPriority(array $config, $priorityObject, $direction)
+   + protected function getFieldsByPriority(array $config, $priorityObject, $direction): array
+   - protected function cleanPriorityFields(array $fieldsToUpdate, $objects = null)
+   + protected function cleanPriorityFields(array $fieldsToUpdate, $objects = null): array
+   - protected function prepareFieldsForPush($fields)
+   + protected function prepareFieldsForPush($fields): array
+
+.. vale off
+
+SocialIntegration
+=================
+
+.. vale on
+
+``MauticPlugin\MauticSocialBundle\Integration\SocialIntegration`` overrides four ``AbstractIntegration`` methods, and its overrides now declare the same ``: array`` return type: ``getFormLeadFields()``, ``getFormCompanyFields()``, ``getRequiredKeyFields()``, and ``getFormNotes()``. If your Integration extends ``SocialIntegration`` and overrides one of these methods, add ``: array`` to the override.
+
+Run :xref:`phpstan` against your Plugin on Mautic 8 to find any override whose return type no longer matches the return type of the parent method.
+
 .. _mautic 8 final classes:
 
 ``final`` classes
