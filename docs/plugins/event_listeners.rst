@@ -312,7 +312,23 @@ Mautic 8 removes these ``LeadEvents`` constants. Code that still references one 
 
 Mautic 8 also changes how these events behave for code that creates or reads them:
 
-* Mautic 8 makes 12 former shared classes ``abstract``: ``CompanyEvent``, ``CompanyMergeEvent``, ``ContactExportSchedulerEvent``, ``ImportEvent``, ``LeadDeviceEvent``, ``LeadFieldEvent``, ``LeadListEvent``, ``LeadMergeEvent``, ``LeadNoteEvent``, ``SaveBatchLeadsEvent``, ``TagEvent``, and ``TagMergeEvent``. If your Plugin creates one of these events with ``new``, create the matching subclass from the preceding tables instead. ``LeadEvent`` and ``ListChangeEvent`` are no longer ``final``, and Mautic still dispatches them directly.
+* Mautic 8 makes these 12 former shared classes ``abstract``:
+
+  * ``CompanyEvent``
+  * ``CompanyMergeEvent``
+  * ``ContactExportSchedulerEvent``
+  * ``ImportEvent``
+  * ``LeadDeviceEvent``
+  * ``LeadFieldEvent``
+  * ``LeadListEvent``
+  * ``LeadMergeEvent``
+  * ``LeadNoteEvent``
+  * ``SaveBatchLeadsEvent``
+  * ``TagEvent``
+  * ``TagMergeEvent``
+
+  If your Plugin creates one of these events with ``new``, create the matching subclass from the preceding tables instead. ``LeadEvent`` and ``ListChangeEvent`` are no longer ``final``, and Mautic still dispatches them directly.
+
 * The event Mautic dispatches before a save, delete, or merge and the event it dispatches afterward are now separate objects. A value that a listener sets on the earlier event isn't available to listeners of the later one.
 * ``Mautic\LeadBundle\Field\Dispatcher\FieldSaveDispatcher::dispatchEvent()`` now takes the ``LeadFieldEvent`` subclass to dispatch, instead of an event name, the field entity, and an ``isNew`` flag.
 
