@@ -22,7 +22,7 @@ Both use the ``Mautic\PageBundle\Event\PageBuilderEvent`` event, and the tokens 
 
 .. note::
 
-   Since Mautic 8, Mautic dispatches ``PageBuilderEvent`` and ``PageDisplayEvent`` by their class names, so key ``getSubscribedEvents()`` on ``PageBuilderEvent::class`` and ``PageDisplayEvent::class``. A subscriber still keyed on ``PageEvents::PAGE_ON_BUILD`` or ``mautic.page_on_build`` no longer receives the build event. Mautic keeps the constant for backward compatibility but no longer dispatches it. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+   Since Mautic 8, Mautic dispatches ``PageBuilderEvent`` and ``PageDisplayEvent`` by their class names, so key ``getSubscribedEvents()`` on ``PageBuilderEvent::class`` and ``PageDisplayEvent::class``. Mautic 8 removed the ``PAGE_ON_BUILD`` and ``PAGE_ON_DISPLAY`` constants from ``Mautic\PageBundle\PageEvents``, so a subscriber still keyed on either constant raises an undefined-constant error. A subscriber keyed on the raw ``mautic.page_on_build`` or ``mautic.page_on_display`` string receives nothing. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 .. vale off
 
