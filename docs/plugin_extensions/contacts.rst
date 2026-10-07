@@ -250,8 +250,12 @@ The ``LeadGetCurrentEvent`` provides the following methods:
 Contact timeline/history
 ************************
 
-To inject events into a Contact's timeline, create an event listener that listens to the ``LeadEvents::TIMELINE_ON_GENERATE`` event.
+To inject events into a Contact's timeline, create an event listener that subscribes to the ``LeadTimelineEvent`` event. The identifier you key the listener on depends on your Mautic version, as the note below explains.
 Using this event, the Plugin can inject unique items into the timeline and also into the engagements graph on each page.
+
+.. note::
+
+   Before Mautic 8, key your listener on the ``LeadEvents::TIMELINE_ON_GENERATE`` constant. Starting in Mautic 8, key it on the event class, ``LeadTimelineEvent::class``. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for why the identifier changed and what breaks if a listener stays keyed on the old constant.
 
 .. note:: Before using this event listener, you'll need to ensure that you store your custom events in a custom database table. See :ref:`components/contacts:Generating timeline events from your own custom events` below for more details.
 
@@ -268,7 +272,6 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
 
     use Doctrine\ORM\EntityManager;
     use Mautic\LeadBundle\Event\LeadTimelineEvent;
-    use Mautic\LeadBundle\LeadEvents;
     use MauticPlugin\HelloWorldBundle\Entity\WorldRepository;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
     use Symfony\Component\Routing\RouterInterface;
@@ -290,7 +293,7 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
         public static function getSubscribedEvents(): array
         {
             return [
-                LeadEvents::TIMELINE_ON_GENERATE => ['onTimelineGenerate', 0]
+                LeadTimelineEvent::class => ['onTimelineGenerate', 0]
             ];
         }
 
