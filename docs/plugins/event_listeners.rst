@@ -404,9 +404,24 @@ The following table is the complete migration reference for AssetBundle event su
 
 .. note::
 
-   The WebhookBundle applies the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` change. Mautic 8 converted only ``WebhookBuilderEvent``, ``WebhookQueueEvent``, and ``WebhookRequestEvent``, so key ``getSubscribedEvents()`` on the event class, for example ``WebhookBuilderEvent::class``, not on the matching ``Mautic\WebhookBundle\WebhookEvents`` constant.
+   The WebhookBundle applies the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` change to ``WebhookBuilderEvent``, ``WebhookQueueEvent``, ``WebhookRequestEvent``, and the Webhook lifecycle events. Key ``getSubscribedEvents()`` on the event class, for example ``WebhookBuilderEvent::class``, not on the matching ``Mautic\WebhookBundle\WebhookEvents`` constant.
 
-   ``WebhookEvent`` - dispatched for ``WEBHOOK_PRE_SAVE``, ``WEBHOOK_POST_SAVE``, ``WEBHOOK_PRE_DELETE``, ``WEBHOOK_POST_DELETE``, and ``WEBHOOK_KILL`` - still dispatches by its ``WebhookEvents`` constants, so keep keying on the constant for those.
+   Before Mautic 8, the five Webhook lifecycle events shared one ``WebhookEvent`` object under five ``WebhookEvents`` constants. Mautic 8 removed those constants, so a subscriber still keyed on one, such as ``WebhookEvents::WEBHOOK_POST_SAVE``, raises an undefined-constant error. Key ``getSubscribedEvents()`` on the replacement class in the ``Mautic\WebhookBundle\Event`` namespace instead:
+
+   * ``WEBHOOK_PRE_SAVE`` - ``WebhookPreSaveEvent``
+   * ``WEBHOOK_POST_SAVE`` - ``WebhookPostSaveEvent``
+   * ``WEBHOOK_PRE_DELETE`` - ``WebhookPreDeleteEvent``
+   * ``WEBHOOK_POST_DELETE`` - ``WebhookPostDeleteEvent``
+   * ``WEBHOOK_KILL`` - ``WebhookKillEvent``, which fires when Mautic stops a Webhook because its target isn't available
+
+   ``WebhookEvent`` is now ``abstract``, and each replacement class extends it, so a listener type-hinted against ``WebhookEvent`` keeps working. Use ``getWebhook()`` to read the Webhook entity, and ``getReason()`` on ``WebhookKillEvent`` to read why Mautic stopped it.
+
+   .. code-block:: php
+
+      return [
+          WebhookPostSaveEvent::class => ['onWebhookSave', 0],
+          WebhookKillEvent::class     => ['onWebhookKill', 0],
+      ];
 
 .. note::
 

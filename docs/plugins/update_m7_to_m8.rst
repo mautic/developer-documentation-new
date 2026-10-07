@@ -1424,7 +1424,6 @@ These event classes are now ``final``:
 * ``Mautic\UserBundle\Event\AuthenticationEvent``
 * ``Mautic\UserBundle\Event\LoginEvent``
 * ``Mautic\WebhookBundle\Event\WebhookBuilderEvent``
-* ``Mautic\WebhookBundle\Event\WebhookEvent``
 * ``Mautic\WebhookBundle\Event\WebhookNotificationEvent``
 
 .. vale on
