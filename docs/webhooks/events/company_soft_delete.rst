@@ -10,12 +10,14 @@ Triggered when Mautic marks a Company as soft deleted. The soft delete mechanism
 Event type
 **********
 
-``mautic.company_soft_delete``
+``Mautic\LeadBundle\Event\CompanySoftDeleteEvent``
+
+Since Mautic 8, Mautic dispatches this event by its event class, which replaces the removed ``LeadEvents::COMPANY_SOFT_DELETE`` constant and its ``mautic.company_soft_delete`` event name. This event isn't a Webhook event type, so you can only subscribe to it from a Plugin. See :ref:`LeadBundle events dispatched by event class <LeadBundle events dispatched by event class>`.
 
 Event instance
 **************
 
-``\Mautic\LeadBundle\Event\CompanyEvent``
+``\Mautic\LeadBundle\Event\CompanySoftDeleteEvent``, which extends ``\Mautic\LeadBundle\Event\CompanyEvent``
 
 Listening to the event
 **********************
@@ -31,8 +33,7 @@ Developers can subscribe to this event to react when Mautic marks Companies for 
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\LeadBundle\Event\CompanyEvent;
-    use Mautic\LeadBundle\LeadEvents;
+    use Mautic\LeadBundle\Event\CompanySoftDeleteEvent;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
     final class CompanySubscriber implements EventSubscriberInterface
@@ -40,11 +41,11 @@ Developers can subscribe to this event to react when Mautic marks Companies for 
         public static function getSubscribedEvents(): array
         {
             return [
-                LeadEvents::COMPANY_SOFT_DELETE => ['onCompanySoftDelete', 0],
+                CompanySoftDeleteEvent::class => ['onCompanySoftDelete', 0],
             ];
         }
 
-        public function onCompanySoftDelete(CompanyEvent $event): void
+        public function onCompanySoftDelete(CompanySoftDeleteEvent $event): void
         {
             $company = $event->getCompany();
             $companyId = $company->getId();
