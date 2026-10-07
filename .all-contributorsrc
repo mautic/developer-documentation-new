@@ -232,6 +232,24 @@
       "contributions": [
         "review"
       ]
+    },
+    {
+      "login": "hluchas",
+      "name": "Lukáš Drahý",
+      "avatar_url": "https://avatars.githubusercontent.com/u/12815758?v=4",
+      "profile": "https://drahy.net",
+      "contributions": [
+        "review"
+      ]
+    },
+    {
+      "login": "rohitp19",
+      "name": "Rohit Pavaskar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66303837?v=4",
+      "profile": "https://github.com/rohitp19",
+      "contributions": [
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
