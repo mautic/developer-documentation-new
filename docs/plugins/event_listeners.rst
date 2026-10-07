@@ -1,5 +1,3 @@
-.. vale off
-
 .. note::
 
    The content for this page requires a major update. The legacy page contains outdated and potentially inaccurate information. You can still access it in the :xref:`legacy repository`.
@@ -237,6 +235,182 @@ Here's the Mautic 8 subscriber:
 
       bin/console debug:event-dispatcher
       bin/console debug:event-dispatcher Mautic\FormBundle\Event\SubmissionEvent
+
+.. note::
+
+   Starting in Mautic 8, Mautic dispatches the LeadBundle events listed below by their event class rather than the ``LeadEvents::*`` string constant, so you subscribe to the event class shown in the table. For the general convention and how to re-key an affected subscriber or tagged listener, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+
+LeadBundle events dispatched by class name in Mautic 8
+======================================================
+
+.. list-table::
+   :header-rows: 1
+   :widths: 34 33 33
+
+   * - Old event name
+     - ``LeadEvents`` constant
+     - New event class
+   * - ``mautic.lead_utmtags_add``
+     - ``LEAD_UTMTAGS_ADD``
+     - ``LeadUtmTagsEvent``
+   * - ``mautic.lead_category_change``
+     - ``LEAD_CATEGORY_CHANGE``
+     - ``CategoryChangeEvent``
+   * - ``mautic.lead_channel_subscription_changed``
+     - ``CHANNEL_SUBSCRIPTION_CHANGED``
+     - ``ChannelSubscriptionChange``
+   * - ``mautic.lead_build_search_commands``
+     - ``LEAD_BUILD_SEARCH_COMMANDS``
+     - ``LeadBuildSearchEvent``
+   * - ``mautic.company_build_search_commands``
+     - ``COMPANY_BUILD_SEARCH_COMMANDS``
+     - ``CompanyBuildSearchEvent``
+   * - ``mautic.adjust_filter_form_type_for_field``
+     - ``ADJUST_FILTER_FORM_TYPE_FOR_FIELD``
+     - ``FormAdjustmentEvent``
+   * - ``mautic.collect_operators_for_field_type``
+     - ``COLLECT_OPERATORS_FOR_FIELD_TYPE``
+     - ``TypeOperatorsEvent``
+   * - ``mautic.collect_operators_for_field``
+     - ``COLLECT_OPERATORS_FOR_FIELD``
+     - ``FieldOperatorsEvent``
+   * - ``mautic.collect_filter_choices_for_list_field_type``
+     - ``COLLECT_FILTER_CHOICES_FOR_LIST_FIELD_TYPE``
+     - ``ListFieldChoicesEvent``
+   * - ``mautic.list_filters_delegate_decorator``
+     - ``SEGMENT_ON_DECORATOR_DELEGATE``
+     - ``LeadListFiltersDecoratorDelegateEvent``
+   * - ``mautic.list_filters_merge``
+     - ``LIST_FILTERS_MERGE``
+     - ``LeadListMergeFiltersEvent``
+   * - ``mautic.list_filters_operators_on_generate``
+     - ``LIST_FILTERS_OPERATORS_ON_GENERATE``
+     - ``LeadListFiltersOperatorsEvent``
+   * - ``mautic.list_filters_operator_querybuilder_on_generate``
+     - ``LIST_FILTERS_OPERATOR_QUERYBUILDER_ON_GENERATE``
+     - ``SegmentOperatorQueryBuilderEvent``
+   * - ``mautic.list_filters_querybuilder_generated``
+     - ``LIST_FILTERS_QUERYBUILDER_GENERATED``
+     - ``LeadListQueryBuilderGeneratedEvent``
+   * - ``mautic.lead_import_on_initialize``
+     - ``IMPORT_ON_INITIALIZE``
+     - ``ImportInitEvent``
+   * - ``mautic.lead_import_on_field_mapping``
+     - ``IMPORT_ON_FIELD_MAPPING``
+     - ``ImportMappingEvent``
+   * - ``mautic.lead_import_on_process``
+     - ``IMPORT_ON_PROCESS``
+     - ``ImportProcessEvent``
+   * - ``mautic.lead_import_on_validate``
+     - ``IMPORT_ON_VALIDATE``
+     - ``ImportValidateEvent``
+   * - ``mautic.lead_field_pre_add_column``
+     - ``LEAD_FIELD_PRE_ADD_COLUMN``
+     - ``AddColumnEvent``
+   * - ``mautic.lead_field_pre_add_column_background_job``
+     - ``LEAD_FIELD_PRE_ADD_COLUMN_BACKGROUND_JOB``
+     - ``AddColumnBackgroundEvent``
+   * - ``mautic.lead_field_pre_update_column``
+     - ``LEAD_FIELD_PRE_UPDATE_COLUMN``
+     - ``UpdateColumnEvent``
+   * - ``mautic.lead_field_pre_update_column_background_job``
+     - ``LEAD_FIELD_PRE_UPDATE_COLUMN_BACKGROUND_JOB``
+     - ``UpdateColumnBackgroundEvent``
+   * - ``mautic.lead_field_pre_delete_column``
+     - ``LEAD_FIELD_PRE_DELETE_COLUMN``
+     - ``DeleteColumnEvent``
+   * - ``mautic.lead_field_pre_delete_column_background_job``
+     - ``LEAD_FIELD_PRE_DELETE_COLUMN_BACKGROUND_JOB``
+     - ``DeleteColumnBackgroundEvent``
+
+Six field-column classes live in the ``Mautic\LeadBundle\Field\Event`` namespace:
+
+* ``AddColumnEvent``
+* ``AddColumnBackgroundEvent``
+* ``UpdateColumnEvent``
+* ``UpdateColumnBackgroundEvent``
+* ``DeleteColumnEvent``
+* ``DeleteColumnBackgroundEvent``
+
+The other 18 live in the ``Mautic\LeadBundle\Event`` namespace.
+
+``CHANNEL_SUBSCRIPTION_CHANGED`` is the one exception to watch. Its event dispatch and subscription move to the ``ChannelSubscriptionChange`` event class, but its string value ``mautic.lead_channel_subscription_changed`` stays the Webhook type identifier. Webhook configuration and receivers keep working, so you only need to change your event-subscription code.
+
+These illustrative fragments show the change inside an existing subscriber's ``getSubscribedEvents()`` method, using the ``LEAD_BUILD_SEARCH_COMMANDS`` event. Before Mautic 8, the subscriber keys on the constant:
+
+.. code-block:: php
+
+    <?php
+
+    use Mautic\LeadBundle\LeadEvents;
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            LeadEvents::LEAD_BUILD_SEARCH_COMMANDS => ['onBuildSearchCommands', 0],
+        ];
+    }
+
+In Mautic 8, the subscriber keys on the event class:
+
+.. code-block:: php
+
+    <?php
+
+    use Mautic\LeadBundle\Event\LeadBuildSearchEvent;
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            LeadBuildSearchEvent::class => ['onBuildSearchCommands', 0],
+        ];
+    }
+
+.. tip::
+
+   To list the listeners registered for an event, run the Symfony console command ``bin/console debug:event-dispatcher``, optionally passing the event class to list only that event's listeners. Run it before and after re-keying a subscriber to confirm the subscriber now appears under the new event-class name.
+
+.. note::
+
+   The ``Mautic\AssetBundle\AssetEvents`` family follows the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule. Key ``getSubscribedEvents()`` on the event class - for example ``AssetLoadEvent::class`` in the ``Mautic\AssetBundle\Event`` namespace - not on the ``AssetEvents::*`` constant or the raw string name such as ``mautic.asset_on_load``. Mautic also removed the dead ``ASSET_ON_UPLOAD`` constant, which it never dispatched or listened to.
+
+The following table is the complete migration reference for AssetBundle event subscribers. It maps each old event name and ``AssetEvents`` constant to its new event class. All new event classes live in the ``Mautic\AssetBundle\Event`` namespace, and ``app/bundles/AssetBundle/AssetEvents.php`` defines the constants.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 35 25
+
+   * - Old event name
+     - AssetEvents constant
+     - New event class
+   * - ``mautic.asset_on_load``
+     - ``AssetEvents::ASSET_ON_LOAD``
+     - ``AssetLoadEvent``
+   * - ``mautic.asset_on_remote_browse``
+     - ``AssetEvents::ASSET_ON_REMOTE_BROWSE``
+     - ``RemoteAssetBrowseEvent``
+   * - ``mautic.asset_pre_save``
+     - ``AssetEvents::ASSET_PRE_SAVE``
+     - ``AssetPreSaveEvent``
+   * - ``mautic.asset_post_save``
+     - ``AssetEvents::ASSET_POST_SAVE``
+     - ``AssetPostSaveEvent``
+   * - ``mautic.asset_pre_delete``
+     - ``AssetEvents::ASSET_PRE_DELETE``
+     - ``AssetPreDeleteEvent``
+   * - ``mautic.asset_post_delete``
+     - ``AssetEvents::ASSET_POST_DELETE``
+     - ``AssetPostDeleteEvent``
+
+.. note::
+
+   The WebhookBundle applies the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` change. Mautic 8 converted only ``WebhookBuilderEvent``, ``WebhookQueueEvent``, and ``WebhookRequestEvent``, so key ``getSubscribedEvents()`` on the event class, for example ``WebhookBuilderEvent::class``, not on the matching ``Mautic\WebhookBundle\WebhookEvents`` constant.
+
+   ``WebhookEvent`` - dispatched for ``WEBHOOK_PRE_SAVE``, ``WEBHOOK_POST_SAVE``, ``WEBHOOK_PRE_DELETE``, ``WEBHOOK_POST_DELETE``, and ``WEBHOOK_KILL`` - still dispatches by its ``WebhookEvents`` constants, so keep keying on the constant for those.
+
+.. note::
+
+   In Mautic 8, ``Mautic\IntegrationsBundle\Event`` events whose class maps to a single event name dispatch by the event object alone. Key ``getSubscribedEvents()`` on the event class - for example ``InternalObjectEvent::class`` - for those. Families whose class serves several names, such as ``ConfigSaveEvent`` and ``InternalObjectFindEvent``, still dispatch by their ``IntegrationEvents`` constants, so keep keying on the constant for those. For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 Custom events
 *************
