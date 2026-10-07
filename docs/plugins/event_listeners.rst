@@ -526,8 +526,6 @@ Mautic 8 removed the string constants for the following events, which Mautic dis
      - ``Mautic\PluginBundle\Event\PluginIsPublishedEvent``
    * - ``DynamicContentEvents::ON_CONTACTS_FILTER_EVALUATE``
      - ``Mautic\DynamicContentBundle\Event\ContactFiltersEvaluateEvent``
-   * - ``DynamicContentEvents::TOKEN_REPLACEMENT``
-     - ``Mautic\CoreBundle\Event\TokenReplacementEvent``
    * - ``DoNotContactAddEvent::ADD_DONOT_CONTACT``
      - ``Mautic\LeadBundle\Event\DoNotContactAddEvent``
    * - ``DoNotContactRemoveEvent::REMOVE_DONOT_CONTACT``
