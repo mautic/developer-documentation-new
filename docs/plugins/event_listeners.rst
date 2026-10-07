@@ -123,7 +123,7 @@ To find the name Mautic dispatches an event under, and to confirm a re-key, run 
       * - ``USER_PASSWORD_STRENGTH_VALIDATION``
         - ``PasswordStrengthValidateEvent``
 
-   Mautic previously dispatched ``AuthenticationEvent`` under both the pre-authentication and the form authentication names. ``AuthenticationEvent`` is now an abstract base class for ``PreAuthenticationEvent`` and ``FormAuthenticationEvent``, so a listener method can keep its ``AuthenticationEvent`` type hint. Code that creates an ``AuthenticationEvent`` with ``new``, such as a Plugin test, must create one of the subclasses instead. Mautic also removes the ``USER_FORM_POST_LOCAL_PASSWORD_AUTHENTICATION`` constant without a replacement, because Mautic never dispatched an event under it.
+   Mautic previously dispatched ``AuthenticationEvent`` under both the ``USER_PRE_AUTHENTICATION`` and ``USER_FORM_AUTHENTICATION`` names. ``AuthenticationEvent`` is now an abstract base class for ``PreAuthenticationEvent`` and ``FormAuthenticationEvent``, so a listener method can keep its ``AuthenticationEvent`` type hint. Code that creates an ``AuthenticationEvent`` with ``new``, such as a Plugin test, must create one of the subclasses instead. Mautic also removes the ``USER_FORM_POST_LOCAL_PASSWORD_AUTHENTICATION`` constant without a replacement, because Mautic never dispatched an event under it.
 
    The ``UPGRADE-8.0.md`` guide lists each removed constant with its replacement event class.
 
