@@ -827,7 +827,11 @@ To add these configuration options in Mautic's configuration section, you’ll n
 Config event subscriber
 =======================
 
-This allows Plugins to interact with Mautic's configuration events. It listens to two important events: ``ConfigEvents::CONFIG_ON_GENERATE`` and ``ConfigEvents::CONFIG_PRE_SAVE``.
+A config event subscriber lets a Plugin add its settings to Mautic's configuration form and process the submitted values. It listens to two events, ``ConfigBuilderEvent::class`` and ``ConfigEvents::CONFIG_PRE_SAVE``.
+
+.. note::
+
+   Mautic dispatches the configuration form event by its class, so key ``getSubscribedEvents()`` on ``ConfigBuilderEvent::class``. Mautic 8 removed the ``ConfigEvents::CONFIG_ON_GENERATE`` constant, so a subscriber that still references it raises an undefined-constant error. ``CONFIG_PRE_SAVE`` and ``CONFIG_POST_SAVE`` remain string-dispatched constants because both dispatches share one ``ConfigEvent`` object. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 The following code example shows how a Plugin structures its event subscriber.
 
@@ -843,7 +847,7 @@ The following code example shows how a Plugin structures its event subscriber.
     use Mautic\ConfigBundle\Event\ConfigBuilderEvent;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-    final class ConfigSubscriber extends EventSubscriberInterface
+    final class ConfigSubscriber implements EventSubscriberInterface
     {
         /**
          * @return mixed[]
@@ -851,8 +855,8 @@ The following code example shows how a Plugin structures its event subscriber.
         static public function getSubscribedEvents(): array
         {
             return [
-                ConfigEvents::CONFIG_ON_GENERATE => ['onConfigGenerate', 0],
-                ConfigEvents::CONFIG_PRE_SAVE    => ['onConfigSave', 0]
+                ConfigBuilderEvent::class     => ['onConfigGenerate', 0],
+                ConfigEvents::CONFIG_PRE_SAVE => ['onConfigSave', 0]
             ];
         }
 
@@ -885,7 +889,7 @@ Subscribed events
 
 The event subscriber listens to the following events:
 
-- ``ConfigEvents::CONFIG_ON_GENERATE``:
+- ``ConfigBuilderEvent::class``:
   Mautic dispatches this event when it builds the configuration form. This allows the Plugin to inject its own tab and configuration options.
 
 - ``ConfigEvents::CONFIG_PRE_SAVE``:
@@ -894,7 +898,7 @@ The event subscriber listens to the following events:
 Generate Plugin configuration
 -----------------------------
 
-To register Plugin’s configuration details during the ``ConfigEvents::CONFIG_ON_GENERATE event``, call the ``addForm()`` method on the ``ConfigBuilderEvent`` object. The method expects an array with the following elements:
+To register Plugin’s configuration details during the ``ConfigBuilderEvent`` event, call the ``addForm()`` method on the ``ConfigBuilderEvent`` object. The method expects an array with the following elements:
 
 .. list-table::
     :header-rows: 1
@@ -963,7 +967,7 @@ Below is an example of a form type class that adds a custom configuration option
 Config template
 ===============
 
-Registering a form theme as ``HelloWorldBundle:FormTheme\Config`` in the event listener tells the ConfigBundle to look in the HelloWorldBundle’s ``Resources/views/FormTheme/Config`` folder for templates. Specifically, it will look for a template named ``_config_{formAlias}_widget.html.twig``, where ``{formAlias}`` is the same as the ``formAlias`` set in the Plugin’s ``ConfigEvents::CONFIG_ON_GENERATE`` event listener.
+Registering a form theme as ``HelloWorldBundle:FormTheme\Config`` in the event listener tells the ConfigBundle to look in the HelloWorldBundle’s ``Resources/views/FormTheme/Config`` folder for templates. Specifically, it will look for a template named ``_config_{formAlias}_widget.html.twig``, where ``{formAlias}`` is the same as the ``formAlias`` set in the Plugin’s ``ConfigBuilderEvent`` event listener.
 
 The template should be structured in a panel format to match the rest of the configuration UI.
 
