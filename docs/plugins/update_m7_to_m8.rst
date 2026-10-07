@@ -469,7 +469,7 @@ CoreBundle
 
 .. vale on
 
-Mautic 8 adds native type declarations to several ``Mautic\CoreBundle\Event\`` classes that Plugins subscribe to and dispatch. Some narrow a parameter or return type - so a subscriber or caller that passes a previously tolerated type raises a ``TypeError`` at runtime under ``strict_types`` - while others match the types the methods already accepted. Grep your ``use`` statements for the ``Mautic\CoreBundle\Event\`` namespace to find the classes your Plugin references.
+Mautic 8 adds native type declarations to several ``Mautic\CoreBundle\Event\`` classes that Plugins subscribe to and dispatch. Some narrow a parameter or return type, so a subscriber or caller that passes a previously tolerated type raises a ``TypeError`` at runtime under ``strict_types``. Others match the types the methods already accepted. Grep your ``use`` statements for the ``Mautic\CoreBundle\Event\`` namespace to find the classes your Plugin references.
 
 .. vale off
 
@@ -478,14 +478,14 @@ TokenReplacementEvent
 
 .. vale on
 
-``Mautic\CoreBundle\Event\TokenReplacementEvent`` declares ``strict_types`` and has subscribers in the ``EmailBundle``, ``LeadBundle``, ``SmsBundle``, ``NotificationBundle``, and ``DynamicContentBundle``, and in the ``MauticFocusBundle`` Plugin. ``setContent()`` narrowed to ``string`` only, from the ``CommonEntity|string|null`` its old ``@param CommonEntity|string|null $content`` annotation allowed, so a call that still passes a non-string now raises a ``TypeError`` at runtime:
+``Mautic\CoreBundle\Event\TokenReplacementEvent`` declares ``strict_types`` and has subscribers in the ``EmailBundle``, ``LeadBundle``, ``SmsBundle``, ``NotificationBundle``, and ``DynamicContentBundle``, and in the ``MauticFocusBundle`` Plugin. ``setContent()`` narrowed to ``string`` only, from the ``CommonEntity|string|null`` its old ``@param CommonEntity|string|null $content`` annotation allowed, so a call that still passes a non-string now raises a ``TypeError`` at runtime.
 
 .. code:: diff
 
    -    public function setContent($content): void
    +    public function setContent(string $content): void
 
-If your Plugin dispatches this Event, Mautic 8 also types the constructor and ``getLead()``. Note the asymmetry: the constructor accepts ``Lead|array|string|null`` for ``$content``, while ``setContent()`` accepts only ``string``:
+If your Plugin dispatches this Event, Mautic 8 also types the constructor and ``getLead()``. The constructor accepts ``Lead|array|string|null`` for ``$content``, while ``setContent()`` accepts only ``string``.
 
 .. code:: diff
 
@@ -508,14 +508,14 @@ CustomContentEvent
 
 .. vale on
 
-``Mautic\CoreBundle\Event\CustomContentEvent`` is a ``final`` class - so the override risk doesn't apply - and declares ``strict_types``. ``checkContext()`` now types both parameters as ``string``, narrowing the ``$context`` parameter that previously carried the ``PHPDoc`` type ``string|null``. The parameter order is ``$viewName`` then ``$context``:
+``Mautic\CoreBundle\Event\CustomContentEvent`` is a ``final`` class, so the override risk doesn't apply. It also declares ``strict_types``. ``checkContext()`` now types both parameters as ``string``, narrowing the ``$context`` parameter that previously carried the ``PHPDoc`` type ``string|null``. The parameter order is ``$viewName`` then ``$context``.
 
 .. code:: diff
 
    -    public function checkContext($viewName, $context): bool
    +    public function checkContext(string $viewName, string $context): bool
 
-If your Plugin dispatches this Event, the constructor promotes both parameters to ``readonly`` typed properties, and the getters gain return types:
+If your Plugin dispatches this Event, the constructor promotes both parameters to ``readonly`` typed properties, and ``getViewName()`` and ``getContext()`` gain return types.
 
 .. code:: diff
 
@@ -541,7 +541,7 @@ CustomButtonEvent
 
 .. vale on
 
-Plugins that add custom buttons use ``Mautic\CoreBundle\Event\CustomButtonEvent``. ``addButton()`` narrows ``$location`` to ``?string`` and widens ``$route`` to ``array|string|null``, so pass a ``string`` or ``null`` for ``$location``. Its sibling ``addButtons()`` keeps its original signature and needs no action:
+Plugins that add custom buttons use ``Mautic\CoreBundle\Event\CustomButtonEvent``. ``addButton()`` narrows ``$location`` to ``?string`` and widens ``$route`` to ``array|string|null``, so pass a ``string`` or ``null`` for ``$location``. Its sibling ``addButtons()`` keeps its original signature and needs no action.
 
 .. code:: diff
 
@@ -555,7 +555,7 @@ BuilderEvent
 
 .. vale on
 
-``getRequested()`` now requires a ``string $type`` argument, and the ``protected`` ``$requested`` property carries the type ``string|array``. The internal comparison changed from loose ``==`` to strict ``===``, which is equivalent under the new types. Because ``getRequested()`` is ``protected``, this affects only a Plugin that subclasses ``Mautic\CoreBundle\Event\BuilderEvent``: an override must add the required ``string $type`` parameter, and an assignment to the newly typed ``$requested`` property must pass a ``string`` or ``array``:
+``getRequested()`` now requires a ``string $type`` argument, and the ``protected`` ``$requested`` property carries the type ``string|array``. The internal comparison changed from loose ``==`` to strict ``===``, which is equivalent under the new types. Because ``getRequested()`` is ``protected``, this affects only a Plugin that subclasses ``Mautic\CoreBundle\Event\BuilderEvent``. An override must add the required ``string $type`` parameter, and an assignment to the newly typed ``$requested`` property must pass a ``string`` or ``array``.
 
 .. code:: diff
 
@@ -574,7 +574,7 @@ MaintenanceEvent
 
 .. vale on
 
-The constructor of ``Mautic\CoreBundle\Event\MaintenanceEvent`` promotes ``$daysOld`` to a typed ``int`` property, which removes the explicit ``(int)`` cast. This preserves behavior for ``int`` or numeric-string input, because the class doesn't declare ``strict_types``. ``setStat()`` now types ``$parameters`` as ``array`` and keeps its ``= []`` default, so only a caller passing a non-array value breaks - pass an array, or omit it:
+The constructor of ``Mautic\CoreBundle\Event\MaintenanceEvent`` promotes ``$daysOld`` to a typed ``int`` property, which removes the explicit ``(int)`` cast. This preserves behavior for ``int`` or numeric-string input, because the class doesn't declare ``strict_types``. ``setStat()`` now types ``$parameters`` as ``array`` and keeps its ``= []`` default, so only a caller passing a non-array value breaks. Pass an array, or omit the argument.
 
 .. code:: diff
 
@@ -588,7 +588,7 @@ The constructor of ``Mautic\CoreBundle\Event\MaintenanceEvent`` promotes ``$days
    -    public function setStat($key, $recordCount, $sql = null, $parameters = []): void
    +    public function setStat($key, $recordCount, $sql = null, array $parameters = []): void
 
-Several other ``CoreBundle`` event classes gained native types that match their existing ``PHPDoc``, so your Plugin needs no action for ``CustomAssetsEvent``, ``BuildJsEvent`` (a ``final`` class), ``CommandListEvent``, ``GlobalSearchEvent``, and ``IconEvent``.
+Several other ``CoreBundle`` event classes gained native types that match their existing ``PHPDoc``, so your Plugin needs no action for ``CustomAssetsEvent``, ``BuildJsEvent``, ``CommandListEvent``, ``GlobalSearchEvent``, and ``IconEvent``.
 
 .. vale off
 
