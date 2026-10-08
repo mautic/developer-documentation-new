@@ -80,7 +80,7 @@ By default, Mautic uses Doctrine's PHP driver instead of annotations which requi
 
 Firewalls and User access management
 ************************************
-``app/config/security.php`` lists Mautic's firewalls. For the most part, Mautic uses Symfony's standard way of registering firewalls and authentication with a means for Plugins to hook into the authentication process through listeners to the ``UserEvents::USER_PRE_AUTHENTICATION`` and ``UserEvents::USER_FORM_AUTHENTICATION`` events.
+``app/config/security.php`` lists Mautic's firewalls. For the most part, Mautic uses Symfony's standard way of registering firewalls and authentication with a means for Plugins to hook into the authentication process by subscribing to the ``Mautic\UserBundle\Event\PreAuthenticationEvent`` and ``Mautic\UserBundle\Event\FormAuthenticationEvent`` events.
 
 Mautic has its own permission system based on bitwise permissions and thus doesn't leverage Symfony voters.
 
