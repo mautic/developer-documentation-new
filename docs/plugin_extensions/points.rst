@@ -22,7 +22,11 @@ Point Actions
 
 In Mautic, custom Point Actions give a Contact `x` Points for doing a certain action.
 
-Mautic dispatches the Event ``\Mautic\PointBundle\PointEvents::POINT_ON_BUILD`` for Plugins to register their custom Point Action. Listeners receive a ``Mautic\PointBundle\Event\PointBuilderEvent`` object. Register the Event using the ``addAction`` method as described below.
+To let Plugins register their custom Point Actions, Mautic dispatches a ``Mautic\PointBundle\Event\PointBuilderEvent`` object. Key your subscriber on ``PointBuilderEvent::class``, and register each Point Action with the ``addAction`` method as described below.
+
+.. note::
+
+   Mautic dispatches ``PointBuilderEvent`` by its class name. A subscriber keyed on ``PointEvents::POINT_ON_BUILD`` or the ``mautic.point_on_build`` string silently receives nothing. The constant still exists, but Mautic no longer dispatches the event under it. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 .. php:namespace:: Mautic\PointBundle\Event
 .. php:class:: PointBuilderEvent
@@ -55,7 +59,6 @@ Registering a Custom Point Action
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
     use Mautic\PointBundle\Event\PointBuilderEvent;
-    use Mautic\PointBundle\PointEvents;
     use MauticPlugin\HelloWorldBundle\Form\Type\PointActionsType;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -64,7 +67,7 @@ Registering a Custom Point Action
         public static function getSubscribedEvents(): array
         {
             return [
-                PointEvents::POINT_ON_BUILD => ['onPointBuild', 0],
+                PointBuilderEvent::class => ['onPointBuild', 0],
             ];
         }
 
@@ -156,7 +159,11 @@ Point Triggers
 
 A custom Point Trigger used to execute a specific action once a Contact reaches X number of Points.
 
-Mautic dispatches the Event ``\Mautic\PointBundle\PointEvents::TRIGGER_ON_BUILD`` for Plugins to register their custom Point Triggers. Listeners receive a ``Mautic\PointBundle\Event\TriggerBuilderEvent`` object. Register the Event using the ``addEvent`` method as described below.
+To let Plugins register their custom Point Triggers, Mautic dispatches a ``Mautic\PointBundle\Event\TriggerBuilderEvent`` object. Key your subscriber on ``TriggerBuilderEvent::class``, and register each Point Trigger with the ``addEvent`` method as described below.
+
+.. note::
+
+   Mautic dispatches ``TriggerBuilderEvent`` by its class name. A subscriber keyed on ``PointEvents::TRIGGER_ON_BUILD`` or the ``mautic.trigger_on_build`` string silently receives nothing. The constant still exists, but Mautic no longer dispatches the event under it. Mautic still dispatches the other ``PointEvents`` events, such as ``PointEvents::TRIGGER_POST_SAVE``, by their string constants.
 
 .. php:class:: Mautic\PointBundle\Event\TriggerBuilderEvent
 
@@ -186,9 +193,8 @@ Registering a Custom Point Trigger
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
     use Mautic\CoreBundle\Factory\MauticFactory;
-    use Mautic\HelloWorldBundle\Form\Type\TriggerChoiceType;
     use Mautic\PointBundle\Event\TriggerBuilderEvent;
-    use Mautic\PointBundle\PointEvents;
+    use MauticPlugin\HelloWorldBundle\Form\Type\TriggerChoiceType;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
     class PointSubscriber implements EventSubscriberInterface
@@ -196,7 +202,7 @@ Registering a Custom Point Trigger
         public static function getSubscribedEvents(): array
         {
             return [
-                PointEvents::TRIGGER_ON_BUILD => ['onTriggerBuild', 0],
+                TriggerBuilderEvent::class => ['onTriggerBuild', 0],
             ];
         }
 

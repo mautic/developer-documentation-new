@@ -207,12 +207,14 @@ Similar to ``delegateView()``, but used after an action like saving a Form. Acce
 
 .. vale off
 
-\2. FormController - ``Mautic\CoreBundle\Controller\FormController``
-====================================================================
-
-This controller extends ``CommonController`` and provides helper methods for managing Forms.
+\2. AbstractFormController - ``Mautic\CoreBundle\Controller\AbstractFormController``
+------------------------------------------------------------------------------------
 
 .. vale on
+
+This controller extends ``CommonController`` and adds helper methods for handling Symfony ``FormInterface`` objects, such as ``isFormCancelled()``, ``isFormApplied()``, and ``isFormValid()``, plus entity locking through ``isLocked()``. It also gives your controller the ``$this->formFactory`` service for building them.
+
+If your controller manages an entity with the standard list, view, new, edit, clone, and delete actions, extend ``Mautic\CoreBundle\Controller\AbstractStandardFormController`` instead. It extends ``AbstractFormController`` and provides those actions through helpers such as ``indexStandard()``, ``newStandard()``, and ``editStandard()``. Your controller must implement ``getModelName()``, and can override methods such as ``getTemplateBase()``, ``getRouteBase()``, and ``getSessionBase()`` when the defaults derived from the model name don't fit.
 
 .. code-block:: php
 
@@ -221,9 +223,9 @@ This controller extends ``CommonController`` and provides helper methods for man
 
     namespace MauticPlugin\HelloWorldBundle\Controller;
 
-    use Mautic\CoreBundle\Controller\FormController;
+    use Mautic\CoreBundle\Controller\AbstractFormController;
 
-    class DefaultController extends FormController
+    class DefaultController extends AbstractFormController
     {
         public function worldAction(string $world = 'earth', WorldModel $model): Response
         {
@@ -293,7 +295,7 @@ This controller extends ``CommonController`` and provides helper methods for man
                 [
                     'viewParameters'  => [
                         'form' => $form->createView()
-                    ),
+                    ],
                     'contentTemplate' => '@HelloWorld/Contact/form.html.twig',
                     'passthroughVars' => [
                         'activeLink' => 'plugin_helloworld_contact',
@@ -307,7 +309,7 @@ This controller extends ``CommonController`` and provides helper methods for man
 .. vale off
 
 \3. AjaxController - ``Mautic\CoreBundle\Controller\AjaxController``
-====================================================================
+--------------------------------------------------------------------
 
 .. vale on
 
