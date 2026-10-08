@@ -18,7 +18,7 @@ There are two ways to extend Landing Pages:
 * Landing Page tokens used to insert Dynamic Content into a Landing Page
 * A/B test winning criteria
 
-Both use the ``Mautic\PageBundle\Event\PageBuilderEvent`` event, and the tokens example below also handles ``PageDisplayEvent``. Read more about :ref:`plugins/event_listeners:Event listeners`.
+Both use the ``Mautic\PageBundle\Event\PageBuilderEvent`` event, and the tokens example below also handles ``PageDisplayEvent``. Read more about :ref:`Plugins/event_listeners:Event listeners`.
 
 .. note::
 
@@ -205,7 +205,7 @@ The event provides:
 
 .. note::
 
-   The ``TokenHelper::REGEX`` constant provides the regular expression pattern for matching Contact field tokens. Use this to check whether a URL contains tokens before performing replacements.
+   The ``TokenHelper::REGEX`` constant provides the regular expression pattern for matching Contact field tokens. Use it to test whether a URL contains tokens before performing replacements.
 
 .. vale off
 
