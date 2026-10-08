@@ -304,7 +304,7 @@ CampaignBundle
 
 .. vale on
 
-Mautic 8 adds type declarations to the Campaign Event entity and three Campaign event classes.
+Mautic 8 adds type declarations to the Campaign Event entity and three Campaign event classes. It also dispatches the Campaign save and delete events by dedicated event classes.
 
 .. vale off
 
@@ -372,6 +372,41 @@ Subscribers to Campaign membership changes receive ``CampaignSingleLeadChangeEve
 
    - public function getLead()
    + public function getLead(): ?\Mautic\LeadBundle\Entity\Lead
+
+.. vale off
+
+CampaignEvent
+=============
+
+.. vale on
+
+Before Mautic 8, one ``Mautic\CampaignBundle\Event\CampaignEvent`` object served the ``CampaignEvents::CAMPAIGN_PRE_SAVE``, ``CAMPAIGN_POST_SAVE``, ``CAMPAIGN_PRE_DELETE``, and ``CAMPAIGN_POST_DELETE`` names. Mautic removed all four constants and now dispatches a dedicated event class for each, by class name:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``CampaignEvents`` constant
+     - Event class
+   * - ``CAMPAIGN_PRE_SAVE``
+     - ``Mautic\CampaignBundle\Event\CampaignPreSaveEvent``
+   * - ``CAMPAIGN_POST_SAVE``
+     - ``Mautic\CampaignBundle\Event\CampaignPostSaveEvent``
+   * - ``CAMPAIGN_PRE_DELETE``
+     - ``Mautic\CampaignBundle\Event\CampaignPreDeleteEvent``
+   * - ``CAMPAIGN_POST_DELETE``
+     - ``Mautic\CampaignBundle\Event\CampaignPostDeleteEvent``
+
+A subscriber that still references one of the constants throws a PHP ``Error`` with the message 'Undefined constant'. Each new class is ``final`` and extends ``CampaignEvent``, so a listener method can keep its ``CampaignEvent`` type hint. Re-key your subscriber on the event classes:
+
+.. code:: diff
+
+   - CampaignEvents::CAMPAIGN_POST_SAVE   => ['onCampaignPostSave', 0],
+   - CampaignEvents::CAMPAIGN_POST_DELETE => ['onCampaignDelete', 0],
+   + CampaignPostSaveEvent::class         => ['onCampaignPostSave', 0],
+   + CampaignPostDeleteEvent::class       => ['onCampaignDelete', 0],
+
+Mautic still dispatches ``CampaignEvent`` itself after it imports a Campaign, so the class stays concrete. A Plugin test that passes ``new CampaignEvent($campaign)`` to a save or delete listener must create the matching subclass instead. For a subscriber example, see :ref:`Campaign save and delete events <plugin_extensions/campaigns:Campaign save and delete events>`.
 
 .. vale off
 
