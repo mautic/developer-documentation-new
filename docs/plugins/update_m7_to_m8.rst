@@ -1678,6 +1678,8 @@ Every class that implements one of these interfaces must declare the ``array`` r
    + public function getDefaultThemes(): array;
    - public function getOptionalSettings();
    + public function getOptionalSettings(): array;
+   - public function getInstalledThemes($specificFeature = 'all', bool $extended = false, bool $ignoreCache = false, bool $includeDirs = true);
+   + public function getInstalledThemes($specificFeature = 'all', bool $extended = false, bool $ignoreCache = false, bool $includeDirs = true): array;
 
    // Mautic\CoreBundle\IpLookup\IpLookupFormInterface
    - public function getConfigFormThemes();
@@ -1760,6 +1762,8 @@ Plugin controllers that extend these Mautic controller classes must declare ``: 
    + protected function afterEntityClone($newEntity, $entity): array
    - protected function getEntityFormOptions()
    + protected function getEntityFormOptions(): array
+   - protected function getIndexItems($start, $limit, $filter, $orderBy, $orderByDir, array $args = [])
+   + protected function getIndexItems($start, $limit, $filter, $orderBy, $orderByDir, array $args = []): array
    - protected function getUpdateSelectParams($updateSelect, $entity, $nameMethod = 'getName', $groupMethod = 'getLanguage')
    + protected function getUpdateSelectParams($updateSelect, $entity, $nameMethod = 'getName', $groupMethod = 'getLanguage'): array
    - protected function getViewDateRange(Request $request, $objectId, $returnUrl, $timezone = 'local', &$dateRangeForm = null)
@@ -1782,6 +1786,9 @@ These base classes also gain ``: array`` return types on the listed methods:
 * ``Mautic\CoreBundle\IpLookup\AbstractLookup::getDetails()``, ``AbstractLocalDataLookup::getConfigFormThemes()``, and ``getHeaders()`` on ``AbstractMaxmindLookup`` and ``AbstractRemoteDataLookup``, plus ``AbstractRemoteDataLookup::getParameters()``
 * ``Mautic\CoreBundle\Event\BuilderEvent::getTokens()`` and ``filterTokens()``
 * ``Mautic\CoreBundle\Event\TokenReplacementEvent::getTokens()``
+* ``MauticPlugin\MauticCrmBundle\Integration\CrmAbstractIntegration::getSyncTimeframeDates()``
+
+``Mautic\PluginBundle\Integration\AbstractIntegration::mergeApiKeys()`` gains a ``: ?array`` return type, because it returns ``null`` unless you pass ``true`` as its ``$return`` argument. An override can declare ``: ?array``, or ``: array`` if it always returns an array.
 
 Run :xref:`phpstan` against your Plugin on Mautic 8 to find any override whose return type no longer matches its parent.
 
