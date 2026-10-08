@@ -636,7 +636,44 @@ The constructor of ``Mautic\CoreBundle\Event\MaintenanceEvent`` promotes ``$days
    -    public function setStat($key, $recordCount, $sql = null, $parameters = []): void
    +    public function setStat($key, $recordCount, $sql = null, array $parameters = []): void
 
-Several other ``CoreBundle`` event classes gained native types that match their existing ``PHPDoc``, so your Plugin needs no action for ``CustomAssetsEvent``, ``BuildJsEvent``, ``CommandListEvent``, ``GlobalSearchEvent``, and ``IconEvent``.
+.. vale off
+
+IconEvent
+=========
+
+.. vale on
+
+``Mautic\CoreBundle\Event\IconEvent`` no longer carries the ``CorePermissions`` service. Its constructor takes no arguments, and the class no longer provides ``getSecurity()``. If your icon subscriber called ``$event->getSecurity()``, inject ``Mautic\CoreBundle\Security\Permissions\CorePermissions`` into the subscriber's constructor and use that instead. If your Plugin creates an ``IconEvent`` itself, drop the constructor argument:
+
+.. code:: diff
+
+   -    $iconEvent = new IconEvent($this->security);
+   +    $iconEvent = new IconEvent();
+
+.. vale off
+
+PreExecuteEvent
+===============
+
+.. vale on
+
+Mautic dispatches ``Mautic\CoreBundle\Doctrine\Common\DataFixtures\Event\PreExecuteEvent`` when it creates the purger for loading data fixtures. The event no longer carries the entity manager. Its constructor takes only the purge mode, and the class no longer provides ``getEntityManager()``. If a fixture listener called ``$event->getEntityManager()``, inject ``Doctrine\ORM\EntityManagerInterface`` into the fixture class and use that instead:
+
+.. code:: diff
+
+   -    $event->getEntityManager()->getConnection()->executeStatement($sql);
+   +    $this->entityManager->getConnection()->executeStatement($sql);
+
+.. vale off
+
+Services in event constructors
+==============================
+
+.. vale on
+
+A new :xref:`phpstan` rule, ``mautic.noServiceInEventConstructor``, flags event classes that accept a service in their constructor only to hand it to listeners. It checks for services such as ``CorePermissions``, ``EntityManagerInterface``, and ``TranslatorInterface``. Mautic's ``phpstan.neon`` enables the rule, so ``composer phpstan`` also flags matching event classes in your Plugin. Inject the service into the listener that needs it, and keep the event limited to the values it carries.
+
+Several other ``CoreBundle`` event classes gained native types that match their existing ``PHPDoc``, so your Plugin needs no action for ``CustomAssetsEvent``, ``BuildJsEvent``, ``CommandListEvent``, and ``GlobalSearchEvent``.
 
 .. vale off
 
