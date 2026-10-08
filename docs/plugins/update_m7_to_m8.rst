@@ -361,7 +361,7 @@ CampaignLeadChangeEvent
 
 .. vale on
 
-Subscribers to Campaign membership changes receive ``Mautic\CampaignBundle\Event\CampaignLeadChangeEvent``, a ``final`` class, so the override risk doesn't apply. Its constructor types ``$leads``, and ``getLead()`` gains a return type:
+Subscribers to Campaign membership changes receive ``CampaignSingleLeadChangeEvent`` or ``CampaignBatchLeadChangeEvent``. Both are ``final`` subclasses of the abstract ``Mautic\CampaignBundle\Event\CampaignLeadChangeEvent``, so the override risk doesn't apply. The base class constructor types ``$leads``, and ``getLead()`` gains a return type:
 
 .. code:: diff
 
@@ -679,6 +679,8 @@ Widget subscribers set the Widget template on ``Mautic\DashboardBundle\Event\Wid
 
    - public function setTemplate($template): void
    + public function setTemplate(string $template): void
+
+``WidgetDetailEvent`` is an abstract base class for the ``final`` ``PreLoadWidgetDetailEvent`` and ``GenerateWidgetDetailEvent`` classes that Mautic dispatches. For the event classes to subscribe to, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 .. vale off
 
@@ -1029,6 +1031,8 @@ Plugins register a custom Point action on ``Mautic\PointBundle\Event\PointBuilde
    - public function addAction($key, array $action): void
    + public function addAction(string $key, array $action): void
 
+Mautic 8 also dispatches ``PointBuilderEvent`` by its class name. Re-key your subscriber from ``PointEvents::POINT_ON_BUILD`` to ``PointBuilderEvent::class``, because a subscriber keyed on the constant or the ``mautic.point_on_build`` string silently receives nothing.
+
 .. vale off
 
 TriggerBuilderEvent
@@ -1042,6 +1046,8 @@ Plugins register a custom Point trigger on ``Mautic\PointBundle\Event\TriggerBui
 
    - public function addEvent($key, array $event): void
    + public function addEvent(string $key, array $event): void
+
+Mautic 8 also dispatches ``TriggerBuilderEvent`` by its class name. Re-key your subscriber from ``PointEvents::TRIGGER_ON_BUILD`` to ``TriggerBuilderEvent::class``, because a subscriber keyed on the constant or the ``mautic.trigger_on_build`` string silently receives nothing.
 
 .. vale off
 
@@ -1118,7 +1124,7 @@ AuthenticationEvent
 
 .. vale on
 
-Authentication Integrations set the User on ``Mautic\UserBundle\Event\AuthenticationEvent``. ``setUser()`` types ``$saveUser`` and ``$createIfNotExists`` as ``bool``, and ``setIsAuthenticated()`` types ``$createIfNotExists`` as ``bool``:
+Authentication Integrations set the User on the ``PreAuthenticationEvent`` or ``FormAuthenticationEvent`` that Mautic dispatches. Both are ``final`` subclasses of the abstract ``Mautic\UserBundle\Event\AuthenticationEvent``, which defines these methods. ``setUser()`` types ``$saveUser`` and ``$createIfNotExists`` as ``bool``, and ``setIsAuthenticated()`` types ``$createIfNotExists`` as ``bool``:
 
 .. code:: diff
 
@@ -1860,7 +1866,7 @@ Mautic 8 declares more than 300 core classes ``final``, because no Mautic class 
 * A Plugin class that extends one of these classes causes a fatal error when PHP loads it, for example ``Class MauticPlugin\HelloWorldBundle\Model\MyPageModel cannot extend final class Mautic\PageBundle\Model\PageModel``.
 * A Plugin test that mocks one of these classes with :xref:`phpunit` fails, because the test framework can't create a test double of a ``final`` class.
 
-Some of the event classes described earlier in this guide are now ``final``, including ``ConfigBuilderEvent``, ``WidgetDetailEvent``, ``EmailValidationEvent``, ``SubmissionEvent``, ``PointBuilderEvent``, ``AuthenticationEvent``, and ``WebhookBuilderEvent``. For these classes, the guidance about overriding typed methods no longer applies, because you can't extend them.
+Some of the event classes described earlier in this guide are now ``final``, including ``ConfigBuilderEvent``, ``EmailValidationEvent``, ``SubmissionEvent``, ``PointBuilderEvent``, and ``WebhookBuilderEvent``. For these classes, the guidance about overriding typed methods no longer applies, because you can't extend them.
 
 .. vale off
 
@@ -1876,7 +1882,6 @@ These event classes are now ``final``:
 * ``Mautic\ConfigBundle\Event\ConfigBuilderEvent``
 * ``Mautic\CoreBundle\Event\MaintenanceEvent``
 * ``Mautic\CoreBundle\Event\StatsEvent``
-* ``Mautic\DashboardBundle\Event\WidgetDetailEvent``
 * ``Mautic\EmailBundle\Event\EmailValidationEvent``
 * ``Mautic\FormBundle\Event\SubmissionEvent``
 * ``Mautic\IntegrationsBundle\Event\MauticSyncFieldsLoadEvent``
@@ -1894,7 +1899,6 @@ These event classes are now ``final``:
 * ``Mautic\ReportBundle\Event\ReportGeneratorEvent``
 * ``Mautic\ReportBundle\Event\ReportGraphEvent``
 * ``Mautic\SmsBundle\Event\SmsSendEvent``
-* ``Mautic\UserBundle\Event\AuthenticationEvent``
 * ``Mautic\UserBundle\Event\LoginEvent``
 * ``Mautic\WebhookBundle\Event\WebhookBuilderEvent``
 * ``Mautic\WebhookBundle\Event\WebhookEvent``

@@ -98,7 +98,34 @@ To find the name Mautic dispatches an event under, and to confirm a re-key, run 
 
 .. note::
 
-   The ``Mautic\UserBundle`` User and Role save and delete lifecycle events follow the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule. Key ``getSubscribedEvents()`` on the event class - for example ``PostSaveUserEvent::class`` in the ``Mautic\UserBundle\Event`` namespace - not on a ``UserEvents`` constant. Mautic 8 removed the eight User and Role save and delete constants from ``Mautic\UserBundle\UserEvents``, so a subscriber still keyed on one, such as ``UserEvents::USER_POST_SAVE``, raises an undefined-constant error instead of silently receiving nothing. The base ``UserEvent`` and ``RoleEvent`` classes are now abstract, so dispatch or type-hint the concrete ``Pre*`` or ``Post*`` subclass. Mautic 8 leaves the authentication constants, such as ``USER_LOGIN`` and ``USER_LOGOUT``, in place, so they still dispatch by their string names. The ``UPGRADE-8.0.md`` guide lists each removed constant with its replacement event class.
+   The ``Mautic\UserBundle`` events follow the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule, and Mautic 8 removes the ``Mautic\UserBundle\UserEvents`` class. A subscriber that still references a ``UserEvents`` constant, such as ``UserEvents::USER_POST_SAVE`` or ``UserEvents::USER_LOGIN``, raises a ``Class "Mautic\UserBundle\UserEvents" not found`` error. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\UserBundle\Event`` namespace instead.
+
+   For the User and Role save and delete events, subscribe to the concrete ``Pre*`` or ``Post*`` subclass, for example ``PostSaveUserEvent::class``. The base ``UserEvent`` and ``RoleEvent`` classes are now abstract, so dispatch or type-hint the concrete subclass.
+
+   The authentication events map to these event classes:
+
+   .. list-table::
+      :header-rows: 1
+      :widths: 50 50
+
+      * - Removed ``UserEvents`` constant
+        - Event class
+      * - ``USER_LOGIN``
+        - ``LoginEvent``
+      * - ``USER_LOGOUT``
+        - ``LogoutEvent``
+      * - ``USER_PRE_AUTHENTICATION``
+        - ``PreAuthenticationEvent``
+      * - ``USER_FORM_AUTHENTICATION``
+        - ``FormAuthenticationEvent``
+      * - ``USER_AUTHENTICATION_CONTENT``
+        - ``AuthenticationContentEvent``
+      * - ``USER_PASSWORD_STRENGTH_VALIDATION``
+        - ``PasswordStrengthValidateEvent``
+
+   Mautic previously dispatched ``AuthenticationEvent`` under both the ``USER_PRE_AUTHENTICATION`` and ``USER_FORM_AUTHENTICATION`` names. ``AuthenticationEvent`` is now an abstract base class for ``PreAuthenticationEvent`` and ``FormAuthenticationEvent``, so a listener method can keep its ``AuthenticationEvent`` type hint. Code that creates an ``AuthenticationEvent`` with ``new``, such as a Plugin test, must create one of the subclasses instead. Mautic also removes the ``USER_FORM_POST_LOCAL_PASSWORD_AUTHENTICATION`` constant without a replacement, because Mautic never dispatched an event under it.
+
+   The ``UPGRADE-8.0.md`` guide lists each removed constant with its replacement event class.
 
 .. note::
 
@@ -123,7 +150,7 @@ To find the name Mautic dispatches an event under, and to confirm a re-key, run 
 Form, Integration, and Focus events dispatched by class name in Mautic 8
 ========================================================================
 
-Seven events across three bundles moved to class-name dispatch in Mautic 8. Those bundles are FormBundle, IntegrationsBundle, and MauticFocusBundle. You now subscribe using the event class shown in the table below.
+Nine events across three bundles moved to class-name dispatch in Mautic 8. Those bundles are FormBundle, IntegrationsBundle, and MauticFocusBundle. You now subscribe using the event class shown in the table below.
 
 .. list-table::
    :header-rows: 1
@@ -157,6 +184,14 @@ Seven events across three bundles moved to class-name dispatch in Mautic 8. Thos
      - ``mautic.integration.INTEGRATION_FIND_OWNER_IDS``
      - ``IntegrationEvents::INTEGRATION_FIND_OWNER_IDS``
      - ``Mautic\IntegrationsBundle\Event\InternalObjectOwnerEvent``
+   * - IntegrationsBundle
+     - ``mautic.integration.config_before_save``
+     - ``IntegrationEvents::INTEGRATION_CONFIG_BEFORE_SAVE``
+     - ``Mautic\IntegrationsBundle\Event\ConfigBeforeSaveEvent``
+   * - IntegrationsBundle
+     - ``mautic.integration.config_after_save``
+     - ``IntegrationEvents::INTEGRATION_CONFIG_AFTER_SAVE``
+     - ``Mautic\IntegrationsBundle\Event\ConfigAfterSaveEvent``
    * - MauticFocusBundle
      - ``mautic.focus.on_view``
      - ``FocusEvents::FOCUS_ON_VIEW``
@@ -164,7 +199,13 @@ Seven events across three bundles moved to class-name dispatch in Mautic 8. Thos
 
 The FormBundle event classes live in the ``Mautic\FormBundle\Event`` namespace and the IntegrationsBundle event classes in the ``Mautic\IntegrationsBundle\Event`` namespace, both under ``app/bundles/``. MauticFocusBundle is a Plugin under ``plugins/``, so its event class is in the ``MauticPlugin\MauticFocusBundle\Event`` namespace. Note the different top-level namespace.
 
-Only these seven events changed. Mautic keeps an event as a string constant when several event names share one event object, or when the event crosses bundle boundaries, so those events still dispatch by the string name. For example, the IntegrationsBundle ``INTEGRATION_CONFIG_*`` before-and-after pair reuses one ``ConfigSaveEvent``, and FormBundle's create, read, update, and delete group constants do the same. For those, the guidance in the :ref:`Available events <Plugins/event_listeners:Available events>` intro to always use the event constants still holds.
+Only these nine events changed. Mautic keeps an event as a string constant when several event names share one event object, or when the event crosses bundle boundaries, so those events still dispatch by the string name. For example, FormBundle's create, read, update, and delete group constants share one event object. For those, the guidance in the :ref:`Available events <Plugins/event_listeners:Available events>` intro to always use the event constants still holds.
+
+The IntegrationsBundle configuration save events used to follow that rule too, because the before-save and after-save names shared one ``ConfigSaveEvent``. Mautic 8 gives each its own class and removes both constants, so update these subscribers as follows:
+
+* Key ``getSubscribedEvents()`` on ``ConfigBeforeSaveEvent::class`` or ``ConfigAfterSaveEvent::class``. A subscriber still keyed on the raw string, such as ``mautic.integration.config_before_save``, silently receives nothing.
+* Remove references to ``IntegrationEvents::INTEGRATION_CONFIG_BEFORE_SAVE`` and ``IntegrationEvents::INTEGRATION_CONFIG_AFTER_SAVE``. Mautic 8 removes the ``Mautic\IntegrationsBundle\IntegrationEvents`` class, so code that still references either constant raises a ``Class "Mautic\IntegrationsBundle\IntegrationEvents" not found`` error.
+* Type-hint your listener method on the concrete subclass. ``ConfigSaveEvent`` is now abstract, but both subclasses keep its ``getIntegrationConfiguration()`` and ``getIntegration()`` methods.
 
 .. warning::
 
@@ -411,11 +452,11 @@ The following table is the complete migration reference for AssetBundle event su
 
 .. note::
 
-   In Mautic 8, ``Mautic\IntegrationsBundle\Event`` events whose class maps to a single event name dispatch by the event object alone. Key ``getSubscribedEvents()`` on the event class - for example ``InternalObjectEvent::class`` - for those. Families whose class serves several names, such as ``ConfigSaveEvent`` and ``InternalObjectFindEvent``, still dispatch by their ``IntegrationEvents`` constants, so keep keying on the constant for those. For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+   In Mautic 8, every ``Mautic\IntegrationsBundle\Event`` event dispatches by the event object alone, and Mautic removes the ``Mautic\IntegrationsBundle\IntegrationEvents`` class. Key ``getSubscribedEvents()`` on the event class, for example ``InternalObjectEvent::class`` or ``InternalObjectFindEvent::class``. A subscriber that still references an ``IntegrationEvents`` constant raises a ``Class "Mautic\IntegrationsBundle\IntegrationEvents" not found`` error, and a subscriber keyed on a raw string name such as ``mautic.integration.INTEGRATION_FIND_INTERNAL_RECORDS`` silently receives nothing. For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 .. vale off
 
-Since Mautic 8, some bundles dispatch an event by the event object alone rather than by a string constant, so you key ``getSubscribedEvents()`` on the event class. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rule. The notes below cover the StageBundle and DashboardBundle events.
+Since Mautic 8, some bundles dispatch an event by the event object alone rather than by a string constant, so you key ``getSubscribedEvents()`` on the event class. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rule. The following content covers the StageBundle, DashboardBundle, and StatsBundle events.
 
 .. note::
 
@@ -428,36 +469,71 @@ Since Mautic 8, some bundles dispatch an event by the event object alone rather 
           // ...
       ];
 
-.. note::
-
-   Since Mautic 8, Mautic dispatches two DashboardBundle widget events by the event object alone. Key ``getSubscribedEvents()`` on the event class rather than on the former constant. The classes live in ``Mautic\DashboardBundle\Event``.
-
-   .. list-table::
-      :header-rows: 1
-      :widths: 50 50
-
-      * - Former event constant
-        - Mautic 8 event class - subscription key
-      * - ``DASHBOARD_ON_MODULE_LIST_GENERATE``
-        - ``WidgetTypeListEvent``
-      * - ``DASHBOARD_ON_MODULE_FORM_GENERATE``
-        - ``WidgetFormEvent``
-
-   The former constants remain for backward compatibility but no longer dispatch these events. Mautic still dispatches ``DASHBOARD_ON_MODULE_DETAIL_GENERATE`` and ``DASHBOARD_ON_MODULE_DETAIL_PRE_LOAD`` - both sharing ``WidgetDetailEvent`` - by their string constants.
-
-   .. code-block:: php
-
-      return [
-          WidgetTypeListEvent::class => ['onWidgetListGenerate', 0],
-          WidgetFormEvent::class     => ['onWidgetFormGenerate', 0],
-          // ...
-      ];
-
 .. vale on
 
 .. note::
 
-   Since Mautic 8.0, Mautic dispatches the authentication content and Segment filtering events by class name - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`. To inject HTML into the login UI, key ``getSubscribedEvents()`` on ``Mautic\UserBundle\Event\AuthenticationContentEvent::class``. To apply custom Segment filter logic, key it on ``Mautic\LeadBundle\Event\LeadListFilteringEvent::class``. The ``UserEvents::USER_AUTHENTICATION_CONTENT`` and ``LeadEvents::LIST_FILTERS_ON_FILTERING`` constants remain defined, but a subscriber still keyed on either one silently receives nothing.
+   The DashboardBundle applies the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` change to all four Widget events and removes the ``Mautic\DashboardBundle\DashboardEvents`` class. A subscriber that still references a ``DashboardEvents`` constant raises a ``Class "Mautic\DashboardBundle\DashboardEvents" not found`` error, and a subscriber keyed on a raw string name such as ``mautic.dashboard_on_widget_detail_generate`` silently receives nothing.
+
+The following table maps each old event name and ``DashboardEvents`` constant to the event class to key ``getSubscribedEvents()`` on. All event classes live in the ``Mautic\DashboardBundle\Event`` namespace:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 35 25
+
+   * - Old event name
+     - Removed ``DashboardEvents`` constant
+     - New event class
+   * - ``mautic.dashboard_on_widget_list_generate``
+     - ``DASHBOARD_ON_MODULE_LIST_GENERATE``
+     - ``WidgetTypeListEvent``
+   * - ``mautic.dashboard_on_widget_form_generate``
+     - ``DASHBOARD_ON_MODULE_FORM_GENERATE``
+     - ``WidgetFormEvent``
+   * - ``mautic.dashboard_on_widget_detail_pre_load``
+     - ``DASHBOARD_ON_MODULE_DETAIL_PRE_LOAD``
+     - ``PreLoadWidgetDetailEvent``
+   * - ``mautic.dashboard_on_widget_detail_generate``
+     - ``DASHBOARD_ON_MODULE_DETAIL_GENERATE``
+     - ``GenerateWidgetDetailEvent``
+
+Mautic previously dispatched ``WidgetDetailEvent`` under both detail event names. ``WidgetDetailEvent`` is now an abstract base class with two ``final`` subclasses, so each detail event has its own class:
+
+* ``PreLoadWidgetDetailEvent`` renders a Widget preview without data.
+* ``GenerateWidgetDetailEvent`` loads the Widget content with its data.
+
+Your listener methods can keep the ``WidgetDetailEvent`` type hint, because both subclasses extend it. Only the subscription keys change:
+
+.. code-block:: php
+
+    <?php
+
+    use Mautic\DashboardBundle\Event\GenerateWidgetDetailEvent;
+    use Mautic\DashboardBundle\Event\WidgetDetailEvent;
+    use Mautic\DashboardBundle\Event\WidgetTypeListEvent;
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            WidgetTypeListEvent::class       => ['onWidgetListGenerate', 0],
+            GenerateWidgetDetailEvent::class => ['onWidgetDetailGenerate', 0],
+        ];
+    }
+
+    public function onWidgetDetailGenerate(WidgetDetailEvent $event): void
+    {
+        // Set the Widget template and data.
+    }
+
+PHP can't instantiate an abstract class, so code that creates a ``WidgetDetailEvent`` directly, such as a Plugin test, must create ``GenerateWidgetDetailEvent`` or ``PreLoadWidgetDetailEvent`` instead. ``WidgetDetailEventFactory`` replaces its ``create()`` method with ``createPreLoad()`` and ``createGenerate()``.
+
+.. note::
+
+   Since Mautic 8.0, Mautic dispatches the authentication content and Segment filtering events by class name - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`. To inject HTML into the login UI, key ``getSubscribedEvents()`` on ``Mautic\UserBundle\Event\AuthenticationContentEvent::class``. To apply custom Segment filter logic, key it on ``Mautic\LeadBundle\Event\LeadListFilteringEvent::class``. The ``LeadEvents::LIST_FILTERS_ON_FILTERING`` constant remains defined, but a subscriber still keyed on it silently receives nothing. Mautic 8 removes the ``UserEvents`` class, so a subscriber that still references ``UserEvents::USER_AUTHENTICATION_CONTENT`` raises a class-not-found error.
+
+.. note::
+
+   The StatsBundle applies the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` change to the aggregate stat request event. Key ``getSubscribedEvents()`` on ``AggregateStatRequestEvent::class``, from the ``Mautic\StatsBundle\Event`` namespace. Mautic 8 removes the ``Mautic\StatsBundle\StatEvents`` class, so a subscriber that still references ``StatEvents::AGGREGATE_STAT_REQUEST`` raises a ``Class "Mautic\StatsBundle\StatEvents" not found`` error. A subscriber keyed on the raw ``mautic.aggregate_stat_request`` string silently receives nothing.
 
 .. vale off
 
