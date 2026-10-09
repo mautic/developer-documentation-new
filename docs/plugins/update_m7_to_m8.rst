@@ -1467,6 +1467,69 @@ These ``protected`` methods gain native return types:
 
 ``validateBatchPayload()`` declares ``true`` where its annotation previously documented ``bool``, so an override can't return ``false``.
 
+.. _mautic 8 AbstractStandardFormController constructor:
+
+.. vale off
+
+AbstractStandardFormController
+==============================
+
+.. vale on
+
+``Mautic\CoreBundle\Controller\AbstractStandardFormController`` no longer declares its own constructor. It receives ``FormFactoryInterface`` and ``FormFieldHelper`` through the ``autowireAbstractStandardFormController()`` method, which carries the ``#[Required]`` attribute, so Symfony calls it after it constructs the controller. A Plugin controller that defines a constructor must drop the ``$formFactory`` and ``$fieldHelper`` arguments from its own signature and from its ``parent::__construct()`` call. The remaining arguments match the ``AbstractFormController`` constructor.
+
+.. code:: diff
+
+     public function __construct(
+   -     FormFactoryInterface $formFactory,
+   -     FormFieldHelper $fieldHelper,
+         ManagerRegistry $managerRegistry,
+         ModelFactory $modelFactory,
+         UserHelper $userHelper,
+         CoreParametersHelper $coreParametersHelper,
+         EventDispatcherInterface $dispatcher,
+         Translator $translator,
+         FlashBag $flashBag,
+         RequestStack $requestStack,
+         CorePermissions $security,
+     ) {
+   -     parent::__construct($formFactory, $fieldHelper, $managerRegistry, $modelFactory, $userHelper, $coreParametersHelper, $dispatcher, $translator, $flashBag, $requestStack, $security);
+   +     parent::__construct($managerRegistry, $modelFactory, $userHelper, $coreParametersHelper, $dispatcher, $translator, $flashBag, $requestStack, $security);
+     }
+
+Your controller methods can still read ``$this->formFactory`` and ``$this->fieldHelper``. Symfony sets these properties only after the constructor runs, so don't use them inside your constructor. A test that creates the controller with ``new`` must call ``autowireAbstractStandardFormController()`` itself, passing an ``AuditLogModel``, a ``FormFactoryInterface``, and a ``FormFieldHelper``.
+
+The entity lifecycle hooks now type their ``$form`` parameter as ``Symfony\Component\Form\FormInterface`` instead of ``Symfony\Component\Form\Form``. An override that still declares ``Form $form`` narrows the parameter type, which PHP rejects with a fatal error when it loads the class. Change the type in each of these overrides.
+
+.. code:: diff
+
+   - protected function beforeFormProcessed($entity, Form $form, $action, $isPost, $objectId = null, bool $isClone = false): void
+   + protected function beforeFormProcessed($entity, FormInterface $form, $action, $isPost, $objectId = null, bool $isClone = false): void
+
+   - protected function beforeEntitySave($entity, Form $form, $action, $objectId = null, bool $isClone = false): bool
+   + protected function beforeEntitySave($entity, FormInterface $form, $action, $objectId = null, bool $isClone = false): bool
+
+   - protected function afterEntitySave($entity, Form $form, $action, $pass = null): void
+   + protected function afterEntitySave($entity, FormInterface $form, $action, $pass = null): void
+
+   - protected function afterFormProcessed($isValid, $entity, Form $form, $action, bool $isClone = false): void
+   + protected function afterFormProcessed($isValid, $entity, FormInterface $form, $action, bool $isClone = false): void
+
+Two helper methods gain native return types, and ``returnOptimizedResponse()`` changes from ``public`` to ``protected``.
+
+.. code:: diff
+
+   - protected function getFormEntity($action, &$objectId = null, &$isClone = false)
+   + protected function getFormEntity($action, &$objectId = null, &$isClone = false): ?object
+
+   - protected function setListFilters($name = null)
+   + protected function setListFilters($name = null): void
+
+   - public function returnOptimizedResponse(Request $request, FormInterface $form, string $link, string $content, string $route, array $data = []): ?JsonResponse
+   + protected function returnOptimizedResponse(Request $request, FormInterface $form, string $link, string $content, string $route, array $data = []): ?JsonResponse
+
+``batchDeleteStandard()`` and ``deleteStandard()`` now throw an exception when the model that ``getModelName()`` names doesn't extend ``Mautic\CoreBundle\Model\FormModel``.
+
 .. vale off
 
 FormController
