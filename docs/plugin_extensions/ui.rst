@@ -342,7 +342,7 @@ Mautic dispatches the ``Mautic\CoreBundle\Event\CustomContentEvent`` so Plugins 
 Registering a custom content listener
 =====================================
 
-A Plugin registers a listener as an event subscriber. When the subscribed context matches, the following subscriber injects content into the Company detail view:
+A Plugin registers a listener as an event subscriber. When the subscribed context matches, the following subscriber injects content into the right-hand column of the Email detail view:
 
 .. code-block:: php
 
@@ -355,7 +355,7 @@ A Plugin registers a listener as an event subscriber. When the subscribed contex
     use Mautic\CoreBundle\Event\CustomContentEvent;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-    class CompanySidebarSubscriber implements EventSubscriberInterface
+    class EmailDetailsSidebarSubscriber implements EventSubscriberInterface
     {
         public static function getSubscribedEvents(): array
         {
@@ -366,13 +366,13 @@ A Plugin registers a listener as an event subscriber. When the subscribed contex
 
         public function injectContent(CustomContentEvent $event): void
         {
-            if ($event->checkContext('@MauticLead/Company/company.html.twig', 'company.sidebar.top')) {
-                $event->addContent('<div class="panel">Custom company content</div>');
+            if ($event->checkContext('@MauticEmail/Email/details.html.twig', 'right.section.start')) {
+                $event->addContent('<div class="panel">Custom Email content</div>');
 
                 // Alternatively, render a template with the hook's variables:
-                // $event->addTemplate('@HelloWorld/Company/sidebar.html.twig', $event->getVars());
+                // $event->addTemplate('@HelloWorld/Email/sidebar.html.twig', $event->getVars());
             }
         }
     }
 
-The Company detail view is ``@MauticLead/Company/company.html.twig``. It calls ``customContent('company.sidebar.top', _context)`` at the top of its right-hand sidebar column, which exposes the ``company.sidebar.top`` context as an injection point that a Plugin's listener subscribes to. Other Mautic templates expose their own ``customContent`` contexts, so a listener must always narrow to the intended view and context with ``checkContext()``.
+The Email detail view is ``@MauticEmail/Email/details.html.twig``. It calls ``customContent('right.section.start', _context)`` in its right-hand column, which exposes the ``right.section.start`` context as an injection point that a Plugin's listener subscribes to. Mautic's own ``EmailDetailsRightColumnSubscriber`` uses this context to render A/B test details. Other Mautic templates expose their own ``customContent`` contexts, so a listener must always narrow to the intended view and context with ``checkContext()``.
