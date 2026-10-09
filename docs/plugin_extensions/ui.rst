@@ -289,13 +289,13 @@ Drop-downs require the wrapping HTML to pass to the ``renderButtons`` method.
 Injecting custom content
 ************************
 
-Mautic dispatches the Event ``\Mautic\CoreBundle\CoreEvents::VIEW_INJECT_CUSTOM_CONTENT`` - string value ``mautic.view_inject_custom_content`` - so Plugins can inject custom content into Mautic's templates. A template exposes an injection point with the ``customContent`` Twig function, which passes a context name and the current template variables. The context name identifies the injection point within that template. Listeners receive a ``Mautic\CoreBundle\Event\CustomContentEvent`` object. A Listener calls ``checkContext()`` to confirm the hook is firing at the intended view and context, then adds either rendered HTML with ``addContent()`` or a template with ``addTemplate()``. The preceding section documents Button injection, which follows the same dispatch pattern through ``VIEW_INJECT_CUSTOM_BUTTONS`` but delivers a different Event object.
+Mautic dispatches the event ``\Mautic\CoreBundle\CoreEvents::VIEW_INJECT_CUSTOM_CONTENT`` - string value ``mautic.view_inject_custom_content`` - so Plugins can inject custom content into Mautic's templates. A template exposes an injection point with the ``customContent`` Twig function, which passes a context name and the current template variables. The context name identifies the injection point within that template. Listeners receive a ``Mautic\CoreBundle\Event\CustomContentEvent`` object. A listener calls ``checkContext()`` to confirm the hook is firing at the intended view and context, then adds either rendered HTML with ``addContent()`` or a template with ``addTemplate()``. The preceding section documents button injection, which follows the same dispatch pattern through ``VIEW_INJECT_CUSTOM_BUTTONS`` but delivers a different event object.
 
 .. php:class:: Mautic\CoreBundle\Event\CustomContentEvent
 
     .. php:method:: public function checkContext($viewName, $context)
 
-        Returns ``true`` when the current view name and context both match the given values, so a Listener injects only where intended.
+        Returns ``true`` when the current view name and context both match the given values, so a listener injects only where intended.
 
         :param string $viewName: Name of the template to match.
         :param string $context: Context string to match.
@@ -329,13 +329,13 @@ Mautic dispatches the Event ``\Mautic\CoreBundle\CoreEvents::VIEW_INJECT_CUSTOM_
 
     .. php:method:: public function getContent()
 
-        :return: Array of rendered content fragments added by Listeners.
+        :return: Array of rendered content fragments added by listeners.
         :returntype: array
 
-Registering a custom content Listener
+Registering a custom content listener
 =====================================
 
-A Plugin registers a Listener as an event subscriber. When the subscribed context matches, the following subscriber injects content into the Company detail view:
+A Plugin registers a listener as an event subscriber. When the subscribed context matches, the following subscriber injects content into the Company detail view:
 
 .. code-block:: php
 
@@ -369,4 +369,4 @@ A Plugin registers a Listener as an event subscriber. When the subscribed contex
         }
     }
 
-The Company detail view is ``@MauticLead/Company/company.html.twig``. It calls ``customContent('company.sidebar.top', _context)`` at the top of its right-hand sidebar column, which exposes the ``company.sidebar.top`` context as an injection point that a Plugin's Listener subscribes to. Other Mautic templates expose their own ``customContent`` contexts, so a Listener must always narrow to the intended view and context with ``checkContext()``.
+The Company detail view is ``@MauticLead/Company/company.html.twig``. It calls ``customContent('company.sidebar.top', _context)`` at the top of its right-hand sidebar column, which exposes the ``company.sidebar.top`` context as an injection point that a Plugin's listener subscribes to. Other Mautic templates expose their own ``customContent`` contexts, so a listener must always narrow to the intended view and context with ``checkContext()``.
