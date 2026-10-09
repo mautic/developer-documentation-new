@@ -170,7 +170,7 @@ The order applies to each ``Lead`` instance separately, so set it every time Doc
       }
   }
 
-The ``AsEntityListener`` attribute registers the listener when your Plugin's services are autoconfigured. See :doc:`/plugins/autowiring` for the ``services.php`` setup.
+The ``AsEntityListener`` attribute registers the listener when your Plugin's services are autoconfigured. See :ref:`Autowiring <Plugins/Autowiring:Autowiring>` for the ``services.php`` setup.
 
 Contact tracking
 ****************
