@@ -57,7 +57,7 @@ A Plugin can inject the buttons into five places in Mautic's UI.
     *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_TOOLBAR_ACTIONS``
         - Top right preceding list view tables to the right of the table filter. Preferably buttons with icons only.
     *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_PAGE_ACTIONS``
-        - Main UI buttons to the right of the title: new, edit, and so forth. Primary buttons displays as buttons, while the rest listed in a drop-down.
+        - Main UI buttons to the right of the title: new, edit, and so forth. Primary buttons display as buttons, and the others appear in a drop-down.
     *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_NAVBAR``
         - Top of the UI to the left of the account/profile menu. Buttons with text and/or icons.
     *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_BULK_ACTIONS``
@@ -187,7 +187,7 @@ The array defining the button can include the following keys:
         - Font Awesome class to use as the icon within the button
     *   - ``tooltip``
         - string
-        - Text to display as a Tooltip
+        - Text to display as a tooltip
     *   - ``primary``
         - boolean
         - For button drop-down formats, this displays the button in the group rather than in the drop-down
@@ -238,16 +238,16 @@ If a button is to display a confirmation modal, the key ``confirm``  is a must. 
         - Array of attributes to append to the button's outer tag
     *   - ``tooltip``
         - string
-        - Translated string to display as a Tooltip
+        - Translated string to display as a tooltip
     *   - ``tag``
         - string
         - Tag to use as the button. Defaults to an ``a`` tag.
     *   - ``wrapOpeningTag``
         - string
-        - Tag/html to wrap button in. Defaults to nothing.
+        - Tag or HTML to wrap the button in. Defaults to nothing.
     *   - ``wrapClosingTag``
         - string
-        - Tag/thml to close wrapOpeningTag. Defaults to nothing.
+        - Tag or HTML to close ``wrapOpeningTag``. Defaults to nothing.
 
 On the same nested level as the ``confirm`` key can include ``primary`` and/or ``priority``.
 
