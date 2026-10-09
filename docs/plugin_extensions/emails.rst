@@ -595,12 +595,14 @@ The Plugin also has access to inject specific search criteria for the processed 
 To do this, the Plugin needs to add an event listener for three events:
 
 #. ``Mautic\EmailBundle\Event\MonitoredEmailEvent`` This event injects the fields into Mautic's Configuration to configure the IMAP inbox and folder to monitor. Since Mautic 8.0, Mautic dispatches it by class name, so subscribers key on ``MonitoredEmailEvent::class``.
-#. ``EmailEvents::EMAIL_PRE_FETCH`` Mautic dispatches this event during the execution of the ``mautic:email:fetch`` command. Use it to inject search criteria for the desired messages.
-#. ``EmailEvents::EMAIL_PARSE`` This event parses the messages that the command fetched.
+#. ``Mautic\EmailBundle\Event\PreFetchEmailEvent`` Mautic dispatches this event during the execution of the ``mautic:email:fetch`` command, before it fetches any messages. Call ``setCriteriaRequest()`` on it to inject search criteria for the desired messages.
+#. ``Mautic\EmailBundle\Event\ParseEmailEvent`` Mautic dispatches this event with the messages that the command fetched. Call ``isApplicable()`` to confirm that the messages come from your folder, then process them with ``getMessages()``.
 
 .. note::
 
-   Since Mautic 8.0, the monitored inbox configuration event dispatches by class name, so key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``. Mautic removed the ``MONITORED_EMAIL_CONFIG`` constant, so code that still references ``EmailEvents::MONITORED_EMAIL_CONFIG`` throws a PHP fatal error - ``Error: Undefined constant``. ``EMAIL_PRE_FETCH`` and ``EMAIL_PARSE`` remain string-dispatched constants. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+   Since Mautic 8.0, all three monitored inbox events dispatch by class name, so key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``, ``PreFetchEmailEvent::class``, and ``ParseEmailEvent::class``. Mautic removed the ``MONITORED_EMAIL_CONFIG``, ``EMAIL_PRE_FETCH``, and ``EMAIL_PARSE`` constants from ``EmailEvents``, so code that still references one of them throws a PHP fatal error - ``Error: Undefined constant``.
+
+   Before Mautic 8.0, the pre-fetch and parse phases shared one ``ParseEmailEvent`` object. ``setCriteriaRequest()``, ``getCriteriaRequests()``, and ``getMarkAsSeenInstructions()`` now live on ``PreFetchEmailEvent``, so change the type hint of your pre-fetch listener to ``PreFetchEmailEvent``. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 .. code-block:: PHP
 
@@ -611,9 +613,9 @@ To do this, the Plugin needs to add an event listener for three events:
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\EmailBundle\EmailEvents;
     use Mautic\EmailBundle\Event\MonitoredEmailEvent;
     use Mautic\EmailBundle\Event\ParseEmailEvent;
+    use Mautic\EmailBundle\Event\PreFetchEmailEvent;
     use Mautic\EmailBundle\MonitoredEmail\Mailbox;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -625,9 +627,9 @@ To do this, the Plugin needs to add an event listener for three events:
         static public function getSubscribedEvents(): array
         {
             return [
-                MonitoredEmailEvent::class   => ['onConfig', 0],
-                EmailEvents::EMAIL_PRE_FETCH => ['onPreFetch', 0],
-                EmailEvents::EMAIL_PARSE     => ['onParse', 0],
+                MonitoredEmailEvent::class => ['onConfig', 0],
+                PreFetchEmailEvent::class  => ['onPreFetch', 0],
+                ParseEmailEvent::class     => ['onParse', 0],
             ];
         }
 
@@ -647,7 +649,7 @@ To do this, the Plugin needs to add an event listener for three events:
         /**
         * Inject search criteria for which messages to fetch from the configured folder.
         */
-        public function onPreFetch(ParseEmailEvent $event): void
+        public function onPreFetch(PreFetchEmailEvent $event): void
         {
             $event->setCriteriaRequest($this->bundle, $this->monitor, Mailbox::CRITERIA_UNSEEN. " " . Mailbox::CRITERIA_FROM ." aliens@andromeda");
         }
