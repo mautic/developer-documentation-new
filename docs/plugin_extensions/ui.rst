@@ -15,37 +15,37 @@ UI - User Interface
 
 .. vale off
 
-Injecting Buttons
+Injecting buttons
 *****************
 
 .. vale on
 
-Mautic dispatches the Event ``\Mautic\CoreBundle\CoreEvents::VIEW_INJECT_CUSTOM_BUTTONS`` for Plugins to register their Buttons. Listeners receive a ``Mautic\CoreBundle\Event\CustomButtonEvent`` object. Register the Event using the ``addButton`` method as described below.
+Mautic dispatches the event ``\Mautic\CoreBundle\CoreEvents::VIEW_INJECT_CUSTOM_BUTTONS`` for Plugins to register their buttons. Listeners receive a ``Mautic\CoreBundle\Event\CustomButtonEvent`` object. Register the event using the ``addButton`` method as described below.
 
 .. php:class:: Mautic\CoreBundle\Event\CustomButtonEvent
 
     .. php:method:: public function getLocation()
 
-        :return: Requested location for the Button.
+        :return: Requested location for the button.
 
     .. php:method:: public function getButtons()
 
-        :return: Array of registered Buttons.
+        :return: Array of registered buttons.
         :returntype: array
 
     .. php:method:: public function addButtons(array $buttons, $location = null, $route = null)
 
         :param array[] $buttons: Array of buttons.
-        :param string $location: Location of the Button to be placed.
+        :param string $location: Location of the button to be placed.
         :param string $route: Route.
 
     .. php:method:: public function addButton(array $button, $location = null, $route = null)
 
         :param array[] $button: :ref:`Details for button<components/ui:Button Array Format>`.
-        :param string $location: Location of the Button to be placed.
+        :param string $location: Location of the button to be placed.
         :param string $route: Route.
 
-A Plugin can inject the Buttons into five places in Mautic's UI.
+A Plugin can inject the buttons into five places in Mautic's UI.
 
 .. list-table::
     :header-rows: 1
@@ -64,9 +64,9 @@ A Plugin can inject the Buttons into five places in Mautic's UI.
         - Buttons inside the bulk drop-down, around the ``checkall`` checkbox of lists.
 
 Buttons use a priority system to determine the order.
-The higher the priority, the Button displayed closer to first the Button.
-The lower the priority, the Button displayed closer to the last.
-For a Button drop-down, setting a button as ``primary`` displays the Button in the Button group rather than the drop-down.
+The higher the priority, the button displayed closer to first the button.
+The lower the priority, the button displayed closer to the last.
+For a button drop-down, setting a button as ``primary`` displays the button in the button group rather than the drop-down.
 
 .. vale off
 
@@ -163,12 +163,12 @@ Registering Integration to inject buttons
 
 .. vale off
 
-Button Array Format
+Button array format
 ===================
 
 .. vale on
 
-The array defining the Button can include the following keys:
+The array defining the button can include the following keys:
 
 .. list-table::
     :header-rows: 1
@@ -178,22 +178,22 @@ The array defining the Button can include the following keys:
         - Description
     *   - ``attr``
         - array[]
-        - Array of attributes to appended to the Button (data attributes, href, etc)
+        - Array of attributes to appended to the button (data attributes, href, etc)
     *   - ``btnText``
         - string
-        - Text to display for the Button
+        - Text to display for the button
     *   - ``iconClass``
         - string
-        - Font Awesome class to use as the icon within the Button
+        - Font Awesome class to use as the icon within the button
     *   - ``tooltip``
         - string
         - Text to display as a Tooltip
     *   - ``primary``
         - boolean
-        - For Button drop-down formats, this displays the Button in the group rather than in the drop-down
+        - For button drop-down formats, this displays the button in the group rather than in the drop-down
     *   - ``priority``
         - int
-        - Determines the order of buttons. The higher the priority, the Button displayed closer to the first Button. Buttons with the same priority get ordered alphabetically.
+        - Determines the order of buttons. The higher the priority, the button displayed closer to the first button. Buttons with the same priority get ordered alphabetically.
 
 If a button is to display a confirmation modal, the key ``confirm``  is a must. A ``confirm`` array  can have the following keys:
 
@@ -208,43 +208,43 @@ If a button is to display a confirmation modal, the key ``confirm``  is a must. 
         - Translated message to display in the confirmation window
     *   - ``confirmText``
         - string
-        - Text to display as the confirm Button
+        - Text to display as the confirm button
     *   - ``confirmAction``
         - string
-        - href of the Button
+        - href of the button
     *   - ``cancelText``
         - string
         - Text to display as the cancel button
     *   - ``cancelCallback``
         - string
-        - Mautic namespaced JavaScript method to execute when the cancel Button clicked.
+        - Mautic namespaced JavaScript method to execute when the cancel button clicked.
     *   - ``confirmCallback``
         - string
-        - Mautic namespaced JavaScript method to execute when the confirm Button clicked
+        - Mautic namespaced JavaScript method to execute when the confirm button clicked
     *   - ``precheck``
         - string
         - Mautic namespaced JavaScript method to executed before displaying the confirmation modal
     *   - ``btnClass``
         - string
-        - Class for the Button
+        - Class for the button
     *   - ``iconClass``
         - string
         - Font Awesome class to use as the icon
     *   - ``btnTextAttr``
         - string
-        - string of attributes to append to the Button's inner text
+        - string of attributes to append to the button's inner text
     *   - ``attr``
         - array[]
-        - Array of attributes to append to the Button's outer tag
+        - Array of attributes to append to the button's outer tag
     *   - ``tooltip``
         - string
         - Translated string to display as a Tooltip
     *   - ``tag``
         - string
-        - Tag to use as the Button. Defaults to an ``a`` tag.
+        - Tag to use as the button. Defaults to an ``a`` tag.
     *   - ``wrapOpeningTag``
         - string
-        - Tag/html to wrap Button in. Defaults to nothing.
+        - Tag/html to wrap button in. Defaults to nothing.
     *   - ``wrapClosingTag``
         - string
         - Tag/thml to close wrapOpeningTag. Defaults to nothing.
@@ -253,7 +253,7 @@ On the same nested level as the ``confirm`` key can include ``primary`` and/or `
 
 .. vale off
 
-Defining Button Locations
+Defining button locations
 *************************
 
 .. vale on
