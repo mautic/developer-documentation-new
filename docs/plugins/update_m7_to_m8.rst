@@ -810,7 +810,32 @@ Subscribers that parse fetched mail use ``Mautic\EmailBundle\Event\ParseEmailEve
    - public function isApplicable($bundleKey, $folderKeys): bool
    + public function isApplicable(string $bundleKey, string|array $folderKeys): bool
 
-``setCriteriaRequest()`` types the same two parameters, and leaves ``$criteria`` without a type:
+Mautic 8 also splits the pre-fetch phase out of ``ParseEmailEvent``. Before Mautic 8, one ``ParseEmailEvent`` object served both the ``EmailEvents::EMAIL_PRE_FETCH`` and ``EmailEvents::EMAIL_PARSE`` names. Mautic removed both constants and now dispatches two event classes by class name:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``EmailEvents`` constant
+     - Event class
+   * - ``EMAIL_PRE_FETCH``
+     - ``Mautic\EmailBundle\Event\PreFetchEmailEvent``
+   * - ``EMAIL_PARSE``
+     - ``Mautic\EmailBundle\Event\ParseEmailEvent``
+
+``setCriteriaRequest()``, ``getCriteriaRequests()``, and ``getMarkAsSeenInstructions()`` moved from ``ParseEmailEvent`` to ``PreFetchEmailEvent``. ``ParseEmailEvent`` keeps only the fetched messages and ``isApplicable()``. Re-key your subscriber on the event classes and type-hint the pre-fetch listener with ``PreFetchEmailEvent``:
+
+.. code:: diff
+
+   - EmailEvents::EMAIL_PRE_FETCH => ['onPreFetch', 0],
+   - EmailEvents::EMAIL_PARSE     => ['onParse', 0],
+   + PreFetchEmailEvent::class    => ['onPreFetch', 0],
+   + ParseEmailEvent::class       => ['onParse', 0],
+
+   - public function onPreFetch(ParseEmailEvent $event): void
+   + public function onPreFetch(PreFetchEmailEvent $event): void
+
+On ``PreFetchEmailEvent``, ``setCriteriaRequest()`` types ``$bundleKey`` as ``string`` and ``$folderKeys`` as ``string|array``, and leaves ``$criteria`` without a type:
 
 .. code:: diff
 
