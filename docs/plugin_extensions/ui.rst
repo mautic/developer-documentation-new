@@ -294,10 +294,6 @@ Injecting custom content
 
 Mautic dispatches the ``Mautic\CoreBundle\Event\CustomContentEvent`` so Plugins can inject custom content into Mautic's templates. A template exposes an injection point with the ``customContent`` Twig function, which passes a context name and the current template variables. The context name identifies the injection point within that template. Listeners key on this event class and receive the ``CustomContentEvent`` object. A listener calls ``checkContext()`` to confirm the hook is firing at the intended view and context, then adds either rendered HTML with ``addContent()`` or a template with ``addTemplate()``. The preceding section documents button injection, which follows the same dispatch pattern through ``CustomButtonEvent`` but delivers a different event object.
 
-.. note::
-
-   Since Mautic 8, this dispatches by class instead of the ``CoreEvents::VIEW_INJECT_CUSTOM_CONTENT`` constant - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks if you don't re-key.
-
 .. php:class:: Mautic\CoreBundle\Event\CustomContentEvent
 
     .. php:method:: public function checkContext($viewName, $context)
