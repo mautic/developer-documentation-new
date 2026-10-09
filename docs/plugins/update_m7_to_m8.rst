@@ -1608,7 +1608,9 @@ Integration response event
 
 .. vale on
 
-Listeners to ``PluginEvents::PLUGIN_ON_INTEGRATION_RESPONSE`` now receive a new ``Mautic\PluginBundle\Event\PluginIntegrationResponseEvent`` instead of ``PluginIntegrationRequestEvent``. ``AbstractIntegration::makeRequest()`` creates the new event with the Integration and the response, so ``getResponse()`` always returns a ``Psr\Http\Message\ResponseInterface``. ``PluginIntegrationRequestEvent`` no longer has ``getResponse()`` or ``setResponse()``.
+Mautic now dispatches the Integration response as a new ``Mautic\PluginBundle\Event\PluginIntegrationResponseEvent`` instead of ``PluginIntegrationRequestEvent``. ``AbstractIntegration::makeRequest()`` creates the new event with the Integration and the response, so ``getResponse()`` always returns a ``Psr\Http\Message\ResponseInterface``. ``PluginIntegrationRequestEvent`` no longer has ``getResponse()`` or ``setResponse()``.
+
+Mautic 8 also removed the ``PluginEvents::PLUGIN_ON_INTEGRATION_REQUEST`` and ``PLUGIN_ON_INTEGRATION_RESPONSE`` constants and dispatches both events by the event object alone. Key ``getSubscribedEvents()`` on ``PluginIntegrationRequestEvent::class`` and ``PluginIntegrationResponseEvent::class``. For the full list, see :ref:`Removed event constants <plugins/event_listeners:Removed event constants>`.
 
 A listener that still type-hints ``PluginIntegrationRequestEvent`` raises a ``TypeError`` when Mautic dispatches the event. Change the type hint:
 
@@ -1619,7 +1621,7 @@ A listener that still type-hints ``PluginIntegrationRequestEvent`` raises a ``Ty
      {
          $response = $event->getResponse();
 
-The new event extends ``AbstractPluginIntegrationEvent``, so ``getIntegration()`` and ``getIntegrationName()`` still work. Listeners to ``PluginEvents::PLUGIN_ON_INTEGRATION_REQUEST`` still receive ``PluginIntegrationRequestEvent``, but can no longer read the response from it.
+The new event extends ``AbstractPluginIntegrationEvent``, so ``getIntegration()`` and ``getIntegrationName()`` still work. Listeners on the request event still receive ``PluginIntegrationRequestEvent``, but can no longer read the response from it.
 
 .. vale off
 
@@ -1968,7 +1970,7 @@ Mautic 8 declares more than 300 core classes ``final``, because no Mautic class 
 * A Plugin class that extends one of these classes causes a fatal error when PHP loads it, for example ``Class MauticPlugin\HelloWorldBundle\Model\MyPageModel cannot extend final class Mautic\PageBundle\Model\PageModel``.
 * A Plugin test that mocks one of these classes with :xref:`phpunit` fails, because the test framework can't create a test double of a ``final`` class.
 
-Some of the event classes described earlier in this guide are now ``final``, including ``ConfigBuilderEvent``, ``ConfigEvent``, ``EmailValidationEvent``, ``SubmissionEvent``, ``PointBuilderEvent``, and ``WebhookBuilderEvent``. For these classes, the guidance about overriding typed methods no longer applies, because you can't extend them.
+Some of the event classes described earlier in this guide are now ``final``, including ``ConfigBuilderEvent``, ``EmailValidationEvent``, ``SubmissionEvent``, ``PointBuilderEvent``, and ``WebhookBuilderEvent``. For these classes, the guidance about overriding typed methods no longer applies, because you can't extend them.
 
 .. vale off
 
@@ -1982,7 +1984,6 @@ These event classes are now ``final``:
 .. vale off
 
 * ``Mautic\ConfigBundle\Event\ConfigBuilderEvent``
-* ``Mautic\ConfigBundle\Event\ConfigEvent``
 * ``Mautic\CoreBundle\Event\MaintenanceEvent``
 * ``Mautic\CoreBundle\Event\StatsEvent``
 * ``Mautic\EmailBundle\Event\EmailValidationEvent``

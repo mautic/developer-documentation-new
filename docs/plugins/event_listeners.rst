@@ -535,87 +535,199 @@ PHP can't instantiate an abstract class, so code that creates a ``WidgetDetailEv
 
    The StatsBundle applies the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` change to the aggregate stat request event. Key ``getSubscribedEvents()`` on ``AggregateStatRequestEvent::class``, from the ``Mautic\StatsBundle\Event`` namespace. Mautic 8 removes the ``Mautic\StatsBundle\StatEvents`` class, so a subscriber that still references ``StatEvents::AGGREGATE_STAT_REQUEST`` raises a ``Class "Mautic\StatsBundle\StatEvents" not found`` error. A subscriber keyed on the raw ``mautic.aggregate_stat_request`` string silently receives nothing.
 
+.. vale off
+
+Removed event constants
+=======================
+
+.. vale on
+
+Mautic 8 removed the string constants for the following events, which Mautic dispatches by the event object alone. A subscriber that still references one of these constants fails with ``Error: Undefined constant`` when PHP loads it. Key ``getSubscribedEvents()`` on the event class instead.
+
+.. vale off
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed constant
+     - Subscription key
+   * - ``ConfigEvents::CONFIG_PRE_SAVE``
+     - ``Mautic\ConfigBundle\Event\ConfigPreSaveEvent``
+   * - ``ConfigEvents::CONFIG_POST_SAVE``
+     - ``Mautic\ConfigBundle\Event\ConfigPostSaveEvent``
+   * - ``CampaignEvents::ON_CAMPAIGN_DELETE``
+     - ``Mautic\CampaignBundle\Event\DeleteCampaign``
+   * - ``CampaignEvents::CAMPAIGN_ON_BUILD``
+     - ``Mautic\CampaignBundle\Event\CampaignBuilderEvent``
+   * - ``CampaignEvents::CAMPAIGN_ON_TRIGGER``
+     - ``Mautic\CampaignBundle\Event\CampaignTriggerEvent``
+   * - ``CampaignEvents::ON_EVENT_EXECUTED``
+     - ``Mautic\CampaignBundle\Event\ExecutedEvent``
+   * - ``CampaignEvents::ON_EVENT_DELETE``
+     - ``Mautic\CampaignBundle\Event\DeleteEvent``
+   * - ``CampaignEvents::ON_EVENT_EXECUTED_BATCH``
+     - ``Mautic\CampaignBundle\Event\ExecutedBatchEvent``
+   * - ``CampaignEvents::ON_EVENT_SCHEDULED``
+     - ``Mautic\CampaignBundle\Event\ScheduledEvent``
+   * - ``CampaignEvents::ON_EVENT_SCHEDULED_BATCH``
+     - ``Mautic\CampaignBundle\Event\ScheduledBatchEvent``
+   * - ``CampaignEvents::ON_EVENT_FAILED``
+     - ``Mautic\CampaignBundle\Event\FailedEvent``
+   * - ``CampaignEvents::ON_EVENT_DECISION_EVALUATION_RESULTS``
+     - ``Mautic\CampaignBundle\Event\DecisionResultsEvent``
+   * - ``CampaignEvents::ON_CAMPAIGN_FAILURE_NOTIFY``
+     - ``Mautic\CampaignBundle\Event\NotifyOfFailureEvent``
+   * - ``CampaignEvents::ON_CAMPAIGN_UNPUBLISH_NOTIFY``
+     - ``Mautic\CampaignBundle\Event\NotifyOfUnpublishEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_CONFIG_SAVE``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_REQUEST``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationRequestEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_RESPONSE``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationResponseEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_AUTH_REDIRECT``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationAuthRedirectEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_GET_AUTH_CALLBACK_URL``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationAuthCallbackUrlEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_FORM_DISPLAY``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationFormDisplayEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_FORM_BUILD``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationFormBuildEvent``
+   * - ``PluginEvents::ON_PLUGIN_UPDATE``
+     - ``Mautic\PluginBundle\Event\PluginUpdateEvent``
+   * - ``PluginEvents::ON_PLUGIN_INSTALL``
+     - ``Mautic\PluginBundle\Event\PluginInstallEvent``
+   * - ``PluginEvents::PLUGIN_IS_PUBLISHED_STATE_CHANGING``
+     - ``Mautic\PluginBundle\Event\PluginIsPublishedEvent``
+   * - ``DynamicContentEvents::ON_CONTACTS_FILTER_EVALUATE``
+     - ``Mautic\DynamicContentBundle\Event\ContactFiltersEvaluateEvent``
+   * - ``DoNotContactAddEvent::ADD_DONOT_CONTACT``
+     - ``Mautic\LeadBundle\Event\DoNotContactAddEvent``
+   * - ``DoNotContactRemoveEvent::REMOVE_DONOT_CONTACT``
+     - ``Mautic\LeadBundle\Event\DoNotContactRemoveEvent``
+
+.. vale on
+
+The ``Mautic\ConfigBundle\ConfigEvents`` class no longer exists, so also remove any ``use Mautic\ConfigBundle\ConfigEvents;`` statement. Mautic 8 also removed these constants, which have no replacement event:
+
+* ``DynamicContentEvents::CATEGORY_PRE_SAVE``, ``CATEGORY_POST_SAVE``, ``CATEGORY_PRE_DELETE``, and ``CATEGORY_POST_DELETE`` duplicated the ``Mautic\CategoryBundle\CategoryEvents`` constants with the same string values. Use the ``CategoryEvents`` constants instead.
+* ``PluginEvents::ON_FORM_SUBMIT_ACTION_TRIGGERED`` had no dispatcher or listener.
+
+These illustrative fragments show the change for the Plugin Integration request event. Before Mautic 8, the subscriber keys on the constant:
+
+.. code-block:: php
+
+    <?php
+
+    use Mautic\PluginBundle\PluginEvents;
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            PluginEvents::PLUGIN_ON_INTEGRATION_REQUEST => ['onRequest', 0],
+        ];
+    }
+
+In Mautic 8, the subscriber keys on the event class:
+
+.. code-block:: php
+
+    <?php
+
+    use Mautic\PluginBundle\Event\PluginIntegrationRequestEvent;
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            PluginIntegrationRequestEvent::class => ['onRequest', 0],
+        ];
+    }
+
 Custom events
 *************
 
-A Plugin can create and dispatch its own events. 
+A Plugin can create and dispatch its own events. Since Symfony 4.3, the event class name is the event name, so a custom event doesn't need a separate class of event name constants.
 
 Custom events require the following:
 
-#. The class defines the available events for the Plugin using a ``final class`` with constants.
+#. An event class that extends ``Symfony\Contracts\EventDispatcher\Event``. The event object contains all data required for listeners to process the event.
 
    .. code-block:: php
 
        <?php
-       // plugins\HelloWorldBundle\HelloWorldEvents.php
-    
-       namespace MauticPlugin\HelloWorldBundle;
-    
-       final class HelloWorldEvents
+       // plugins\HelloWorldBundle\Event\ArmageddonEvent.php
+
+       namespace MauticPlugin\HelloWorldBundle\Event;
+
+       use MauticPlugin\HelloWorldBundle\Entity\World;
+       use Symfony\Contracts\EventDispatcher\Event;
+
+       final class ArmageddonEvent extends Event
        {
-           /**
-            * The giant meteor that dooms a world triggers the helloworld.armageddon event
-            *
-            * The event listener receives a MauticPlugin\HelloWorldBundle\Event\ArmageddonEvent instance.
-            *
-            * @var string
-            */
-           const ARMAGEDDON = 'helloworld.armageddon';
-       }
-       // ...
+           private bool $falseAlarm = false;
 
-
-#. The listeners receive the ``Event`` class. This class should extend ``Symfony\Contracts\EventDispatcher\Event``. The event object contains all data required for listeners to process the event.
-
-   .. code-block:: php
-
-       <?php  
-    // plugins\HelloWorldBundle\Event\ArmageddonEvent.php  
-    
-       namespace MauticPlugin\HelloWorldBundle\Event;  
-    
-       use Symfony\Contracts\EventDispatcher\Event;  
-       use MauticPlugin\HelloWorldBundle\Entity\World;  
-    
-       final class ArmageddonEvent extends Event  
-       {  
-           private bool $falseAlarm = false;  
-         
            public function __construct(private World $world)
-           {  
-               $this->world = $world;
-           }  
-        
-           public function shouldPanic(): bool  
-           {  
-               return ('earth' == $this->world->getName());  
-           }  
-        
-           public function setIsFalseAlarm(): void  
-           {  
-               $this->falseAlarm = true;  
-           }  
-        
-           public function getIsFalseAlarm(): bool  
-           {  
-               return $this->falseAlarm;  
-           }  
+           {
+           }
+
+           public function shouldPanic(): bool
+           {
+               return 'earth' === $this->world->getName();
+           }
+
+           public function setIsFalseAlarm(): void
+           {
+               $this->falseAlarm = true;
+           }
+
+           public function getIsFalseAlarm(): bool
+           {
+               return $this->falseAlarm;
+           }
        }
-       // ...
 
-
-#. The code that dispatches the event where appropriate using the ``event_dispatcher`` service.
+#. The code that dispatches the event object through the ``event_dispatcher`` service. Pass the event object as the only argument.
 
    .. code-block:: php
 
        <?php
-    
-       $dispatcher = $this->get('event_dispatcher');
-       if ($dispatcher->hasListeners   (HelloWorldEvents::ARMAGEDDON)) {
-           $event = $dispatcher->dispatch(HelloWorldEvents::ARMAGEDDON, new ArmageddonEvent($world));
+
+       // $dispatcher is an injected Symfony\Component\EventDispatcher\EventDispatcherInterface
+       if ($dispatcher->hasListeners(ArmageddonEvent::class)) {
+           $event = $dispatcher->dispatch(new ArmageddonEvent($world));
 
            if ($event->shouldPanic()) {
-               throw new \Exception("Run for the hills!");
+               throw new \Exception('Run for the hills!');
+           }
+       }
+
+   Don't pass an event name as a second argument, as in ``$dispatcher->dispatch($event, HelloWorldEvents::ARMAGEDDON)``. Mautic's static analysis rules flag that call as a ``mautic.singleArgumentDispatch`` error when you run ``composer phpstan`` on your Plugin.
+
+#. Subscribers that listen on the event class.
+
+   .. code-block:: php
+
+       <?php
+       // plugins\HelloWorldBundle\EventListener\ArmageddonSubscriber.php
+
+       namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+       use MauticPlugin\HelloWorldBundle\Event\ArmageddonEvent;
+       use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+       final class ArmageddonSubscriber implements EventSubscriberInterface
+       {
+           public static function getSubscribedEvents(): array
+           {
+               return [
+                   ArmageddonEvent::class => ['onArmageddon', 0],
+               ];
+           }
+
+           public function onArmageddon(ArmageddonEvent $event): void
+           {
+               // do something
            }
        }
 

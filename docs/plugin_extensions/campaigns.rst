@@ -20,7 +20,7 @@ Registering Campaign Events
 
 .. vale on
 
-Since Mautic 8.0, Mautic dispatches the ``Mautic\CampaignBundle\Event\CampaignBuilderEvent`` by its class name so Plugins can register their Campaign Actions, Conditions, and Decisions. Subscribers key ``getSubscribedEvents()`` on ``CampaignBuilderEvent::class`` and receive a ``CampaignBuilderEvent`` object. For how class-name dispatch works and why the former Event constant no longer fires, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`. Register the Event using the appropriate ``addAction()``, ``addCondition()``, or ``addDecision()`` method, as described below.
+Since Mautic 8.0, Mautic dispatches the ``Mautic\CampaignBundle\Event\CampaignBuilderEvent`` by its class name so Plugins can register their Campaign Actions, Conditions, and Decisions. Subscribers key ``getSubscribedEvents()`` on ``CampaignBuilderEvent::class`` and receive a ``CampaignBuilderEvent`` object. Mautic 8 removed the former ``CampaignEvents::CAMPAIGN_ON_BUILD`` constant, so a subscriber that still references it fails with ``Error: Undefined constant``. For how class-name dispatch works, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`. Register the Event using the appropriate ``addAction()``, ``addCondition()``, or ``addDecision()`` method, as described below.
 
 .. list-table::
    :header-rows: 1
