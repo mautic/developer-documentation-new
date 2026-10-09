@@ -253,6 +253,90 @@ On the same nested level as the ``confirm`` key can include ``primary`` and/or `
 
 .. vale off
 
+Injecting Email preview buttons
+*******************************
+
+.. vale on
+
+The Email preview download view shows a bar with Contact and Company lookup fields and buttons that download the rendered preview. Mautic adds a **Download HTML** button. A Plugin can add its own buttons to the same bar, for example to export the preview in another file format.
+
+This bar doesn't use the Button locations from the preceding sections. Instead, the ``@MauticEmail/Email/preview.html.twig`` template calls ``customContent('email.preview.buttons', _context)``, which dispatches the Event ``\Mautic\CoreBundle\CoreEvents::VIEW_INJECT_CUSTOM_CONTENT``. Listeners receive a ``Mautic\CoreBundle\Event\CustomContentEvent`` object. Because other templates dispatch the same Event, call ``checkContext()`` with the template name and the ``email.preview.buttons`` context before adding anything. Then add a template with ``addTemplate()`` or rendered HTML with ``addContent()``.
+
+``getVars()`` returns the view's template variables, which include the following keys:
+
+.. list-table::
+    :header-rows: 1
+
+    *   - Key
+        - Description
+    *   - ``objectId``
+        - ID of the Email in the preview.
+    *   - ``objectType``
+        - ``real`` for the Email's current content, or ``draft`` for its draft.
+    *   - ``contactId``
+        - ID of the Contact selected in the bar. It's ``0`` when the User hasn't selected a Contact or doesn't have permission to view the selected one.
+    *   - ``companyId``
+        - ID of the Company selected in the bar, or ``0`` when the User hasn't selected a Company.
+    *   - ``previewPageUrl``
+        - Absolute URL of the rendered preview that the view embeds.
+
+The ``@MauticEmail/Email/preview_button_link.html.twig`` template renders a button-styled link from ``url`` and ``label`` variables. Reuse it so a Plugin's button matches the **Download HTML** button.
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/EmailPreviewButtonSubscriber.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\CoreBundle\CoreEvents;
+    use Mautic\CoreBundle\Event\CustomContentEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+    use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+    use Symfony\Contracts\Translation\TranslatorInterface;
+
+    class EmailPreviewButtonSubscriber implements EventSubscriberInterface
+    {
+        public function __construct(
+            private UrlGeneratorInterface $urlGenerator,
+            private TranslatorInterface $translator,
+        ) {
+        }
+
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                CoreEvents::VIEW_INJECT_CUSTOM_CONTENT => ['injectButton', 0],
+            ];
+        }
+
+        public function injectButton(CustomContentEvent $event): void
+        {
+            if (!$event->checkContext('@MauticEmail/Email/preview.html.twig', 'email.preview.buttons')) {
+                return;
+            }
+
+            $vars = $event->getVars();
+
+            $event->addTemplate('@MauticEmail/Email/preview_button_link.html.twig', [
+                // A route your Plugin defines to generate the exported file
+                'url'   => $this->urlGenerator->generate('mautic_helloworld_email_export', [
+                    'objectId'   => $vars['objectId'],
+                    'objectType' => $vars['objectType'],
+                    'contactId'  => $vars['contactId'],
+                    'companyId'  => $vars['companyId'],
+                ]),
+                'label' => $this->translator->trans('mautic.helloworld.email.preview.download_pdf'),
+            ]);
+        }
+    }
+
+Pass ``contactId`` and ``companyId`` to the Plugin's route so the exported file uses the same Contact and Company tokens as the preview. Mautic's own download checks that the User can view the Email and the selected Contact, so apply the same permission checks in the Plugin's Controller before returning Contact data.
+
+.. vale off
+
 Defining Button Locations
 *************************
 
