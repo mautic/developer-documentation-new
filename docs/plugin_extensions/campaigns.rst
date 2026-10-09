@@ -944,6 +944,74 @@ Both classes extend the abstract ``CampaignLeadChangeEvent`` class, so a listene
 
    Mautic 8 removed the ``CAMPAIGN_ON_LEADCHANGE`` and ``LEAD_CAMPAIGN_BATCH_CHANGE`` constants from ``Mautic\CampaignBundle\CampaignEvents``. Before Mautic 8, both events shared one ``CampaignLeadChangeEvent`` object under the two constant names. Code that still references one of these constants throws a PHP ``Error`` with the message 'Undefined constant'. Replace ``CAMPAIGN_ON_LEADCHANGE`` with ``CampaignSingleLeadChangeEvent::class`` and ``LEAD_CAMPAIGN_BATCH_CHANGE`` with ``CampaignBatchLeadChangeEvent::class``. For the general rule, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
+Campaign save and delete events
+*******************************
+
+Subscribe to these events to run custom logic when a User saves or deletes a Campaign, for example to sync the Campaign to an external system or write an audit entry. Mautic dispatches each event by its event class, so key ``getSubscribedEvents()`` on the class name. All four classes live in the ``Mautic\CampaignBundle\Event`` namespace.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Event class
+     - Fires
+   * - ``CampaignPreSaveEvent``
+     - Before Mautic saves a Campaign to the database.
+   * - ``CampaignPostSaveEvent``
+     - After Mautic saves a Campaign to the database.
+   * - ``CampaignPreDeleteEvent``
+     - Before Mautic deletes a Campaign.
+   * - ``CampaignPostDeleteEvent``
+     - After Mautic deletes a Campaign.
+
+Each class is ``final`` and extends ``CampaignEvent``, so a listener type-hinted against ``CampaignEvent`` keeps working. Use ``getCampaign()`` to read the Campaign entity and ``isNew()`` to find out whether the save creates a new Campaign. In a ``CampaignPostSaveEvent`` listener, ``getChanges()`` returns the fields that changed.
+
+.. code-block:: php
+
+   <?php
+
+   declare(strict_types=1);
+
+   use Mautic\CampaignBundle\Event\CampaignPostDeleteEvent;
+   use Mautic\CampaignBundle\Event\CampaignPostSaveEvent;
+   use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+   class CampaignLifecycleSubscriber implements EventSubscriberInterface
+   {
+       public static function getSubscribedEvents(): array
+       {
+           return [
+               CampaignPostSaveEvent::class   => ['onCampaignPostSave', 0],
+               CampaignPostDeleteEvent::class => ['onCampaignPostDelete', 0],
+           ];
+       }
+
+       public function onCampaignPostSave(CampaignPostSaveEvent $event): void
+       {
+           $campaign = $event->getCampaign();
+           $changes  = $event->getChanges();
+           // Push the saved Campaign to an external system, for example.
+       }
+
+       public function onCampaignPostDelete(CampaignPostDeleteEvent $event): void
+       {
+           // Mautic has already removed the Campaign, so read its former ID from deletedId.
+           $campaignId = $event->getCampaign()->deletedId;
+           // Remove the Campaign from an external system, for example.
+       }
+   }
+
+.. note::
+
+   Mautic 8 removed the ``CAMPAIGN_PRE_SAVE``, ``CAMPAIGN_POST_SAVE``, ``CAMPAIGN_PRE_DELETE``, and ``CAMPAIGN_POST_DELETE`` constants from ``Mautic\CampaignBundle\CampaignEvents``. Before Mautic 8, all four events shared one ``CampaignEvent`` object under these constant names. Code that still references one of these constants throws a PHP ``Error`` with the message 'Undefined constant', and a subscriber keyed on a raw string such as ``mautic.campaign_post_save`` silently receives nothing. Replace each constant with its event class:
+
+   * ``CAMPAIGN_PRE_SAVE`` - ``CampaignPreSaveEvent::class``
+   * ``CAMPAIGN_POST_SAVE`` - ``CampaignPostSaveEvent::class``
+   * ``CAMPAIGN_PRE_DELETE`` - ``CampaignPreDeleteEvent::class``
+   * ``CAMPAIGN_POST_DELETE`` - ``CampaignPostDeleteEvent::class``
+
+   A Plugin test that creates the event with ``new CampaignEvent($campaign)`` to call a lifecycle listener must create the matching subclass instead, such as ``new CampaignPreSaveEvent($campaign)``. For the general rule, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+
 .. vale off
 
 Exporting a Campaign

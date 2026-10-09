@@ -304,7 +304,7 @@ CampaignBundle
 
 .. vale on
 
-Mautic 8 adds type declarations to the Campaign Event entity and three Campaign event classes.
+Mautic 8 adds type declarations to the Campaign Event entity and three Campaign event classes. It also dispatches the Campaign save and delete events by dedicated event classes.
 
 .. vale off
 
@@ -372,6 +372,41 @@ Subscribers to Campaign membership changes receive ``CampaignSingleLeadChangeEve
 
    - public function getLead()
    + public function getLead(): ?\Mautic\LeadBundle\Entity\Lead
+
+.. vale off
+
+CampaignEvent
+=============
+
+.. vale on
+
+Before Mautic 8, one ``Mautic\CampaignBundle\Event\CampaignEvent`` object served the ``CampaignEvents::CAMPAIGN_PRE_SAVE``, ``CAMPAIGN_POST_SAVE``, ``CAMPAIGN_PRE_DELETE``, and ``CAMPAIGN_POST_DELETE`` names. Mautic removed all four constants and now dispatches a dedicated event class for each, by class name:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``CampaignEvents`` constant
+     - Event class
+   * - ``CAMPAIGN_PRE_SAVE``
+     - ``Mautic\CampaignBundle\Event\CampaignPreSaveEvent``
+   * - ``CAMPAIGN_POST_SAVE``
+     - ``Mautic\CampaignBundle\Event\CampaignPostSaveEvent``
+   * - ``CAMPAIGN_PRE_DELETE``
+     - ``Mautic\CampaignBundle\Event\CampaignPreDeleteEvent``
+   * - ``CAMPAIGN_POST_DELETE``
+     - ``Mautic\CampaignBundle\Event\CampaignPostDeleteEvent``
+
+A subscriber that still references one of the constants throws a PHP ``Error`` with the message 'Undefined constant'. Each new class is ``final`` and extends ``CampaignEvent``, so a listener method can keep its ``CampaignEvent`` type hint. Re-key your subscriber on the event classes:
+
+.. code:: diff
+
+   - CampaignEvents::CAMPAIGN_POST_SAVE   => ['onCampaignPostSave', 0],
+   - CampaignEvents::CAMPAIGN_POST_DELETE => ['onCampaignDelete', 0],
+   + CampaignPostSaveEvent::class         => ['onCampaignPostSave', 0],
+   + CampaignPostDeleteEvent::class       => ['onCampaignDelete', 0],
+
+Mautic still dispatches ``CampaignEvent`` itself after it imports a Campaign, so the class stays concrete. A Plugin test that passes ``new CampaignEvent($campaign)`` to a save or delete listener must create the matching subclass instead. For a subscriber example, see :ref:`Campaign save and delete events <plugin_extensions/campaigns:Campaign save and delete events>`.
 
 .. vale off
 
@@ -636,7 +671,44 @@ The constructor of ``Mautic\CoreBundle\Event\MaintenanceEvent`` promotes ``$days
    -    public function setStat($key, $recordCount, $sql = null, $parameters = []): void
    +    public function setStat($key, $recordCount, $sql = null, array $parameters = []): void
 
-Several other ``CoreBundle`` event classes gained native types that match their existing ``PHPDoc``, so your Plugin needs no action for ``CustomAssetsEvent``, ``BuildJsEvent``, ``CommandListEvent``, ``GlobalSearchEvent``, and ``IconEvent``.
+.. vale off
+
+IconEvent
+=========
+
+.. vale on
+
+``Mautic\CoreBundle\Event\IconEvent`` no longer carries the ``CorePermissions`` service. Its constructor takes no arguments, and the class no longer provides ``getSecurity()``. If your icon subscriber called ``$event->getSecurity()``, inject ``Mautic\CoreBundle\Security\Permissions\CorePermissions`` into the subscriber's constructor and use that instead. If your Plugin creates an ``IconEvent`` itself, drop the constructor argument:
+
+.. code:: diff
+
+   -    $iconEvent = new IconEvent($this->security);
+   +    $iconEvent = new IconEvent();
+
+.. vale off
+
+PreExecuteEvent
+===============
+
+.. vale on
+
+Mautic dispatches ``Mautic\CoreBundle\Doctrine\Common\DataFixtures\Event\PreExecuteEvent`` when it creates the purger for loading data fixtures. The event no longer carries the entity manager. Its constructor takes only the purge mode, and the class no longer provides ``getEntityManager()``. If a fixture listener called ``$event->getEntityManager()``, inject ``Doctrine\ORM\EntityManagerInterface`` into the fixture class and use that instead:
+
+.. code:: diff
+
+   -    $event->getEntityManager()->getConnection()->executeStatement($sql);
+   +    $this->entityManager->getConnection()->executeStatement($sql);
+
+.. vale off
+
+Services in event constructors
+==============================
+
+.. vale on
+
+A new :xref:`phpstan` rule, ``mautic.noServiceInEventConstructor``, flags event classes that accept a service in their constructor only to hand it to listeners. It checks for services such as ``CorePermissions``, ``EntityManagerInterface``, and ``TranslatorInterface``. Mautic's ``phpstan.neon`` enables the rule, so ``composer phpstan`` also flags matching event classes in your Plugin. Inject the service into the listener that needs it, and keep the event limited to the values it carries.
+
+Several other ``CoreBundle`` event classes gained native types that match their existing ``PHPDoc``, so your Plugin needs no action for ``CustomAssetsEvent``, ``BuildJsEvent``, ``CommandListEvent``, and ``GlobalSearchEvent``.
 
 .. vale off
 
@@ -773,7 +845,32 @@ Subscribers that parse fetched mail use ``Mautic\EmailBundle\Event\ParseEmailEve
    - public function isApplicable($bundleKey, $folderKeys): bool
    + public function isApplicable(string $bundleKey, string|array $folderKeys): bool
 
-``setCriteriaRequest()`` types the same two parameters, and leaves ``$criteria`` without a type:
+Mautic 8 also splits the pre-fetch phase out of ``ParseEmailEvent``. Before Mautic 8, one ``ParseEmailEvent`` object served both the ``EmailEvents::EMAIL_PRE_FETCH`` and ``EmailEvents::EMAIL_PARSE`` names. Mautic removed both constants and now dispatches two event classes by class name:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``EmailEvents`` constant
+     - Event class
+   * - ``EMAIL_PRE_FETCH``
+     - ``Mautic\EmailBundle\Event\PreFetchEmailEvent``
+   * - ``EMAIL_PARSE``
+     - ``Mautic\EmailBundle\Event\ParseEmailEvent``
+
+``setCriteriaRequest()``, ``getCriteriaRequests()``, and ``getMarkAsSeenInstructions()`` moved from ``ParseEmailEvent`` to ``PreFetchEmailEvent``. ``ParseEmailEvent`` keeps only the fetched messages and ``isApplicable()``. Re-key your subscriber on the event classes and type-hint the pre-fetch listener with ``PreFetchEmailEvent``:
+
+.. code:: diff
+
+   - EmailEvents::EMAIL_PRE_FETCH => ['onPreFetch', 0],
+   - EmailEvents::EMAIL_PARSE     => ['onParse', 0],
+   + PreFetchEmailEvent::class    => ['onPreFetch', 0],
+   + ParseEmailEvent::class       => ['onParse', 0],
+
+   - public function onPreFetch(ParseEmailEvent $event): void
+   + public function onPreFetch(PreFetchEmailEvent $event): void
+
+On ``PreFetchEmailEvent``, ``setCriteriaRequest()`` types ``$bundleKey`` as ``string`` and ``$folderKeys`` as ``string|array``, and leaves ``$criteria`` without a type:
 
 .. code:: diff
 
@@ -1643,6 +1740,8 @@ Every class that implements one of these interfaces must declare the ``array`` r
    + public function getDefaultThemes(): array;
    - public function getOptionalSettings();
    + public function getOptionalSettings(): array;
+   - public function getInstalledThemes($specificFeature = 'all', bool $extended = false, bool $ignoreCache = false, bool $includeDirs = true);
+   + public function getInstalledThemes($specificFeature = 'all', bool $extended = false, bool $ignoreCache = false, bool $includeDirs = true): array;
 
    // Mautic\CoreBundle\IpLookup\IpLookupFormInterface
    - public function getConfigFormThemes();
@@ -1725,6 +1824,8 @@ Plugin controllers that extend these Mautic controller classes must declare ``: 
    + protected function afterEntityClone($newEntity, $entity): array
    - protected function getEntityFormOptions()
    + protected function getEntityFormOptions(): array
+   - protected function getIndexItems($start, $limit, $filter, $orderBy, $orderByDir, array $args = [])
+   + protected function getIndexItems($start, $limit, $filter, $orderBy, $orderByDir, array $args = []): array
    - protected function getUpdateSelectParams($updateSelect, $entity, $nameMethod = 'getName', $groupMethod = 'getLanguage')
    + protected function getUpdateSelectParams($updateSelect, $entity, $nameMethod = 'getName', $groupMethod = 'getLanguage'): array
    - protected function getViewDateRange(Request $request, $objectId, $returnUrl, $timezone = 'local', &$dateRangeForm = null)
@@ -1747,6 +1848,9 @@ These base classes also gain ``: array`` return types on the listed methods:
 * ``Mautic\CoreBundle\IpLookup\AbstractLookup::getDetails()``, ``AbstractLocalDataLookup::getConfigFormThemes()``, and ``getHeaders()`` on ``AbstractMaxmindLookup`` and ``AbstractRemoteDataLookup``, plus ``AbstractRemoteDataLookup::getParameters()``
 * ``Mautic\CoreBundle\Event\BuilderEvent::getTokens()`` and ``filterTokens()``
 * ``Mautic\CoreBundle\Event\TokenReplacementEvent::getTokens()``
+* ``MauticPlugin\MauticCrmBundle\Integration\CrmAbstractIntegration::getSyncTimeframeDates()``
+
+``Mautic\PluginBundle\Integration\AbstractIntegration::mergeApiKeys()`` gains a ``: ?array`` return type, because it returns ``null`` unless you pass ``true`` as its ``$return`` argument. An override can declare ``: ?array``, or ``: array`` if it always returns an array.
 
 Run :xref:`phpstan` against your Plugin on Mautic 8 to find any override whose return type no longer matches its parent.
 

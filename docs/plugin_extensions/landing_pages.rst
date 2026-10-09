@@ -18,8 +18,11 @@ There are two ways to extend Landing Pages:
 * Landing Page tokens used to insert Dynamic Content into a Landing Page
 * A/B test winning criteria
 
-Both use the ``\Mautic\PageBundle\PageEvents::PAGE_ON_BUILD`` event, and the tokens example below also handles ``PageDisplayEvent``. In Mautic 8.0, the display event keys on ``PageDisplayEvent::class``, while ``PAGE_ON_BUILD`` stays keyed on its string constant.
-Read more about :ref:`plugins/event_listeners:Event listeners`.
+Both use the ``Mautic\PageBundle\Event\PageBuilderEvent`` event, and the tokens example below also handles ``PageDisplayEvent``. Read more about :ref:`Plugins/event_listeners:Event listeners`.
+
+.. note::
+
+   Since Mautic 8, Mautic dispatches ``PageBuilderEvent`` and ``PageDisplayEvent`` by their class names, so key ``getSubscribedEvents()`` on ``PageBuilderEvent::class`` and ``PageDisplayEvent::class``. Mautic 8 removed the ``PAGE_ON_BUILD`` and ``PAGE_ON_DISPLAY`` constants from ``Mautic\PageBundle\PageEvents``, so a subscriber still keyed on either constant raises an undefined-constant error. A subscriber keyed on the raw ``mautic.page_on_build`` or ``mautic.page_on_display`` string receives nothing. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 .. vale off
 
@@ -56,7 +59,6 @@ Below is an example of both Landing Page Tokens and Landing Page A/B Test Winner
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
     use Mautic\CoreBundle\Helper\TemplatingHelper;
-    use Mautic\PageBundle\PageEvents;
     use Mautic\PageBundle\Event\PageBuilderEvent;
     use Mautic\PageBundle\Event\PageDisplayEvent;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -73,8 +75,8 @@ Below is an example of both Landing Page Tokens and Landing Page A/B Test Winner
         static public function getSubscribedEvents()
         {
             return [
-                PageEvents::PAGE_ON_BUILD => ['onPageBuild', 0],
-                PageDisplayEvent::class   => ['onPageDisplay', 0],
+                PageBuilderEvent::class => ['onPageBuild', 0],
+                PageDisplayEvent::class => ['onPageDisplay', 0],
             ];
         }
 
@@ -203,7 +205,7 @@ The event provides:
 
 .. note::
 
-   The ``TokenHelper::REGEX`` constant provides the regular expression pattern for matching Contact field tokens. Use this to check whether a URL contains tokens before performing replacements.
+   The ``TokenHelper::REGEX`` constant provides the regular expression pattern for matching Contact field tokens. Use it to test whether a URL contains tokens before performing replacements.
 
 .. vale off
 
@@ -350,7 +352,7 @@ The ``\Mautic\PageBundle\PageEvents::PAGE_ON_TOGGLE_PUBLISH`` event dispatches w
 
 .. note::
 
-   ``PAGE_ON_TOGGLE_PUBLISH``, like ``PAGE_ON_BUILD``, dispatches the shared ``PageEvent`` class that several event names reuse, so it stays keyed on its ``PageEvents::*`` string constant. Only events with a dedicated event class, such as ``PageDisplayEvent``, changed to class-name keying in Mautic 8.0.
+   ``PAGE_ON_TOGGLE_PUBLISH`` dispatches the shared ``PageEvent`` class that several event names reuse, so it stays keyed on its ``PageEvents::*`` string constant. Only events with a dedicated event class, such as ``PageBuilderEvent`` and ``PageDisplayEvent``, changed to class-name keying in Mautic 8.0.
 
 An event listener receives a ``Mautic\PageBundle\Event\PageEvent`` instance.
 
