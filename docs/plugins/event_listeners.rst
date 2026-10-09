@@ -602,12 +602,16 @@ Mautic 8 removed the string constants for the following events, which Mautic dis
      - ``Mautic\PluginBundle\Event\PluginIsPublishedEvent``
    * - ``DynamicContentEvents::ON_CONTACTS_FILTER_EVALUATE``
      - ``Mautic\DynamicContentBundle\Event\ContactFiltersEvaluateEvent``
+   * - ``DynamicContentEvents::TOKEN_REPLACEMENT``
+     - ``Mautic\CoreBundle\Event\TokenReplacementEvent``
    * - ``DoNotContactAddEvent::ADD_DONOT_CONTACT``
      - ``Mautic\LeadBundle\Event\DoNotContactAddEvent``
    * - ``DoNotContactRemoveEvent::REMOVE_DONOT_CONTACT``
      - ``Mautic\LeadBundle\Event\DoNotContactRemoveEvent``
 
 .. vale on
+
+``DynamicContentEvents::TOKEN_REPLACEMENT`` held the ``mautic.dwc_token_replacement`` event name, which Mautic dispatched right before it returned the content of a Dynamic Content item. The EmailBundle also dispatches ``TokenReplacementEvent`` by class to replace the Dynamic Content tokens in an Email, so a subscriber keyed on ``TokenReplacementEvent::class`` receives both events. To handle only Dynamic Content items, return early unless the array from ``getClickthrough()`` contains a ``dynamic_content_id`` key.
 
 The ``Mautic\ConfigBundle\ConfigEvents`` class no longer exists, so also remove any ``use Mautic\ConfigBundle\ConfigEvents;`` statement. Mautic 8 also removed these constants, which have no replacement event:
 
