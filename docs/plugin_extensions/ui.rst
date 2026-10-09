@@ -288,3 +288,87 @@ There are three types of button groups supported:
         - A group of buttons side by side.
 
 Drop-downs require the wrapping HTML to pass to the ``renderButtons`` method.
+
+Injecting custom content
+************************
+
+Mautic dispatches the ``Mautic\CoreBundle\Event\CustomContentEvent`` so Plugins can inject custom content into Mautic's templates. A template exposes an injection point with the ``customContent`` Twig function, which passes a context name and the current template variables. The context name identifies the injection point within that template. Listeners key on this event class and receive the ``CustomContentEvent`` object. A listener calls ``checkContext()`` to confirm the hook is firing at the intended view and context, then adds either rendered HTML with ``addContent()`` or a template with ``addTemplate()``. The preceding section documents button injection, which follows the same dispatch pattern through ``CustomButtonEvent`` but delivers a different event object.
+
+.. php:class:: Mautic\CoreBundle\Event\CustomContentEvent
+
+    .. php:method:: public function checkContext($viewName, $context)
+
+        Returns ``true`` when the current view name and context both match the given values, so a listener injects only where intended.
+
+        :param string $viewName: Name of the template to match.
+        :param string $context: Context string to match.
+        :returntype: bool
+
+    .. php:method:: public function getViewName()
+
+        :return: Name of the template rendering the hook.
+
+    .. php:method:: public function getContext()
+
+        :return: Context string passed to the hook.
+
+    .. php:method:: public function getVars()
+
+        :return: Template variables passed to the hook.
+        :returntype: array
+
+    .. php:method:: public function addContent($content)
+
+        Appends rendered HTML at the hook.
+
+        :param string $content: Rendered HTML to inject.
+
+    .. php:method:: public function addTemplate($template, array $vars = [])
+
+        Renders a template at the hook with the given variables.
+
+        :param string $template: Template to render at the hook.
+        :param array $vars: Variables passed to the template.
+
+    .. php:method:: public function getContent()
+
+        :return: Array of rendered content fragments added by listeners.
+        :returntype: array
+
+Registering a custom content listener
+=====================================
+
+A Plugin registers a listener as an event subscriber. When the subscribed context matches, the following subscriber injects content into the right-hand column of the Email detail view:
+
+.. code-block:: php
+
+    <?php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\CoreBundle\Event\CustomContentEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    class EmailDetailsSidebarSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                CustomContentEvent::class => ['injectContent', 0],
+            ];
+        }
+
+        public function injectContent(CustomContentEvent $event): void
+        {
+            if ($event->checkContext('@MauticEmail/Email/details.html.twig', 'right.section.start')) {
+                $event->addContent('<div class="panel">Custom Email content</div>');
+
+                // Alternatively, render a template with the hook's variables:
+                // $event->addTemplate('@HelloWorld/Email/sidebar.html.twig', $event->getVars());
+            }
+        }
+    }
+
+The Email detail view is ``@MauticEmail/Email/details.html.twig``. It calls ``customContent('right.section.start', _context)`` in its right-hand column, which exposes the ``right.section.start`` context as an injection point that a Plugin's listener subscribes to. Mautic's own ``EmailDetailsRightColumnSubscriber`` uses this context to render A/B test details. Other Mautic templates expose their own ``customContent`` contexts, so a listener must always narrow to the intended view and context with ``checkContext()``.
