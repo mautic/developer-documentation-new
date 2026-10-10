@@ -26,28 +26,28 @@ Registering the Integration
 
 All Integrations, whether using the config, auth, or sync interfaces, must have a class that registers itself with Mautic. The Integration should list on the ``/s/plugins`` UI route.
 
-In the Plugin's ``Config/config.php``, register the Integration using the tag ``mautic.basic_integration``.
+Register the Integration as a service in the Plugin's ``Config/services.php``. Mautic's ``autoconfigure()`` setting tags any service implementing ``\Mautic\IntegrationsBundle\Integration\Interfaces\BasicInterface`` with ``mautic.basic_integration``, so you don't need to tag it manually.
 
 .. code-block:: php
 
     <?php
-    return [
-        // ...
-        'services' => [
-            // ...
-            'integrations' => [
-                'helloworld.integration' => [
-                    'class' => \MauticPlugin\HelloWorldBundle\Integration\HelloWorldIntegration::class,
-                    'tags'  => [
-                        'mautic.basic_integration',
-                    ],
-                ],
-                // ...
-            ],
-            // ...
-        ],
-        // ...
-    ];
+    // plugins/HelloWorldBundle/Config/services.php
+
+    declare(strict_types=1);
+
+    use Mautic\CoreBundle\DependencyInjection\MauticCoreExtension;
+    use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+    return function (ContainerConfigurator $configurator): void {
+        $services = $configurator->services()
+            ->defaults()
+            ->autowire()
+            ->autoconfigure()
+            ->public();
+
+        $services->load('MauticPlugin\\HelloWorldBundle\\', '../')
+            ->exclude('../{'.implode(',', MauticCoreExtension::DEFAULT_EXCLUDES).'}');
+    };
 
 The ``HelloWorldIntegration`` needs to implement ``\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface`` and ``\Mautic\IntegrationsBundle\Integration\Interfaces\BasicInterface`` interfaces. Most use cases can simply extend the ``\Mautic\IntegrationsBundle\Integration\BasicIntegration`` abstract class.
 
@@ -77,7 +77,7 @@ The ``HelloWorldIntegration`` needs to implement ``\Mautic\IntegrationsBundle\In
     use Mautic\IntegrationsBundle\Integration\Interfaces\BasicInterface;
     use Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface;
 
-    class HelloWorldIntegration extends BasicIntegration
+    class HelloWorldIntegration extends BasicIntegration implements BasicInterface
     {
         const NAME = 'HelloWorld';
 
