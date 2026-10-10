@@ -240,9 +240,9 @@ Use the follow commands to help debug routes:
 
     * - Command
       - Description
-    * - ``php bin/console router:debug``
+    * - ``php bin/console debug:router``
       - Lists all registered routes.
-    * - ``php bin/console router:debug article_show``
+    * - ``php bin/console debug:router article_show``
       - Lists the definition for the route ``article_show``.
     * - ``php bin/console router:match /blog/my-latest-post``
       - Lists the route that matches the URL path ``/blog/my-latest-post``.
@@ -926,15 +926,14 @@ To modify the submitted values before saving, subscribe to ``ConfigPreSaveEvent:
 Register the event subscriber
 -----------------------------
 
-Register the subscriber through the Plugin’s configuration in the ``services[events]`` in :ref:`plugins/config:Service config items`. This ensures that the plugin listens for the events and reacts accordingly.
+Load the subscriber's directory in the Plugin's ``Config/services.php`` with ``autoconfigure()`` enabled, as described in :ref:`Autowiring <Plugin Autowiring>`. Symfony then tags any class that implements ``EventSubscriberInterface`` as an event subscriber, so the Plugin listens for the event without further configuration.
 
 Config form
 ===========
 
 The form type is used to generate the form fields in the main configuration form. See the :doc:`Forms documentation</components/forms>` for more information about using form types.
 
-Remember that the form type must be registered through the Plugin’s config in the ``services[forms]`` in :ref:`plugins/config:Service config items`
-.
+Register the form type as a service by loading its directory in the Plugin's ``Config/services.php`` with ``autoconfigure()`` enabled, as described in :ref:`Autowiring <Plugin Autowiring>`. Symfony then tags any class that implements ``FormTypeInterface`` as a form type.
 
 Below is an example of a form type class that adds a custom configuration option to the Plugin's configuration form.
 

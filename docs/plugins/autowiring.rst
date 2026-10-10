@@ -16,7 +16,7 @@ Advantages
 -  If services aren't used in other services as dependencies, they're deleted, like **subscribers**, **commands** and **form types**.
 -  You can reduce existing service definitions to setting just the string alias, to maintain backward compatibility and keep controllers working.
 -  ``app/config/services.php`` automatically configures all bundles including Plugins so if the bundle doesn't do anything unusual, it should work out of the box.
--  The legacy services definitions were in the ``*Bundle/Config/config.php`` file, which Mautic 8 removed.
+-  Mautic 8 no longer reads the ``services`` config group from the ``*Bundle/Config/config.php`` file.
 
 The same applies for Plugins as well as for the core bundles.
 

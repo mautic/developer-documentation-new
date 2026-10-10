@@ -43,7 +43,7 @@ This file creates the GitHub Action jobs based on the definitions in it. You can
 
       services:
          database:
-         image: ${{ matrix.db-types == 'mysql' && 'mysql:5.7' || 'mariadb:10.3' }}
+         image: ${{ matrix.db-types == 'mysql' && 'mysql:8.4' || 'mariadb:10.11' }}
          env:
             MYSQL_ALLOW_EMPTY_PASSWORD: yes
             MYSQL_DATABASE: mautictest
@@ -165,7 +165,7 @@ At this point, the GitHub Action won't complete due to the missing ``phpunit.xml
 
 .. note::
 
-   Mautic 8 requires ``phpunit/phpunit`` ``^13.0``. The ``<filter><whitelist>`` and ``<listeners>`` elements shown in older examples no longer exist in this version. Use ``<source><include>/<exclude>`` instead, as Mautic's own ``app/phpunit.xml.dist`` does. Confirm the exact schema version for your installed ``phpunit/phpunit`` before pointing ``xsi:noNamespaceSchemaLocation`` at it.
+   Mautic 8 requires ``phpunit/phpunit`` ``^13.0``. The ``<filter><whitelist>`` and ``<listeners>`` elements shown in older examples no longer exist in this version. Use ``<source><include>/<exclude>`` instead, as Mautic's own ``app/phpunit.xml.dist`` does. If you install a later ``phpunit/phpunit`` version, update the version in ``xsi:noNamespaceSchemaLocation`` to match.
 
 .. code:: xml
 
@@ -174,7 +174,7 @@ At this point, the GitHub Action won't complete due to the missing ``phpunit.xml
    <!-- http://www.phpunit.de/manual/current/en/appendixes.configuration.html -->
    <phpunit
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd"
+      xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/13.0/phpunit.xsd"
       colors                      = "true"
       failOnWarning               = "true"
       bootstrap                   = "autoload.php" >

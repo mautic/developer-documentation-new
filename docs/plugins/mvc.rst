@@ -594,7 +594,7 @@ Loading images
 
 .. code-block:: twig
 
-    <img src="{{ asset('plugins/HelloWorldBundle/assets/images/earth.png') }}" />
+    <img src="{{ asset('plugins/HelloWorldBundle/Assets/images/earth.png') }}" />
 
 The ``path()`` and ``url()`` functions
 ========================================
