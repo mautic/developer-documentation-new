@@ -57,9 +57,7 @@ Translations are key/value pairs in the ``INI`` format. There is no hard and fas
 Using the Translator service
 ****************************
 
-Plugins have access to service by passing ``translator`` as :ref:`a service dependency<plugins/config:Service config items>`. Type-hint the argument in the service's construct with ``Symfony\Component\Translation\TranslatorInterface``.
-
-In PHP templates, use ``$view['translator']`` to access the Translator service.
+Plugins have access to service by passing ``translator`` as :ref:`a service dependency<plugins/config:Service config items>`. Type-hint the argument in the service's construct with ``Symfony\Contracts\Translation\TranslatorInterface``.
 
 .. php:class:: Mautic\CoreBundle\Translation\Translator
 
