@@ -7,12 +7,12 @@ Field Groups
 
 Use this endpoint to manage Custom Field Groups in Mautic. Custom Field Groups organize Contact and Company Custom Fields into named tabs, alongside the built-in groups such as 'core', 'social', 'personal', and 'professional'.
 
+.. vale off
+
 .. note::
 
-   * The Mautic API Library doesn't support the Field Groups API yet, so use the http endpoints described in this document instead.
+   * The Mautic API Library doesn't support the Field Groups API yet, so use the HTTP endpoints described in this document instead.
    * Mautic generates a group's ``alias`` from its ``name`` when you create the group, and the alias never changes after that. The API ignores any ``alias`` you send in a create or edit payload. This way, renaming a group never orphans the Contact and Company Custom Fields that reference it by alias.
-
-.. vale off
 
 Get Field Group
 ***************
@@ -192,7 +192,7 @@ POST parameters
      - string
      - **Required.**
 
-       Field Group name. Can only contain letters, numbers, and spaces
+       Field Group name. Can only contain letters, numbers, spaces, and symbols such as ``+``, ``$``, or ``€``. Punctuation such as hyphens, underscores, and periods isn't allowed
    * - ``description``
      - string or null
      - Field Group description
@@ -248,7 +248,7 @@ HTTP request
 POST parameters
 ---------------
 
-Accepts the same parameters as those described in :ref:`Create Field Group <create Field Group POST parameters>`. All parameters are optional.
+Accepts the same parameters as those described in :ref:`Create Field Group <create Field Group POST parameters>`. All parameters are optional for ``PATCH``. A ``PUT`` request must include the required ``name`` parameter, because ``PUT`` clears any parameter you omit.
 
 Response
 ========
@@ -283,6 +283,7 @@ Response
 ========
 
 * Returns ``200 OK`` when the request successfully deletes the Field Group.
+* Returns ``409 Conflict`` when the Field Group still has Custom Fields assigned to it. Reassign or remove those fields before you delete the group.
 
 The response is a JSON object containing the data of the deleted Field Group, similar to :ref:`Get Field Group <get Field Group response>`.
 
