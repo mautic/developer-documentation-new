@@ -108,7 +108,7 @@ Email properties
       - A custom reply to address if configured.
     * - ``useOwnerAsMailer``
       - boolean
-      - TRUE if a Contact's Owner should the Email's from address and name.
+      - ``true`` if Mautic uses the Contact's Owner as the Email's from address and name.
     * - ``customHtml``
       - string
       - HTML template for the Email. Omitted from a queued background delivery if you turn off the ``Send Email details`` Webhook Setting.
@@ -141,7 +141,7 @@ Email properties
       - Date/time for publishing the Email in ISO 8601 format. ``null`` to consider the Email published if now is before ``publishDown``, if applicable.
     * - ``publishDown``
       - string|null
-      - Date/time for unpublishing the Email in ISO 8601 format. ``null`` to consider the Email published if now is after ``publishUp``, if applicable.
+      - Date/time for deactivating the Email in ISO 8601 format. ``null`` to consider the Email published if now is after ``publishUp``, if applicable.
     * - ``assetAttachments``
       - array
       - Array of :ref:`Asset objects<webhooks/events/email_on_send:Asset properties>`.
@@ -378,7 +378,7 @@ Unsubscribe Form properties
       - Date/time for publishing the Form in ISO 8601 format. ``null`` to consider the Form published if now is before ``publishDown``, if applicable.
     * - ``publishDown``
       - string|null
-      - Date/time for unpublishing the Form in ISO 8601 format. ``null`` to consider the Form published if now is after ``publishUp``, if applicable.
+      - Date/time for deactivating the Form in ISO 8601 format. ``null`` to consider the Form published if now is after ``publishUp``, if applicable.
     * - ``cachedHtml``
       - string
       - Cached rendered HTML for the Form.
