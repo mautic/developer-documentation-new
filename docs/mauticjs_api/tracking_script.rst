@@ -6,7 +6,7 @@ You can embed ``mtc.js`` in third party websites to manage communication between
 
 .. note::
 
-   For basic guidance on how to implement ``mtc.js`` on your website, please visit the :xref:`Mautic User Documentation<Mautic tracking script docs>`.
+   For basic guidance on how to implement ``mtc.js`` on your website, see the :xref:`Mautic User Documentation<Mautic tracking script docs>`.
 
 ``mtc.js``
 **********
@@ -78,7 +78,7 @@ This event receives a ``Mautic\CoreBundle\Event\BuildJsEvent`` object. Call ``$e
 
 .. warning::
 
-   Only use native JavaScript or <a href="#mauticjs-api-functions">MauticJS API functions</a> since ``jQuery`` and other libraries aren't guaranteed to be available in third party websites.
+   Only use native JavaScript or :ref:`MauticJS API functions<mauticjs_api/tracking_script:MauticJS API functions>`, because third party websites might not load ``jQuery`` or other libraries.
 
 
 .. vale off
@@ -284,21 +284,22 @@ JavaScript Form processing hooks
 If you wish to run additional code before or after submission of the Form, create a ``MauticFormCallback`` object.
 In the example code, replace ``replaceWithFormName`` with the name of your Form. 
 
-``onValidateEnd`` and ``onResponse`` are actions called by ``Form.customCallbackHandler``. 
+``Form.customCallbackHandler`` calls ``onValidateEnd``, ``onResponse``, and the other callbacks in this section.
 
 ``onValidate()``
 ================
 
-Called before built-in Form validation.
+Mautic calls this callback before the built-in Form validation.
 Implement this callback to override the built-in Form validation logic.
 
 Your callback's return value determines the processing of the Form:
 
-1. Return ``true`` to skip the built-in Form validation and **continue** with Form processing.
-2. Return ``false`` to skip the built-in Form validation and **prevent** the Form submission.
-3. Return ``null`` to execute built-in Form validation and let its logic determine whether to continue with or prevent the Form submission.
+#. Return ``true`` to skip the built-in Form validation and **continue** with Form processing.
+#. Return ``false`` to skip the built-in Form validation and **prevent** the Form submission.
+#. Return ``null`` to run the built-in Form validation and let its logic determine whether to continue with or prevent the Form submission.
 
-Returning ``true`` or ``false`` skips the execution of `onValidateStart`.
+If the callback returns nothing, Mautic skips the built-in Form validation and doesn't submit the Form.
+Any return value other than ``null`` also skips ``onValidateStart`` and, during Form submission, ``onValidateField``.
 
 .. code-block:: js
 
@@ -320,11 +321,11 @@ Returning ``true`` or ``false`` skips the execution of `onValidateStart`.
 ``onValidateStart()``
 =====================
 
-Called at the beginning of the default Form validation, this receives no values and a return value isn't required and isn't processed.
+Mautic calls this callback at the beginning of the built-in Form validation. It receives no values, and Mautic ignores its return value.
 
 .. warning::
 
-   ``onValidateStart`` isn't executed if you add the ``onValidate`` callback and it returns ``true`` or ``false``.
+   Mautic doesn't run ``onValidateStart`` if you add the ``onValidate`` callback and it returns a value other than ``null``.
 
 .. code-block:: js
 
@@ -341,26 +342,28 @@ Mautic calls this callback for each Form Field during built-in Form validation, 
 The callback receives a ``callbackData`` object. ``callbackData.fieldKey`` is the field's API name, and ``callbackData.field`` is an object with ``type``, ``name``, and ``multiple``.
 
 Return ``true`` or ``false`` to skip the built-in validation for that field and use the returned value as its result. Return ``null`` to run the field's built-in validation.
+If the callback returns nothing, Mautic skips the field's built-in validation and treats the field as invalid.
 
 .. warning::
 
-   Mautic doesn't execute ``onValidateField`` for a field if you add the ``onValidate`` callback and it returns ``true`` or ``false``.
+   When a Contact submits the Form, Mautic doesn't run ``onValidateField`` if you add the ``onValidate`` callback and it returns a value other than ``null``.
 
 .. code-block:: js
 
    MauticFormCallback['replaceWithFormName'] = {
        onValidateField: function (callbackData) {
             // executed before a field's built-in validation
+            return null; // runs the field's built-in validation
        },
    };
 
 ``onValidateEnd(formValid)``
 ============================
 
-Called after all Form validations are complete - either the default validations and/or the ``onValidate`` callback - and before submitting the Form.
-Receives ``formValid`` to determine if the Form is valid.
+Mautic calls this callback after all Form validations are complete - the built-in validation, the ``onValidate`` callback, or both - and before it submits the Form.
+The callback receives ``formValid``, which indicates whether the Form is valid.
 
-If this callback returns ``false`` then this prevents submitting the Form.
+Return ``false`` to prevent the Form submission.
 
 .. code-block:: js
 
@@ -374,7 +377,7 @@ If this callback returns ``false`` then this prevents submitting the Form.
 ``onErrorMark(callbackData)``
 =============================
 
-Called during error marking. It receives a ``callbackData`` object. Return ``true`` to skip the default error marking.
+Mautic calls this callback when it marks a field with a validation error. The callback receives a ``callbackData`` object. Return ``true`` to skip the default error marking.
 
 .. code-block:: js
 
@@ -393,7 +396,7 @@ Called during error marking. It receives a ``callbackData`` object. Return ``tru
 ``onErrorClear(containerId)``
 =============================
 
-Called to clear an existing error. Receives ``containerId`` with the id of the element containing the error. Return ``true`` to skip the default error clearing.
+Mautic calls this callback to clear an existing error. The callback receives ``containerId``, the ID of the element that contains the error. Return ``true`` to skip the default error clearing.
 
 .. code-block:: js
 
@@ -406,7 +409,7 @@ Called to clear an existing error. Receives ``containerId`` with the id of the e
 ``onResponse(response)``
 ========================
 
-Called prior to default Form submission response processing. Receives ``response`` containing the Form submission response.
+Mautic calls this callback before the default processing of the Form submission response. The callback receives ``response``, which contains the Form submission response.
 Return ``true`` to skip the default Form submission response processing.
 
 .. code-block:: js
@@ -420,12 +423,12 @@ Return ``true`` to skip the default Form submission response processing.
 ``onResponseStart(response)``
 =============================
 
-Called at the beginning of the default Form submission response processing. Receives ``response`` containing the Form submission response.
-Return value isn't required and isn't processed.
+Mautic calls this callback at the beginning of the default Form submission response processing. The callback receives ``response``, which contains the Form submission response.
+Mautic ignores its return value.
 
 .. warning::
 
-   ``onResponseStart`` may not get executed if the default response processing gets handled during the ``onResponse`` callback.
+   Mautic doesn't run ``onResponseStart`` if the ``onResponse`` callback returns ``true`` to handle the response itself.
 
 .. code-block:: js
 
@@ -446,18 +449,18 @@ Return value isn't required and isn't processed.
        },
    };
 
-Called at the end of the default Form submission response processing. Receives ``response`` containing the Form submission response.
-Return value isn't required and isn't processed.
+Mautic calls this callback at the end of the default Form submission response processing. The callback receives ``response``, which contains the Form submission response.
+Mautic ignores its return value.
 
 .. warning::
 
-   ``onResponseEnd`` may not get executed if the default response processing gets handled during the ``onResponse`` callback.
+   Mautic doesn't run ``onResponseEnd`` if the ``onResponse`` callback returns ``true`` to handle the response itself.
 
 
 ``onMessageSet(messageObject)``
 ===============================
 
-Called prior to default message insertion. Receives a ``messageObject`` containing the message and message type.
+Mautic calls this callback before it inserts the default message. The callback receives a ``messageObject`` that contains the message and message type.
 Return ``true`` to skip the default message insertion.
 
 .. code-block:: js
@@ -468,43 +471,43 @@ Return ``true`` to skip the default message insertion.
    };
 
    MauticFormCallback['replaceWithFormName'] = {
-       onErrorMark: function (messageObject) {
-            // called prior to default message insertion
+       onMessageSet: function (messageObject) {
+            // called before the default message insertion
        },
    };
 
-``onSubmitButtonDisable(messageObject)``
-========================================
+``onSubmitButtonDisable()``
+===========================
 
-Called prior to default disabling of the submit button. Receives no values. Return ``true`` to skip the default disabling of the submit button.
+Mautic calls this callback before it disables the submit button. The callback receives no values. Return ``true`` to skip the default disabling of the submit button.
 
 .. code-block:: js
 
    MauticFormCallback['replaceWithFormName'] = {
-       onErrorMark: function (messageObject) {
-            // called prior to default message insertion
+       onSubmitButtonDisable: function () {
+            // called before the default disabling of the submit button
        },
    };
 
 ``onSubmitButtonEnable()``
 ==========================
 
-Called prior to default enabling of the submit button. Receives no values. Return ``true`` to skip the default enabling of the submit button.
+Mautic calls this callback before it enables the submit button. The callback receives no values. Return ``true`` to skip the default enabling of the submit button.
 
 .. code-block:: js
 
    MauticFormCallback['replaceWithFormName'] = {
-       onErrorMark: function (messageObject) {
-            // called prior to default message insertion
+       onSubmitButtonEnable: function () {
+            // called before the default enabling of the submit button
        },
    };
 
-``onShowNextPage()``
-====================
+``onShowNextPage(pageNumber)``
+==============================
 
 .. vale off
 
-Called prior to going to the next page in the Form. Useful to adjust the DOM prior to making the page visible.
+Mautic calls this callback before it shows the next page of the Form. The callback receives ``pageNumber``, the number of the page that Mautic is about to show. Use it to adjust the DOM before the page becomes visible.
 
 .. vale on
 
@@ -512,16 +515,16 @@ Called prior to going to the next page in the Form. Useful to adjust the DOM pri
 
    MauticFormCallback['replaceWithFormName'] = {
        onShowNextPage: function (pageNumber) {
-            // called prior to going to the next page
+            // called before going to the next page
        },
    };
 
-``onShowPreviousPage()``
-========================
+``onShowPreviousPage(pageNumber)``
+==================================
 
 .. vale off
 
-Called prior to going back to a previous page in the Form. Useful to adjust the DOM prior to making the page visible.
+Mautic calls this callback before it shows the previous page of the Form. The callback receives ``pageNumber``, the number of the page that Mautic is about to show. Use it to adjust the DOM before the page becomes visible.
 
 .. vale on
 
@@ -529,7 +532,7 @@ Called prior to going back to a previous page in the Form. Useful to adjust the 
 
    MauticFormCallback['replaceWithFormName'] = {
        onShowPreviousPage: function (pageNumber) {
-            // called prior to going back to previous page
+            // called before going back to the previous page
        },
    };
 
