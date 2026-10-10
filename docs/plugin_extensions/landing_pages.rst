@@ -115,7 +115,7 @@ Below is an example of both Landing Page Tokens and Landing Page A/B Test Winner
             // Search and replace tokens
             $content = str_replace(
                 '{helloworld.token}',
-                $this->templating->render('HelloWorldBundle:SubscribedEvents\PageToken:token.html.php');,
+                $this->templating->render('HelloWorldBundle:SubscribedEvents\PageToken:token.html.php'),
                 $content
             );
 

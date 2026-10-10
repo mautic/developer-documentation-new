@@ -678,170 +678,50 @@ To confirm Mautic registered the subscriber, list the event's listeners. The sub
 Email transports
 ----------------
 
-Mautic supports quite some Email providers out of the box (Amazon Simple Email Service, SendGrid, etc.).
-If you want to add your own Email transport, that's certainly possible.
+Mautic sends Email through `Symfony Mailer <https://symfony.com/doc/current/mailer.html>`_, configured from a single Data Source Name string, the ``mailer_dsn`` parameter. Symfony resolves that connection string to a transport by matching its scheme against every service tagged ``mailer.transport_factory``, so a Plugin adds its own Email transport by implementing Symfony Mailer's ``TransportFactoryInterface`` and tagging its service ``mailer.transport_factory`` for a scheme such as ``helloworld+api``.
 
-The most important thing here is to create a service that's tagged as ``mautic.email.transport_type``, so that Mautic recognizes it as a transport type.
+.. note::
 
-.. code-block:: PHP
+   Mautic 8 removed the Swiftmailer-based transport mechanism described in earlier versions of this document: the ``mautic.email.transport_type`` service tag, the ``mautic.email_transport`` tag, and the ``Mautic\EmailBundle\Swiftmailer\Transport\AbstractTokenArrayTransport``, ``CallbackTransportInterface``, and ``Mautic\EmailBundle\Model\TransportType`` classes no longer exist. A Plugin built against any of them fails with a PHP ``Error: Class "..." not found``.
 
-    <?php
-    // plugins/HelloWorldBundle/Config/config.php
+Mautic resolves the configured connection string through ``Mautic\EmailBundle\Mailer\Transport\TransportFactory``, which decorates Symfony's ``mailer.transport_factory`` service. Consult `Symfony's guide to creating custom transports <https://symfony.com/doc/current/mailer.html#creating-custom-transports>`_ for the exact ``TransportFactoryInterface`` contract your installed Symfony Mailer version expects.
 
-    declare(strict_types=1);
-
-    return [
-        
-        ...
-
-        'services'    => [
-            
-            ...
-
-            'other' => [
-                'mautic.transport.helloworld_api' => [
-                    'class'        => \MauticPlugin\HelloWorldBundle\Swiftmailer\Transport\HelloWorldApiTransport::class,
-                    'serviceAlias' => 'swiftmailer.mailer.transport.%s',
-                    'arguments'    => [
-                        \Mautic\CoreBundle\Helper\CoreParametersHelper::class,
-                    ],
-                    'tag'          => 'mautic.email_transport',
-                    'tagArguments' => [
-                        # Translatable alias that is used as an internal key for the transport type, but also as the translation key.
-                        \Mautic\EmailBundle\Model\TransportType::TRANSPORT_ALIAS => 'mautic.email.config.mailer_transport.helloworld_api',
-                        # Determines which fields to show in Mautic's configuration screen (under Email Settings)
-                        \Mautic\EmailBundle\Model\TransportType::FIELD_HOST      => true,
-                        \Mautic\EmailBundle\Model\TransportType::FIELD_API_KEY   => true,
-                        \Mautic\EmailBundle\Model\TransportType::FIELD_PASSWORD  => true,
-                        \Mautic\EmailBundle\Model\TransportType::FIELD_PORT      => true,
-                        \Mautic\EmailBundle\Model\TransportType::FIELD_USER      => true
-                    ],
-                ],
-            ],
-        ],
-    ];
-
-The actual implementation of the service would then look something like this:
+If your transport enforces a maximum batch size or recipient count per send, implement ``Mautic\EmailBundle\Mailer\Transport\TokenTransportInterface`` on your ``Symfony\Component\Mailer\Transport\TransportInterface`` implementation. The bundled ``TokenTransportTrait`` provides a default ``getBatchRecipientCount()``, so you only need to set your own limit:
 
 .. code-block:: PHP
 
     <?php
-    // plugin/HelloWorldBundle/Swiftmailer/Transport/HelloeWorldApiTransport.php
+    // plugins/HelloWorldBundle/Mailer/Transport/HelloWorldApiTransport.php
 
     declare(strict_types=1);
 
-    namespace MauticPlugin\HelloWorldBundle\Swiftmailer\Transport;
+    namespace MauticPlugin\HelloWorldBundle\Mailer\Transport;
 
-    use Mautic\CoreBundle\Helper\CoreParametersHelper;
-    use Mautic\EmailBundle\Swiftmailer\Transport\AbstractTokenArrayTransport;
-    use Mautic\EmailBundle\Swiftmailer\Transport\CallbackTransportInterface;
-    use Symfony\Component\HttpFoundation\Request;
+    use Mautic\EmailBundle\Mailer\Transport\TokenTransportInterface;
+    use Mautic\EmailBundle\Mailer\Transport\TokenTransportTrait;
+    use Symfony\Component\Mailer\Transport\AbstractTransport;
 
-    class HelloWorldApiTransport extends AbstractTokenArrayTransport implements \Swift_Transport, CallbackTransportInterface
+    class HelloWorldApiTransport extends AbstractTransport implements TokenTransportInterface
     {
-        private CoreParametersHelper $coreParametersHelper;
+        use TokenTransportTrait;
 
-        public function __construct(CoreParametersHelper $coreParametersHelper)
-        {
-            $this->coreParametersHelper = $coreParametersHelper;
-        }
-
-        /**
-        * @return int
-        *
-        * @throws \Exception
-        */
-        public function send(\Swift_Mime_SimpleMessage $message, &$failedRecipients = null)
-        {
-            $count            = 0;
-            $failedRecipients = (array) $failedRecipients;
-
-            if ($event = $this->getDispatcher()->createSendEvent($this, $message)) {
-                $this->getDispatcher()->dispatchEvent($event, 'beforeSendPerformed');
-                if ($event->bubbleCancelled()) {
-                    return 0;
-                }
-            }
-
-            try {
-                // The message object contains all the email details (from/to/body/etc.)
-                $from = $message->getFrom();
-                $to   = $message->getTo();
-                $body = $message->getBody();
-
-                // Configuration values that were set by the user through Mautic's Configuration screen
-                $host   = $this->coreParametersHelper->get('mautic.mailer_host');
-                $apiKey = $this->coreParametersHelper->get('mautic.mailer_api_key');
-
-                // Do your magic for sending the email here
-                // $myService->send(...)
-
-                // Return the number of recipients who were accepted for delivery
-                return 1;
-            } catch (\Exception $e) {
-                $this->triggerSendError($event, $failedRecipients);
-                $message->generateId();
-                $this->throwException($e->getMessage());
-            }
-
-            // Return the number of recipients who were accepted for delivery
-            return 0;
-        }
-
-        /**
-        * @inheritdoc
-        */
         public function getMaxBatchLimit(): int
         {
             return 50;
         }
 
-        /**
-        * @inheritdoc
-        */
-        public function getBatchRecipientCount(\Swift_Message $message, $toBeAdded = 1, $type = 'to'): int
+        protected function doSend(\Symfony\Component\Mailer\SentMessage $message): void
         {
-            $toCount  = is_array($message->getTo()) ? count($message->getTo()) : 0;
-            $ccCount  = is_array($message->getCc()) ? count($message->getCc()) : 0;
-            $bccCount = is_array($message->getBcc()) ? count($message->getBcc()) : 0;
-
-            return null === $this->batchRecipientCount ? $this->batchRecipientCount : $toCount + $ccCount + $bccCount + $toBeAdded;
+            // Do your magic for sending the email here.
         }
 
-        /**
-        * @inheritdoc
-        */
-        public function getCallbackPath(): string
+        public function __toString(): string
         {
-            return 'helloworld_api';
-        }
-
-        /**
-        * @inheritdoc
-        */
-        public function processCallbackRequest(Request $request)
-        {
-            $postData = json_decode($request->getContent(), true);
-
-            // Handle the callback here
-        }
-
-        private function triggerSendError(\Swift_Events_SendEvent $evt, array &$failedRecipients): void
-        {
-            $failedRecipients = array_merge(
-                $failedRecipients,
-                array_keys((array) $this->message->getTo()),
-                array_keys((array) $this->message->getCc()),
-                array_keys((array) $this->message->getBcc())
-            );
-
-            if ($evt) {
-                $evt->setResult(\Swift_Events_SendEvent::RESULT_FAILED);
-                $evt->setFailedRecipients($failedRecipients);
-                $this->getDispatcher()->dispatchEvent($evt, 'sendPerformed');
-            }
+            return 'helloworld+api';
         }
     }
+
+To process the bounce or unsubscribe notifications a provider's Webhook sends back, implement ``Mautic\EmailBundle\Mailer\Transport\BounceProcessorInterface`` or ``Mautic\EmailBundle\Mailer\Transport\UnsubscriptionProcessorInterface``, then listen for ``Mautic\EmailBundle\Event\TransportWebhookEvent``, which Mautic dispatches for every request to ``/mailer/callback``. Call ``$event->setResponse()`` once your listener handles the request, otherwise Mautic treats it as unprocessed.
 
 Email stat helpers
 ------------------
@@ -864,9 +744,9 @@ Toggle 'Active' event
 
 .. vale on
 
-The ``Mautic\EmailBundle\Event\EmailOnTogglePublishEvent`` event fires when a User toggles the **Active** status of an Email. Since Mautic 8.0, Mautic dispatches it by class name, before persisting the status change to the database, so Plugins can run actions or validations before the User activates or deactivates the Email.
+The ``Mautic\EmailBundle\Event\EmailOnTogglePublishEvent`` event fires when a User toggles the **Active** status of an Email. Since Mautic 8.0, Mautic dispatches it by class name, after setting the Email's new **Active** status but before persisting the change to the database, so Plugins can run actions or validations before Mautic saves the new status.
 
-An event listener receives a ``Mautic\EmailBundle\Event\EmailOnTogglePublishEvent`` instance, a subclass of ``EmailEvent``. Call ``getEmail()`` to get the Email, then ``isPublished()`` on that Email entity to read its current **Active** status.
+An event listener receives a ``Mautic\EmailBundle\Event\EmailOnTogglePublishEvent`` instance, a subclass of ``EmailEvent``. Call ``getEmail()`` to get the Email, then ``isPublished()`` on that Email entity to read its **new** **Active** status - Mautic already applied the toggle to the entity by the time the event fires, so ``isPublished()`` doesn't return the prior status.
 
 .. note::
 
@@ -897,10 +777,10 @@ An event listener receives a ``Mautic\EmailBundle\Event\EmailOnTogglePublishEven
         {
             $email = $event->getEmail();
 
-            // Check current publish status (before toggle)
-            $isCurrentlyPublished = $email->isPublished();
+            // Mautic already applied the toggle, so this is the new status
+            $isNowPublished = $email->isPublished();
 
-            // Perform custom logic before the status changes
+            // Perform custom logic before Mautic persists the new status
             // For example, notify an external service
         }
     }
@@ -1033,5 +913,5 @@ Each transport should include a callback URL which Webhooks should be ``POSTed``
 To test these callbacks you need to do the following:  
   
 #. Configure an Email transport and make it the default transport  
-#. Go to the URL on the following format ``/mailer/{transport}/callback`` 
+#. Go to the ``/mailer/callback`` URL
 #. You should get a message that says ``success`` and there should be a callback logic to handle the Webhook

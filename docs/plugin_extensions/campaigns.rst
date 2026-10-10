@@ -155,10 +155,10 @@ Campaign Action definition
       - no
       - array
       - Array of field:filter pairs of input masks supported by ``Mautic\CoreBundle\Helper\InputHelper`` to sanitize the form's submitted data.
-    * - ``formTypeTheme``
+    * - ``formTheme``
       - no
       - string
-      - PHP template to customize the UI of the given form type.
+      - Twig template to customize the UI of the given ``formType``.
     * - ``connectionRestrictions``
       - no
       - array
@@ -178,7 +178,7 @@ Campaign Action definition
     * - ``timelineTemplate``
       - no
       - string
-      - PHP template to customize the UI for this Event in the Contact's timeline.
+      - Twig template to customize the UI for this Event in the Contact's timeline.
 
 .. vale off
 
@@ -263,10 +263,10 @@ Campaign Condition definition
       - no
       - array
       - Array of field:filter pairs of input masks supported by ``Mautic\CoreBundle\Helper\InputHelper`` to sanitize the form's submitted data.
-    * - ``formTypeTheme``
+    * - ``formTheme``
       - no
       - string
-      - PHP template to customize the UI of the given form type.
+      - Twig template to customize the UI of the given ``formType``.
     * - ``connectionRestrictions``
       - no
       - array
@@ -286,7 +286,7 @@ Campaign Condition definition
     * - ``timelineTemplate``
       - no
       - string
-      - PHP template to customize the UI for this Event in the Contact's timeline.
+      - Twig template to customize the UI for this Event in the Contact's timeline.
 
 .. vale off
 
@@ -371,10 +371,10 @@ Campaign Decision definition
       - no
       - array
       - Array of field:filter pairs of input masks supported by ``Mautic\CoreBundle\Helper\InputHelper`` to sanitize the form's submitted data.
-    * - ``formTypeTheme``
+    * - ``formTheme``
       - no
       - string
-      - PHP template to customize the UI of the given form type.
+      - Twig template to customize the UI of the given ``formType``.
     * - ``connectionRestrictions``
       - no
       - array
@@ -394,7 +394,7 @@ Campaign Decision definition
     * - ``timelineTemplate``
       - no
       - string
-      - PHP template to customize the UI for this Event in the Contact's timeline.
+      - Twig template to customize the UI for this Event in the Contact's timeline.
 
 .. vale off
 
@@ -489,7 +489,7 @@ Listeners to the event's ``batchEventName`` receives a ``\Mautic\CampaignBundle\
         }
     }
 
-.. php:class:: Mautic\CampaignBundle\Events\PendingEvent
+.. php:class:: Mautic\CampaignBundle\Event\PendingEvent
 
     .. php:method:: public checkContext(string $eventType)
 
@@ -704,7 +704,7 @@ Listeners to the event's ``eventName`` receives a ``\Mautic\CampaignBundle\Event
         }
     }
 
-.. php:class:: Mautic\CampaignBundle\Events\ConditionEvent
+.. php:class:: Mautic\CampaignBundle\Event\ConditionEvent
 
     .. php:method:: public checkContext(string $eventType)
 
@@ -835,7 +835,7 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
         }
     }
 
-.. php:class:: Mautic\CampaignBundle\Events\DecisionEvent
+.. php:class:: Mautic\CampaignBundle\Event\DecisionEvent
 
     .. php:method:: public checkContext(string $eventType)
 
@@ -1028,21 +1028,13 @@ You can call the export command from the command line or via the API as well as 
 Exporting via command line
 ==========================
 
-First, copy the Campaign ZIP file into the correct place to import it into Mautic.
-
-.. note::
-    
-   The command below assumes you have installed via Docker Compose and you are running Mautic locally. Use the appropriate file copying mechanism for your environment. For example, Secure File Transfer Protocol - SFTP, or Secure Copy Protocol - SCP.
+Run the export command from the Mautic installation:
 
 .. code-block:: bash
 
-   docker cp ./campaign_data.zip ddev-mautic-web:/tmp/entity_data.zip
+   bin/console mautic:entity:export --entity=campaign --id=*{<campaign_id>}* --zip-file
 
-Then, run the import command:
-
-.. code-block:: bash
-
-   bin/console mautic:entity:import --entity=campaign --file=/tmp/entity_data.zip --user=*{<user_id>}*
+By default, Mautic writes ``entity_data.zip`` to the system's temp directory. Pass ``--path`` to choose a different directory, or ``--json-only`` to print the JSON payload to the console instead of writing a ZIP file.
 
 Options
 -------
@@ -1056,11 +1048,15 @@ Options
    * - Option
      - Description
    * - ``--entity=campaign``
-     - Specifies the entity type to import. For example, Campaign
-   * - ``--file``
-     - Path to the ZIP file you want to import
-   * - ``--user=``
-     - User ID to associate with the import process. For example, 1 - admin
+     - Specifies the entity type to export. For example, Campaign
+   * - ``--id``
+     - Comma-separated list of entity IDs to export. For example, ``--id=1,2,3``
+   * - ``--zip-file``
+     - Saves the exported JSON data to a ZIP file
+   * - ``--json-only``
+     - Outputs only the JSON data instead of writing a ZIP file
+   * - ``--path``
+     - Custom directory to save the exported ZIP file
 
 .. vale on
 
@@ -1070,7 +1066,7 @@ Exporting via API
 Endpoint
 --------
 
-``POST https://{your-mautic-domain}/api/campaigns/export/{*<campaign_id>*}``
+``GET https://{your-mautic-domain}/api/campaigns/export/{*<campaign_id>*}``
 
 The final part of the URL, ``{*<campaign_id>*}``, specifies the ID of the campaign to be exported.
 
@@ -1089,7 +1085,7 @@ Please see :xref:`Mautic REST API Authentication`\* for authentication details.
 .. code-block:: bash
 
    curl --location 'https://{*your-mautic-domain*}/api/campaigns/export/{*<campaign_id>*}' \
-      --data ''
+      --header 'Authorization: Bearer *<your_actual_access_token>*'
 
 .. vale off
 

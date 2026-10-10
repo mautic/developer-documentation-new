@@ -13,8 +13,12 @@ Forms
 
 .. vale on
 
-You can extend Forms by listening to the ``\Mautic\FormBundle\FormEvents::FORM_ON_BUILD`` event. Read more about :doc:`listeners and subscribers</plugins/event_listeners>`.
+You can extend Forms by listening to the ``Mautic\FormBundle\Event\FormBuilderEvent`` event. Read more about :doc:`listeners and subscribers</plugins/event_listeners>`.
 At the bottom of this document, you can find code examples to make it easier to get started.
+
+.. note::
+
+   Since Mautic 8, Mautic dispatches ``FormBuilderEvent`` by its class name rather than the ``FormEvents::FORM_ON_BUILD`` constant. Key ``getSubscribedEvents()`` on ``FormBuilderEvent::class`` instead. A subscriber still keyed on ``FormEvents::FORM_ON_BUILD`` no longer receives the event, though the constant still exists. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rule.
 
 .. vale off
 
@@ -56,10 +60,10 @@ To add a custom Form Field, use the ``$event->addFormField($identifier, $paramet
       - Optional
       - array
       - Array of input masks to clean a values from ``formType``
-    * - ``formTypeTheme``
+    * - ``formTheme``
       - Optional
-      - array
-      - Array of input masks to clean a values from ``formType``
+      - string
+      - Theme directory to customize the ``formType``'s view
     * - ``valueFilter``
       - Optional
       - mixed
@@ -106,14 +110,18 @@ To add an action, use the ``$event->addSubmitAction($identifier, $parameters)`` 
       - Required
       - string
       - This is the custom event name that gets dispatched to handle this action. It receives a ``SubmissionEvent`` object
+    * - ``group``
+      - Required
+      - string
+      - The language string for the group to list the action under in the dropdown
+    * - ``formType``
+      - Required
+      - string
+      - The alias of a custom Form type used to set config options
     * - ``description``
       - Optional
       - string
       - The language string to use for the option's tooltip
-    * - ``formType``
-      - Optional
-      - string
-      - The alias of a custom Form type used to set config options
     * - ``formTypeOptions``
       - Optional
       - array
@@ -122,7 +130,7 @@ To add an action, use the ``$event->addSubmitAction($identifier, $parameters)`` 
       - Optional
       - array
       - Array of input masks to clean a values from ``formType``
-    * - ``formTypeTheme``
+    * - ``formTheme``
       - Optional
       - string
       - Theme to customize elements for ``formType``
@@ -131,11 +139,15 @@ To add an action, use the ``$event->addSubmitAction($identifier, $parameters)`` 
       - string
       - View template used to render the ``formType``
 
-The subscriber registered to listen to the ``eventName`` gets an instance of ``Mautic\FormBundle\Events\SubmissionEvent`` with the details about the submission. 
+The subscriber registered to listen to the ``eventName`` gets an instance of ``Mautic\FormBundle\Event\SubmissionEvent`` with the details about the submission.
  
 Sometimes, it's necessary to handle something after all the other submit actions have done their thing - like redirecting to another URL.
 To do this, register a submit callback through the subscriber that processes the action.
-You can either inject the ``Symfony\Component\HttpFoundation\Response`` at that time with ``$event->setPostSubmitCallbackResponse($identifier, $response);`` or register another custom event to be dispatched after all submit actions have been processed using ``$event->setPostSubmitCallback($key, ['eventName' => HelloWorld::ANOTHER_CUSTOM_EVENT]);``.
+You can either inject a ``Symfony\Component\HttpFoundation\RedirectResponse`` at that time with ``$event->setPostSubmitCallbackResponse($identifier, $response);`` or register another custom event for Mautic to dispatch after it processes all the submit actions, using ``$event->setPostSubmitCallback($key, ['eventName' => HelloWorld::ANOTHER_CUSTOM_EVENT]);``.
+
+.. note::
+
+   Mautic 8 type-hints ``SubmissionEvent::setPostSubmitCallbackResponse()`` to require a ``RedirectResponse``. Passing a plain ``Response`` raises a ``TypeError``.
 
 Form validations
 ****************
@@ -194,12 +206,13 @@ Example code
         static public function getSubscribedEvents()
         {
             return [
-                FormEvents::FORM_ON_BUILD                         => ['onFormBuilder', 0],
+                // Mautic 8 dispatches FormBuilderEvent by its class name, not FormEvents::FORM_ON_BUILD
+                FormBuilderEvent::class                           => ['onFormBuilder', 0],
                 // Generic validation function that runs on ALL field types
                 FormEvents::ON_FORM_VALIDATE                      => ['onFormValidate', 0],
                 HelloWorldEvents::ON_FORM_SUBMISSION              => ['onFormSubmission', 0],
                 // Only validates our custom field type (helloworld.customfield)
-                HelloWorldEvents::ON_FORM_CUSTOM_FIELD_VALIDATION => ['onFormValidateCustomFIeld', 0]
+                HelloWorldEvents::ON_FORM_CUSTOM_FIELD_VALIDATION => ['onFormValidateCustomField', 0]
             ];
         }
 
@@ -293,7 +306,7 @@ Example code
 
             if (!empty($validation['c_enable'])) {
                 if (empty($validation['helloworld_customfield_enable_validationmsg'])) {
-                    $event->failedValidation($$validation['helloworld_customfield_enable_validationmsg']);
+                    $event->failedValidation($validation['helloworld_customfield_enable_validationmsg']);
                 } else {
                     $event->failedValidation('plugin.helloworld.formfield.customfield.invalid');
                 }
