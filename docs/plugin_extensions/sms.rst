@@ -37,7 +37,7 @@ The worked example below builds a transport inside a Plugin named ``HelloWorldBu
 
    plugins/HelloWorldBundle/
    ├── Config/
-   │   └── config.php
+   │   └── services.php
    └── Sms/
        └── Transport/
            └── HelloWorldTransport.php
@@ -104,26 +104,27 @@ Implement the interfaces for the capabilities your provider supports. The exampl
 Registering the transport
 ==========================
 
-Register the transport in your Plugin's ``Config/config.php`` by tagging the service with ``mautic.sms_transport``. Mautic builds Plugin ``config.php`` services through its own ``ServicePass`` compiler pass rather than Symfony autoconfiguration, so implementing ``TransportInterface`` doesn't tag the service for you, and you must declare the tag explicitly. The ``SmsTransportPass`` compiler pass then collects every service carrying this tag, and the ``integrationAlias`` tag argument sets the name shown in the UI.
+Register the transport in your Plugin's ``Config/services.php`` by tagging the service with ``mautic.sms_transport``. Mautic 8 removed the legacy ``services`` array that ``Config/config.php`` used to support and the ``ServicePass`` compiler pass that read it, so register the service as a Symfony service instead. Implementing ``TransportInterface`` doesn't tag the service for you, so you must declare the tag explicitly. The ``SmsTransportPass`` compiler pass then collects every service carrying this tag, and the ``integrationAlias`` tag argument sets the name shown in the UI.
 
 .. code-block:: php
 
    <?php
-   // plugins/HelloWorldBundle/Config/config.php
+   // plugins/HelloWorldBundle/Config/services.php
 
-   return [
-       'services' => [
-           'other' => [
-               'mautic.sms.transport.helloworld' => [
-                   'class'        => \MauticPlugin\HelloWorldBundle\Sms\Transport\HelloWorldTransport::class,
-                   'tag'          => 'mautic.sms_transport',
-                   'tagArguments' => [
-                       'integrationAlias' => 'Hello World SMS',
-                   ],
-               ],
-           ],
-       ],
-   ];
+   declare(strict_types=1);
+
+   use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+   return function (ContainerConfigurator $configurator): void {
+       $services = $configurator->services()
+           ->defaults()
+           ->autowire()
+           ->autoconfigure()
+           ->public();
+
+       $services->set(\MauticPlugin\HelloWorldBundle\Sms\Transport\HelloWorldTransport::class)
+           ->tag('mautic.sms_transport', ['integrationAlias' => 'Hello World SMS']);
+   };
 
 To handle delivery callbacks from your provider, register a callback handler service with the ``mautic.sms_callback_handler`` tag. Mautic's built-in :xref:`Twilio transport source` is a useful reference for a complete transport and callback implementation.
 
@@ -220,12 +221,14 @@ Subscribe to ``FilterEvent::class`` for any remaining filtering logic, such as r
 
 .. vale on
 
-All three event classes share a common API, shown here for :xref:`FilterEvent source`:
+``DncEvent`` and ``FilterEvent`` share a common API, shown here for :xref:`FilterEvent source`:
 
 * ``getContacts()`` - Returns the array of Contacts
 * ``removeContact(int $id)`` - Remove a single Contact by ID
 * ``removeContacts(array $contacts)`` - Remove multiple Contacts
 * ``getRemovedContacts()`` - Get the list of removed Contacts
+
+``QueueEvent`` also exposes ``getContacts()``, but it queues Contacts rather than removing them, so it exposes ``queueContact(int $id)``, ``queueContacts(array $contacts)``, and ``getQueuedContacts()`` instead of the ``remove*``/``getRemovedContacts()`` methods.
 
 Campaign SMS events
 *******************

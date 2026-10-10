@@ -56,15 +56,15 @@ A Plugin can inject the buttons into five places in Mautic's UI.
 
     *   - Location
         - Description
-    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_LIST_ACTIONS``
+    *   - ``\Mautic\CoreBundle\Twig\Helper\ButtonHelper::LOCATION_LIST_ACTIONS``
         - Drop down actions per each item in list views.
-    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_TOOLBAR_ACTIONS``
+    *   - ``\Mautic\CoreBundle\Twig\Helper\ButtonHelper::LOCATION_TOOLBAR_ACTIONS``
         - Top right preceding list view tables to the right of the table filter. Preferably buttons with icons only.
-    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_PAGE_ACTIONS``
+    *   - ``\Mautic\CoreBundle\Twig\Helper\ButtonHelper::LOCATION_PAGE_ACTIONS``
         - Main UI buttons to the right of the title: new, edit, and so forth. Primary buttons display as buttons, and the others appear in a drop-down.
-    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_NAVBAR``
+    *   - ``\Mautic\CoreBundle\Twig\Helper\ButtonHelper::LOCATION_NAVBAR``
         - Top of the UI to the left of the account/profile menu. Buttons with text and/or icons.
-    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_BULK_ACTIONS``
+    *   - ``\Mautic\CoreBundle\Twig\Helper\ButtonHelper::LOCATION_BULK_ACTIONS``
         - Buttons inside the bulk drop-down, around the ``checkall`` checkbox of lists.
 
 Buttons use a priority system to determine the order.
@@ -88,23 +88,28 @@ Registering Integration to inject buttons
 
 
     use Mautic\CoreBundle\Event\CustomButtonEvent;
-    use Mautic\CoreBundle\EventListener\CommonSubscriber;
-    use Mautic\CoreBundle\Templating\Helper\ButtonHelper;
+    use Mautic\CoreBundle\Twig\Helper\ButtonHelper;
     use Mautic\LeadBundle\Entity\Lead;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+    use Symfony\Component\Routing\RouterInterface;
+    use Symfony\Contracts\Translation\TranslatorInterface;
 
-    class ButtonSubscriber extends CommonSubscriber
+    class ButtonSubscriber implements EventSubscriberInterface
     {
-        public static function getSubscribedEvents()
+        public function __construct(
+            private TranslatorInterface $translator,
+            private RouterInterface $router,
+        ) {
+        }
+
+        public static function getSubscribedEvents(): array
         {
             return [
                 CustomButtonEvent::class => ['injectViewButtons', 0]
             ];
         }
 
-        /**
-         * @param CustomButtonEvent $event
-         */
-        public function injectViewButtons(CustomButtonEvent $event)
+        public function injectViewButtons(CustomButtonEvent $event): void
         {
             // Injects a button into the toolbar area for any page with a high priority (displays closer to first)
             $event->addButton(
@@ -261,17 +266,18 @@ Defining button locations
 
 .. vale on
 
-.. code-block:: php
+.. code-block:: twig
 
-    <?php
-    $dropdownOpenHtml = '<button type="button" class="btn btn-default btn-nospin  dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-caret-down"></i></button>'
-              ."\n";
-    $dropdownOpenHtml .= '<ul class="dropdown-menu dropdown-menu-right" role="menu">'."\n";
+    {% set dropdownOpenHtml %}
+        <button type="button" class="btn btn-default btn-nospin dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-caret-down"></i></button>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+    {% endset %}
 
-    echo $view['buttons']->reset($app->getRequest(), 'custom_location')->renderButtons($dropdownOpenHtml, '</ul>');
+    {{ buttonReset('custom_location') }}
+    {{ buttonsRender(dropdownOpenHtml, '</ul>')|raw }}
 
 
-A Plugin can define its own locations that other Plugins can leverage by using the template ``buttons`` helper.
+A Plugin can define its own locations that other Plugins can leverage by using the ``buttonReset`` and ``buttonsRender`` Twig functions.
 
 There are three types of button groups supported:
 
@@ -280,11 +286,11 @@ There are three types of button groups supported:
 
     *   - Type
         - Description
-    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::TYPE_BUTTON_DROPDOWN``
+    *   - ``\Mautic\CoreBundle\Twig\Helper\ButtonHelper::TYPE_BUTTON_DROPDOWN``
         - Primary buttons renders in a button group while others in a drop-down menu.
-    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::TYPE_DROPDOWN``
+    *   - ``\Mautic\CoreBundle\Twig\Helper\ButtonHelper::TYPE_DROPDOWN``
         - Buttons displayed in a drop-down menu.
-    *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::TYPE_GROUP``
+    *   - ``\Mautic\CoreBundle\Twig\Helper\ButtonHelper::TYPE_GROUP``
         - A group of buttons side by side.
 
 Drop-downs require the wrapping HTML to pass to the ``renderButtons`` method.

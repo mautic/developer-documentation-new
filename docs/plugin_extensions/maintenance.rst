@@ -67,14 +67,14 @@ Note that ``$sql`` and ``$sqlParameters`` are only used for debugging and shown 
                     ->where(
                         $qb->expr()->gte('w.date_added', ':date')
                     )
-                    ->execute()
-                    ->fetchColumn();
+                    ->executeQuery()
+                    ->fetchOne();
             } else {
                 $rows = (int) $qb->delete(MAUTIC_TABLE_PREFIX . 'worlds')
                     ->where(
                         $qb->expr()->lte('date_added', ':date')
                     )
-                    ->execute();
+                    ->executeStatement();
             }
 
             $event->setStat($this->translator->trans('mautic.maintenance.hello_world'), $rows, $qb->getSQL(), $qb->getParameters());

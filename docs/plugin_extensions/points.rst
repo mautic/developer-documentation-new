@@ -125,6 +125,10 @@ Custom Point Action definition
       - REQUIRED
       - string
       - The language string for the option in the dropdown
+    * - ``group``
+      - REQUIRED
+      - string
+      - The language string for the group to list the action under in the dropdown
     * - ``formType``
       - OPTIONAL
       - string
@@ -137,7 +141,7 @@ Custom Point Action definition
       - OPTIONAL
       - array[]
       - Array of input masks to clean a values from ``formType``
-    * - ``formTypeTheme``
+    * - ``formTheme``
       - OPTIONAL
       - string
       - Theme to customize elements for ``formType``
@@ -242,6 +246,10 @@ Custom Point Trigger definition
       - REQUIRED
       - string
       - The language string for the option in the dropdown
+    * - ``group``
+      - REQUIRED
+      - string
+      - The language string for the group to list the Trigger under in the dropdown
     * - ``formType``
       - OPTIONAL
       - string
@@ -254,7 +262,7 @@ Custom Point Trigger definition
       - OPTIONAL
       - array[]
       - Array of input masks to clean a values from ``formType``
-    * - ``formTypeTheme``
+    * - ``formTheme``
       - OPTIONAL
       - string
       - Theme to customize elements for ``formType``
@@ -263,6 +271,6 @@ Custom Point Trigger definition
       - string
       - View template used to render the ``formType``
     * - ``callback``
-      - OPTIONAL
+      - REQUIRED unless you set ``eventName``
       - mixed
-      - Static callback function used to execute the custom action.
+      - Static callback function used to execute the custom action. Provide this or an ``eventName`` key.

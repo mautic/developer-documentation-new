@@ -13,7 +13,7 @@ API
 
 .. vale on
 
-To add custom API endpoints, define the routes under the API firewall in the :doc:`Plugin's config file</plugins/config>`.
+To add custom API endpoints, define the routes under the API firewall in the :ref:`Plugin's config file <Plugin config file>`.
 This places the route behind ``/api`` which is only accessible to authorized Users.
 
 .. code-block:: php
@@ -26,26 +26,6 @@ This places the route behind ``/api`` which is only accessible to authorized Use
     return [
         // ...
 
-        'services' => [
-
-            // ...
-
-            'controllers' => [
-                'plugin.hello_world.controller.api' => [
-                    'class' => \MauticPlugin\HelloWorldBundle\Controller\ApiController::class,
-                    'arguments' => [
-                        \Mautic\CoreBundle\Security\Permissions\CorePermissions::class,
-                        'plugin.hello_world.model.worlds'
-                    ],
-                    'methodCalls' => [
-                        'setContainer' => [
-                            '@service_container',
-                        ],
-                    ],
-                ],
-            ],
-        ],
-
         'routes'   => [
 
             // ...
@@ -53,7 +33,7 @@ This places the route behind ``/api`` which is only accessible to authorized Use
             'api' => [
                 'plugin_helloworld_api' => [
                     'path'       => '/hello/worlds',
-                    'controller' => 'HelloWorldBundle:Api:worlds',
+                    'controller' => \MauticPlugin\HelloWorldBundle\Controller\ApiController::class.'::getWorldsAction',
                     'method'     => 'GET'
                 ]
             ]
@@ -61,6 +41,33 @@ This places the route behind ``/api`` which is only accessible to authorized Use
 
         // ...
     ];
+
+.. note::
+
+   Mautic 8 removed the legacy ``services`` array that ``Config/config.php`` used to support, along with the ``ServicePass`` compiler pass that read it. Register the controller as a Symfony service in the Plugin's ``Config/services.php`` instead:
+
+   .. code-block:: php
+
+      <?php
+      // plugins/HelloWorldBundle/Config/services.php
+
+      declare(strict_types=1);
+
+      use Mautic\CoreBundle\DependencyInjection\MauticCoreExtension;
+      use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+      return function (ContainerConfigurator $configurator): void {
+          $services = $configurator->services()
+              ->defaults()
+              ->autowire()
+              ->autoconfigure()
+              ->public();
+
+          $services->load('MauticPlugin\\HelloWorldBundle\\', '../')
+              ->exclude('../{'.implode(',', MauticCoreExtension::DEFAULT_EXCLUDES).'}');
+      };
+
+   This autowires ``ApiController`` along with every other class under the Plugin's namespace, so a controller whose constructor only needs other services, such as ``CorePermissions`` and ``WorldsModel``, needs no further service definition.
 
 The API controller should extend ``Mautic\ApiBundle\Controller\CommonApiController`` to leverage the helper methods provided.
 
