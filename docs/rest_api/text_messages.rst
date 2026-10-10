@@ -379,6 +379,27 @@ Send a predefined SMS to existing Contact.
 .. code-block:: json
 
    {
-       "success": 1,
-       "status": "Delivered"
+       "success": true,
+       "status": "Delivered",
+       "result": {},
+       "errors": []
    }
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``success``
+     - boolean
+     - Whether Mautic sent the SMS successfully
+   * - ``status``
+     - string
+     - Status message returned by the SMS transport
+   * - ``result``
+     - object
+     - Raw result data returned by the SMS transport
+   * - ``errors``
+     - array
+     - List of error messages - empty when ``success`` is ``true``
