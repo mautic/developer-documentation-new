@@ -59,20 +59,20 @@ Mautic organizes its permissions on a per-bundle basis. Each bundle typically de
 
 For example:
 
-- User permissions: ``UserBundle/Security/Permissions/UserPermissions.php``
-- Email permissions: ``EmailBundle/Security/Permissions/EmailPermissions.php``
-- SMS permissions: ``SmsBundle/Security/Permissions/SmsPermissions.php``
+* User permissions: ``UserBundle/Security/Permissions/UserPermissions.php``
+* Email permissions: ``EmailBundle/Security/Permissions/EmailPermissions.php``
+* SMS permissions: ``SmsBundle/Security/Permissions/SmsPermissions.php``
 
 These PHP files contain classes that extend ``AbstractPermissions`` and define the specific permissions available for that bundle. They usually include methods for building the permission matrix and checking individual permissions.
 
 Examining permission files
 ==========================
 
-When opening one of these permission files, they'll typically find:
+A permission file typically contains:
 
-- A ``__construct()`` method that defines the bundle's available permissions in the ``$this->permissions`` array.
-- Permission levels defined as array keys with integer bit-flag values - for example, ``view``, ``edit``, ``create``, ``delete``, and ``full``, as set by the shared ``addStandardPermissions()`` helper on ``AbstractPermissions``.
-- Methods for checking and building out permissions - for example, ``isGranted()`` and ``convertBitsToPermissionNames()`` on ``AbstractPermissions``.
+* A ``__construct()`` method that defines the bundle's available permissions in the ``$this->permissions`` array.
+* Permission levels defined as array keys with integer bit-flag values - for example, ``view``, ``edit``, ``create``, ``delete``, and ``full``, as set by the shared ``addStandardPermissions()`` helper on ``AbstractPermissions``.
+* Methods for checking and building out permissions - for example, ``isGranted()`` and ``convertBitsToPermissionNames()`` on ``AbstractPermissions``.
 
 .. note::
 

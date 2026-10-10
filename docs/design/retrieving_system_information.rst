@@ -69,8 +69,8 @@ The corresponding parameter name would be ``api_oauth2_access_token_lifetime``.
 Additional information
 **********************
 
-- Be cautious when displaying sensitive configuration data in templates.
-- Always consider providing default values when using configuration parameters to handle cases where the setting aren't defined.
-- Mautic's Theme sandbox blocks ``configGetParameter`` in user-uploaded Theme templates - for example ``@themes/mytheme/html/page.html.twig`` - because it could leak sensitive values such as the database password or secret key. It's only available in core and Plugin Twig templates.
+* Be cautious when displaying sensitive configuration data in templates.
+* Always consider providing default values when using configuration parameters to handle cases where the settings aren't defined.
+* Mautic's Theme sandbox blocks ``configGetParameter`` in Theme templates that Users upload - for example ``@themes/mytheme/html/page.html.twig`` - because it could expose sensitive values such as the database password or secret key. Use it only in core and Plugin Twig templates.
 
 Using the ``configGetParameter`` function in Twig, you can create new interactive experiences in Mautic.

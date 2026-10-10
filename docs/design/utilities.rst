@@ -155,14 +155,15 @@ The utilities follow a mobile-first responsive design principle, becoming active
 
 For example:
 
-- ``.fd-column`` applies to all screen sizes
-- ``.fd-row-sm`` applies from the small breakpoint and up
-- ``.fd-row-md`` applies from the medium breakpoint and up
-- ``.fd-row-lg`` applies from the large breakpoint and up
+* ``.fd-column`` applies to all screen sizes
+* ``.fd-row-sm`` applies from the small breakpoint and up
+* ``.fd-row-md`` applies from the medium breakpoint and up
+* ``.fd-row-lg`` applies from the large breakpoint and up
 
 This approach allows for progressive enhancement of layouts as the view-port size increases, providing fine-grained control over the responsiveness of your design.
 
 .. note::
+
    The ``-sm``, ``-md``, and ``-lg`` suffixes apply to the direction, wrap, justify, align, flex-grow/shrink/basis, and order utilities. ``.d-flex`` and the ``gap-*`` utilities don't have responsive variants.
 
 

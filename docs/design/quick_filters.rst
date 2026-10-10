@@ -8,9 +8,9 @@ Implementation overview
 
 Mautic implements quick filters using a combination of JavaScript and Twig templates. The process involves three main components:
 
-1. JavaScript function for applying the filter
-2. Twig template for rendering filter buttons
-3. Array of PHP code for defining filter options
+#. JavaScript function for applying the filter
+#. Twig template for rendering filter buttons
+#. Array of PHP code for defining filter options
 
 JavaScript functionality
 ========================
