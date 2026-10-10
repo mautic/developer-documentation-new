@@ -328,7 +328,7 @@ Mautic 8 changes event or entity class signatures in these bundles:
 .. vale off
 
 Events dispatched by class name
-********************************
+*******************************
 
 .. vale on
 
@@ -377,7 +377,7 @@ The change touches CampaignBundle, ChannelBundle, ConfigBundle, CoreBundle, Dash
      - ``WebhookEvents::WEBHOOK_ON_BUILD``
      - ``Mautic\WebhookBundle\Event\WebhookBuilderEvent``
 
-For the full per-bundle mapping, re-keying examples, and the console command that confirms a subscriber's binding, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` in :doc:`/plugins/event_listeners`.
+For the full per-bundle mapping, re-keying examples, and the console command that confirms a subscriber's binding, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` in :ref:`event listeners`.
 
 .. vale off
 
@@ -834,7 +834,7 @@ Widget subscribers set the Widget template on ``Mautic\DashboardBundle\Event\Wid
    - public function setTemplate($template): void
    + public function setTemplate(string $template): void
 
-Mautic 8 also removes the legacy filesystem Widget cache. Mautic drops ``setCacheDir()`` and ``setCacheTimeout()`` entirely, the constructor's ``$cacheProvider`` argument is now required instead of optional, and ``setTemplateData()`` drops its second ``$skipCache`` parameter:
+Mautic 8 also removes the legacy filesystem Widget cache. It drops ``setCacheDir()`` and ``setCacheTimeout()`` entirely, makes the constructor's ``$cacheProvider`` argument required, and drops the second ``$skipCache`` parameter from ``setTemplateData()``:
 
 .. code:: diff
 
@@ -1132,7 +1132,7 @@ Plugins that read or set the tracked Contact use the ``Mautic\LeadBundle\Tracker
 .. vale off
 
 IdentifyCompanyHelper
-======================
+=====================
 
 .. vale on
 
@@ -2086,7 +2086,7 @@ Run :xref:`phpstan` against your Plugin on Mautic 8 to find any override whose r
 .. vale off
 
 Services and helpers
-*********************
+********************
 
 .. vale on
 
@@ -2095,11 +2095,11 @@ Mautic 8 also changes a handful of services and helpers that a Plugin might call
 .. vale off
 
 Config/config.php services array
-===================================
+================================
 
 .. vale on
 
-Mautic 8 no longer reads the ``services`` array from a bundle's ``Config/config.php`` at all. ``Mautic\CoreBundle\DependencyInjection\Builder\Metadata\ConfigMetadata`` dropped the code that parsed it, so Mautic silently ignores anything your Plugin still declares under ``services`` - including the ``events``, ``forms``, ``helpers``, ``menus``, ``models``, ``permissions``, ``integrations``, and ``controllers`` sub-keys. Register each of these as a Symfony service in your Plugin's ``Config/services.php`` instead. See :doc:`/plugins/config` for the current service-registration reference.
+Mautic 8 no longer reads the ``services`` array from a bundle's ``Config/config.php`` at all. ``Mautic\CoreBundle\DependencyInjection\Builder\Metadata\ConfigMetadata`` dropped the code that parsed it, so Mautic silently ignores anything your Plugin still declares under ``services`` - including the ``events``, ``forms``, ``helpers``, ``menus``, ``models``, ``permissions``, ``integrations``, and ``controllers`` sub-keys. Register each of these as a Symfony service in your Plugin's ``Config/services.php`` instead. See :ref:`Plugins/config:config file` for the current service-registration reference.
 
 The deprecated ``models`` sub-key is also gone, together with the compiler pass that read it. A service listed under ``services > models`` no longer gets the ``mautic.model`` tag automatically. Instead, implement ``Mautic\CoreBundle\Model\MauticModelInterface`` and register the class in ``Config/services.php``. Mautic adds the ``mautic.model`` tag to every service that implements this interface, with no further configuration needed:
 
@@ -2117,7 +2117,7 @@ The deprecated ``models`` sub-key is also gone, together with the compiler pass 
 .. vale off
 
 Custom model lookup
-====================
+===================
 
 .. vale on
 
@@ -2135,11 +2135,11 @@ A model without ``getName()`` is still registered in the locator, but only under
 .. vale off
 
 Menu registration
-==================
+=================
 
 .. vale on
 
-Mautic 8 removes ``Mautic\CoreBundle\DependencyInjection\Compiler\ServicePass``, which used to read a bundle's ``services > menus`` array from ``Config/config.php`` and wire the menu item and its renderer automatically. If your Plugin registers its own menu, declare both services explicitly in ``Config/services.php`` instead. See :doc:`/plugins/config` for the full worked example, including Plugins that register several menus:
+Mautic 8 removes ``Mautic\CoreBundle\DependencyInjection\Compiler\ServicePass``, which used to read a bundle's ``services > menus`` array from ``Config/config.php`` and wire the menu item and its renderer automatically. If your Plugin registers its own menu, declare both services explicitly in ``Config/services.php`` instead. See :ref:`Plugins/config:Registering a custom menu` for the full worked example, including Plugins that register several menus:
 
 .. code:: diff
 
@@ -2162,7 +2162,7 @@ Mautic 8 removes ``Mautic\CoreBundle\DependencyInjection\Compiler\ServicePass``,
 .. vale off
 
 CacheStorageHelper
-====================
+==================
 
 .. vale on
 
@@ -2191,7 +2191,7 @@ A cache miss now returns ``null`` instead of ``false``, so change a comparison f
 .. vale off
 
 Segment and Contact filter operators
-======================================
+====================================
 
 .. vale on
 
@@ -2205,7 +2205,7 @@ Mautic 8 removes the public ``getFilterExpressionFunctions()`` method from ``Mau
 .. vale off
 
 FieldModel::getFieldList()
-=============================
+==========================
 
 .. vale on
 
@@ -2219,11 +2219,11 @@ Mautic 8 removes the deprecated ``Mautic\LeadBundle\Model\FieldModel::getFieldLi
 .. vale off
 
 Doctrine ORM 3 and DBAL 4
-============================
+=========================
 
 .. vale on
 
-Mautic 8 upgrades to Doctrine ``ORM`` 3, DBAL 4, and doctrine-bundle 3. :doc:`/plugins/database` covers entity mapping with ``#[ORM]`` attributes instead of annotations; this section only lists the API surface a Plugin might call directly:
+Mautic 8 upgrades to Doctrine ``ORM`` 3, DBAL 4, and doctrine-bundle 3. :ref:`Plugins/database:Entities and schema` covers entity mapping with ``#[ORM]`` attributes instead of annotations. This section only lists the API surface a Plugin might call directly:
 
 .. list-table::
    :header-rows: 1
@@ -2234,7 +2234,7 @@ Mautic 8 upgrades to Doctrine ``ORM`` 3, DBAL 4, and doctrine-bundle 3. :doc:`/p
    * - ``Doctrine\ORM\Mapping\ClassMetadataInfo``
      - ``Doctrine\ORM\Mapping\ClassMetadata``
    * - ``Doctrine\ORM\ORMException``
-     - ``Doctrine\ORM\Exception\ORMException`` (an interface)
+     - ``Doctrine\ORM\Exception\ORMException``, now an interface
    * - ``Doctrine\DBAL\Exception`` thrown directly
      - an interface - throw ``Mautic\CoreBundle\Exception\DbalException``
    * - ``EntityRepository::$_em``
