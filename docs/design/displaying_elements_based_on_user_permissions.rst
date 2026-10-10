@@ -55,13 +55,13 @@ Locating defined permissions
 
 Mautic organizes its permissions on a per-bundle basis. Each bundle typically defines its own set of permissions in a dedicated PHP file. The standard location for these permission definitions is:
 
-``[BundleName]/Security/[BundleName]Permissions.php``
+``[BundleName]/Security/Permissions/[BundleName]Permissions.php``
 
 For example:
 
-- User permissions: ``UserBundle/Security/UserPermissions.php``
-- Email permissions: ``EmailBundle/Security/EmailPermissions.php``
-- SMS permissions: ``SmsBundle/Security/SmsPermissions.php``
+- User permissions: ``UserBundle/Security/Permissions/UserPermissions.php``
+- Email permissions: ``EmailBundle/Security/Permissions/EmailPermissions.php``
+- SMS permissions: ``SmsBundle/Security/Permissions/SmsPermissions.php``
 
 These PHP files contain classes that extend ``AbstractPermissions`` and define the specific permissions available for that bundle. They usually include methods for building the permission matrix and checking individual permissions.
 
@@ -71,8 +71,8 @@ Examining permission files
 When opening one of these permission files, they'll typically find:
 
 - A ``__construct()`` method that defines the bundle's available permissions in the ``$this->permissions`` array.
-- Constants defining permission levels - for example, ``LEVEL_VIEW, LEVEL_EDIT, LEVEL_FULL``.
-- Methods for checking specific permissions - for example, ``canViewUsers``, ``canEditEmails``.
+- Permission levels defined as array keys with integer bit-flag values - for example, ``view``, ``edit``, ``create``, ``delete``, and ``full``, as set by the shared ``addStandardPermissions()`` helper on ``AbstractPermissions``.
+- Methods for checking and building out permissions - for example, ``isGranted()`` and ``convertBitsToPermissionNames()`` on ``AbstractPermissions``.
 
 .. note::
 

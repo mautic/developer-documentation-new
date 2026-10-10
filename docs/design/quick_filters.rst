@@ -15,50 +15,58 @@ Mautic implements quick filters using a combination of JavaScript and Twig templ
 JavaScript functionality
 ========================
 
-The ``Mautic.listQuickFilter`` function is responsible for applying the quick filter:
+The ``Mautic.toggleFilter`` function toggles a quick filter button's active state, and ``Mautic.applyFilters`` applies all active quick filters to the search input:
 
 .. code-block:: javascript
 
-   Mautic.listQuickFilter = function (element) {
+   Mautic.toggleFilter = function (element) {
        const filterValue = element.dataset.filter;
-       const searchInput = document.getElementById('list-search');
-       searchInput.value = filterValue;
-       const enterKeyEvent = new KeyboardEvent('keyup', {
-           keyCode: 13
-       });
-       searchInput.dispatchEvent(enterKeyEvent);
-   }
+       const conflictGroup = element.dataset.conflictGroup || null;
+
+       // If the filter is in a conflict group, deactivate other filters in the same group
+       if (conflictGroup) {
+           const filtersInGroup = document.querySelectorAll(`.label[data-conflict-group="${conflictGroup}"]`);
+           filtersInGroup.forEach(function (filterElement) {
+               if (filterElement !== element) {
+                   filterElement.classList.remove('active');
+               }
+           });
+       }
+
+       // Toggle active class on the clicked element
+       element.classList.toggle('active');
+   };
 
 This function performs the following actions:
 
-1. Retrieves the filter value from the clicked element's ``data-filter`` attribute
-2. Sets the search input field's value to the filter value
-3. Simulates an Enter key press to trigger the search
+1. Retrieves the filter value from the clicked element's ``data-filter`` attribute.
+2. If the filter belongs to a conflict group - for example ``status`` or ``ownership`` - deactivates any other active filter in the same group, so only one filter per group applies at a time.
+3. Toggles the ``active`` class on the clicked element.
+
+``Mautic.applyFilters`` then collects every element with the ``active`` class and appends its ``data-filter`` value to the search input before triggering the search.
 
 Twig template
 =============
 
-Mautic renders the quick filter buttons using a Twig template:
+Mautic renders the quick filter buttons using the ``list_quickfilters.html.twig`` Twig template, which groups filters by status and ownership and renders each as a label that toggles active state on click:
 
 .. code-block:: twig
 
    {% if quickFilters is defined and quickFilters is not empty %}
-   <div class="d-flex gap-xs">
-       {% for quickFilter in quickFilters %}
-           <a class="label label-outline"
-              data-filter="{{ quickFilter.search }}"
-              onclick="Mautic.listQuickFilter(this)"
+       {% for filter in quickFilters %}
+           <a class="label label-outline label-selectable"
+              data-filter="{{ filter.search|trans }}"
+              onclick="Mautic.toggleFilter(this)"
               data-toggle="tooltip"
               data-placement="top"
-              data-original-title="{{ quickFilter.tooltip|trans }}">
-               <i class="{{ quickFilter.icon }}"></i>
-               {{ quickFilter.label|trans }}
+              data-original-title="{{ filter.tooltip|trans }}">
+               <i class="{{ filter.icon }}"></i>
+               {{ filter.label|trans }}
            </a>
        {% endfor %}
-   </div>
    {% endif %}
 
-This template iterates through the provided quick filters and creates clickable labels for each one on the toolbar.
+This template iterates through the provided quick filters and creates clickable labels that toggle on and off for each one on the toolbar.
 
 Implementing quick filters
 ==========================

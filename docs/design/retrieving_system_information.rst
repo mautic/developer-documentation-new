@@ -71,5 +71,6 @@ Additional information
 
 - Be cautious when displaying sensitive configuration data in templates.
 - Always consider providing default values when using configuration parameters to handle cases where the setting aren't defined.
+- Mautic's Theme sandbox blocks ``configGetParameter`` in user-uploaded Theme templates - for example ``@themes/mytheme/html/page.html.twig`` - because it could leak sensitive values such as the database password or secret key. It's only available in core and Plugin Twig templates.
 
 Using the ``configGetParameter`` function in Twig, you can create new interactive experiences in Mautic.
