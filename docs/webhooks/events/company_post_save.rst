@@ -93,7 +93,7 @@ Company properties
       - string|null
       - The Company's industry.
     * - ``score``
-      - string|null
+      - int|null
       - The Company's behavior score - similar to Contact Points.
     * - ``fields``
       - object|array

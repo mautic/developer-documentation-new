@@ -68,7 +68,7 @@ PHP
     }
 
     // @todo Process the $requestData as needed
-    $requestData = json_decode($rawData);
+    $requestData = json_decode($rawData, true);
 
     if (isset($requestData['mautic.lead_post_save_new'])) {
         foreach ($requestData['mautic.lead_post_save_new'] as $contact) {

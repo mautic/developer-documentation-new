@@ -29,7 +29,7 @@ Event properties
       - :ref:`Contact object<webhooks/events/lead_post_save_new:Contact properties>`
     * - ``tokens``
       - object
-      - Key/value pairs of personalized tokens and values for the Contact.
+      - Key/value pairs of personalized tokens and values for the Contact. Omitted if you turn off the ``Send Email details`` Webhook Setting.
     * - ``contentHash``
       - string
       - Identifies the unique Email content including template.
@@ -38,7 +38,7 @@ Event properties
       - Unique to the specific Email send to the Contact.
     * - ``content``
       - string
-      - The HTML sent to the Contact.
+      - The HTML sent to the Contact. Omitted if you turn off the ``Send Email details`` Webhook Setting.
     * - ``subject``
       - string
       - The rendered subject of the Email sent to the Contact.
@@ -108,13 +108,13 @@ Email properties
       - A custom reply to address if configured.
     * - ``useOwnerAsMailer``
       - boolean
-      - TRUE if a Contact's Owner should the Email's from address and name.
+      - ``true`` if Mautic uses the Contact's Owner as the Email's from address and name.
     * - ``customHtml``
       - string
-      - HTML template for the Email.
+      - HTML template for the Email. Omitted from a queued background delivery if you turn off the ``Send Email details`` Webhook Setting.
     * - ``plainText``
       - string|null
-      - Plain text for the Email.
+      - Plain text for the Email. Omitted from a queued background delivery if you turn off the ``Send Email details`` Webhook Setting.
     * - ``template``
       - string
       - The Mautic Theme used as the originating content.
@@ -141,7 +141,7 @@ Email properties
       - Date/time for publishing the Email in ISO 8601 format. ``null`` to consider the Email published if now is before ``publishDown``, if applicable.
     * - ``publishDown``
       - string|null
-      - Date/time for unpublishing the Email in ISO 8601 format. ``null`` to consider the Email published if now is after ``publishUp``, if applicable.
+      - Date/time for deactivating the Email in ISO 8601 format. ``null`` to consider the Email published if now is after ``publishUp``, if applicable.
     * - ``assetAttachments``
       - array
       - Array of :ref:`Asset objects<webhooks/events/email_on_send:Asset properties>`.
@@ -378,19 +378,16 @@ Unsubscribe Form properties
       - Date/time for publishing the Form in ISO 8601 format. ``null`` to consider the Form published if now is before ``publishDown``, if applicable.
     * - ``publishDown``
       - string|null
-      - Date/time for unpublishing the Form in ISO 8601 format. ``null`` to consider the Form published if now is after ``publishUp``, if applicable.
+      - Date/time for deactivating the Form in ISO 8601 format. ``null`` to consider the Form published if now is after ``publishUp``, if applicable.
     * - ``cachedHtml``
       - string
       - Cached rendered HTML for the Form.
     * - ``template``
       - string|null
       - Custom Mautic Theme used to style the Preview page or customize Form fields. See :ref:`themes/forms:Customizing forms`.
-    * - ``formType``
-      - string
-      - **Deprecated.** Previously indicated whether a Form was a Standalone or a Campaign. As of Mautic 7.1, all Forms function identically. Mautic 8.0 schedules the removal of this property.
     * - ``postAction``
       - string
-      - Notes the behavior of the Form after submission. Current supported values are ``return``, ``redirect``, and ``message``.
+      - Notes the behavior of the Form after submission. Current supported values are ``return``, ``redirect``, ``message``, and ``hideform``.
     * - ``postActionProperty``
       - string|null
       - The URL to redirect a Contact to if ``postAction`` is ``redirect`` or the message to display to the Contact if ``postAction`` is ``message``.

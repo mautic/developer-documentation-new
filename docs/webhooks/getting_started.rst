@@ -67,7 +67,7 @@ Background workflow
 2. Mautic saves the Form Submission.
 3. Mautic checks if there is a Webhook with the Form submit event.
 4. If there is, Mautic queues the event in the database.
-5. When the background cron job runs, Mautic aggregates the events, generates a ``Webhook-Signature`` header based on the payload's raw body and secret key, then delivers the data to the URL address defined in the Webhook.
+5. When the background Cron job runs, Mautic aggregates the events, generates a ``Webhook-Signature`` header based on the payload's raw body and secret key, then delivers the data to the URL address defined in the Webhook.
 6. The PMS receives the data and creates new issues from it.
 
 .. vale off
@@ -94,6 +94,11 @@ Order of the queued events
 
         * ``Chronological`` - ordered from oldest to newest
         * ``Reverse Chronological`` - ordered from newest to oldest
+
+Send Email details
+    Enabled by default. When enabled, :ref:`Email send<webhooks/events/email_on_send:Email send event>` and :ref:`Email open<webhooks/events/email_on_open:Email open event>` payloads include the Email's ``content``, ``tokens``, ``customHtml``, and ``plainText``. Turn this off to exclude that content from the payload.
+Allowed private addresses
+    A list of private IP addresses or domains, one per line, that Mautic allows as a Webhook POST URL.
 
 .. vale off
 
@@ -132,7 +137,7 @@ Securing a Webhook
 
 .. vale on
 
-Mautic generates a **base64 encoded HMAC-SHA256** signature based on the request's *raw* body and a secret key that's configurable when creating the Webhook. It sets the signature as the value of the ``Webhook-Signature`` header of the request it sends to the third party application. The application should generate its own **base64 encoded HMAC-SHA256** signature based on the received request's *raw* body with the secret key then compare it to the value of the ``Webhook-Signature`` header.
+Mautic generates a **base64 encoded HMAC-SHA256** signature based on the request's *raw* body and a secret key that's configurable when creating the Webhook. It sets the signature as the value of the ``Webhook-Signature`` header of the request it sends to the third-party app. The app should generate its own **base64 encoded HMAC-SHA256** signature based on the received request's *raw* body with the secret key then compare it to the value of the ``Webhook-Signature`` header.
 
 .. Warning:: Only Mautic and the app should know the secret key.
 
