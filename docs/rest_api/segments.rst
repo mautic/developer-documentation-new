@@ -516,7 +516,7 @@ Adds multiple Contacts to a specific Segment.
 
    <?php
 
-   $contactIds = array(1, 2, 3);
+   $contactIds = ['ids' => [1, 2, 3]];
    $segmentApi->addContacts($segmentId, $contactIds);
 
 .. vale off

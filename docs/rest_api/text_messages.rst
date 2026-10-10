@@ -380,8 +380,16 @@ Send a predefined SMS to existing Contact.
 
    {
        "success": true,
-       "status": "Delivered",
-       "result": {},
+       "status": "Text Message Delivered",
+       "result": {
+           "sent": true,
+           "type": "mautic.sms.sms",
+           "status": "mautic.sms.timeline.status.delivered",
+           "id": 1,
+           "name": "Welcome SMS",
+           "content": "Welcome to Mautic!",
+           "statId": 42
+       },
        "errors": []
    }
 
@@ -396,10 +404,10 @@ Send a predefined SMS to existing Contact.
      - Whether Mautic sent the SMS successfully
    * - ``status``
      - string
-     - Status message returned by the SMS transport
+     - Translated status message, for example 'Text Message Delivered'
    * - ``result``
      - object
-     - Raw result data returned by the SMS transport
+     - Send result for the Contact. Always includes ``sent`` and ``status``, where ``status`` is an untranslated message key. A successful send also includes ``type``, ``id``, ``name``, ``content``, and ``statId``
    * - ``errors``
      - array
-     - List of error messages - empty when ``success`` is ``true``
+     - List of error objects, each with a ``message`` field that holds the untranslated status key - empty when ``success`` is ``true``
