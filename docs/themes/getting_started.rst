@@ -322,7 +322,7 @@ Mautic uses Packagist to distribute Themes and Plugins. There are certain steps 
     },
     "minimum-stability": "dev",
     "require": {
-      "mautic/core": "^5.0"
+      "mautic/core-lib": "^8.0"
     }
   }
 
@@ -332,7 +332,7 @@ Mautic uses Packagist to distribute Themes and Plugins. There are certain steps 
   
     - ``.github/subtree-splitter-config.json`` - this file sets up the connection between the folder in the Mautic GitHub repository and the theme's individual repository. When merging changes into Core which impact this theme or making releases, GitHub pushes into the theme's repository automatically.  Add your Theme at the end of the list.
     - ``.github/workflows/gitsplit/theme-yourthemename.json`` - GitHub Actions uses this file to sync changes to the theme's repository. Create one for each new theme added to the Mautic repository.
-    - ``.githu/workflows/split-monorepo-in-multi-repo.yml`` - this file is used by the GitHub Action to create the matrix used when splitting up the repository and pushing changes out to the theme repositories. Update this file with the new theme names.
+    - ``.github/workflows/split-monorepo-in-multi-repo.yml`` - this file is used by the GitHub Action to create the matrix used when splitting up the repository and pushing changes out to the theme repositories. Update this file with the new theme names.
 
 3. Make the Pull Request with your Theme and the relevant files from previous steps to the Mautic repository. Once merged, the GitHub Action automatically pushes the changes out to your Theme repository.
 

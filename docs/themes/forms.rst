@@ -20,9 +20,9 @@ To provide custom Form field templates or to manipulate the Form body, create th
         MauticFormBundle/
             Builder/
                 _style.html.twig  <– for customizing CSS for Form
-        form.html.twig <– for customizing the form structure itself
+                form.html.twig <– for customizing the form structure itself
 
-Copy from ``app/bundles/FormBundle/Resources/views/form.html.twig`` into the Theme’s Builder directory and/or one or more of the fields templates in ``app/bundles/FormBundle/Views/Field/*.html.php`` into the Theme’s `field` directory. Then customize to the desired layout.
+Copy from ``app/bundles/FormBundle/Resources/views/Builder/form.html.twig`` into the Theme’s Builder directory and/or one or more of the fields templates in ``app/bundles/FormBundle/Resources/views/Field/*.html.twig`` into the Theme’s `Field` directory. Then customize to the desired layout.
 
 You can add a custom style sheet to the Form by adding a ``_style.html.twig`` with your custom CSS to ``html/MauticFormBundle/Builder``. The best way is to copy the content of the default Form styles and modify them to your needs.
 
