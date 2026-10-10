@@ -255,7 +255,6 @@ There are several ways to support Mautic other than contributing with code.
    rest_api/tags
    rest_api/text_messages
    rest_api/themes
-   rest_api/tweets
    rest_api/users
    rest_api/webhooks
 
