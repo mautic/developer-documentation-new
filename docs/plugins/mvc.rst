@@ -596,10 +596,6 @@ Loading images
 
     <img src="{{ asset('plugins/HelloWorldBundle/assets/images/earth.png') }}" />
 
-.. note::
-
-   Flagged for human review: confirm the current Twig equivalent, if any, for dynamically injecting a script or style sheet into AJAX-loaded content - the old ``$view['assets']->includeScript()`` / ``includeStylesheet()`` calls no longer exist.
-
 The ``path()`` and ``url()`` functions
 ========================================
 
