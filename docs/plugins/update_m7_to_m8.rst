@@ -45,10 +45,10 @@ These signatures gain native parameter types:
 .. code:: diff
 
    - public function saveEntity($entity, $flush = true): void
-   + public function saveEntity(object $entity, $flush = true): void
+   + public function saveEntity(object $entity, bool $flush = true): void
 
    - public function deleteEntity($entity, $flush = true): void
-   + public function deleteEntity(object $entity, $flush = true): void
+   + public function deleteEntity(object $entity, bool $flush = true): void
 
    - protected function validateOrderByClause($clause)
    + protected function validateOrderByClause(array $clause): array
@@ -93,13 +93,37 @@ Every bundle and Plugin defines its own ``*Permissions`` class that extends ``Ma
    + public function isGranted(array $userPermissions, $name, $level): bool
 
    - protected function addStandardFormFields($bundle, $level, &$builder, $data, $includePublish = true)
-   + protected function addStandardFormFields($bundle, $level, &$builder, array $data, $includePublish = true)
+   + protected function addStandardFormFields($bundle, $level, &$builder, array $data, bool $includePublish = true)
 
    - protected function addManageFormFields($bundle, $level, &$builder, $data)
    + protected function addManageFormFields($bundle, $level, &$builder, array $data)
 
    - protected function addExtendedFormFields($bundle, $level, &$builder, $data, $includePublish = true)
-   + protected function addExtendedFormFields($bundle, $level, &$builder, array $data, $includePublish = true)
+   + protected function addExtendedFormFields($bundle, $level, &$builder, array $data, bool $includePublish = true)
+
+Mautic 8 removes ``definePermissions()``. Define your permissions in the constructor instead:
+
+.. code:: diff
+
+   - public function definePermissions(): void
+   + public function __construct()
+     {
+         $this->addStandardPermissions('categories');
+     }
+
+Mautic deprecates the ``array $params`` constructor argument - it now injects the resolved parameters through an Autowired method after construction, so ``$this->params`` isn't available in the constructor itself. Drop the argument and the ``parent::__construct($params)`` call:
+
+.. code:: diff
+
+   - public function __construct(array $params)
+   + public function __construct()
+     {
+   -     parent::__construct($params);
+   -
+         $this->addStandardPermissions('categories');
+     }
+
+A permissions class that already defines its permissions in the constructor, without a ``$params`` argument, needs no change.
 
 .. vale off
 
@@ -125,7 +149,7 @@ Every third-party Integration extends ``Mautic\PluginBundle\Integration\Abstract
    + public function prepareRequest(string $url, $parameters, string $method, array $settings, $authType)
 
    - public function authCallback($settings = [], $parameters = [])
-   + public function authCallback(array $settings = [], $parameters = [])
+   + public function authCallback(array $settings = [], array $parameters = []): false|string|array
 
    - public function mergeConfigToFeatureSettings($config = [])
    + public function mergeConfigToFeatureSettings(array $config = [])
@@ -161,7 +185,7 @@ Plugins extend ``Mautic\CoreBundle\Controller\CommonController`` and ``Mautic\Co
 .. code:: diff
 
    - protected function getModel($modelNameKey): MauticModelInterface
-   + protected function getModel(string $modelNameKey): MauticModelInterface
+   + protected function getModel(string $modelNameKey): AbstractCommonModel
 
    - public function executeAction(Request $request, $objectAction, $objectId = 0, $objectSubId = 0, $objectModel = '')
    + public function executeAction(Request $request, $objectAction, $objectId = 0, $objectSubId = 0, $objectModel = ''): Response
@@ -177,7 +201,7 @@ The ``AbstractFormController`` class adds parameter and return types to its lock
    + public function unlockAction(Request $request, $objectId, string $objectModel): RedirectResponse
 
    - protected function isLocked($postActionVars, $entity, $model, $batch = false)
-   + protected function isLocked($postActionVars, $entity, string $model, $batch = false)
+   + protected function isLocked($postActionVars, $entity, string $modelName, bool $batch = false)
 
 The ``AbstractStandardFormController`` class follows the same pattern - for example ``getDefaultOrderDirection(): string`` and ``getDataForExport(): ?array`` gain return types.
 
@@ -266,6 +290,8 @@ Mautic 8 also changes the helper methods on the base controllers. See :ref:`Cont
 
 Mautic 8 also adds a native type to every class and interface constant. See :ref:`Typed class constants <Mautic 8 typed class constants>` if your Plugin overrides a constant from a Mautic class or interface.
 
+Mautic 8 also dispatches most of these events by the event object alone instead of a bundle's ``*Events`` string constant. See :ref:`Events dispatched by class name <Mautic 8 events dispatched by class name>` if your Plugin subscribes to one of them.
+
 .. vale off
 
 .. seealso::
@@ -296,6 +322,62 @@ Mautic 8 changes event or entity class signatures in these bundles:
 * StageBundle
 * UserBundle
 * WebhookBundle
+
+.. _mautic 8 events dispatched by class name:
+
+.. vale off
+
+Events dispatched by class name
+*******************************
+
+.. vale on
+
+Beyond the preceding signature changes, Mautic 8 also changes *how* it dispatches most bundle events. Following the Symfony 4.3+ convention, Mautic now dispatches these events by the event object alone, so the event name is the event class, and a Plugin keys ``getSubscribedEvents()`` on ``EventClass::class`` instead of the bundle's ``*Events`` string constant. Most of the old constants still exist, but Mautic no longer dispatches under them, so a subscriber still keyed on one silently receives nothing - no error, no log entry. Mautic 8 removes a few of the ``*Events`` classes entirely, such as ``Mautic\ConfigBundle\ConfigEvents`` and ``Mautic\UserBundle\UserEvents``, so a subscriber that still references one of their constants raises an ``Error: Undefined constant`` fatal error instead.
+
+The change touches CampaignBundle, ChannelBundle, ConfigBundle, CoreBundle, DashboardBundle, EmailBundle, FormBundle, IntegrationsBundle, LeadBundle, NotificationBundle, PageBundle, PluginBundle, PointBundle, ReportBundle, SmsBundle, StageBundle, UserBundle, and WebhookBundle. This is a representative sample, not the full mapping:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 40 40
+
+   * - Bundle
+     - Old constant
+     - Subscribe to this event class instead
+   * - CampaignBundle
+     - ``CampaignEvents::CAMPAIGN_ON_BUILD``
+     - ``Mautic\CampaignBundle\Event\CampaignBuilderEvent``
+   * - ConfigBundle
+     - ``ConfigEvents::CONFIG_PRE_SAVE`` / ``CONFIG_POST_SAVE``
+     - ``Mautic\ConfigBundle\Event\ConfigPreSaveEvent`` / ``ConfigPostSaveEvent``
+   * - EmailBundle
+     - ``EmailEvents::EMAIL_PRE_SEND``
+     - ``Mautic\EmailBundle\Event\EmailPreSendEvent``
+   * - FormBundle
+     - ``FormEvents::FORM_ON_BUILD``
+     - ``Mautic\FormBundle\Event\FormBuilderEvent``
+   * - LeadBundle
+     - ``LeadEvents::LEAD_PRE_SAVE``
+     - ``Mautic\LeadBundle\Event\LeadPreSaveEvent``
+   * - PageBundle
+     - ``PageEvents::PAGE_ON_HIT``
+     - ``Mautic\PageBundle\Event\PageHitEvent``
+   * - PointBundle
+     - ``PointEvents::POINT_ON_BUILD``
+     - ``Mautic\PointBundle\Event\PointBuilderEvent``
+   * - ReportBundle
+     - ``ReportEvents::REPORT_ON_BUILD``
+     - ``Mautic\ReportBundle\Event\ReportBuilderEvent``
+   * - SmsBundle
+     - ``SmsEvents::SMS_ON_SEND``
+     - ``Mautic\SmsBundle\Event\SmsSendEvent``
+   * - UserBundle
+     - ``UserEvents::USER_LOGIN``
+     - ``Mautic\UserBundle\Event\LoginEvent``
+   * - WebhookBundle
+     - ``WebhookEvents::WEBHOOK_ON_BUILD``
+     - ``Mautic\WebhookBundle\Event\WebhookBuilderEvent``
+
+For the full per-bundle mapping, re-keying examples, and the console command that confirms a subscriber's binding, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` in :ref:`event listeners`.
 
 .. vale off
 
@@ -612,7 +694,7 @@ If your Plugin dispatches this Event, the constructor promotes both parameters t
 .. code:: diff
 
    -    public function getViewName()
-   +    public function getViewName(): string
+   +    public function getViewName(): ?string
 
    -    public function getContext()
    +    public function getContext(): ?string
@@ -751,6 +833,15 @@ Widget subscribers set the Widget template on ``Mautic\DashboardBundle\Event\Wid
 
    - public function setTemplate($template): void
    + public function setTemplate(string $template): void
+
+Mautic 8 also removes the legacy filesystem Widget cache. It drops ``setCacheDir()`` and ``setCacheTimeout()`` entirely, makes the constructor's ``$cacheProvider`` argument required, and drops the second ``$skipCache`` parameter from ``setTemplateData()``:
+
+.. code:: diff
+
+   - public function setTemplateData(array $templateData, $skipCache = false): void
+   + public function setTemplateData(array $templateData): void
+
+Widget data now caches only through ``Mautic\CacheBundle\Cache\CacheProviderTagAwareInterface``, using the lifetime from ``Widget::getCacheTimeout()``. If your Plugin calls ``setCacheDir()``, ``setCacheTimeout()``, or passes a second argument to ``setTemplateData()``, remove the call or the argument.
 
 ``WidgetDetailEvent`` is an abstract base class for the ``final`` ``PreLoadWidgetDetailEvent`` and ``GenerateWidgetDetailEvent`` classes that Mautic dispatches. For the event classes to subscribe to, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
@@ -1037,6 +1128,37 @@ Plugins that read or set the tracked Contact use the ``Mautic\LeadBundle\Tracker
 
    - public function setUseSystemContact(?bool $useSystemContact): void
    + public function setUseSystemContact(bool $useSystemContact): void
+
+.. vale off
+
+IdentifyCompanyHelper
+=====================
+
+.. vale on
+
+``Mautic\LeadBundle\Helper\IdentifyCompanyHelper`` is now an Autowired, ``final readonly`` instance service instead of a static utility, and its constructor injects ``CompanyModel`` and ``CompanyLeadRepository``. ``identifyLeadsCompany()`` and ``findCompany()`` are now instance methods, and both drop their ``CompanyModel`` parameter:
+
+.. code:: diff
+
+   - public static function identifyLeadsCompany(array $data, $lead, CompanyModel $companyModel): array
+   + public function identifyLeadsCompany(array $data, $lead): array
+
+   - public static function findCompany(array $data, CompanyModel $companyModel): array
+   + public function findCompany(array $data): array
+
+Inject the helper and call it on the instance instead of calling it statically:
+
+.. code:: diff
+
+    use Mautic\LeadBundle\Helper\IdentifyCompanyHelper;
+
+   +public function __construct(
+   +    private IdentifyCompanyHelper $identifyCompanyHelper,
+   +) {
+   +}
+
+   -[$company, $companyEntities] = IdentifyCompanyHelper::identifyLeadsCompany($data, $lead, $companyModel);
+   +[$company, $companyEntities] = $this->identifyCompanyHelper->identifyLeadsCompany($data, $lead);
 
 .. vale off
 
@@ -1960,6 +2082,175 @@ SocialIntegration
 
 Run :xref:`phpstan` against your Plugin on Mautic 8 to find any override whose return type no longer matches the return type of the parent method.
 
+.. _mautic 8 services and helpers:
+
+.. vale off
+
+Services and helpers
+********************
+
+.. vale on
+
+Mautic 8 also changes a handful of services and helpers that a Plugin might call directly.
+
+.. vale off
+
+Config/config.php services array
+================================
+
+.. vale on
+
+Mautic 8 no longer reads the ``services`` array from a bundle's ``Config/config.php`` at all. ``Mautic\CoreBundle\DependencyInjection\Builder\Metadata\ConfigMetadata`` dropped the code that parsed it, so Mautic silently ignores anything your Plugin still declares under ``services`` - including the ``events``, ``forms``, ``helpers``, ``menus``, ``models``, ``permissions``, ``integrations``, and ``controllers`` sub-keys. Register each of these as a Symfony service in your Plugin's ``Config/services.php`` instead. See :ref:`Plugins/config:config file` for the current service-registration reference.
+
+The deprecated ``models`` sub-key is also gone, together with the compiler pass that read it. A service listed under ``services > models`` no longer gets the ``mautic.model`` tag automatically. Instead, implement ``Mautic\CoreBundle\Model\MauticModelInterface`` and register the class in ``Config/services.php``. Mautic adds the ``mautic.model`` tag to every service that implements this interface, with no further configuration needed:
+
+.. code:: diff
+
+   -'services' => [
+   -    'models' => [
+   -        'yourbundle.yourmodel' => [
+   -            'class' => \MauticPlugin\YourBundle\Model\YourModel::class,
+   -        ],
+   -    ],
+   -],
+   +$services->set(\MauticPlugin\YourBundle\Model\YourModel::class);
+
+.. vale off
+
+Custom model lookup
+===================
+
+.. vale on
+
+``Mautic\CoreBundle\Factory\ModelFactory`` now resolves ``getModel()`` lookup keys through each model's static ``getName()`` method, tagged on the ``mautic.model`` service with ``defaultIndexMethod: 'getName'``, instead of the removed ``Mautic\CoreBundle\DependencyInjection\Compiler\ModelPass``. Add ``getName()`` to a custom model if it doesn't already have one:
+
+.. code-block:: php
+
+   public static function getName(): string
+   {
+       return 'yourbundle.yourmodel';
+   }
+
+A model without ``getName()`` is still registered in the locator, but only under its fully qualified class name, so ``$modelFactory->getModel('yourbundle.yourmodel')`` fails until you add the method. ``ModelFactory::getModel()`` no longer accepts a fully qualified class name as the lookup key.
+
+.. vale off
+
+Menu registration
+=================
+
+.. vale on
+
+Mautic 8 removes ``Mautic\CoreBundle\DependencyInjection\Compiler\ServicePass``, which used to read a bundle's ``services > menus`` array from ``Config/config.php`` and wire the menu item and its renderer automatically. If your Plugin registers its own menu, declare both services explicitly in ``Config/services.php`` instead. See :ref:`Plugins/config:Registering a custom menu` for the full worked example, including Plugins that register several menus:
+
+.. code:: diff
+
+   -'services' => [
+   -    'menus' => [
+   -        'mautic.menu.mybundle' => [
+   -            'alias'   => 'mybundle',
+   -            'options' => ['template' => '@MyBundle/Menu/mybundle.html.twig'],
+   -        ],
+   -    ],
+   -],
+   +$services->set('mautic.menu.mybundle', Knp\Menu\MenuItem::class)
+   +    ->factory([service(Mautic\CoreBundle\Menu\MenuBuilder::class), 'mybundleMenu'])
+   +    ->tag('knp_menu.menu', ['alias' => 'mybundle']);
+   +
+   +$services->set('mautic.menu_renderer.mybundle', Mautic\CoreBundle\Menu\MenuRenderer::class)
+   +    ->args([service('knp_menu.matcher'), service('twig'), ['template' => '@MyBundle/Menu/mybundle.html.twig']])
+   +    ->tag('knp_menu.renderer', ['alias' => 'mybundle']);
+
+.. vale off
+
+CacheStorageHelper
+==================
+
+.. vale on
+
+Mautic 8 removes the deprecated ``Mautic\CoreBundle\Helper\CacheStorageHelper`` class and its ``mautic.helper.cache_storage`` service. Inject ``Mautic\CacheBundle\Cache\CacheProviderInterface`` instead, and call ``getSimpleCache()`` for the simple-cache API the helper mimicked:
+
+.. vale off
+
+.. code:: diff
+
+   -use Mautic\CoreBundle\Helper\CacheStorageHelper;
+   +use Mautic\CacheBundle\Cache\CacheProviderInterface;
+
+   -public function __construct(private CacheStorageHelper $cache)
+   +public function __construct(private CacheProviderInterface $cache)
+    {
+    }
+
+    public function getPendingCount(int $id): ?int
+    {
+   -    return $this->cache->get("email|{$id}|pending");
+   +    return $this->cache->getSimpleCache()->get("email|{$id}|pending");
+    }
+
+A cache miss now returns ``null`` instead of ``false``, so change a comparison from ``false === $value`` to ``null === $value``.
+
+.. vale off
+
+Segment and Contact filter operators
+====================================
+
+.. vale on
+
+Mautic 8 removes the public ``getFilterExpressionFunctions()`` method from ``Mautic\LeadBundle\Entity\OperatorListTrait``, and ``Mautic\LeadBundle\Entity\LeadRepository`` and ``Mautic\LeadBundle\Entity\LeadListRepository`` no longer use that trait. If your Plugin called ``getFilterExpressionFunctions()`` on either repository, call ``Mautic\LeadBundle\Provider\TypeOperatorProvider::getOperatorsForFieldType()`` instead:
+
+.. code:: diff
+
+   -$operators = $leadRepository->getFilterExpressionFunctions();
+   +$operators = $typeOperatorProvider->getOperatorsForFieldType($fieldType);
+
+.. vale off
+
+FieldModel::getFieldList()
+==========================
+
+.. vale on
+
+Mautic 8 removes the deprecated ``Mautic\LeadBundle\Model\FieldModel::getFieldList()`` method, which only forwarded the call to ``Mautic\LeadBundle\Field\FieldList::getFieldList()``. Call ``FieldList::getFieldList()`` directly:
+
+.. code:: diff
+
+   -$fields = $fieldModel->getFieldList();
+   +$fields = $fieldList->getFieldList();
+
+.. vale off
+
+Doctrine ORM 3 and DBAL 4
+=========================
+
+.. vale on
+
+Mautic 8 upgrades to Doctrine ``ORM`` 3, DBAL 4, and doctrine-bundle 3. :ref:`Plugins/database:Entities and schema` covers entity mapping with ``#[ORM]`` attributes instead of annotations. This section only lists the API surface a Plugin might call directly:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Was
+     - Now
+   * - ``Doctrine\ORM\Mapping\ClassMetadataInfo``
+     - ``Doctrine\ORM\Mapping\ClassMetadata``
+   * - ``Doctrine\ORM\ORMException``
+     - ``Doctrine\ORM\Exception\ORMException``, now an interface
+   * - ``Doctrine\DBAL\Exception`` thrown directly
+     - an interface - throw ``Mautic\CoreBundle\Exception\DbalException``
+   * - ``EntityRepository::$_em``
+     - ``getEntityManager()``
+   * - DBAL's ``ExpressionBuilder::andX()`` / ``orX()``
+     - ``and()`` / ``or()``, or ``CompositeExpression::and()`` / ``or()``
+   * - ``Connection::ARRAY_PARAM_OFFSET``, ``Connection::PARAM_*_ARRAY``
+     - ``Doctrine\DBAL\ArrayParameterType``
+   * - ``AbstractPlatform::quoteIdentifier()``
+     - ``quoteSingleIdentifier()``
+
+``Doctrine\DBAL\Connection::createQueryBuilder()`` now returns ``Mautic\CoreBundle\Doctrine\Query\QueryBuilder`` on every Mautic connection, which keeps the ``getQueryPart()``, ``getQueryParts()``, and ``resetQueryPart()`` methods DBAL 4 dropped from its own builder. If your Plugin builds its own DBAL builder with ``new QueryBuilder($connection)``, take the builder from the connection instead, so you keep those methods.
+
+.. vale off
+
 .. _mautic 8 final classes:
 
 ``final`` classes
@@ -1989,10 +2280,7 @@ These event classes are now ``final``:
 * ``Mautic\EmailBundle\Event\EmailValidationEvent``
 * ``Mautic\FormBundle\Event\SubmissionEvent``
 * ``Mautic\IntegrationsBundle\Event\MauticSyncFieldsLoadEvent``
-* ``Mautic\LeadBundle\Event\CompanyEvent``
 * ``Mautic\LeadBundle\Event\ImportValidateEvent``
-* ``Mautic\LeadBundle\Event\LeadListEvent``
-* ``Mautic\LeadBundle\Event\ListChangeEvent``
 * ``Mautic\PageBundle\Event\PageDisplayEvent``
 * ``Mautic\PageBundle\Event\PageHitEvent``
 * ``Mautic\PluginBundle\Event\PluginIntegrationRequestEvent``
@@ -2005,10 +2293,11 @@ These event classes are now ``final``:
 * ``Mautic\SmsBundle\Event\SmsSendEvent``
 * ``Mautic\UserBundle\Event\LoginEvent``
 * ``Mautic\WebhookBundle\Event\WebhookBuilderEvent``
-* ``Mautic\WebhookBundle\Event\WebhookEvent``
 * ``Mautic\WebhookBundle\Event\WebhookNotificationEvent``
 
 .. vale on
+
+Four event classes aren't on this list because they stay extendable. ``Mautic\LeadBundle\Event\CompanyEvent`` and ``Mautic\LeadBundle\Event\LeadListEvent`` are ``abstract``, since each lifecycle event now gets its own dedicated subclass instead of sharing one object. ``Mautic\LeadBundle\Event\ListChangeEvent`` and ``Mautic\WebhookBundle\Event\WebhookEvent`` are plain, non-``final`` classes. A Plugin can still extend any of these four.
 
 The other ``final`` classes include:
 
