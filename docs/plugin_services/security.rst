@@ -113,7 +113,7 @@ It's possible to define your own custom permissions within your Plugin. Make sur
 
 .. note::
 
-   This constructor pattern applies to Mautic 8 and later. The constructor no longer accepts an ``array $params`` argument, and Mautic injects ``$this->params`` after construction.
+   This constructor pattern applies to Mautic 8 and later. Mautic deprecates the ``array $params`` constructor argument, which now defaults to an empty array. Mautic injects ``$this->params`` through an Autowired setter after construction instead.
 
 .. code-block:: php
 
@@ -157,7 +157,7 @@ It's possible to define your own custom permissions within your Plugin. Make sur
         * @param array                $options
         * @param array                $data
         */
-       public function buildForm(FormBuilderInterface &$builder, array $options, array $data)
+       public function buildForm(FormBuilderInterface &$builder, array $options, array $data): void
        {
            // Add standard category form fields
            $this->addStandardFormFields('helloWorld', 'categories', $builder, $data);
@@ -202,29 +202,31 @@ It's possible to define your own custom permissions within your Plugin. Make sur
        }
    }
 
-You can register the permission class by adding it to your ``config.php`` as shown below. Make sure it's in the ``services.permissions`` group so that Mautic can pick it up correctly.
+Register the permission class as a service in your Plugin's ``Config/services.php``. Mautic's ``autoconfigure()`` setting tags any service extending ``AbstractPermissions`` with ``mautic.permissions``, so ``CorePermissions`` can discover it.
 
 .. code-block:: php
 
     <?php
-    // plugins/HelloWorldBundle/Config/config.php
+    // plugins/HelloWorldBundle/Config/services.php
 
-    return [
-        ...
-        'services' => [
-            'permissions' => [
-                'marketplace.permissions' => [
-                    'class' => \MauticPlugin\HelloWorldBundle\Security\Permissions\WorldsPermissions::class,
-                ],
-            ],
-        ],
-    ];
+    declare(strict_types=1);
 
-You can learn more about the available options by looking at the ``Mautic\CoreBundle\Security\Permissions\AbstractPermissions`` PHPDoc, but here's the most important information:
+    use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+    return function (ContainerConfigurator $configurator): void {
+        $services = $configurator->services()
+            ->defaults()
+            ->autowire()
+            ->autoconfigure();
+
+        $services->set(\MauticPlugin\HelloWorldBundle\Security\Permissions\HelloWorldPermissions::class);
+    };
+
+You can learn more about the available options by looking at the doc comments in ``Mautic\CoreBundle\Security\Permissions\AbstractPermissions``, but here's the most important information:
 
 **__construct()**
 
-The constructor defines the ``$this->permissions`` array - a set of permission levels that are each arrays with permissions assigned to bits - and calls the helper methods as needed. Mautic injects the resolved core parameters through an autowired setter that runs after construction completes, so ``$this->params`` is available in every method except ``__construct()``.
+The constructor defines the ``$this->permissions`` array - a set of permission levels that are each arrays with permissions assigned to bits - and calls the helper methods as needed. Mautic injects the resolved core parameters through an Autowired setter that runs after construction completes, so ``$this->params`` is available in every method except ``__construct()``.
 
 For example, in the code block, a custom permission level of ``worlds`` gets defined with the permissions of ``use_telescope``, ``send_probe``, ``visit`` and ``full``.
 To validate whether a User has permission to the level ``worlds`` and permission ``send_probe`` , ``$mauticSecurity->isGranted('plugin:helloWorld:worlds:send_probe')`` would be used.
@@ -288,7 +290,7 @@ Permission aliases
 To add a permission alias, use the ``getSynonym()`` method.
 Basically this method gets called before each requested permission gets determined, giving opportunity to change the permission level or name as needed.
 
-For example, ``parent::getSynonym()`` will recognize ``editown`` as ``edit`` if ``editown`` isn't defined in the permission class' ``$this->permissions`` property for the requested level.
+For example, ``parent::getSynonym()`` recognizes ``editown`` as ``edit`` if ``editown`` isn't defined in the permission class' ``$this->permissions`` property for the requested level.
 
 Manipulating permissions before saving
 ======================================
@@ -304,7 +306,7 @@ Manipulating permissions before saving
       *
       * @return bool Return true if a second round is required; default false
       */
-    public function analyzePermissions(array &$permissions, $allPermissions, $isSecondRound = false)
+    public function analyzePermissions(array &$permissions, $allPermissions, bool $isSecondRound = false): bool
     {
         foreach ($permissions as $level => &$perms) {
             foreach ($perms as $perm) {
@@ -343,7 +345,7 @@ In this case, the argument ``$isSecondRound`` is true.
 Advanced ``isGranted`` logic
 ============================
 
-If it's necessary to perform some logic other than simply comparing bits, the permission class can override the parent's ``public function isGranted($userPermissions, $name, $level)`` and do whatever is necessary for its own permission levels and individual permissions.
+If it's necessary to perform some logic other than simply comparing bits, the permission class can override the parent's ``public function isGranted(array $userPermissions, $name, $level): bool`` and do whatever is necessary for its own permission levels and individual permissions.
 
 Advanced ``isSupported`` logic
 ==============================
