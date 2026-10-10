@@ -13,7 +13,7 @@ API
 
 .. vale on
 
-To add custom API endpoints, define the routes under the API firewall in the :doc:`Plugin's config file</plugins/config>`.
+To add custom API endpoints, define the routes under the API firewall in the :ref:`Plugin's config file <Plugin config file>`.
 This places the route behind ``/api`` which is only accessible to authorized Users.
 
 .. code-block:: php

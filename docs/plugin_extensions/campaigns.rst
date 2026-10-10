@@ -166,7 +166,7 @@ Campaign Action definition
     * - ``connectionRestrictions.anchor``
       - no
       - array
-      - Array of Event anchors this Event **isn't** allowed to connect to. Names of anchors are ``yes`` for the "action" or "TRUE" path and ``no`` for the "inaction" or "FALSE" path. Expected format is ``EventType.anchorName``. For example, ``decision.no``.
+      - Array of Event anchors this Event **isn't** allowed to connect to. The ``yes`` anchor is the action, or ``true``, path. The ``no`` anchor is the inaction, or ``false``, path. Expected format is ``EventType.anchorName``. For example, ``decision.no``.
     * - ``connectionRestrictions.source``
       - no
       - array[]
@@ -274,7 +274,7 @@ Campaign Condition definition
     * - ``connectionRestrictions.anchor``
       - no
       - array
-      - Array of Event anchors this Event **isn't** allowed to connect to. Names of anchors are ``yes`` for the "action" or "TRUE" path and ``no`` for the "inaction" or "FALSE" path. Expected format is ``EventType.anchorName``. For example, ``decision.no``.
+      - Array of Event anchors this Event **isn't** allowed to connect to. The ``yes`` anchor is the action, or ``true``, path. The ``no`` anchor is the inaction, or ``false``, path. Expected format is ``EventType.anchorName``. For example, ``decision.no``.
     * - ``connectionRestrictions.source``
       - no
       - array[]
@@ -382,7 +382,7 @@ Campaign Decision definition
     * - ``connectionRestrictions.anchor``
       - no
       - array
-      - Array of Event anchors this Event **isn't** allowed to connect to. Names of anchors are ``yes`` for the "action" or "TRUE" path and ``no`` for the "inaction" or "FALSE" path. Expected format is ``EventType.anchorName``. For example, ``decision.no``.
+      - Array of Event anchors this Event **isn't** allowed to connect to. The ``yes`` anchor is the action, or ``true``, path. The ``no`` anchor is the inaction, or ``false``, path. Expected format is ``EventType.anchorName``. For example, ``decision.no``.
     * - ``connectionRestrictions.source``
       - no
       - array[]

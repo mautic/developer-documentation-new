@@ -13,7 +13,7 @@ Forms
 
 .. vale on
 
-You can extend Forms by listening to the ``Mautic\FormBundle\Event\FormBuilderEvent`` event. Read more about :doc:`listeners and subscribers</plugins/event_listeners>`.
+You can extend Forms by listening to the ``Mautic\FormBundle\Event\FormBuilderEvent`` event. Read more about :ref:`listeners and subscribers <event listeners>`.
 At the bottom of this document, you can find code examples to make it easier to get started.
 
 .. note::

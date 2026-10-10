@@ -400,8 +400,8 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
       - The translated string representing this event type. Eg. Worlds visited
     * - ``timestamp``
       - Required
-      - \DateTime
-      - DateTime object when this event took place
+      - ``\DateTime``
+      - ``DateTime`` object when this event took place
     * - ``eventLabel``
       - Optional
       - string/array
@@ -500,7 +500,7 @@ To leverage this, accept the array from ``$event->getQueryOptions()`` in the rep
     * - ``$dateTimeColumns``
       - Optional
       - array
-      - When using the Database Abstraction Layer, ``datetime`` columns won't be auto converted to \DateTime objects by Doctrine. Define the columns here, as returned by the query results, to auto do so.
+      - When using the Database Abstraction Layer, ``datetime`` columns won't be auto converted to ``\DateTime`` objects by Doctrine. Define the columns here, as returned by the query results, to auto do so.
     * - ``$resultsParserCallback``
       - Optional
       - callback
