@@ -1136,7 +1136,7 @@ IdentifyCompanyHelper
 
 .. vale on
 
-``Mautic\LeadBundle\Helper\IdentifyCompanyHelper`` is now an Autowired, ``final readonly`` instance service instead of a static utility, and its constructor injects ``CompanyModel``. ``identifyLeadsCompany()`` and ``findCompany()`` are now instance methods, and both drop their ``CompanyModel`` parameter:
+``Mautic\LeadBundle\Helper\IdentifyCompanyHelper`` is now an Autowired, ``final readonly`` instance service instead of a static utility, and its constructor injects ``CompanyModel`` and ``CompanyLeadRepository``. ``identifyLeadsCompany()`` and ``findCompany()`` are now instance methods, and both drop their ``CompanyModel`` parameter:
 
 .. code:: diff
 
@@ -1150,7 +1150,8 @@ Inject the helper and call it on the instance instead of calling it statically:
 
 .. code:: diff
 
-   -use Mautic\LeadBundle\Helper\IdentifyCompanyHelper;
+    use Mautic\LeadBundle\Helper\IdentifyCompanyHelper;
+
    +public function __construct(
    +    private IdentifyCompanyHelper $identifyCompanyHelper,
    +) {
