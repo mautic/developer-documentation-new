@@ -684,7 +684,7 @@ Mautic sends Email through `Symfony Mailer <https://symfony.com/doc/current/mail
 
    Mautic 8 removed the Swiftmailer-based transport mechanism described in earlier versions of this document: the ``mautic.email.transport_type`` service tag, the ``mautic.email_transport`` tag, and the ``Mautic\EmailBundle\Swiftmailer\Transport\AbstractTokenArrayTransport``, ``CallbackTransportInterface``, and ``Mautic\EmailBundle\Model\TransportType`` classes no longer exist. A Plugin built against any of them fails with a PHP ``Error: Class "..." not found``.
 
-Mautic resolves the configured connection string through ``Mautic\EmailBundle\Mailer\Transport\TransportFactory``, which decorates Symfony's ``mailer.transport_factory`` service. Consult `Symfony's guide to creating custom transports <https://symfony.com/doc/current/mailer.html#creating-custom-transports>`_ for the exact ``TransportFactoryInterface`` contract your installed Symfony Mailer version expects.
+Mautic resolves the configured connection string through ``Mautic\EmailBundle\Mailer\Transport\TransportFactory``, which decorates Symfony's ``mailer.transport_factory`` service. Consult `Symfony's guide to custom transport factories <https://symfony.com/doc/current/mailer.html#custom-transport-factories>`_ for the exact ``TransportFactoryInterface`` contract your installed Symfony Mailer version expects.
 
 If your transport enforces a maximum batch size or recipient count per send, implement ``Mautic\EmailBundle\Mailer\Transport\TokenTransportInterface`` on your ``Symfony\Component\Mailer\Transport\TransportInterface`` implementation. The bundled ``TokenTransportTrait`` provides a default ``getBatchRecipientCount()``, so you only need to set your own limit:
 
