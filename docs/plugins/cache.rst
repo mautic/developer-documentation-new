@@ -80,7 +80,7 @@ These are the default settings:
 .. code-block:: php
 
     'cache_adapter' => \Mautic\CacheBundle\Cache\Adapter\FilesystemTagAwareAdapter::class,
-    'cache_prefix' => 'app',
+    'cache_prefix' => '',
     'cache_lifetime' => 86400
 
 They can be overridden in ``local.php`` like this:
@@ -96,7 +96,7 @@ Delivered adapters
 .. vale off
 
 - ``\Mautic\CacheBundle\Cache\Adapter\FilesystemTagAwareAdapter``
-- ``mautic.cache.adapter.memcached``
+- ``\Mautic\CacheBundle\Cache\Adapter\MemcachedTagAwareAdapter``
 
 .. code-block:: php
     
@@ -146,7 +146,7 @@ Mautic 8 removes the deprecated ``CacheStorageHelper``. Developers who inject it
 Replacing CacheStorageHelper
 ============================
 
-Mautic 8 removes the ``mautic.helper.cache_storage`` service and the ``Mautic\CoreBundle\Helper\CacheStorageHelper`` class. Inject ``Mautic\CacheBundle\Cache\CacheProviderInterface`` - the same provider registered as the ``mautic.cache.provider`` service - instead, and call ``getSimpleCache()`` to get the PSR-16 cache. The ``get()``, ``set()``, ``has()``, and ``delete()`` methods keep the same signatures.
+Mautic 8 removes the ``mautic.helper.cache_storage`` service and the ``Mautic\CoreBundle\Helper\CacheStorageHelper`` class. Inject ``Mautic\CacheBundle\Cache\CacheProviderInterface`` - aliased to ``Mautic\CacheBundle\Cache\CacheProvider`` - instead, and call ``getSimpleCache()`` to get the PSR-16 cache. The ``get()``, ``set()``, ``has()``, and ``delete()`` methods keep the same signatures.
 
 .. warning::
 
