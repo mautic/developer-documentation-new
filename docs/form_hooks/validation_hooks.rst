@@ -41,7 +41,7 @@ Validation hooks
 
 .. js:method:: onValidateField(fieldValidationObject)
 
-    Called for each Form Field during the default Form validation, before Mautic validates that individual field.
+    Mautic calls this hook for each Form Field during the default Form validation, before it validates that field.
 
     :param object fieldValidationObject:
         * ``fieldValidationObject.fieldKey`` The field's API name.
@@ -59,7 +59,9 @@ Validation hooks
         },
     };
 
-.. Note:: This isn't called for a field if an :js:meth:`onValidate` hook returns ``true`` or ``false``.
+.. note::
+
+   Mautic doesn't call this hook for a field if an :js:meth:`onValidate` hook returns ``true`` or ``false``.
 
 
 .. js:method:: onValidateEnd()

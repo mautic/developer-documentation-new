@@ -327,14 +327,16 @@ Called at the beginning of the default Form validation, this receives no values 
    };
 
 ``onValidateField(callbackData)``
-==================================
+=================================
 
-Called for each Form Field during built-in Form validation, before that field's built-in validation runs.
-Receives a ``callbackData`` object. ``callbackData.fieldKey`` is the field's API name, and ``callbackData.field`` is an object with ``type``, ``name``, and ``multiple``.
+Mautic calls this callback for each Form Field during built-in Form validation, before it runs that field's built-in validation.
+The callback receives a ``callbackData`` object. ``callbackData.fieldKey`` is the field's API name, and ``callbackData.field`` is an object with ``type``, ``name``, and ``multiple``.
 
 Return ``True`` or ``False`` to skip the built-in validation for that field and use the returned value as its result. Return ``null`` to run the field's built-in validation.
 
-.. warning:: ``onValidateField`` isn't executed for a field if you add the ``onValidate`` callback and it returns ``True`` or ``False``.
+.. warning::
+
+   Mautic doesn't execute ``onValidateField`` for a field if you add the ``onValidate`` callback and it returns ``True`` or ``False``.
 
 .. code-block:: js
 
