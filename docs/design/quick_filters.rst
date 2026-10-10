@@ -39,9 +39,9 @@ The ``Mautic.toggleFilter`` function toggles a quick filter button's active stat
 
 This function performs the following actions:
 
-1. Retrieves the filter value from the clicked element's ``data-filter`` attribute.
-2. If the filter belongs to a conflict group - for example ``status`` or ``ownership`` - deactivates any other active filter in the same group, so only one filter per group applies at a time.
-3. Toggles the ``active`` class on the clicked element.
+#. Retrieves the filter value from the clicked element's ``data-filter`` attribute.
+#. If the filter belongs to a conflict group - for example ``status`` or ``ownership`` - deactivates any other active filter in the same group, so only one filter per group applies at a time.
+#. Toggles the ``active`` class on the clicked element.
 
 ``Mautic.applyFilters`` then collects every element with the ``active`` class and appends its ``data-filter`` value to the search input before triggering the search.
 

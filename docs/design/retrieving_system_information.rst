@@ -54,9 +54,9 @@ Identifying parameter names
 
 To find the correct parameter name for a specific setting:
 
-1. Inspect the HTML of the setting field in the Mautic interface.
-2. Look for the ``name`` attribute of the input field.
-3. The parameter name is the last part of the ``name`` attribute value.
+#. Inspect the HTML of the setting field in the Mautic interface.
+#. Look for the ``name`` attribute of the input field.
+#. The parameter name is the last part of the ``name`` attribute value.
 
 For example, if you see:
 
