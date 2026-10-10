@@ -247,7 +247,7 @@ Hooking into the tracking process and returning custom responses
 
 
 If you need to do something during the request to track the Contact through ``/mtc/event``, or append to the payload returned to the tracking code, which you can use from custom JavaScript injected through ``BuildJsEvent``, subscribe to the ``TrackingEvent`` event.
-The listener can inject a custom payload through the ``Mautic\PageBundle\Event\TrackingEvent::set`` method.
+The listener can inject a custom payload by calling ``set`` on the ``ParameterBag`` that ``Mautic\PageBundle\Event\TrackingEvent::getResponse()`` returns.
 This exposes the payload to the tracking code's ``mauticPageEventDelivered`` event in the ``detail.response.events`` object. See the PHP code example.
 
 .. note::
@@ -323,6 +323,24 @@ Called at the beginning of the default Form validation, this receives no values 
    MauticFormCallback['replaceWithFormName'] = {
        onValidateStart: function () {
             // executed before built-in Form validation
+       },
+   };
+
+``onValidateField(callbackData)``
+==================================
+
+Called for each Form Field during built-in Form validation, before that field's built-in validation runs.
+Receives a ``callbackData`` object. ``callbackData.fieldKey`` is the field's API name, and ``callbackData.field`` is an object with ``type``, ``name``, and ``multiple``.
+
+Return ``True`` or ``False`` to skip the built-in validation for that field and use the returned value as its result. Return ``null`` to run the field's built-in validation.
+
+.. warning:: ``onValidateField`` isn't executed for a field if you add the ``onValidate`` callback and it returns ``True`` or ``False``.
+
+.. code-block:: js
+
+   MauticFormCallback['replaceWithFormName'] = {
+       onValidateField: function (callbackData) {
+            // executed before a field's built-in validation
        },
    };
 

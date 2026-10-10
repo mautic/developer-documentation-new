@@ -39,6 +39,28 @@ Validation hooks
 
 .. Note:: This isn't called if an :js:meth:`onValidate` hook returns TRUE.
 
+.. js:method:: onValidateField(fieldValidationObject)
+
+    Called for each Form Field during the default Form validation, before Mautic validates that individual field.
+
+    :param object fieldValidationObject:
+        * ``fieldValidationObject.fieldKey`` The field's API name.
+        * ``fieldValidationObject.field`` Object describing the field, with ``type``, ``name``, and ``multiple`` keys.
+
+    :returns: ``bool|null|void`` Return ``true`` or ``false`` to skip the default validation for this field and use the returned value as its validation result. Return ``null`` or nothing to continue with the default validation for this field.
+
+.. code-block:: javascript
+
+    MauticFormCallback['formname'] = {
+        onValidateField: function (fieldValidationObject) {
+            if ('email' == fieldValidationObject.fieldKey) {
+                // do some custom validation
+            }
+        },
+    };
+
+.. Note:: This isn't called for a field if an :js:meth:`onValidate` hook returns ``true`` or ``false``.
+
 
 .. js:method:: onValidateEnd()
 
