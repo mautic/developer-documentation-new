@@ -13,7 +13,9 @@ Legacy Builder
 
 .. vale on
 
-.. warning:: The Legacy Builder is still available in Mautic 4 but planned to be deleted in the future. Refer to the :xref:`Builder documentation` for more information.
+.. warning::
+
+   The Legacy Builder is still available in Mautic 8, but Mautic plans to remove it in a future release. Refer to the :xref:`Builder documentation` for more information.
 
 Slots
 *****
@@ -21,9 +23,9 @@ Slots
 Slot definition
 ===============
 
-Define the slot with a the HTML attribute, ```data-slot="{slot type here}"````. For example, the text slot can be defined even with the demo content.
+Define the slot with the HTML attribute, ```data-slot="{slot type here}"````. For example, you can define the text slot even with the demo content.
 
-The div with the attribute, ```data-slot="text"```, makes the text inside the div editable within the inline Froala editor when opening the builder.
+The div with the attribute, ```data-slot="text"```, makes the text inside the div editable within the inline ``CKEditor`` when opening the builder.
 
 .. code-block:: html
 
@@ -35,7 +37,7 @@ The slot types currently built:
 
 Image
 -----
-Inserts a single image into the div. You can click and edit it with options which provides Froala editor.
+Inserts a single image into the div. You can click and edit it with the options the editor provides.
 
 Button
 ------
@@ -75,7 +77,9 @@ Section
 
 The section holds and wraps the content. It can be any block HTML element with attribute ``data-section="1"``.
 
-.. note:: Center and add a fixed width consistent with all other sections to the element.
+.. note::
+
+   Center and add a fixed width consistent with all other sections to the element.
 
 .. code-block:: html
 
