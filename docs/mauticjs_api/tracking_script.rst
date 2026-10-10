@@ -4,7 +4,9 @@ Tracking script ``MauticJS (mtc.js)``
 Mautic provides a means for Plugins to inject custom JavaScript into ``mtc.js``, the PHP generated script that manages Mautic's tracking pixel and Dynamic Web Content.
 You can embed ``mtc.js`` in third party websites to manage communication between those and Mautic.
 
-.. note:: For basic guidance on how to implement ``mtc.js`` on your website, please visit the :xref:`Mautic User Documentation<Mautic tracking script docs>`.
+.. note::
+
+   For basic guidance on how to implement ``mtc.js`` on your website, please visit the :xref:`Mautic User Documentation<Mautic tracking script docs>`.
 
 ``mtc.js``
 **********
@@ -70,9 +72,13 @@ This event receives a ``Mautic\CoreBundle\Event\BuildJsEvent`` object. Call ``$e
 
    ``appendJs()`` still works but now delegates to ``appendJsForScope()`` with ``BuildJsScope::TRACKING``, so Mautic treats code appended this way as ``TRACKING`` scope and includes it only in tracking-enabled builds - including ``/mtc.js`` and ``/mautic-tracking.js`` - but excludes it from ``/mautic-essential.js``. See :ref:`Script scopes and split scripts<mauticjs_api/tracking_script:Script scopes and split scripts>`.
 
-.. warning:: Note that the code that triggers the tracking call to Mautic has a priority of -255. Thus, any listener to this event should use a priority greater than -255.
+.. warning::
 
-.. warning:: Only use native JavaScript or <a href="#mauticjs-api-functions">MauticJS API functions</a> since ``jQuery`` and other libraries aren't guaranteed to be available in third party websites.
+   The code that triggers the tracking call to Mautic has a priority of ``-255``, so any listener to this event should use a priority greater than ``-255``.
+
+.. warning::
+
+   Only use native JavaScript or <a href="#mauticjs-api-functions">MauticJS API functions</a> since ``jQuery`` and other libraries aren't guaranteed to be available in third party websites.
 
 
 .. vale off
@@ -316,7 +322,9 @@ Returning ``true`` or ``false`` skips the execution of `onValidateStart`.
 
 Called at the beginning of the default Form validation, this receives no values and a return value isn't required and isn't processed.
 
-.. warning:: `onValidateStart` isn't executed if you add the ``onValidate`` callback and it returns ``true`` or ``false``.
+.. warning::
+
+   ``onValidateStart`` isn't executed if you add the ``onValidate`` callback and it returns ``true`` or ``false``.
 
 .. code-block:: js
 
@@ -415,7 +423,9 @@ Return ``true`` to skip the default Form submission response processing.
 Called at the beginning of the default Form submission response processing. Receives ``response`` containing the Form submission response.
 Return value isn't required and isn't processed.
 
-.. warning:: onResponseStart may not get executed if the default response processing gets handled during the ``onResponse`` callback
+.. warning::
+
+   ``onResponseStart`` may not get executed if the default response processing gets handled during the ``onResponse`` callback.
 
 .. code-block:: js
 
@@ -439,7 +449,9 @@ Return value isn't required and isn't processed.
 Called at the end of the default Form submission response processing. Receives ``response`` containing the Form submission response.
 Return value isn't required and isn't processed.
 
-.. warning:: onResponseEnd may not get executed if the default response processing gets handled during the ``onResponse`` callback
+.. warning::
+
+   ``onResponseEnd`` may not get executed if the default response processing gets handled during the ``onResponse`` callback.
 
 
 ``onMessageSet(messageObject)``

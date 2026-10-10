@@ -37,7 +37,9 @@ Validation hooks
         },
     };
 
-.. Note:: This isn't called if an :js:meth:`onValidate` hook returns TRUE.
+.. note::
+
+   This isn't called if an :js:meth:`onValidate` hook returns ``true``.
 
 .. js:method:: onValidateField(fieldValidationObject)
 
