@@ -15,37 +15,37 @@ UI - User Interface
 
 .. vale off
 
-Injecting Buttons
+Injecting buttons
 *****************
 
 .. vale on
 
-Mautic dispatches the Event ``\Mautic\CoreBundle\CoreEvents::VIEW_INJECT_CUSTOM_BUTTONS`` for Plugins to register their Buttons. Listeners receive a ``Mautic\CoreBundle\Event\CustomButtonEvent`` object. Register the Event using the ``addButton`` method as described below.
+Mautic dispatches the event ``\Mautic\CoreBundle\CoreEvents::VIEW_INJECT_CUSTOM_BUTTONS`` for Plugins to register their buttons. Listeners receive a ``Mautic\CoreBundle\Event\CustomButtonEvent`` object. Register the event using the ``addButton`` method as described below.
 
 .. php:class:: Mautic\CoreBundle\Event\CustomButtonEvent
 
     .. php:method:: public function getLocation()
 
-        :return: Requested location for the Button.
+        :return: Requested location for the button.
 
     .. php:method:: public function getButtons()
 
-        :return: Array of registered Buttons.
+        :return: Array of registered buttons.
         :returntype: array
 
     .. php:method:: public function addButtons(array $buttons, $location = null, $route = null)
 
         :param array[] $buttons: Array of buttons.
-        :param string $location: Location of the Button to be placed.
+        :param string $location: Location of the button to be placed.
         :param string $route: Route.
 
     .. php:method:: public function addButton(array $button, $location = null, $route = null)
 
         :param array[] $button: :ref:`Details for button<components/ui:Button Array Format>`.
-        :param string $location: Location of the Button to be placed.
+        :param string $location: Location of the button to be placed.
         :param string $route: Route.
 
-A Plugin can inject the Buttons into five places in Mautic's UI.
+A Plugin can inject the buttons into five places in Mautic's UI.
 
 .. list-table::
     :header-rows: 1
@@ -57,16 +57,16 @@ A Plugin can inject the Buttons into five places in Mautic's UI.
     *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_TOOLBAR_ACTIONS``
         - Top right preceding list view tables to the right of the table filter. Preferably buttons with icons only.
     *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_PAGE_ACTIONS``
-        - Main UI buttons to the right of the title: new, edit, and so forth. Primary buttons displays as buttons, while the rest listed in a drop-down.
+        - Main UI buttons to the right of the title: new, edit, and so forth. Primary buttons display as buttons, and the others appear in a drop-down.
     *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_NAVBAR``
         - Top of the UI to the left of the account/profile menu. Buttons with text and/or icons.
     *   - ``\Mautic\CoreBundle\Templating\Helper\ButtonHelper::LOCATION_BULK_ACTIONS``
         - Buttons inside the bulk drop-down, around the ``checkall`` checkbox of lists.
 
 Buttons use a priority system to determine the order.
-The higher the priority, the Button displayed closer to first the Button.
-The lower the priority, the Button displayed closer to the last.
-For a Button drop-down, setting a button as ``primary`` displays the Button in the Button group rather than the drop-down.
+The higher the priority, the button displayed closer to first the button.
+The lower the priority, the button displayed closer to the last.
+For a button drop-down, setting a button as ``primary`` displays the button in the button group rather than the drop-down.
 
 .. vale off
 
@@ -163,12 +163,12 @@ Registering Integration to inject buttons
 
 .. vale off
 
-Button Array Format
+Button array format
 ===================
 
 .. vale on
 
-The array defining the Button can include the following keys:
+The array defining the button can include the following keys:
 
 .. list-table::
     :header-rows: 1
@@ -178,22 +178,22 @@ The array defining the Button can include the following keys:
         - Description
     *   - ``attr``
         - array[]
-        - Array of attributes to appended to the Button (data attributes, href, etc)
+        - Array of attributes to appended to the button (data attributes, href, etc)
     *   - ``btnText``
         - string
-        - Text to display for the Button
+        - Text to display for the button
     *   - ``iconClass``
         - string
-        - Font Awesome class to use as the icon within the Button
+        - Font Awesome class to use as the icon within the button
     *   - ``tooltip``
         - string
-        - Text to display as a Tooltip
+        - Text to display as a tooltip
     *   - ``primary``
         - boolean
-        - For Button drop-down formats, this displays the Button in the group rather than in the drop-down
+        - For button drop-down formats, this displays the button in the group rather than in the drop-down
     *   - ``priority``
         - int
-        - Determines the order of buttons. The higher the priority, the Button displayed closer to the first Button. Buttons with the same priority get ordered alphabetically.
+        - Determines the order of buttons. The higher the priority, the button displayed closer to the first button. Buttons with the same priority get ordered alphabetically.
 
 If a button is to display a confirmation modal, the key ``confirm``  is a must. A ``confirm`` array  can have the following keys:
 
@@ -208,52 +208,52 @@ If a button is to display a confirmation modal, the key ``confirm``  is a must. 
         - Translated message to display in the confirmation window
     *   - ``confirmText``
         - string
-        - Text to display as the confirm Button
+        - Text to display as the confirm button
     *   - ``confirmAction``
         - string
-        - href of the Button
+        - href of the button
     *   - ``cancelText``
         - string
         - Text to display as the cancel button
     *   - ``cancelCallback``
         - string
-        - Mautic namespaced JavaScript method to execute when the cancel Button clicked.
+        - Mautic namespaced JavaScript method to execute when the cancel button clicked.
     *   - ``confirmCallback``
         - string
-        - Mautic namespaced JavaScript method to execute when the confirm Button clicked
+        - Mautic namespaced JavaScript method to execute when the confirm button clicked
     *   - ``precheck``
         - string
         - Mautic namespaced JavaScript method to executed before displaying the confirmation modal
     *   - ``btnClass``
         - string
-        - Class for the Button
+        - Class for the button
     *   - ``iconClass``
         - string
         - Font Awesome class to use as the icon
     *   - ``btnTextAttr``
         - string
-        - string of attributes to append to the Button's inner text
+        - string of attributes to append to the button's inner text
     *   - ``attr``
         - array[]
-        - Array of attributes to append to the Button's outer tag
+        - Array of attributes to append to the button's outer tag
     *   - ``tooltip``
         - string
-        - Translated string to display as a Tooltip
+        - Translated string to display as a tooltip
     *   - ``tag``
         - string
-        - Tag to use as the Button. Defaults to an ``a`` tag.
+        - Tag to use as the button. Defaults to an ``a`` tag.
     *   - ``wrapOpeningTag``
         - string
-        - Tag/html to wrap Button in. Defaults to nothing.
+        - Tag or HTML to wrap the button in. Defaults to nothing.
     *   - ``wrapClosingTag``
         - string
-        - Tag/thml to close wrapOpeningTag. Defaults to nothing.
+        - Tag or HTML to close ``wrapOpeningTag``. Defaults to nothing.
 
 On the same nested level as the ``confirm`` key can include ``primary`` and/or ``priority``.
 
 .. vale off
 
-Defining Button Locations
+Defining button locations
 *************************
 
 .. vale on
@@ -285,3 +285,88 @@ There are three types of button groups supported:
         - A group of buttons side by side.
 
 Drop-downs require the wrapping HTML to pass to the ``renderButtons`` method.
+
+Injecting custom content
+************************
+
+Mautic dispatches the event ``\Mautic\CoreBundle\CoreEvents::VIEW_INJECT_CUSTOM_CONTENT`` - string value ``mautic.view_inject_custom_content`` - so Plugins can inject custom content into Mautic's templates. A template exposes an injection point with the ``customContent`` Twig function, which passes a context name and the current template variables. The context name identifies the injection point within that template. Listeners receive a ``Mautic\CoreBundle\Event\CustomContentEvent`` object. A listener calls ``checkContext()`` to confirm the hook is firing at the intended view and context, then adds either rendered HTML with ``addContent()`` or a template with ``addTemplate()``. The preceding section documents button injection, which follows the same dispatch pattern through ``VIEW_INJECT_CUSTOM_BUTTONS`` but delivers a different event object.
+
+.. php:class:: Mautic\CoreBundle\Event\CustomContentEvent
+
+    .. php:method:: public function checkContext($viewName, $context)
+
+        Returns ``true`` when the current view name and context both match the given values, so a listener injects only where intended.
+
+        :param string $viewName: Name of the template to match.
+        :param string $context: Context string to match.
+        :returntype: bool
+
+    .. php:method:: public function getViewName()
+
+        :return: Name of the template rendering the hook.
+
+    .. php:method:: public function getContext()
+
+        :return: Context string passed to the hook.
+
+    .. php:method:: public function getVars()
+
+        :return: Template variables passed to the hook.
+        :returntype: array
+
+    .. php:method:: public function addContent($content)
+
+        Appends rendered HTML at the hook.
+
+        :param string $content: Rendered HTML to inject.
+
+    .. php:method:: public function addTemplate($template, array $vars = [])
+
+        Renders a template at the hook with the given variables.
+
+        :param string $template: Template to render at the hook.
+        :param array $vars: Variables passed to the template.
+
+    .. php:method:: public function getContent()
+
+        :return: Array of rendered content fragments added by listeners.
+        :returntype: array
+
+Registering a custom content listener
+=====================================
+
+A Plugin registers a listener as an event subscriber. When the subscribed context matches, the following subscriber injects content into the Company detail view:
+
+.. code-block:: php
+
+    <?php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\CoreBundle\CoreEvents;
+    use Mautic\CoreBundle\Event\CustomContentEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    class CompanySidebarSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                CoreEvents::VIEW_INJECT_CUSTOM_CONTENT => ['injectContent', 0],
+            ];
+        }
+
+        public function injectContent(CustomContentEvent $event): void
+        {
+            if ($event->checkContext('@MauticLead/Company/company.html.twig', 'company.sidebar.top')) {
+                $event->addContent('<div class="panel">Custom company content</div>');
+
+                // Alternatively, render a template with the hook's variables:
+                // $event->addTemplate('@HelloWorld/Company/sidebar.html.twig', $event->getVars());
+            }
+        }
+    }
+
+The Company detail view is ``@MauticLead/Company/company.html.twig``. It calls ``customContent('company.sidebar.top', _context)`` at the top of its right-hand sidebar column, which exposes the ``company.sidebar.top`` context as an injection point that a Plugin's listener subscribes to. Other Mautic templates expose their own ``customContent`` contexts, so a listener must always narrow to the intended view and context with ``checkContext()``.
