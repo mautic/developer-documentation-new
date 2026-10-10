@@ -222,11 +222,11 @@ Register the permission class as a service in your Plugin's ``Config/services.ph
         $services->set(\MauticPlugin\HelloWorldBundle\Security\Permissions\HelloWorldPermissions::class);
     };
 
-You can learn more about the available options by looking at the ``Mautic\CoreBundle\Security\Permissions\AbstractPermissions`` PHPDoc, but here's the most important information:
+You can learn more about the available options by looking at the doc comments in ``Mautic\CoreBundle\Security\Permissions\AbstractPermissions``, but here's the most important information:
 
 **__construct()**
 
-The constructor defines the ``$this->permissions`` array - a set of permission levels that are each arrays with permissions assigned to bits - and calls the helper methods as needed. Mautic injects the resolved core parameters through an autowired setter that runs after construction completes, so ``$this->params`` is available in every method except ``__construct()``.
+The constructor defines the ``$this->permissions`` array - a set of permission levels that are each arrays with permissions assigned to bits - and calls the helper methods as needed. Mautic injects the resolved core parameters through an Autowired setter that runs after construction completes, so ``$this->params`` is available in every method except ``__construct()``.
 
 For example, in the code block, a custom permission level of ``worlds`` gets defined with the permissions of ``use_telescope``, ``send_probe``, ``visit`` and ``full``.
 To validate whether a User has permission to the level ``worlds`` and permission ``send_probe`` , ``$mauticSecurity->isGranted('plugin:helloWorld:worlds:send_probe')`` would be used.
@@ -290,7 +290,7 @@ Permission aliases
 To add a permission alias, use the ``getSynonym()`` method.
 Basically this method gets called before each requested permission gets determined, giving opportunity to change the permission level or name as needed.
 
-For example, ``parent::getSynonym()`` will recognize ``editown`` as ``edit`` if ``editown`` isn't defined in the permission class' ``$this->permissions`` property for the requested level.
+For example, ``parent::getSynonym()`` recognizes ``editown`` as ``edit`` if ``editown`` isn't defined in the permission class' ``$this->permissions`` property for the requested level.
 
 Manipulating permissions before saving
 ======================================

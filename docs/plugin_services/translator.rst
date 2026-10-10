@@ -3,7 +3,7 @@ Translator
 
 Mautic leverages a decorated Symfony Translator service for translations.
 
-Visit :xref:`Translating Mautic` for information on how to translate Core. :ref:`Plugins must include their own translations<plugins/translations:Translating plugins>`.
+Visit :xref:`Translating Mautic` for information on how to translate Core. :ref:`Plugins must include their own translations<Plugins/translations:Translating Plugins>`.
 
 Translation file and directory structure
 ****************************************
@@ -57,7 +57,7 @@ Translations are key/value pairs in the ``INI`` format. There is no hard and fas
 Using the Translator service
 ****************************
 
-Plugins have access to service by passing ``translator`` as :ref:`a service dependency<plugins/config:Service config items>`. Type-hint the argument in the service's construct with ``Symfony\Contracts\Translation\TranslatorInterface``.
+Plugins have access to service by passing ``translator`` as :ref:`a service dependency<Plugins/config:Service config items>`. Type-hint the argument in the service's construct with ``Symfony\Contracts\Translation\TranslatorInterface``.
 
 .. php:class:: Mautic\CoreBundle\Translation\Translator
 
@@ -74,10 +74,10 @@ Plugins have access to service by passing ``translator`` as :ref:`a service depe
 
   .. php:method:: transConditional(string $preferred, string $alternative[, array $parameters = [], ?string $domain = null, ?string $locale = null])
 
-      Translates the preferred key if it exists and the alternate key if it does not.
+      Translates the preferred key if it exists and the alternate key if it doesn't.
 
       :param string $preferred: Preferred translation key.
-      :param string $alternative: Alternate translation key if the preferred does does not exist.
+      :param string $alternative: Alternate translation key if the preferred doesn't exist.
       :param array $parameters: Parameters as key/value pairs to populate placeholders in the translation.
       :param string|null $domain: Specific domain to look for the translation key. Defaults to ``messages`` if ``NULL``.
       :param string|null $locale: Specific locale to look for the translation key. Defaults to system or user configured locale.
