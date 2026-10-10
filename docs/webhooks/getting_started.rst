@@ -95,6 +95,11 @@ Order of the queued events
         * ``Chronological`` - ordered from oldest to newest
         * ``Reverse Chronological`` - ordered from newest to oldest
 
+Send Email details
+    Enabled by default. When enabled, :ref:`Email send<webhooks/events/email_on_send:Email send event>` and :ref:`Email open<webhooks/events/email_on_open:Email open event>` payloads include the Email's ``content``, ``tokens``, ``customHtml``, and ``plainText``. Turn this off to exclude that content from the payload.
+Allowed private addresses
+    A list of private IPs or domains, one per line, that Mautic allows as a Webhook POST URL even though they're in a private IP address range.
+
 .. vale off
 
 Creating a Webhook
