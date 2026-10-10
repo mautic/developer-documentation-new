@@ -288,25 +288,25 @@ Implement this callback to override the built-in Form validation logic.
 
 Your callback's return value determines the processing of the Form:
 
-1. Return ``True`` to skip the built-in Form validation and **continue** with Form processing.
-2. Return ``False`` to skip the built-in Form validation and **prevent** the Form submission.
+1. Return ``true`` to skip the built-in Form validation and **continue** with Form processing.
+2. Return ``false`` to skip the built-in Form validation and **prevent** the Form submission.
 3. Return ``null`` to execute built-in Form validation and let its logic determine whether to continue with or prevent the Form submission.
 
-Returning ``True`` or ``False`` skips the execution of `onValidateStart`.
+Returning ``true`` or ``false`` skips the execution of `onValidateStart`.
 
 .. code-block:: js
 
    MauticFormCallback['replaceWithFormName'] = {
        onValidate: function () {
            // executed before built-in Form validation
-           var formIsGood = True;
-           var dontUpdate = False;
+           var formIsGood = true;
+           var dontUpdate = false;
            if(dontUpdate){
                return null;
            }else if(formIsGood){
-               return True;
+               return true;
            }else if(!formIsGood){
-               return False;
+               return false;
            }
        },
    };
@@ -316,7 +316,7 @@ Returning ``True`` or ``False`` skips the execution of `onValidateStart`.
 
 Called at the beginning of the default Form validation, this receives no values and a return value isn't required and isn't processed.
 
-.. warning:: `onValidateStart` isn't executed if you add the ``onValidate`` callback and it returns ``True`` or ``False``.
+.. warning:: `onValidateStart` isn't executed if you add the ``onValidate`` callback and it returns ``true`` or ``false``.
 
 .. code-block:: js
 
@@ -332,11 +332,11 @@ Called at the beginning of the default Form validation, this receives no values 
 Mautic calls this callback for each Form Field during built-in Form validation, before it runs that field's built-in validation.
 The callback receives a ``callbackData`` object. ``callbackData.fieldKey`` is the field's API name, and ``callbackData.field`` is an object with ``type``, ``name``, and ``multiple``.
 
-Return ``True`` or ``False`` to skip the built-in validation for that field and use the returned value as its result. Return ``null`` to run the field's built-in validation.
+Return ``true`` or ``false`` to skip the built-in validation for that field and use the returned value as its result. Return ``null`` to run the field's built-in validation.
 
 .. warning::
 
-   Mautic doesn't execute ``onValidateField`` for a field if you add the ``onValidate`` callback and it returns ``True`` or ``False``.
+   Mautic doesn't execute ``onValidateField`` for a field if you add the ``onValidate`` callback and it returns ``true`` or ``false``.
 
 .. code-block:: js
 
@@ -352,21 +352,21 @@ Return ``True`` or ``False`` to skip the built-in validation for that field and 
 Called after all Form validations are complete - either the default validations and/or the ``onValidate`` callback - and before submitting the Form.
 Receives ``formValid`` to determine if the Form is valid.
 
-If this callback returns ``False`` then this prevents submitting the Form.
+If this callback returns ``false`` then this prevents submitting the Form.
 
 .. code-block:: js
 
    MauticFormCallback['replaceWithFormName'] = {
        onValidateEnd: function (formValid) {
             // before Form submit
-            // return False; // prevents submitting the Form
+            // return false; // prevents submitting the Form
        },
    };
 
 ``onErrorMark(callbackData)``
 =============================
 
-Called during error marking. It receives a ``callbackData`` object. Return ``True`` to skip the default error marking.
+Called during error marking. It receives a ``callbackData`` object. Return ``true`` to skip the default error marking.
 
 .. code-block:: js
 
@@ -385,7 +385,7 @@ Called during error marking. It receives a ``callbackData`` object. Return ``Tru
 ``onErrorClear(containerId)``
 =============================
 
-Called to clear an existing error. Receives ``containerId`` with the id of the element containing the error. Return ``True`` to skip the default error clearing.
+Called to clear an existing error. Receives ``containerId`` with the id of the element containing the error. Return ``true`` to skip the default error clearing.
 
 .. code-block:: js
 
@@ -399,7 +399,7 @@ Called to clear an existing error. Receives ``containerId`` with the id of the e
 ========================
 
 Called prior to default Form submission response processing. Receives ``response`` containing the Form submission response.
-Return ``True`` to skip the default Form submission response processing.
+Return ``true`` to skip the default Form submission response processing.
 
 .. code-block:: js
 
@@ -446,7 +446,7 @@ Return value isn't required and isn't processed.
 ===============================
 
 Called prior to default message insertion. Receives a ``messageObject`` containing the message and message type.
-Return ``True`` to skip the default message insertion.
+Return ``true`` to skip the default message insertion.
 
 .. code-block:: js
 
@@ -464,7 +464,7 @@ Return ``True`` to skip the default message insertion.
 ``onSubmitButtonDisable(messageObject)``
 ========================================
 
-Called prior to default disabling of the submit button. Receives no values. Return ``True`` to skip the default disabling of the submit button.
+Called prior to default disabling of the submit button. Receives no values. Return ``true`` to skip the default disabling of the submit button.
 
 .. code-block:: js
 
@@ -477,7 +477,7 @@ Called prior to default disabling of the submit button. Receives no values. Retu
 ``onSubmitButtonEnable()``
 ==========================
 
-Called prior to default enabling of the submit button. Receives no values. Return ``True`` to skip the default enabling of the submit button.
+Called prior to default enabling of the submit button. Receives no values. Return ``true`` to skip the default enabling of the submit button.
 
 .. code-block:: js
 
