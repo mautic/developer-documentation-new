@@ -225,7 +225,7 @@ Create notification
 
    $data = array(
        'name'    => 'Notification A',
-       'heading' => 'Hello World!'
+       'heading' => 'Hello World!',
        'message' => 'This is my first notification created via API.',
    );
 
@@ -295,7 +295,7 @@ Edit notification
    $id   = 1;
    $data = array(
        'name'    => 'Notification A',
-       'heading' => 'Hello World!'
+       'heading' => 'Hello World!',
        'message' => 'This is my first notification created via API.',
    );
 
