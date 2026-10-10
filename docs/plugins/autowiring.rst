@@ -1,3 +1,5 @@
+.. _plugin autowiring:
+
 Autowiring
 ##########
 

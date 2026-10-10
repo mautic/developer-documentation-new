@@ -549,9 +549,9 @@ Service config items
 
 .. note::
 
-   Mautic 8 removed the ``services`` config group from ``Config/config.php`` entirely. ``Mautic\CoreBundle\DependencyInjection\Builder\Metadata\ConfigMetadata`` no longer reads it, so none of the keys below have any effect. Register services as Symfony services in the Plugin's ``Config/services.php`` instead, as described in :doc:`/plugins/autowiring`. The ``Mautic service tags`` listed further down are still valid; apply them with ``->tag(...)`` calls in ``Config/services.php``.
+   Mautic 8 removed the ``services`` config group from ``Config/config.php`` entirely. ``Mautic\CoreBundle\DependencyInjection\Builder\Metadata\ConfigMetadata`` no longer reads it, so none of the keys below have any effect. Register services as Symfony services in the Plugin's ``Config/services.php`` instead, as described in :ref:`Autowiring <Plugin Autowiring>`. The ``Mautic service tags`` listed further down are still valid. Apply them with ``->tag(...)`` calls in ``Config/services.php``.
 
-The rest of this section describes the legacy format, which still worked through Mautic 7.
+The remainder of this section describes the legacy format, which still worked through Mautic 7.
 
 Services define the Plugin's classes and their dependencies with Mautic and Symfony. Services defined within specific keys are auto-tagged as noted below.
 
@@ -743,7 +743,7 @@ Mautic uses the follow tags to register services as described below.
       - Description
     * - ``mautic.permissions``
       - none
-      - Registers the service as a permission object that must extend ``\Mautic\CoreBundle\Security\Permissions\AbstractPermissions``. See :ref:`security-roles-and-permissions`. Mautic 8 adds this tag automatically to every ``AbstractPermissions`` child registered with autoconfiguration enabled.
+      - Registers the service as a permission object that must extend ``\Mautic\CoreBundle\Security\Permissions\AbstractPermissions``. See :ref:`security-Roles-and-permissions`. Mautic 8 adds this tag automatically to every ``AbstractPermissions`` child registered with autoconfiguration enabled.
 
 **Integration tags**
 
@@ -912,9 +912,9 @@ To register the Plugin's configuration details during the ``ConfigBuilderEvent``
     * - Key
       - Description
     * - ``formAlias``
-      - The alias of the form type class that defines the expected form elements.
+      - The alias of the Symfony ``FormType`` class that defines the expected configuration fields.
     * - ``formTheme``
-      - The full Twig template path that formats the configuration form elements, for example, ``@HelloWorldBundle/FormTheme/Config/_config_helloworld_config_widget.html.twig``.
+      - The full Twig template path that formats the configuration fields, for example, ``@HelloWorldBundle/FormTheme/Config/_config_helloworld_config_widget.html.twig``.
     * - ``parameters``
       - An array of custom configuration elements. ``Use $event->getParametersFromConfig('HelloWorldBundle')`` to retrieve them from the plugin’s configuration file.
 

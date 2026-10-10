@@ -539,7 +539,7 @@ There are several template helper objects and helper view templates built into M
 
 .. note::
 
-   Mautic's templates are Twig, not the old PHP templating engine. There's no ``$view`` array in a Twig template. Use the functions, filters, and tags below instead. See :xref:`Mautic migrating PHP templates to Twig<Migrating PHP templates to Twig>` for the full set of equivalents.
+   Mautic's templates are Twig, not the old PHP templating engine. There's no ``$view`` array in a Twig template. Use the functions, filters, and tags below instead. See :xref:`PHP to Twig migration` for the full set of equivalents.
 
 Replacing the ``slots`` helper with Twig blocks
 ===============================================
@@ -620,11 +620,9 @@ This example replaces the ``%world%`` placeholder with ``Mars``, and outputs the
 
 .. vale off
 
-For more on how to handle translations, see :doc:`Translator </components/translators>`.
+The ``trans`` filter follows the conventions described in the :doc:`Translator documentation </components/translators>`, so templates can output dynamic, localized content.
 
 .. vale on
-
-The ``trans`` filter follows the same conventions described in the :doc:`Translator documentation </components/translators>`, allowing dynamic, localized content in templates.
 
 The ``date`` functions
 ========================
