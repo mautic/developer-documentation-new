@@ -18,11 +18,11 @@ The utility classes seek to encompass a great spectrum of flex-box properties, i
 Key aspects
 ***********
 
-1. **Abbreviated Nomenclature**: class names follow a logical, short and easy-to-remember convention.
-2. **Most Common Uses Coverage**: utilities address the full range of flex-box properties and behaviors.
-3. **Responsive Design**: includes variations for different view port sizes, enabling fine-grained control over layout across devices.
-4. **Composability**: you can combine classes to create sophisticated layout patterns.
-5. **Consistent Spacing**: standardized options for managing padding, margin and gap properties.
+#. **Abbreviated Nomenclature**: class names follow a logical, short and easy-to-remember convention.
+#. **Most Common Uses Coverage**: utilities address the full range of flex-box properties and behaviors.
+#. **Responsive Design**: includes variations for different view port sizes, enabling fine-grained control over layout across devices.
+#. **Composability**: you can combine classes to create sophisticated layout patterns.
+#. **Consistent Spacing**: standardized options for managing padding, margin and gap properties.
 
 This documentation clearly explains each utility class, its function, and its app. It includes practical examples and best practices for combining utilities to achieve complex layout requirements.
 
@@ -155,12 +155,16 @@ The utilities follow a mobile-first responsive design principle, becoming active
 
 For example:
 
-- ``.d-flex`` applies to all screen sizes
-- ``.d-flex-sm`` applies from the small breakpoint and up
-- ``.d-flex-md`` applies from the medium breakpoint and up
-- ``.d-flex-lg`` applies from the large breakpoint and up
+* ``.fd-column`` applies to all screen sizes
+* ``.fd-row-sm`` applies from the small breakpoint and up
+* ``.fd-row-md`` applies from the medium breakpoint and up
+* ``.fd-row-lg`` applies from the large breakpoint and up
 
 This approach allows for progressive enhancement of layouts as the view-port size increases, providing fine-grained control over the responsiveness of your design.
+
+.. note::
+
+   The ``-sm``, ``-md``, and ``-lg`` suffixes apply to the direction, wrap, justify, align, flex-grow/shrink/basis, and order utilities. ``.d-flex`` and the ``gap-*`` utilities don't have responsive variants.
 
 
 Responsive examples
@@ -234,9 +238,9 @@ The utilities offer the following size options:
 
 .. vale off
 
-1. Pixel-based sizes: 0, 1, 2, 3, 4, 5, 10, 15, 20 pixels
-2. Variable-based sizes: 8, 12, 16, 24, 32, 40, 48, 64, 80, 96, 160 pixels (using CSS variables)
-3. Named sizes: xs (5px), sm (10px), md (15px), lg (20px), xl (32px)
+#. Pixel-based sizes: 0, 1, 2, 3, 4, 5, 10, 15, 20 pixels
+#. Variable-based sizes: 8, 12, 16, 24, 32, 40, 48, 64, 80, 96, 160 pixels (using CSS variables)
+#. Named sizes: xs (5px), sm (10px), md (15px), lg (20px), xl (32px)
 
 .. vale on
 
