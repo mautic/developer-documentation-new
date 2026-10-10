@@ -502,7 +502,7 @@ To leverage this, accept the array from ``$event->getQueryOptions()`` in the rep
 .. vale off
 
 Customizing Custom Field Groups
-******************************
+*******************************
 
 .. vale on
 
@@ -512,7 +512,7 @@ Mautic organizes Contact and Company Custom Fields into groups, which appear as 
 
 .. vale on
 
-As Mautic builds the group list for a view, it dispatches the ``LeadEvents::FIELD_GROUP_LIST_ON_GENERATE`` event. Listen to this event to add your own groups or rename an existing group. Mautic resolves each group's display name through this event, so a Plugin can label custom groups without registering static translation keys.
+As Mautic builds the group list for a view, it dispatches the ``LeadEvents::FIELD_GROUP_LIST_ON_GENERATE`` event. Listen to this event to add your own groups or rename an existing group. Mautic resolves each group's display name through this event, so a Plugin can label its own groups without registering static translation keys.
 
 The event listener receives a ``Mautic\LeadBundle\Event\FieldGroupListEvent`` object. The groups are an associative array keyed by group alias, with the translated display name as the value.
 

@@ -1,12 +1,16 @@
+.. vale off
+
 Field Groups
 ############
+
+.. vale on
 
 Use this endpoint to manage Custom Field Groups in Mautic. Custom Field Groups organize Contact and Company Custom Fields into named tabs, alongside the built-in groups such as 'core', 'social', 'personal', and 'professional'.
 
 .. note::
 
    * The Mautic API Library doesn't support the Field Groups API yet, so use the http endpoints described in this document instead.
-   * Mautic generates a group's ``alias`` from its ``name`` when you create the group, and the alias never changes after that. The API ignores any ``alias`` you send in a create or edit payload. This way, renaming a group never orphans the Contact and Company Fields that reference it by alias.
+   * Mautic generates a group's ``alias`` from its ``name`` when you create the group, and the alias never changes after that. The API ignores any ``alias`` you send in a create or edit payload. This way, renaming a group never orphans the Contact and Company Custom Fields that reference it by alias.
 
 .. vale off
 
