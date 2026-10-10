@@ -30,7 +30,7 @@ For detailed steps, refer to the Mautic documentation.
 
 .. code-block:: bash
 
-    bin/codecept build
+    vendor/bin/codecept build
 
 The ``codeception.yml`` and ``tests/acceptance.suite.yml`` configurations are already in place.
 
@@ -103,7 +103,7 @@ Writing and running tests
 Writing tests
 =============
 
-Writing tests in Codeception involves creating files within the ``tests/Acceptance`` directory. Each file contains a class with methods that define the test scenarios.
+Writing tests in Codeception involves creating files within the ``tests/acceptance`` directory. Each file contains a class with methods that define the test scenarios.
 
 1. Create a New Test File
 
@@ -111,9 +111,9 @@ Use the following command to generate a new file:
 
 .. code-block:: bash
 
-    bin/codecept generate:cest acceptance <TestName>
+    vendor/bin/codecept generate:cest acceptance <TestName>
 
-This creates a ``TestSuiteNameCest.php`` file in ``tests/Acceptance``.
+This creates a ``TestSuiteNameCest.php`` file in ``tests/acceptance``.
 
 2. Define Test Scenarios
 
@@ -155,17 +155,17 @@ Organize your tests by using PageObject and StepObject classes. This keeps your 
 
 .. code-block:: bash
 
-    bin/codecept generate:pageobject acceptance ExamplePage
+    vendor/bin/codecept generate:pageobject acceptance ExamplePage
 
-This creates an ``ExamplePage.php`` file in ``/tests/Support/Page/Acceptance``.
+This creates an ``ExamplePage.php`` file in ``/tests/_support/Page/Acceptance``.
 
 - Generate step objects with:
 
 .. code-block:: bash
 
-    bin/codecept generate:stepobject acceptance Example
+    vendor/bin/codecept generate:stepobject acceptance Example
 
-This creates an ``Example.php`` file in ``/tests/Support/Step/Acceptance``.
+This creates an ``Example.php`` file in ``/tests/_support/Step/Acceptance``.
 
 Running tests
 =============
@@ -176,13 +176,13 @@ You can start tests using the ``run`` command provided by Codeception. Here are 
 
 .. code-block:: bash
 
-    bin/codecept run
+    vendor/bin/codecept run
 
 **Run all acceptance tests**
 
 .. code-block:: bash
 
-    bin/codecept run acceptance
+    vendor/bin/codecept run acceptance
 
 **Run a specific test file**
 
@@ -190,7 +190,7 @@ If you need to run a specific test file, such as ``ContactManagementCest``, use:
 
 .. code-block:: bash
 
-    bin/codecept run acceptance ContactManagementCest
+    vendor/bin/codecept run acceptance ContactManagementCest
 
 **Run a specific test scenario**
 
@@ -198,7 +198,7 @@ To run a specific scenario within a test file, you can specify the test method l
 
 .. code-block:: bash
 
-    bin/codecept run acceptance ContactManagementCest:createContactFromForm
+    vendor/bin/codecept run acceptance ContactManagementCest:createContactFromForm
 
 View test results
 =================
@@ -214,7 +214,7 @@ To see a step-by-step breakdown of the test execution, use:
 
 .. code-block:: bash
 
-    bin/codecept run acceptance ContactManagementCest --steps
+    vendor/bin/codecept run acceptance ContactManagementCest --steps
 
 **Verbose output**
 
@@ -222,7 +222,7 @@ For more detailed internal debug information, use:
 
 .. code-block:: bash
 
-    bin/codecept run acceptance ContactManagementCest -vvv
+    vendor/bin/codecept run acceptance ContactManagementCest -vvv
 
 View tests in the browser
 =========================
