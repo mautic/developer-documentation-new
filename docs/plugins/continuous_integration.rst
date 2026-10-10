@@ -35,15 +35,15 @@ This file creates the GitHub Action jobs based on the definitions in it. You can
       
       strategy:
          matrix:
-         php-versions: ['7.4', '8.0'] # The supported PHP versions
+         php-versions: ['8.4'] # The supported PHP versions - Mautic 8 requires 8.4+
          db-types: ['mysql'] # can be: ['mysql', 'mariadb'] but not necessary for this plugin that does not add any DB schema
-         mautic-versions: ['4.3', '4.4'] # The supported Mautic versions
+         mautic-versions: ['8.0'] # The supported Mautic versions
    
       name: Tests on PHP ${{ matrix.php-versions }}, ${{ matrix.db-types }}, Mautic ${{ matrix.mautic-versions }}
 
       services:
          database:
-         image: ${{ matrix.db-types == 'mysql' && 'mysql:5.7' || 'mariadb:10.3' }}
+         image: ${{ matrix.db-types == 'mysql' && 'mysql:8.4' || 'mariadb:10.11' }}
          env:
             MYSQL_ALLOW_EMPTY_PASSWORD: yes
             MYSQL_DATABASE: mautictest
@@ -59,7 +59,7 @@ This file creates the GitHub Action jobs based on the definitions in it. You can
             --health-retries=3
 
       steps:
-      - name: Checkout Mautic 4
+      - name: Checkout Mautic
          uses: actions/checkout@v3
          with:
          repository: mautic/mautic
@@ -137,7 +137,7 @@ This file creates the GitHub Action jobs based on the definitions in it. You can
          run: cat ${{ env.PLUGIN_DIR }}/coverage.xml
 
       - name: Upload coverage report
-         if: ${{ matrix.php-versions == '8.0' && matrix.db-types == 'mysql' && matrix.mautic-versions == '4.4' }} # upload just once, change for your matrix
+         if: ${{ matrix.php-versions == '8.4' && matrix.db-types == 'mysql' && matrix.mautic-versions == '8.0' }} # upload just once, change for your matrix
          uses: codecov/codecov-action@v3
          with:
          token: ${{ secrets.CODECOV_TOKEN }}
@@ -163,6 +163,10 @@ Adding the PHPUnit.xml file
 
 At this point, the GitHub Action won't complete due to the missing ``phpunit.xml`` file. Create it in the root of your Plugin directory and paste the following content:
 
+.. note::
+
+   Mautic 8 requires ``phpunit/phpunit`` ``^13.0``. The ``<filter><whitelist>`` and ``<listeners>`` elements shown in older examples no longer exist in this version. Use ``<source><include>/<exclude>`` instead, as Mautic's own ``app/phpunit.xml.dist`` does. If you install a later ``phpunit/phpunit`` version, update the version in ``xsi:noNamespaceSchemaLocation`` to match.
+
 .. code:: xml
 
    <?xml version="1.0" encoding="UTF-8"?>
@@ -170,7 +174,7 @@ At this point, the GitHub Action won't complete due to the missing ``phpunit.xml
    <!-- http://www.phpunit.de/manual/current/en/appendixes.configuration.html -->
    <phpunit
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd"
+      xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/13.0/phpunit.xsd"
       colors                      = "true"
       failOnWarning               = "true"
       bootstrap                   = "autoload.php" >
@@ -194,23 +198,18 @@ At this point, the GitHub Action won't complete due to the missing ``phpunit.xml
          <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
       </php>
 
-      <filter>
-         <whitelist>
-               <directory>*</directory>
-               <exclude>
-                  <directory>Assets</directory>
-                  <directory>Config</directory>
-                  <directory>Tests</directory>
-                  <directory>Translations</directory>
-                  <directory>Views</directory>
-               </exclude>
-         </whitelist>
-      </filter>
-
-      <listeners>
-         <listener class="\Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
-         <listener class="\Mautic\CoreBundle\Test\Listeners\CleanupListener" />
-      </listeners>
+      <source>
+         <include>
+               <directory>.</directory>
+         </include>
+         <exclude>
+               <directory>Assets</directory>
+               <directory>Config</directory>
+               <directory>Tests</directory>
+               <directory>Translations</directory>
+               <directory>Views</directory>
+         </exclude>
+      </source>
 
    </phpunit>
 

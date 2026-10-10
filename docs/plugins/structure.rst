@@ -84,9 +84,10 @@ An example Plugin directory and file structure may look something like this::
             Functional/
                 Controller/
                     WorldControllerTest.php
-        Views/
-            World/
-                form.html.php
-                index.html.php
-                list.html.php
+        Resources/
+            views/
+                World/
+                    form.html.twig
+                    index.html.twig
+                    list.html.twig
         HelloWorldBundle.php

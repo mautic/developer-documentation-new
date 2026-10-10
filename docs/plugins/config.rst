@@ -240,11 +240,11 @@ Use the follow commands to help debug routes:
 
     * - Command
       - Description
-    * - ``php app/console router:debug``
+    * - ``php bin/console debug:router``
       - Lists all registered routes.
-    * - ``php app/console router:debug article_show``
+    * - ``php bin/console debug:router article_show``
       - Lists the definition for the route ``article_show``.
-    * - ``php app/console router:match /blog/my-latest-post``
+    * - ``php bin/console router:match /blog/my-latest-post``
       - Lists the route that matches the URL path ``/blog/my-latest-post``.
 
 Menu config items
@@ -547,6 +547,12 @@ If your bundle has several menus, register them in a loop. ``$menuTemplates`` is
 Service config items
 ********************
 
+.. note::
+
+   Mautic 8 removed the ``services`` config group from ``Config/config.php`` entirely. ``Mautic\CoreBundle\DependencyInjection\Builder\Metadata\ConfigMetadata`` no longer reads it, so none of the keys below have any effect. Register services as Symfony services in the Plugin's ``Config/services.php`` instead, as described in :ref:`Autowiring <Plugin Autowiring>`. The ``Mautic service tags`` listed further down are still valid. Apply them with ``->tag(...)`` calls in ``Config/services.php``.
+
+The remainder of this section describes the legacy format, which still worked through Mautic 7.
+
 Services define the Plugin's classes and their dependencies with Mautic and Symfony. Services defined within specific keys are auto-tagged as noted below.
 
 .. code-block:: php
@@ -737,7 +743,7 @@ Mautic uses the follow tags to register services as described below.
       - Description
     * - ``mautic.permissions``
       - none
-      - Registers the service as a permission object that must extend ``\Mautic\CoreBundle\Security\Permissions\AbstractPermissions``. See :ref:`security-roles-and-permissions`. Services under the ``['services']['permissions']`` array do not require this.
+      - Registers the service as a permission object that must extend ``\Mautic\CoreBundle\Security\Permissions\AbstractPermissions``. See :ref:`security-Roles-and-permissions`. Mautic 8 adds this tag automatically to every ``AbstractPermissions`` child registered with autoconfiguration enabled.
 
 **Integration tags**
 
@@ -864,7 +870,7 @@ The following code example shows how a Plugin structures its event subscriber.
             $event->addForm(
                 [
                     'formAlias'  => 'helloworld_config',
-                    'formTheme'  => 'HelloWorldBundle:FormTheme\Config',
+                    'formTheme'  => '@HelloWorldBundle/FormTheme/Config/_config_helloworld_config_widget.html.twig',
                     'parameters' => $event->getParametersFromConfig('HelloWorldBundle')
                 ]
             );
@@ -906,9 +912,9 @@ To register the Plugin's configuration details during the ``ConfigBuilderEvent``
     * - Key
       - Description
     * - ``formAlias``
-      - The alias of the form type class that defines the expected form elements.
+      - The alias of the Symfony ``FormType`` class that defines the expected configuration fields.
     * - ``formTheme``
-      - The view that formats the configuration form elements, for example, ``HelloWorldBundle:FormTheme\Config``.
+      - The full Twig template path that formats the configuration fields, for example, ``@HelloWorldBundle/FormTheme/Config/_config_helloworld_config_widget.html.twig``.
     * - ``parameters``
       - An array of custom configuration elements. ``Use $event->getParametersFromConfig('HelloWorldBundle')`` to retrieve them from the plugin’s configuration file.
 
@@ -920,15 +926,14 @@ To modify the submitted values before saving, subscribe to ``ConfigPreSaveEvent:
 Register the event subscriber
 -----------------------------
 
-Register the subscriber through the Plugin’s configuration in the ``services[events]`` in :ref:`plugins/config:Service config items`. This ensures that the plugin listens for the events and reacts accordingly.
+Load the subscriber's directory in the Plugin's ``Config/services.php`` with ``autoconfigure()`` enabled, as described in :ref:`Autowiring <Plugin Autowiring>`. Symfony then tags any class that implements ``EventSubscriberInterface`` as an event subscriber, so the Plugin listens for the event without further configuration.
 
 Config form
 ===========
 
 The form type is used to generate the form fields in the main configuration form. See the :doc:`Forms documentation</components/forms>` for more information about using form types.
 
-Remember that the form type must be registered through the Plugin’s config in the ``services[forms]`` in :ref:`plugins/config:Service config items`
-.
+Register the form type as a service by loading its directory in the Plugin's ``Config/services.php`` with ``autoconfigure()`` enabled, as described in :ref:`Autowiring <Plugin Autowiring>`. Symfony then tags any class that implements ``FormTypeInterface`` as a form type.
 
 Below is an example of a form type class that adds a custom configuration option to the Plugin's configuration form.
 
@@ -966,15 +971,15 @@ Below is an example of a form type class that adds a custom configuration option
 Config template
 ===============
 
-Setting ``formTheme`` to ``HelloWorldBundle:FormTheme\Config`` in the event listener tells the ConfigBundle to look in the HelloWorldBundle’s ``Resources/views/FormTheme/Config`` folder for templates. Specifically, it looks for a template named ``_config_{formAlias}_widget.html.twig``, where ``{formAlias}`` is the same as the ``formAlias`` set in the Plugin's ``ConfigBuilderEvent`` event listener.
+``formTheme`` must be the full Twig template path. Mautic passes the string directly to Twig's ``form_theme`` tag and doesn't derive it from ``formAlias`` or the bundle name. By convention, place the template under the Plugin's ``Resources/views/FormTheme/Config`` folder and name it ``_config_{formAlias}_widget.html.twig``, where ``{formAlias}`` matches the ``formAlias`` set in the Plugin's ``ConfigBuilderEvent`` event listener.
 
 The template should be structured in a panel format to match the rest of the configuration UI.
 
 Below is an example of how the template should be structured:
 
-.. code-block:: twig  
+.. code-block:: twig
 
-    {# plugins/HelloWorldBundle/Views/FormTheme/Config/_config_helloworld_config_widget.html.twig #}  
+    {# plugins/HelloWorldBundle/Resources/views/FormTheme/Config/_config_helloworld_config_widget.html.twig #}
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">{{ 'mautic.config.tab.helloworld_config'|trans }}</h3> 
