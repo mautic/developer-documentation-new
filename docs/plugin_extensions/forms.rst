@@ -48,10 +48,6 @@ To add a custom Form Field, use the ``$event->addFormField($identifier, $paramet
       - Required
       - string
       - View template used to render the ``formType``, for example ``HelloWorldBundle:SubscribedEvents\FormField:customfield.html.php``
-    * - ``help``
-      - Optional
-      - string
-      - The language string for providing a help text below the form element.
     * - ``formTypeOptions``
       - Optional
       - array
@@ -68,10 +64,6 @@ To add a custom Form Field, use the ``$event->addFormField($identifier, $paramet
       - Optional
       - mixed
       - Filter to use to clean the submitted value as supported by InputHelper or a callback function that accepts the arguments ``\Mautic\FormBundle\Entity\Field $field`` and ``$value``.
-    * - ``valueConstraints``
-      - Optional
-      - mixed
-      - Callback function to use to validate the value; the function should accept the arguments ``\Mautic\FormBundle\Entity\Field $field`` and ``$filteredValue``.
     * - ``builderOptions``
       - Optional
       - array
