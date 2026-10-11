@@ -332,7 +332,17 @@ Events dispatched by class name
 
 .. vale on
 
-Beyond the preceding signature changes, Mautic 8 also changes *how* it dispatches most bundle events. Following the Symfony 4.3+ convention, Mautic now dispatches these events by the event object alone, so the event name is the event class, and a Plugin keys ``getSubscribedEvents()`` on ``EventClass::class`` instead of the bundle's ``*Events`` string constant. Most of the old constants still exist, but Mautic no longer dispatches under them, so a subscriber still keyed on one silently receives nothing - no error, no log entry. Mautic 8 removes a few of the ``*Events`` classes entirely, such as ``Mautic\ConfigBundle\ConfigEvents`` and ``Mautic\UserBundle\UserEvents``, so a subscriber that still references one of their constants raises an ``Error: Undefined constant`` fatal error instead.
+Beyond the preceding signature changes, Mautic 8 also changes *how* it dispatches most bundle events. Following the Symfony 4.3+ convention, Mautic now dispatches these events by the event object alone, so the event name is the event class, and a Plugin keys ``getSubscribedEvents()`` on ``EventClass::class`` instead of the bundle's ``*Events`` string constant. Most of the old constants still exist, but Mautic no longer dispatches under them, so a subscriber still keyed on one silently receives nothing - no error, no log entry. Mautic 8 also deletes these ``*Events`` classes entirely, so a subscriber that still references one of their constants fails with a ``Class "..." not found`` error instead:
+
+* ``Mautic\ApiBundle\ApiEvents``
+* ``Mautic\ConfigBundle\ConfigEvents``
+* ``Mautic\CoreBundle\CoreEvents``
+* ``Mautic\DashboardBundle\DashboardEvents``
+* ``Mautic\IntegrationsBundle\IntegrationEvents``
+* ``Mautic\StatsBundle\StatEvents``
+* ``Mautic\UserBundle\UserEvents``
+
+``UPGRADE-8.0.md`` still says Mautic keeps the ``CoreEvents`` constants for backwards compatibility, but Mautic 8 deletes the ``CoreEvents`` class, so replace every ``CoreEvents::*`` reference with the matching event class.
 
 The change touches CampaignBundle, ChannelBundle, ConfigBundle, CoreBundle, DashboardBundle, EmailBundle, FormBundle, IntegrationsBundle, LeadBundle, NotificationBundle, PageBundle, PluginBundle, PointBundle, ReportBundle, SmsBundle, StageBundle, UserBundle, and WebhookBundle. This is a representative sample, not the full mapping:
 
