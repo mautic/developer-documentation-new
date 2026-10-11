@@ -21,7 +21,7 @@ The :ref:`route defined in the config <routing config items>` determines the con
 
     'plugin_helloworld_admin' => [
         'path'       => '/hello/admin',
-        'controller' => 'MauticPlugin\HelloWorldBundle\Controller\DefaultController:adminAction'
+        'controller' => 'MauticPlugin\HelloWorldBundle\Controller\DefaultController::adminAction'
     ],
 
 In the example, a browser call to ``/hello/admin`` triggers ``MauticPlugin\HelloWorldBundle\Controller\DefaultController::adminAction()``.
@@ -595,6 +595,18 @@ Loading images
 .. code-block:: twig
 
     <img src="{{ asset('plugins/HelloWorldBundle/Assets/images/earth.png') }}" />
+
+Inserting scripts and stylesheets
+---------------------------------
+
+Mautic loads most views through AJAX, so a ``<script>`` or ``<link>`` tag in a view doesn't reliably load a file into the document head. Use Mautic's ``includeScript()`` and ``includeStylesheet()`` Twig functions instead. Each one outputs a small script that adds the file to the document head once and skips it if the browser already loaded it.
+
+.. code-block:: twig
+
+    {{ includeScript('plugins/HelloWorldBundle/Assets/js/helloworld.js') }}
+    {{ includeStylesheet('plugins/HelloWorldBundle/Assets/css/helloworld.css') }}
+
+``includeScript()`` also accepts the names of two ``Mautic`` JavaScript functions as optional second and third arguments. Mautic calls the first after the script loads and the second if the browser already loaded the script. For example, ``{{ includeScript('plugins/HelloWorldBundle/Assets/js/helloworld.js', 'helloWorldOnLoad', 'helloWorldOnLoad') }}`` calls ``Mautic.helloWorldOnLoad()`` in both cases.
 
 The ``path()`` and ``url()`` functions
 ========================================

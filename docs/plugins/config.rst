@@ -69,7 +69,7 @@ Routes define the URL paths that execute the specified controller action. Regist
         'main'   => [
             'plugin_helloworld_world' => [
                 'path'         => '/hello/{world}',
-                'controller'   => [MauticPlugin\HelloWorldBundle\Controller\DefaultController, 'world'],
+                'controller'   => [MauticPlugin\HelloWorldBundle\Controller\DefaultController::class, 'world'],
                 'defaults'     => [
                     'world' => 'earth',
                 ],
@@ -79,11 +79,11 @@ Routes define the URL paths that execute the specified controller action. Regist
             ],
             'plugin_helloworld_list'  => [
                 'path'       => '/hello/{page}',
-                'controller' => [MauticPlugin\HelloWorldBundle\Controller\DefaultController, 'index'],
+                'controller' => [MauticPlugin\HelloWorldBundle\Controller\DefaultController::class, 'index'],
             ],
             'plugin_helloworld_admin' => [
                 'path'       => '/hello/admin',
-                'controller' => [MauticPlugin\HelloWorldBundle\Controller\DefaultController, 'admin']
+                'controller' => [MauticPlugin\HelloWorldBundle\Controller\DefaultController::class, 'admin']
             ],
         ],
         'public' => [
@@ -158,7 +158,12 @@ Route definitions define the route's method, path, controller, parameters, and o
     * - ``controller``
       - yes
       - string|array
-      - Defines the controller and function to call when the path matches. There are three supported formats. The legacy string format, ``HelloWorldBundle:World:hello``, executes ``MauticPlugin\HelloWorldBundle\Controller\WorldController::helloAction()``. The recommended format starting in Mautic 4 is either ``[MauticPlugin\HelloWorldBundle\Controller\WorldController::class, 'hello']`` that executes ``MauticPlugin\HelloWorldBundle\Controller\WorldController::hello()`` or  ``MauticPlugin\HelloWorldBundle\Controller\WorldController::class`` that executes ``MauticPlugin\HelloWorldBundle\Controller\WorldController::__invoke()``.
+      - Defines the controller and method to call when the path matches. Use one of these formats:
+
+        * ``[MauticPlugin\HelloWorldBundle\Controller\WorldController::class, 'hello']`` or the string ``'MauticPlugin\HelloWorldBundle\Controller\WorldController::hello'`` executes ``WorldController::hello()``.
+        * ``MauticPlugin\HelloWorldBundle\Controller\WorldController::class`` executes ``WorldController::__invoke()``.
+
+        Symfony no longer resolves the bundle notation, such as ``HelloWorldBundle:World:hello``, so a route that uses it fails to load its controller.
     * - ``method``
       - no
       - string
