@@ -69,7 +69,7 @@ Plugins have access to service by passing ``translator`` as :ref:`a service depe
       :param string|null $domain: Specific domain to look for the translation key. Defaults to ``messages`` if ``NULL``.
       :param string|null $locale: Specific locale to look for the translation key. Defaults to system or user configured locale.
 
-      :returns: Returns the translated string if the key is found. Otherwise, an empty string.
+      :returns: Returns the translated string. If the locale has no translation for the key, Mautic uses the ``en_US`` translation. If neither has one, it returns the key itself, such as ``helloworld.greeting``, with any placeholders replaced.
       :returntype: string
 
   .. php:method:: transConditional(string $preferred, string $alternative[, array $parameters = [], ?string $domain = null, ?string $locale = null])
@@ -82,7 +82,7 @@ Plugins have access to service by passing ``translator`` as :ref:`a service depe
       :param string|null $domain: Specific domain to look for the translation key. Defaults to ``messages`` if ``NULL``.
       :param string|null $locale: Specific locale to look for the translation key. Defaults to system or user configured locale.
 
-      :returns: Returns the translated string if the key is found. Otherwise, an empty string.
+      :returns: Returns the translated string. If neither key exists, it returns the ``$alternative`` key itself, with any placeholders replaced.
       :returntype: string
 
   .. php:method:: hasId(string $id[, ?string $domain = null, ?string $local = null])
