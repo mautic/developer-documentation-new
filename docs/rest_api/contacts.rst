@@ -72,7 +72,7 @@ Get an individual Contact by ID.
            "modifiedByUser": "Joe Smith",
            "owner": {
                "id": 1,
-               "Username": "joesmith",
+               "username": "joesmith",
                "firstName": "Joe",
                "lastName": "Smith"
            },
@@ -208,6 +208,15 @@ Get an individual Contact by ID.
    * - ``doNotContact``
      - array
      - Array of ``Do Not Contact`` objects. See JSON code example for format.
+   * - ``stage``
+     - object/null
+     - Stage the Contact is in
+   * - ``frequencyRules``
+     - object
+     - The Contact's frequency rules, keyed by Channel
+   * - ``preferredProfileImage``
+     - string
+     - Source of the Contact's profile image, such as ``gravatar``
 
 .. vale off
 
@@ -306,7 +315,7 @@ You can find a list of available expressions on :xref:`Doctrine's ORM website<Do
                "modifiedByUser": "Joe Smith",
                "owner": {
                    "id": 1,
-                   "Username": "joesmith",
+                   "username": "joesmith",
                    "firstName": "Joe",
                    "lastName": "Smith"
                },

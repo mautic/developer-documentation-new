@@ -68,6 +68,12 @@ Use these properties when creating a Text Message in a ``POST`` request. These p
    * - ``sentCount``
      - int
      - How many times the SMS got sent
+   * - ``category``
+     - null/object
+     - Category
+   * - ``lists``
+     - array
+     - Segments the SMS sends to
 
 **Using Mautic's API Library**
 

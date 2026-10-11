@@ -139,6 +139,12 @@ Get an individual notification by ID.
    * - ``category``
      - null/object
      - Category
+   * - ``button``
+     - string/null
+     - Text of the notification's action button
+   * - ``utmTags``
+     - array
+     - UTM tags that Mautic adds to the notification's tracked URL
 
 List notifications
 ^^^^^^^^^^^^^^^^^^
