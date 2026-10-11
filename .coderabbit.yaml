@@ -17,14 +17,12 @@ reviews:
           endpoints, parameters, return values, config keys, CLI commands,
           database fields and behavior. Flag anything that does not match
           the code.
-        - This docs repo has one branch for each Mautic version. The PR's
-          base branch (the branch it targets) is the version the page
-          documents. Compare the page with the Mautic code repos, using the
-          code branch for that same version. If a code repo has a branch
-          with the same name as the PR's base branch, use it. If not, use
-          the code branch for that major version, which is the major number
-          followed by .x. Check that the content and behavior are correct
-          for that version.
+        - The PR's base branch (the branch it targets) is the Mautic version
+          the page documents. Compare the page with the code repos on the
+          branch with the same name. If there is none, use the code branch
+          for that major version. For example, for docs branch 7.3, use code
+          branch 7.3, or 7.x if 7.3 does not exist. This is only an example.
+          The same rule applies to every version.
         - If the code you compare with looks like a different version, say so
           instead of calling it an error.
         - Check that code samples match the text and work for that version.
