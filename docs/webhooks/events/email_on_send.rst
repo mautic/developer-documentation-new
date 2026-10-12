@@ -111,10 +111,10 @@ Email properties
       - ``true`` if Mautic uses the Contact's Owner as the Email's from address and name.
     * - ``customHtml``
       - string
-      - HTML template for the Email. Omitted from a queued background delivery if you turn off the ``Send Email details`` Webhook Setting.
+      - HTML template for the Email. Omitted if you turn off the ``Send Email details`` Webhook Setting.
     * - ``plainText``
       - string|null
-      - Plain text for the Email. Omitted from a queued background delivery if you turn off the ``Send Email details`` Webhook Setting.
+      - Plain text for the Email. Omitted if you turn off the ``Send Email details`` Webhook Setting.
     * - ``template``
       - string
       - The Mautic Theme used as the originating content.
