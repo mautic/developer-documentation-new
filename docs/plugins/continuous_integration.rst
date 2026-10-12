@@ -13,7 +13,7 @@ Mautic runs several tests on every commit to ensure that the code is working as 
 Example ``.github/workflows/tests.yml``
 ***************************************
 
-This file creates the GitHub Action jobs based on the definitions in it. It checks out Mautic, places your Plugin in the ``plugins`` directory, installs Mautic and the Plugin, and then runs the same tools that Mautic uses in its own :xref:`GitHub Actions` workflow against your Plugin directory. The :xref:`hello_world_plugin` shows a live example of this file, written for Mautic 4.
+This file creates the GitHub Action jobs based on the definitions in it. It checks out Mautic, places your Plugin in the ``plugins`` directory, installs Mautic and the Plugin, and then runs the same tools that Mautic uses in its own :xref:`GitHub Actions` workflow against your Plugin directory.
 
 .. code:: yaml
 

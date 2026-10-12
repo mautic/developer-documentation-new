@@ -13,18 +13,83 @@ Entities and schema
 
 .. vale on
 
-Mautic uses :xref:`Doctrine ORM` to define the schema. Plugins define their schema using entity classes stored in its ``Entity`` directory. Define the schema for the entity through Doctrine's :xref:`PHP static function mapping<Doctrine ORM PHP mapping>` or :xref:`annotations<Doctrine ORM annotations>`.
-
-.. warning:: You use the PHP mapping **or** annotations. You can't use a mix of the two.
+Mautic uses :xref:`Doctrine ORM` to define the schema. Plugins define their schema using entity classes stored in its ``Entity`` directory. Define the schema for the entity through Doctrine's :xref:`PHP static function mapping<Doctrine ORM PHP mapping>`, :xref:`attributes<Doctrine ORM attributes>`, or both. When an entity uses both, Mautic reads the attributes first and then runs the entity's ``loadMetadata()`` method, which can add to or override the attribute mapping.
 
 Entity PHP static function mapping
 **********************************
 
 You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder`` class. Refer to :xref:`Doctrine ORM PHP mapping` for methods available. Mautic also provides a decorated ``ClassMetadataBuilder`` class through ``Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder`` described below.
 
-.. The link to this file is defined in docs/code_samples/helloworld_entity_world.py 
-.. literalinclude:: ../code_samples_downloaded/Entity_World.php
-    :language: php
+This example maps a ``World`` entity to a ``hello_world`` table. Use the ``Doctrine\DBAL\Types\Types`` constants for field types.
+
+.. code-block:: php
+
+    <?php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\Entity;
+
+    use Doctrine\DBAL\Types\Types;
+    use Doctrine\ORM\Mapping\ClassMetadata;
+    use Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder;
+
+    class World
+    {
+        private ?int $id = null;
+
+        private string $name = '';
+
+        private bool $isEnabled = false;
+
+        /**
+         * @param ClassMetadata<self> $metadata
+         */
+        public static function loadMetadata(ClassMetadata $metadata): void
+        {
+            $builder = new ClassMetadataBuilder($metadata);
+
+            $builder
+                ->setTable('hello_world')
+                ->addIndex(['is_enabled'], 'is_enabled');
+
+            $builder->addId();
+
+            $builder
+                ->createField('name', Types::STRING)
+                ->build();
+
+            $builder
+                ->createField('isEnabled', Types::BOOLEAN)
+                ->columnName('is_enabled')
+                ->build();
+        }
+
+        public function getId(): ?int
+        {
+            return $this->id;
+        }
+
+        public function getName(): string
+        {
+            return $this->name;
+        }
+
+        public function setName(string $name): void
+        {
+            $this->name = $name;
+        }
+
+        public function isEnabled(): bool
+        {
+            return $this->isEnabled;
+        }
+
+        public function setIsEnabled(bool $isEnabled): void
+        {
+            $this->isEnabled = $isEnabled;
+        }
+    }
 
 .. php:class:: Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder
 
@@ -177,10 +242,10 @@ You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\Class
         :returns: Returns ``TRUE`` if the field is a ``string`` type or is indexed.
         :returntype: bool
 
-Entity annotations
-******************
+Entity attributes
+*****************
 
-You can choose to use annotations instead of the PHP static method. Refer to :xref:`Doctrine's documentation on available annotations<Doctrine ORM annotations>`.
+You can map an entity with Doctrine attributes instead of the PHP static method. Refer to :xref:`Doctrine's documentation on available attributes<Doctrine ORM attributes>`. Doctrine ORM 3 no longer supports annotations, so convert any ``@ORM\...`` DocBlock annotations to attributes.
 
 .. code-block:: php
 
@@ -188,33 +253,25 @@ You can choose to use annotations instead of the PHP static method. Refer to :xr
 
     declare(strict_types=1);
 
-    namespace Mautic\UserBundle\Entity;
+    namespace MauticPlugin\HelloWorldBundle\Entity;
 
+    use Doctrine\DBAL\Types\Types;
     use Doctrine\ORM\Mapping as ORM;
-    use Ramsey\Uuid\Uuid;
 
-    /**
-     * @ORM\Table (name="worlds")
-     */
-    class World
+    #[ORM\Entity]
+    #[ORM\Table(name: 'hello_world_planets')]
+    #[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
+    class Planet
     {
-        /**
-         * @ORM\Column(type="guid")
-         * @ORM\Id
-         */
-        private $id;
+        #[ORM\Id]
+        #[ORM\GeneratedValue]
+        #[ORM\Column(type: Types::INTEGER, options: ['unsigned' => true])]
+        private ?int $id = null;
 
-        /**
-         * @ORM\Column(type="string", length=191)
-         */
-        private $name;
+        #[ORM\Column(type: Types::STRING, length: 191)]
+        private string $name = '';
 
-        public function __construct()
-        {
-            $this->id = Uuid::uuid4()->toString();
-        }
-
-        public function getId(): string
+        public function getId(): ?int
         {
             return $this->id;
         }
@@ -229,6 +286,8 @@ You can choose to use annotations instead of the PHP static method. Refer to :xr
             $this->name = $name;
         }
     }
+
+``ClassMetadataBuilder`` sets the ``DEFERRED_EXPLICIT`` change tracking policy that Mautic uses for its entities. Set it with the ``#[ORM\ChangeTrackingPolicy]`` attribute when an entity doesn't use ``ClassMetadataBuilder``.
 
 Plugin schema migrations
 ************************
