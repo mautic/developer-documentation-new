@@ -79,7 +79,6 @@ The following code snippet shows the use of ``\Mautic\IntegrationsBundle\Integra
 
     use Mautic\IntegrationsBundle\DTO\Note;
     use Mautic\IntegrationsBundle\Integration\ConfigFormNotesTrait;
-    use Mautic\IntegrationsBundle\Integration\DefaultConfigFormTrait;
     use Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormAuthInterface;
     use Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeatureSettingsInterface;
     use Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeaturesInterface;
@@ -92,8 +91,17 @@ The following code snippet shows the use of ``\Mautic\IntegrationsBundle\Integra
 
     class ConfigSupport extends HelloWorldIntegration implements ConfigFormInterface, ConfigFormAuthInterface, ConfigFormFeatureSettingsInterface, ConfigFormSyncInterface, ConfigFormFeaturesInterface, ConfigFormNotesInterface
     {
-        use DefaultConfigFormTrait;
         use ConfigFormNotesTrait;
+
+        public function getConfigFormName(): ?string
+        {
+            return null;
+        }
+
+        public function getConfigFormContentTemplate(): ?string
+        {
+            return null;
+        }
 
         public function getAuthConfigFormName(): string
         {
