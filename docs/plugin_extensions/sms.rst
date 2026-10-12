@@ -198,12 +198,17 @@ Generic filter
 
 Use ``SmsEvents::FILTER_CONTACTS_ON_SEND`` for any remaining filtering logic, such as removing Contacts without phone numbers. Its listener receives a ``FilterEvent``.
 
-All three event classes share a common API, shown here for :xref:`FilterEvent source`:
+The methods below describe ``FilterEvent``, whose signatures come from :xref:`FilterEvent source`. The optional ``reason`` parameters and the ``REMOVAL_REASON_MISSING_NUMBER`` constant are specific to ``FilterEvent``.
 
-* ``getContacts()`` - Returns the array of Contacts
-* ``removeContact(int $id)`` - Remove a single Contact by ID
-* ``removeContacts(array $contacts)`` - Remove multiple Contacts
-* ``getRemovedContacts()`` - Get the list of removed Contacts
+* ``getContacts()`` - Returns the array of Contacts.
+* ``removeContact(int $id, ?string $reason = null)`` - Remove a single Contact by ID. The ``reason`` is optional.
+* ``removeContacts(array $contacts, ?string $reason = null)`` - Remove multiple Contacts. The ``reason`` is optional.
+* ``getRemovedContacts(?string $reason = null)`` - Get the list of removed Contacts. Optionally pass a reason to return only the Contacts removed for that reason.
+* ``FilterEvent::REMOVAL_REASON_MISSING_NUMBER`` - the reason value Mautic core records when it removes a Contact that has no phone number.
+
+The ``reason`` parameters are optional, so existing subscribers stay backward compatible.
+
+``getContacts()`` is common to all three events. ``DncEvent`` also exposes ``removeContact()``, ``removeContacts()``, and ``getRemovedContacts()``, but its ``removeContact()`` and ``removeContacts()`` take no ``reason`` parameter. ``QueueEvent`` instead exposes ``queueContact(int $id)``, ``queueContacts(array $contacts)``, and ``getQueuedContacts()``.
 
 Campaign SMS events
 *******************
