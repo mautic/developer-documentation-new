@@ -100,7 +100,12 @@ Response
               "referer",
               "source",
               "source_id",
-              "tracking_id"
+              "tracking_id",
+              "utm_campaign",
+              "utm_content",
+              "utm_medium",
+              "utm_source",
+              "utm_term"
           ],
           "audit_log": [
               "action",
@@ -118,6 +123,7 @@ Response
               "campaign_id",
               "channel",
               "channel_id",
+              "date_queued",
               "date_triggered",
               "event_id",
               "id",
@@ -150,9 +156,7 @@ Response
               "company_id",
               "date_added",
               "is_primary",
-              "lead_id",
-              "manually_added",
-              "manually_removed"
+              "lead_id"
           ],
           "dynamic_content_lead_data": [
               "date_added",
@@ -245,7 +249,6 @@ Response
               "date_added",
               "device",
               "device_brand",
-              "device_fingerprint",
               "device_model",
               "device_os_name",
               "device_os_platform",
@@ -299,6 +302,7 @@ Response
               "date_added",
               "delta",
               "event_name",
+              "group_id",
               "id",
               "ip_id",
               "lead_id",
@@ -405,8 +409,10 @@ Response
           ],
           "sms_message_stats": [
               "date_sent",
+              "details",
               "id",
               "ip_id",
+              "is_failed",
               "lead_id",
               "list_id",
               "sms_id",
@@ -526,7 +532,7 @@ Query parameters
      - Row offset to start from. Defaults to 0.
    * - ``limit``
      - int
-     - Number of rows to return. Defaults to 30.
+     - Number of rows to return. Defaults to 100.
    * - ``order``
      - array
      - Array of sorting definitions. Each definition has ``col`` for column name and ``dir`` for direction - ``asc`` or ``desc``.
@@ -698,12 +704,6 @@ Association between Contacts and Companies.
    * - ``lead_id``
      - int
      - ID of the Contact
-   * - ``manually_added``
-     - boolean
-     - Whether a User added the association manually
-   * - ``manually_removed``
-     - boolean
-     - Whether a User removed the association manually
 
 ``lead_categories``
 ~~~~~~~~~~~~~~~~~~~
@@ -794,9 +794,6 @@ Device information tracked for Contacts.
    * - ``device_brand``
      - string
      - Device manufacturer or brand
-   * - ``device_fingerprint``
-     - string
-     - Unique device fingerprint
    * - ``device_model``
      - string
      - Device model name
@@ -995,6 +992,9 @@ History of Contact Points changes.
    * - ``event_name``
      - string
      - Name of the event that triggered the change
+   * - ``group_id``
+     - int
+     - ID of the Point Group this change applies to, if any
    * - ``id``
      - int
      - Primary key
@@ -1149,6 +1149,21 @@ Asset download events.
    * - ``tracking_id``
      - string
      - Tracking identifier
+   * - ``utm_campaign``
+     - string
+     - UTM Campaign parameter value
+   * - ``utm_content``
+     - string
+     - UTM Content parameter value
+   * - ``utm_medium``
+     - string
+     - UTM Medium parameter value
+   * - ``utm_source``
+     - string
+     - UTM Source parameter value
+   * - ``utm_term``
+     - string
+     - UTM Term parameter value
 
 .. vale on
 
@@ -1220,6 +1235,9 @@ Execution log for Campaign Events.
    * - ``channel_id``
      - int
      - ID of the Channel item
+   * - ``date_queued``
+     - datetime
+     - Date and time when Mautic queued the event for scheduled or batched execution
    * - ``date_triggered``
      - datetime
      - Date and time when Mautic triggered the event
@@ -2028,12 +2046,18 @@ SMS delivery statistics.
    * - ``date_sent``
      - datetime
      - Date and time when Mautic sent the SMS
+   * - ``details``
+     - string
+     - Additional delivery details in JSON format
    * - ``id``
      - int
      - Primary key
    * - ``ip_id``
      - int
      - ID of the IP address
+   * - ``is_failed``
+     - boolean
+     - Delivery status - ``1`` or ``true`` indicates the SMS delivery failed
    * - ``lead_id``
      - int
      - ID of the Contact

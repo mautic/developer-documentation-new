@@ -44,17 +44,19 @@ Get Point Group
 
 .. code-block:: json
 
-    "pointGroup": {
-        "id": 47,
-        "name": "Group A",
-        "description": "This is my first Point Group created via API.",
-        "isPublished": true,
-        "dateAdded": "2024-02-29T12:17:52+00:00",
-        "dateModified": null,
-        "createdBy": 2,
-        "createdByUser": "Admin User",
-        "modifiedBy": null,
-        "modifiedByUser": null,
+    {
+        "pointGroup": {
+            "id": 47,
+            "name": "Group A",
+            "description": "This is my first Point Group created via API.",
+            "isPublished": true,
+            "dateAdded": "2024-02-29T12:17:52+00:00",
+            "dateModified": null,
+            "createdBy": 2,
+            "createdByUser": "Admin User",
+            "modifiedBy": null,
+            "modifiedByUser": null
+        }
     }
 
 Get an individual Point Group by ID.
@@ -277,13 +279,24 @@ Edit Point Group
 
    $pointGroup = $pointGroupApi->edit($id, $data);
 
+Edits a Point Group. This supports ``PUT`` or ``PATCH`` depending on the desired behavior.
+
+**PUT** creates a Point Group if the given ID doesn't exist and clears all the Point Group information, then adds the information from the request.
+**PATCH** fails if the Point Group with the given ID doesn't exist and updates the Point Group field values with the values from the request.
+
 .. vale off
 
 **HTTP Request**
 
 .. vale on
 
+To edit a Point Group and return a 404 if the Point Group isn't found:
+
 ``PATCH /points/groups/ID/edit``
+
+To edit a Point Group and create a new one if the Point Group isn't found:
+
+``PUT /points/groups/ID/edit``
 
 .. vale off
 
@@ -303,7 +316,9 @@ Edit Point Group
 
 **Response**
 
-``Expected Response Code: 200``
+If using ``PUT``, the expected response code is ``200`` if editing the Point Group or ``201`` if creating the Point Group.
+
+If using ``PATCH``, the expected response code is ``200``.
 
 **Properties**
 

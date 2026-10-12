@@ -220,7 +220,7 @@ List Contact fields
              }
            ]
          }
-       },
+       }
      ]
    }
 
