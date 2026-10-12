@@ -26,6 +26,7 @@ Below is a list of documented events with their event types and the structure of
    lead_points_change
    lead_post_delete
    lead_channel_subscription_changed
+   lead_list_change
    lead_company_change
    company_post_save
    company_soft_delete
