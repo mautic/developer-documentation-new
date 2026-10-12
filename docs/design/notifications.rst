@@ -150,10 +150,12 @@ The ``$type`` parameter determines the visual style of the notification:
 - ``'success'``: green alert with success icon
 - ``'info'``: blue alert with info icon
 - ``'warning'``: yellow alert with warning icon
-- ``'error'``: red alert with error icon
+- ``'danger'``: red alert with error icon
 - ``''`` empty string: default style without colors and icon
 
 .. vale on
+
+Mautic adds the type to the notification as an ``alert-{type}`` CSS class. A type without a matching style, such as ``'error'``, displays like the default style, without colors or an icon. Use ``'danger'`` for a red error notification.
 
 Example usage
 =============
