@@ -613,6 +613,8 @@ Mautic 8 removed the string constants for the following events, which Mautic dis
 
 ``DynamicContentEvents::TOKEN_REPLACEMENT`` held the ``mautic.dwc_token_replacement`` event name, which Mautic dispatched right before it returned the content of a Dynamic Content item. The EmailBundle also dispatches ``TokenReplacementEvent`` by class to replace the Dynamic Content tokens in an Email, so a subscriber keyed on ``TokenReplacementEvent::class`` receives both events. To handle only Dynamic Content items, return early unless the array from ``getClickthrough()`` contains a ``dynamic_content_id`` key.
 
+In Mautic 8, ``TokenReplacementEvent`` is ``final``, so a Plugin's event class can't extend it. Extend ``Mautic\CoreBundle\Event\AbstractTokenReplacementEvent`` instead, which provides the same methods.
+
 The ``Mautic\ConfigBundle\ConfigEvents`` class no longer exists, so also remove any ``use Mautic\ConfigBundle\ConfigEvents;`` statement. Mautic 8 also removed these constants, which have no replacement event:
 
 * ``DynamicContentEvents::CATEGORY_PRE_SAVE``, ``CATEGORY_POST_SAVE``, ``CATEGORY_PRE_DELETE``, and ``CATEGORY_POST_DELETE`` duplicated the ``Mautic\CategoryBundle\CategoryEvents`` constants with the same string values. Use the ``CategoryEvents`` constants instead.
