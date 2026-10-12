@@ -28,3 +28,7 @@ reviews:
         - Check that code samples match the text and work for that version.
           This applies to samples written in the page and to samples
           included from a file.
+knowledge_base:
+  linked_repositories:
+    - repository: "mautic/mautic"
+      instructions: "Mautic core code repository. Compare the docs with the code branch that matches the docs PR's base branch."
