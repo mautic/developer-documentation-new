@@ -132,6 +132,10 @@ The following code snippet shows the use of ``\Mautic\IntegrationsBundle\Integra
         }
     }
 
+.. warning::
+
+   Mautic removes ``DefaultConfigFormTrait`` in Mautic 8. When you upgrade to Mautic 8, update your code as described in :xref:`DefaultConfigFormTrait <Mautic 8 upgrade DefaultConfigFormTrait>`.
+
 .. admonition:: Additional information
 
     - The trait ``Mautic\IntegrationsBundle\Integration\ConfigFormNotesTrait`` helps define the default ``null``.
