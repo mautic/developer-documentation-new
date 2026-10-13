@@ -212,8 +212,6 @@ Advanced routing
 
 Configure custom routes by writing a listener for the ``Mautic\CoreBundle\Event\RouteEvent`` event. Listeners to this event receive the ``RouteEvent`` object. Mautic dispatches an event for each firewall when compiling routes. Key your subscriber on ``RouteEvent::class``.
 
-To update a subscriber that uses ``CoreEvents`` constants, see :ref:`CoreBundle <Mautic 8 corebundle>`.
-
 .. php:class:: Mautic\CoreBundle\Event\RouteEvent
 
   .. php:method:: getType()
@@ -695,8 +693,6 @@ Config event subscriber
 =======================
 
 A config event subscriber adds the Plugin's settings to Mautic's configuration UI and processes the submitted values. Mautic dispatches the configuration events by their event class, so the subscriber keys ``getSubscribedEvents()`` on ``ConfigBuilderEvent::class`` and ``ConfigPreSaveEvent::class``.
-
-To update a subscriber that uses ``ConfigEvents`` constants, see :ref:`ConfigBundle <Mautic 8 configbundle>`.
 
 The following code example shows how a Plugin structures its event subscriber.
 

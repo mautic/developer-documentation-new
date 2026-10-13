@@ -45,8 +45,6 @@ Key your subscriber on ``PluginInstallEvent::class`` and ``PluginUpdateEvent::cl
         }
     }
 
-To update a subscriber that uses the ``PluginEvents::ON_PLUGIN_INSTALL`` or ``PluginEvents::ON_PLUGIN_UPDATE`` constants, see :ref:`PluginBundle <Mautic 8 pluginbundle>`.
-
 Database migrations
 ===================
 
