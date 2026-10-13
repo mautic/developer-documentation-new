@@ -12,7 +12,7 @@ Event type
 
 ``Mautic\LeadBundle\Event\CompanySoftDeleteEvent``
 
-Mautic dispatches this event by its event class. This event isn't a Webhook event type, so you can only subscribe to it from a Plugin. See :ref:`LeadBundle events dispatched by event class <LeadBundle events dispatched by event class>`. To update a subscriber keyed on ``LeadEvents::COMPANY_SOFT_DELETE``, see :ref:`LeadBundle <mautic 8 leadbundle>`.
+Mautic dispatches this event by its event class. This event isn't a Webhook event type, so you can only subscribe to it from a Plugin. To update a subscriber keyed on ``LeadEvents::COMPANY_SOFT_DELETE``, see :ref:`LeadBundle events dispatched by event class <LeadBundle events dispatched by event class>`.
 
 Event instance
 **************
