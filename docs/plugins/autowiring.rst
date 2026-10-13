@@ -5,7 +5,7 @@ Autowiring
 
 Mautic 5 adds support for Symfony's :xref:`symfony-autowiring` and :xref:`symfony-autoconfigure` for services.
 
-Earlier versions required defining services in the ``*Bundle/Config/config.php`` file. This still worked through Mautic 7, but Mautic 8 removed the ``services`` config group entirely.
+Earlier versions required defining services in the ``*Bundle/Config/config.php`` file. Mautic doesn't read a ``services`` group in ``Config/config.php``, so define services in ``Config/services.php``.
 
 Follow these steps to migrate from hard-coded services to autowired services.
 
@@ -16,7 +16,6 @@ Advantages
 -  If services aren't used in other services as dependencies, they're deleted, like **subscribers**, **commands** and **form types**.
 -  You can reduce existing service definitions to setting just the string alias, to maintain backward compatibility and keep controllers working.
 -  ``app/config/services.php`` automatically configures all bundles including Plugins so if the bundle doesn't do anything unusual, it should work out of the box.
--  Mautic 8 no longer reads the ``services`` config group from the ``*Bundle/Config/config.php`` file.
 
 The same applies for Plugins as well as for the core bundles.
 

@@ -38,7 +38,7 @@ This file creates the GitHub Action jobs based on the definitions in it. It chec
 
        strategy:
          matrix:
-           php-versions: ['8.4'] # The supported PHP versions. Mautic 8 requires PHP 8.4 or later.
+           php-versions: ['8.4'] # The supported PHP versions. Mautic requires PHP 8.4 or later.
            db-types: ['mysql:8.4'] # Database Docker images, for example ['mysql:8.4', 'mariadb:10.11']
            mautic-versions: ['8.x'] # Branches or tags of mautic/mautic to test against
 
@@ -176,7 +176,7 @@ At this point, the GitHub Action won't complete due to the missing ``phpunit.xml
 
 .. note::
 
-   Mautic 8 requires ``phpunit/phpunit`` ``^13.0``. The ``<filter><whitelist>`` and ``<listeners>`` elements shown in older examples no longer exist in this version. Use ``<source><include>`` and ``<exclude>`` for code coverage, and ``<extensions>`` for the Mautic test extensions, as Mautic's own ``app/phpunit.xml.dist`` does. The relative paths in this file assume that your Plugin is in ``plugins/{PluginDirectory}`` inside a Mautic checkout.
+   Mautic uses ``phpunit/phpunit`` ``^13.0``. Configure code coverage with ``<source><include>`` and ``<exclude>``, and register the Mautic test extensions with ``<extensions>``, as Mautic's own ``app/phpunit.xml.dist`` does. The relative paths in this file assume that your Plugin is in ``plugins/{PluginDirectory}`` inside a Mautic checkout.
 
 .. code:: xml
 
