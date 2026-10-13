@@ -86,10 +86,6 @@ Firewalls and User access management
 ************************************
 ``app/config/security.php`` lists Mautic's firewalls. For the most part, Mautic uses Symfony's standard way of registering firewalls and authentication with a means for Plugins to hook into the authentication process through listeners to the ``UserEvents::USER_PRE_AUTHENTICATION`` and ``UserEvents::USER_FORM_AUTHENTICATION`` events.
 
-.. warning::
-
-   Mautic 8 changes ``UserEvents::USER_PRE_AUTHENTICATION`` and ``UserEvents::USER_FORM_AUTHENTICATION`` to ``PreAuthenticationEvent::class`` and ``FormAuthenticationEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`UserBundle <Mautic 8 upgrade UserBundle>`.
-
 Mautic has its own permission system based on bitwise permissions and thus doesn't leverage Symfony voters.
 
 Middlewares
