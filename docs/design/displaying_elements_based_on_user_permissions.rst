@@ -70,6 +70,10 @@ When opening one of these permission files, they'll typically find:
 - Constants defining permission levels - for example, ``LEVEL_VIEW, LEVEL_EDIT, LEVEL_FULL``.
 - Methods for checking specific permissions - for example, ``canViewUsers``, ``canEditEmails``.
 
+.. warning::
+
+   Mautic 8 changes ``definePermissions`` to defining permissions in the ``__construct()`` method. When you upgrade to Mautic 8, update your code as described in :xref:`AbstractPermissions <Mautic 8 upgrade AbstractPermissions>`.
+
 For example, in the ``UserPermissions.php`` file, the ``UserPermissions`` class defines the available permissions for the ``UserBundle`` using a more structured approach. Here are the important parts:
 
 .. code-block:: php
