@@ -78,6 +78,8 @@ Find affected overrides
 
 Run :xref:`phpstan` against your Plugin on Mautic 8 before you ship. It flags every override whose return type no longer matches its parent, so you can fix them before a fatal error reaches production.
 
+.. _mautic 8 abstractpermissions:
+
 .. vale off
 
 AbstractPermissions
@@ -101,7 +103,7 @@ Every bundle and Plugin defines its own ``*Permissions`` class that extends ``Ma
    - protected function addExtendedFormFields($bundle, $level, &$builder, $data, $includePublish = true)
    + protected function addExtendedFormFields($bundle, $level, &$builder, array $data, bool $includePublish = true)
 
-Mautic 8 removes ``definePermissions()``. Define your permissions in the constructor instead:
+Mautic 8 removes ``definePermissions()``, so Mautic no longer calls it. Define your permissions in the constructor instead:
 
 .. code:: diff
 
@@ -111,7 +113,7 @@ Mautic 8 removes ``definePermissions()``. Define your permissions in the constru
          $this->addStandardPermissions('categories');
      }
 
-Mautic deprecates the ``array $params`` constructor argument - it now injects the resolved parameters through an Autowired method after construction, so ``$this->params`` isn't available in the constructor itself. Drop the argument and the ``parent::__construct($params)`` call:
+Mautic 8 deprecates the ``array $params`` constructor argument, which now defaults to an empty array, and plans to remove it in Mautic 9. Mautic injects the configuration parameters after construction through the ``#[Required]`` method ``autowireAbstractPermissions(CoreParametersHelper $coreParametersHelper)``, so ``$this->params`` is empty inside the constructor. Drop the argument and the ``parent::__construct($params)`` call, and read ``$this->params`` only in the other methods:
 
 .. code:: diff
 
@@ -125,11 +127,15 @@ Mautic deprecates the ``array $params`` constructor argument - it now injects th
 
 A permissions class that already defines its permissions in the constructor, without a ``$params`` argument, needs no change.
 
+Mautic's autoconfiguration tags every ``AbstractPermissions`` subclass with ``mautic.permissions``, so register your permissions class in ``Config/services.php`` rather than under ``services > permissions`` in ``Config/config.php``, which Mautic 8 no longer reads.
+
 .. vale off
 
 For a permissions extension example, see :doc:`/plugins/permissions`.
 
 .. vale on
+
+.. _mautic 8 abstractintegration:
 
 .. vale off
 
@@ -156,6 +162,13 @@ Every third-party Integration extends ``Mautic\PluginBundle\Integration\Abstract
 
    - public function getFormCompanyFields($settings = [])
    + public function getFormCompanyFields(array $settings = [])
+
+``getCache()`` returns a ``Psr\SimpleCache\CacheInterface`` instead of the removed ``CacheStorageHelper``, and the second constructor argument is a ``Mautic\CacheBundle\Cache\CacheProviderInterface``. Mautic still keeps each Integration's cache keys separate, so calls such as ``$this->getCache()->get('leadFields')`` keep working. A cache miss returns ``null`` instead of ``false``, so change any ``false === $value`` comparison to ``null === $value``. If your Integration overrides ``getCache()`` or the constructor, match the new types:
+
+.. code:: diff
+
+   - public function getCache()
+   + public function getCache(): \Psr\SimpleCache\CacheInterface
 
 .. vale off
 
@@ -332,7 +345,32 @@ Events dispatched by class name
 
 .. vale on
 
-Beyond the preceding signature changes, Mautic 8 also changes *how* it dispatches most bundle events. Following the Symfony 4.3+ convention, Mautic now dispatches these events by the event object alone, so the event name is the event class, and a Plugin keys ``getSubscribedEvents()`` on ``EventClass::class`` instead of the bundle's ``*Events`` string constant. Most of the old constants still exist, but Mautic no longer dispatches under them, so a subscriber still keyed on one silently receives nothing - no error, no log entry. Mautic 8 also deletes these ``*Events`` classes entirely, so a subscriber that still references one of their constants fails with a ``Class "..." not found`` error instead:
+Beyond the preceding signature changes, Mautic 8 also changes *how* it dispatches most bundle events. Following the Symfony 4.3+ convention, Mautic dispatches these events by the event object alone, so the event name is the event class. Key ``getSubscribedEvents()`` on ``EventClass::class`` instead of the bundle's ``*Events`` string constant or the raw event name, such as ``mautic.campaign_on_build``. If your Plugin dispatches one of these events itself, drop the event name argument:
+
+.. code:: diff
+
+   - CampaignEvents::CAMPAIGN_ON_BUILD => ['onCampaignBuild', 0],
+   + CampaignBuilderEvent::class      => ['onCampaignBuild', 0],
+
+   - $dispatcher->dispatch($event, CampaignEvents::CAMPAIGN_ON_BUILD);
+   + $dispatcher->dispatch($event);
+
+What happens to a subscriber that you don't update depends on what Mautic 8 did with the old constant:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Old constant
+     - Result for a subscriber still keyed on it
+   * - Mautic kept the constant
+     - The subscriber silently receives nothing - no error, no log entry. Mautic keeps some of these constants because their string values are also Webhook event type identifiers.
+   * - Mautic removed the constant
+     - PHP fails with ``Error: Undefined constant`` when it loads the subscriber.
+   * - Mautic deleted the whole ``*Events`` class
+     - PHP fails with a ``Class "..." not found`` error, for example ``Class "Mautic\CoreBundle\CoreEvents" not found``.
+
+Mautic 8 deletes these ``*Events`` classes entirely, so remove the matching ``use`` statements from your Plugin:
 
 * ``Mautic\ApiBundle\ApiEvents``
 * ``Mautic\ConfigBundle\ConfigEvents``
@@ -342,52 +380,206 @@ Beyond the preceding signature changes, Mautic 8 also changes *how* it dispatche
 * ``Mautic\StatsBundle\StatEvents``
 * ``Mautic\UserBundle\UserEvents``
 
-``UPGRADE-8.0.md`` still says Mautic keeps the ``CoreEvents`` constants for backwards compatibility, but Mautic 8 deletes the ``CoreEvents`` class, so replace every ``CoreEvents::*`` reference with the matching event class.
+``UPGRADE-8.0.md`` still says Mautic keeps the ``CoreEvents``, ``IntegrationEvents``, and ``DashboardEvents`` constants for backwards compatibility, but Mautic 8 deletes those classes, so replace every reference to them with the matching event class.
 
-The change touches CampaignBundle, ChannelBundle, ConfigBundle, CoreBundle, DashboardBundle, EmailBundle, FormBundle, IntegrationsBundle, LeadBundle, NotificationBundle, PageBundle, PluginBundle, PointBundle, ReportBundle, SmsBundle, StageBundle, UserBundle, and WebhookBundle. This is a representative sample, not the full mapping:
+Each bundle section in this guide maps the bundle's old constants to the event classes to key on:
+
+.. vale off
 
 .. list-table::
    :header-rows: 1
-   :widths: 20 40 40
+   :widths: 30 30 40
 
    * - Bundle
-     - Old constant
-     - Subscribe to this event class instead
-   * - CampaignBundle
-     - ``CampaignEvents::CAMPAIGN_ON_BUILD``
-     - ``Mautic\CampaignBundle\Event\CampaignBuilderEvent``
-   * - ConfigBundle
-     - ``ConfigEvents::CONFIG_PRE_SAVE`` / ``CONFIG_POST_SAVE``
-     - ``Mautic\ConfigBundle\Event\ConfigPreSaveEvent`` / ``ConfigPostSaveEvent``
-   * - EmailBundle
-     - ``EmailEvents::EMAIL_PRE_SEND``
-     - ``Mautic\EmailBundle\Event\EmailPreSendEvent``
-   * - FormBundle
-     - ``FormEvents::FORM_ON_BUILD``
-     - ``Mautic\FormBundle\Event\FormBuilderEvent``
-   * - LeadBundle
-     - ``LeadEvents::LEAD_PRE_SAVE``
-     - ``Mautic\LeadBundle\Event\LeadPreSaveEvent``
-   * - PageBundle
-     - ``PageEvents::PAGE_ON_HIT``
-     - ``Mautic\PageBundle\Event\PageHitEvent``
-   * - PointBundle
-     - ``PointEvents::POINT_ON_BUILD``
-     - ``Mautic\PointBundle\Event\PointBuilderEvent``
-   * - ReportBundle
-     - ``ReportEvents::REPORT_ON_BUILD``
-     - ``Mautic\ReportBundle\Event\ReportBuilderEvent``
-   * - SmsBundle
-     - ``SmsEvents::SMS_ON_SEND``
-     - ``Mautic\SmsBundle\Event\SmsSendEvent``
-   * - UserBundle
-     - ``UserEvents::USER_LOGIN``
-     - ``Mautic\UserBundle\Event\LoginEvent``
-   * - WebhookBundle
-     - ``WebhookEvents::WEBHOOK_ON_BUILD``
-     - ``Mautic\WebhookBundle\Event\WebhookBuilderEvent``
+     - Constants class
+     - What Mautic 8 does with the constants
+   * - :ref:`ApiBundle <mautic 8 apibundle>`
+     - ``ApiEvents``
+     - Deletes the class
+   * - :ref:`AssetBundle <mautic 8 assetbundle>`
+     - ``AssetEvents``
+     - Removes the Asset load, browse, save, and delete constants
+   * - :ref:`CampaignBundle <mautic 8 campaignbundle>`
+     - ``CampaignEvents``
+     - Removes most constants
+   * - CategoryBundle
+     - ``CategoryEvents``
+     - Keeps ``CATEGORY_ON_BUNDLE_LIST_BUILD`` but dispatches ``CategoryTypesEvent`` by class
+   * - :ref:`ChannelBundle <mautic 8 channelbundle>`
+     - ``ChannelEvents``
+     - Keeps the constants
+   * - :ref:`ConfigBundle <mautic 8 configbundle>`
+     - ``ConfigEvents``
+     - Deletes the class
+   * - :ref:`CoreBundle <mautic 8 corebundle>`
+     - ``CoreEvents``
+     - Deletes the class
+   * - :ref:`DashboardBundle <mautic 8 dashboardbundle>`
+     - ``DashboardEvents``
+     - Deletes the class
+   * - :ref:`DynamicContentBundle <mautic 8 dynamiccontentbundle>`
+     - ``DynamicContentEvents``
+     - Removes the filter, token, and Category constants
+   * - :ref:`EmailBundle <mautic 8 emailbundle>`
+     - ``EmailEvents``
+     - Removes most constants and keeps ``EMAIL_ON_SEND`` and ``EMAIL_ON_OPEN``
+   * - :ref:`FormBundle <mautic 8 formbundle>`
+     - ``FormEvents``
+     - Keeps the constants
+   * - :ref:`IntegrationsBundle <mautic 8 integrationsbundle>`
+     - ``IntegrationEvents``
+     - Deletes the class
+   * - :ref:`LeadBundle <mautic 8 leadbundle>`
+     - ``LeadEvents``
+     - Removes some constants and keeps others
+   * - :ref:`MauticFocusBundle <mautic 8 focusbundle>`
+     - ``FocusEvents``
+     - Keeps ``FOCUS_ON_VIEW``
+   * - :ref:`MauticSocialBundle <mautic 8 socialbundle>`
+     - ``SocialEvents``
+     - Removes the Monitor and Tweet constants
+   * - :ref:`NotificationBundle <mautic 8 notificationbundle>`
+     - ``NotificationEvents``
+     - Keeps ``NOTIFICATION_ON_SEND``
+   * - :ref:`PageBundle <mautic 8 pagebundle>`
+     - ``PageEvents``
+     - Removes ``PAGE_ON_BUILD`` and ``PAGE_ON_DISPLAY`` and keeps the others
+   * - :ref:`PluginBundle <mautic 8 pluginbundle>`
+     - ``PluginEvents``
+     - Removes most constants
+   * - :ref:`PointBundle <mautic 8 pointbundle>`
+     - ``PointEvents``, ``PointGroupEvents``
+     - Keeps the constants
+   * - :ref:`ReportBundle <mautic 8 reportbundle>`
+     - ``ReportEvents``
+     - Keeps the constants
+   * - :ref:`SmsBundle <mautic 8 smsbundle>`
+     - ``SmsEvents``
+     - Removes most constants and keeps ``SMS_ON_SEND``
+   * - :ref:`StageBundle <mautic 8 stagebundle>`
+     - ``StageEvents``
+     - Keeps ``STAGE_ON_BUILD``
+   * - :ref:`StatsBundle <mautic 8 statsbundle>`
+     - ``StatEvents``
+     - Deletes the class
+   * - :ref:`UserBundle <mautic 8 userbundle>`
+     - ``UserEvents``
+     - Deletes the class
+   * - :ref:`WebhookBundle <mautic 8 webhookbundle>`
+     - ``WebhookEvents``
+     - Removes the lifecycle constants and keeps the others
 
-For the full per-bundle mapping, re-keying examples, and the console command that confirms a subscriber's binding, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` in :ref:`event listeners`.
+.. vale on
+
+Some constants that several events share keep their string names, such as the ``FormEvents::FORM_*`` and ``PageEvents::PAGE_*`` save and delete groups. Mautic still dispatches those events under the constant, so subscribers keyed on them don't change. Each bundle section names the constants that don't change.
+
+.. _mautic 8 check event subscriptions:
+
+.. vale off
+
+Check event subscriptions
+=========================
+
+.. vale on
+
+To confirm the name Mautic dispatches an event under, and that your re-keyed subscriber binds to it, run ``bin/console debug:event-dispatcher`` with the event class:
+
+.. code-block:: console
+
+   bin/console debug:event-dispatcher "Mautic\SmsBundle\Event\DncEvent"
+
+Your subscriber's class and method appear in the listing for the event class. If they're absent, Mautic hasn't registered the subscriber for that event. Run the command before and after you re-key a subscriber to compare the two listings. Without an argument, the command lists every event with its listeners, and a partial name filters the output.
+
+.. _mautic 8 removed event constants:
+
+.. vale off
+
+Removed event constants
+=======================
+
+.. vale on
+
+When Mautic 8 removes a constant, PHP fails with ``Error: Undefined constant`` as soon as it loads a subscriber that still references it. The bundle sections in this guide list each removed constant with the event class to key on, so replace every reference and remove the ``use`` statement for any ``*Events`` class that your Plugin no longer needs. For example, :ref:`DynamicContentBundle <mautic 8 dynamiccontentbundle>` covers the removed ``DynamicContentEvents::TOKEN_REPLACEMENT`` constant, and :ref:`PluginBundle <mautic 8 pluginbundle>` shows a complete re-keyed subscriber.
+
+Mautic 8 also removes a few constants that Mautic never dispatched an event under, such as ``AssetEvents::ASSET_ON_UPLOAD`` and ``PluginEvents::ON_FORM_SUBMIT_ACTION_TRIGGERED``. These constants have no replacement event, so remove any subscription to them. Each bundle section names them.
+
+.. _mautic 8 apibundle:
+
+.. vale off
+
+ApiBundle
+*********
+
+.. vale on
+
+Mautic 8 deletes the ``Mautic\ApiBundle\ApiEvents`` class and dispatches the ApiBundle events by their event class. A subscriber that still references an ``ApiEvents`` constant fails with a ``Class "Mautic\ApiBundle\ApiEvents" not found`` error. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\ApiBundle\Event`` namespace instead:
+
+.. vale off
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``ApiEvents`` constant
+     - Event class
+   * - ``API_ON_ENTITY_PRE_SAVE``
+     - ``PreSaveApiEntityEvent``
+   * - ``API_ON_ENTITY_POST_SAVE``
+     - ``PostSaveApiEntityEvent``
+   * - ``CLIENT_POST_SAVE``
+     - ``ClientPostSaveEvent``
+   * - ``CLIENT_POST_DELETE``
+     - ``ClientPostDeleteEvent``
+   * - ``API_PRE_SERIALIZATION_CONTEXT``
+     - ``PreSerializationContextEvent``
+   * - ``API_POST_SERIALIZATION_CONTEXT``
+     - ``PostSerializationContextEvent``
+   * - ``API_PLATFORM_PERMISSION_CONTEXT``
+     - ``ApiPlatformPermissionContextEvent``
+
+.. vale on
+
+Mautic didn't dispatch any event under ``ApiEvents::CLIENT_PRE_SAVE`` or ``ApiEvents::BUILD_ROUTE``, so remove any subscription to them.
+
+Each pair of save, delete, or serialization events used to share one event object. ``ApiEntityEvent``, ``ClientEvent``, and ``ApiSerializationContextEvent`` are now abstract base classes for the classes in the preceding table. A listener method can keep its type hint on the base class, but code that creates one of these events with ``new``, such as a Plugin test, must create the matching subclass.
+
+.. _mautic 8 assetbundle:
+
+.. vale off
+
+AssetBundle
+***********
+
+.. vale on
+
+Mautic 8 removes the ``Mautic\AssetBundle\AssetEvents`` constants for the Asset load, remote browse, save, and delete events, and dispatches these events by their event class. A subscriber that still references one of the constants fails with ``Error: Undefined constant``, and a subscriber keyed on a raw event name, such as ``mautic.asset_on_load``, silently receives nothing. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\AssetBundle\Event`` namespace instead:
+
+.. vale off
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``AssetEvents`` constant
+     - Event class
+   * - ``ASSET_ON_LOAD``
+     - ``AssetLoadEvent``
+   * - ``ASSET_ON_REMOTE_BROWSE``
+     - ``RemoteAssetBrowseEvent``
+   * - ``ASSET_PRE_SAVE``
+     - ``AssetPreSaveEvent``
+   * - ``ASSET_POST_SAVE``
+     - ``AssetPostSaveEvent``
+   * - ``ASSET_PRE_DELETE``
+     - ``AssetPreDeleteEvent``
+   * - ``ASSET_POST_DELETE``
+     - ``AssetPostDeleteEvent``
+
+.. vale on
+
+The four save and delete classes extend ``AssetEvent``, so a listener method can keep its ``AssetEvent`` type hint. Mautic also removes the ``ASSET_ON_UPLOAD`` constant, which it never dispatched or listened to. The ``ON_CAMPAIGN_TRIGGER_DECISION`` and ``ON_DETERMINE_DOWNLOAD_RATE_WINNER`` constants don't change.
+
+.. _mautic 8 campaignbundle:
 
 .. vale off
 
@@ -396,7 +588,51 @@ CampaignBundle
 
 .. vale on
 
-Mautic 8 adds type declarations to the Campaign Event entity and three Campaign event classes. It also dispatches the Campaign save and delete events by dedicated event classes.
+Mautic 8 adds type declarations to the Campaign Event entity and three Campaign event classes. It also removes most ``CampaignEvents`` constants and dispatches the Campaign membership, save, and delete events by dedicated event classes.
+
+.. vale off
+
+CampaignEvents constants
+========================
+
+.. vale on
+
+Mautic 8 removes these ``Mautic\CampaignBundle\CampaignEvents`` constants and dispatches the events by their event class. A subscriber that still references one of them fails with ``Error: Undefined constant``. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\CampaignBundle\Event`` namespace instead:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``CampaignEvents`` constant
+     - Event class
+   * - ``CAMPAIGN_ON_BUILD``
+     - ``CampaignBuilderEvent``
+   * - ``CAMPAIGN_ON_TRIGGER``
+     - ``CampaignTriggerEvent``
+   * - ``ON_CAMPAIGN_DELETE``
+     - ``DeleteCampaign``
+   * - ``ON_AFTER_EVENTS_DELETE``
+     - ``AfterEventsDeleteEvent``
+   * - ``ON_EVENT_DELETE``
+     - ``DeleteEvent``
+   * - ``ON_EVENT_EXECUTED``
+     - ``ExecutedEvent``
+   * - ``ON_EVENT_EXECUTED_BATCH``
+     - ``ExecutedBatchEvent``
+   * - ``ON_EVENT_SCHEDULED``
+     - ``ScheduledEvent``
+   * - ``ON_EVENT_SCHEDULED_BATCH``
+     - ``ScheduledBatchEvent``
+   * - ``ON_EVENT_FAILED``
+     - ``FailedEvent``
+   * - ``ON_EVENT_DECISION_EVALUATION_RESULTS``
+     - ``DecisionResultsEvent``
+   * - ``ON_CAMPAIGN_FAILURE_NOTIFY``
+     - ``NotifyOfFailureEvent``
+   * - ``ON_CAMPAIGN_UNPUBLISH_NOTIFY``
+     - ``NotifyOfUnpublishEvent``
+
+The removed membership change, save, and delete constants are in :ref:`CampaignLeadChangeEvent <Plugins/update_m7_to_m8:CampaignLeadChangeEvent>` and :ref:`CampaignEvent <Plugins/update_m7_to_m8:CampaignEvent>`. Mautic still dispatches the ``ON_EVENT_CONDITION_EVALUATION`` and ``ON_EVENT_DECISION_EVALUATION`` events under their string constants, so subscribers keyed on them don't change.
 
 .. vale off
 
@@ -453,7 +689,20 @@ CampaignLeadChangeEvent
 
 .. vale on
 
-Subscribers to Campaign membership changes receive ``CampaignSingleLeadChangeEvent`` or ``CampaignBatchLeadChangeEvent``. Both are ``final`` subclasses of the abstract ``Mautic\CampaignBundle\Event\CampaignLeadChangeEvent``, so the override risk doesn't apply. The base class constructor types ``$leads``, and ``getLead()`` gains a return type:
+Mautic 8 removes the ``CampaignEvents::CAMPAIGN_ON_LEADCHANGE`` and ``LEAD_CAMPAIGN_BATCH_CHANGE`` constants, which shared one ``CampaignLeadChangeEvent`` object, and dispatches a dedicated event class for each:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``CampaignEvents`` constant
+     - Event class
+   * - ``CAMPAIGN_ON_LEADCHANGE``
+     - ``Mautic\CampaignBundle\Event\CampaignSingleLeadChangeEvent``
+   * - ``LEAD_CAMPAIGN_BATCH_CHANGE``
+     - ``Mautic\CampaignBundle\Event\CampaignBatchLeadChangeEvent``
+
+Both are ``final`` subclasses of the now abstract ``Mautic\CampaignBundle\Event\CampaignLeadChangeEvent``, so a listener method can keep its ``CampaignLeadChangeEvent`` type hint and the override risk doesn't apply. Code that creates a ``CampaignLeadChangeEvent`` with ``new``, such as a Plugin test, must create one of the subclasses instead. The base class constructor types ``$leads``, and ``getLead()`` gains a return type:
 
 .. code:: diff
 
@@ -525,12 +774,42 @@ Campaign action subscribers use ``Mautic\CampaignBundle\Event\PendingEvent``, a 
 
 For a Campaign extension example, see :doc:`/plugin_extensions/campaigns`.
 
+.. _mautic 8 channelbundle:
+
 ChannelBundle
 *************
 
 .. vale on
 
-Mautic 8 adds type declarations to three Channel event classes.
+Mautic 8 adds type declarations to three Channel event classes and dispatches the Channel events by their event class.
+
+.. vale off
+
+ChannelEvents constants
+=======================
+
+.. vale on
+
+Mautic 8 dispatches these ChannelBundle events by their event class. The ``Mautic\ChannelBundle\ChannelEvents`` constants still exist, but Mautic doesn't dispatch the events under them, so a subscriber keyed on one silently receives nothing. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\ChannelBundle\Event`` namespace instead:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - ``ChannelEvents`` constant
+     - Event class
+   * - ``ADD_CHANNEL``
+     - ``ChannelEvent``
+   * - ``CHANNEL_BROADCAST``
+     - ``ChannelBroadcastEvent``
+   * - ``MESSAGE_QUEUED``
+     - ``MessageQueueEvent``
+   * - ``PROCESS_MESSAGE_QUEUE``
+     - ``MessageQueueProcessEvent``
+   * - ``PROCESS_MESSAGE_QUEUE_BATCH``
+     - ``MessageQueueBatchProcessEvent``
+
+The ``MESSAGE_PRE_SAVE``, ``MESSAGE_POST_SAVE``, ``MESSAGE_PRE_DELETE``, and ``MESSAGE_POST_DELETE`` constants share ``MessageEvent``, so they don't change, and neither does ``ON_CAMPAIGN_BATCH_ACTION``.
 
 .. vale off
 
@@ -585,12 +864,38 @@ Subscribers that process a queued message batch use ``Mautic\ChannelBundle\Event
 
 For a Channel extension example, see :doc:`/plugin_extensions/channels`.
 
+.. _mautic 8 configbundle:
+
 ConfigBundle
 ************
 
 .. vale on
 
-Mautic 8 adds type declarations to two configuration event classes.
+Mautic 8 adds type declarations to two configuration event classes and deletes the ``ConfigEvents`` class.
+
+.. vale off
+
+ConfigEvents constants
+======================
+
+.. vale on
+
+Mautic 8 deletes the ``Mautic\ConfigBundle\ConfigEvents`` class. A subscriber that still references one of its constants fails with a ``Class "Mautic\ConfigBundle\ConfigEvents" not found`` error, so remove the ``use Mautic\ConfigBundle\ConfigEvents;`` statement and key ``getSubscribedEvents()`` on the event class in the ``Mautic\ConfigBundle\Event`` namespace:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``ConfigEvents`` constant
+     - Event class
+   * - ``CONFIG_ON_GENERATE``
+     - ``ConfigBuilderEvent``
+   * - ``CONFIG_PRE_SAVE``
+     - ``ConfigPreSaveEvent``
+   * - ``CONFIG_POST_SAVE``
+     - ``ConfigPostSaveEvent``
+
+The two save events used to share one ``ConfigEvent`` object. ``ConfigPreSaveEvent`` and ``ConfigPostSaveEvent`` both extend ``ConfigEvent``, so a listener method can keep its ``ConfigEvent`` type hint.
 
 .. vale off
 
@@ -637,6 +942,8 @@ Subscribers that read and validate saved configuration values use ``Mautic\Confi
    - public function setError($message, $messageVars = [], $key = null, $field = null): static
    + public function setError(string $message, array $messageVars = [], ?string $key = null, ?string $field = null): static
 
+.. _mautic 8 corebundle:
+
 .. vale off
 
 CoreBundle
@@ -644,7 +951,49 @@ CoreBundle
 
 .. vale on
 
-Mautic 8 adds native type declarations to several ``Mautic\CoreBundle\Event\`` classes that Plugins subscribe to and dispatch. Some narrow a parameter or return type, so a subscriber or caller that passes a previously tolerated type raises a ``TypeError`` at runtime under ``strict_types``. Others match the types the methods already accepted. Grep your ``use`` statements for the ``Mautic\CoreBundle\Event\`` namespace to find the classes your Plugin references.
+Mautic 8 deletes the ``CoreEvents`` class and adds native type declarations to several ``Mautic\CoreBundle\Event\`` classes that Plugins subscribe to and dispatch. Some narrow a parameter or return type, so a subscriber or caller that passes a previously tolerated type raises a ``TypeError`` at runtime under ``strict_types``. Others match the types the methods already accepted. Grep your ``use`` statements for the ``Mautic\CoreBundle\Event\`` namespace to find the classes your Plugin references.
+
+.. vale off
+
+CoreEvents constants
+====================
+
+.. vale on
+
+Mautic 8 deletes the ``Mautic\CoreBundle\CoreEvents`` class, so a subscriber that still references one of its constants fails with a ``Class "Mautic\CoreBundle\CoreEvents" not found`` error. Remove the ``use Mautic\CoreBundle\CoreEvents;`` statement and key ``getSubscribedEvents()`` on the event class in the ``Mautic\CoreBundle\Event`` namespace:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``CoreEvents`` constant
+     - Event class
+   * - ``BUILD_MENU``
+     - ``MenuEvent``
+   * - ``BUILD_ROUTE``
+     - ``RouteEvent``
+   * - ``GLOBAL_SEARCH``
+     - ``GlobalSearchEvent``
+   * - ``LIST_STATS``
+     - ``StatsEvent``
+   * - ``BUILD_COMMAND_LIST``
+     - ``CommandListEvent``
+   * - ``FETCH_ICONS``
+     - ``IconEvent``
+   * - ``BUILD_MAUTIC_JS``
+     - ``BuildJsEvent``
+   * - ``MAINTENANCE_CLEANUP_DATA``
+     - ``MaintenanceEvent``
+   * - ``VIEW_INJECT_CUSTOM_BUTTONS``
+     - ``CustomButtonEvent``
+   * - ``VIEW_INJECT_CUSTOM_CONTENT``
+     - ``CustomContentEvent``
+   * - ``VIEW_INJECT_CUSTOM_TEMPLATE``
+     - ``CustomTemplateEvent``
+   * - ``VIEW_INJECT_CUSTOM_ASSETS``
+     - ``CustomAssetsEvent``
+   * - ``ON_GENERATED_COLUMNS_BUILD``
+     - ``GeneratedColumnsEvent``
 
 .. vale off
 
@@ -675,6 +1024,8 @@ If your Plugin dispatches this Event, Mautic 8 also types the constructor and ``
 
    -    public function getLead()
    +    public function getLead(): \Mautic\LeadBundle\Entity\Lead|array|null
+
+``TokenReplacementEvent`` is ``final`` in Mautic 8, and the methods in the preceding examples live on the new abstract ``Mautic\CoreBundle\Event\AbstractTokenReplacementEvent``. If your Plugin has an event class that extends ``TokenReplacementEvent``, extend ``AbstractTokenReplacementEvent`` instead, which provides the same methods. For the removed Dynamic Content token constant, see :ref:`DynamicContentBundle <mautic 8 dynamiccontentbundle>`.
 
 .. vale off
 
@@ -723,6 +1074,8 @@ Plugins that add custom buttons use ``Mautic\CoreBundle\Event\CustomButtonEvent`
    -    public function addButton(array $button, $location = null, $route = null): static
    +    public function addButton(array $button, ?string $location = null, array|string|null $route = null): static
 
+.. _mautic 8 builderevent:
+
 .. vale off
 
 BuilderEvent
@@ -741,6 +1094,36 @@ BuilderEvent
 
    -        protected $requested = 'all',
    +        protected string|array $requested = 'all',
+
+Mautic 8 also removes the ``addTokensFromHelper()`` and ``getTokensFromHelper()`` methods, which Mautic deprecated in Mautic 7.2. A Plugin that still calls one of them on an Email or Landing Page builder event, such as ``EmailOnBuildEvent`` or ``PageBuilderEvent``, fails with an undefined method error. Build the tokens with ``Mautic\CoreBundle\Helper\BuilderTokenHelper::getFormattedTokens()`` and pass them to ``$event->addTokens()`` instead:
+
+.. code-block:: php
+
+    // Before:
+    public function onEmailBuild(EmailOnBuildEvent $event): void
+    {
+        $event->addTokensFromHelper($tokenHelper, $tokenRegex, 'label', 'alias');
+    }
+
+    // After:
+    public function onEmailBuild(EmailOnBuildEvent $event): void
+    {
+        $tokenHelper = $this->builderTokenHelperFactory->getBuilderTokenHelper('page');
+        $tokenFilter = $event->getTokenFilter();
+        $tokens      = $tokenHelper->getFormattedTokens(
+            $tokenRegex,
+            TokenFormatOptions::simplePrefix('mautic.page.page'),
+            'label' === $tokenFilter['target'] ? $tokenFilter['filter'] : '',
+            'label', // Label column
+            'alias'  // Value column
+        );
+
+        if ($tokens) {
+            $event->addTokens($tokens);
+        }
+    }
+
+For more about ``getFormattedTokens()``, see :doc:`/plugin_extensions/emails`.
 
 .. vale off
 
@@ -802,6 +1185,8 @@ A new :xref:`phpstan` rule, ``mautic.noServiceInEventConstructor``, flags event 
 
 Several other ``CoreBundle`` event classes gained native types that match their existing ``PHPDoc``, so your Plugin needs no action for ``CustomAssetsEvent``, ``BuildJsEvent``, ``CommandListEvent``, and ``GlobalSearchEvent``.
 
+.. _mautic 8 dashboardbundle:
+
 .. vale off
 
 DashboardBundle
@@ -809,7 +1194,33 @@ DashboardBundle
 
 .. vale on
 
-Mautic 8 adds type declarations to the Dashboard Widget entity and two Dashboard Widget event classes.
+Mautic 8 adds type declarations to the Dashboard Widget entity and two Dashboard Widget event classes, and deletes the ``DashboardEvents`` class.
+
+.. vale off
+
+DashboardEvents constants
+=========================
+
+.. vale on
+
+Mautic 8 deletes the ``Mautic\DashboardBundle\DashboardEvents`` class. A subscriber that still references one of its constants fails with a ``Class "Mautic\DashboardBundle\DashboardEvents" not found`` error, and a subscriber keyed on a raw event name, such as ``mautic.dashboard_on_widget_detail_generate``, silently receives nothing. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\DashboardBundle\Event`` namespace instead:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``DashboardEvents`` constant
+     - Event class
+   * - ``DASHBOARD_ON_MODULE_LIST_GENERATE``
+     - ``WidgetTypeListEvent``
+   * - ``DASHBOARD_ON_MODULE_FORM_GENERATE``
+     - ``WidgetFormEvent``
+   * - ``DASHBOARD_ON_MODULE_DETAIL_PRE_LOAD``
+     - ``PreLoadWidgetDetailEvent``
+   * - ``DASHBOARD_ON_MODULE_DETAIL_GENERATE``
+     - ``GenerateWidgetDetailEvent``
+
+The two detail events used to share one ``WidgetDetailEvent`` object. For the changes to that class, see :ref:`WidgetDetailEvent <Plugins/update_m7_to_m8:WidgetDetailEvent>`.
 
 .. vale off
 
@@ -853,7 +1264,14 @@ Mautic 8 also removes the legacy filesystem Widget cache. It drops ``setCacheDir
 
 Widget data now caches only through ``Mautic\CacheBundle\Cache\CacheProviderTagAwareInterface``, using the lifetime from ``Widget::getCacheTimeout()``. If your Plugin calls ``setCacheDir()``, ``setCacheTimeout()``, or passes a second argument to ``setTemplateData()``, remove the call or the argument.
 
-``WidgetDetailEvent`` is an abstract base class for the ``final`` ``PreLoadWidgetDetailEvent`` and ``GenerateWidgetDetailEvent`` classes that Mautic dispatches. For the event classes to subscribe to, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+``WidgetDetailEvent`` is now an abstract base class for the ``final`` ``PreLoadWidgetDetailEvent`` and ``GenerateWidgetDetailEvent`` classes that Mautic dispatches, so key your subscriber on one of those classes, as the :ref:`DashboardEvents constants <Plugins/update_m7_to_m8:DashboardEvents constants>` table shows. A listener method can keep its ``WidgetDetailEvent`` type hint:
+
+.. code:: diff
+
+   - DashboardEvents::DASHBOARD_ON_MODULE_DETAIL_GENERATE => ['onWidgetDetailGenerate', 0],
+   + GenerateWidgetDetailEvent::class                    => ['onWidgetDetailGenerate', 0],
+
+PHP can't instantiate an abstract class, so code that creates a ``WidgetDetailEvent`` directly, such as a Plugin test, must create ``GenerateWidgetDetailEvent`` or ``PreLoadWidgetDetailEvent`` instead. ``Mautic\DashboardBundle\Factory\WidgetDetailEventFactory`` replaces its ``create()`` method with ``createPreLoad()`` and ``createGenerate()``, and its constructor no longer takes the ``UserHelper``, ``CoreParametersHelper``, and ``PathsHelper`` arguments.
 
 .. vale off
 
@@ -869,6 +1287,47 @@ Plugins register a Widget type on ``Mautic\DashboardBundle\Event\WidgetTypeListE
    - public function addType($widgetType, $bundle = 'others'): void
    + public function addType($widgetType, string $bundle = 'others'): void
 
+.. _mautic 8 dynamiccontentbundle:
+
+.. vale off
+
+DynamicContentBundle
+********************
+
+.. vale on
+
+Mautic 8 removes these ``Mautic\DynamicContentBundle\DynamicContentEvents`` constants. A subscriber that still references one of them fails with ``Error: Undefined constant``:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``DynamicContentEvents`` constant
+     - Replacement
+   * - ``ON_CONTACTS_FILTER_EVALUATE``
+     - Key on ``Mautic\DynamicContentBundle\Event\ContactFiltersEvaluateEvent::class``.
+   * - ``TOKEN_REPLACEMENT``
+     - Key on ``Mautic\CoreBundle\Event\TokenReplacementEvent::class``.
+   * - ``CATEGORY_PRE_SAVE``, ``CATEGORY_POST_SAVE``, ``CATEGORY_PRE_DELETE``, and ``CATEGORY_POST_DELETE``
+     - Use the ``Mautic\CategoryBundle\CategoryEvents`` constants with the same names, which have the same string values.
+
+``DynamicContentEvents::TOKEN_REPLACEMENT`` held the ``mautic.dwc_token_replacement`` event name, which Mautic dispatched right before it returned the content of a Dynamic Content item. The EmailBundle also dispatches ``TokenReplacementEvent`` by its class to replace the Dynamic Content tokens in an Email, so a subscriber keyed on ``TokenReplacementEvent::class`` receives both events. To handle only Dynamic Content items, return early unless the array from ``getClickthrough()`` contains a ``dynamic_content_id`` key:
+
+.. code-block:: php
+
+   public function onTokenReplacement(TokenReplacementEvent $event): void
+   {
+       if (!array_key_exists('dynamic_content_id', $event->getClickthrough())) {
+           return;
+       }
+
+       // Replace your tokens in the Dynamic Content item.
+   }
+
+``TokenReplacementEvent`` is ``final``, so a Plugin's event class can't extend it. See :ref:`TokenReplacementEvent <Plugins/update_m7_to_m8:TokenReplacementEvent>`.
+
+.. _mautic 8 emailbundle:
+
 .. vale off
 
 EmailBundle
@@ -876,7 +1335,72 @@ EmailBundle
 
 .. vale on
 
-Mautic 8 adds type declarations to four Email event classes.
+Mautic 8 adds type declarations to four Email event classes and removes most ``EmailEvents`` constants.
+
+.. vale off
+
+EmailEvents constants
+=====================
+
+.. vale on
+
+Mautic 8 removes these ``Mautic\EmailBundle\EmailEvents`` constants and dispatches the events by their event class. A subscriber that still references one of them fails with ``Error: Undefined constant``. Key ``getSubscribedEvents()`` on the event class, which is in the ``Mautic\EmailBundle\Event`` namespace unless the table shows a full class name:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``EmailEvents`` constant
+     - Event class
+   * - ``EMAIL_ON_BUILD``
+     - ``EmailOnBuildEvent``
+   * - ``EMAIL_ON_DISPLAY``
+     - ``EmailDisplayEvent``
+   * - ``EMAIL_PRE_SEND``
+     - ``EmailPreSendEvent``
+   * - ``EMAIL_ON_TOGGLE_PUBLISH``
+     - ``EmailOnTogglePublishEvent``
+   * - ``EMAIL_PRE_SAVE``
+     - ``EmailPreSaveEvent``
+   * - ``EMAIL_POST_SAVE``
+     - ``EmailPostSaveEvent``
+   * - ``EMAIL_PRE_DELETE``
+     - ``EmailPreDeleteEvent``
+   * - ``EMAIL_POST_DELETE``
+     - ``EmailPostDeleteEvent``
+   * - ``ON_EMAIL_STAT_PRE_SAVE``
+     - ``EmailStatEvent``
+   * - ``ON_EMAIL_STAT_POST_SAVE``
+     - ``EmailStatPostSaveEvent``
+   * - ``ON_EMAIL_EDIT_SUBMIT``
+     - ``EmailEditSubmitEvent``
+   * - ``EMAIL_ON_REPLY``
+     - ``EmailReplyEvent``
+   * - ``ON_EMAIL_VALIDATION``
+     - ``EmailValidationEvent``
+   * - ``ON_TRANSPORT_WEBHOOK``
+     - ``TransportWebhookEvent``
+   * - ``MONITORED_EMAIL_CONFIG``
+     - ``MonitoredEmailEvent``
+   * - ``TOKEN_REPLACEMENT``
+     - ``Mautic\CoreBundle\Event\TokenReplacementEvent``
+   * - ``ON_EMAIL_ADDRESS_TOKEN_REPLACEMENT``
+     - ``OnEmailAddressTokenReplacementEvent``
+
+For the ``EMAIL_PRE_FETCH`` and ``EMAIL_PARSE`` constants, see :ref:`ParseEmailEvent <Plugins/update_m7_to_m8:ParseEmailEvent>`.
+
+Mautic 8 also deletes the ``EmailBuilderEvent`` class that it dispatched for ``EMAIL_ON_BUILD``. Type-hint your build listener with ``EmailOnBuildEvent`` instead. Because Mautic dispatches the send and display events separately, a listener keyed only on ``EmailSendEvent::class`` doesn't receive ``EmailDisplayEvent``, so a handler that served both ``EMAIL_ON_SEND`` and ``EMAIL_ON_DISPLAY`` must register under both keys:
+
+.. code:: diff
+
+   - EmailEvents::EMAIL_ON_BUILD   => ['onEmailBuild', 0],
+   - EmailEvents::EMAIL_ON_SEND    => ['onEmailGenerate', 0],
+   - EmailEvents::EMAIL_ON_DISPLAY => ['onEmailGenerate', 0],
+   + EmailOnBuildEvent::class      => ['onEmailBuild', 0],
+   + EmailSendEvent::class         => ['onEmailGenerate', 0],
+   + EmailDisplayEvent::class      => ['onEmailGenerate', 0],
+
+Mautic keeps the ``EMAIL_ON_SEND`` and ``EMAIL_ON_OPEN`` constants, because their string values are also Webhook event type identifiers, but it doesn't dispatch events under them. A subscriber keyed on one of them silently receives nothing, so key it on ``EmailSendEvent::class`` or ``EmailOpenEvent::class`` instead. The Campaign registration constants, such as ``ON_CAMPAIGN_BATCH_ACTION``, and ``ON_SENT_EMAIL_TO_USER`` don't change.
 
 .. vale off
 
@@ -982,12 +1506,40 @@ On ``PreFetchEmailEvent``, ``setCriteriaRequest()`` types ``$bundleKey`` as ``st
 
 For an Email extension example, see :doc:`/plugin_extensions/emails`.
 
+.. _mautic 8 formbundle:
+
 FormBundle
 **********
 
 .. vale on
 
-Mautic 8 adds type declarations to two Form event classes.
+Mautic 8 adds type declarations to two Form event classes and dispatches four Form events by their event class.
+
+.. vale off
+
+FormEvents constants
+====================
+
+.. vale on
+
+Mautic 8 dispatches these FormBundle events by their event class. The ``Mautic\FormBundle\FormEvents`` constants still exist, but Mautic doesn't dispatch the events under them, so a subscriber keyed on one silently receives nothing. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\FormBundle\Event`` namespace instead:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - ``FormEvents`` constant
+     - Event class
+   * - ``FORM_ON_SUBMIT``
+     - ``SubmissionEvent``
+   * - ``FORM_ON_BUILD``
+     - ``FormBuilderEvent``
+   * - ``ON_OBJECT_COLLECT``
+     - ``ObjectCollectEvent``
+   * - ``ON_FIELD_COLLECT``
+     - ``FieldCollectEvent``
+
+The string value of ``FORM_ON_SUBMIT``, ``mautic.form_on_submit``, stays the Webhook event type identifier, so Webhook configuration doesn't change. The other ``FormEvents`` constants, such as the ``FORM_*`` and ``FIELD_*`` save and delete groups, ``ON_EXECUTE_SUBMIT_ACTION``, and ``ON_FORM_VALIDATE``, don't change.
 
 .. vale off
 
@@ -1043,12 +1595,78 @@ Of all the classes on this list, ``Mautic\FormBundle\Event\SubmissionEvent`` has
 
 For a Form extension example, see :doc:`/plugin_extensions/forms`.
 
+.. _mautic 8 integrationsbundle:
+
 IntegrationsBundle
 ******************
 
 .. vale on
 
-Mautic 8 adds type declarations to one Integrations token event class.
+Mautic 8 adds type declarations to one Integrations token event class and deletes the ``IntegrationEvents`` class.
+
+.. vale off
+
+IntegrationEvents constants
+===========================
+
+.. vale on
+
+Mautic 8 deletes the ``Mautic\IntegrationsBundle\IntegrationEvents`` class and dispatches every IntegrationsBundle event by its event class. A subscriber that still references an ``IntegrationEvents`` constant fails with a ``Class "Mautic\IntegrationsBundle\IntegrationEvents" not found`` error, and a subscriber keyed on a raw event name, such as ``mautic.integration.INTEGRATION_FIND_INTERNAL_RECORDS``, silently receives nothing. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\IntegrationsBundle\Event`` namespace instead:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``IntegrationEvents`` constant
+     - Event class
+   * - ``INTEGRATION_POST_EXECUTE``
+     - ``SyncEvent``
+   * - ``INTEGRATION_CONFIG_FORM_LOAD``
+     - ``FormLoadEvent``
+   * - ``INTEGRATION_CONFIG_ON_GENERATE_AUTH_URL``
+     - ``ConfigAuthUrlEvent``
+   * - ``INTEGRATION_CONFIG_BEFORE_SAVE``
+     - ``ConfigBeforeSaveEvent``
+   * - ``INTEGRATION_CONFIG_AFTER_SAVE``
+     - ``ConfigAfterSaveEvent``
+   * - ``INTEGRATION_API_KEYS_BEFORE_SAVE``
+     - ``KeysSaveEvent``
+   * - ``INTEGRATION_KEYS_BEFORE_ENCRYPTION``
+     - ``KeysEncryptionEvent``
+   * - ``INTEGRATION_KEYS_AFTER_DECRYPTION``
+     - ``KeysDecryptionEvent``
+   * - ``INTEGRATION_MAUTIC_SYNC_FIELDS_LOAD``
+     - ``MauticSyncFieldsLoadEvent``
+   * - ``INTEGRATION_COLLECT_INTERNAL_OBJECTS``
+     - ``InternalObjectEvent``
+   * - ``INTEGRATION_CREATE_INTERNAL_OBJECTS``
+     - ``InternalObjectCreateEvent``
+   * - ``INTEGRATION_UPDATE_INTERNAL_OBJECTS``
+     - ``InternalObjectUpdateEvent``
+   * - ``INTEGRATION_FIND_INTERNAL_RECORD``
+     - ``InternalObjectFindByIdEvent``
+   * - ``INTEGRATION_FIND_INTERNAL_RECORDS``
+     - ``InternalObjectFindEvent``
+   * - ``INTEGRATION_FIND_OWNER_IDS``
+     - ``InternalObjectOwnerEvent``
+   * - ``INTEGRATION_BUILD_INTERNAL_OBJECT_ROUTE``
+     - ``InternalObjectRouteEvent``
+   * - ``INTEGRATION_OBJECT_TOKEN_EVENT``
+     - ``MappedIntegrationObjectTokenEvent``
+   * - ``INTEGRATION_BEFORE_CONTACT_FIELD_CHANGES``
+     - ``InternalContactFieldChangesEvent``
+   * - ``INTEGRATION_BEFORE_COMPANY_FIELD_CHANGES``
+     - ``InternalCompanyFieldChangesEvent``
+   * - ``INTEGRATION_BEFORE_FULL_CONTACT_REPORT_BUILD``
+     - ``InternalContactFullReportBuildEvent``
+   * - ``INTEGRATION_BEFORE_FULL_COMPANY_REPORT_BUILD``
+     - ``InternalCompanyFullReportBuildEvent``
+   * - ``INTEGRATION_BATCH_SYNC_COMPLETED_INTEGRATION_TO_MAUTIC``
+     - ``IntegrationToMauticSyncCompletedEvent``
+   * - ``INTEGRATION_BATCH_SYNC_COMPLETED_MAUTIC_TO_INTEGRATION``
+     - ``MauticToIntegrationSyncCompletedEvent``
+
+Several of these events used to share one event object under two constants. ``ConfigSaveEvent``, ``InternalContactEvent``, ``InternalCompanyEvent``, and ``CompletedSyncIterationEvent`` are now abstract base classes for the matching classes in the preceding table. A listener method can keep its type hint on the base class, and both configuration save subclasses keep the ``getIntegrationConfiguration()`` and ``getIntegration()`` methods. Code that creates one of these base classes with ``new``, such as a Plugin test, must create the matching subclass instead.
 
 .. vale off
 
@@ -1064,6 +1682,8 @@ Integration subscribers register mapped-object tokens on ``Mautic\IntegrationsBu
    - public function addToken($integrationName, $objectName, $objectLink, $title = '', $linkText = 'Link Text', $default = 'Default Value'): void
    + public function addToken($integrationName, $objectName, $objectLink, string $title = '', string $linkText = 'Link Text', string $default = 'Default Value'): void
 
+.. _mautic 8 leadbundle:
+
 .. vale off
 
 LeadBundle
@@ -1071,7 +1691,222 @@ LeadBundle
 
 .. vale on
 
-Mautic 8 adds type declarations to three Contact and Segment event classes and to the ``ContactTracker`` service.
+Mautic 8 dispatches the LeadBundle events by their event class and adds type declarations to three Contact and Segment event classes and to the ``ContactTracker`` service.
+
+.. vale off
+
+LeadEvents constants
+====================
+
+.. vale on
+
+Mautic 8 dispatches the LeadBundle events for Contacts, Companies, Segments, Custom Fields, Tags, notes, devices, imports, and Contact exports by their event class. The event classes live in the ``Mautic\LeadBundle\Event`` namespace, except the six ``*ColumnEvent`` and ``*ColumnBackgroundEvent`` classes, which live in ``Mautic\LeadBundle\Field\Event``.
+
+Mautic 8 removes these ``Mautic\LeadBundle\LeadEvents`` constants, so a subscriber that still references one of them fails with ``Error: Undefined constant``. Key ``getSubscribedEvents()`` on the event class instead:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``LeadEvents`` constant
+     - Event class
+   * - ``LEAD_PRE_SAVE``
+     - ``LeadPreSaveEvent``
+   * - ``LEAD_PRE_DELETE``
+     - ``LeadPreDeleteEvent``
+   * - ``LEAD_PRE_MERGE``
+     - ``LeadPreMergeEvent``
+   * - ``LEAD_POST_MERGE``
+     - ``LeadPostMergeEvent``
+   * - ``LEAD_IDENTIFIED``
+     - ``LeadIdentifiedEvent``
+   * - ``LEAD_LIST_BATCH_CHANGE``
+     - ``ListBatchChangeEvent``
+   * - ``LEAD_PRE_BATCH_SAVE``
+     - ``LeadPreBatchSaveEvent``
+   * - ``LEAD_POST_BATCH_SAVE``
+     - ``LeadPostBatchSaveEvent``
+   * - ``CURRENT_LEAD_CHANGED``
+     - ``LeadChangeEvent``
+   * - ``LIST_PRE_SAVE``
+     - ``ListPreSaveEvent``
+   * - ``LIST_POST_SAVE``
+     - ``ListPostSaveEvent``
+   * - ``LIST_PRE_UNPUBLISH``
+     - ``ListPreUnpublishEvent``
+   * - ``LIST_PRE_DELETE``
+     - ``ListPreDeleteEvent``
+   * - ``ON_LIST_DELETE``
+     - ``ListDeleteEvent``
+   * - ``LIST_POST_DELETE``
+     - ``ListPostDeleteEvent``
+   * - ``FIELD_PRE_SAVE``
+     - ``FieldPreSaveEvent``
+   * - ``FIELD_POST_SAVE``
+     - ``FieldPostSaveEvent``
+   * - ``FIELD_PRE_DELETE``
+     - ``FieldPreDeleteEvent``
+   * - ``FIELD_POST_DELETE``
+     - ``FieldPostDeleteEvent``
+   * - ``NOTE_PRE_SAVE``
+     - ``NotePreSaveEvent``
+   * - ``NOTE_POST_SAVE``
+     - ``NotePostSaveEvent``
+   * - ``NOTE_PRE_DELETE``
+     - ``NotePreDeleteEvent``
+   * - ``NOTE_POST_DELETE``
+     - ``NotePostDeleteEvent``
+   * - ``IMPORT_PRE_SAVE``
+     - ``ImportPreSaveEvent``
+   * - ``IMPORT_POST_SAVE``
+     - ``ImportPostSaveEvent``
+   * - ``IMPORT_PRE_DELETE``
+     - ``ImportPreDeleteEvent``
+   * - ``IMPORT_POST_DELETE``
+     - ``ImportPostDeleteEvent``
+   * - ``IMPORT_BATCH_PROCESSED``
+     - ``ImportBatchProcessedEvent``
+   * - ``DEVICE_PRE_SAVE``
+     - ``DevicePreSaveEvent``
+   * - ``DEVICE_POST_SAVE``
+     - ``DevicePostSaveEvent``
+   * - ``DEVICE_PRE_DELETE``
+     - ``DevicePreDeleteEvent``
+   * - ``DEVICE_POST_DELETE``
+     - ``DevicePostDeleteEvent``
+   * - ``TAG_PRE_SAVE``
+     - ``TagPreSaveEvent``
+   * - ``TAG_POST_SAVE``
+     - ``TagPostSaveEvent``
+   * - ``TAG_PRE_DELETE``
+     - ``TagPreDeleteEvent``
+   * - ``TAG_POST_DELETE``
+     - ``TagPostDeleteEvent``
+   * - ``TAG_PRE_MERGE``
+     - ``TagPreMergeEvent``
+   * - ``TAG_POST_MERGE``
+     - ``TagPostMergeEvent``
+   * - ``COMPANY_PRE_SAVE``
+     - ``CompanyPreSaveEvent``
+   * - ``COMPANY_PRE_DELETE``
+     - ``CompanyPreDeleteEvent``
+   * - ``COMPANY_SOFT_DELETE``
+     - ``CompanySoftDeleteEvent``
+   * - ``COMPANY_PRE_MERGE``
+     - ``CompanyPreMergeEvent``
+   * - ``COMPANY_POST_MERGE``
+     - ``CompanyPostMergeEvent``
+   * - ``LIST_FILTERS_CHOICES_ON_GENERATE``
+     - ``LeadListFiltersChoicesEvent``
+   * - ``LIST_FILTERS_ON_FILTERING``
+     - ``LeadListFilteringEvent``
+   * - ``LIST_PRE_PROCESS_LIST``
+     - ``ListPreProcessListEvent``
+   * - ``SEGMENT_DICTIONARY_ON_GENERATE``
+     - ``SegmentDictionaryGenerationEvent``
+   * - ``ON_CLICKTHROUGH_IDENTIFICATION``
+     - ``ContactIdentificationEvent``
+   * - ``POST_CONTACT_EXPORT``
+     - ``ContactExportEvent``
+   * - ``POST_CONTACT_EXPORT_SCHEDULED``
+     - ``ContactExportScheduledEvent``
+   * - ``CONTACT_EXPORT_PREPARE_FILE``
+     - ``ContactExportPrepareFileEvent``
+   * - ``CONTACT_EXPORT_SEND_EMAIL``
+     - ``ContactExportSendEmailEvent``
+   * - ``POST_CONTACT_EXPORT_SEND_EMAIL``
+     - ``ContactExportEmailSentEvent``
+
+Mautic 8 also removes the ``DoNotContactAddEvent::ADD_DONOT_CONTACT`` and ``DoNotContactRemoveEvent::REMOVE_DONOT_CONTACT`` constants, so key the subscriber on ``DoNotContactAddEvent::class`` or ``DoNotContactRemoveEvent::class``.
+
+Mautic keeps these ``LeadEvents`` constants, but it doesn't dispatch events under them, so a subscriber keyed on one silently receives nothing. Key it on the event class instead:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Kept ``LeadEvents`` constant
+     - Event class
+   * - ``LEAD_POST_SAVE``
+     - ``LeadPostSaveEvent``
+   * - ``LEAD_POST_DELETE``
+     - ``LeadPostDeleteEvent``
+   * - ``LEAD_POINTS_CHANGE``
+     - ``PointsChangeEvent``
+   * - ``LEAD_COMPANY_CHANGE``
+     - ``LeadChangeCompanyEvent``
+   * - ``LEAD_LIST_CHANGE``
+     - ``ListChangeEvent``
+   * - ``COMPANY_POST_SAVE``
+     - ``CompanyPostSaveEvent``
+   * - ``COMPANY_POST_DELETE``
+     - ``CompanyPostDeleteEvent``
+   * - ``CHANNEL_SUBSCRIPTION_CHANGED``
+     - ``ChannelSubscriptionChange``
+   * - ``TIMELINE_ON_GENERATE``
+     - ``LeadTimelineEvent``
+   * - ``LEAD_UTMTAGS_ADD``
+     - ``LeadUtmTagsEvent``
+   * - ``LEAD_CATEGORY_CHANGE``
+     - ``CategoryChangeEvent``
+   * - ``LEAD_BUILD_SEARCH_COMMANDS``
+     - ``LeadBuildSearchEvent``
+   * - ``COMPANY_BUILD_SEARCH_COMMANDS``
+     - ``CompanyBuildSearchEvent``
+   * - ``ADJUST_FILTER_FORM_TYPE_FOR_FIELD``
+     - ``FormAdjustmentEvent``
+   * - ``COLLECT_OPERATORS_FOR_FIELD_TYPE``
+     - ``TypeOperatorsEvent``
+   * - ``COLLECT_OPERATORS_FOR_FIELD``
+     - ``FieldOperatorsEvent``
+   * - ``COLLECT_FILTER_CHOICES_FOR_LIST_FIELD_TYPE``
+     - ``ListFieldChoicesEvent``
+   * - ``SEGMENT_ON_DECORATOR_DELEGATE``
+     - ``LeadListFiltersDecoratorDelegateEvent``
+   * - ``LIST_FILTERS_MERGE``
+     - ``LeadListMergeFiltersEvent``
+   * - ``LIST_FILTERS_OPERATORS_ON_GENERATE``
+     - ``LeadListFiltersOperatorsEvent``
+   * - ``LIST_FILTERS_OPERATOR_QUERYBUILDER_ON_GENERATE``
+     - ``SegmentOperatorQueryBuilderEvent``
+   * - ``LIST_FILTERS_QUERYBUILDER_GENERATED``
+     - ``LeadListQueryBuilderGeneratedEvent``
+   * - ``IMPORT_ON_INITIALIZE``
+     - ``ImportInitEvent``
+   * - ``IMPORT_ON_FIELD_MAPPING``
+     - ``ImportMappingEvent``
+   * - ``IMPORT_ON_PROCESS``
+     - ``ImportProcessEvent``
+   * - ``IMPORT_ON_VALIDATE``
+     - ``ImportValidateEvent``
+   * - ``LEAD_FIELD_PRE_ADD_COLUMN``
+     - ``AddColumnEvent``
+   * - ``LEAD_FIELD_PRE_ADD_COLUMN_BACKGROUND_JOB``
+     - ``AddColumnBackgroundEvent``
+   * - ``LEAD_FIELD_PRE_UPDATE_COLUMN``
+     - ``UpdateColumnEvent``
+   * - ``LEAD_FIELD_PRE_UPDATE_COLUMN_BACKGROUND_JOB``
+     - ``UpdateColumnBackgroundEvent``
+   * - ``LEAD_FIELD_PRE_DELETE_COLUMN``
+     - ``DeleteColumnEvent``
+   * - ``LEAD_FIELD_PRE_DELETE_COLUMN_BACKGROUND_JOB``
+     - ``DeleteColumnBackgroundEvent``
+
+Mautic keeps the first eight constants in this table because it also uses them as Webhook event type identifiers, so Webhook configuration doesn't change.
+
+.. vale off
+
+Shared LeadBundle event classes
+===============================
+
+.. vale on
+
+Before Mautic 8, several ``LeadEvents`` constants shared one event class. Each event now has its own subclass of that shared class, which changes code that creates or reads these events:
+
+* ``CompanyEvent``, ``CompanyMergeEvent``, ``ContactExportSchedulerEvent``, ``ImportEvent``, ``LeadDeviceEvent``, ``LeadFieldEvent``, ``LeadListEvent``, ``LeadMergeEvent``, ``LeadNoteEvent``, ``SaveBatchLeadsEvent``, ``TagEvent``, and ``TagMergeEvent`` are now ``abstract``. A listener method can keep its type hint on the shared class, but code that creates one of these events with ``new``, such as a Plugin test, must create the matching subclass from the preceding tables.
+* ``LeadEvent`` is no longer ``final``, because the Contact lifecycle classes such as ``LeadPreSaveEvent`` and ``LeadPostSaveEvent`` extend it.
+* The event that Mautic dispatches before a save, delete, or merge and the event that it dispatches afterward are now separate objects. A value that a listener sets on the earlier event isn't available to listeners of the later one.
+* ``Mautic\LeadBundle\Field\Dispatcher\FieldSaveDispatcher::dispatchEvent()`` now takes the ``LeadFieldEvent`` subclass to dispatch, instead of an event name, the field entity, and an ``isNew`` flag.
 
 .. vale off
 
@@ -1174,12 +2009,65 @@ Inject the helper and call it on the instance instead of calling it statically:
 
 For a Contact extension example that uses ``ContactTracker``, see :doc:`/plugin_extensions/contacts`.
 
+.. _mautic 8 focusbundle:
+
+MauticFocusBundle
+*****************
+
+.. vale on
+
+Mautic 8 dispatches ``MauticPlugin\MauticFocusBundle\Event\FocusViewEvent`` by its class. The ``MauticPlugin\MauticFocusBundle\FocusEvents::FOCUS_ON_VIEW`` constant still exists, but Mautic doesn't dispatch the event under it, so key ``getSubscribedEvents()`` on ``FocusViewEvent::class``. ``FocusEventTypes::FOCUS_ON_VIEW`` is a separate stat type identifier that doesn't change, so don't confuse the two.
+
+.. _mautic 8 socialbundle:
+
+.. vale off
+
+MauticSocialBundle
+******************
+
+.. vale on
+
+Mautic 8 removes the Monitor and Tweet save and delete constants from ``MauticPlugin\MauticSocialBundle\SocialEvents`` and dispatches these events by their event class. A subscriber that still references one of the constants, such as ``SocialEvents::TWEET_POST_SAVE``, fails with ``Error: Undefined constant``. Key ``getSubscribedEvents()`` on the event class in the ``MauticPlugin\MauticSocialBundle\Event`` namespace instead:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``SocialEvents`` constant
+     - Event class
+   * - ``MONITOR_PRE_SAVE``
+     - ``MonitorPreSaveEvent``
+   * - ``MONITOR_POST_SAVE``
+     - ``MonitorPostSaveEvent``
+   * - ``MONITOR_PRE_DELETE``
+     - ``MonitorPreDeleteEvent``
+   * - ``MONITOR_POST_DELETE``
+     - ``MonitorPostDeleteEvent``
+   * - ``MONITOR_POST_PROCESS``
+     - ``SocialMonitorEvent``, which Mautic already dispatched by its class
+   * - ``TWEET_PRE_SAVE``
+     - ``TweetPreSaveEvent``
+   * - ``TWEET_POST_SAVE``
+     - ``TweetPostSaveEvent``
+   * - ``TWEET_PRE_DELETE``
+     - ``TweetPreDeleteEvent``
+   * - ``TWEET_POST_DELETE``
+     - ``TweetPostDeleteEvent``
+
+Mautic 8 also removes the ``SocialEvent`` class. The Monitor events extend ``AbstractMonitorEvent``, which provides ``getMonitoring()``, and the Tweet events extend ``AbstractTweetEvent``, which provides ``getTweet()``.
+
+.. _mautic 8 notificationbundle:
+
+.. vale off
+
 NotificationBundle
 ******************
 
 .. vale on
 
-Mautic 8 adds parameter types to three Notification entity classes. Plugins that create or update these entities must pass arguments of the declared types:
+Mautic 8 dispatches ``Mautic\NotificationBundle\Event\NotificationSendEvent`` by its class. The ``NotificationEvents::NOTIFICATION_ON_SEND`` constant still exists, but Mautic doesn't dispatch the event under it, so key ``getSubscribedEvents()`` on ``NotificationSendEvent::class``.
+
+Mautic 8 also adds parameter types to three Notification entity classes. Plugins that create or update these entities must pass arguments of the declared types:
 
 * ``Mautic\NotificationBundle\Entity\Notification`` - ``setName()``, ``setButton()``, and ``setMessage()`` take ``?string``, ``setNotificationType()`` takes ``string``, ``setUtmTags()`` takes ``array``, and ``setMobile()`` takes ``bool``.
 * ``Mautic\NotificationBundle\Entity\PushID`` - ``setEnabled()`` and ``setMobile()`` take ``bool``.
@@ -1190,6 +2078,8 @@ Mautic 8 adds parameter types to three Notification entity classes. Plugins that
    - public function setDateSent($dateSent): void
    + public function setDateSent(\DateTimeInterface $dateSent): void
 
+.. _mautic 8 pagebundle:
+
 .. vale off
 
 PageBundle
@@ -1197,7 +2087,47 @@ PageBundle
 
 .. vale on
 
-Mautic 8 adds type declarations to one tracked-link redirect event class.
+Mautic 8 adds type declarations to one tracked-link redirect event class and dispatches several Landing Page and tracking events by their event class.
+
+.. vale off
+
+PageEvents constants
+====================
+
+.. vale on
+
+Mautic 8 removes the ``Mautic\PageBundle\PageEvents::PAGE_ON_BUILD`` and ``PAGE_ON_DISPLAY`` constants, so a subscriber that still references one of them fails with ``Error: Undefined constant``. Mautic keeps the other constants in the following table, but it doesn't dispatch events under them, so a subscriber keyed on one silently receives nothing. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\PageBundle\Event`` namespace instead:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 20 40
+
+   * - ``PageEvents`` constant
+     - Status
+     - Event class
+   * - ``PAGE_ON_BUILD``
+     - Removed
+     - ``PageBuilderEvent``
+   * - ``PAGE_ON_DISPLAY``
+     - Removed
+     - ``PageDisplayEvent``
+   * - ``PAGE_ON_HIT``
+     - Kept
+     - ``PageHitEvent``
+   * - ``VIDEO_ON_HIT``
+     - Kept
+     - ``VideoHitEvent``
+   * - ``ON_CONTACT_TRACKED``
+     - Kept
+     - ``TrackingEvent``
+   * - ``ON_REDIRECT_GENERATE``
+     - Kept
+     - ``RedirectGenerationEvent``
+   * - ``REDIRECT_DO_NOT_TRACK``
+     - Kept
+     - ``UntrackableUrlsEvent``
+
+``PAGE_ON_HIT`` stays the Webhook event type identifier for Landing Page hits, so Webhook configuration doesn't change. ``PAGE_ON_TOGGLE_PUBLISH`` and the ``PAGE_PRE_SAVE``, ``PAGE_POST_SAVE``, ``PAGE_PRE_DELETE``, and ``PAGE_POST_DELETE`` constants share the ``PageEvent`` class, so Mautic still dispatches them under their string constants and subscribers keyed on them don't change.
 
 .. vale off
 
@@ -1213,6 +2143,66 @@ Subscribers that build a tracked-link redirect use ``Mautic\PageBundle\Event\Red
    - public function setInClickthrough($key, $value): void
    + public function setInClickthrough(string $key, string $value): void
 
+.. _mautic 8 pluginbundle:
+
+.. vale off
+
+PluginBundle
+************
+
+.. vale on
+
+Mautic 8 removes these ``Mautic\PluginBundle\PluginEvents`` constants and dispatches the events by their event class. A subscriber that still references one of them fails with ``Error: Undefined constant``. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\PluginBundle\Event`` namespace instead:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``PluginEvents`` constant
+     - Event class
+   * - ``ON_PLUGIN_INSTALL``
+     - ``PluginInstallEvent``
+   * - ``ON_PLUGIN_UPDATE``
+     - ``PluginUpdateEvent``
+   * - ``PLUGIN_IS_PUBLISHED_STATE_CHANGING``
+     - ``PluginIsPublishedEvent``
+   * - ``PLUGIN_ON_INTEGRATION_CONFIG_SAVE``
+     - ``PluginIntegrationEvent``
+   * - ``PLUGIN_ON_INTEGRATION_REQUEST``
+     - ``PluginIntegrationRequestEvent``
+   * - ``PLUGIN_ON_INTEGRATION_RESPONSE``
+     - ``PluginIntegrationResponseEvent``
+   * - ``PLUGIN_ON_INTEGRATION_AUTH_REDIRECT``
+     - ``PluginIntegrationAuthRedirectEvent``
+   * - ``PLUGIN_ON_INTEGRATION_GET_AUTH_CALLBACK_URL``
+     - ``PluginIntegrationAuthCallbackUrlEvent``
+   * - ``PLUGIN_ON_INTEGRATION_FORM_DISPLAY``
+     - ``PluginIntegrationFormDisplayEvent``
+   * - ``PLUGIN_ON_INTEGRATION_FORM_BUILD``
+     - ``PluginIntegrationFormBuildEvent``
+
+For example, re-key a Plugin's install and update subscriber like this:
+
+.. code:: diff
+
+   - use Mautic\PluginBundle\PluginEvents;
+   + use Mautic\PluginBundle\Event\PluginInstallEvent;
+   + use Mautic\PluginBundle\Event\PluginUpdateEvent;
+
+     public static function getSubscribedEvents(): array
+     {
+         return [
+   -         PluginEvents::ON_PLUGIN_INSTALL => ['onPluginInstall', 0],
+   -         PluginEvents::ON_PLUGIN_UPDATE  => ['onPluginUpdate', 0],
+   +         PluginInstallEvent::class      => ['onPluginInstall', 0],
+   +         PluginUpdateEvent::class       => ['onPluginUpdate', 0],
+         ];
+     }
+
+Mautic 8 also removes ``ON_FORM_SUBMIT_ACTION_TRIGGERED``, which had no dispatcher or listener. The ``PLUGIN_ON_INTEGRATION_KEYS_ENCRYPT``, ``PLUGIN_ON_INTEGRATION_KEYS_DECRYPT``, and ``PLUGIN_ON_INTEGRATION_KEYS_MERGE`` constants share one event class, so they don't change. For the change to the Integration response event, see :ref:`Integration response event <Plugins/update_m7_to_m8:Integration response event>`.
+
+.. _mautic 8 pointbundle:
+
 .. vale off
 
 PointBundle
@@ -1220,7 +2210,7 @@ PointBundle
 
 .. vale on
 
-Mautic 8 adds type declarations to the Point TriggerEvent entity and two Point event classes.
+Mautic 8 adds type declarations to the Point TriggerEvent entity and two Point event classes. It also dispatches ``Mautic\PointBundle\Event\PointActionEvent`` and ``GroupScoreChangeEvent`` by their class. The ``PointEvents::POINT_ON_ACTION`` and ``PointGroupEvents::SCORE_CHANGE`` constants still exist, but Mautic doesn't dispatch the events under them, so key ``getSubscribedEvents()`` on ``PointActionEvent::class`` and ``GroupScoreChangeEvent::class``.
 
 .. vale off
 
@@ -1282,6 +2272,46 @@ Mautic 8 also dispatches ``TriggerBuilderEvent`` by its class name. Re-key your 
 
 For a Point extension example, see :doc:`/plugin_extensions/points`.
 
+.. _mautic 8 reportbundle:
+
+ReportBundle
+************
+
+.. vale on
+
+Mautic 8 dispatches these ReportBundle events by their event class. The ``Mautic\ReportBundle\ReportEvents`` constants still exist, but Mautic doesn't dispatch the events under them, so a subscriber keyed on one silently receives nothing. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\ReportBundle\Event`` namespace instead:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - ``ReportEvents`` constant
+     - Event class
+   * - ``REPORT_ON_BUILD``
+     - ``ReportBuilderEvent``
+   * - ``REPORT_ON_GENERATE``
+     - ``ReportGeneratorEvent``
+   * - ``REPORT_ON_GRAPH_GENERATE``
+     - ``ReportGraphEvent``
+   * - ``REPORT_QUERY_PRE_EXECUTE``
+     - ``ReportQueryEvent``
+   * - ``REPORT_ON_DISPLAY``
+     - ``ReportDataEvent``
+   * - ``REPORT_SCHEDULE_SEND``
+     - ``ReportScheduleSendEvent``
+   * - ``REPORT_ON_COLUMN_COLLECT``
+     - ``ColumnCollectEvent``
+   * - ``REPORT_PERMANENT_FILE_CREATED``
+     - ``PermanentReportFileCreatedEvent``
+
+The ``REPORT_PRE_SAVE``, ``REPORT_POST_SAVE``, ``REPORT_PRE_DELETE``, and ``REPORT_POST_DELETE`` constants share one ``ReportEvent`` object, so they don't change.
+
+.. vale off
+
+For a Report extension example, see :doc:`/plugin_extensions/reports`.
+
+.. _mautic 8 smsbundle:
+
 SmsBundle
 *********
 
@@ -1299,14 +2329,58 @@ Mautic 8 adds parameter types to the SMS and SMS Stat entities. Plugins that cre
 
 .. vale off
 
+SmsEvents constants
+===================
+
+.. vale on
+
+Mautic 8 removes these ``Mautic\SmsBundle\SmsEvents`` constants and dispatches the events by their event class. A subscriber that still references one of them fails with ``Error: Undefined constant``. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\SmsBundle\Event`` namespace instead:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``SmsEvents`` constant
+     - Event class
+   * - ``SMS_PRE_SAVE``
+     - ``SmsPreSaveEvent``
+   * - ``SMS_POST_SAVE``
+     - ``SmsPostSaveEvent``
+   * - ``SMS_PRE_DELETE``
+     - ``SmsPreDeleteEvent``
+   * - ``SMS_POST_DELETE``
+     - ``SmsPostDeleteEvent``
+   * - ``ON_REPLY``
+     - ``ReplyEvent``
+   * - ``DNC_FILTER_CONTACTS_ON_SEND``
+     - ``DncEvent``
+   * - ``QUEUE_FILTER_CONTACTS_ON_SEND``
+     - ``QueueEvent``
+   * - ``FILTER_CONTACTS_ON_SEND``
+     - ``FilterEvent``
+   * - ``ON_SMS_TOKENS_BUILD``
+     - ``TokensBuildEvent``
+
+The four save and delete events used to share one ``SmsEvent`` object. ``SmsEvent`` is now abstract, so a listener method can keep its ``SmsEvent`` type hint, but code that creates an ``SmsEvent`` with ``new``, such as a Plugin test, must create the matching subclass.
+
+Mautic 8 also removes the deprecated ``ON_CAMPAIGN_TRIGGER_ACTION`` constant. Mautic runs the SMS Campaign action through ``ON_CAMPAIGN_TRIGGER_BATCH_ACTION``, so listen to that event instead. Mautic keeps the ``SMS_ON_SEND`` constant as the Webhook event type identifier for sent SMS messages, but it doesn't dispatch the send event under it, so key the subscriber on ``SmsSendEvent::class``. ``TOKEN_REPLACEMENT``, ``ON_CAMPAIGN_TRIGGER_BATCH_ACTION``, and ``ON_CAMPAIGN_REPLY`` don't change.
+
+To confirm that Mautic registers a re-keyed filter subscriber, see :ref:`Check event subscriptions <mautic 8 check event subscriptions>`.
+
+.. vale off
+
 For an SMS transport example, see :doc:`/plugin_extensions/sms`.
+
+.. _mautic 8 stagebundle:
 
 StageBundle
 ***********
 
 .. vale on
 
-Mautic 8 adds parameter types to the Stage and Contact Stage log entities.
+Mautic 8 dispatches ``Mautic\StageBundle\Event\StageBuilderEvent`` by its class. The ``StageEvents::STAGE_ON_BUILD`` constant still exists, but Mautic doesn't dispatch the event under it, so key ``getSubscribedEvents()`` on ``StageBuilderEvent::class``. Mautic still dispatches the ``STAGE_*`` save and delete group, ``STAGE_ON_ACTION``, and ``ON_CAMPAIGN_BATCH_ACTION`` under their string constants, so subscribers keyed on them don't change.
+
+Mautic 8 also adds parameter types to the Stage and Contact Stage log entities.
 
 ``Mautic\StageBundle\Entity\Stage`` types ``setDescription()`` as ``?string`` and ``setCategory()`` as a Category entity or ``null``:
 
@@ -1337,6 +2411,19 @@ Mautic 8 adds parameter types to the Stage and Contact Stage log entities.
    - public function setIpAddress($ipAddress): void
    + public function setIpAddress(\Mautic\CoreBundle\Entity\IpAddress $ipAddress): void
 
+.. _mautic 8 statsbundle:
+
+.. vale off
+
+StatsBundle
+***********
+
+.. vale on
+
+Mautic 8 deletes the ``Mautic\StatsBundle\StatEvents`` class and dispatches ``Mautic\StatsBundle\Event\AggregateStatRequestEvent`` by its class. A subscriber that still references ``StatEvents::AGGREGATE_STAT_REQUEST`` fails with a ``Class "Mautic\StatsBundle\StatEvents" not found`` error, and a subscriber keyed on the raw ``mautic.aggregate_stat_request`` event name silently receives nothing. Key ``getSubscribedEvents()`` on ``AggregateStatRequestEvent::class`` instead.
+
+.. _mautic 8 userbundle:
+
 .. vale off
 
 UserBundle
@@ -1344,7 +2431,53 @@ UserBundle
 
 .. vale on
 
-Mautic 8 adds type declarations to one User authentication event class.
+Mautic 8 adds type declarations to one User authentication event class and deletes the ``UserEvents`` class.
+
+.. vale off
+
+UserEvents constants
+====================
+
+.. vale on
+
+Mautic 8 deletes the ``Mautic\UserBundle\UserEvents`` class. A subscriber that still references one of its constants, such as ``UserEvents::USER_LOGIN``, fails with a ``Class "Mautic\UserBundle\UserEvents" not found`` error. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\UserBundle\Event`` namespace instead:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``UserEvents`` constant
+     - Event class
+   * - ``USER_LOGIN``
+     - ``LoginEvent``
+   * - ``USER_LOGOUT``
+     - ``LogoutEvent``
+   * - ``USER_PRE_AUTHENTICATION``
+     - ``PreAuthenticationEvent``
+   * - ``USER_FORM_AUTHENTICATION``
+     - ``FormAuthenticationEvent``
+   * - ``USER_AUTHENTICATION_CONTENT``
+     - ``AuthenticationContentEvent``
+   * - ``USER_PASSWORD_STRENGTH_VALIDATION``
+     - ``PasswordStrengthValidateEvent``
+   * - ``USER_PRE_SAVE``
+     - ``PreSaveUserEvent``
+   * - ``USER_POST_SAVE``
+     - ``PostSaveUserEvent``
+   * - ``USER_PRE_DELETE``
+     - ``PreDeleteUserEvent``
+   * - ``USER_POST_DELETE``
+     - ``PostDeleteUserEvent``
+   * - ``ROLE_PRE_SAVE``
+     - ``PreSaveRoleEvent``
+   * - ``ROLE_POST_SAVE``
+     - ``PostSaveRoleEvent``
+   * - ``ROLE_PRE_DELETE``
+     - ``PreDeleteRoleEvent``
+   * - ``ROLE_POST_DELETE``
+     - ``PostDeleteRoleEvent``
+
+The User and Role save and delete events used to share one ``UserEvent`` or ``RoleEvent`` object, and Mautic dispatched one ``AuthenticationEvent`` under both authentication names. ``UserEvent``, ``RoleEvent``, and ``AuthenticationEvent`` are now abstract base classes for the classes in the preceding table. A listener method can keep its type hint on the base class, but code that creates one of these events with ``new``, such as a Plugin test, must create the matching subclass. Mautic also removes the ``USER_FORM_POST_LOCAL_PASSWORD_AUTHENTICATION`` constant without a replacement, because it never dispatched an event under it.
 
 .. vale off
 
@@ -1365,6 +2498,8 @@ Authentication Integrations set the User on the ``PreAuthenticationEvent`` or ``
    - public function setIsAuthenticated(?string $service, ?User $user = null, $createIfNotExists = true): void
    + public function setIsAuthenticated(?string $service, ?User $user = null, bool $createIfNotExists = true): void
 
+.. _mautic 8 webhookbundle:
+
 .. vale off
 
 WebhookBundle
@@ -1372,7 +2507,50 @@ WebhookBundle
 
 .. vale on
 
-Mautic 8 adds type declarations to the Webhook Event entity and one Webhook event class.
+Mautic 8 adds type declarations to the Webhook Event entity and one Webhook event class, and dispatches the Webhook events by their event class.
+
+.. vale off
+
+WebhookEvents constants
+=======================
+
+.. vale on
+
+Mautic 8 removes the Webhook lifecycle constants from ``Mautic\WebhookBundle\WebhookEvents``, so a subscriber that still references one of them fails with ``Error: Undefined constant``. Mautic keeps the other constants in the following table, but it doesn't dispatch events under them, so a subscriber keyed on one silently receives nothing. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\WebhookBundle\Event`` namespace instead:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 20 40
+
+   * - ``WebhookEvents`` constant
+     - Status
+     - Event class
+   * - ``WEBHOOK_PRE_SAVE``
+     - Removed
+     - ``WebhookPreSaveEvent``
+   * - ``WEBHOOK_POST_SAVE``
+     - Removed
+     - ``WebhookPostSaveEvent``
+   * - ``WEBHOOK_PRE_DELETE``
+     - Removed
+     - ``WebhookPreDeleteEvent``
+   * - ``WEBHOOK_POST_DELETE``
+     - Removed
+     - ``WebhookPostDeleteEvent``
+   * - ``WEBHOOK_KILL``
+     - Removed
+     - ``WebhookKillEvent``
+   * - ``WEBHOOK_ON_BUILD``
+     - Kept
+     - ``WebhookBuilderEvent``
+   * - ``WEBHOOK_QUEUE_ON_ADD``
+     - Kept
+     - ``WebhookQueueEvent``
+   * - ``WEBHOOK_ON_REQUEST``
+     - Kept
+     - ``WebhookRequestEvent``
+
+The five lifecycle events used to share one ``WebhookEvent`` object. ``WebhookEvent`` is now an abstract base class for the five lifecycle classes, so a listener method can keep its ``WebhookEvent`` type hint, but code that creates a ``WebhookEvent`` with ``new``, such as a Plugin test, must create the matching subclass.
 
 .. vale off
 
@@ -1742,7 +2920,7 @@ Integration response event
 
 Mautic now dispatches the Integration response as a new ``Mautic\PluginBundle\Event\PluginIntegrationResponseEvent`` instead of ``PluginIntegrationRequestEvent``. ``AbstractIntegration::makeRequest()`` creates the new event with the Integration and the response, so ``getResponse()`` always returns a ``Psr\Http\Message\ResponseInterface``. ``PluginIntegrationRequestEvent`` no longer has ``getResponse()`` or ``setResponse()``.
 
-Mautic 8 also removed the ``PluginEvents::PLUGIN_ON_INTEGRATION_REQUEST`` and ``PLUGIN_ON_INTEGRATION_RESPONSE`` constants and dispatches both events by the event object alone. Key ``getSubscribedEvents()`` on ``PluginIntegrationRequestEvent::class`` and ``PluginIntegrationResponseEvent::class``. For the full list, see :ref:`Removed event constants <plugins/event_listeners:Removed event constants>`.
+Mautic 8 also removes the ``PluginEvents::PLUGIN_ON_INTEGRATION_REQUEST`` and ``PLUGIN_ON_INTEGRATION_RESPONSE`` constants and dispatches both events by the event object alone. Key ``getSubscribedEvents()`` on ``PluginIntegrationRequestEvent::class`` and ``PluginIntegrationResponseEvent::class``. For the other removed ``PluginEvents`` constants, see :ref:`PluginBundle <mautic 8 pluginbundle>`.
 
 A listener that still type-hints ``PluginIntegrationRequestEvent`` raises a ``TypeError`` when Mautic dispatches the event. Change the type hint:
 
@@ -1832,6 +3010,8 @@ The same change applies to these entity and DTO getter methods:
 * ``Mautic\CampaignBundle\DTO\PublishState::getPublished()`` returns ``?bool``.
 
 An override that keeps the old non-nullable return type is still compatible, because PHP allows a child method to narrow its return type.
+
+.. _mautic 8 core return types:
 
 .. vale off
 
@@ -1935,6 +3115,42 @@ Plugin entities that extend ``Mautic\CoreBundle\Entity\CommonEntity`` and overri
 
    - public function getChanges(bool $includePast = false)
    + public function getChanges(bool $includePast = false): array
+
+.. _mautic 8 formmodel parameter types:
+
+.. vale off
+
+FormModel parameter types
+=========================
+
+.. vale on
+
+Mautic 8 also adds native parameter types to these public methods on ``Mautic\CoreBundle\Model\FormModel``, and adds ``: bool`` to ``isNewEntity()``:
+
+.. code:: diff
+
+   - public function saveEntity($entity, $unlock = true): void
+   + public function saveEntity(object $entity, bool $unlock = true): void
+   - public function saveAndDetachEntity($entity, $unlock = true): void
+   + public function saveAndDetachEntity(object $entity, bool $unlock = true): void
+   - public function lockEntity($entity): void
+   + public function lockEntity(object $entity): void
+   - public function isLocked($entity): bool
+   + public function isLocked(object $entity): bool
+   - public function isNewEntity($entity)
+   + public function isNewEntity(object $entity): bool
+   - public function togglePublishStatus($entity): bool
+   + public function togglePublishStatus(object $entity): bool
+   - public function deleteEntity($entity): void
+   + public function deleteEntity(object $entity): void
+   - public function deleteEntities($ids): array
+   + public function deleteEntities(array $ids): array
+
+``AbstractCommonModel::encodeArrayForUrl()``, which ``FormModel`` and Plugin models inherit, also types its parameter, as ``encodeArrayForUrl(array $array)``.
+
+Code that only calls these methods needs no change, because they already worked with entity objects and arrays. An override that declares a narrower or different parameter type, such as a concrete entity class instead of ``object``, causes a fatal error when PHP loads your class. An override that declares no parameter type stays compatible. To fix an incompatible override, use ``object $entity`` or ``array $ids``, or remove the parameter type.
+
+Mautic's own ``saveEntity()`` overrides, such as the ones on ``EmailModel`` and ``LeadModel``, also declare ``object $entity``, so the same rule applies if your model extends one of them. ``AssetModel``, ``PageModel``, and ``UserModel`` are ``final``, so a Plugin can't extend them. See :ref:`Final classes <Mautic 8 final classes>`.
 
 .. vale off
 
@@ -2103,6 +3319,8 @@ Services and helpers
 
 Mautic 8 also changes a handful of services and helpers that a Plugin might call directly.
 
+.. _mautic 8 config php services array:
+
 .. vale off
 
 Config/config.php services array
@@ -2112,7 +3330,7 @@ Config/config.php services array
 
 Mautic 8 no longer reads the ``services`` array from a bundle's ``Config/config.php`` at all. ``Mautic\CoreBundle\DependencyInjection\Builder\Metadata\ConfigMetadata`` dropped the code that parsed it, so Mautic silently ignores anything your Plugin still declares under ``services`` - including the ``events``, ``forms``, ``helpers``, ``menus``, ``models``, ``permissions``, ``integrations``, and ``controllers`` sub-keys. Register each of these as a Symfony service in your Plugin's ``Config/services.php`` instead. See :ref:`Plugins/config:config file` for the current service-registration reference.
 
-The deprecated ``models`` sub-key is also gone, together with the compiler pass that read it. A service listed under ``services > models`` no longer gets the ``mautic.model`` tag automatically. Instead, implement ``Mautic\CoreBundle\Model\MauticModelInterface`` and register the class in ``Config/services.php``. Mautic adds the ``mautic.model`` tag to every service that implements this interface, with no further configuration needed:
+The deprecated ``models`` sub-key is also gone, together with the compiler pass that read it. Instead, implement ``Mautic\CoreBundle\Model\MauticModelInterface`` and register the class in ``Config/services.php``. Mautic's autoconfiguration tags every service that implements this interface, so ``ModelFactory`` finds the model with no further configuration:
 
 .. code:: diff
 
@@ -2125,6 +3343,10 @@ The deprecated ``models`` sub-key is also gone, together with the compiler pass 
    -],
    +$services->set(\MauticPlugin\YourBundle\Model\YourModel::class);
 
+For permissions classes, see :ref:`AbstractPermissions <mautic 8 abstractpermissions>`.
+
+.. _mautic 8 custom model lookup:
+
 .. vale off
 
 Custom model lookup
@@ -2132,7 +3354,7 @@ Custom model lookup
 
 .. vale on
 
-``Mautic\CoreBundle\Factory\ModelFactory`` now resolves ``getModel()`` lookup keys through each model's static ``getName()`` method, tagged on the ``mautic.model`` service with ``defaultIndexMethod: 'getName'``, instead of the removed ``Mautic\CoreBundle\DependencyInjection\Compiler\ModelPass``. Add ``getName()`` to a custom model if it doesn't already have one:
+``Mautic\CoreBundle\Factory\ModelFactory`` now collects every service that implements ``MauticModelInterface`` and resolves ``getModel()`` lookup keys through each model's static ``getName()`` method, instead of the removed ``Mautic\CoreBundle\DependencyInjection\Compiler\ModelPass``. Add ``getName()`` to a custom model if it doesn't already have one:
 
 .. code-block:: php
 
@@ -2141,7 +3363,67 @@ Custom model lookup
        return 'yourbundle.yourmodel';
    }
 
-A model without ``getName()`` is still registered in the locator, but only under its fully qualified class name, so ``$modelFactory->getModel('yourbundle.yourmodel')`` fails until you add the method. ``ModelFactory::getModel()`` no longer accepts a fully qualified class name as the lookup key.
+A model without ``getName()`` is still registered in the locator, but only under its fully qualified class name, so ``$modelFactory->getModel('yourbundle.yourmodel')`` fails until you add the method. ``ModelFactory::getModel()`` no longer accepts a fully qualified class name as the lookup key. Mautic 8 also removes the ``mautic.<bundle>.model.<name>`` service aliases, as :ref:`Service IDs <mautic 8 removed service ids>` describes.
+
+.. _mautic 8 removed service ids:
+
+.. vale off
+
+Service IDs
+===========
+
+.. vale on
+
+Mautic 8 registers many core services only under their class name and removes the string service IDs that pointed at them. Autowired and type-hinted services don't change. If your Plugin fetches one of these services from the container by its old ID, or passes the ID to ``service()`` in ``Config/services.php``, use the class name instead:
+
+.. vale off
+
+.. list-table::
+   :header-rows: 1
+   :widths: 45 55
+
+   * - Removed service ID
+     - Service ID to use
+   * - ``mautic.security``
+     - ``Mautic\CoreBundle\Security\Permissions\CorePermissions``
+   * - ``mautic.helper.core_parameters`` and ``mautic.config``
+     - ``Mautic\CoreBundle\Helper\CoreParametersHelper``
+   * - ``mautic.helper.integration``
+     - ``Mautic\PluginBundle\Helper\IntegrationHelper``
+   * - ``mautic.integrations.helper``
+     - ``Mautic\IntegrationsBundle\Helper\IntegrationsHelper``
+   * - ``mautic.menu.builder``
+     - ``Mautic\CoreBundle\Menu\MenuBuilder``
+   * - ``mautic.cache.provider``
+     - ``Mautic\CacheBundle\Cache\CacheProvider``, or inject ``Mautic\CacheBundle\Cache\CacheProviderInterface``
+   * - ``mautic.cache.provider_tag_aware``
+     - ``Mautic\CacheBundle\Cache\CacheProviderTagAware``
+   * - ``mautic.cache.adapter.filesystem``
+     - ``Mautic\CacheBundle\Cache\Adapter\FilesystemTagAwareAdapter``
+   * - ``mautic.cache.adapter.memcached``
+     - ``Mautic\CacheBundle\Cache\Adapter\MemcachedTagAwareAdapter``
+   * - ``mautic.cache.adapter.redis``
+     - ``Mautic\CacheBundle\Cache\Adapter\RedisAdapter``
+   * - ``mautic.cache.adapter.redis_tag_aware``
+     - ``Mautic\CacheBundle\Cache\Adapter\RedisTagAwareAdapter``
+   * - ``mautic.<bundle>.model.<name>``, for example ``mautic.lead.model.lead``
+     - The model class, or ``ModelFactory::getModel()`` with the model's ``getName()`` key
+
+.. vale on
+
+For example, replace a container lookup by a removed ID:
+
+.. code:: diff
+
+   -$security  = $container->get('mautic.security');
+   +$security  = $container->get(\Mautic\CoreBundle\Security\Permissions\CorePermissions::class);
+
+   -$leadModel = $container->get('mautic.lead.model.lead');
+   +$leadModel = $modelFactory->getModel('lead.lead');
+
+The ``cache_adapter`` and ``cache_adapter_tag_aware`` configuration parameters also take the adapter's class name as the service ID, so update a ``config/local.php`` that names an adapter by its old ID. :xref:`UPGRADE_GUIDE_8` lists further removed service IDs that Plugins rarely use.
+
+.. _mautic 8 menu registration:
 
 .. vale off
 
@@ -2150,7 +3432,7 @@ Menu registration
 
 .. vale on
 
-Mautic 8 removes ``Mautic\CoreBundle\DependencyInjection\Compiler\ServicePass``, which used to read a bundle's ``services > menus`` array from ``Config/config.php`` and wire the menu item and its renderer automatically. If your Plugin registers its own menu, declare both services explicitly in ``Config/services.php`` instead. See :ref:`Plugins/config:Registering a custom menu` for the full worked example, including Plugins that register several menus:
+Mautic 8 removes ``Mautic\CoreBundle\DependencyInjection\Compiler\ServicePass``, which used to read a bundle's ``services > menus`` array from ``Config/config.php`` and wire the menu item and its renderer automatically. If your Plugin registers its own menu, declare both services explicitly in ``Config/services.php`` instead. Mautic 8 also removes the ``mautic.menu.builder`` service alias, so reference the menu builder by its class through ``service(MenuBuilder::class)``, as this example does. See :ref:`Plugins/config:Registering a custom menu` for the full worked example, including Plugins that register several menus:
 
 .. code:: diff
 
@@ -2170,6 +3452,8 @@ Mautic 8 removes ``Mautic\CoreBundle\DependencyInjection\Compiler\ServicePass``,
    +    ->args([service('knp_menu.matcher'), service('twig'), ['template' => '@MyBundle/Menu/mybundle.html.twig']])
    +    ->tag('knp_menu.renderer', ['alias' => 'mybundle']);
 
+.. _mautic 8 cachestoragehelper:
+
 .. vale off
 
 CacheStorageHelper
@@ -2177,7 +3461,7 @@ CacheStorageHelper
 
 .. vale on
 
-Mautic 8 removes the deprecated ``Mautic\CoreBundle\Helper\CacheStorageHelper`` class and its ``mautic.helper.cache_storage`` service. Inject ``Mautic\CacheBundle\Cache\CacheProviderInterface`` instead, and call ``getSimpleCache()`` for the simple-cache API the helper mimicked:
+Mautic 8 removes the deprecated ``Mautic\CoreBundle\Helper\CacheStorageHelper`` class and its ``mautic.helper.cache_storage`` service. Inject ``Mautic\CacheBundle\Cache\CacheProviderInterface`` instead, and call ``getSimpleCache()`` for the simple cache API the helper mimicked. The ``get()``, ``set()``, ``has()``, and ``delete()`` methods keep their signatures:
 
 .. vale off
 
@@ -2197,7 +3481,14 @@ Mautic 8 removes the deprecated ``Mautic\CoreBundle\Helper\CacheStorageHelper`` 
    +    return $this->cache->getSimpleCache()->get("email|{$id}|pending");
     }
 
-A cache miss now returns ``null`` instead of ``false``, so change a comparison from ``false === $value`` to ``null === $value``.
+.. vale on
+
+Two behaviors change with the new provider:
+
+* A cache miss returns ``null`` instead of ``false``, so change a comparison from ``false === $value`` to ``null === $value``.
+* Cached data lives in the adapter that the ``cache_adapter`` parameter sets, filesystem by default, instead of the ``cache_items`` database table, so clearing the cache drops it. Mautic 8 also removes the ``Mautic\CoreBundle\Entity\Cache`` entity that mapped the ``cache_items`` table.
+
+For how to configure the adapter, see :doc:`/plugins/cache`. For the Integration cache, see :ref:`AbstractIntegration <mautic 8 abstractintegration>`.
 
 .. vale off
 
@@ -2227,6 +3518,38 @@ Mautic 8 removes the deprecated ``Mautic\LeadBundle\Model\FieldModel::getFieldLi
    -$fields = $fieldModel->getFieldList();
    +$fields = $fieldList->getFieldList();
 
+.. _mautic 8 defaultconfigformtrait:
+
+.. vale off
+
+DefaultConfigFormTrait
+======================
+
+.. vale on
+
+Mautic 8 removes ``Mautic\IntegrationsBundle\Integration\DefaultConfigFormTrait``. Each of its methods returned ``null`` to keep Mautic's default configuration Form. Remove the ``use DefaultConfigFormTrait;`` statement from your Integration class and implement the methods directly. ``ConfigFormInterface`` declares ``getConfigFormName()`` and ``getConfigFormContentTemplate()``, and ``ConfigFormSyncInterface`` declares ``getSyncConfigFormName()``, so add the ones that your Integration's interfaces require:
+
+.. code-block:: php
+
+   public function getConfigFormName(): ?string
+   {
+       return null;
+   }
+
+   public function getConfigFormContentTemplate(): ?string
+   {
+       return null;
+   }
+
+   public function getSyncConfigFormName(): ?string
+   {
+       return null;
+   }
+
+Return ``null`` from a method to keep Mautic's default, or return your own Form type or template.
+
+.. _mautic 8 doctrine orm 3 and dbal 4:
+
 .. vale off
 
 Doctrine ORM 3 and DBAL 4
@@ -2234,7 +3557,7 @@ Doctrine ORM 3 and DBAL 4
 
 .. vale on
 
-Mautic 8 upgrades to Doctrine ``ORM`` 3, DBAL 4, and doctrine-bundle 3. :ref:`Plugins/database:Entities and schema` covers entity mapping with ``#[ORM]`` attributes instead of annotations. This section only lists the API surface a Plugin might call directly:
+Mautic 8 upgrades to Doctrine ``ORM`` 3, DBAL 4, and doctrine-bundle 3. Doctrine ``ORM`` 3 doesn't support DocBlock annotations such as ``@ORM\Column``, so convert any annotations on your Plugin's entities to ``#[ORM\...]`` attributes, or map the entities with the PHP static function mapping. :ref:`Plugins/database:Entities and schema` covers both mapping styles. This section lists the API surface a Plugin might call directly:
 
 .. list-table::
    :header-rows: 1
@@ -2258,6 +3581,41 @@ Mautic 8 upgrades to Doctrine ``ORM`` 3, DBAL 4, and doctrine-bundle 3. :ref:`Pl
      - ``quoteSingleIdentifier()``
 
 ``Doctrine\DBAL\Connection::createQueryBuilder()`` now returns ``Mautic\CoreBundle\Doctrine\Query\QueryBuilder`` on every Mautic connection, which keeps the ``getQueryPart()``, ``getQueryParts()``, and ``resetQueryPart()`` methods DBAL 4 dropped from its own builder. If your Plugin builds its own DBAL builder with ``new QueryBuilder($connection)``, take the builder from the connection instead, so you keep those methods.
+
+.. _mautic 8 classmetadatabuilder:
+
+.. vale off
+
+ClassMetadataBuilder
+====================
+
+.. vale on
+
+Mautic 8 removes the ``addContact()`` and ``addLead()`` helpers from ``Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder``. Each mapped a many-to-one association to ``Mautic\LeadBundle\Entity\Lead``, on the ``contact_id`` or ``lead_id`` column. If an entity's ``loadMetadata()`` calls one of them, build the association yourself. For example, this replaces ``$builder->addContact()`` with its default arguments:
+
+.. code:: diff
+
+   -$builder->addContact();
+   +$builder->createManyToOne('contact', Lead::class)
+   +    ->addJoinColumn('contact_id', 'id', false, false, 'CASCADE')
+   +    ->build();
+
+An entity that you map with attributes declares the same association with ``#[ORM\ManyToOne(targetEntity: Lead::class)]`` and ``#[ORM\JoinColumn(name: 'contact_id', nullable: false, onDelete: 'CASCADE')]``.
+
+``createManyToMany()`` and ``createOneToMany()`` still work, but they now return Doctrine's own ``Doctrine\ORM\Mapping\Builder\ManyToManyAssociationBuilder`` and ``OneToManyAssociationBuilder``. Mautic 8 removes its ``Mautic\CoreBundle\Doctrine\Mapping\ManyToManyAssociationBuilder`` and ``OneToManyAssociationBuilder`` classes, so update any type hint that names them.
+
+Mautic 8 also removes ``AssociationBuilder::isOwnershipParent()``. Mark the entity class with the ``#[Mautic\CoreBundle\Entity\Attribute\OwnershipParent]`` attribute instead, naming the association that carries the owner:
+
+.. code:: diff
+
+   +#[OwnershipParent('form')]
+    class Field
+    {
+        public static function loadMetadata(ORM\ClassMetadata $metadata): void
+        {
+            $builder->createManyToOne('form', 'Form')
+   -            ->isOwnershipParent()
+                ->build();
 
 .. vale off
 
@@ -2307,7 +3665,7 @@ These event classes are now ``final``:
 
 .. vale on
 
-Four event classes aren't on this list because they stay extendable. ``Mautic\LeadBundle\Event\CompanyEvent`` and ``Mautic\LeadBundle\Event\LeadListEvent`` are ``abstract``, since each lifecycle event now gets its own dedicated subclass instead of sharing one object. ``Mautic\LeadBundle\Event\ListChangeEvent`` and ``Mautic\WebhookBundle\Event\WebhookEvent`` are plain, non-``final`` classes. A Plugin can still extend any of these four.
+Four event classes aren't on this list because they stay extendable. ``Mautic\LeadBundle\Event\CompanyEvent``, ``Mautic\LeadBundle\Event\LeadListEvent``, and ``Mautic\WebhookBundle\Event\WebhookEvent`` are ``abstract``, since each lifecycle event now gets its own dedicated subclass instead of sharing one object. ``Mautic\LeadBundle\Event\ListChangeEvent`` is a plain, non-``final`` class. A Plugin can still extend any of these four.
 
 The other ``final`` classes include:
 
@@ -2399,3 +3757,21 @@ Constants that a Plugin is most likely to override come from these base classes 
 .. vale on
 
 Because ``AbstractMauticMigration::TABLE_NAME`` is ``?string``, a migration that sets a table name declares it as ``protected const string TABLE_NAME = 'table_name';``.
+
+.. _mautic 8 symfony 8:
+
+Symfony 8
+*********
+
+Mautic 8 requires PHP 8.4 and runs on Symfony 8.1, so your Plugin's code and templates must also follow the Symfony 8 changes. For the full list, see the :xref:`Symfony 8.0 upgrade guide`.
+
+Symfony 8 removes ``Symfony\Component\HttpFoundation\Request::get()``, which searched the route attributes, the query string, and the request body in turn. Read the value from the parameter bag that holds it instead:
+
+.. code:: diff
+
+   - $code = $request->get('code');
+   + $code = $request->query->get('code');
+
+Use ``$request->query`` for query string parameters, ``$request->request`` for parameters in a ``POST`` body, and ``$request->attributes`` for route parameters. In Twig templates, replace ``app.request.get('name')`` with the matching bag, such as ``app.request.query.get('name')``.
+
+Symfony 8 also removes ``eraseCredentials()`` from ``Symfony\Component\Security\Core\User\UserInterface``, and Mautic 8 removes ``Mautic\UserBundle\Entity\User::eraseCredentials()``. Remove any call to it. A class of your own that implements ``UserInterface`` no longer needs the method.
