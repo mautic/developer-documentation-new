@@ -53,6 +53,9 @@ These signatures gain native parameter types:
    - protected function validateOrderByClause($clause)
    + protected function validateOrderByClause(array $clause): array
 
+   - protected function parseSearchFilters(\stdClass|array $parseFilters, QueryBuilder|DbalQueryBuilder $qb, array &$expressions, &$parameters)
+   + protected function parseSearchFilters(\stdClass|array $parseFilters, QueryBuilder|DbalQueryBuilder $qb, array &$expressions, array &$parameters)
+
 .. vale off
 
 For a repository extension example, see :doc:`/plugin_extensions/contacts`.
@@ -119,10 +122,10 @@ Every third-party Integration extends ``Mautic\PluginBundle\Integration\Abstract
 .. code:: diff
 
    - public function makeRequest($url, $parameters = [], $method = 'GET', $settings = [])
-   + public function makeRequest($url, $parameters = [], $method = 'GET', array $settings = [])
+   + public function makeRequest($url, array $parameters = [], $method = 'GET', array $settings = [])
 
    - public function prepareRequest($url, $parameters, $method, $settings, $authType)
-   + public function prepareRequest(string $url, $parameters, string $method, array $settings, $authType)
+   + public function prepareRequest(string $url, array $parameters, string $method, array $settings, $authType)
 
    - public function authCallback($settings = [], $parameters = [])
    + public function authCallback(array $settings = [], $parameters = [])
@@ -194,7 +197,7 @@ CommonApiController
 
 .. vale on
 
-The ``Mautic\ApiBundle\Controller\CommonApiController`` class gains explicit parameter and return types in two areas.
+The ``Mautic\ApiBundle\Controller\CommonApiController`` class gains explicit parameter and return types in three areas.
 
 .. code:: diff
 
@@ -204,6 +207,22 @@ The ``Mautic\ApiBundle\Controller\CommonApiController`` class gains explicit par
 .. note::
 
    The old ``@return`` annotation was ``mixed``. An override that falls through without a ``return`` now throws a ``TypeError``, so the override must ``return $parameters;``.
+
+The methods that the single and batch create and edit actions call to populate, validate, and save an entity now type the request parameters as ``array``. ``processForm()`` and ``processBatchForm()`` use ``?array`` and still accept ``null``:
+
+.. code:: diff
+
+   - protected function prePopulateForm(&$entity, $parameters, $action = 'edit')
+   + protected function prePopulateForm(&$entity, array $parameters, $action = 'edit')
+
+   - protected function preSaveEntity(&$entity, $form, $parameters, $action = 'edit')
+   + protected function preSaveEntity(&$entity, $form, array $parameters, $action = 'edit')
+
+   - protected function processForm(Request $request, $entity, $parameters = null, $method = 'PUT')
+   + protected function processForm(Request $request, $entity, ?array $parameters = null, $method = 'PUT')
+
+   - protected function processBatchForm(Request $request, $key, $entity, $params, $method, array &$errors, array &$entities)
+   + protected function processBatchForm(Request $request, $key, $entity, ?array $params, $method, array &$errors, array &$entities)
 
 The batch actions now declare a ``Response`` return type:
 
@@ -245,6 +264,13 @@ A subclass that declares any of these properties again must use the same type:
    + protected array $serializerGroups = [];
 
 Mautic 8 removes the ``protected $parametersContainer;`` property. Mautic never assigned it, so any read already failed. A subclass that referenced it must stop doing so.
+
+``getBatchEntities()`` now types ``$parameters`` as ``array``:
+
+.. code:: diff
+
+   - protected function getBatchEntities($parameters, array &$errors, $prepareForSerialization = false, $requestIdColumn = 'id', $model = null, $returnWithOriginalKeys = true): array
+   + protected function getBatchEntities(array $parameters, array &$errors, $prepareForSerialization = false, $requestIdColumn = 'id', $model = null, $returnWithOriginalKeys = true): array
 
 Event and entity classes
 ************************
@@ -1899,7 +1925,7 @@ Integrations built with the Plugin framework commonly override the methods that 
    - public function getRequiredKeyFields()
    + public function getRequiredKeyFields(): array
    - public function prepareRequest(string $url, $parameters, string $method, array $settings, $authType)
-   + public function prepareRequest(string $url, $parameters, string $method, array $settings, $authType): array
+   + public function prepareRequest(string $url, array $parameters, string $method, array $settings, $authType): array
    - public function cleanUpFields(Integration $entity, array $mauticLeadFields, array $mauticCompanyFields)
    + public function cleanUpFields(Integration $entity, array $mauticLeadFields, array $mauticCompanyFields): array
    - public function getRequiredFields(array $fields, $fieldType = '')
