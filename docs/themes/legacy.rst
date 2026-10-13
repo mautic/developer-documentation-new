@@ -15,7 +15,7 @@ Legacy Builder
 
 .. warning::
 
-   The Legacy Builder is still available in Mautic 8, but Mautic plans to remove it in a future release. Refer to the :xref:`Builder documentation` for more information.
+   Mautic plans to remove the Legacy Builder in a future release. Refer to the :xref:`Builder documentation` for more information.
 
 Slots
 *****
