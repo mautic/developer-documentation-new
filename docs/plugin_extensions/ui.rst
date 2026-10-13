@@ -22,6 +22,10 @@ Injecting buttons
 
 Mautic dispatches the event ``\Mautic\CoreBundle\CoreEvents::VIEW_INJECT_CUSTOM_BUTTONS`` for Plugins to register their buttons. Listeners receive a ``Mautic\CoreBundle\Event\CustomButtonEvent`` object. Register the event using the ``addButton`` method as described below.
 
+.. warning::
+
+   Mautic 8 changes ``CoreEvents::VIEW_INJECT_CUSTOM_BUTTONS`` to ``CustomButtonEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`CoreBundle <Mautic 8 upgrade CoreBundle>`. This applies to the subscriber example below.
+
 .. php:class:: Mautic\CoreBundle\Event\CustomButtonEvent
 
     .. php:method:: public function getLocation()
@@ -290,6 +294,10 @@ Injecting custom content
 ************************
 
 Mautic dispatches the event ``\Mautic\CoreBundle\CoreEvents::VIEW_INJECT_CUSTOM_CONTENT`` - string value ``mautic.view_inject_custom_content`` - so Plugins can inject custom content into Mautic's templates. A template exposes an injection point with the ``customContent`` Twig function, which passes a context name and the current template variables. The context name identifies the injection point within that template. Listeners receive a ``Mautic\CoreBundle\Event\CustomContentEvent`` object. A listener calls ``checkContext()`` to confirm the hook is firing at the intended view and context, then adds either rendered HTML with ``addContent()`` or a template with ``addTemplate()``. The preceding section documents button injection, which follows the same dispatch pattern through ``VIEW_INJECT_CUSTOM_BUTTONS`` but delivers a different event object.
+
+.. warning::
+
+   Mautic 8 changes ``CoreEvents::VIEW_INJECT_CUSTOM_CONTENT`` to ``CustomContentEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`CoreBundle <Mautic 8 upgrade CoreBundle>`. This applies to the subscriber example below.
 
 .. php:class:: Mautic\CoreBundle\Event\CustomContentEvent
 

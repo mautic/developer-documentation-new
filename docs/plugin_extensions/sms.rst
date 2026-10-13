@@ -125,6 +125,10 @@ Register the transport in your Plugin's ``Config/config.php`` by tagging the ser
        ],
    ];
 
+.. warning::
+
+   Mautic 8 changes service registration from the ``services`` array in ``Config/config.php`` to ``Config/services.php``. When you upgrade to Mautic 8, update your code as described in :xref:`Config/config.php services array <Mautic 8 upgrade config php services array>`.
+
 To handle delivery callbacks from your provider, register a callback handler service with the ``mautic.sms_callback_handler`` tag. Mautic's built-in :xref:`Twilio transport source` is a useful reference for a complete transport and callback implementation.
 
 Bulk sending and recipient data
@@ -147,6 +151,10 @@ Contact filtering events
 ************************
 
 Three events fire sequentially during SMS sending to filter Contacts before dispatch. Subscribe to them to exclude Contacts based on custom criteria.
+
+.. warning::
+
+   Mautic 8 changes ``SmsEvents::DNC_FILTER_CONTACTS_ON_SEND`` to ``DncEvent::class``, ``SmsEvents::QUEUE_FILTER_CONTACTS_ON_SEND`` to ``QueueEvent::class``, and ``SmsEvents::FILTER_CONTACTS_ON_SEND`` to ``FilterEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`SmsBundle <Mautic 8 upgrade SmsBundle>`. This applies to every filter example below.
 
 .. vale off
 
@@ -215,6 +223,10 @@ Batch action event
 
 Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` to handle Campaign SMS actions. Set it as the ``batchEventName`` when registering the action on ``CampaignEvents::CAMPAIGN_ON_BUILD``. See :doc:`/plugin_extensions/campaigns` for the full Campaign action workflow.
 
+.. warning::
+
+   Mautic 8 changes ``CampaignEvents::CAMPAIGN_ON_BUILD`` to ``CampaignBuilderEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`CampaignBundle <Mautic 8 upgrade CampaignBundle>`.
+
 .. code-block:: php
 
    <?php
@@ -259,3 +271,7 @@ The :xref:`SmsEvents source` class defines all SMS-related event constants:
      - Fires for generic Contact filtering before SMS dispatch.
 
 .. vale on
+
+.. warning::
+
+   Mautic deprecates ``ON_CAMPAIGN_TRIGGER_ACTION`` since Mautic 7.2 and removes it in Mautic 8. Use ``ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` instead. Mautic 8 changes ``DNC_FILTER_CONTACTS_ON_SEND`` to ``DncEvent::class``, ``QUEUE_FILTER_CONTACTS_ON_SEND`` to ``QueueEvent::class``, and ``FILTER_CONTACTS_ON_SEND`` to ``FilterEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`SmsBundle <Mautic 8 upgrade SmsBundle>`.
