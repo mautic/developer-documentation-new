@@ -196,7 +196,7 @@ You can choose to use PHP 8 attributes instead of the PHP static method. Refer t
 
 .. note::
 
-   Mautic 8 uses Doctrine ORM 3, which maps entities with either PHP 8 attributes - ``#[ORM\...]`` - or the PHP static function mapping shown above. Doctrine ORM 3 doesn't support docblock annotations - ``@ORM\...`` - so if you're upgrading a Plugin that uses them, convert them to attributes.
+   Mautic uses Doctrine ORM 3, which maps entities with PHP 8 attributes, such as ``#[ORM\Entity]``, or with the PHP static function mapping shown above. Doctrine ORM 3 doesn't support DocBlock annotations, such as ``@ORM\Entity``. To convert DocBlock annotations to attributes, see :ref:`Doctrine ORM 3 and DBAL 4 <Mautic 8 doctrine orm 3 and dbal 4>`.
 
 .. code-block:: php
 
