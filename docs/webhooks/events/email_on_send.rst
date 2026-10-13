@@ -391,7 +391,7 @@ Unsubscribe Form properties
 
         .. warning::
 
-           Mautic deprecates this since Mautic 7.1 and removes it in Mautic 8. When you upgrade to Mautic 8, update your code as described in :xref:`Form properties in payloads <Mautic 8 upgrade Webhook Form properties>`.
+           Mautic deprecates this since Mautic 7.1 and removes it in Mautic 8. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
     * - ``postAction``
       - string
       - Notes the behavior of the Form after submission. Current supported values are ``return``, ``redirect``, and ``message``.
