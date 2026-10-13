@@ -74,10 +74,6 @@ A permission file typically contains:
 * Permission levels defined as array keys with integer bit-flag values - for example, ``view``, ``edit``, ``create``, ``delete``, and ``full``, as set by the shared ``addStandardPermissions()`` helper on ``AbstractPermissions``.
 * Methods for checking and building out permissions - for example, ``isGranted()`` and ``convertBitsToPermissionNames()`` on ``AbstractPermissions``.
 
-.. note::
-
-   This pattern applies to Mautic 8 and later. Permission classes define their permissions in the ``__construct()`` method. Earlier Mautic versions used a ``definePermissions()`` method instead.
-
 For example, in the ``UserPermissions.php`` file, the ``UserPermissions`` class defines the available permissions for the ``UserBundle`` using a more structured approach. Here are the important parts:
 
 .. code-block:: php
