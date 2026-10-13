@@ -122,7 +122,6 @@ There are several ways to support Mautic other than contributing with code.
 
    webhooks/getting_started
    webhooks/example_scripts
-   webhooks/update_m7_to_m8
    webhooks/events/index
 
 .. toctree::
