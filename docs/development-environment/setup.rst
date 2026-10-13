@@ -20,6 +20,8 @@ You can also run the install process from command line:
 * Add a ``local.php`` file in ``app/config``
 * Edit the ``local.php`` file using the following template (Mautic adapts to new local settings):
 
+**MySQL/MariaDB configuration:**
+
 .. code-block:: php
 
     <?php
@@ -34,6 +36,27 @@ You can also run the install process from command line:
             'db_backup_tables' => true,
             'db_backup_prefix' => 'bak_',
     );
+
+**PostgreSQL configuration:**
+
+.. code-block:: php
+
+    <?php
+        $parameters = array(
+            'db_driver' => 'pdo_pgsql',
+            'db_host' => 'localhost',
+            'db_table_prefix' => null,
+            'db_port' => '5432',
+            'db_name' => 'mautic',
+            'db_user' => 'postgres',
+            'db_password' => 'postgres_password',
+            'db_backup_tables' => true,
+            'db_backup_prefix' => 'bak_',
+    );
+
+.. note::
+
+    PostgreSQL support requires PostgreSQL 16 or later. Install the ``pdo_pgsql`` PHP extension before proceeding.
 
 * Run the following command and add your own options:
 
