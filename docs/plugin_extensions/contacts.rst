@@ -254,12 +254,9 @@ The ``LeadGetCurrentEvent`` provides the following methods:
 Contact timeline/history
 ************************
 
-To inject events into a Contact's timeline, create an event listener that subscribes to the ``LeadTimelineEvent`` event. The identifier you key the listener on depends on your Mautic version, as the note below explains.
+To inject events into a Contact's timeline, create an event listener that subscribes to ``LeadTimelineEvent::class``.
 Using this event, the Plugin can inject unique items into the timeline and also into the engagements graph on each page.
-
-.. note::
-
-   Before Mautic 8, key your listener on the ``LeadEvents::TIMELINE_ON_GENERATE`` constant. Starting in Mautic 8, key it on the event class, ``LeadTimelineEvent::class``. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for why the identifier changed and what breaks if a listener stays keyed on the old constant.
+To update a listener keyed on ``LeadEvents::TIMELINE_ON_GENERATE``, see :ref:`LeadBundle <Mautic 8 leadbundle>`.
 
 .. note:: Before using this event listener, you'll need to ensure that you store your custom events in a custom database table. See :ref:`components/contacts:Generating timeline events from your own custom events` below for more details.
 

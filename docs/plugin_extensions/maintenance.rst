@@ -13,11 +13,7 @@ Maintenance cleanup
 
 .. vale on
 
-To hook into the ``mautic:maintenance:cleanup`` command, create a listener for the ``Mautic\CoreBundle\Event\MaintenanceEvent`` event.
-
-.. note::
-
-   Since Mautic 8, key your subscriber on the event class rather than a ``CoreEvents`` constant - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks if you don't.
+To hook into the ``mautic:maintenance:cleanup`` command, create a listener for the ``Mautic\CoreBundle\Event\MaintenanceEvent`` event. Key your subscriber on ``MaintenanceEvent::class``. To update a subscriber that uses ``CoreEvents::MAINTENANCE_CLEANUP_DATA``, see :ref:`CoreBundle <Mautic 8 corebundle>`.
 
 Use ``$event->setStat($key, $affectedRows, $sql, $sqlParameters)`` to give feedback to the command.
 Note that ``$sql`` and ``$sqlParameters`` are only used for debugging and shown only in the ``dev`` environment.

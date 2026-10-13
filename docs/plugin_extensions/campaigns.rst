@@ -20,16 +20,9 @@ Registering Campaign Events
 
 .. vale on
 
-Since Mautic 8.0, Mautic dispatches the ``Mautic\CampaignBundle\Event\CampaignBuilderEvent`` by its class name so Plugins can register their Campaign Actions, Conditions, and Decisions. Subscribers key ``getSubscribedEvents()`` on ``CampaignBuilderEvent::class`` and receive a ``CampaignBuilderEvent`` object. Mautic 8 removed the former ``CampaignEvents::CAMPAIGN_ON_BUILD`` constant, so a subscriber that still references it fails with ``Error: Undefined constant``. For how class-name dispatch works, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`. Register the Event using the appropriate ``addAction()``, ``addCondition()``, or ``addDecision()`` method, as described below.
+Mautic dispatches ``Mautic\CampaignBundle\Event\CampaignBuilderEvent`` so Plugins can register their Campaign Actions, Conditions, and Decisions. Key ``getSubscribedEvents()`` on ``CampaignBuilderEvent::class``. Register each Event with the ``addAction()``, ``addCondition()``, or ``addDecision()`` method, as described below.
 
-.. list-table::
-   :header-rows: 1
-   :widths: 50 50
-
-   * - Former Event constant
-     - Mautic 8.0 subscription key
-   * - ``CampaignEvents::CAMPAIGN_ON_BUILD``
-     - ``CampaignBuilderEvent::class``
+To update a subscriber that uses the ``CampaignEvents`` constants, see :ref:`CampaignBundle <Mautic 8 campaignbundle>`.
 
 .. php:namespace:: Mautic\CampaignBundle\Event
 .. php:class:: CampaignBuilderEvent
@@ -901,7 +894,7 @@ Subscribe to these events to run custom logic when Mautic adds Contacts to a Cam
    * - ``CampaignBatchLeadChangeEvent``
      - After Mautic adds a batch of Contacts to a Campaign or removes a batch from it.
 
-Both classes extend the abstract ``CampaignLeadChangeEvent`` class, so a listener type-hinted against ``CampaignLeadChangeEvent`` keeps working. Use ``getCampaign()`` to read the Campaign entity. For a single Contact, ``getLead()`` returns the Contact. For a batch, ``getLeads()`` returns an array of Contacts. ``getAction()`` returns ``added`` or ``removed``, and ``wasAdded()`` and ``wasRemoved()`` return the same information as a boolean.
+Both classes extend the abstract ``CampaignLeadChangeEvent`` class, so a listener can type-hint ``CampaignLeadChangeEvent``. Use ``getCampaign()`` to read the Campaign entity. For a single Contact, ``getLead()`` returns the Contact. For a batch, ``getLeads()`` returns an array of Contacts. ``getAction()`` returns ``added`` or ``removed``, and ``wasAdded()`` and ``wasRemoved()`` return the same information as a boolean.
 
 .. code-block:: php
 
@@ -940,10 +933,6 @@ Both classes extend the abstract ``CampaignLeadChangeEvent`` class, so a listene
        }
    }
 
-.. note::
-
-   Mautic 8 removed the ``CAMPAIGN_ON_LEADCHANGE`` and ``LEAD_CAMPAIGN_BATCH_CHANGE`` constants from ``Mautic\CampaignBundle\CampaignEvents``. Before Mautic 8, both events shared one ``CampaignLeadChangeEvent`` object under the two constant names. Code that still references one of these constants throws a PHP ``Error`` with the message 'Undefined constant'. Replace ``CAMPAIGN_ON_LEADCHANGE`` with ``CampaignSingleLeadChangeEvent::class`` and ``LEAD_CAMPAIGN_BATCH_CHANGE`` with ``CampaignBatchLeadChangeEvent::class``. For the general rule, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
-
 Campaign save and delete events
 *******************************
 
@@ -964,7 +953,7 @@ Subscribe to these events to run custom logic when a User saves or deletes a Cam
    * - ``CampaignPostDeleteEvent``
      - After Mautic deletes a Campaign.
 
-Each class is ``final`` and extends ``CampaignEvent``, so a listener type-hinted against ``CampaignEvent`` keeps working. Use ``getCampaign()`` to read the Campaign entity and ``isNew()`` to find out whether the save creates a new Campaign. In a ``CampaignPostSaveEvent`` listener, ``getChanges()`` returns the fields that changed.
+Each class is ``final`` and extends ``CampaignEvent``, so a listener can type-hint ``CampaignEvent``. Use ``getCampaign()`` to read the Campaign entity and ``isNew()`` to find out whether the save creates a new Campaign. In a ``CampaignPostSaveEvent`` listener, ``getChanges()`` returns the fields that changed.
 
 .. code-block:: php
 
@@ -1000,17 +989,6 @@ Each class is ``final`` and extends ``CampaignEvent``, so a listener type-hinted
            // Remove the Campaign from an external system, for example.
        }
    }
-
-.. note::
-
-   Mautic 8 removed the ``CAMPAIGN_PRE_SAVE``, ``CAMPAIGN_POST_SAVE``, ``CAMPAIGN_PRE_DELETE``, and ``CAMPAIGN_POST_DELETE`` constants from ``Mautic\CampaignBundle\CampaignEvents``. Before Mautic 8, all four events shared one ``CampaignEvent`` object under these constant names. Code that still references one of these constants throws a PHP ``Error`` with the message 'Undefined constant', and a subscriber keyed on a raw string such as ``mautic.campaign_post_save`` silently receives nothing. Replace each constant with its event class:
-
-   * ``CAMPAIGN_PRE_SAVE`` - ``CampaignPreSaveEvent::class``
-   * ``CAMPAIGN_POST_SAVE`` - ``CampaignPostSaveEvent::class``
-   * ``CAMPAIGN_PRE_DELETE`` - ``CampaignPreDeleteEvent::class``
-   * ``CAMPAIGN_POST_DELETE`` - ``CampaignPostDeleteEvent::class``
-
-   A Plugin test that creates the event with ``new CampaignEvent($campaign)`` to call a lifecycle listener must create the matching subclass instead, such as ``new CampaignPreSaveEvent($campaign)``. For the general rule, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 .. vale off
 

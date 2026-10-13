@@ -32,7 +32,7 @@ Email token capabilities consist of two parts:
 Registering custom tokens in builders
 =====================================
 
-Registering tokens uses the ``Mautic\EmailBundle\Event\EmailOnBuildEvent`` event. Since Mautic 8.0, Mautic dispatches this event by class name, so subscribers key on ``EmailOnBuildEvent::class``. Mautic dispatches it before displaying the Email builder form, so subscribers can add tokens before the form displays.
+Registering tokens uses the ``Mautic\EmailBundle\Event\EmailOnBuildEvent`` event. Mautic dispatches this event by its class, so key subscribers on ``EmailOnBuildEvent::class``. Mautic dispatches it before displaying the Email builder form, so subscribers can add tokens before the form displays.
 
 An event listener receives the ``Mautic\EmailBundle\Event\EmailOnBuildEvent``.
 Use its ``$event->addToken($token, $htmlContent)`` to add your token.
@@ -46,13 +46,9 @@ Rendering custom tokens
 
 To render custom tokens, key on the ``Mautic\EmailBundle\Event\EmailSendEvent`` event - ``EmailSendEvent::class`` - when Mautic sends the Email, or the ``Mautic\EmailBundle\Event\EmailDisplayEvent`` event - ``EmailDisplayEvent::class`` - when the Email displays in a browser, for example, when the Contact clicks the ``{webview_url}`` link.
 
-The send path receives a ``Mautic\EmailBundle\Event\EmailSendEvent``. The display path receives a ``Mautic\EmailBundle\Event\EmailDisplayEvent``, a subclass of ``EmailSendEvent`` that exposes the same ``addToken()``, ``getContent()``, and ``setContent()`` API. These are now separate classes, keyed separately: a listener keyed only on ``EmailSendEvent::class`` doesn't receive ``EmailDisplayEvent``, so a handler serving both paths must register under both keys. Replace a custom token using the event's ``$event->addToken($token, $contentToReplaceToken)``.
+The send path receives a ``Mautic\EmailBundle\Event\EmailSendEvent``. The display path receives a ``Mautic\EmailBundle\Event\EmailDisplayEvent``, a subclass of ``EmailSendEvent`` that exposes the same ``addToken()``, ``getContent()``, and ``setContent()`` API. Mautic dispatches each class under its own key, so a listener keyed only on ``EmailSendEvent::class`` doesn't receive ``EmailDisplayEvent``. A handler serving both paths must register under both keys. Replace a custom token using the event's ``$event->addToken($token, $contentToReplaceToken)``.
 
-.. note::
-
-   Since Mautic 8.0, the build, send, and display events dispatch by class name - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`. Key ``getSubscribedEvents()`` on ``EmailOnBuildEvent::class``, ``EmailSendEvent::class``, or ``EmailDisplayEvent::class``.
-
-   The EmailBundle is an exception to the general rule that constants remain defined. Mautic renamed ``EmailBuilderEvent`` to ``EmailOnBuildEvent`` and removed the ``EMAIL_ON_BUILD`` and ``EMAIL_ON_DISPLAY`` constants, so code that still references ``EmailEvents::EMAIL_ON_BUILD`` or ``EmailEvents::EMAIL_ON_DISPLAY`` throws a PHP fatal error - 'Error: Undefined constant'. The ``EMAIL_ON_SEND`` constant remains, but Mautic no longer dispatches by it, so a subscriber keyed on ``EmailEvents::EMAIL_ON_SEND`` silently stops firing - key on ``EmailSendEvent::class`` instead.
+To update a subscriber that uses ``EmailBuilderEvent`` or the ``EmailEvents`` build, send, or display constants, see :ref:`EmailBundle <Mautic 8 emailbundle>`.
 
 Basic token replacement
 =======================
@@ -217,6 +213,8 @@ Use ``getFormattedTokens()`` to retrieve tokens with properly formatted labels. 
         }
     }
 
+To update code that calls ``BuilderEvent::addTokensFromHelper()`` or ``BuilderEvent::getTokensFromHelper()``, see :ref:`BuilderEvent <Mautic 8 builderevent>`.
+
 Token format options
 --------------------
 
@@ -256,44 +254,6 @@ Mautic automatically groups tokens in the builder dropdown by type, such as Cont
 .. vale on
 
 Within the Contact group, First Name, Last Name, and Title appear first. Tokens then sort alphabetically by label within each group. The ``TokenSorter`` class constants in Mautic core define the authoritative order.
-
-Deprecated methods
-------------------
-
-.. deprecated:: 7.2
-
-   Mautic deprecates the following ``BuilderEvent`` methods in Mautic 7.2 and removes them in Mautic 8.0:
-
-   - ``addTokensFromHelper()`` - Use ``BuilderTokenHelper::getFormattedTokens()`` and ``$event->addTokens()`` instead.
-   - ``getTokensFromHelper()`` - Use ``BuilderTokenHelper::getFormattedTokens()`` instead.
-
-**Migration example:**
-
-.. code-block:: PHP
-
-    // Before (deprecated):
-    public function onEmailBuild(EmailOnBuildEvent $event): void
-    {
-        $event->addTokensFromHelper($tokenHelper, $tokenRegex, 'label', 'alias');
-    }
-
-    // After:
-    public function onEmailBuild(EmailOnBuildEvent $event): void
-    {
-        $tokenHelper = $this->builderTokenHelperFactory->getBuilderTokenHelper('page');
-        $tokenFilter = $event->getTokenFilter();
-        $tokens = $tokenHelper->getFormattedTokens(
-            $tokenRegex,
-            TokenFormatOptions::simplePrefix('mautic.page.page'),
-            'label' === $tokenFilter['target'] ? $tokenFilter['filter'] : '',
-            'label',                                                       // Label column
-            'alias'                                                        // Value column
-        );
-
-        if ($tokens) {
-            $event->addTokens($tokens);
-        }
-    }
 
 Custom search commands
 **********************
@@ -594,15 +554,11 @@ The Plugin also has access to inject specific search criteria for the processed 
 
 To do this, the Plugin needs to add an event listener for three events:
 
-#. ``Mautic\EmailBundle\Event\MonitoredEmailEvent`` This event injects the fields into Mautic's Configuration to configure the IMAP inbox and folder to monitor. Since Mautic 8.0, Mautic dispatches it by class name, so subscribers key on ``MonitoredEmailEvent::class``.
+#. ``Mautic\EmailBundle\Event\MonitoredEmailEvent`` This event injects the fields into Mautic's Configuration to configure the IMAP inbox and folder to monitor.
 #. ``Mautic\EmailBundle\Event\PreFetchEmailEvent`` Mautic dispatches this event during the execution of the ``mautic:email:fetch`` command, before it fetches any messages. Call ``setCriteriaRequest()`` on it to inject search criteria for the desired messages.
 #. ``Mautic\EmailBundle\Event\ParseEmailEvent`` Mautic dispatches this event with the messages that the command fetched. Call ``isApplicable()`` to confirm that the messages come from your folder, then process them with ``getMessages()``.
 
-.. note::
-
-   Since Mautic 8.0, all three monitored inbox events dispatch by class name, so key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``, ``PreFetchEmailEvent::class``, and ``ParseEmailEvent::class``. Mautic removed the ``MONITORED_EMAIL_CONFIG``, ``EMAIL_PRE_FETCH``, and ``EMAIL_PARSE`` constants from ``EmailEvents``, so code that still references one of them throws a PHP fatal error - ``Error: Undefined constant``.
-
-   Before Mautic 8.0, the pre-fetch and parse phases shared one ``ParseEmailEvent`` object. ``setCriteriaRequest()``, ``getCriteriaRequests()``, and ``getMarkAsSeenInstructions()`` now live on ``PreFetchEmailEvent``, so change the type hint of your pre-fetch listener to ``PreFetchEmailEvent``. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+Key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``, ``PreFetchEmailEvent::class``, and ``ParseEmailEvent::class``. ``setCriteriaRequest()``, ``getCriteriaRequests()``, and ``getMarkAsSeenInstructions()`` are on ``PreFetchEmailEvent``, so type-hint the pre-fetch listener on ``PreFetchEmailEvent``. To update a subscriber that uses the ``EmailEvents`` monitored inbox constants, see :ref:`EmailBundle <Mautic 8 emailbundle>`.
 
 .. code-block:: PHP
 
@@ -680,10 +636,6 @@ Email transports
 
 Mautic sends Email through `Symfony Mailer <https://symfony.com/doc/current/mailer.html>`_, configured from a single Data Source Name string, the ``mailer_dsn`` parameter. Symfony resolves that connection string to a transport by matching its scheme against every service tagged ``mailer.transport_factory``, so a Plugin adds its own Email transport by implementing Symfony Mailer's ``TransportFactoryInterface`` and tagging its service ``mailer.transport_factory`` for a scheme such as ``helloworld+api``.
 
-.. note::
-
-   Mautic 8 removed the Swiftmailer-based transport mechanism described in earlier versions of this document: the ``mautic.email.transport_type`` service tag, the ``mautic.email_transport`` tag, and the ``Mautic\EmailBundle\Swiftmailer\Transport\AbstractTokenArrayTransport``, ``CallbackTransportInterface``, and ``Mautic\EmailBundle\Model\TransportType`` classes no longer exist. A Plugin built against any of them fails with a PHP ``Error: Class "..." not found``.
-
 Mautic resolves the configured connection string through ``Mautic\EmailBundle\Mailer\Transport\TransportFactory``, which decorates Symfony's ``mailer.transport_factory`` service. Consult `Symfony's guide to custom transport factories <https://symfony.com/doc/current/mailer.html#custom-transport-factories>`_ for the exact ``TransportFactoryInterface`` contract your installed Symfony Mailer version expects.
 
 If your transport enforces a maximum batch size or recipient count per send, implement ``Mautic\EmailBundle\Mailer\Transport\TokenTransportInterface`` on your ``Symfony\Component\Mailer\Transport\TransportInterface`` implementation. The bundled ``TokenTransportTrait`` provides a default ``getBatchRecipientCount()``, so you only need to set your own limit:
@@ -744,13 +696,9 @@ Toggle 'Active' event
 
 .. vale on
 
-The ``Mautic\EmailBundle\Event\EmailOnTogglePublishEvent`` event fires when a User toggles the **Active** status of an Email. Since Mautic 8.0, Mautic dispatches it by class name, after setting the Email's new **Active** status but before persisting the change to the database, so Plugins can run actions or validations before Mautic saves the new status.
+The ``Mautic\EmailBundle\Event\EmailOnTogglePublishEvent`` event fires when a User toggles the **Active** status of an Email. Mautic dispatches it by its class after setting the Email's new **Active** status but before persisting the change to the database, so Plugins can run actions or validations before Mautic saves the new status. Key ``getSubscribedEvents()`` on ``EmailOnTogglePublishEvent::class``. To update a subscriber that uses ``EmailEvents::EMAIL_ON_TOGGLE_PUBLISH``, see :ref:`EmailBundle <Mautic 8 emailbundle>`.
 
 An event listener receives a ``Mautic\EmailBundle\Event\EmailOnTogglePublishEvent`` instance, a subclass of ``EmailEvent``. Call ``getEmail()`` to get the Email, then ``isPublished()`` on that Email entity to read its **new** **Active** status - Mautic already applied the toggle to the entity by the time the event fires, so ``isPublished()`` doesn't return the prior status.
-
-.. note::
-
-   Since Mautic 8.0, this event dispatches by class name, so key ``getSubscribedEvents()`` on ``EmailOnTogglePublishEvent::class``. Mautic removed the ``EMAIL_ON_TOGGLE_PUBLISH`` constant, so code that still references ``EmailEvents::EMAIL_ON_TOGGLE_PUBLISH`` throws a PHP fatal error - ``Error: Undefined constant``.
 
 .. code-block:: PHP
 

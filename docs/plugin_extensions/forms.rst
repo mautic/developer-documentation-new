@@ -13,12 +13,9 @@ Forms
 
 .. vale on
 
-You can extend Forms by listening to the ``Mautic\FormBundle\Event\FormBuilderEvent`` event. Read more about :ref:`listeners and subscribers <event listeners>`.
+You can extend Forms by listening to the ``Mautic\FormBundle\Event\FormBuilderEvent`` event. Key ``getSubscribedEvents()`` on ``FormBuilderEvent::class``. Read more about :ref:`listeners and subscribers <event listeners>`.
 At the bottom of this document, you can find code examples to make it easier to get started.
-
-.. note::
-
-   Since Mautic 8, Mautic dispatches ``FormBuilderEvent`` by its class name rather than the ``FormEvents::FORM_ON_BUILD`` constant. Key ``getSubscribedEvents()`` on ``FormBuilderEvent::class`` instead. A subscriber still keyed on ``FormEvents::FORM_ON_BUILD`` no longer receives the event, though the constant still exists. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rule.
+To update a subscriber keyed on ``FormEvents::FORM_ON_BUILD``, see :ref:`FormBundle <Mautic 8 formbundle>`.
 
 .. vale off
 
@@ -137,9 +134,7 @@ Sometimes, it's necessary to handle something after all the other submit actions
 To do this, register a submit callback through the subscriber that processes the action.
 You can either inject a ``Symfony\Component\HttpFoundation\RedirectResponse`` at that time with ``$event->setPostSubmitCallbackResponse($identifier, $response);`` or register another custom event for Mautic to dispatch after it processes all the submit actions, using ``$event->setPostSubmitCallback($key, ['eventName' => HelloWorld::ANOTHER_CUSTOM_EVENT]);``.
 
-.. note::
-
-   Mautic 8 type-hints ``SubmissionEvent::setPostSubmitCallbackResponse()`` to require a ``RedirectResponse``. Passing a plain ``Response`` raises a ``TypeError``.
+``setPostSubmitCallbackResponse()`` accepts only a ``RedirectResponse``. Passing a plain ``Response`` raises a ``TypeError``.
 
 Form validations
 ****************
@@ -198,7 +193,6 @@ Example code
         static public function getSubscribedEvents()
         {
             return [
-                // Mautic 8 dispatches FormBuilderEvent by its class name, not FormEvents::FORM_ON_BUILD
                 FormBuilderEvent::class                           => ['onFormBuilder', 0],
                 // Generic validation function that runs on ALL field types
                 FormEvents::ON_FORM_VALIDATE                      => ['onFormValidate', 0],

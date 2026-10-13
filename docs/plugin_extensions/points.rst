@@ -26,7 +26,7 @@ To let Plugins register their custom Point Actions, Mautic dispatches a ``Mautic
 
 .. note::
 
-   Mautic dispatches ``PointBuilderEvent`` by its class name. A subscriber keyed on ``PointEvents::POINT_ON_BUILD`` or the ``mautic.point_on_build`` string silently receives nothing. The constant still exists, but Mautic no longer dispatches the event under it. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+   Mautic doesn't dispatch ``PointBuilderEvent`` under ``PointEvents::POINT_ON_BUILD`` or ``mautic.point_on_build``, so a subscriber keyed on either receives nothing. To update such a subscriber, see :ref:`PointBundle <Mautic 8 pointbundle>`.
 
 .. php:namespace:: Mautic\PointBundle\Event
 .. php:class:: PointBuilderEvent
@@ -167,7 +167,7 @@ To let Plugins register their custom Point Triggers, Mautic dispatches a ``Mauti
 
 .. note::
 
-   Mautic dispatches ``TriggerBuilderEvent`` by its class name. A subscriber keyed on ``PointEvents::TRIGGER_ON_BUILD`` or the ``mautic.trigger_on_build`` string silently receives nothing. The constant still exists, but Mautic no longer dispatches the event under it. Mautic still dispatches the other ``PointEvents`` events, such as ``PointEvents::TRIGGER_POST_SAVE``, by their string constants.
+   Mautic doesn't dispatch ``TriggerBuilderEvent`` under ``PointEvents::TRIGGER_ON_BUILD`` or ``mautic.trigger_on_build``, so a subscriber keyed on either receives nothing. Mautic dispatches the other ``PointEvents`` events, such as ``PointEvents::TRIGGER_POST_SAVE``, by their string constants.
 
 .. php:class:: Mautic\PointBundle\Event\TriggerBuilderEvent
 
