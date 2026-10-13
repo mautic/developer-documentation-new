@@ -883,12 +883,13 @@ Query parameters
    * - ``filter``
      - String to filter Roles by name
    * - ``limit``
-     - Limit number of Roles to return
+     - Maximum number of Roles to return. Must be a positive integer. Omit it to return all Roles.
 
 Response
 ========
 
 * Returns ``200 OK`` when the request successfully retrieves the list of User Roles.
+* Returns ``400 Bad Request`` when ``limit`` is zero, negative, or not an integer.
 
 .. code-block:: json
 

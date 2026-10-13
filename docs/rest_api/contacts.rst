@@ -1396,15 +1396,34 @@ Get a list of owners that you can use to assign Contacts to when creating/editin
 
 .. vale off
 
-**HTTP Request**
+HTTP Request
+~~~~~~~~~~~~
 
 .. vale on
 
 ``GET /contacts/list/owners``
 
-**Response**
+Query parameters
+~~~~~~~~~~~~~~~~
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Description
+   * - ``filter``
+     - String to filter owners by. Matches the start of the User's first name, last name, or full name.
+   * - ``limit``
+     - Maximum number of owners to return. Must be a positive integer. Omit it to return all owners.
+   * - ``start``
+     - Starting row for the owners returned. Must be zero or a positive integer. Defaults to 0. Applies only when you set ``limit``.
+
+Response
+~~~~~~~~
 
 ``Expected Response Code: 200``
+
+The request returns ``HTTP 400 (Bad Request)`` when ``limit`` is zero, negative, or not an integer, or when ``start`` is negative.
 
 .. code-block:: json
 
@@ -1421,7 +1440,8 @@ Get a list of owners that you can use to assign Contacts to when creating/editin
      }
    ]
 
-**Owner Properties**
+Owner properties
+~~~~~~~~~~~~~~~~
 
 .. list-table::
    :header-rows: 1
