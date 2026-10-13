@@ -7,7 +7,7 @@ To add and render custom Reports in Mautic, your Plugin needs to listen to the f
 * ``\Mautic\ReportBundle\Event\ReportGeneratorEvent``
 * ``\Mautic\ReportBundle\Event\ReportGraphEvent``
 
-Key ``getSubscribedEvents()`` on these event classes, as the following example shows. To update a subscriber keyed on ``ReportEvents::REPORT_ON_BUILD``, ``ReportEvents::REPORT_ON_GENERATE``, or ``ReportEvents::REPORT_ON_GRAPH_GENERATE``, see :ref:`ReportBundle <Mautic 8 reportbundle>`.
+Key ``getSubscribedEvents()`` on these event classes, as the following example shows.
 
 .. code-block:: php
 
