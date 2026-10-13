@@ -56,13 +56,17 @@ You can find several events through the ``ChannelEvents`` class.
         );
     }
 
+.. warning::
+
+   Mautic 8 changes ``ChannelEvents::ADD_CHANNEL`` to ``ChannelEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`ChannelBundle <Mautic 8 upgrade ChannelBundle>`.
+
 Extending broadcasts
 --------------------
 
 Broadcasts are communications sent in bulk through a Channel such as Email.
 An event is available to execute the sending of these bulk communications via the ``mautic:broadcasts:send`` command.
 
-To hook into the ``mautic:broadcasts:send`` command, create a listener for the ``\Mautic\CoreBundle\CoreEvents::CHANNEL_BROADCAST`` event.
+To hook into the ``mautic:broadcasts:send`` command, create a listener for the ``\Mautic\ChannelBundle\ChannelEvents::CHANNEL_BROADCAST`` event.
 The event listener should check for the appropriate context and ID.
 
 .. code-block:: php
@@ -112,3 +116,7 @@ The event listener should check for the appropriate context and ID.
             }
         }
     }
+
+.. warning::
+
+   Mautic 8 changes ``ChannelEvents::CHANNEL_BROADCAST`` to ``ChannelBroadcastEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`ChannelBundle <Mautic 8 upgrade ChannelBundle>`.
