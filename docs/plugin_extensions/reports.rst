@@ -7,6 +7,10 @@ To add and render custom Reports in Mautic, your Plugin needs to listen to the f
 * ``ReportEvents::REPORT_ON_GENERATE``
 * ``ReportEvents::REPORT_ON_GRAPH_GENERATE``
 
+.. warning::
+
+   Mautic 8 changes ``ReportEvents::REPORT_ON_BUILD`` to ``ReportBuilderEvent::class``, ``ReportEvents::REPORT_ON_GENERATE`` to ``ReportGeneratorEvent::class``, and ``ReportEvents::REPORT_ON_GRAPH_GENERATE`` to ``ReportGraphEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`ReportBundle <Mautic 8 upgrade ReportBundle>`. This applies to every reference to these constants in this document.
+
 .. code-block:: php
 
    <?php
