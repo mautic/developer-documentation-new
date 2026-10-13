@@ -64,7 +64,12 @@ The production build also generates ``css/offline.css``, a compatibility stylesh
 Bootstrap framework
 ===================
 
-Mautic uses Bootstrap 3.4.1 for its UI framework. The Bootstrap source files come from the ``twbs/bootstrap-sass`` Composer package and are available for importing in your SCSS files.
+Mautic uses Bootstrap 5.3.8 for its UI framework. The Bootstrap SCSS source files come from the ``twbs/bootstrap`` Composer package. Mautic adds ``vendor/twbs/bootstrap/scss`` to the Sass load path, so you can import Bootstrap partials in your SCSS files.
+
+Mautic includes a Bootstrap 3 compatibility layer, so Plugin templates and JavaScript that use Bootstrap 3 classes, data attributes, and jQuery calls work in the Mautic UI:
+
+* ``app/bundles/CoreBundle/Assets/css/libraries/bootstrap/_bootstrap-3-compatibility.scss`` provides the Bootstrap 3 classes and styles on top of Bootstrap 5.
+* ``app/bundles/CoreBundle/Assets/js/1.bootstrap-compatibility.js`` maps Bootstrap 3 data attributes, such as ``data-toggle`` and ``data-target``, to their Bootstrap 5 ``data-bs-*`` equivalents, and supports Bootstrap 3 jQuery calls, such as ``$(element).modal('show')``.
 
 .. vale off
 
