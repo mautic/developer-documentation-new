@@ -64,6 +64,10 @@ You can embed ``mtc.js`` in third party websites to manage communication between
 To inject custom JavaScript into ``mtc.js``, use an :ref:`Event Listener<plugins/event_listeners:Event listeners>` for the ``CoreEvents::BUILD_MAUTIC_JS`` event.
 This event receives a ``Mautic\CoreBundle\Event\BuildJsEvent`` object where ``$event->appendJs($js, $sectionName);`` can be used to inject the script's code.
 
+.. warning::
+
+   Mautic 8 changes ``CoreEvents::BUILD_MAUTIC_JS`` to ``BuildJsEvent::class`` and ``PageEvents::ON_CONTACT_TRACKED`` to ``TrackingEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`CoreBundle <Mautic 8 upgrade CoreBundle>` and :xref:`PageBundle <Mautic 8 upgrade PageBundle>`.
+
 .. note::
 
    ``appendJs()`` still works but now delegates to ``appendJsForScope()`` with ``BuildJsScope::TRACKING``, so Mautic treats code appended this way as ``TRACKING`` scope and includes it only in tracking-enabled builds - including ``/mtc.js`` and ``/mautic-tracking.js`` - but excludes it from ``/mautic-essential.js``. See :ref:`Script scopes and split scripts<mauticjs_api/tracking_script:Script scopes and split scripts>`.
@@ -93,6 +97,10 @@ When you subscribe to ``CoreEvents::BUILD_MAUTIC_JS``, the ``BuildJsEvent`` expo
    A subscriber that only calls the legacy ``appendJs()`` now contributes ``TRACKING`` scoped code and is therefore excluded from ``/mautic-essential.js``. If a Plugin's code must run in the essential, pre-consent context, the subscriber must call ``appendJsForScope()`` with ``BuildJsScope::ESSENTIAL``. It can also gate on ``acceptsScope()`` first to skip building a payload the build would discard.
 
    Mind the argument positions when migrating: the legacy ``appendJs($js, $section)`` takes the section name as the 2nd argument, whereas ``appendJsForScope($js, BuildJsScope $scope, $section = '')`` inserts the scope as the 2nd argument and moves the section name to the 3rd. A mechanical find-and-replace that keeps the old argument order would pass the section string where the scope now goes.
+
+.. warning::
+
+   Mautic 8 changes ``CoreEvents::BUILD_MAUTIC_JS`` to ``BuildJsEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`CoreBundle <Mautic 8 upgrade CoreBundle>`.
 
 .. vale off
 
@@ -249,6 +257,10 @@ Hooking into the tracking process and returning custom responses
 If you need to do something during the request to track the Contact through ``/mtc/event``, or append to the payload returned to the tracking code which you can leverage by custom JavaScript injected through ``CoreEvents::BUILD_MAUTIC_JS``, subscribe to the ``PageEvents::ON_CONTACT_TRACKED`` event.
 The listener can inject a custom payload through the ``Mautic\PageBundle\Event\TrackingEvent::set`` method.
 This will expose the payload to the tracking code's ``mauticPageEventDelivered`` event in the ``detail.response.events`` object. See the PHP code example. 
+
+.. warning::
+
+   Mautic 8 changes ``PageEvents::ON_CONTACT_TRACKED`` to ``TrackingEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`PageBundle <Mautic 8 upgrade PageBundle>`.
 
 .. vale off
 
