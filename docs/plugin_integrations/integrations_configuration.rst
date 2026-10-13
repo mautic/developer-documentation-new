@@ -109,6 +109,10 @@ Find the code snippet as follows,
         }
     }
 
+.. warning::
+
+   Mautic removes ``DefaultConfigFormTrait`` in Mautic 8. When you upgrade to Mautic 8, update your code as described in :xref:`DefaultConfigFormTrait <Mautic 8 upgrade DefaultConfigFormTrait>`.
+
 
 Interfaces
 **********
