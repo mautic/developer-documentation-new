@@ -113,7 +113,7 @@ It's possible to define your own custom permissions within your Plugin. Make sur
 
 .. note::
 
-   This constructor pattern applies to Mautic 8 and later. Mautic deprecates the ``array $params`` constructor argument, which now defaults to an empty array. Mautic injects ``$this->params`` through an Autowired setter after construction instead.
+   Define the permissions in a constructor without arguments, as in the example. To update a permission class that passes ``$params`` to the parent constructor, see :ref:`AbstractPermissions <mautic 8 abstractpermissions>`.
 
 .. code-block:: php
 
