@@ -22,6 +22,10 @@ Registering Campaign Events
 
 Mautic dispatches the Event ``\Mautic\CampaignBundle\CampaignEvents::CAMPAIGN_ON_BUILD`` for Plugins to register their Campaign Actions, Conditions and Decisions. Listeners receive a ``Mautic\CampaignBundle\Events\CampaignBuilderEvent`` object. Register the Event using the appropriate ``add`` method as described below.
 
+.. warning::
+
+   Mautic 8 changes ``CampaignEvents::CAMPAIGN_ON_BUILD`` to ``CampaignBuilderEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`CampaignBundle <Mautic 8 upgrade CampaignBundle>`. This applies to every subscriber example below.
+
 .. php:namespace:: Mautic\CampaignBundle\Events
 .. php:class:: CampaignBuilderEvent
 
