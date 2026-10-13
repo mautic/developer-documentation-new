@@ -226,10 +226,6 @@ The event is additive and non-breaking, so existing permission checks keep worki
    * - ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT``
      - Mautic dispatches this before API Platform evaluates authorization. The event string is ``mautic.api_platform_permission_context``.
 
-.. warning::
-
-   Mautic 8 changes ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT`` to ``ApiPlatformPermissionContextEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`ApiBundle <Mautic 8 upgrade ApiBundle>`. This applies to the example subscriber below.
-
 The event receives a ``Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent`` instance with the following methods:
 
 .. list-table::
