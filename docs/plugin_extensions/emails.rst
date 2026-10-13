@@ -35,6 +35,10 @@ Registering tokens leverages the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_BUI
 An event listener receives the ``Mautic\EmailBundle\Event\EmailBuilderEvent``.
 Use its ``$event->addToken($token, $htmlContent)`` to add your token.
 
+.. warning::
+
+   Mautic 8 changes ``EmailEvents::EMAIL_ON_BUILD`` to ``EmailOnBuildEvent::class`` and ``EmailBuilderEvent`` to ``EmailOnBuildEvent``. When you upgrade to Mautic 8, update your code as described in :xref:`EmailBundle <Mautic 8 upgrade EmailBundle>`. This applies to every example below that uses ``EMAIL_ON_BUILD`` or ``EmailBuilderEvent``.
+
 .. note::
 
    You can either hard-code your tokens' textual description in ``$htmlContent`` or use a translatable string.
@@ -45,6 +49,10 @@ Rendering custom tokens
 To render custom tokens, use the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_SEND`` event when Mautic sends the Email, or the ``\Mautic\EmailBundle\EmailEvents::EMAIL_ON_DISPLAY`` event when the Email displays in a browser such as after the Contact clicks the ``{webview_url}`` link.
 
 An event listener receives in both cases the ``Mautic\EmailBundle\Event\EmailSendEvent``. You can replace a custom token using the events ``$event->addToken($token, $contentToReplaceToken)``.
+
+.. warning::
+
+   Mautic 8 changes ``EmailEvents::EMAIL_ON_SEND`` to ``EmailSendEvent::class`` and ``EmailEvents::EMAIL_ON_DISPLAY`` to ``EmailDisplayEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`EmailBundle <Mautic 8 upgrade EmailBundle>`. This applies to every example below that uses ``EMAIL_ON_SEND`` or ``EMAIL_ON_DISPLAY``.
 
 Basic token replacement
 =======================
@@ -268,6 +276,10 @@ To do this, the Plugin needs to add an event listener for three events:
 2. ``EmailEvents::EMAIL_PRE_FETCH`` This event is dispatched during the execution of the ``mautic:email:fetch`` command. It's used to inject search criteria for the messages desired.
 3. ``EmailEvents::EMAIL_PARSE`` This event parses the messages fetched by the command.
 
+.. warning::
+
+   Mautic 8 changes ``EmailEvents::MONITORED_EMAIL_CONFIG`` to ``MonitoredEmailEvent::class``, ``EmailEvents::EMAIL_PRE_FETCH`` to ``PreFetchEmailEvent::class``, and ``EmailEvents::EMAIL_PARSE`` to ``ParseEmailEvent::class``. Mautic 8 also moves ``setCriteriaRequest()`` from ``ParseEmailEvent`` to ``PreFetchEmailEvent``, so the pre-fetch listener needs a ``PreFetchEmailEvent`` type hint. When you upgrade to Mautic 8, update your code as described in :xref:`EmailBundle <Mautic 8 upgrade EmailBundle>`.
+
 .. code-block:: PHP
 
     <?php
@@ -340,6 +352,10 @@ Mautic supports quite some Email providers out of the box (Amazon Simple Email S
 If you want to add your own Email transport, that's certainly possible.
 
 The most important thing here is to create a service that's tagged as ``mautic.email.transport_type``, so that Mautic recognizes it as a transport type.
+
+.. warning::
+
+   Mautic 8 changes service registration from the ``services`` array in ``Config/config.php`` to ``Config/services.php``. When you upgrade to Mautic 8, update your code as described in :xref:`Config/config.php services array <Mautic 8 upgrade config php services array>`.
 
 .. code-block:: PHP
 
