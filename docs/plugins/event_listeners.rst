@@ -58,10 +58,6 @@ Mautic leverages Symfony's EventDispatcher to execute and communicate various ac
     }  
     // ...
 
-.. warning::
-
-   Mautic 8 changes ``LeadEvents::LEAD_POST_SAVE`` and ``LeadEvents::LEAD_POST_DELETE`` to ``LeadPostSaveEvent::class`` and ``LeadPostDeleteEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`LeadBundle <Mautic 8 upgrade LeadBundle>`.
-
 Event subscribers
 *****************
 
@@ -190,10 +186,6 @@ Both events receive a ``Mautic\LeadBundle\Event\TagMergeEvent`` instance with th
      - Returns the Tag entity that remains after the merge.
    * - ``getSecondaryTag()``
      - Returns the Tag entity that merges into the primary Tag and then gets deleted.
-
-.. warning::
-
-   Mautic 8 changes ``LeadEvents::TAG_PRE_MERGE`` and ``LeadEvents::TAG_POST_MERGE`` to ``TagPreMergeEvent::class`` and ``TagPostMergeEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`LeadBundle <Mautic 8 upgrade LeadBundle>`.
 
 Example subscriber
 ==================

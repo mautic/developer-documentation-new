@@ -46,10 +46,6 @@ You can create event listeners as follows:
         }
     }
 
-.. warning::
-
-   Mautic 8 changes ``PluginEvents::ON_PLUGIN_INSTALL`` and ``PluginEvents::ON_PLUGIN_UPDATE`` to ``PluginInstallEvent::class`` and ``PluginUpdateEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`PluginBundle <Mautic 8 upgrade PluginBundle>`.
-
 Database migrations
 ===================
 
