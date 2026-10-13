@@ -19,10 +19,6 @@ There are two way to extend Landing Pages:
 
 Both leverage the ``\Mautic\PageBundle\PageEvents::PAGE_ON_BUILD`` event. Read more about :ref:`plugins/event_listeners:Event listeners`.
 
-.. warning::
-
-   Mautic 8 changes ``PageEvents::PAGE_ON_BUILD`` to ``PageBuilderEvent::class`` and ``PageEvents::PAGE_ON_DISPLAY`` to ``PageDisplayEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`PageBundle <Mautic 8 upgrade PageBundle>`. This applies to every subscriber example below.
-
 .. vale off
 
 Landing Page tokens
