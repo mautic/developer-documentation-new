@@ -62,6 +62,10 @@ This places the route behind ``/api`` which is only accessible to authorized Use
         // ...
     ];
 
+.. warning::
+
+   Mautic 8 changes service registration from the ``services`` array in ``Config/config.php`` to ``Config/services.php``. Mautic 8 also changes the ``mautic.security`` service ID to ``CorePermissions::class``. When you upgrade to Mautic 8, update your code as described in :xref:`Config/config.php services array <Mautic 8 upgrade config php services array>` and :xref:`Service IDs <Mautic 8 upgrade removed service ids>`.
+
 The API controller should extend ``Mautic\ApiBundle\Controller\CommonApiController`` to leverage the helper methods provided.
 
 .. code-block:: php
@@ -221,6 +225,10 @@ The event is additive and non-breaking, so existing permission checks keep worki
      - Description
    * - ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT``
      - Mautic dispatches this before API Platform evaluates authorization. The event string is ``mautic.api_platform_permission_context``.
+
+.. warning::
+
+   Mautic 8 changes ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT`` to ``ApiPlatformPermissionContextEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`ApiBundle <Mautic 8 upgrade ApiBundle>`. This applies to the example subscriber below.
 
 The event receives a ``Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent`` instance with the following methods:
 
