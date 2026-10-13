@@ -150,7 +150,7 @@ To find the name Mautic dispatches an event under, and to confirm a re-key, run 
 Form, Integration, and Focus events dispatched by class name in Mautic 8
 ========================================================================
 
-Ten events across three bundles moved to class-name dispatch in Mautic 8. Those bundles are FormBundle, IntegrationsBundle, and MauticFocusBundle. You now subscribe using the event class shown in the table below.
+Nine events across three bundles moved to class-name dispatch in Mautic 8. Those bundles are FormBundle, IntegrationsBundle, and MauticFocusBundle. You now subscribe using the event class shown in the table below.
 
 .. list-table::
    :header-rows: 1
@@ -196,18 +196,10 @@ Ten events across three bundles moved to class-name dispatch in Mautic 8. Those 
      - ``mautic.focus.on_view``
      - ``FocusEvents::FOCUS_ON_VIEW``
      - ``MauticPlugin\MauticFocusBundle\Event\FocusViewEvent``
-   * - MauticFocusBundle
-     - ``mautic.focus_token_replacement``
-     - ``FocusEvents::TOKEN_REPLACEMENT``
-     - ``MauticPlugin\MauticFocusBundle\Event\FocusTokenReplacementEvent``
 
 The FormBundle event classes live in the ``Mautic\FormBundle\Event`` namespace and the IntegrationsBundle event classes in the ``Mautic\IntegrationsBundle\Event`` namespace, both under ``app/bundles/``. MauticFocusBundle is a Plugin under ``plugins/``, so its event class is in the ``MauticPlugin\MauticFocusBundle\Event`` namespace. Note the different top-level namespace.
 
-``FocusTokenReplacementEvent`` has its own class so that Focus Item content stays out of the shared ``Mautic\CoreBundle\Event\TokenReplacementEvent`` listeners in bundles such as EmailBundle and DynamicContentBundle. Both classes extend the abstract ``Mautic\CoreBundle\Event\AbstractTokenReplacementEvent`` base, and neither extends the other. To replace tokens in Focus Item content, key ``getSubscribedEvents()`` on ``FocusTokenReplacementEvent::class``. The event dispatcher matches the exact class name, so a listener keyed on ``TokenReplacementEvent::class`` never receives Focus Item content.
-
-Type-hint your listener method on ``FocusTokenReplacementEvent``, or on ``AbstractTokenReplacementEvent`` if one method handles both events. A listener method type-hinted on ``TokenReplacementEvent`` raises a ``TypeError`` when it receives a ``FocusTokenReplacementEvent``. Mautic 8 removed the ``FocusEvents::TOKEN_REPLACEMENT`` constant, so a subscriber that still references it raises an undefined-constant error, and a subscriber keyed on the raw ``mautic.focus_token_replacement`` string silently receives nothing.
-
-Only these ten events changed. Mautic keeps an event as a string constant when several event names share one event object, or when the event crosses bundle boundaries, so those events still dispatch by the string name. For example, FormBundle's create, read, update, and delete group constants share one event object. For those, the guidance in the :ref:`Available events <Plugins/event_listeners:Available events>` intro to always use the event constants still holds.
+Only these nine events changed. Mautic keeps an event as a string constant when several event names share one event object, or when the event crosses bundle boundaries, so those events still dispatch by the string name. For example, FormBundle's create, read, update, and delete group constants share one event object. For those, the guidance in the :ref:`Available events <Plugins/event_listeners:Available events>` intro to always use the event constants still holds.
 
 The IntegrationsBundle configuration save events used to follow that rule too, because the before-save and after-save names shared one ``ConfigSaveEvent``. Mautic 8 gives each its own class and removes both constants, so update these subscribers as follows:
 

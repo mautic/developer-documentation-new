@@ -561,7 +561,7 @@ TokenReplacementEvent
 
 .. vale on
 
-``Mautic\CoreBundle\Event\TokenReplacementEvent`` declares ``strict_types`` and has subscribers in the ``EmailBundle``, ``LeadBundle``, ``SmsBundle``, ``NotificationBundle``, and ``DynamicContentBundle``. ``setContent()`` narrowed to ``string`` only, from the ``CommonEntity|string|null`` its old ``@param CommonEntity|string|null $content`` annotation allowed, so a call that still passes a non-string now raises a ``TypeError`` at runtime. The method lives on the abstract ``Mautic\CoreBundle\Event\AbstractTokenReplacementEvent`` base, so the same change applies to the ``MauticFocusBundle`` Plugin's ``FocusTokenReplacementEvent``, which also extends that base. For how to subscribe to the Focus event, see :ref:`Form, Integration, and Focus events dispatched by class name in Mautic 8 <Plugins/event_listeners:Form, Integration, and Focus events dispatched by class name in Mautic 8>`.
+``Mautic\CoreBundle\Event\TokenReplacementEvent`` declares ``strict_types`` and has subscribers in the ``EmailBundle``, ``LeadBundle``, ``SmsBundle``, ``NotificationBundle``, and ``DynamicContentBundle``. ``setContent()`` narrowed to ``string`` only, from the ``CommonEntity|string|null`` its old ``@param CommonEntity|string|null $content`` annotation allowed, so a call that still passes a non-string now raises a ``TypeError`` at runtime.
 
 .. code:: diff
 
