@@ -400,15 +400,4 @@ A listener method can type-hint the base class to handle both events that share 
         }
     }
 
-.. note::
-
-   Mautic 8 removes the ``Mautic\IntegrationsBundle\IntegrationEvents`` class, so code that still references one of its constants raises a ``Class "Mautic\IntegrationsBundle\IntegrationEvents" not found`` error. Replace each former constant with its event class:
-
-   * ``INTEGRATION_BEFORE_CONTACT_FIELD_CHANGES`` - ``InternalContactFieldChangesEvent``
-   * ``INTEGRATION_BEFORE_COMPANY_FIELD_CHANGES`` - ``InternalCompanyFieldChangesEvent``
-   * ``INTEGRATION_BEFORE_FULL_CONTACT_REPORT_BUILD`` - ``InternalContactFullReportBuildEvent``
-   * ``INTEGRATION_BEFORE_FULL_COMPANY_REPORT_BUILD`` - ``InternalCompanyFullReportBuildEvent``
-   * ``INTEGRATION_BATCH_SYNC_COMPLETED_INTEGRATION_TO_MAUTIC`` - ``IntegrationToMauticSyncCompletedEvent``
-   * ``INTEGRATION_BATCH_SYNC_COMPLETED_MAUTIC_TO_INTEGRATION`` - ``MauticToIntegrationSyncCompletedEvent``
-
-   For how class-name dispatch works, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+To update a subscriber that uses the ``IntegrationEvents`` constants, see :ref:`IntegrationsBundle <Mautic 8 integrationsbundle>`.

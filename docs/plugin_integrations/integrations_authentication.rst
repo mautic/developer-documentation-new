@@ -764,7 +764,7 @@ Here is an example of a client, assuming that the User has already logged in and
     $apiKeys       = $configuration->getApiKeys();
 
     /** @var Request $request */
-    $code = $request->get('code');
+    $code = $request->query->get('code');
 
     $credentials = new class(
         'https://example.com/api/oauth/authorize',
