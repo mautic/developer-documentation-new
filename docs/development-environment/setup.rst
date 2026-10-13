@@ -17,7 +17,7 @@ Steps
 
 You can also run the install process from command line:
 
-* Add a ``local.php`` file in ``app/config``
+* Add a ``local.php`` file in ``config`` at the root of the repository
 * Edit the ``local.php`` file using the following template (Mautic adapts to new local settings):
 
 .. code-block:: php
