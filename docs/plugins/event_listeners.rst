@@ -58,10 +58,6 @@ Mautic leverages Symfony's EventDispatcher to execute and communicate various ac
     }  
     // ...
 
-.. warning::
-
-   Mautic 8 changes ``LeadEvents::LEAD_POST_SAVE`` and ``LeadEvents::LEAD_POST_DELETE`` to ``LeadPostSaveEvent::class`` and ``LeadPostDeleteEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`LeadBundle <Mautic 8 upgrade LeadBundle>`.
-
 Event subscribers
 *****************
 
