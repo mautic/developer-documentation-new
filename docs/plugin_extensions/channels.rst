@@ -56,10 +56,6 @@ You can find several events through the ``ChannelEvents`` class.
         );
     }
 
-.. warning::
-
-   Mautic 8 changes ``ChannelEvents::ADD_CHANNEL`` to ``ChannelEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`ChannelBundle <Mautic 8 upgrade ChannelBundle>`.
-
 Extending broadcasts
 --------------------
 
@@ -116,7 +112,3 @@ The event listener should check for the appropriate context and ID.
             }
         }
     }
-
-.. warning::
-
-   Mautic 8 changes ``ChannelEvents::CHANNEL_BROADCAST`` to ``ChannelBroadcastEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`ChannelBundle <Mautic 8 upgrade ChannelBundle>`.
