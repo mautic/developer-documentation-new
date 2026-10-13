@@ -64,6 +64,10 @@ You can embed ``mtc.js`` in third party websites to manage communication between
 To inject custom JavaScript into ``mtc.js``, use an :ref:`Event Listener<plugins/event_listeners:Event listeners>` for the ``CoreEvents::BUILD_MAUTIC_JS`` event.
 This event receives a ``Mautic\CoreBundle\Event\BuildJsEvent`` object where ``$event->appendJs($js, $sectionName);`` can be used to inject the script's code.
 
+.. warning::
+
+   Mautic 8 changes ``CoreEvents::BUILD_MAUTIC_JS`` to ``BuildJsEvent::class`` and ``PageEvents::ON_CONTACT_TRACKED`` to ``TrackingEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`CoreBundle <Mautic 8 upgrade CoreBundle>` and :xref:`PageBundle <Mautic 8 upgrade PageBundle>`.
+
 .. warning:: Note that the code that triggers the tracking call to Mautic has a priority of -255. Thus, any listener to this event should use a priority greater than -255.
 
 .. warning:: Only use native JavaScript or <a href="#mauticjs-api-functions">MauticJS API functions</a> since ``jQuery`` and other libraries aren't guaranteed to be available in third party websites.
@@ -76,6 +80,10 @@ Hooking into the tracking process and returning custom responses
 If you need to do something during the request to track the Contact through ``/mtc/event``, or append to the payload returned to the tracking code which you can leverage by custom JavaScript injected through ``CoreEvents::BUILD_MAUTIC_JS``, subscribe to the ``PageEvents::ON_CONTACT_TRACKED`` event.
 The listener can inject a custom payload through the ``Mautic\PageBundle\Event\TrackingEvent::set`` method.
 This will expose the payload to the tracking code's ``mauticPageEventDelivered`` event in the ``detail.response.events`` object. See the PHP code example. 
+
+.. warning::
+
+   Mautic 8 changes ``PageEvents::ON_CONTACT_TRACKED`` to ``TrackingEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`PageBundle <Mautic 8 upgrade PageBundle>`.
 
 .. vale off
 
