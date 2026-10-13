@@ -460,12 +460,21 @@ Since Mautic 8, some bundles dispatch an event by the event object alone rather 
 
 .. note::
 
-   Since Mautic 8, Mautic dispatches ``Mautic\StageBundle\Event\StageBuilderEvent`` by the event object alone. Key ``getSubscribedEvents()`` on ``StageBuilderEvent::class``, not on ``StageEvents::STAGE_ON_BUILD`` or the string ``mautic.stage_on_build``. Those constants remain for backward compatibility but no longer dispatch this event. Mautic still dispatches the ``StageEvent`` CRUD group, ``STAGE_ON_ACTION``, and ``ON_CAMPAIGN_BATCH_ACTION`` by their string constants.
+   Mautic dispatches the StageBundle builder, save, and delete events by the event object alone. Key ``getSubscribedEvents()`` on the event class from the ``Mautic\StageBundle\Event`` namespace:
+
+   * ``StageBuilderEvent`` - before Mautic displays the Stage builder form, so you can add custom Stage actions
+   * ``StagePreSaveEvent`` - before Mautic saves a Stage
+   * ``StagePostSaveEvent`` - after Mautic saves a Stage
+   * ``StagePreDeleteEvent`` - before Mautic deletes a Stage
+   * ``StagePostDeleteEvent`` - after Mautic deletes a Stage
+
+   A subscriber keyed on ``StageEvents::STAGE_ON_BUILD`` or the string ``mautic.stage_on_build`` receives nothing. The four save and delete classes extend the abstract ``StageEvent`` class, so one listener method that handles several of them can type-hint ``StageEvent``. Mautic creates a new event object for each dispatch, so a value you set on the pre-save or pre-delete event isn't available on the matching post event. ``STAGE_ON_ACTION`` and ``ON_CAMPAIGN_BATCH_ACTION`` dispatch by their ``StageEvents`` string constants.
 
    .. code-block:: php
 
       return [
-          StageBuilderEvent::class => ['onStageBuild', 0],
+          StageBuilderEvent::class  => ['onStageBuild', 0],
+          StagePostSaveEvent::class => ['onStagePostSave', 0],
           // ...
       ];
 
