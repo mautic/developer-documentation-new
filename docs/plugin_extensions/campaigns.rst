@@ -22,8 +22,6 @@ Registering Campaign Events
 
 Mautic dispatches ``Mautic\CampaignBundle\Event\CampaignBuilderEvent`` so Plugins can register their Campaign Actions, Conditions, and Decisions. Key ``getSubscribedEvents()`` on ``CampaignBuilderEvent::class``. Register each Event with the ``addAction()``, ``addCondition()``, or ``addDecision()`` method, as described below.
 
-To update a subscriber that uses the ``CampaignEvents`` constants, see :ref:`CampaignBundle <Mautic 8 campaignbundle>`.
-
 .. php:namespace:: Mautic\CampaignBundle\Event
 .. php:class:: CampaignBuilderEvent
 

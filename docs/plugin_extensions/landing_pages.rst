@@ -20,8 +20,6 @@ There are two ways to extend Landing Pages:
 
 Both use the ``Mautic\PageBundle\Event\PageBuilderEvent`` event, and the tokens example below also handles ``PageDisplayEvent``. Key ``getSubscribedEvents()`` on ``PageBuilderEvent::class`` and ``PageDisplayEvent::class``. Read more about :ref:`Plugins/event_listeners:Event listeners`.
 
-To update a subscriber that uses the ``PageEvents`` build or display constants, see :ref:`PageBundle <Mautic 8 pagebundle>`.
-
 .. vale off
 
 Landing Page tokens

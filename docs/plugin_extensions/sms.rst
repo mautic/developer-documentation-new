@@ -340,4 +340,4 @@ The :xref:`SmsEvents source` class defines these string-keyed SMS event constant
 
 .. vale on
 
-To filter Contacts, subscribe to the event classes in `Contact filtering events`_. To update a subscriber that uses an ``SmsEvents`` constant that isn't in this table, see :ref:`SmsBundle <Mautic 8 smsbundle>`.
+To filter Contacts, subscribe to the event classes in `Contact filtering events`_.

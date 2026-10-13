@@ -48,8 +48,6 @@ To render custom tokens, key on the ``Mautic\EmailBundle\Event\EmailSendEvent`` 
 
 The send path receives a ``Mautic\EmailBundle\Event\EmailSendEvent``. The display path receives a ``Mautic\EmailBundle\Event\EmailDisplayEvent``, a subclass of ``EmailSendEvent`` that exposes the same ``addToken()``, ``getContent()``, and ``setContent()`` API. Mautic dispatches each class under its own key, so a listener keyed only on ``EmailSendEvent::class`` doesn't receive ``EmailDisplayEvent``. A handler serving both paths must register under both keys. Replace a custom token using the event's ``$event->addToken($token, $contentToReplaceToken)``.
 
-To update a subscriber that uses ``EmailBuilderEvent`` or the ``EmailEvents`` build, send, or display constants, see :ref:`EmailBundle <Mautic 8 emailbundle>`.
-
 Basic token replacement
 =======================
 
@@ -558,7 +556,7 @@ To do this, the Plugin needs to add an event listener for three events:
 #. ``Mautic\EmailBundle\Event\PreFetchEmailEvent`` Mautic dispatches this event during the execution of the ``mautic:email:fetch`` command, before it fetches any messages. Call ``setCriteriaRequest()`` on it to inject search criteria for the desired messages.
 #. ``Mautic\EmailBundle\Event\ParseEmailEvent`` Mautic dispatches this event with the messages that the command fetched. Call ``isApplicable()`` to confirm that the messages come from your folder, then process them with ``getMessages()``.
 
-Key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``, ``PreFetchEmailEvent::class``, and ``ParseEmailEvent::class``. ``setCriteriaRequest()``, ``getCriteriaRequests()``, and ``getMarkAsSeenInstructions()`` are on ``PreFetchEmailEvent``, so type-hint the pre-fetch listener on ``PreFetchEmailEvent``. To update a subscriber that uses the ``EmailEvents`` monitored inbox constants, see :ref:`EmailBundle <Mautic 8 emailbundle>`.
+Key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``, ``PreFetchEmailEvent::class``, and ``ParseEmailEvent::class``. ``setCriteriaRequest()``, ``getCriteriaRequests()``, and ``getMarkAsSeenInstructions()`` are on ``PreFetchEmailEvent``, so type-hint the pre-fetch listener on ``PreFetchEmailEvent``.
 
 .. code-block:: PHP
 
@@ -696,7 +694,7 @@ Toggle 'Active' event
 
 .. vale on
 
-The ``Mautic\EmailBundle\Event\EmailOnTogglePublishEvent`` event fires when a User toggles the **Active** status of an Email. Mautic dispatches it by its class after setting the Email's new **Active** status but before persisting the change to the database, so Plugins can run actions or validations before Mautic saves the new status. Key ``getSubscribedEvents()`` on ``EmailOnTogglePublishEvent::class``. To update a subscriber that uses ``EmailEvents::EMAIL_ON_TOGGLE_PUBLISH``, see :ref:`EmailBundle <Mautic 8 emailbundle>`.
+The ``Mautic\EmailBundle\Event\EmailOnTogglePublishEvent`` event fires when a User toggles the **Active** status of an Email. Mautic dispatches it by its class after setting the Email's new **Active** status but before persisting the change to the database, so Plugins can run actions or validations before Mautic saves the new status. Key ``getSubscribedEvents()`` on ``EmailOnTogglePublishEvent::class``.
 
 An event listener receives a ``Mautic\EmailBundle\Event\EmailOnTogglePublishEvent`` instance, a subclass of ``EmailEvent``. Call ``getEmail()`` to get the Email, then ``isPublished()`` on that Email entity to read its **new** **Active** status - Mautic already applied the toggle to the entity by the time the event fires, so ``isPublished()`` doesn't return the prior status.
 

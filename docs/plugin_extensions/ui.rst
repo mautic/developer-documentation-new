@@ -20,7 +20,7 @@ Injecting buttons
 
 .. vale on
 
-Mautic dispatches the ``Mautic\CoreBundle\Event\CustomButtonEvent`` for Plugins to register their buttons. Listeners key on this event class and receive the ``CustomButtonEvent`` object. Register the event using the ``addButton`` method as described below. To update a subscriber that uses the ``CoreEvents`` constants, see :ref:`CoreBundle <Mautic 8 corebundle>`.
+Mautic dispatches the ``Mautic\CoreBundle\Event\CustomButtonEvent`` for Plugins to register their buttons. Listeners key on this event class and receive the ``CustomButtonEvent`` object. Register the event using the ``addButton`` method as described below.
 
 .. php:class:: Mautic\CoreBundle\Event\CustomButtonEvent
 

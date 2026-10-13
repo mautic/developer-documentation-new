@@ -26,7 +26,7 @@ To let Plugins register their custom Point Actions, Mautic dispatches a ``Mautic
 
 .. note::
 
-   Mautic doesn't dispatch ``PointBuilderEvent`` under ``PointEvents::POINT_ON_BUILD`` or ``mautic.point_on_build``, so a subscriber keyed on either receives nothing. To update such a subscriber, see :ref:`PointBundle <Mautic 8 pointbundle>`.
+   Mautic doesn't dispatch ``PointBuilderEvent`` under ``PointEvents::POINT_ON_BUILD`` or ``mautic.point_on_build``, so a subscriber keyed on either receives nothing.
 
 .. php:namespace:: Mautic\PointBundle\Event
 .. php:class:: PointBuilderEvent

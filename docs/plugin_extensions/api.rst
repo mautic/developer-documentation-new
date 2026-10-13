@@ -227,7 +227,7 @@ The event is additive and non-breaking, so existing permission checks keep worki
    * - ``ApiPlatformPermissionContextEvent``
      - Mautic dispatches this event by its class before API Platform evaluates authorization.
 
-Key ``getSubscribedEvents()`` on ``ApiPlatformPermissionContextEvent::class``. To update a subscriber that uses the ``ApiEvents`` constants, see :ref:`ApiBundle <Mautic 8 apibundle>`.
+Key ``getSubscribedEvents()`` on ``ApiPlatformPermissionContextEvent::class``.
 
 The event receives a ``Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent`` instance with the following methods:
 
