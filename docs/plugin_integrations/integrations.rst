@@ -49,6 +49,10 @@ In the Plugin's ``Config/config.php``, register the Integration using the tag ``
         // ...
     ];
 
+.. warning::
+
+   Mautic 8 changes this to registering the Integration as a service in ``Config/services.php``. When you upgrade to Mautic 8, update your code as described in :xref:`Config/config.php services array <Mautic 8 upgrade config php services array>`.
+
 The ``HelloWorldIntegration`` needs to implement ``\Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface`` and ``\Mautic\IntegrationsBundle\Integration\Interfaces\BasicInterface`` interfaces. Most use cases can simply extend the ``\Mautic\IntegrationsBundle\Integration\BasicIntegration`` abstract class.
 
 .. php:class:: \Mautic\IntegrationsBundle\Integration\BasicIntegration
