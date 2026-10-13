@@ -184,10 +184,6 @@ Contact timeline/history
 To inject events into a Contact's timeline, create an event listener that listens to the ``LeadEvents::TIMELINE_ON_GENERATE`` event.
 Using this event, the Plugin can inject unique items into the timeline and also into the engagements graph on each page.
 
-.. warning::
-
-   Mautic 8 changes ``LeadEvents::TIMELINE_ON_GENERATE`` to ``LeadTimelineEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`LeadBundle <Mautic 8 upgrade LeadBundle>`.
-
 .. note:: Before using this event listener, you'll need to ensure that you store your custom events in a custom database table. See :ref:`components/contacts:Generating timeline events from your own custom events` below for more details.
 
 The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` object. You can find the commonly used methods below the code example.

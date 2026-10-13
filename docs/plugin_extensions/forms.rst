@@ -16,10 +16,6 @@ Forms
 You can extend Forms by listening to the ``\Mautic\FormBundle\FormEvents::FORM_ON_BUILD`` event. Read more about :doc:`listeners and subscribers</plugins/event_listeners>`.
 At the bottom of this document, you can find code examples to make it easier to get started.
 
-.. warning::
-
-   Mautic 8 changes ``FormEvents::FORM_ON_BUILD`` to ``FormBuilderEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`FormBundle <Mautic 8 upgrade FormBundle>`. This applies to the subscriber example at the bottom of this document.
-
 .. vale off
 
 Form Fields
