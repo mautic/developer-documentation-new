@@ -7,24 +7,7 @@ To add and render custom Reports in Mautic, your Plugin needs to listen to the f
 * ``\Mautic\ReportBundle\Event\ReportGeneratorEvent``
 * ``\Mautic\ReportBundle\Event\ReportGraphEvent``
 
-.. note::
-
-   Since Mautic 8, subscribers key ``getSubscribedEvents()`` on the event class - for example, ``ReportBuilderEvent::class`` - rather than a ``ReportEvents`` constant. For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
-
-If you're updating an existing Plugin, replace each ``ReportEvents`` constant with its event class:
-
-.. list-table:: Migrating from ``ReportEvents`` constants
-    :widths: 50 50
-    :header-rows: 1
-
-    * - Mautic 7 constant
-      - Mautic 8 event class
-    * - ``ReportEvents::REPORT_ON_BUILD``
-      - ``ReportBuilderEvent``
-    * - ``ReportEvents::REPORT_ON_GENERATE``
-      - ``ReportGeneratorEvent``
-    * - ``ReportEvents::REPORT_ON_GRAPH_GENERATE``
-      - ``ReportGraphEvent``
+Key ``getSubscribedEvents()`` on these event classes, as the following example shows. To update a subscriber keyed on ``ReportEvents::REPORT_ON_BUILD``, ``ReportEvents::REPORT_ON_GENERATE``, or ``ReportEvents::REPORT_ON_GRAPH_GENERATE``, see :ref:`ReportBundle <Mautic 8 reportbundle>`.
 
 .. code-block:: php
 
