@@ -62,7 +62,7 @@ Extending broadcasts
 Broadcasts are communications sent in bulk through a Channel such as Email.
 An event is available to execute the sending of these bulk communications via the ``mautic:broadcasts:send`` command.
 
-To hook into the ``mautic:broadcasts:send`` command, create a listener for the ``\Mautic\CoreBundle\CoreEvents::CHANNEL_BROADCAST`` event.
+To hook into the ``mautic:broadcasts:send`` command, create a listener for the ``\Mautic\ChannelBundle\ChannelEvents::CHANNEL_BROADCAST`` event.
 The event listener should check for the appropriate context and ID.
 
 .. code-block:: php
