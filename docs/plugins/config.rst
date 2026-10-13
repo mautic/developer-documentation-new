@@ -812,7 +812,7 @@ Subscribed events
 The event subscriber listens to the following events:
 
 - ``ConfigEvents::CONFIG_ON_GENERATE``:
-  Mautic dispatches this event when it builds the configuration form. This allows the Plugin to inject its own tab and configuration options.
+  Mautic dispatches this event when it builds the configuration form. The Plugin uses it to add its own settings to the configuration.
 
 - ``ConfigEvents::CONFIG_PRE_SAVE``:
   Mautic triggers this event before it renders the form values and saves them to the ``local.php`` file. This allows the Plugin to clean up or modify the data before writing it to ``local.php``.
@@ -835,10 +835,14 @@ To register Plugin’s configuration details during the ``ConfigEvents::CONFIG_O
     * - ``parameters``
       - An array of custom configuration elements. ``Use $event->getParametersFromConfig('HelloWorldBundle')`` to retrieve them from the plugin’s configuration file.
 
+Mautic shows each registered form as a separate page in the left navigation of the Configuration screen, at ``/s/config/edit/{formAlias}``. Mautic only lists a form that has at least one parameter. To link Users straight to your Plugin's settings, generate the URL from the ``mautic_config_action`` route with ``objectAction`` set to ``edit`` and ``objectId`` set to your ``formAlias``.
+
 Modify configuration before saving
 ----------------------------------
 
-To modify the form data before saving, use the ``ConfigEvents::CONFIG_PRE_SAVE event``. This  event is triggered just before values are saved to the ``local.php`` file, allowing the Plugin to adjust them.
+To modify the form data before saving, use the ``ConfigEvents::CONFIG_PRE_SAVE`` event. Mautic dispatches it just before it writes the values to the ``local.php`` file, so the Plugin can adjust them.
+
+Mautic shows and saves one configuration page at a time. The ``ConfigEvent`` object that ``CONFIG_PRE_SAVE`` and ``CONFIG_POST_SAVE`` listeners receive only contains the settings that the User saved, keyed by the ``formAlias`` they belong to. When a User saves settings that belong to another ``formAlias``, ``$event->getConfig()`` doesn't contain your Plugin's key, so verify that the key exists before you read or change its values. Mautic leaves all other settings in ``local.php`` unchanged.
 
 Register the event subscriber
 -----------------------------
