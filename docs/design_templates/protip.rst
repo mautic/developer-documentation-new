@@ -12,7 +12,7 @@ The ProTip template conditionally renders a tip when provided. Here's a breakdow
 
     {% if tip is defined and tip is not empty %}
     <div class="col-xs-12 ai-center mt-md mb-md">
-        <div class="text-muted">
+        <div class="text-secondary text-center">
             <i class="ri-lightbulb-line ri-lg"></i>
             <span class="fw-b">{{ 'mautic.core.protip'|trans }}</span>
             {{ tip|trans|raw }}
@@ -28,9 +28,9 @@ To include a ProTip in Mautic, use the following syntax:
 
 .. code-block:: twig
 
-    {{ include('@MauticCore/Helper/protip.html.twig', {tip: 'mautic.core.protip.contacts.view'}) }}
+    {{ include('@MauticCore/Modules/protip.html.twig', {tip: 'mautic.protip.contacts.view'}) }}
 
-In this example, it includes the ProTip template and passes a translation key - ``mautic.core.protip.contacts.view`` - as the tip content. This specific tip informs Users about using the ``V`` key to switch between card and table views.
+In this example, it includes the ProTip template and passes a translation key - ``mautic.protip.contacts.view`` - as the tip content. This specific tip informs Users about using the ``V`` key to switch between card and table views.
 
 The use of a translation key instead of a hard-coded string allows for easy localization of tips. It also promotes consistency across Mautic, as it's possible to reuse the same tip in multiple places by referencing its key.
 

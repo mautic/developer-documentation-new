@@ -16,7 +16,7 @@ The Tile Component consists of the following classes:
 ``.tile`` 
     This is the base class for the Tile Component. It sets up the basic appearance and layout of the tile, including its size, padding, background color, and border radius. It also sets up some default styles for when the tile is in focus.
 
-``.tile-clickable`` and ``.tile-selectable`` 
+``.tile--clickable`` and ``.tile--selectable``
     These classes are modifiers for the base ``.tile`` class. Use them to make the tile behave as a clickable or selectable element, respectively. These classes adjust the padding, border, margin, font properties, and cursor style of the tile. They also set up hover and focus styles.
 
 ``.tile-icon`` 
@@ -25,7 +25,7 @@ The Tile Component consists of the following classes:
 How to use the Tile Component
 =============================
 
-To use the Tile Component, you need to add the ``.tile`` class to an HTML element. If you want the tile to be clickable or selectable, add the ``.tile-clickable`` or ``.tile-selectable`` class as well. If you want to include an icon in the tile, add an element with the ``.tile-icon`` class inside the tile.
+To use the Tile Component, you need to add the ``.tile`` class to an HTML element. If you want the tile to be clickable or selectable, add the ``.tile--clickable`` or ``.tile--selectable`` class as well. If you want to include an icon in the tile, add an element with the ``.tile-icon`` class inside the tile.
 
 .. code-block:: html
 
@@ -33,11 +33,11 @@ To use the Tile Component, you need to add the ``.tile`` class to an HTML elemen
         <p>Basic Tile Content</p>
     </div>
 
-    <a class="tile tile-clickable">
+    <a class="tile tile--clickable">
         <p>Clickable Tile Content</p>
     </a>
 
-    <a class="tile tile-selectable">
+    <a class="tile tile--selectable">
         <p>Selectable Tile Content</p>
     </a>
 
