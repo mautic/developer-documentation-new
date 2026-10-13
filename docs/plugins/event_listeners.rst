@@ -95,8 +95,6 @@ To list the listeners registered for an event, run ``bin/console debug:event-dis
 
     bin/console debug:event-dispatcher "Mautic\FormBundle\Event\SubmissionEvent"
 
-To update a subscriber that uses the removed event constants, see :ref:`Removed event constants <Mautic 8 removed event constants>`.
-
 .. note::
 
    Mautic 8 dispatches the ``MauticPlugin\MauticSocialBundle`` Monitor and Tweet save and delete events by event class, following the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule. Mautic 8 removed the matching constants from ``MauticPlugin\MauticSocialBundle\SocialEvents``, so a subscriber still keyed on one, such as ``SocialEvents::TWEET_POST_SAVE``, raises an undefined-constant error. Key ``getSubscribedEvents()`` on the replacement class in the ``MauticPlugin\MauticSocialBundle\Event`` namespace instead:
@@ -141,7 +139,7 @@ Mautic dispatches the following AssetBundle events by event class. The classes l
    * - ``AssetPostDeleteEvent``
      - Dispatched after Mautic deletes an Asset.
 
-The save and delete events extend ``AssetEvent``, so a listener method can type-hint ``AssetEvent``. To update a subscriber that uses a removed ``AssetEvents`` constant, see :ref:`AssetBundle <Mautic 8 assetbundle>`.
+The save and delete events extend ``AssetEvent``, so a listener method can type-hint ``AssetEvent``.
 
 .. vale off
 
@@ -190,7 +188,7 @@ Mautic dispatches the following DashboardBundle events by event class. The class
         // Set the Widget template and data.
     }
 
-PHP can't instantiate an abstract class, so code that creates a Widget detail event, such as a Plugin test, creates ``PreLoadWidgetDetailEvent`` or ``GenerateWidgetDetailEvent``. ``WidgetDetailEventFactory`` creates them with ``createPreLoad()`` and ``createGenerate()``. To update a subscriber that uses a ``DashboardEvents`` constant, see :ref:`DashboardBundle <Mautic 8 dashboardbundle>`.
+PHP can't instantiate an abstract class, so code that creates a Widget detail event, such as a Plugin test, creates ``PreLoadWidgetDetailEvent`` or ``GenerateWidgetDetailEvent``. ``WidgetDetailEventFactory`` creates them with ``createPreLoad()`` and ``createGenerate()``.
 
 .. vale off
 
@@ -216,7 +214,7 @@ Mautic dispatches the following FormBundle events by event class. The classes li
    * - ``FieldCollectEvent``
      - Dispatched when Mautic collects the fields of an object that Form Fields can map to.
 
-``FormEvents`` defines the ``FORM_ON_SUBMIT``, ``FORM_ON_BUILD``, ``ON_OBJECT_COLLECT``, and ``ON_FIELD_COLLECT`` constants, but Mautic doesn't dispatch these events under them. The ``FORM_ON_SUBMIT`` string value, ``mautic.form_on_submit``, is the Webhook event type for Form submissions, so Webhook configuration uses that string. To update a subscriber keyed on one of these constants, see :ref:`FormBundle <Mautic 8 formbundle>`.
+``FormEvents`` defines the ``FORM_ON_SUBMIT``, ``FORM_ON_BUILD``, ``ON_OBJECT_COLLECT``, and ``ON_FIELD_COLLECT`` constants, but Mautic doesn't dispatch these events under them. The ``FORM_ON_SUBMIT`` string value, ``mautic.form_on_submit``, is the Webhook event type for Form submissions, so Webhook configuration uses that string.
 
 Mautic dispatches the Form and Form Field save and delete events under ``FormEvents`` constants, such as ``FormEvents::FORM_POST_SAVE``.
 
@@ -230,8 +228,6 @@ IntegrationsBundle events
 Mautic dispatches every event in the ``Mautic\IntegrationsBundle\Event`` namespace by event class. Key ``getSubscribedEvents()`` on the event class, for example ``InternalObjectFindEvent::class`` or ``InternalObjectOwnerEvent::class``.
 
 Mautic dispatches ``ConfigBeforeSaveEvent`` before it saves an Integration's configuration and ``ConfigAfterSaveEvent`` after it saves the configuration. Both extend the abstract ``ConfigSaveEvent``, which provides ``getIntegrationConfiguration()`` and ``getIntegration()``, so a listener method can type-hint ``ConfigSaveEvent``.
-
-To update a subscriber that uses an ``IntegrationEvents`` constant, see :ref:`IntegrationsBundle <Mautic 8 integrationsbundle>`.
 
 .. _leadbundle events dispatched by event class:
 
@@ -315,8 +311,6 @@ The following ``LeadEvents`` constants hold Webhook event types. Mautic doesn't 
    * - ``COMPANY_POST_DELETE``
      - ``CompanyPostDeleteEvent``
 
-To update a subscriber keyed on a ``LeadEvents`` constant, see :ref:`LeadBundle <Mautic 8 leadbundle>`.
-
 .. vale off
 
 UserBundle events
@@ -353,7 +347,7 @@ Mautic dispatches the following UserBundle events by event class. The classes li
    * - ``PreDeleteRoleEvent``, ``PostDeleteRoleEvent``
      - Dispatched before and after Mautic deletes a Role.
 
-``UserEvent``, ``RoleEvent``, and ``AuthenticationEvent`` are abstract base classes. A listener method can type-hint the base class, but code that creates one of these events, such as a Plugin test, creates the concrete subclass. To update a subscriber that uses a ``UserEvents`` constant, see :ref:`UserBundle <Mautic 8 userbundle>`.
+``UserEvent``, ``RoleEvent``, and ``AuthenticationEvent`` are abstract base classes. A listener method can type-hint the base class, but code that creates one of these events, such as a Plugin test, creates the concrete subclass.
 
 .. vale off
 
@@ -385,7 +379,7 @@ Mautic dispatches the following WebhookBundle events by event class. The classes
    * - ``WebhookKillEvent``
      - Dispatched after Mautic stops a Webhook by deactivating it.
 
-``WebhookKillEvent`` and the save and delete events extend the abstract ``WebhookEvent``, so a listener method can type-hint ``WebhookEvent``. To update a subscriber keyed on a ``WebhookEvents`` constant, see :ref:`WebhookBundle <Mautic 8 webhookbundle>`.
+``WebhookKillEvent`` and the save and delete events extend the abstract ``WebhookEvent``, so a listener method can type-hint ``WebhookEvent``.
 
 .. vale off
 
