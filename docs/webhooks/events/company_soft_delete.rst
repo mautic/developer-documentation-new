@@ -54,6 +54,10 @@ Developers can subscribe to this event to react when Mautic marks Companies for 
         }
     }
 
+.. warning::
+
+   Mautic 8 changes ``LeadEvents::COMPANY_SOFT_DELETE`` to ``CompanySoftDeleteEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`LeadBundle <Mautic 8 upgrade LeadBundle>`.
+
 .. seealso::
 
     * :doc:`company_post_delete` - Triggered after permanent deletion
