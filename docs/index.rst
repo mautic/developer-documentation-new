@@ -226,7 +226,6 @@ There are several ways to support Mautic other than contributing with code.
 
    rest_api/getting_started
    rest_api/api_v2
-   rest_api/update_m7_to_m8
    rest_api/authentication
    rest_api/assets
    rest_api/campaigns
