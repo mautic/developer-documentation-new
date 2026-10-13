@@ -5,6 +5,10 @@ Mautic 5 adds support for Symfony's :xref:`symfony-autowiring` and :xref:`symfon
 
 Earlier versions required defining services in the ``*Bundle/Config/config.php`` file. This still works in Mautic 5, but won't work in Mautic 6 as it's due for removal. 
 
+.. warning::
+
+   Mautic 8 changes service definitions in ``*Bundle/Config/config.php`` to ``*Bundle/Config/services.php``. When you upgrade to Mautic 8, update your code as described in :xref:`Config/config.php services array <Mautic 8 upgrade config php services array>`.
+
 Follow these steps to migrate from hard-coded services to autowired services.
 
 Advantages
@@ -153,6 +157,10 @@ You can skip the step of creating aliases, delete all services definitions from 
 
    - $container->get('mautic.campaign.model.campaign');
    + $container->get(\Mautic\CampaignBundle\Model\CampaignModel::class);
+
+.. warning::
+
+   Mautic 8 changes model service aliases such as ``mautic.campaign.model.campaign`` to model keys that each model's static ``getName()`` method returns. When you upgrade to Mautic 8, update your code as described in :xref:`Custom model lookup <Mautic 8 upgrade custom model lookup>`.
 
 Use interfaces over implementation
 ==================================

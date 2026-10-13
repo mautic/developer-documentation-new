@@ -207,6 +207,10 @@ Advanced routing
 
 Configure custom routes through writing a listener to the ``\Mautic\CoreBundle\CoreEvents::BUILD_ROUTE`` event. Listeners to this event receives a ``Mautic\CoreBundle\Event\RouteEvent`` object. Mautic dispatches an event for each firewall when compiling routes.
 
+.. warning::
+
+   Mautic 8 changes ``CoreEvents::BUILD_ROUTE`` to ``RouteEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`CoreBundle <Mautic 8 upgrade CoreBundle>`.
+
 .. php:class:: Mautic\CoreBundle\Event\RouteEvent
 
   .. php:method:: getType()
@@ -509,6 +513,10 @@ Services define the Plugin's classes and their dependencies with Mautic and Symf
 
     // ...
 
+.. warning::
+
+   Mautic 8 changes the ``services`` array in ``Config/config.php`` to service definitions in ``Config/services.php``. This applies to all keys in the array, including ``events``, ``forms``, ``models``, and ``permissions``. When you upgrade to Mautic 8, update your code as described in :xref:`Config/config.php services array <Mautic 8 upgrade config php services array>`.
+
 Service types
 =============
 
@@ -805,6 +813,10 @@ The following code example shows how a Plugin structures its event subscriber.
             $event->setConfig($values);
         }
     }
+
+.. warning::
+
+   Mautic 8 changes ``ConfigEvents::CONFIG_ON_GENERATE`` and ``ConfigEvents::CONFIG_PRE_SAVE`` to ``ConfigBuilderEvent::class`` and ``ConfigPreSaveEvent::class``. When you upgrade to Mautic 8, update your code as described in :xref:`ConfigBundle <Mautic 8 upgrade ConfigBundle>`.
 
 Subscribed events
 -----------------
