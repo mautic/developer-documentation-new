@@ -63,7 +63,6 @@ You can embed ``mtc.js`` in third party websites to manage communication between
 
 To inject custom JavaScript into ``mtc.js``, use an :ref:`Event Listener <event listeners>` keyed on ``BuildJsEvent::class``.
 This event receives a ``Mautic\CoreBundle\Event\BuildJsEvent`` object. Call ``$event->appendJs($js, $sectionName);`` on it to inject the script's code.
-To update a subscriber keyed on ``CoreEvents::BUILD_MAUTIC_JS``, see :ref:`CoreBundle <mautic 8 corebundle>`.
 
 .. note::
 
@@ -252,7 +251,6 @@ Hooking into the tracking process and returning custom responses
 If you need to do something during the request to track the Contact through ``/mtc/event``, or append to the payload returned to the tracking code, which you can use from custom JavaScript injected through ``BuildJsEvent``, key an event subscriber on ``TrackingEvent::class``.
 The listener can inject a custom payload by calling ``set`` on the ``ParameterBag`` that ``Mautic\PageBundle\Event\TrackingEvent::getResponse()`` returns.
 This exposes the payload to the tracking code's ``mauticPageEventDelivered`` event in the ``detail.response.events`` object. See the PHP code example.
-To update a subscriber keyed on ``PageEvents::ON_CONTACT_TRACKED``, see :ref:`PageBundle <mautic 8 pagebundle>`.
 
 .. vale off
 
