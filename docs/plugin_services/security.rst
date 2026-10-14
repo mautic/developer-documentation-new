@@ -113,7 +113,7 @@ It's possible to define your own custom permissions within your Plugin. Make sur
 
 .. note::
 
-   Define the permissions in a constructor without arguments, as in the example. To update a permission class that passes ``$params`` to the parent constructor, see :ref:`AbstractPermissions <mautic 8 abstractpermissions>`.
+   Define the permissions in a constructor without arguments, as in the example.
 
 .. code-block:: php
 
