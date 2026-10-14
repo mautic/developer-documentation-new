@@ -169,8 +169,6 @@ Mautic stores the cached data in the adapter that the ``cache_adapter`` paramete
         }
     }
 
-To update code that uses ``CacheStorageHelper``, see :ref:`CacheStorageHelper <Mautic 8 cachestoragehelper>`.
-
 Integration cache
 =================
 
@@ -179,8 +177,6 @@ Integration cache
 .. code-block:: php
 
     $fields = $this->getCache()->get('leadFields');
-
-To update an Integration that compares ``getCache()`` results with ``false``, see :ref:`AbstractIntegration <Mautic 8 abstractintegration>`.
 
 Dashboard Widget cache
 ======================
@@ -200,5 +196,3 @@ Mautic dispatches ``PreLoadWidgetDetailEvent`` and ``GenerateWidgetDetailEvent``
             $event->setTemplateData($templateData);
         }
     }
-
-To update a Widget subscriber that calls ``setCacheDir()`` or ``setCacheTimeout()``, see :ref:`DashboardBundle <Mautic 8 dashboardbundle>`.

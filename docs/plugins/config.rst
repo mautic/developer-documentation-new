@@ -526,8 +526,6 @@ If your bundle has several menus, register them in a loop. ``$menuTemplates`` is
             ->tag('knp_menu.renderer', ['alias' => $alias]);
     }
 
-To update a menu that a Plugin registers through ``Config/config.php``, see :ref:`Menu registration <Mautic 8 menu registration>`.
-
 Service config items
 ********************
 
@@ -561,8 +559,6 @@ With ``autowire()`` and ``autoconfigure()`` enabled, Symfony registers the class
             ->arg('$logger', service('monolog.logger.mautic'))
             ->tag('mautic.sms_transport', ['integrationAlias' => 'HelloWorld']);
     };
-
-To update services that a Plugin defines in ``Config/config.php``, see :ref:`Services array <Mautic 8 config php services array>`.
 
 Mautic service tags
 ===================

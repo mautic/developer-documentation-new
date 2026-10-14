@@ -245,7 +245,7 @@ This example maps a ``World`` entity to a ``hello_world`` table. Use the ``Doctr
 Entity attributes
 *****************
 
-You can map an entity with Doctrine attributes instead of the PHP static method. Refer to :xref:`Doctrine's documentation on available attributes<Doctrine ORM attributes>`. Doctrine ORM 3 doesn't support DocBlock annotations, so use attributes. To convert ``@ORM\...`` DocBlock annotations, see :ref:`Doctrine ORM 3 and DBAL 4 <Mautic 8 doctrine orm 3 and dbal 4>`.
+You can map an entity with Doctrine attributes instead of the PHP static method. Refer to :xref:`Doctrine's documentation on available attributes<Doctrine ORM attributes>`. Doctrine ORM 3 doesn't support DocBlock annotations, so use attributes.
 
 .. code-block:: php
 

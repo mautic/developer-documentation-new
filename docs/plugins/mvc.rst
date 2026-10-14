@@ -402,8 +402,6 @@ The ``FormModel`` class extends ``AbstractCommonModel`` and includes helper meth
 
 ``FormModel`` types the entity parameter of its entity methods, such as ``saveEntity()``, ``lockEntity()``, and ``deleteEntity()``, as ``object``, and the ``$ids`` parameter of ``deleteEntities()`` as ``array``. ``AbstractCommonModel::encodeArrayForUrl()`` types its parameter as ``array``. A Model that overrides one of these methods must declare a compatible parameter type, such as ``object $entity``, or no parameter type. Otherwise, PHP raises a fatal error when it loads the class. The same rule applies when your Model extends ``EmailModel`` or ``LeadModel``, whose ``saveEntity()`` overrides also type the entity as ``object``. ``AssetModel``, ``PageModel``, and ``UserModel`` are ``final``, so a Plugin can't extend them.
 
-To update a Model override that declares other parameter types, see :ref:`FormModel parameter types <Mautic 8 formmodel parameter types>`.
-
 Registering a model
 ===================
 
