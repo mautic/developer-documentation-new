@@ -3,7 +3,7 @@ Translator
 
 Mautic leverages a decorated Symfony Translator service for translations.
 
-Visit :xref:`Translating Mautic` for information on how to translate Core. :ref:`Plugins must include their own translations<plugins/translations:Translating plugins>`.
+Visit :xref:`Translating Mautic` for information on how to translate Core. :ref:`Plugins must include their own translations<Plugins/translations:Translating Plugins>`.
 
 Translation file and directory structure
 ****************************************
@@ -57,9 +57,7 @@ Translations are key/value pairs in the ``INI`` format. There is no hard and fas
 Using the Translator service
 ****************************
 
-Plugins have access to service by passing ``translator`` as :ref:`a service dependency<plugins/config:Service config items>`. Type-hint the argument in the service's construct with ``Symfony\Component\Translation\TranslatorInterface``.
-
-In PHP templates, use ``$view['translator']`` to access the Translator service.
+Plugins have access to service by passing ``translator`` as :ref:`a service dependency<Plugins/config:Service config items>`. Type-hint the argument in the service's construct with ``Symfony\Contracts\Translation\TranslatorInterface``.
 
 .. php:class:: Mautic\CoreBundle\Translation\Translator
 
@@ -71,20 +69,20 @@ In PHP templates, use ``$view['translator']`` to access the Translator service.
       :param string|null $domain: Specific domain to look for the translation key. Defaults to ``messages`` if ``NULL``.
       :param string|null $locale: Specific locale to look for the translation key. Defaults to system or user configured locale.
 
-      :returns: Returns the translated string if the key is found. Otherwise, an empty string.
+      :returns: Returns the translated string. If the locale has no translation for the key, Mautic uses the ``en_US`` translation. If neither has one, it returns the key itself, such as ``helloworld.greeting``, with any placeholders replaced.
       :returntype: string
 
   .. php:method:: transConditional(string $preferred, string $alternative[, array $parameters = [], ?string $domain = null, ?string $locale = null])
 
-      Translates the preferred key if it exists and the alternate key if it does not.
+      Translates the preferred key if it exists and the alternate key if it doesn't.
 
       :param string $preferred: Preferred translation key.
-      :param string $alternative: Alternate translation key if the preferred does does not exist.
+      :param string $alternative: Alternate translation key if the preferred doesn't exist.
       :param array $parameters: Parameters as key/value pairs to populate placeholders in the translation.
       :param string|null $domain: Specific domain to look for the translation key. Defaults to ``messages`` if ``NULL``.
       :param string|null $locale: Specific locale to look for the translation key. Defaults to system or user configured locale.
 
-      :returns: Returns the translated string if the key is found. Otherwise, an empty string.
+      :returns: Returns the translated string. If neither key exists, it returns the ``$alternative`` key itself, with any placeholders replaced.
       :returntype: string
 
   .. php:method:: hasId(string $id[, ?string $domain = null, ?string $local = null])
