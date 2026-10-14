@@ -32,29 +32,28 @@ Register the Integration as a Builder
 
 .. vale on
 
-To tell the IntegrationsBundle that this Integration has configuration options, tag the Integration or support class with ``mautic.config_integration`` in the Plugin's ``app/config.php``.
+Register the Integration or support class as a service in the Plugin's ``Config/services.php``. Mautic's ``autoconfigure()`` setting tags any service implementing ``\Mautic\IntegrationsBundle\Integration\Interfaces\BuilderInterface`` with ``mautic.builder_integration``, so you don't need to tag it manually.
 
 .. code-block:: php
 
     <?php
-    return [
-        // ...
-        'services' => [
-            // ...
-            'integrations' => [
-                // ...
-                'helloworld.integration.builder' => [
-                    'class' => \MauticPlugin\HelloWorldBundle\Integration\Support\BuilderSupport::class,
-                    'tags'  => [
-                        'mautic.builder_integration',
-                    ],
-                ],
-                // ...
-            ],
-            // ...
-        ],
-        // ...
-    ];
+    // plugins/HelloWorldBundle/Config/services.php
+
+    declare(strict_types=1);
+
+    use Mautic\CoreBundle\DependencyInjection\MauticCoreExtension;
+    use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+    return function (ContainerConfigurator $configurator): void {
+        $services = $configurator->services()
+            ->defaults()
+            ->autowire()
+            ->autoconfigure()
+            ->public();
+
+        $services->load('MauticPlugin\\HelloWorldBundle\\', '../')
+            ->exclude('../{'.implode(',', MauticCoreExtension::DEFAULT_EXCLUDES).'}');
+    };
 
 
 The ``BuilderSupport`` class must implement::

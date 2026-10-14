@@ -38,29 +38,31 @@ Registering the Integration for the Sync Engine
 
 .. vale on
 
-To tell the IntegrationsBundle that this Integration provides a syncing feature, tag the Integration or support class with ``mautic.sync_integration`` in the Plugin's ``app/config.php``.
+To tell the IntegrationsBundle that this Integration provides a syncing feature, register the Integration or support class as a service in the Plugin's ``Config/services.php`` and tag it with ``mautic.sync_integration``.
 
 .. code-block:: php
 
     <?php
-    return [
-        // ...
-        'services' => [
-            // ...
-            'integrations' => [
-                // ...
-                'helloworld.integration.sync' => [
-                    'class' => \MauticPlugin\HelloWorldBundle\Integration\Support\SyncSupport::class,
-                    'tags'  => [
-                        'mautic.sync_integration',
-                    ],
-                ],
-                // ...
-            ],
-            // ...
-        ],
-        // ...
-    ];
+    // plugins/HelloWorldBundle/Config/services.php
+
+    declare(strict_types=1);
+
+    use Mautic\CoreBundle\DependencyInjection\MauticCoreExtension;
+    use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+    return function (ContainerConfigurator $configurator): void {
+        $services = $configurator->services()
+            ->defaults()
+            ->autowire()
+            ->autoconfigure()
+            ->public();
+
+        $services->load('MauticPlugin\\HelloWorldBundle\\', '../')
+            ->exclude('../{'.implode(',', MauticCoreExtension::DEFAULT_EXCLUDES).'}');
+
+        $services->set(\MauticPlugin\HelloWorldBundle\Integration\Support\SyncSupport::class)
+            ->tag('mautic.sync_integration');
+    };
 
 The ``SyncSupport`` class must implement::
 
@@ -74,14 +76,87 @@ The mapping manual
 
 The mapping manual tells the Sync Engine which Integration should sync with which Mautic object like Contact or Company, the Integration fields. These fields should get mapped to Mautic fields, and the direction in the data suppose to flow.
 
-See :xref:`MappingManualFactory`.
+``SyncInterface::getMappingManual()`` returns the mapping manual as a ``MappingManualDAO``. Pass each ``ObjectMappingDAO`` to the ``MappingManualDAO`` constructor. This example maps the Integration's ``citizen`` object to the Mautic Contact object and its ``world`` object to the Mautic Company object.
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/Sync/Mapping/Manual/MappingManualFactory.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\Sync\Mapping\Manual;
+
+    use Mautic\IntegrationsBundle\Sync\DAO\Mapping\MappingManualDAO;
+    use Mautic\IntegrationsBundle\Sync\DAO\Mapping\ObjectMappingDAO;
+    use Mautic\IntegrationsBundle\Sync\SyncDataExchange\Internal\Object\Company;
+    use Mautic\IntegrationsBundle\Sync\SyncDataExchange\Internal\Object\Contact;
+    use MauticPlugin\HelloWorldBundle\Integration\HelloWorldIntegration;
+
+    final class MappingManualFactory
+    {
+        public const string CITIZEN_OBJECT = 'citizen';
+        public const string WORLD_OBJECT   = 'world';
+
+        public function getManual(): MappingManualDAO
+        {
+            // This example hardcodes the field mappings. Build them from the Integration's
+            // saved field mapping configuration when users can change them.
+            $citizenMapping = new ObjectMappingDAO(Contact::NAME, self::CITIZEN_OBJECT);
+
+            // Arguments: Mautic field alias, Integration field name, sync direction, required
+            $citizenMapping->addFieldMapping('email', 'email_address', ObjectMappingDAO::SYNC_BIDIRECTIONALLY, true);
+            $citizenMapping->addFieldMapping('firstname', 'first_name');
+            $citizenMapping->addFieldMapping('lastname', 'last_name', ObjectMappingDAO::SYNC_TO_MAUTIC);
+
+            $worldMapping = new ObjectMappingDAO(Company::NAME, self::WORLD_OBJECT);
+            $worldMapping->addFieldMapping('companyname', 'name', ObjectMappingDAO::SYNC_BIDIRECTIONALLY, true);
+
+            return new MappingManualDAO(HelloWorldIntegration::NAME, [$citizenMapping, $worldMapping]);
+        }
+    }
+
+``addFieldMapping()`` syncs a field in both directions by default. To sync a field in one direction only, pass ``ObjectMappingDAO::SYNC_TO_MAUTIC`` or ``ObjectMappingDAO::SYNC_TO_INTEGRATION`` as the direction.
 
 The sync data exchange
 ======================
 
 This is where the sync takes place, and the ``mautic:integrations:sync``  executes it. Mautic and the Integration build their respective Reports of new or modified objects, then execute the order from the other side.
 
-See :xref:`SyncDataExchange`.
+``SyncInterface::getSyncDataExchange()`` returns a class that implements ``SyncDataExchangeInterface``. This example delegates building the Report to ``ReportBuilder`` and executing the Sync Order to ``OrderExecutioner``, which the following sections show.
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/Sync/DataExchange/SyncDataExchange.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\Sync\DataExchange;
+
+    use Mautic\IntegrationsBundle\Sync\DAO\Sync\Order\OrderDAO;
+    use Mautic\IntegrationsBundle\Sync\DAO\Sync\Report\ReportDAO;
+    use Mautic\IntegrationsBundle\Sync\DAO\Sync\Request\RequestDAO;
+    use Mautic\IntegrationsBundle\Sync\SyncDataExchange\SyncDataExchangeInterface;
+
+    final readonly class SyncDataExchange implements SyncDataExchangeInterface
+    {
+        public function __construct(
+            private ReportBuilder $reportBuilder,
+            private OrderExecutioner $orderExecutioner,
+        ) {
+        }
+
+        public function getSyncReport(RequestDAO $requestDAO): ReportDAO
+        {
+            return $this->reportBuilder->build($requestDAO);
+        }
+
+        public function executeSyncOrder(OrderDAO $syncOrderDAO): void
+        {
+            $this->orderExecutioner->execute($syncOrderDAO);
+        }
+    }
 
 .. vale off
 
@@ -94,7 +169,85 @@ The Sync Report tells the Sync Engine what objects are new and/or modified betwe
 
 If the Integration supports field level change tracking, it should tell the Report so that the Sync Engine can merge the two data sets more accurately.
 
-See :xref:`ReportBuilder`.
+This example fetches one batch of modified objects from the Integration for each sync iteration. ``Client`` stands in for the Plugin's own API client, so its methods and response format are placeholders.
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/Sync/DataExchange/ReportBuilder.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\Sync\DataExchange;
+
+    use Mautic\IntegrationsBundle\Sync\DAO\Sync\Report\FieldDAO;
+    use Mautic\IntegrationsBundle\Sync\DAO\Sync\Report\ObjectDAO;
+    use Mautic\IntegrationsBundle\Sync\DAO\Sync\Report\ReportDAO;
+    use Mautic\IntegrationsBundle\Sync\DAO\Sync\Request\RequestDAO;
+    use Mautic\IntegrationsBundle\Sync\DAO\Value\NormalizedValueDAO;
+    use Mautic\IntegrationsBundle\Sync\ValueNormalizer\ValueNormalizer;
+    use MauticPlugin\HelloWorldBundle\Connection\Client;
+    use MauticPlugin\HelloWorldBundle\Integration\HelloWorldIntegration;
+
+    final class ReportBuilder
+    {
+        private readonly ValueNormalizer $valueNormalizer;
+
+        public function __construct(
+            private readonly Client $client, // Placeholder for the Plugin's API client
+        ) {
+            $this->valueNormalizer = new ValueNormalizer();
+        }
+
+        public function build(RequestDAO $requestDAO): ReportDAO
+        {
+            $report = new ReportDAO(HelloWorldIntegration::NAME);
+
+            foreach ($requestDAO->getObjects() as $requestedObject) {
+                // Placeholder API call that returns one batch of objects created or modified
+                // between the two dates, for example:
+                // [['id' => 42, 'last_modified' => '2020-01-01T10:00:00+00:00', 'fields' => [...], 'field_changes' => [...]]]
+                $items = $this->client->getModifiedObjects(
+                    $requestedObject->getObject(),
+                    $requestedObject->getFromDateTime(),
+                    $requestedObject->getToDateTime(),
+                    $requestDAO->getSyncIteration()
+                );
+
+                foreach ($items as $item) {
+                    // The object's ID in the Integration and when the object last changed
+                    $objectDAO = new ObjectDAO(
+                        $requestedObject->getObject(),
+                        $item['id'],
+                        new \DateTimeImmutable($item['last_modified'])
+                    );
+
+                    // getFields() returns the Integration field names the mapping manual syncs to Mautic
+                    foreach ($requestedObject->getFields() as $fieldName) {
+                        if (!array_key_exists($fieldName, $item['fields'])) {
+                            continue;
+                        }
+
+                        // Use the NormalizedValueDAO type constant that matches the field, such as INT_TYPE or DATETIME_TYPE
+                        $value    = $this->valueNormalizer->normalizeForMautic(NormalizedValueDAO::STRING_TYPE, $item['fields'][$fieldName]);
+                        $fieldDAO = new FieldDAO($fieldName, $value);
+
+                        // With field level change tracking, record when this field last changed
+                        if (isset($item['field_changes'][$fieldName])) {
+                            $fieldDAO->setChangeDateTime(new \DateTimeImmutable($item['field_changes'][$fieldName]));
+                        }
+
+                        $objectDAO->addField($fieldDAO);
+                    }
+
+                    $report->addObject($objectDAO);
+                }
+            }
+
+            // An empty Report ends the sync, so return no objects once the Integration has no more batches
+            return $report;
+        }
+    }
 
 .. vale off
 
@@ -105,7 +258,82 @@ ________________________
 
 The Sync Order contains all the changes the Sync Engine has determined, and these should inform the Integration. The Integration should communicate back the ID of any objects created or adjust objects as needed, such as if they get converted from one to another or deleted.
 
-See :xref:`OrderExecutioner`.
+This example sends each changed object to the Integration, then records the result for that object on the ``OrderDAO``.
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/Sync/DataExchange/OrderExecutioner.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\Sync\DataExchange;
+
+    use Mautic\IntegrationsBundle\Sync\DAO\Sync\Order\ObjectChangeDAO;
+    use Mautic\IntegrationsBundle\Sync\DAO\Sync\Order\OrderDAO;
+    use Mautic\IntegrationsBundle\Sync\ValueNormalizer\ValueNormalizer;
+    use MauticPlugin\HelloWorldBundle\Connection\Client;
+
+    final class OrderExecutioner
+    {
+        private readonly ValueNormalizer $valueNormalizer;
+
+        public function __construct(
+            private readonly Client $client, // Placeholder for the Plugin's API client
+        ) {
+            $this->valueNormalizer = new ValueNormalizer();
+        }
+
+        public function execute(OrderDAO $orderDAO): void
+        {
+            // Identified objects already exist in the Integration. Unidentified objects have no
+            // mapping yet, so the Integration might need to create them.
+            foreach ([$orderDAO->getIdentifiedObjects(), $orderDAO->getUnidentifiedObjects()] as $objectsByName) {
+                foreach ($objectsByName as $objectChanges) {
+                    foreach ($objectChanges as $objectChange) {
+                        $this->syncObject($orderDAO, $objectChange);
+                    }
+                }
+            }
+        }
+
+        private function syncObject(OrderDAO $orderDAO, ObjectChangeDAO $objectChange): void
+        {
+            // getFields() returns the changed fields and the required fields
+            $payload = [];
+            foreach ($objectChange->getFields() as $field) {
+                $payload[$field->getName()] = $this->valueNormalizer->normalizeForIntegration($field->getValue());
+            }
+
+            // Placeholder API call that updates the object, or creates it when the ID is empty
+            $response = $this->client->upsert($objectChange->getObject(), $objectChange->getObjectId(), $payload);
+
+            switch ($response['code']) {
+                case 200:
+                    // Updated, so record the sync date
+                    $orderDAO->updateLastSyncDate($objectChange);
+                    break;
+                case 201:
+                    // Created, so map the new Integration object to the Mautic object
+                    $orderDAO->addObjectMapping($objectChange, $objectChange->getObject(), $response['id']);
+                    break;
+                case 404:
+                    // Deleted in the Integration, so stop syncing the object
+                    $orderDAO->deleteObject($objectChange);
+                    break;
+                case 503:
+                    // Temporary failure, so keep the Mautic changes for the next sync
+                    $orderDAO->retrySyncLater($objectChange);
+                    break;
+                default:
+                    // Report the failure as a sync issue without retrying it
+                    $orderDAO->noteObjectSyncIssue($objectChange, $response['message'] ?? 'Unknown error');
+            }
+
+            // If the Integration converted the object to another object type, call
+            // $orderDAO->remapObject() with the old and new object names and IDs.
+        }
+    }
 
 Sync events
 ===========
@@ -171,16 +399,3 @@ A listener method can type-hint the base class to handle both events that share 
             // ...
         }
     }
-
-.. note::
-
-   Mautic 8 removes the ``Mautic\IntegrationsBundle\IntegrationEvents`` class, so code that still references one of its constants raises a ``Class "Mautic\IntegrationsBundle\IntegrationEvents" not found`` error. Replace each former constant with its event class:
-
-   * ``INTEGRATION_BEFORE_CONTACT_FIELD_CHANGES`` - ``InternalContactFieldChangesEvent``
-   * ``INTEGRATION_BEFORE_COMPANY_FIELD_CHANGES`` - ``InternalCompanyFieldChangesEvent``
-   * ``INTEGRATION_BEFORE_FULL_CONTACT_REPORT_BUILD`` - ``InternalContactFullReportBuildEvent``
-   * ``INTEGRATION_BEFORE_FULL_COMPANY_REPORT_BUILD`` - ``InternalCompanyFullReportBuildEvent``
-   * ``INTEGRATION_BATCH_SYNC_COMPLETED_INTEGRATION_TO_MAUTIC`` - ``IntegrationToMauticSyncCompletedEvent``
-   * ``INTEGRATION_BATCH_SYNC_COMPLETED_MAUTIC_TO_INTEGRATION`` - ``MauticToIntegrationSyncCompletedEvent``
-
-   For how class-name dispatch works, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
