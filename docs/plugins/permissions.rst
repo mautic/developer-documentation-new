@@ -108,7 +108,7 @@ Core bundles or Plugins set the permission level and permissions. For example, t
 Creating custom permissions
 ***************************
 
-A Plugin creates its own set of permissions by defining a permission class. Each permission class must extend ``Mautic\CoreBundle\Security\Permissions\AbstractPermissions`` and define its permissions in a constructor without arguments. To update a permission class that defines its permissions in ``definePermissions()``, see :ref:`AbstractPermissions <Mautic 8 abstractpermissions>`.
+A Plugin creates its own set of permissions by defining a permission class. Each permission class must extend ``Mautic\CoreBundle\Security\Permissions\AbstractPermissions`` and define its permissions in a constructor without arguments.
 
 .. code-block:: php
 
