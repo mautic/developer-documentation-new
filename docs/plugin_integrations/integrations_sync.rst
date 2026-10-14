@@ -399,5 +399,3 @@ A listener method can type-hint the base class to handle both events that share 
             // ...
         }
     }
-
-To update a subscriber that uses the ``IntegrationEvents`` constants, see :ref:`IntegrationsBundle <Mautic 8 integrationsbundle>`.
