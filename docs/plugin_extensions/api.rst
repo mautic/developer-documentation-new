@@ -13,7 +13,7 @@ API
 
 .. vale on
 
-To add custom API endpoints, define the routes under the API firewall in the :doc:`Plugin's config file</plugins/config>`.
+To add custom API endpoints, define the routes under the API firewall in the :ref:`Plugin's config file <Plugin config file>`.
 This places the route behind ``/api`` which is only accessible to authorized Users.
 
 .. code-block:: php
@@ -26,26 +26,6 @@ This places the route behind ``/api`` which is only accessible to authorized Use
     return [
         // ...
 
-        'services' => [
-
-            // ...
-
-            'controllers' => [
-                'plugin.hello_world.controller.api' => [
-                    'class' => \MauticPlugin\HelloWorldBundle\Controller\ApiController::class,
-                    'arguments' => [
-                        \Mautic\CoreBundle\Security\Permissions\CorePermissions::class,
-                        'plugin.hello_world.model.worlds'
-                    ],
-                    'methodCalls' => [
-                        'setContainer' => [
-                            '@service_container',
-                        ],
-                    ],
-                ],
-            ],
-        ],
-
         'routes'   => [
 
             // ...
@@ -53,7 +33,7 @@ This places the route behind ``/api`` which is only accessible to authorized Use
             'api' => [
                 'plugin_helloworld_api' => [
                     'path'       => '/hello/worlds',
-                    'controller' => 'HelloWorldBundle:Api:worlds',
+                    'controller' => \MauticPlugin\HelloWorldBundle\Controller\ApiController::class.'::getWorldsAction',
                     'method'     => 'GET'
                 ]
             ]
@@ -61,6 +41,31 @@ This places the route behind ``/api`` which is only accessible to authorized Use
 
         // ...
     ];
+
+Register the controller as a Symfony service in the Plugin's ``Config/services.php``:
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/Config/services.php
+
+    declare(strict_types=1);
+
+    use Mautic\CoreBundle\DependencyInjection\MauticCoreExtension;
+    use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+    return function (ContainerConfigurator $configurator): void {
+        $services = $configurator->services()
+            ->defaults()
+            ->autowire()
+            ->autoconfigure()
+            ->public();
+
+        $services->load('MauticPlugin\\HelloWorldBundle\\', '../')
+            ->exclude('../{'.implode(',', MauticCoreExtension::DEFAULT_EXCLUDES).'}');
+    };
+
+This autowires ``ApiController`` along with every other class under the Plugin's namespace, so a controller whose constructor only needs other services, such as ``CorePermissions`` and ``WorldsModel``, needs no further service definition.
 
 The API controller should extend ``Mautic\ApiBundle\Controller\CommonApiController`` to leverage the helper methods provided.
 
@@ -222,9 +227,7 @@ The event is additive and non-breaking, so existing permission checks keep worki
    * - ``ApiPlatformPermissionContextEvent``
      - Mautic dispatches this event by its class before API Platform evaluates authorization.
 
-.. note::
-
-   Key ``getSubscribedEvents()`` on ``ApiPlatformPermissionContextEvent::class``. Mautic 8 removed the ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT`` constant, so a subscriber that still references it raises an undefined-constant error. A subscriber keyed on the raw string ``mautic.api_platform_permission_context`` silently receives nothing. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+Key ``getSubscribedEvents()`` on ``ApiPlatformPermissionContextEvent::class``.
 
 The event receives a ``Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent`` instance with the following methods:
 
@@ -417,37 +420,3 @@ When a User saves or deletes an API client, such as an OAuth2 client, ``ClientMo
 * ``Mautic\ApiBundle\Event\ClientPostDeleteEvent`` - after Mautic deletes the API client.
 
 Both classes extend the abstract ``Mautic\ApiBundle\Event\ClientEvent``. Call ``getClient()`` to read the API client and ``getApiMode()`` to read its API mode.
-
-.. _mautic 8 api event constants removed:
-
-Upgrade API event subscribers to Mautic 8
-*****************************************
-
-Mautic 8 dispatches the ApiBundle events by their event class and removes the ``Mautic\ApiBundle\ApiEvents`` class. A subscriber that still references an ``ApiEvents`` constant raises a ``Class "Mautic\ApiBundle\ApiEvents" not found`` error. Key ``getSubscribedEvents()`` on the replacement event class instead:
-
-.. list-table::
-   :header-rows: 1
-   :widths: 50 50
-
-   * - Removed constant
-     - Replacement event class
-   * - ``ApiEvents::API_ON_ENTITY_PRE_SAVE``
-     - ``PreSaveApiEntityEvent::class``
-   * - ``ApiEvents::API_ON_ENTITY_POST_SAVE``
-     - ``PostSaveApiEntityEvent::class``
-   * - ``ApiEvents::CLIENT_POST_SAVE``
-     - ``ClientPostSaveEvent::class``
-   * - ``ApiEvents::CLIENT_POST_DELETE``
-     - ``ClientPostDeleteEvent::class``
-   * - ``ApiEvents::API_PRE_SERIALIZATION_CONTEXT``
-     - ``PreSerializationContextEvent::class``
-   * - ``ApiEvents::API_POST_SERIALIZATION_CONTEXT``
-     - ``PostSerializationContextEvent::class``
-   * - ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT``
-     - ``ApiPlatformPermissionContextEvent::class``
-
-Mautic 8 also removes ``ApiEvents::CLIENT_PRE_SAVE`` and ``ApiEvents::BUILD_ROUTE``. Mautic didn't dispatch any event under these constants, so remove any subscriptions to them.
-
-Mautic previously dispatched one event object under each pair of names. ``ApiEntityEvent``, ``ClientEvent``, and ``ApiSerializationContextEvent`` are now abstract base classes, so listener type hints on them keep working. Code that creates one of them with ``new`` must create the matching ``PreSave*``, ``PostSave*``, ``ClientPost*``, or ``*SerializationContextEvent`` subclass instead.
-
-For the general rule, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.

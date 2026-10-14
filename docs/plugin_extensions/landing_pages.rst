@@ -18,11 +18,7 @@ There are two ways to extend Landing Pages:
 * Landing Page tokens used to insert Dynamic Content into a Landing Page
 * A/B test winning criteria
 
-Both use the ``Mautic\PageBundle\Event\PageBuilderEvent`` event, and the tokens example below also handles ``PageDisplayEvent``. Read more about :ref:`Plugins/event_listeners:Event listeners`.
-
-.. note::
-
-   Since Mautic 8, Mautic dispatches ``PageBuilderEvent`` and ``PageDisplayEvent`` by their class names, so key ``getSubscribedEvents()`` on ``PageBuilderEvent::class`` and ``PageDisplayEvent::class``. Mautic 8 removed the ``PAGE_ON_BUILD`` and ``PAGE_ON_DISPLAY`` constants from ``Mautic\PageBundle\PageEvents``, so a subscriber still keyed on either constant raises an undefined-constant error. A subscriber keyed on the raw ``mautic.page_on_build`` or ``mautic.page_on_display`` string receives nothing. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+Both use the ``Mautic\PageBundle\Event\PageBuilderEvent`` event, and the tokens example below also handles ``PageDisplayEvent``. Key ``getSubscribedEvents()`` on ``PageBuilderEvent::class`` and ``PageDisplayEvent::class``. Read more about :ref:`Plugins/event_listeners:Event listeners`.
 
 .. vale off
 
@@ -115,7 +111,7 @@ Below is an example of both Landing Page Tokens and Landing Page A/B Test Winner
             // Search and replace tokens
             $content = str_replace(
                 '{helloworld.token}',
-                $this->templating->render('HelloWorldBundle:SubscribedEvents\PageToken:token.html.php');,
+                $this->templating->render('HelloWorldBundle:SubscribedEvents\PageToken:token.html.php'),
                 $content
             );
 
@@ -123,10 +119,6 @@ Below is an example of both Landing Page Tokens and Landing Page A/B Test Winner
             $event->setContent($content);
         }
     }
-
-.. note::
-
-   In Mautic 8.0, Mautic dispatches the ``PageDisplayEvent`` by its class name, so re-key ``getSubscribedEvents()`` on ``PageDisplayEvent::class``, as the preceding example shows. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks on the old key and why.
 
 .. vale off
 
@@ -218,9 +210,7 @@ Preference Center lets Contacts manage their communication preferences. Since Ma
 
 This lets you override default translated labels with custom text for branding, localization beyond built-in translations, or dynamic label generation based on context.
 
-.. note::
-
-   In Mautic 8.0, Mautic dispatches the ``PageDisplayEvent`` by its class name, so subscribers key ``getSubscribedEvents()`` on ``PageDisplayEvent::class``. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks on the old key and why.
+Key the subscriber's ``getSubscribedEvents()`` on ``PageDisplayEvent::class``.
 
 Available slot parameters
 =========================
@@ -352,7 +342,7 @@ The ``\Mautic\PageBundle\PageEvents::PAGE_ON_TOGGLE_PUBLISH`` event dispatches w
 
 .. note::
 
-   ``PAGE_ON_TOGGLE_PUBLISH`` dispatches the shared ``PageEvent`` class that several event names reuse, so it stays keyed on its ``PageEvents::*`` string constant. Only events with a dedicated event class, such as ``PageBuilderEvent`` and ``PageDisplayEvent``, changed to class-name keying in Mautic 8.0.
+   ``PAGE_ON_TOGGLE_PUBLISH`` dispatches the shared ``PageEvent`` class that several event names reuse, so key the subscriber on ``PageEvents::PAGE_ON_TOGGLE_PUBLISH``.
 
 An event listener receives a ``Mautic\PageBundle\Event\PageEvent`` instance.
 

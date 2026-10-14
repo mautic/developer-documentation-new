@@ -58,13 +58,15 @@ Including Categories in Forms
 
 .. vale on
 
-To add a Category select list to a Form, use ``category`` as the Form type and pass ``bundle`` as an option:
+To add a Category select list to a Form, use ``Mautic\CategoryBundle\Form\Type\CategoryListType`` as the Form type and pass ``bundle`` as an option:
 
 .. code-block:: php
 
     <?php
-    
-    $builder->add('category', 'category', [
+
+    use Mautic\CategoryBundle\Form\Type\CategoryListType;
+
+    $builder->add('category', CategoryListType::class, [
         'bundle' => 'plugin:helloWorld'
     ]);
 
