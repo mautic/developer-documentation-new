@@ -211,8 +211,6 @@ Use ``getFormattedTokens()`` to retrieve tokens with properly formatted labels. 
         }
     }
 
-To update code that calls ``BuilderEvent::addTokensFromHelper()`` or ``BuilderEvent::getTokensFromHelper()``, see :ref:`BuilderEvent <Mautic 8 builderevent>`.
-
 Token format options
 --------------------
 
