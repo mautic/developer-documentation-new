@@ -835,7 +835,7 @@ To register Plugin’s configuration details during the ``ConfigEvents::CONFIG_O
     * - ``parameters``
       - An array of custom configuration elements. ``Use $event->getParametersFromConfig('HelloWorldBundle')`` to retrieve them from the plugin’s configuration file.
 
-Mautic shows each registered form as a separate page in the left navigation of the Configuration screen, at ``/s/config/edit/{formAlias}``. Mautic only lists a form that has at least one parameter. To link Users straight to your Plugin's settings, generate the URL from the ``mautic_config_action`` route with ``objectAction`` set to ``edit`` and ``objectId`` set to your ``formAlias``.
+Mautic shows each registered form as a separate page in the left navigation of the Configuration screen, at ``/s/config/edit/{formAlias}``. Mautic only lists a form that has at least one parameter. To link Users straight to your Plugin's settings, generate the URL from the ``mautic_config_edit`` route with ``activeTabId`` set to your ``formAlias``.
 
 Modify configuration before saving
 ----------------------------------
