@@ -97,19 +97,19 @@ To list the listeners registered for an event, run ``bin/console debug:event-dis
 
 .. note::
 
-   Mautic 8 dispatches the ``MauticPlugin\MauticSocialBundle`` Monitor and Tweet save and delete events by event class, following the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule. Mautic 8 removed the matching constants from ``MauticPlugin\MauticSocialBundle\SocialEvents``, so a subscriber still keyed on one, such as ``SocialEvents::TWEET_POST_SAVE``, raises an undefined-constant error. Key ``getSubscribedEvents()`` on the replacement class in the ``MauticPlugin\MauticSocialBundle\Event`` namespace instead:
+   Mautic dispatches the ``MauticPlugin\MauticSocialBundle`` Monitor and Tweet events by event class. Key ``getSubscribedEvents()`` on these classes in the ``MauticPlugin\MauticSocialBundle\Event`` namespace:
 
-   * ``MONITOR_PRE_SAVE`` - ``MonitorPreSaveEvent``
-   * ``MONITOR_POST_SAVE`` - ``MonitorPostSaveEvent``
-   * ``MONITOR_PRE_DELETE`` - ``MonitorPreDeleteEvent``
-   * ``MONITOR_POST_DELETE`` - ``MonitorPostDeleteEvent``
-   * ``MONITOR_POST_PROCESS`` - ``SocialMonitorEvent``, which Mautic already dispatched by class
-   * ``TWEET_PRE_SAVE`` - ``TweetPreSaveEvent``
-   * ``TWEET_POST_SAVE`` - ``TweetPostSaveEvent``
-   * ``TWEET_PRE_DELETE`` - ``TweetPreDeleteEvent``
-   * ``TWEET_POST_DELETE`` - ``TweetPostDeleteEvent``
+   * ``MonitorPreSaveEvent``
+   * ``MonitorPostSaveEvent``
+   * ``MonitorPreDeleteEvent``
+   * ``MonitorPostDeleteEvent``
+   * ``SocialMonitorEvent``
+   * ``TweetPreSaveEvent``
+   * ``TweetPostSaveEvent``
+   * ``TweetPreDeleteEvent``
+   * ``TweetPostDeleteEvent``
 
-   Mautic 8 also removed the ``SocialEvent`` class. The Monitor events extend ``AbstractMonitorEvent``, which provides ``getMonitoring()``, and the Tweet events extend ``AbstractTweetEvent``, which provides ``getTweet()``.
+   The Monitor events extend ``AbstractMonitorEvent``, which provides ``getMonitoring()``, and the Tweet events extend ``AbstractTweetEvent``, which provides ``getTweet()``.
 
 .. vale off
 
