@@ -76,7 +76,7 @@ Services are public by default to have backwards compatibility with Mautic 3 and
 
 .. warning::
 
-   Mautic 8 changes service definitions in ``Config/config.php`` to ``Config/services.php``. When you upgrade to Mautic 8, update your code as described in :xref:`Config/config.php services array <Mautic 8 upgrade config php services array>`.
+   Mautic 8 changes service definitions in ``Config/config.php`` to ``Config/services.php``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 Support for entity annotations
 ******************************
