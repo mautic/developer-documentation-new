@@ -18,3 +18,8 @@ Plugins are Symfony bundles that can extend the capability of Mautic. They can b
 .. note:: Plugins install into the ``plugins/`` directory. Namespace all classes with ``MauticPlugin\[Plugin Folder Name]\``.
 
 .. warning:: Avoid using Symfony's ability to override core classes with hacked versions in a Plugin. Doing so creates compatibility challenges with future upgrades and/or may conflict with another Plugin that's doing the same thing. Rather, build into core the support you need to enable what you are wanting to accomplish with your Plugin then contribute it to the :xref:`project as a PR<Contributing to Mautic>`.
+
+Requirements
+************
+
+Mautic requires PHP 8.4 and runs on Symfony 8.1. For the Symfony 8 changes that can affect your Plugin, see the :xref:`Symfony UPGRADE-8.0.md`.
