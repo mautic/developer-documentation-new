@@ -17,6 +17,34 @@ Mautic uses :xref:`Doctrine ORM` to define the schema. Plugins define their sche
 
 .. warning:: You use the PHP mapping **or** annotations. You can't use a mix of the two.
 
+Writing portable database queries
+*********************************
+
+PostgreSQL support requires PostgreSQL 16 or later with International Components for Unicode (ICU) support and PHP's ``pdo_pgsql`` extension. MySQL and MariaDB remain supported. Use Doctrine's schema API for portable column, index, and foreign-key definitions, and bind values through query parameters.
+
+Use ``Mautic\CoreBundle\Doctrine\DatabasePlatform`` for database-specific expressions. For example, this DBAL query preserves case-insensitive wildcard matching across the supported databases:
+
+.. code-block:: php
+
+    use Mautic\CoreBundle\Doctrine\DatabasePlatform;
+
+    $queryBuilder = $connection->createQueryBuilder();
+    $queryBuilder
+        ->select('l.id')
+        ->from(MAUTIC_TABLE_PREFIX.'leads', 'l')
+        ->where(DatabasePlatform::getCaseInsensitiveLike(
+            $connection->getDatabasePlatform(),
+            'l.firstname',
+            ':search',
+        ))
+        ->setParameter('search', 'Anne%');
+
+``getCaseInsensitiveLike()`` returns an expression for SQL or Doctrine Query Language (DQL). Pass ``DatabasePlatform::FLAG_NEGATIVE`` as its fourth argument for negative matching. ``getRegexpExpression()`` returns a regular-expression expression for SQL. PostgreSQL translates common MySQL ICU patterns. Advanced syntax such as Unicode-property escapes and scoped option groups needs adjustment for PostgreSQL regular expressions.
+
+PostgreSQL text columns use the nondeterministic ICU collation ``mautic_unicode_ci`` for case-insensitive and accent-insensitive equality and uniqueness. Native ``LIKE`` and string functions can reject nondeterministic collations, so use the shared adapters for pattern matching. Rare Unicode equivalences and trailing-space comparisons can differ from MySQL's legacy collation. The pattern-matching adapter also supports native number, date, and boolean fields, with booleans matched as ``1`` or ``0``.
+
+Core prepares its compatibility functions and collation before schema creation and migration metadata storage. Keep custom migrations portable through the schema API and shared helpers. Raw MySQL-specific SQL, including backtick quoting, unsigned types, and generated-column expressions, needs a platform-aware alternative. Third-party Plugin SQL doesn't become portable automatically.
+
 Entity PHP static function mapping
 **********************************
 
