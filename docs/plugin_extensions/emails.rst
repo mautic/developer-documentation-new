@@ -270,7 +270,7 @@ To do this, the Plugin needs to add an event listener for three events:
 
 .. warning::
 
-   Mautic 8 moves ``setCriteriaRequest()`` from ``ParseEmailEvent`` to ``PreFetchEmailEvent``, so the pre-fetch listener needs a ``PreFetchEmailEvent`` type hint. When you upgrade to Mautic 8, update your code as described in :xref:`EmailBundle <Mautic 8 upgrade EmailBundle>`.
+   Mautic 8 moves ``setCriteriaRequest()`` from ``ParseEmailEvent`` to ``PreFetchEmailEvent``, so the pre-fetch listener needs a ``PreFetchEmailEvent`` type hint. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 .. code-block:: PHP
 
@@ -347,7 +347,7 @@ The most important thing here is to create a service that's tagged as ``mautic.e
 
 .. warning::
 
-   Mautic 8 changes service registration from the ``services`` array in ``Config/config.php`` to ``Config/services.php``. When you upgrade to Mautic 8, update your code as described in :xref:`Config/config.php services array <Mautic 8 upgrade config php services array>`.
+   Mautic 8 changes service registration from the ``services`` array in ``Config/config.php`` to ``Config/services.php``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 .. code-block:: PHP
 
