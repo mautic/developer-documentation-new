@@ -96,7 +96,7 @@ To determine if a User has a specific permission, use the Mautic security servic
 
 .. warning::
 
-   Mautic 8 changes the ``mautic.security`` service ID to ``Mautic\CoreBundle\Security\Permissions\CorePermissions::class``. When you upgrade to Mautic 8, update your code as described in :xref:`Service IDs <Mautic 8 upgrade removed service ids>`.
+   Mautic 8 changes the ``mautic.security`` service ID to ``Mautic\CoreBundle\Security\Permissions\CorePermissions::class``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 Mautic uses specific notation to identify permissions:
 
@@ -175,7 +175,7 @@ A Plugin creates its own set of permissions by defining a Permission class. Each
 
 .. warning::
 
-   Mautic deprecates the ``$params`` constructor argument and the ``parent::__construct($params)`` call in Mautic 8 and changes them to a constructor without arguments. When you upgrade to Mautic 8, update your code as described in :xref:`AbstractPermissions <Mautic 8 upgrade AbstractPermissions>`.
+   Mautic deprecates the ``$params`` constructor argument and the ``parent::__construct($params)`` call in Mautic 8 and changes them to a constructor without arguments. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 Most permission classes require three methods: ``__construct()``, ``buildForm()``, and ``getName()``.
 
@@ -252,7 +252,7 @@ Permission aliases
 
 .. warning::
 
-   Mautic 8 changes the ``getSynonym()`` signature to ``protected function getSynonym($name, $level): array``. When you upgrade to Mautic 8, update your code as described in :xref:`Return types on Core base classes and interfaces <Mautic 8 upgrade core return types>`.
+   Mautic 8 changes the ``getSynonym()`` signature to ``protected function getSynonym($name, $level): array``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 To add a permission alias, use the ``getSynonym()`` method. Mautic calls this method before determining each requested permission, giving an opportunity to change the permission level or name as needed.
 
