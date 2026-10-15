@@ -76,7 +76,7 @@ When opening one of these permission files, they'll typically find:
 
 .. warning::
 
-   Mautic 8 changes ``definePermissions`` to defining permissions in the ``__construct()`` method. When you upgrade to Mautic 8, update your code as described in :xref:`AbstractPermissions <Mautic 8 upgrade AbstractPermissions>`.
+   Mautic 8 changes ``definePermissions`` to defining permissions in the ``__construct()`` method. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 For example, in the ``UserPermissions.php`` file, the ``UserPermissions`` class defines the available permissions for the ``UserBundle`` using a more structured approach. Here are the important parts:
 
