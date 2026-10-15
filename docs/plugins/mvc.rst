@@ -21,7 +21,7 @@ The :ref:`route defined in the config <routing config items>` determines the con
 
     'plugin_helloworld_admin' => [
         'path'       => '/hello/admin',
-        'controller' => 'MauticPlugin\HelloWorldBundle\Controller\DefaultController:adminAction'
+        'controller' => 'MauticPlugin\HelloWorldBundle\Controller\DefaultController::adminAction'
     ],
 
 In the example, a browser call to ``/hello/admin`` triggers ``MauticPlugin\HelloWorldBundle\Controller\DefaultController::adminAction()``.
@@ -112,7 +112,7 @@ It accepts the following parameters for ``delegateView()``:
    * - ``contentTemplate``
      - REQUIRED
      - string
-     - Defines the view template to load. This should be in view notation of ``BundleName:ViewName:template.html.php``. Refer to :ref:`Views` for more info.
+     - Defines the view template to load. This should be in view notation of ``@BundleName/ViewName/template.html.twig``. Refer to :ref:`Views` for more info.
    * - ``viewParameters``
      - OPTIONAL
      - array
@@ -203,7 +203,7 @@ Similar to ``delegateView()``, but used after an action like saving a Form. Acce
    * - ``forwardController``
      - OPTIONAL
      - boolean
-     - If ``true`` - **default**, forwards to a controller method - ``BundleName:ControllerName:method``. Set to ``false`` to load a view template - ``BundleName:ViewName:template.html.php`` - directly.
+     - If ``true`` - **default**, forwards to a controller method - ``MauticPlugin\HelloWorldBundle\Controller\WorldController::method``. Set to ``false`` to load a view template - ``@BundleName/ViewName/template.html.twig`` - directly.
 
 .. vale off
 
@@ -238,7 +238,7 @@ If your controller manages an entity with the standard list, view, new, edit, cl
                         'world'   => $world,
                         'details' => $worldDetails
                     ],
-                    'contentTemplate' => 'HelloWorldBundle:World:details.html.php',
+                    'contentTemplate' => '@HelloWorld/World/details.html.twig',
                     'passthroughVars' => [
                         'activeLink'    => 'plugin_helloworld_world',
                         'route'         => $this->generateUrl('plugin_helloworld_world', ['world' => $world]),
@@ -283,7 +283,7 @@ If your controller manages an entity with the standard list, view, new, edit, cl
                     return $this->postActionRedirect(
                         [
                             'returnUrl'       => $this->generateUrl('plugin_helloworld_world'),
-                            'contentTemplate' => 'MauticPlugin\HelloWorldBundle\Controller\DefaultController:worldAction',
+                            'contentTemplate' => 'MauticPlugin\HelloWorldBundle\Controller\DefaultController::worldAction',
                             'flashes'         => $flashes
                         ]
                     );
@@ -330,9 +330,9 @@ Model example
 
     namespace MauticPlugin\HelloWorldBundle\Model;
 
-    use Mautic\CoreBundle\Model\CommonModel;
+    use Mautic\CoreBundle\Model\AbstractCommonModel;
 
-    final class ContactModel extends CommonModel
+    final class ContactModel extends AbstractCommonModel
     {
         /**
          * Send contact email
@@ -400,46 +400,7 @@ The ``FormModel`` class extends ``AbstractCommonModel`` and includes helper meth
 
 .. vale on
 
-Mautic 8 type changes
----------------------
-
-Mautic 8 adds native PHP parameter types to these public methods on the base ``FormModel`` class:
-
-.. code:: diff
-
-   - public function saveEntity($entity, bool $unlock = true): void
-   + public function saveEntity(object $entity, bool $unlock = true): void
-
-   - public function saveAndDetachEntity($entity, bool $unlock = true): void
-   + public function saveAndDetachEntity(object $entity, bool $unlock = true): void
-
-   - public function lockEntity($entity): void
-   + public function lockEntity(object $entity): void
-
-   - public function isLocked($entity): bool
-   + public function isLocked(object $entity): bool
-
-   - public function isNewEntity($entity): bool
-   + public function isNewEntity(object $entity): bool
-
-   - public function togglePublishStatus($entity): bool
-   + public function togglePublishStatus(object $entity): bool
-
-   - public function deleteEntity($entity): void
-   + public function deleteEntity(object $entity): void
-
-   - public function deleteEntities($ids): array
-   + public function deleteEntities(array $ids): array
-
-This changes no runtime behavior. In practice these methods already worked with objects and arrays. Most declared the type in their ``@param`` annotations, and several guard entity access with ``method_exists()``, so Mautic 8 mainly makes the existing expectation explicit in the signatures.
-
-The upgrade risk is a signature mismatch. If your Plugin's Model subclass overrides one of these methods with a parameter type that's narrower than or incompatible with the new parent type, PHP throws a fatal ``TypeError``. For example, an override that declares a concrete entity class instead of ``object``, or another type instead of ``array``, is incompatible. An override that declares no parameter type stays compatible. To fix an incompatible override, match the parent signature exactly with ``object $entity`` or ``array $ids``, or remove the parameter type.
-
-Mautic types the entity parameter as ``object`` rather than a concrete entity class on purpose, because PHP fails with a fatal error when an inherited signature narrows a parameter type. The method-specific ``@param <Entity>`` annotations stay in place for that specificity.
-
-The core ``saveEntity()`` overrides adopt the ``object`` type in Mautic 8 for the same reason - for example ``AssetModel``, ``EmailModel``, ``LeadModel``, ``PageModel``, and ``UserModel``. If your Plugin extends ``EmailModel`` or ``LeadModel`` rather than ``FormModel`` directly, apply the same rule to your override. ``AssetModel``, ``PageModel``, and ``UserModel`` are ``final`` in Mautic 8, so a Plugin can't extend them. See :ref:`Final classes <Mautic 8 final classes>`.
-
-Mautic 8 also types one public method on the parent ``AbstractCommonModel`` class, which ``FormModel`` and Plugin Models both extend: ``encodeArrayForUrl($array)`` becomes ``encodeArrayForUrl(array $array)``. The same override-compatibility rule applies.
+``FormModel`` types the entity parameter of its entity methods, such as ``saveEntity()``, ``lockEntity()``, and ``deleteEntity()``, as ``object``, and the ``$ids`` parameter of ``deleteEntities()`` as ``array``. ``AbstractCommonModel::encodeArrayForUrl()`` types its parameter as ``array``. A Model that overrides one of these methods must declare a compatible parameter type, such as ``object $entity``, or no parameter type. Otherwise, PHP raises a fatal error when it loads the class. The same rule applies when your Model extends ``EmailModel`` or ``LeadModel``, whose ``saveEntity()`` overrides also type the entity as ``object``. ``AssetModel``, ``PageModel``, and ``UserModel`` are ``final``, so a Plugin can't extend them.
 
 Registering a model
 ===================
@@ -458,10 +419,6 @@ Add the method to a model class that extends ``AbstractCommonModel`` or ``FormMo
 Mautic core follows the same pattern - its ``LeadModel`` returns ``'lead.lead'``.
 
 Declaring ``getName()`` is the whole registration step. There's no separate tag, service alias, or compiler-pass step to add. If a model omits ``getName()``, ``getModel()`` can't resolve it by key.
-
-.. note::
-
-   ``getName()``-based resolution is the Mautic 8 mechanism. It replaces the removed ``mautic.model`` auto-tag, the manual ``mautic.<bundle>.model.<name>`` service-alias convention, and the ``ModelPass`` compiler pass.
 
 ``getModel()`` accepts only the ``getName()`` key, not a fully qualified class name. Fetching a model by its class means injecting or type-hinting the concrete class instead, as described in :ref:`Getting model objects <getting model objects>`.
 
@@ -514,10 +471,9 @@ For example, if the controller passes:
 
 Then the variable ``$world`` becomes available in the template with the value ``mars``.
 
-Avoid overriding these reserved variables, as Mautic provides them by default:
+Avoid overriding this reserved variable, as Twig provides it by default:
 
-* ``$view``: contains helper objects for extending or rendering templates.
-* ``$app``: provides access to request and session objects via ``$app->getRequest()`` and ``$app->getSession()``.
+* ``app`` is Symfony's global Twig variable, providing access to the request and session objects, for example ``app.request`` and ``app.session``.
 
 Extending views
 ===============
@@ -527,205 +483,156 @@ Please refer to the ``extends`` tag section in :xref:`Twig documentation` to lea
 Rendering views within views
 ============================
 
-You can render one view inside another:
+You can render one view inside another with Twig's ``include`` function:
 
-.. code-block:: php
+.. code-block:: twig
 
-    echo $view->render('BundleName:ViewName:template.html.php', array('parameter' => 'value'));
+    {{ include('@BundleName/ViewName/template.html.twig', {'parameter': 'value'}) }}
 
 Template helpers
 ****************
 
 There are several template helper objects and helper view templates built into Mautic.
 
-The ``slots`` helper
-====================
-
-The ``slots`` helper allows sub-templates to pass content up to parent templates. Since Mautic templates render **inside-out**, a sub-template can define slot content that the parent template can access. However, sub-templates don't have access to content defined in a parent template.
-
-Setting slot content
---------------------
-
-Use ``set()`` to define the content of a slot. If the slot already exists, the new content overwrites the existing one.
-
-.. code-block:: php
-
-    // Set a slot with content
-    $view['slots']->set('name', 'the content');
-
-Appending slot content
-----------------------
-
-Use ``append()`` to add to an existing ``slot`` rather than replacing its content. This is useful for aggregating content across templates.
-
-.. code-block:: php
-
-    // Append string content
-    $view['slots']->append('name', ' and more content');
-
-    // Append array content
-    $view['slots']->append('existingArray', array(
-        'append' => 'me'
-    ));
-
-Retrieving slot content
------------------------
-
-To get the content of a slot, use ``get()``. If the slot doesn't exist, you can define a default value.
-
-.. code-block:: php
-
-    // Retrieve slot content or fallback to default
-    $content = $view['slots']->get('name', 'default value');
-
-Outputting slot content
------------------------
-
-The ``output()`` method renders slot content. It allows parent templates to pull in and display content from sub-templates.
-
-.. code-block:: php
-
-    // Render the slot content; no echo required
-    $view['slots']->output('name');
-
-Checking slot existence
------------------------
-
-You can confirm if a slot exists using ``has()`` before performing actions on it.
-
-.. code-block:: php
-
-    // Check if a slot is defined
-    if ($view['slots']->has('name')) {
-        // Perform some action
-    }
-
-The ``slots`` are central to how Mautic handles nested views and Dynamic Content flow. Use them to build modular, reusable templates where the child view defines what's shown and the parent controls the layout.
-
-The ``assets`` helper
-=====================
-
-The ``assets`` helper - accessed via ``$view['assets']`` - loads various Assets into the DOM, such as images, scripts, and stylesheets.
-
 .. note::
 
-   Use ``$view['assets']`` to ensure your Assets work across environments. This allows Assets to load correctly whether you install Mautic in the web root or a subdirectory, and whether you run it in development - ``index_dev.php`` - or production environments.
+   Mautic's templates are Twig, not the old PHP templating engine. There's no ``$view`` array in a Twig template. Use the functions, filters, and tags below instead. See :xref:`PHP to Twig migration` for the full set of equivalents.
 
-The ``assets`` helper also provides a way to insert scripts and stylesheets into the head for AJAX-loaded content using ``$view['assets']->includeScript()`` and ``$view['assets']->includeStylesheet()``.
+Replacing the ``slots`` helper with Twig blocks
+===============================================
+
+Twig's own ``block`` tag replaces the old ``slots`` helper. Since Mautic templates render **inside-out**, a sub-template defines a named block that the parent template reads back with the ``block()`` function. A child template that extends a parent can still read content the parent defined by calling ``{{ parent() }}`` inside its own block of the same name.
+
+Setting block content
+----------------------
+
+Define the block's content with Twig's ``block`` tag. If the parent template defines the same block, the child's content overrides it.
+
+.. code-block:: twig
+
+    {% block name %}the content{% endblock %}
+
+Appending to block content
+---------------------------
+
+Call ``{{ parent() }}`` inside the overriding block to keep the parent's content and add to it.
+
+.. code-block:: twig
+
+    {% block name %}{{ parent() }} and more content{% endblock %}
+
+Retrieving block content
+-------------------------
+
+Use the ``block()`` function to render a named block's content from elsewhere in the same template, for example when a base layout pulls content from the child template that extends it.
+
+.. code-block:: twig
+
+    {{ block('name') }}
+
+Checking block existence
+-------------------------
+
+Use ``block('name') is defined`` to confirm a block exists before rendering it, for example to fall back to a default.
+
+.. code-block:: twig
+
+    {{ block('name') is defined ? block('name') : 'default value' }}
+
+Blocks are central to how Mautic handles nested views. Use them to build modular, reusable templates where the child view defines what's shown and the parent controls the layout.
+
+The ``assets`` function
+=========================
+
+Use Symfony's standard ``asset()`` Twig function to generate the correct relative URL to an Asset, such as an image, so it resolves correctly whether you install Mautic in the web root or a subdirectory.
 
 Loading images
 --------------
 
-Use ``getUrl()`` to generate the correct relative URL to an Asset, such as an image.
+.. code-block:: twig
 
-.. code-block:: php
+    <img src="{{ asset('plugins/HelloWorldBundle/Assets/images/earth.png') }}" />
 
-    // Generate relative URL to image
-    echo '<img src="' . $view['assets']->getUrl('plugins/HelloWorldBundle/assets/images/earth.png') . '" />';
+Inserting scripts and stylesheets
+---------------------------------
 
-Inserting JavaScript
---------------------
+Mautic loads most views through AJAX, so a ``<script>`` or ``<link>`` tag in a view doesn't reliably load a file into the document head. Use Mautic's ``includeScript()`` and ``includeStylesheet()`` Twig functions instead. Each one outputs a small script that adds the file to the document head once and skips it if the browser already loaded it.
 
-Use ``includeScript()`` to dynamically insert a JavaScript file into the head. This is especially useful for AJAX-loaded views where scripts need to be re-injected.
+.. code-block:: twig
 
-.. code-block:: php
+    {{ includeScript('plugins/HelloWorldBundle/Assets/js/helloworld.js') }}
+    {{ includeStylesheet('plugins/HelloWorldBundle/Assets/css/helloworld.css') }}
 
-    // Dynamically insert script into head
-    echo $view['assets']->includeScript('plugins/HelloWorldBundle/assets/helloworld.js');
+``includeScript()`` also accepts the names of two ``Mautic`` JavaScript functions as optional second and third arguments. Mautic calls the first after the script loads and the second if the browser already loaded the script. For example, ``{{ includeScript('plugins/HelloWorldBundle/Assets/js/helloworld.js', 'helloWorldOnLoad', 'helloWorldOnLoad') }}`` calls ``Mautic.helloWorldOnLoad()`` in both cases.
 
-Inserting stylesheets
----------------------
+The ``path()`` and ``url()`` functions
+========================================
 
-Use ``includeStylesheet()`` to dynamically include a CSS file into the head.
+Symfony's standard ``path()`` and ``url()`` Twig functions generate URLs for named routes within views, replacing the old ``router`` helper.
 
-.. code-block:: php
+.. code-block:: twig
 
-    // Dynamically insert stylesheet into head
-    echo $view['assets']->includeStylesheet('plugins/HelloWorldBundle/assets/helloworld.css');
-
-These methods enable you to handle your Assets properly, regardless of Mautic’s installation location or environment. They also support dynamic inclusion for content loaded via AJAX.
-
-The ``router`` helper
-=====================
-
-The ``router`` helper - accessed via ``$view['router']`` - generates URLs for named routes within views.
-
-.. code-block:: php
-
-    <a href="<?php echo $view['router']->generate(
-        'plugin_helloworld_world',
-        array('world' => 'mars')
-    ); ?>" data-toggle="ajax">Mars</a>
+    <a href="{{ path('plugin_helloworld_world', {'world': 'mars'}) }}" data-toggle="ajax">Mars</a>
 
 This generates a link to the route ``plugin_helloworld_world`` with the dynamic parameter ``world`` set to ``mars``.
 
-The ``translator`` helper
-=========================
+The ``trans`` filter
+======================
 
-The ``translator`` helper, accessed via ``$view['translator']``, is used to translate strings within views using Mautic's translation system.
+Twig's standard ``trans`` filter translates strings within views using Mautic's translation system, replacing the old ``translator`` helper.
 
-.. code-block:: php
+.. code-block:: twig
 
-    <h1>
-        <?php echo $view['translator']->trans(
-            'plugin.helloworld.worlds',
-            array('%world%' => 'Mars')
-        ); ?>
-    </h1>
+    <h1>{{ 'plugin.helloworld.worlds'|trans({'%world%': 'Mars'}) }}</h1>
 
 This example replaces the ``%world%`` placeholder with ``Mars``, and outputs the translated string.
 
 .. vale off
 
-For more on how to handle translations, see :doc:`Translator </components/translators>`.
+The ``trans`` filter follows the conventions described in the :doc:`Translator documentation </components/translators>`, so templates can output dynamic, localized content.
 
 .. vale on
 
-The ``$view['translator']`` follows the same conventions described in the :doc:`Translator documentation </components/translators>`, allowing dynamic, localized content in templates.
+The ``date`` functions
+========================
 
-The ``date`` helper
-===================
+Mautic registers Twig functions that format dates according to system and User settings, replacing the old ``date`` helper.
 
-The ``date`` helper - accessed via ``$view['date']`` - formats dates according to system and User settings.
+.. code-block:: twig
 
-.. code-block:: php
+    {# Format using full date-time format from system settings #}
+    {{ dateToFull(datetime) }}
 
-    // Can be a string or \DateTime object. If a string, it's assumed to be in local time
-    $datetime = '2015-04-12 20:56:00';
+    {# Format using short date-time format #}
+    {{ dateToShort(datetime) }}
 
-    // Format using full date-time format from system settings
-    $fullDateTime = $view['date']->toFull($datetime);
+    {# Format using date-only format #}
+    {{ dateToDate(datetime) }}
 
-    // Format using short date-time format
-    $shortDateTime = $view['date']->toShort($datetime);
+    {# Format using time-only format #}
+    {{ dateToTime(datetime) }}
 
-    // Format using date-only format
-    $date = $view['date']->toDate($datetime);
+    {# Combine date-only and time-only formats #}
+    {{ dateToFullConcat(datetime) }}
 
-    // Format using time-only format
-    $time = $view['date']->toTime($datetime);
+    {# Format as relative time: 'Yesterday, 8:02 pm' or 'x days ago' #}
+    {{ dateToText(datetime) }}
 
-    // Combine date-only and time-only formats
-    $datetime = $view['date']->toFullConcat($datetime);
+    {# Format a date string in a different timezone #}
+    {{ dateToFull(datetime, 'UTC') }}
 
-    // Format as relative time: 'Yesterday, 8:02 pm' or 'x days ago'
-    $text = $view['date']->toText($datetime);
+The first argument to each function can be a ``\DateTime`` object or a string formatted as ``Y-m-d H:i:s``. If the date isn't already in local time, pass the timezone as the second argument and the source format as the third.
 
-    // Format a date string in a different timezone
-    $fullDateTime = $view['date']->toFull($datetime, 'Y-m-d H:i:s', 'UTC');
+The ``form`` functions
+========================
 
-The first argument to each method can be a ``\DateTime`` object or a string formatted as ``Y-m-d H:i:s``. If the date is not already in local time, pass the expected format as the second argument and the timezone as the third.
+Twig's standard ``form_start()``, ``form_row()``, and ``form_end()`` functions render a Symfony Form object passed from the controller, replacing the old ``form`` helper.
 
-The ``form`` helper
-===================
+.. code-block:: twig
 
-The ``form`` helper, accessed via ``$view['form']``, is used to render Form objects passed from the controller.
-
-.. code-block:: php
-
-    <?php echo $view['form']->form($form); ?>
-
-This helper outputs the complete HTML Form using the Form object - typically a Symfony Form - passed to the view.
+    {{ form_start(form) }}
+    {{ form_row(form.email) }}
+    {{ form_end(form) }}
 
 AJAX Integration
 ****************
@@ -739,9 +646,9 @@ To enable AJAX for a link, set the attribute ``data-toggle="ajax"``.
 
 .. vale off
 
-.. code-block:: html+php
+.. code-block:: twig
 
-    <a href="<?php echo $view['router']->generate('plugin_helloworld_world', ['world' => 'mars']); ?>" data-toggle="ajax">
+    <a href="{{ path('plugin_helloworld_world', {'world': 'mars'}) }}" data-toggle="ajax">
         Mars
     </a>
 
@@ -754,12 +661,12 @@ Mautic uses Bootstrap modals, but Bootstrap alone doesn't support dynamically re
 
 .. vale off
 
-.. code-block:: html+php
+.. code-block:: twig
 
-    <a href="<?php echo $view['router']->generate('plugin_helloworld_world', ['world' => 'mars']); ?>"
+    <a href="{{ path('plugin_helloworld_world', {'world': 'mars'}) }}"
        data-toggle="ajaxmodal"
        data-target="#MauticSharedModal"
-       data-header="<?php echo $view['translator']->trans('plugin.helloworld.worlds', ['%world%' => 'Mars']); ?>">
+       data-header="{{ 'plugin.helloworld.worlds'|trans({'%world%': 'Mars'}) }}">
         Mars
     </a>
 
@@ -832,10 +739,10 @@ Page refresh support
 
 .. vale off
 
-Ensure the correct ``onload`` function triggers on full page refresh by setting the ``mauticContent`` slot in the view using:
+Ensure the correct ``onload`` function triggers on full page refresh by setting the ``mauticContent`` block in the view:
 
 .. vale on
 
-.. code-block:: php
+.. code-block:: twig
 
-    $view['slots']->set('mauticContent', 'helloWorldDetails');
+    {% block mauticContent %}helloWorldDetails{% endblock %}
