@@ -333,7 +333,10 @@ The ``@MauticEmail/Email/preview_button_link.html.twig`` template renders a butt
         }
     }
 
-Pass ``contactId`` and ``companyId`` to the Plugin's route so the exported file uses the same Contact and Company tokens as the preview. Mautic's own download checks that the User can view the Email and the selected Contact, so apply the same permission checks in the Plugin's Controller before returning Contact data.
+Pass ``contactId`` and ``companyId`` to the Plugin's route so the exported file uses the same Contact and Company tokens as the preview. Because a User can change these IDs in the request URL, verify permissions in the Plugin's Controller before returning data:
+
+* Verify that the User can view the Email and the selected Contact, as Mautic's own download does.
+* Verify that the User can view the selected Company. Mautic's own download doesn't verify Company access. The Company lookup field only lists Companies the User owns, or unowned Companies the User created, unless the User has permission to view other Users' Contacts. Apply the same rule to ``companyId`` before returning Company data.
 
 .. vale off
 
