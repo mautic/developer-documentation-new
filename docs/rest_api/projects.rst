@@ -1,7 +1,7 @@
 Projects
 ########
 
-Use this endpoint to get details on Mautic's Projects and to create, edit, and delete them. You can also link other entities, such as Emails or Campaigns, to a Project.
+Use these endpoints to get details on Mautic's Projects and to create, edit, and delete them. You can also link other entities, such as Emails or Campaigns, to a Project. Mautic provides Projects endpoints in both the v1 REST API and the :ref:`API v2 <Projects API v2>`.
 
 .. vale off
 
@@ -281,6 +281,8 @@ Properties
 
 Refer to :ref:`Project properties <get Project properties>`.
 
+.. _delete Projects in bulk:
+
 .. vale off
 
 Delete Projects in bulk
@@ -351,6 +353,8 @@ The entities that support linking to a Project are Assets, Campaigns, Companies,
 
 When an entity links to one or more Projects, the API serializes the ``projects`` association with the ``id`` and ``name`` of each linked Project.
 
+.. _Projects API v2:
+
 .. vale off
 
 Projects in API v2
@@ -358,12 +362,217 @@ Projects in API v2
 
 .. vale on
 
-You can also manage Projects through the API v2 at ``/api/v2/projects``. API v2 uses the API Platform conventions described in :doc:`/rest_api/api_v2`, so its paths and responses differ from the v1 endpoints described earlier:
+Mautic also exposes Projects through the API v2 at ``/api/v2/projects``. API v2 uses the API Platform conventions described in :doc:`/rest_api/api_v2`, so its paths, request formats, and responses differ from the v1 endpoints described earlier.
 
-* ``GET /api/v2/projects``: lists Projects. The response contains the Projects in ``member`` and the total count in ``totalItems``.
-* ``GET /api/v2/projects/ID``: retrieves a Project.
-* ``POST /api/v2/projects``: creates a Project. The request body accepts ``name``, ``description``, and ``properties``. Returns ``201 Created``.
-* ``PUT /api/v2/projects/ID`` and ``PATCH /api/v2/projects/ID``: edit a Project.
-* ``DELETE /api/v2/projects/ID``: deletes a Project. Returns ``204 No Content``.
+To see the full schema and try requests from your browser, open ``/api/v2`` while logged in to Mautic.
 
-Send requests with the ``application/ld+json`` media type in the ``Content-Type`` and ``Accept`` headers. For the full schema and to try requests from your browser, open ``/api/v2`` while logged in to Mautic.
+Request format
+==============
+
+Send requests and receive responses in JSON-LD by setting the ``application/ld+json`` media type in the ``Content-Type`` and ``Accept`` headers. API v2 also accepts ``application/json``.
+
+``PATCH`` requests use the ``application/merge-patch+json`` media type in the ``Content-Type`` header.
+
+Permissions
+===========
+
+Each operation checks the authenticated User's Project permissions:
+
+.. list-table::
+   :widths: 50 50
+   :header-rows: 1
+
+   * - Operation
+     - Required permission
+   * - List and get Projects
+     - ``project:projects:view``
+   * - Create a Project
+     - ``project:projects:create``
+   * - Edit a Project
+     - ``project:projects:edit``
+   * - Delete a Project
+     - ``project:projects:delete``
+
+The API returns ``403 Forbidden`` when the User doesn't have the required permission.
+
+.. _Projects API v2 properties:
+
+Project properties
+==================
+
+API v2 reads and writes these Project properties:
+
+.. list-table::
+   :widths: 25 20 15 40
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Access
+     - Description
+   * - ``id``
+     - integer
+     - Read only
+     - ID of the Project
+   * - ``name``
+     - string
+     - Read and write
+     - Name of the Project. Required when creating a Project. The name must be unique, and the comparison ignores case.
+   * - ``description``
+     - string
+     - Read and write
+     - Description of the Project
+   * - ``properties``
+     - object
+     - Read and write
+     - Additional Project data stored as a JSON object
+
+JSON-LD responses also include the ``@context``, ``@id``, and ``@type`` keys. ``@id`` is the path that identifies the Project, such as ``/api/v2/projects/7``.
+
+.. vale off
+
+List Projects
+=============
+
+.. vale on
+
+``GET /api/v2/projects``
+
+Returns a paginated list of Projects. To choose which set of results to return, use the ``page`` query parameter, for example ``GET /api/v2/projects?page=2``.
+
+Response
+--------
+
+* Returns ``200 OK`` when the request successfully retrieves the Projects list.
+
+.. code-block:: json
+
+   {
+     "@context": "/api/v2/contexts/Project",
+     "@id": "/api/v2/projects",
+     "@type": "Collection",
+     "totalItems": 2,
+     "member": [
+       {
+         "@id": "/api/v2/projects/7",
+         "@type": "Project",
+         "id": 7,
+         "name": "Summer campaign",
+         "description": "Assets and Emails for the summer launch.",
+         "properties": []
+       },
+       {
+         "@id": "/api/v2/projects/8",
+         "@type": "Project",
+         "id": 8,
+         "name": "Product launch",
+         "description": null,
+         "properties": []
+       }
+     ]
+   }
+
+The ``member`` array contains the Projects in the current set of results, and ``totalItems`` contains the total number of Projects. When there are more Projects than fit in one response, the response also includes a ``view`` object with links to the first, last, previous, and next sets of results.
+
+.. vale off
+
+Get Project
+===========
+
+.. vale on
+
+``GET /api/v2/projects/ID``
+
+Response
+--------
+
+* Returns ``200 OK`` when the request successfully retrieves the Project.
+* Returns ``404 Not Found`` when no Project has that ID.
+
+.. _Projects API v2 get response:
+
+.. code-block:: json
+
+   {
+     "@context": "/api/v2/contexts/Project",
+     "@id": "/api/v2/projects/7",
+     "@type": "Project",
+     "id": 7,
+     "name": "Summer campaign",
+     "description": "Assets and Emails for the summer launch.",
+     "properties": []
+   }
+
+.. vale off
+
+Create Project
+==============
+
+.. vale on
+
+``POST /api/v2/projects``
+
+Request body
+------------
+
+.. code-block:: json
+
+   {
+     "name": "Summer campaign",
+     "description": "Assets and Emails for the summer launch.",
+     "properties": {
+       "owner": "Marketing"
+     }
+   }
+
+You must send ``name``. The other properties are optional. See :ref:`Project properties <Projects API v2 properties>` for the accepted properties.
+
+Response
+--------
+
+* Returns ``201 Created`` with the new Project, in the same format as :ref:`Get Project <Projects API v2 get response>`.
+* Returns ``422 Unprocessable Entity`` when ``name`` is missing or empty, or when another Project already uses the same name. The response body describes each validation error.
+
+.. vale off
+
+Edit Project
+============
+
+.. vale on
+
+This operation supports ``PUT`` or ``PATCH``:
+
+* ``PUT /api/v2/projects/ID``: replaces the Project's writable properties with the values in the request body.
+* ``PATCH /api/v2/projects/ID``: updates only the properties in the request body. Send the request with the ``application/merge-patch+json`` media type in the ``Content-Type`` header.
+
+For example, to change only the description of a Project:
+
+.. code-block:: json
+
+   {
+     "description": "Assets, Emails, and Landing Pages for the summer launch."
+   }
+
+Response
+--------
+
+* Returns ``200 OK`` with the updated Project, in the same format as :ref:`Get Project <Projects API v2 get response>`.
+* Returns ``404 Not Found`` when no Project has that ID.
+* Returns ``422 Unprocessable Entity`` when the new values fail validation, for example when the name is empty or already in use.
+
+.. vale off
+
+Delete Project
+==============
+
+.. vale on
+
+``DELETE /api/v2/projects/ID``
+
+Response
+--------
+
+* Returns ``204 No Content`` with an empty body when the request successfully deletes the Project.
+* Returns ``404 Not Found`` when no Project has that ID.
+
+API v2 doesn't have a bulk delete operation. To delete several Projects in one request, use the v1 ``DELETE /projects/batch/delete`` endpoint described in :ref:`Delete Projects in bulk <delete Projects in bulk>`.
