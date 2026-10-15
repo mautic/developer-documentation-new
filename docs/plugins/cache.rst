@@ -91,6 +91,10 @@ They can be overridden in ``local.php`` like this:
     'cache_prefix'   => 'app_cache',
     'cache_lifetime' => 86400,
 
+.. warning::
+
+   Mautic 8 changes the ``mautic.cache.adapter.*`` service IDs to the adapter class names. When you upgrade to Mautic 8, update your configuration as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+
 Delivered adapters
 ------------------
 .. vale off
