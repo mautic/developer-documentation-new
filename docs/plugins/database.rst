@@ -20,6 +20,10 @@ Mautic uses :xref:`Doctrine ORM` to define the schema. Plugins define their sche
 Writing portable database queries
 *********************************
 
+.. warning::
+
+   This section describes proposed PostgreSQL support in `Mautic core PR #17854 <https://github.com/mautic/mautic/pull/17854>`_. The implementation remains a draft with no confirmed release target. The PostgreSQL features and helpers described here aren't available in released Mautic versions.
+
 PostgreSQL support requires PostgreSQL 16 or later with International Components for Unicode (ICU) support and PHP's ``pdo_pgsql`` extension. MySQL and MariaDB remain supported. Use Doctrine's schema API for portable column, index, and foreign-key definitions, and bind values through query parameters.
 
 Use ``Mautic\CoreBundle\Doctrine\DatabasePlatform`` for database-specific expressions. For example, this DBAL query preserves case-insensitive wildcard matching across the supported databases:
