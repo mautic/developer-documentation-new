@@ -59,6 +59,10 @@ You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\Class
         :returns: ``$this``
         :returntype: \\Mautic\\CoreBundle\\Doctrine\\Mapping\\ClassMetadataBuilder
 
+        .. warning::
+
+           Mautic removes this in Mautic 8. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+
     .. php:method:: addDateAdded([bool $nullable = false])
 
         Creates a mutable date/time field. Defines a ``dateAdded`` ORM property mapped to a ``date_added`` column on the table.
@@ -155,6 +159,10 @@ You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\Class
 
         :returns: \\Mautic\\CoreBundle\\Doctrine\\Mapping\\ManyToManyAssociationBuilder
 
+        .. warning::
+
+           Mautic 8 changes this method's return type to ``Doctrine\ORM\Mapping\Builder\ManyToManyAssociationBuilder``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+
     .. php:method:: createManyToOne(string $name, string $targetEntity)
 
         Creates a field with a many to one relationship to the targeted entity. Instantiates and returns a ``Mautic\CoreBundle\Doctrine\Mapping\AssociationBuilder`` object that decorates ``Doctrine\ORM\Mapping\Builder\AssociationBuilder`` with ``orphanRemoval()`` and ``isPrimaryKey()`` support.
@@ -172,6 +180,10 @@ You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\Class
         :param string $targetEntity: Fully qualified classname for the targeted entity.
 
         :returns: \\Mautic\\CoreBundle\\Doctrine\\Mapping\\OneToManyAssociationBuilder
+
+        .. warning::
+
+           Mautic 8 changes this method's return type to ``Doctrine\ORM\Mapping\Builder\OneToManyAssociationBuilder``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
     .. php:method:: createOneToOne(string $name, string $targetEntity)
 
