@@ -100,7 +100,7 @@ To determine if a User has a specific permission, use Mautic's security service 
 
 .. warning::
 
-   Mautic 8 changes the ``mautic.security`` service ID to ``CorePermissions::class``. When you upgrade to Mautic 8, update your code as described in :xref:`Service IDs <Mautic 8 upgrade removed service ids>`.
+   Mautic 8 changes the ``mautic.security`` service ID to ``CorePermissions::class``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 As suggested in the preceding section, Mautic uses a special permission notation to refer to a specific permission.
 For core bundles, use ``bundleName:permissionLevel:permission``.
@@ -224,7 +224,7 @@ You can register the permission class by adding it to your ``config.php`` as sho
 
 .. warning::
 
-   Mautic 8 changes this to registering the permission class as a service in ``Config/services.php``. When you upgrade to Mautic 8, update your code as described in :xref:`Config/config.php services array <Mautic 8 upgrade config php services array>`.
+   Mautic 8 changes this to registering the permission class as a service in ``Config/services.php``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 You can learn more about the available options by looking at the ``Mautic\CoreBundle\Security\Permissions\AbstractPermissions`` PHPDoc, but here's the most important information:
 
@@ -253,7 +253,7 @@ Mautic provides a few helper methods for common permission sets:
 
 .. warning::
 
-   Mautic deprecates ``__construct($params)`` in Mautic 8 and changes it to a constructor without arguments. When you upgrade to Mautic 8, update your code as described in :xref:`AbstractPermissions <Mautic 8 upgrade AbstractPermissions>`.
+   Mautic deprecates ``__construct($params)`` in Mautic 8 and changes it to a constructor without arguments. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 **buildForm()**
 
@@ -303,7 +303,7 @@ For example, ``parent::getSynonym()`` will recognize ``editown`` as ``edit`` if 
 
 .. warning::
 
-   Mautic 8 changes the ``getSynonym()`` signature to ``protected function getSynonym($name, $level): array``. When you upgrade to Mautic 8, update your code as described in :xref:`Return types on Core base classes and interfaces <Mautic 8 upgrade core return types>`.
+   Mautic 8 changes the ``getSynonym()`` signature to ``protected function getSynonym($name, $level): array``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 Manipulating permissions before saving
 ======================================
