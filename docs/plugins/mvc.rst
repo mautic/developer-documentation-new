@@ -214,6 +214,10 @@ This controller extends ``CommonController`` and provides helper methods for man
 
 .. vale on
 
+.. warning::
+
+   Mautic deprecates this since Mautic 2.3 and removes it in Mautic 8. Use ``AbstractFormController`` instead. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+
 .. code-block:: php
 
     <?php
