@@ -200,12 +200,7 @@ API permission-context event
 
 .. vale on
 
-Mautic dispatches this event immediately before API Platform v2 evaluates authorization, letting a subscriber rewrite the permission, the request object, or both.
-
-It fires from both API Platform authorization paths:
-
-* The deny-access listener - ``MauticDenyAccessListener::checkSecurity()``
-* The permission voter - ``ApiPermissionVoter::voteOnAttribute()``
+Mautic dispatches this event from the API permission voter, ``ApiPermissionVoter::voteOnAttribute()``, before it authorizes an API Platform v2 request. A subscriber can rewrite the permission, the request object, or both.
 
 After dispatch, Mautic re-reads ``getPermission()`` and ``getRequestObject()``, then runs the ownership or ``isGranted()`` authorization against them.
 
@@ -235,7 +230,7 @@ The event receives a ``Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent`
    * - Method
      - Description
    * - ``getSecurityExpression()``
-     - Returns the raw security expression the API Platform operation declares. On the permission-voter path, this matches the value passed as the permission attribute.
+     - Returns the raw security expression the API Platform operation declares. It matches the permission attribute that the voter receives.
    * - ``getPermission()``
      - Returns the permission string extracted from the security expression. Mautic re-reads this after the event to authorize.
    * - ``setPermission()``
@@ -245,13 +240,9 @@ The event receives a ``Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent`
    * - ``setRequestObject()``
      - Sets the request object Mautic runs the ownership or ``isGranted()`` authorization against.
    * - ``getRequest()``
-     - Returns the current Symfony ``Request``, or ``null``. It's ``null`` when the permission voter dispatches the event.
+     - Returns ``null``, because the permission voter doesn't pass the Symfony ``Request`` to the event.
    * - ``getAttributes()``
-     - Returns the operation attributes array. It's empty when the permission voter dispatches the event.
-
-.. note::
-
-   Mautic populates ``getRequest()`` and ``getAttributes()`` only on the deny-access listener path. On the permission-voter path, the request is ``null`` and the attributes are empty. Because a subscriber can't always tell which path dispatched the event, guard for a ``null`` request and empty attributes before you rely on them.
+     - Returns an empty array, because the permission voter doesn't pass operation attributes to the event. Read the subject from ``getRequestObject()`` instead.
 
 Example subscriber
 ==================
