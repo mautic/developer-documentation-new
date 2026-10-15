@@ -134,7 +134,7 @@ The following code snippet shows the use of ``\Mautic\IntegrationsBundle\Integra
 
 .. warning::
 
-   Mautic removes ``DefaultConfigFormTrait`` in Mautic 8. When you upgrade to Mautic 8, update your code as described in :xref:`DefaultConfigFormTrait <Mautic 8 upgrade DefaultConfigFormTrait>`.
+   Mautic removes ``DefaultConfigFormTrait`` in Mautic 8. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 .. admonition:: Additional information
 

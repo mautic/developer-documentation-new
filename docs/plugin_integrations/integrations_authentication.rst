@@ -167,7 +167,7 @@ The best way to get configuration values such as username, password, consumer ke
 
 .. warning::
 
-   Mautic 8 changes the ``mautic.integrations.helper`` service ID to ``IntegrationsHelper::class``. When you upgrade to Mautic 8, update your code as described in :xref:`Service IDs <Mautic 8 upgrade removed service ids>`.
+   Mautic 8 changes the ``mautic.integrations.helper`` service ID to ``IntegrationsHelper::class``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 
 API key
@@ -835,7 +835,3 @@ Here is an example of a client, assuming that the User has already logged in and
     /** @var $factory HttpFactory */
     $client   = $factory->getClient($credentials, $config);
     $response = $client->get('https://example.com/api/fetch');
-
-.. warning::
-
-   Mautic 8 changes ``$request->get('code')`` to ``$request->query->get('code')`` because Symfony 8 removes ``Request::get()``. When you upgrade to Mautic 8, update your code as described in :xref:`Symfony 8 <Mautic 8 upgrade symfony 8>`.
