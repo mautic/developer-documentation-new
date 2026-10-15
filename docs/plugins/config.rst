@@ -511,7 +511,7 @@ Services define the Plugin's classes and their dependencies with Mautic and Symf
 
 .. warning::
 
-   Mautic 8 changes the ``services`` array in ``Config/config.php`` to service definitions in ``Config/services.php``. This applies to all keys in the array, including ``events``, ``forms``, ``models``, and ``permissions``. When you upgrade to Mautic 8, update your code as described in :xref:`Config/config.php services array <Mautic 8 upgrade config php services array>`.
+   Mautic 8 changes the ``services`` array in ``Config/config.php`` to service definitions in ``Config/services.php``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 Service types
 =============
