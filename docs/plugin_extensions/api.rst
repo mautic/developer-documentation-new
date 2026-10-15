@@ -62,6 +62,10 @@ This places the route behind ``/api`` which is only accessible to authorized Use
         // ...
     ];
 
+.. warning::
+
+   Mautic 8 changes service registration from the ``services`` array in ``Config/config.php`` to ``Config/services.php``. Mautic 8 also changes the ``mautic.security`` service ID to ``CorePermissions::class``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+
 The API controller should extend ``Mautic\ApiBundle\Controller\CommonApiController`` to leverage the helper methods provided.
 
 .. code-block:: php
