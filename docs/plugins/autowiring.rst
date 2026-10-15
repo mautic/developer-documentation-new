@@ -5,7 +5,7 @@ Autowiring
 
 Mautic 5 adds support for Symfony's :xref:`symfony-autowiring` and :xref:`symfony-autoconfigure` for services.
 
-Earlier versions required defining services in the ``*Bundle/Config/config.php`` file. Mautic doesn't read a ``services`` group in ``Config/config.php``, so define services in ``Config/services.php``.
+Define your bundle's services in its ``Config/services.php`` file.
 
 Follow these steps to migrate from hard-coded services to autowired services.
 
