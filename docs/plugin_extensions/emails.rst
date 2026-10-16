@@ -262,6 +262,10 @@ Deprecated methods
    - ``addTokensFromHelper()`` - Use ``BuilderTokenHelper::getFormattedTokens()`` and ``$event->addTokens()`` instead.
    - ``getTokensFromHelper()`` - Use ``BuilderTokenHelper::getFormattedTokens()`` instead.
 
+.. warning::
+
+   Mautic deprecates these methods since Mautic 7.2 and removes them in Mautic 8. Use ``BuilderTokenHelper::getFormattedTokens()`` and ``$event->addTokens()`` instead. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+
 **Migration example:**
 
 .. code-block:: PHP
@@ -593,6 +597,10 @@ To do this, the Plugin needs to add an event listener for three events:
 2. ``EmailEvents::EMAIL_PRE_FETCH`` This event is dispatched during the execution of the ``mautic:email:fetch`` command. It's used to inject search criteria for the messages desired.
 3. ``EmailEvents::EMAIL_PARSE`` This event parses the messages fetched by the command.
 
+.. warning::
+
+   Mautic 8 moves ``setCriteriaRequest()`` from ``ParseEmailEvent`` to ``PreFetchEmailEvent``, so the pre-fetch listener needs a ``PreFetchEmailEvent`` type hint. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+
 .. code-block:: PHP
 
     <?php
@@ -665,6 +673,10 @@ Mautic supports quite some Email providers out of the box (Amazon Simple Email S
 If you want to add your own Email transport, that's certainly possible.
 
 The most important thing here is to create a service that's tagged as ``mautic.email.transport_type``, so that Mautic recognizes it as a transport type.
+
+.. warning::
+
+   Mautic 8 changes service registration from the ``services`` array in ``Config/config.php`` to ``Config/services.php``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 .. code-block:: PHP
 
