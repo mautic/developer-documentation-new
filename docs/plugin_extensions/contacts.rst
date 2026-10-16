@@ -130,6 +130,48 @@ To create a new Contact, use the ``\Mautic\LeadBundle\Entity\Lead`` entity. Revi
       }
   }
 
+Customizing a Contact's primary identifier
+******************************************
+
+Mautic shows a Contact's primary identifier wherever it needs a display name for the Contact, such as the Contacts list. ``Lead::getPrimaryIdentifier()`` checks these sources in order and returns the first one that has a value:
+
+#. ``name`` - the Contact's first and last name
+#. ``company`` - the value of the Contact's Company field
+#. ``email`` - the Contact's Email address
+#. ``social`` - the Contact's first social media identity
+#. ``ip`` - the Contact's first IP address
+
+If none of them has a value, Mautic shows the Contact as anonymous.
+
+To change this order, or to show a Custom Field value instead, call ``setPrimaryIdentifierOrder()`` on the ``Lead`` entity. The method accepts an array that can contain any of the built-in keys in the preceding list and any Contact Custom Field alias. Mautic skips a Custom Field when its value is empty or isn't a string or number, such as a multiselect value, and also skips aliases that don't match a field.
+
+The order applies to each ``Lead`` instance separately, so set it every time Doctrine loads a Contact. The following example registers a Doctrine ``postLoad`` entity listener that shows the ``customer_number`` Custom Field first and prefers the Email address over the Company name.
+
+.. code-block:: php
+
+  <?php
+  // plugins/HelloWorldBundle/EventListener/ContactPrimaryIdentifierListener.php
+
+  declare(strict_types=1);
+
+  namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+  use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+  use Doctrine\ORM\Events;
+  use Mautic\LeadBundle\Entity\Lead;
+
+  #[AsEntityListener(event: Events::postLoad, entity: Lead::class)]
+  final class ContactPrimaryIdentifierListener
+  {
+      public function postLoad(Lead $contact): void
+      {
+          // Built-in keys and Custom Field aliases, in priority order
+          $contact->setPrimaryIdentifierOrder(['customer_number', 'name', 'email', 'company', 'social', 'ip']);
+      }
+  }
+
+The ``AsEntityListener`` attribute registers the listener when your Plugin's services are autoconfigured. See :ref:`Autowiring <Plugins/Autowiring:Autowiring>` for the ``services.php`` setup.
+
 Contact tracking
 ****************
 
