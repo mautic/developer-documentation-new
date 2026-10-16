@@ -125,6 +125,10 @@ Register the transport in your Plugin's ``Config/config.php`` by tagging the ser
        ],
    ];
 
+.. warning::
+
+   Mautic 8 changes service registration from the ``services`` array in ``Config/config.php`` to ``Config/services.php``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+
 To handle delivery callbacks from your provider, register a callback handler service with the ``mautic.sms_callback_handler`` tag. Mautic's built-in :xref:`Twilio transport source` is a useful reference for a complete transport and callback implementation.
 
 Bulk sending and recipient data
@@ -259,3 +263,7 @@ The :xref:`SmsEvents source` class defines all SMS-related event constants:
      - Fires for generic Contact filtering before SMS dispatch.
 
 .. vale on
+
+.. warning::
+
+   Mautic deprecates ``ON_CAMPAIGN_TRIGGER_ACTION`` since Mautic 7.2 and removes it in Mautic 8. Use ``ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` instead. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
