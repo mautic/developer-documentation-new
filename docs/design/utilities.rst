@@ -119,8 +119,9 @@ Flex grow properties
 Flex shrink properties
 ----------------------
 
-- ``.fs-1``: Sets the flex shrink factor of a flex item to 1. This means the item can shrink if necessary to fit into the container.
 - ``.fs-0``: Sets the flex shrink factor of a flex item to 0. This means the item cannot shrink to fit into the container.
+
+Flex items shrink by default, so there's no base class for a flex shrink factor of 1. To let an item with ``.fs-0`` shrink again from a breakpoint and up, add ``.fs-1-sm``, ``.fs-1-md``, or ``.fs-1-lg``. For more information, see :ref:`Responsive variations <design/utilities:Responsive variations>`.
 
 Flex basis properties
 ---------------------
