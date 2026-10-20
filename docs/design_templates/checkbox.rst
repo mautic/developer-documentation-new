@@ -13,7 +13,7 @@ Mautic's form layout template, ``mautic_form_layout.html.twig``, already uses th
 Including the template
 **********************
 
-Include ``@MauticCore/Components/checkbox.html.twig`` and pass an ``items`` array with one entry per checkbox:
+Include ``@MauticCore/Components/checkbox.html.twig`` with the ``only`` keyword, and pass an ``items`` array with one entry per checkbox.
 
 .. code-block:: twig
 
@@ -25,11 +25,13 @@ Include ``@MauticCore/Components/checkbox.html.twig`` and pass an ``items`` arra
            { value: 'email', label: 'plugin.helloworld.channel.email', checked: true },
            { value: 'sms', label: 'plugin.helloworld.channel.sms' }
        ]
-   } %}
+   } only %}
+
+Without ``only``, Twig also passes every variable of the including template to the Component. The Component reads its options, such as ``required``, ``name``, and ``items``, from those variables, so a parent variable with the same name overrides the option's default. For example, an include inside a Twig block that defines ``required``, such as a Symfony field's row block, adds the ``required`` attribute to every checkbox. With ``only``, the Component receives just the variables you pass.
 
 The template passes ``legend``, ``helpText``, and each item's ``label`` through Twig's ``trans`` filter, so you can pass translation keys or plain strings. It escapes label text as HTML unless you set the item's ``label_html`` key.
 
-To render a single checkbox, such as the bulk-select checkbox in a list header, pass one item and add any extra HTML attributes the checkbox needs:
+To render a single checkbox, such as the bulk-select checkbox in a list header, pass one item and add any extra HTML attributes the checkbox needs.
 
 .. code-block:: twig
 
@@ -40,7 +42,7 @@ To render a single checkbox, such as the bulk-select checkbox in a list header, 
            className: 'checkall',
            attributes: { 'data-toggle': 'checkall', 'data-target': target }
        }]
-   } %}
+   } only %}
 
 Template options
 ================
