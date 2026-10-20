@@ -8,7 +8,7 @@ The template wraps the checkboxes in a ``<fieldset>``. Each checkbox is a ``<div
 Checkboxes in Symfony forms
 ***************************
 
-Mautic's form layout template, ``mautic_form_layout.html.twig``, already uses the Checkbox Component in the ``checkbox_row`` block, and in the ``choice_row`` block for ``ChoiceType`` fields with ``expanded`` and ``multiple`` set to ``true``. When you render these fields with ``form_row()``, you don't need to include the template yourself.
+Mautic's form layout template, ``mautic_form_layout.html.twig``, already uses the Checkbox Component in the ``checkbox_row`` block, and in the ``choice_row`` block for ``ChoiceType`` fields with ``expanded`` and ``multiple`` set to ``true``. When you render these fields with ``form_row()``, you don't need to include the template yourself. The form layout passes the field's ``label``, ``label_html``, ``translation_domain``, ``label_translation_parameters``, and ``attr`` options to the template, and adds the ``required`` attribute to a ``checkbox_row`` checkbox when the field sets ``required``.
 
 Including the template
 **********************
@@ -27,14 +27,13 @@ Include ``@MauticCore/Components/checkbox.html.twig`` and pass an ``items`` arra
        ]
    } %}
 
-The template passes ``legend``, ``helpText``, and each item's ``label`` through Twig's ``trans`` filter, so you can pass translation keys or plain strings.
+The template passes ``legend``, ``helpText``, and each item's ``label`` through Twig's ``trans`` filter, so you can pass translation keys or plain strings. It escapes label text as HTML unless you set the item's ``label_html`` key.
 
 To render a single checkbox, such as the bulk-select checkbox in a list header, pass one item and add any extra HTML attributes the checkbox needs:
 
 .. code-block:: twig
 
    {% include '@MauticCore/Components/checkbox.html.twig' with {
-       name: 'customcheckbox-one',
        items: [{
            id: 'customcheckbox-one0',
            value: '1',
@@ -52,7 +51,7 @@ These options apply to the whole group of checkboxes. All of them are optional.
     An array of checkboxes to render. Defaults to an empty array. See :ref:`Item options <checkbox item options>` for the keys each item accepts.
 
 ``name``
-    The ``name`` attribute for checkboxes that don't set their own. The template also uses it to build default ``id`` values. Defaults to ``checkbox``.
+    The ``name`` attribute for checkboxes that don't set their own. The template also uses it to build default ``id`` values. When neither this option nor the item sets a name, the checkbox has no ``name`` attribute, so the browser doesn't submit it, and default ``id`` values start with ``checkbox``.
 
 ``legend``
     Text for a ``<legend>`` element before the checkboxes. The template omits the legend when you don't set it.
@@ -83,13 +82,22 @@ Each entry in ``items`` accepts these keys. All of them are optional.
     The checkbox ``id``. When you don't set it, the template builds one from ``name``, the item's position, and its ``value``. Set an explicit ``id`` when JavaScript or a ``<label>`` elsewhere needs to find the checkbox.
 
 ``name``
-    The ``name`` attribute for this checkbox. Defaults to the template's ``name`` option.
+    The ``name`` attribute for this checkbox. Defaults to the template's ``name`` option. The template omits the attribute when neither sets a name.
 
 ``value``
     The ``value`` attribute. Defaults to the item's zero-based position in ``items``.
 
 ``label``
-    The label text. The template renders no ``<label>`` when you don't set it.
+    The label text, or a translation key. The template renders no ``<label>`` when you don't set it, or when you set it to an empty string or ``false``.
+
+``label_html``
+    Set to ``true`` to render HTML in the label, such as a link. The template sanitizes the translated label with the ``purify`` filter instead of escaping it. Defaults to ``false``.
+
+``translation_domain``
+    The translation domain for the label. Defaults to Symfony's default ``messages`` domain.
+
+``label_translation_parameters``
+    A map of parameters for the label's translation string. Defaults to an empty map.
 
 ``checked``
     Set to ``true`` to add the ``checked`` attribute. Defaults to ``false``.
@@ -101,7 +109,7 @@ Each entry in ``items`` accepts these keys. All of them are optional.
     Extra CSS classes for the ``<input>``, added after ``form-check-input``.
 
 ``attributes``
-    A map of extra HTML attributes for the ``<input>``, such as ``data-*`` attributes or an ``onclick`` handler.
+    A map of extra HTML attributes for the ``<input>``, such as ``data-*`` attributes or an ``onclick`` handler. The template escapes each name and value. Set a value to ``true`` to render a boolean attribute without a value, or to ``false`` or ``null`` to omit the attribute. A ``class`` entry adds its classes to the ``<input>`` after ``form-check-input`` and ``className``.
 
 ``labelAttributes``
     A map of extra HTML attributes for the ``<label>``.
