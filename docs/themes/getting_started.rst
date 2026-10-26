@@ -221,9 +221,15 @@ See :ref:`themes/forms:Customizing forms` on how to customize Form fields.
 Template sandbox restrictions
 =============================
 
-Mautic renders User-uploaded Theme templates in a restricted Twig sandbox environment. The sandbox blocks certain functions and filters that could enable remote code execution, data leakage, or filesystem probing.
+Mautic renders User-uploaded Theme templates in a restricted Twig sandbox environment. The sandbox blocks functions, filters, and method calls that could enable remote code execution, data leakage, or filesystem probing. For example, it blocks the ``configGetParameter``, ``getEntity``, and ``source`` functions and the ``map``, ``reduce``, ``filter``, and ``less_compile`` filters.
 
-If your Theme template uses a restricted function or filter, Mautic throws an exception such as ``SecurityNotAllowedFilterError`` or ``SecurityNotAllowedFunctionError``. Use alternative approaches that don't require the restricted operation.
+Theme templates can call methods and read properties only on Mautic and Plugin objects, such as the Email, Contact, Landing Page, and Form entities that Mautic passes to the template. On these objects, the sandbox applies these rules:
+
+* Templates can call read-only methods whose names start with ``get``, ``is``, or ``has``, for example ``{{ email.getSubject() }}``.
+* The sandbox still blocks methods with these prefixes that expose sensitive data or read files, such as ``getPassword``, ``getSalt``, ``getSecret``, ``getToken``, ``getApiKey``, ``getCredentials``, ``getPrivateKey``, and ``getFileContents``.
+* The sandbox blocks all other methods, including setters and magic methods, except for a few that Form templates need: ``showForContact``, ``increaseDisplayedFields``, ``generateFormName``, ``setCustomParameters``, ``setType``, and ``convertToArray``.
+
+If your Theme template uses a restricted function, filter, method, or property, Mautic throws an exception such as ``SecurityNotAllowedFunctionError``, ``SecurityNotAllowedFilterError``, ``SecurityNotAllowedMethodError``, or ``SecurityNotAllowedPropertyError``. Use alternative approaches that don't require the restricted operation, such as reading values through a ``get`` method instead of calling a method that changes the object.
 
 Thumbnails
 ==========
