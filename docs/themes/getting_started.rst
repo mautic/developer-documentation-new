@@ -288,9 +288,25 @@ See :ref:`themes/forms:Customizing forms` on how to customize Form fields.
 Template sandbox restrictions
 =============================
 
-Mautic renders User-uploaded Theme templates in a restricted Twig sandbox environment. The sandbox blocks certain functions and filters that could enable remote code execution, data leakage, or filesystem probing.
+Mautic renders User-uploaded Theme templates in a restricted Twig sandbox environment. The sandbox blocks functions and filters that could enable remote code execution, data leakage, or filesystem probing, such as the ``configGetParameter``, ``getEntity``, and ``source`` functions and the ``less_compile`` filter.
 
-If your Theme template uses a restricted function or filter, Mautic throws an exception such as ``SecurityNotAllowedFilterError`` or ``SecurityNotAllowedFunctionError``. Use alternative approaches that don't require the restricted operation.
+If your Theme template uses a blocked function or filter, Mautic throws a ``SecurityNotAllowedFunctionError`` or ``SecurityNotAllowedFilterError`` exception. Use an alternative approach that doesn't require the blocked function or filter.
+
+Theme templates can use collection filters such as ``map``, ``filter``, ``reduce``, ``sort``, and ``find``. In the sandbox, Twig only accepts an arrow function as the callback for these filters, as this example shows.
+
+.. code-block:: twig
+
+    {{ items|map(item => item.name)|join(', ') }}
+
+Passing a PHP function name as a string callback, such as ``map('system')``, makes Twig throw a ``RuntimeError``.
+
+The sandbox also limits method calls and property access. Templates can call methods and read properties only on Mautic and Plugin objects, such as the Email, Contact, Landing Page, and Form entities that Mautic passes to the template. On these objects, the sandbox applies these rules:
+
+* Templates can call read-only methods whose names start with ``get``, ``is``, or ``has``, for example ``{{ email.getSubject() }}``.
+* The sandbox blocks some of these methods because they expose sensitive data or read files, such as ``getPassword``, ``getSalt``, ``getSecret``, ``getToken``, ``getApiKey``, ``getCredentials``, ``getPrivateKey``, and ``getFileContents``.
+* The sandbox blocks all other methods, including setters and magic methods such as ``__toString``. Form templates can still call ``showForContact``, ``increaseDisplayedFields``, ``generateFormName``, ``setCustomParameters``, ``setType``, and ``convertToArray``.
+
+If your Theme template calls a blocked method, or calls a method or reads a property on any other object, such as a PHP ``DateTime`` object, Mautic throws a ``SecurityNotAllowedMethodError`` or ``SecurityNotAllowedPropertyError`` exception. To format a date, use the Twig ``date`` filter instead of calling ``format()`` on the object.
 
 Thumbnails
 ==========
