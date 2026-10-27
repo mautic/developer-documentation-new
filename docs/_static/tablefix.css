@@ -7,6 +7,11 @@
     table-layout: fixed;
 }
 
+/* add space between a paragraph and an admonition in a table cell */
+.rst-content table.docutils td > p + .admonition {
+    margin-top: 12px;
+}
+
 .wy-table-responsive table td code,
 .wy-table-responsive table th code {
     white-space: normal;
