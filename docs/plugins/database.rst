@@ -61,7 +61,7 @@ You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\Class
 
         .. warning::
 
-           Mautic removes this in Mautic 8. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+           Mautic removes ``addContact()`` in Mautic 8. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
     .. php:method:: addDateAdded([bool $nullable = false])
 
