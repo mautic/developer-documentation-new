@@ -165,6 +165,11 @@ The best way to get configuration values such as username, password, consumer ke
     //...
 
 
+.. warning::
+
+   Mautic 8 changes the ``mautic.integrations.helper`` service ID to ``IntegrationsHelper::class``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+
+
 API key
 =======
 
