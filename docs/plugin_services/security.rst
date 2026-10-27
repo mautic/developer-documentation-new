@@ -98,6 +98,10 @@ You can use permissions as follows in your controllers and services:
 
 To determine if a User has a specific permission, use Mautic's security service which has the ``mautic.security`` alias. The class is ``Mautic\CoreBundle\Security\Permissions\CorePermissions``.
 
+.. warning::
+
+   Mautic 8 changes the ``mautic.security`` service ID to ``CorePermissions::class``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+
 As suggested in the preceding section, Mautic uses a special permission notation to refer to a specific permission.
 For core bundles, use ``bundleName:permissionLevel:permission``.
 For Plugins, append ``plugin:``, for example ``plugin:bundleName:permissionLevel:permission``. ``plugin:`` tells Mautic to look for the permission class in the ``plugins/`` directory and the ``MauticPlugin`` namespace. 
@@ -218,6 +222,10 @@ You can register the permission class by adding it to your ``config.php`` as sho
         ],
     ];
 
+.. warning::
+
+   Mautic 8 replaces registering the permission class in ``Config/config.php`` with registering it as a service in ``Config/services.php``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+
 You can learn more about the available options by looking at the ``Mautic\CoreBundle\Security\Permissions\AbstractPermissions`` PHPDoc, but here's the most important information:
 
 **__construct()**
@@ -242,6 +250,10 @@ Mautic provides a few helper methods for common permission sets:
    * - ``addManagePermission()``
      - Add a single ``manage`` permission, which is the same as ``full``. Use this in cases where you only need a single permission for everything, also known as an "all or nothing" approach.
 
+
+.. warning::
+
+   Mautic deprecates ``__construct($params)`` in Mautic 8 and changes it to a constructor without arguments. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 **buildForm()**
 
@@ -288,6 +300,10 @@ To add a permission alias, use the ``getSynonym()`` method.
 Basically this method gets called before each requested permission gets determined, giving opportunity to change the permission level or name as needed.
 
 For example, ``parent::getSynonym()`` will recognize ``editown`` as ``edit`` if ``editown`` isn't defined in the permission class' ``$this->permissions`` property for the requested level.
+
+.. warning::
+
+   Mautic 8 changes the ``getSynonym()`` signature to ``protected function getSynonym($name, $level): array``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 Manipulating permissions before saving
 ======================================
