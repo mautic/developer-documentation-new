@@ -162,6 +162,32 @@ A Theme can override the following Twig blocks:
 * ``validation_error`` - the alert region shown when the submitted address doesn't match the one Mautic generated the link for.
 * ``validation_enhancements`` - the screen's styling and the progressive-enhancement script, for example the submit button's loading state.
 
+When you override ``validation_content`` or ``validation_error``, build the Form from the variables Mautic passes to the template. The :ref:`Theme sandbox <themes/getting_started:Template sandbox restrictions>` blocks property access on Symfony ``FormView`` objects, so an expression such as ``form.emailAddress`` throws a ``SecurityNotAllowedPropertyError`` exception. The template receives these variables:
+
+* ``form`` - the Form view to pass to ``form_start()`` and ``form_end()``.
+* ``emailAddressField`` - the email address field view to pass to ``form_label()``, ``form_widget()``, and ``form_errors()``.
+* ``emailAddressValid`` - ``false`` when the submitted address fails validation.
+* ``emailAddressHasErrors`` - ``true`` when the email address field has validation errors to display.
+* ``submitField`` - the submit button view to pass to ``form_row()``.
+* ``template`` - the name of the Theme that Mautic renders.
+
+This example overrides ``validation_content`` with these variables.
+
+.. code-block:: twig
+
+    {% block validation_content %}
+        {{ form_start(form) }}
+        {{ form_label(emailAddressField) }}
+        <div class="{% if not emailAddressValid %}has-error{% endif %}">
+            {{ form_widget(emailAddressField) }}
+            {{ form_row(submitField) }}
+        </div>
+        {% if emailAddressHasErrors %}
+            {{ form_errors(emailAddressField) }}
+        {% endif %}
+        {{ form_end(form) }}
+    {% endblock %}
+
 Mautic resolves the template in the following order:
 
 #. ``html/email-validation.html.twig`` in the Theme selected for the Email.
