@@ -224,7 +224,7 @@ You can register the permission class by adding it to your ``config.php`` as sho
 
 .. warning::
 
-   Mautic 8 changes this to registering the permission class as a service in ``Config/services.php``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+   Mautic 8 replaces registering the permission class in ``Config/config.php`` with registering it as a service in ``Config/services.php``. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 You can learn more about the available options by looking at the ``Mautic\CoreBundle\Security\Permissions\AbstractPermissions`` PHPDoc, but here's the most important information:
 
