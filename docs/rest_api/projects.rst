@@ -113,7 +113,7 @@ Query parameters
    * - ``orderByDir``
      - string
      - Order direction - ``asc`` or ``desc``
-   * - ``publishedOnly``
+   * - ``published``
      - boolean
      - Returns only currently active entities
    * - ``minimal``
@@ -236,7 +236,7 @@ HTTP request
 POST parameters
 ---------------
 
-Accepts the same parameters as those described in :ref:`Create Project <create Project POST parameters>`. All parameters are optional.
+Accepts the same parameters as those described in :ref:`Create Project <create Project POST parameters>`. ``PUT`` requests must include ``name`` and clear any parameter you omit. For ``PATCH``, all parameters are optional, and omitted parameters keep their current values.
 
 Response
 ========
