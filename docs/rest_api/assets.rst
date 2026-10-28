@@ -177,7 +177,7 @@ Get an individual Asset by ID.
      - Public download URL for the Asset
    * - ``trackDownloads``
      - string
-     - Whether Mautic links downloads of the Asset to Contacts: ``global`` follows the global download tracking setting in the Tracking settings, ``always`` links them, and ``never`` doesn't. Mautic never links downloads from requests that send a ``DNT: 1`` or ``Sec-GPC: 1`` header.
+     - Whether Mautic links downloads of the Asset to Contacts. ``global`` follows the global download tracking setting in the Tracking settings, while ``always`` and ``never`` set tracking for this Asset instead. With ``never``, Mautic doesn't link the Asset's downloads to Contacts. Mautic never links downloads from requests that send a ``DNT: 1`` or ``Sec-GPC: 1`` header.
 
 .. vale off
 
