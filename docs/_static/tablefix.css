@@ -16,6 +16,7 @@
 .wy-table-responsive table th code {
     white-space: normal;
     overflow-wrap: anywhere;
+}
 
 .wy-table-responsive {
     margin-bottom: 24px;
