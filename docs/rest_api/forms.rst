@@ -242,7 +242,7 @@ Form properties
 
        .. warning::
 
-          Mautic deprecates this since Mautic 7.1 and removes it in Mautic 8. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+          Mautic deprecates ``formType`` since Mautic 7.1 and removes it in Mautic 8. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
    * - ``postAction``
      - string
      - Action to perform after submission. Must be one of:
@@ -683,7 +683,7 @@ POST parameters
 
        .. warning::
 
-          Mautic deprecates this since Mautic 7.1 and removes it in Mautic 8. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+          Mautic deprecates ``formType`` since Mautic 7.1 and removes it in Mautic 8. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
    * - ``postAction``
      - string
      - Action to perform after submission. Must be one of:
