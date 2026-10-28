@@ -97,7 +97,7 @@ Get an individual Asset by ID.
            "mime": "application/pdf",
            "size": 269128,
            "downloadUrl": "https://example.com/asset/1:whitepaper",
-           "trackDownloads": "global"
+           "trackDownloads": true
        }
    }
 
@@ -176,8 +176,8 @@ Get an individual Asset by ID.
      - string
      - Public download URL for the Asset
    * - ``trackDownloads``
-     - string
-     - Whether Mautic links downloads of the Asset to Contacts. ``global`` follows the global download tracking setting in the Tracking settings, while ``always`` and ``never`` set tracking for this Asset instead. With ``never``, Mautic doesn't link the Asset's downloads to Contacts. Mautic never links downloads from requests that send a ``DNT: 1`` or ``Sec-GPC: 1`` header.
+     - boolean
+     - Whether Mautic links downloads of the Asset to the Contacts who download them. With ``false``, Mautic still serves the file but doesn't link its downloads to Contacts. Mautic never links downloads from requests that send a ``DNT: 1`` or ``Sec-GPC: 1`` header.
 
 .. vale off
 
@@ -334,8 +334,8 @@ Create a new Asset. There are 2 options: local or remote Asset.
      - string
      - Either URL for remote file or filename for local file
    * - ``trackDownloads``
-     - string
-     - Optional. ``global``, ``always``, or ``never``. New Assets default to ``global``. Any other value returns ``HTTP 400 (Bad Request)``.
+     - boolean
+     - Optional. ``1`` links downloads of the Asset to Contacts, and ``0`` doesn't. When you leave it out, the new Asset gets ``1``. The API doesn't apply the global download tracking setting in the Tracking settings, so send ``0`` for an Asset whose downloads you don't want linked to Contacts.
 
 
 **Response**
@@ -404,8 +404,8 @@ To edit a Asset and create a new one if the Asset isn't found:
      - string
      - Either URL for remote file or filename for local file
    * - ``trackDownloads``
-     - string
-     - Optional. ``global``, ``always``, or ``never``. New Assets default to ``global``. Any other value returns ``HTTP 400 (Bad Request)``.
+     - boolean
+     - Optional. ``1`` links downloads of the Asset to Contacts, and ``0`` doesn't. ``PATCH`` keeps the current value when you leave it out. When ``PUT`` creates an Asset and you leave it out, the new Asset gets ``1``, whatever the global download tracking setting in the Tracking settings is.
 
 
 **Response**
