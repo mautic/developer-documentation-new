@@ -335,7 +335,7 @@ Create a new Asset. There are 2 options: local or remote Asset.
      - Either URL for remote file or filename for local file
    * - ``trackDownloads``
      - boolean
-     - Optional. ``1`` links downloads of the Asset to Contacts, and ``0`` doesn't. When you leave it out, the new Asset gets ``1``. The API doesn't apply the global download tracking setting in the Tracking settings, so send ``0`` for an Asset whose downloads you don't want linked to Contacts.
+     - Optional. ``1`` links downloads of the Asset to Contacts, and ``0`` doesn't. When you leave it out, the new Asset gets the value of the global download tracking setting in the Tracking settings.
 
 
 **Response**
@@ -405,7 +405,7 @@ To edit a Asset and create a new one if the Asset isn't found:
      - Either URL for remote file or filename for local file
    * - ``trackDownloads``
      - boolean
-     - Optional. ``1`` links downloads of the Asset to Contacts, and ``0`` doesn't. ``PATCH`` keeps the current value when you leave it out. When ``PUT`` creates an Asset and you leave it out, the new Asset gets ``1``, whatever the global download tracking setting in the Tracking settings is.
+     - Optional. ``1`` links downloads of the Asset to Contacts, and ``0`` doesn't. ``PATCH`` keeps the current value when you leave it out. When ``PUT`` creates an Asset and you leave it out, the new Asset gets the value of the global download tracking setting in the Tracking settings.
 
 
 **Response**
