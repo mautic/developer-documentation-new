@@ -93,6 +93,7 @@ Response
           "publishDown": null,
           "publicPreview": false,
           "sendToDnc": false,
+          "trackingEnabled": true,
           "readCount": 0,
           "sentCount": 0,
           "revision": 2,
@@ -274,6 +275,9 @@ Email properties
    * - ``sendToDnc``
      - boolean
      - Do Not Contact send status - set to ``true`` to send the Email to Contacts with **Unsubscribed** or **Manual** status, while still respecting **Bounced** status. Defaults to ``false``.
+   * - ``trackingEnabled``
+     - boolean
+     - Whether Mautic tracks opens and clicks for the Email. When ``false``, the Email has no tracking pixel, its links aren't converted to trackable links, and Mautic records no opens for it. When ``true``, the global tracking settings apply. Defaults to ``true``.
 
 .. vale on
 
@@ -379,6 +383,7 @@ Response
               "publishDown": null,
               "publicPreview": false,
               "sendToDnc": false,
+              "trackingEnabled": true,
               "readCount": 0,
               "sentCount": 0,
               "revision": 4,
@@ -581,6 +586,11 @@ POST parameters
        **Permission:** Requires the ``email:emails:sendtodnc`` permission to set this field via API. If the authenticated User lacks this permission, the API ignores the ``sendToDnc`` parameter.
 
        **PUT behavior:** For ``PUT`` requests, this field defaults to ``false`` when not explicitly provided, preventing accidental enablement during full replacement operations.
+   * - ``trackingEnabled``
+     - boolean
+     - Set to ``false`` to send the Email without a tracking pixel and with its links pointing directly to their destinations, so Mautic records no opens or clicks for it. When ``true``, the global tracking settings apply. Defaults to ``true``.
+
+       **PUT behavior:** For ``PUT`` requests, this field defaults to ``true`` when not explicitly provided.
    * - ``settings``
      - associative array
      - Associative array of per-Email settings stored as key-value pairs
