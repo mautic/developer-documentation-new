@@ -405,7 +405,7 @@ To edit a Asset and create a new one if the Asset isn't found:
      - Either URL for remote file or filename for local file
    * - ``trackDownloads``
      - boolean
-     - Optional. ``1`` links downloads of the Asset to Contacts, and ``0`` doesn't. ``PATCH`` keeps the current value when you leave it out. When ``PUT`` creates an Asset and you leave it out, the new Asset gets the value of the global download tracking setting in the Tracking settings.
+     - Optional. ``1`` links downloads of the Asset to Contacts, and ``0`` doesn't. When you leave it out, ``PATCH`` and a ``PUT`` that edits an existing Asset keep its current value. When ``PUT`` creates an Asset and you leave it out, the new Asset gets the value of the global download tracking setting in the Tracking settings.
 
 
 **Response**
