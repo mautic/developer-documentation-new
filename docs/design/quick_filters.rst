@@ -12,8 +12,8 @@ Mautic implements quick filters using a combination of JavaScript and Twig templ
 2. Twig template for rendering filter buttons
 3. Array of PHP code for defining filter options
 
-JavaScript functionality
-========================
+JavaScript function
+===================
 
 The ``Mautic.listQuickFilter`` function is responsible for applying the quick filter:
 
@@ -48,9 +48,9 @@ Mautic renders the quick filter buttons using a Twig template:
            <a class="label label-outline"
               data-filter="{{ quickFilter.search }}"
               onclick="Mautic.listQuickFilter(this)"
-              data-toggle="tooltip"
-              data-placement="top"
-              data-original-title="{{ quickFilter.tooltip|trans }}">
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              data-bs-title="{{ quickFilter.tooltip|trans }}">
                <i class="{{ quickFilter.icon }}"></i>
                {{ quickFilter.label|trans }}
            </a>
