@@ -81,7 +81,7 @@ Item options
 Each entry in ``items`` accepts these keys. All of them are optional.
 
 ``id``
-    The checkbox ``id``. When you don't set it, the template builds one from ``name``, the item's position, and its ``value``. Set an explicit ``id`` when JavaScript or a ``<label>`` elsewhere needs to find the checkbox.
+    The checkbox ``id``. When you don't set it, the template builds one from the template's ``name`` option, or ``checkbox`` when that option is empty, followed by the item's zero-based position and its ``value``. The item's own ``name`` key doesn't affect the ``id``. For example, an item with ``name: 'foo'`` and ``value: 'bar'`` in a group without a ``name`` option gets the ``id`` ``checkbox-0-bar``. Set an explicit ``id`` when JavaScript or a ``<label>`` elsewhere needs to find the checkbox.
 
 ``name``
     The ``name`` attribute for this checkbox. Defaults to the template's ``name`` option. The template omits the attribute when neither sets a name.
