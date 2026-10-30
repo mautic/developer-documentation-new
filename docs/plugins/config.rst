@@ -811,11 +811,9 @@ Subscribed events
 
 The event subscriber listens to the following events:
 
-- ``ConfigEvents::CONFIG_ON_GENERATE``:
-  Mautic dispatches this event when it builds the configuration form. The Plugin uses it to add its own settings to the configuration.
+- ``ConfigEvents::CONFIG_ON_GENERATE``: the Plugin uses this event to add its own settings when Mautic builds the Configuration screen.
 
-- ``ConfigEvents::CONFIG_PRE_SAVE``:
-  Mautic triggers this event before it renders the form values and saves them to the ``local.php`` file. This allows the Plugin to clean up or modify the data before writing it to ``local.php``.
+- ``ConfigEvents::CONFIG_PRE_SAVE``: the Plugin uses this event to clean up or modify its values before Mautic writes them to the ``local.php`` file.
 
 Generate Plugin configuration
 -----------------------------
@@ -833,16 +831,16 @@ To register Plugin’s configuration details during the ``ConfigEvents::CONFIG_O
     * - ``formTheme``
       - The view that formats the configuration form elements, for example, ``HelloWorldBundle:FormTheme\Config``.
     * - ``parameters``
-      - An array of custom configuration elements. ``Use $event->getParametersFromConfig('HelloWorldBundle')`` to retrieve them from the plugin’s configuration file.
+      - An array of custom configuration elements. Use ``$event->getParametersFromConfig('HelloWorldBundle')`` to retrieve them from the Plugin’s configuration file.
 
-Mautic shows each registered form as a separate page in the left navigation of the Configuration screen, at ``/s/config/edit/{formAlias}``. Mautic only lists a form that has at least one parameter. To link Users straight to your Plugin's settings, generate the URL from the ``mautic_config_edit`` route with ``activeTabId`` set to your ``formAlias``.
+Mautic shows each set of settings that you register with ``addForm()`` as a separate section in the left navigation of the Configuration screen, at ``/s/config/edit/{formAlias}``. Mautic only lists a section that has at least one parameter. To link Users straight to your Plugin's settings, generate the URL from the ``mautic_config_edit`` route with ``activeTabId`` set to your ``formAlias``.
 
 Modify configuration before saving
 ----------------------------------
 
-To modify the form data before saving, use the ``ConfigEvents::CONFIG_PRE_SAVE`` event. Mautic dispatches it just before it writes the values to the ``local.php`` file, so the Plugin can adjust them.
+To modify the values before saving, use the ``ConfigEvents::CONFIG_PRE_SAVE`` event. Mautic dispatches it just before it writes the values to the ``local.php`` file, so the Plugin can adjust them.
 
-Mautic shows and saves one configuration page at a time. The ``ConfigEvent`` object that ``CONFIG_PRE_SAVE`` and ``CONFIG_POST_SAVE`` listeners receive only contains the settings that the User saved, keyed by the ``formAlias`` they belong to. When a User saves settings that belong to another ``formAlias``, ``$event->getConfig()`` doesn't contain your Plugin's key, so verify that the key exists before you read or change its values. Mautic leaves all other settings in ``local.php`` unchanged.
+Mautic shows and saves one configuration section at a time. The ``ConfigEvent`` object that ``CONFIG_PRE_SAVE`` and ``CONFIG_POST_SAVE`` listeners receive only contains the settings that the User saved, keyed by the ``formAlias`` they belong to. When a User saves settings that belong to another ``formAlias``, ``$event->getConfig()`` doesn't contain your Plugin's key, so verify that the key exists before you read or change its values. Mautic leaves all other settings in ``local.php`` unchanged.
 
 Register the event subscriber
 -----------------------------
