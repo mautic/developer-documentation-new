@@ -162,12 +162,12 @@ A Theme can override the following Twig blocks:
 * ``validation_error`` - the alert region shown when the submitted address doesn't match the one Mautic generated the link for.
 * ``validation_enhancements`` - the screen's styling and the progressive-enhancement script, for example the submit button's loading state.
 
-When you override ``validation_content`` or ``validation_error``, build the Form from the variables Mautic passes to the template. The :ref:`Theme sandbox <themes/getting_started:Template sandbox restrictions>` blocks property access on Symfony ``FormView`` objects, so an expression such as ``form.emailAddress`` throws a ``SecurityNotAllowedPropertyError`` exception. The template receives these variables:
+When you override ``validation_content`` or ``validation_error``, build the Form from the variables Mautic passes to the template. The :ref:`Theme sandbox <Themes/getting_started:Template sandbox restrictions>` blocks property access on Symfony ``FormView`` objects, so an expression such as ``form.emailAddress`` throws a ``SecurityNotAllowedPropertyError`` exception. The template receives these variables:
 
 * ``form`` - the Form view to pass to ``form_start()`` and ``form_end()``.
-* ``emailAddressField`` - the email address field view to pass to ``form_label()``, ``form_widget()``, and ``form_errors()``.
+* ``emailAddressField`` - the address field view to pass to ``form_label()``, ``form_widget()``, and ``form_errors()``.
 * ``emailAddressValid`` - ``false`` when the submitted address fails validation.
-* ``emailAddressHasErrors`` - ``true`` when the email address field has validation errors to display.
+* ``emailAddressHasErrors`` - ``true`` when the address field has validation errors to display.
 * ``submitField`` - the submit button view to pass to ``form_row()``.
 * ``template`` - the name of the Theme that Mautic renders.
 
@@ -326,11 +326,13 @@ Theme templates can use collection filters such as ``map``, ``filter``, ``reduce
 
 Passing a PHP function name as a string callback, such as ``map('system')``, makes Twig throw a ``RuntimeError``.
 
-The sandbox also limits method calls and property access. Templates can call methods and read properties only on Mautic and Plugin objects, such as the Email, Contact, Landing Page, and Form entities that Mautic passes to the template. On these objects, the sandbox applies these rules:
+The sandbox also limits method calls and property access. Templates can call methods and read properties only on Mautic and Plugin objects, such as the Email, Contact, Landing Page, and Form entities that Mautic passes to the template. On these objects, the sandbox checks each method name against these rules:
 
-* Templates can call read-only methods whose names start with ``get``, ``is``, or ``has``, for example ``{{ email.getSubject() }}``.
+* Templates can call methods whose names start with ``get``, ``is``, or ``has``, for example ``{{ email.getSubject() }}``. The sandbox checks only the name prefix, not whether the method changes data.
 * The sandbox blocks some of these methods because they expose sensitive data or read files, such as ``getPassword``, ``getSalt``, ``getSecret``, ``getToken``, ``getApiKey``, ``getCredentials``, ``getPrivateKey``, and ``getFileContents``.
 * The sandbox blocks all other methods, including setters and magic methods such as ``__toString``. Form templates can still call ``showForContact``, ``increaseDisplayedFields``, ``generateFormName``, ``setCustomParameters``, ``setType``, and ``convertToArray``.
+
+On other objects, the sandbox allows only one method: ``__toString`` on a Twig ``Markup`` object. Twig creates a ``Markup`` object when a template captures a block, such as ``{% set greeting %}Hello{% endset %}``, so templates can still output captured content with ``{{ greeting }}``.
 
 If your Theme template calls a blocked method, or calls a method or reads a property on any other object, such as a PHP ``DateTime`` object, Mautic throws a ``SecurityNotAllowedMethodError`` or ``SecurityNotAllowedPropertyError`` exception. To format a date, use the Twig ``date`` filter instead of calling ``format()`` on the object.
 
