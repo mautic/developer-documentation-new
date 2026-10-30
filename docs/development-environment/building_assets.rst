@@ -71,6 +71,10 @@ A compatibility layer keeps existing Plugin templates and JavaScript written for
 * ``app/bundles/CoreBundle/Assets/css/libraries/bootstrap/_bootstrap-3-compatibility.scss`` provides the Bootstrap 3 classes and styles on top of Bootstrap 5.
 * ``app/bundles/CoreBundle/Assets/js/1.bootstrap-compatibility.js`` maps Bootstrap 3 data attributes, such as ``data-toggle`` and ``data-target``, to their Bootstrap 5 ``data-bs-*`` equivalents, and keeps Bootstrap 3 jQuery calls, such as ``$(element).modal('show')``, working.
 
+.. note::
+
+   Mautic 8 removes the Bootstrap 3 compatibility layer. When you upgrade to Mautic 8, update your Plugin templates and JavaScript to Bootstrap 5 as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+
 .. vale off
 
 Asset Mapper architecture
