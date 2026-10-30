@@ -66,14 +66,16 @@ Bootstrap framework
 
 Mautic uses Bootstrap 5.3.8 for its UI framework. The Bootstrap SCSS source files come from the ``twbs/bootstrap`` Composer package. Mautic adds ``vendor/twbs/bootstrap/scss`` to the Sass load path, so you can import Bootstrap partials in your SCSS files.
 
-A compatibility layer keeps existing Plugin templates and JavaScript written for Bootstrap 3 working in the Mautic UI:
+Build new Plugin templates, styles, and JavaScript with Bootstrap 5 classes, ``data-bs-*`` attributes, and the Bootstrap 5 JavaScript API.
+
+A temporary compatibility layer keeps existing Plugin code written for Bootstrap 3 working in the Mautic UI:
 
 * ``app/bundles/CoreBundle/Assets/css/libraries/bootstrap/_bootstrap-3-compatibility.scss`` provides the Bootstrap 3 classes and styles on top of Bootstrap 5.
 * ``app/bundles/CoreBundle/Assets/js/1.bootstrap-compatibility.js`` maps Bootstrap 3 data attributes, such as ``data-toggle`` and ``data-target``, to their Bootstrap 5 ``data-bs-*`` equivalents, and keeps Bootstrap 3 jQuery calls, such as ``$(element).modal('show')``, working.
 
 .. note::
 
-   Mautic 8 removes the Bootstrap 3 compatibility layer. When you upgrade to Mautic 8, update your Plugin templates and JavaScript to Bootstrap 5 as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+   Mautic 8 removes the Bootstrap 3 compatibility layer. Update existing Plugin code to Bootstrap 5 before you upgrade to Mautic 8. For other changes in Mautic 8, see the :xref:`Mautic 8 UPGRADE-8.0.md`.
 
 .. vale off
 
