@@ -13,7 +13,7 @@ Config file
 
 .. vale on
 
-Mautic leverages a simple array based config file to register routes, menu items, services, Categories, and configuration parameters.
+Mautic leverages a simple array based config file to register routes, menu items, Categories, and configuration parameters.
 
 General config items
 ********************
@@ -69,7 +69,7 @@ Routes define the URL paths that execute the specified controller action. Regist
         'main'   => [
             'plugin_helloworld_world' => [
                 'path'         => '/hello/{world}',
-                'controller'   => [MauticPlugin\HelloWorldBundle\Controller\DefaultController, 'world'],
+                'controller'   => [MauticPlugin\HelloWorldBundle\Controller\DefaultController::class, 'world'],
                 'defaults'     => [
                     'world' => 'earth',
                 ],
@@ -79,11 +79,11 @@ Routes define the URL paths that execute the specified controller action. Regist
             ],
             'plugin_helloworld_list'  => [
                 'path'       => '/hello/{page}',
-                'controller' => [MauticPlugin\HelloWorldBundle\Controller\DefaultController, 'index'],
+                'controller' => [MauticPlugin\HelloWorldBundle\Controller\DefaultController::class, 'index'],
             ],
             'plugin_helloworld_admin' => [
                 'path'       => '/hello/admin',
-                'controller' => [MauticPlugin\HelloWorldBundle\Controller\DefaultController, 'admin']
+                'controller' => [MauticPlugin\HelloWorldBundle\Controller\DefaultController::class, 'admin']
             ],
         ],
         'public' => [
@@ -158,7 +158,12 @@ Route definitions define the route's method, path, controller, parameters, and o
     * - ``controller``
       - yes
       - string|array
-      - Defines the controller and function to call when the path matches. There are three supported formats. The legacy string format, ``HelloWorldBundle:World:hello``, executes ``MauticPlugin\HelloWorldBundle\Controller\WorldController::helloAction()``. The recommended format starting in Mautic 4 is either ``[MauticPlugin\HelloWorldBundle\Controller\WorldController::class, 'hello']`` that executes ``MauticPlugin\HelloWorldBundle\Controller\WorldController::hello()`` or  ``MauticPlugin\HelloWorldBundle\Controller\WorldController::class`` that executes ``MauticPlugin\HelloWorldBundle\Controller\WorldController::__invoke()``.
+      - Defines the controller and method to call when the path matches. Use one of these formats:
+
+        * ``[MauticPlugin\HelloWorldBundle\Controller\WorldController::class, 'hello']`` or the string ``'MauticPlugin\HelloWorldBundle\Controller\WorldController::hello'`` executes ``WorldController::hello()``.
+        * ``MauticPlugin\HelloWorldBundle\Controller\WorldController::class`` executes ``WorldController::__invoke()``.
+
+        Symfony doesn't resolve bundle notation, such as ``HelloWorldBundle:World:hello``, so a route that uses it fails to load its controller.
     * - ``method``
       - no
       - string
@@ -205,11 +210,7 @@ Mautic defaults the following route definitions if not declared otherwise by the
 Advanced routing
 ================
 
-Configure custom routes by writing a listener for the ``Mautic\CoreBundle\Event\RouteEvent`` event. Listeners to this event receive the ``RouteEvent`` object. Mautic dispatches an event for each firewall when compiling routes.
-
-.. note::
-
-   Since Mautic 8, key your subscriber on the event class rather than a ``CoreEvents`` constant - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks if you don't.
+Configure custom routes by writing a listener for the ``Mautic\CoreBundle\Event\RouteEvent`` event. Listeners to this event receive the ``RouteEvent`` object. Mautic dispatches an event for each firewall when compiling routes. Key your subscriber on ``RouteEvent::class``.
 
 .. php:class:: Mautic\CoreBundle\Event\RouteEvent
 
@@ -240,11 +241,11 @@ Use the follow commands to help debug routes:
 
     * - Command
       - Description
-    * - ``php app/console router:debug``
+    * - ``php bin/console debug:router``
       - Lists all registered routes.
-    * - ``php app/console router:debug article_show``
+    * - ``php bin/console debug:router article_show``
       - Lists the definition for the route ``article_show``.
-    * - ``php app/console router:match /blog/my-latest-post``
+    * - ``php bin/console router:match /blog/my-latest-post``
       - Lists the route that matches the URL path ``/blog/my-latest-post``.
 
 Menu config items
@@ -478,10 +479,6 @@ Registering a custom menu
 
 The :ref:`Plugins/config:Menu config items` section adds items to Mautic's four built-in menus through the ``menu`` config array. This section covers the opposite direction: registering a Plugin's own top-level menu, with its own template and renderer.
 
-.. note::
-
-   Mautic 8 removed the ``ServicePass`` compiler pass and the ``services > menus`` array in ``Config/config.php``. A Plugin now declares its menu item and renderer explicitly in ``Config/services.php``.
-
 Registering a custom menu takes two services in your Plugin's ``Config/services.php``:
 
 * A ``Knp\Menu\MenuItem`` tagged ``knp_menu.menu``.
@@ -489,22 +486,7 @@ Registering a custom menu takes two services in your Plugin's ``Config/services.
 
 Give each tag an ``['alias' => '<alias>']`` argument so Mautic pairs the item with its renderer.
 
-Earlier versions registered the menu through the ``services > menus`` array in ``Config/config.php``:
-
-.. code-block:: php
-
-    <?php
-
-    'services' => [
-        'menus' => [
-            'mautic.menu.mybundle' => [
-                'alias'   => 'mybundle',
-                'options' => ['template' => '@MyBundle/Menu/mybundle.html.twig'],
-            ],
-        ],
-    ],
-
-The following snippet is the Mautic 8 equivalent. This is a partial example. The ``use`` statements go at the top of ``Config/services.php``, and the ``$services->set(...)`` definitions go inside its configurator closure. :ref:`plugins/autowiring:Autowiring` describes the bundle Extension and this ``$services`` configurator setup:
+The following partial example registers the menu item and renderer. Its ``use`` statements go at the top of ``Config/services.php``, and the ``$services->set(...)`` definitions go inside its configurator closure. :ref:`plugins/autowiring:Autowiring` describes the bundle Extension and this ``$services`` configurator setup:
 
 .. code-block:: php
 
@@ -526,7 +508,7 @@ The following snippet is the Mautic 8 equivalent. This is a partial example. The
         ->args([service('knp_menu.matcher'), service('twig'), ['template' => '@MyBundle/Menu/mybundle.html.twig']])
         ->tag('knp_menu.renderer', ['alias' => 'mybundle']);
 
-Reference the menu builder by class through ``service(Mautic\CoreBundle\Menu\MenuBuilder::class)``. Mautic 8 removed the ``mautic.menu.builder`` string alias, so it no longer resolves.
+Reference the menu builder by class through ``service(Mautic\CoreBundle\Menu\MenuBuilder::class)``.
 
 These two services register and render the menu, while the ``<alias>Menu`` method the factory calls on the menu builder, here ``mybundleMenu``, supplies the menu's contents.
 
@@ -547,160 +529,39 @@ If your bundle has several menus, register them in a loop. ``$menuTemplates`` is
 Service config items
 ********************
 
-Services define the Plugin's classes and their dependencies with Mautic and Symfony. Services defined within specific keys are auto-tagged as noted below.
+Register the Plugin's services in its ``Config/services.php`` file. Mautic doesn't read a ``services`` group in ``Config/config.php``. :ref:`Autowiring <Plugin Autowiring>` describes the ``services.php`` file and the bundle Extension that loads it.
+
+With ``autowire()`` and ``autoconfigure()`` enabled, Symfony registers the classes that ``$services->load()`` finds and tags them by the interface or base class they implement, such as event subscribers, Form types, console commands, and ``AbstractPermissions`` subclasses. Define a service explicitly when it needs an argument that Symfony can't resolve from the parameter type, or a tag that autoconfiguration doesn't add, such as the :ref:`plugins/config:Mautic service tags`:
 
 .. code-block:: php
 
     <?php
 
-    // ...
+    declare(strict_types=1);
 
-    'services' => [
-        'events'  => [
-            'helloworld.leadbundle.subscriber' => [
-                'class' => \MauticPlugin\HelloWorldBundle\EventListener\LeadSubscriber::class,
-            ],
-        ],
-        'forms'   => [
-            'helloworld.form' => [
-                'class' => \MauticPlugin\HelloWorldBundle\Form\Type\HelloWorldType::class,
-            ],
-        ],
-        'helpers' => [
-            'helloworld.helper.world' => [
-                'class' => MauticPlugin\HelloWorldBundle\Helper\WorldHelper::class,
-                'alias' => 'helloworld',
-            ],
-        ],
-        'other'   => [
-            'helloworld.mars.validator' => [
-                'class'     => MauticPlugin\HelloWorldBundle\Form\Validator\Constraints\MarsValidator::class,
-                'arguments' => [
-                    \Mautic\CoreBundle\Helper\CoreParametersHelper::class,
-                    'helloworld.helper.world',
-                ],
-                'tag'       => 'validator.constraint_validator',
-            ],
-        ],
-    ],
+    use Mautic\CoreBundle\DependencyInjection\MauticCoreExtension;
+    use MauticPlugin\HelloWorldBundle\Sms\HelloWorldTransport;
+    use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-    // ...
+    use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
-Service types
-=============
+    return function (ContainerConfigurator $configurator): void {
+        $services = $configurator->services()
+            ->defaults()
+            ->autowire()
+            ->autoconfigure()
+            ->public();
 
-For convenience, Mautic auto-tags services defined within specific keys.
+        $services->load('MauticPlugin\\HelloWorldBundle\\', '../')
+            ->exclude('../{'.implode(',', MauticCoreExtension::DEFAULT_EXCLUDES).'}');
 
-.. list-table::
-    :header-rows: 1
-    :widths: 15 15 50 
-
-    * - Key
-      - Tag
-      - Description
-    * - ``command`` or ``commands``
-      - ``console.command``
-      - Registers the service with :xref:`Symfony as a console command<Symfony console command tag>`.
-    * - ``controllers``
-      - ``controller.service_arguments``
-      - Controllers are typically autowired by Symfony. However, you can register :xref:`controllers as services<Symfony controller service arguments tag` to manage your own dependency injection rather than relying on Symfony's service container.
-    * - ``events``
-      - ``kernel.event_subscriber``
-      - Registers the service with :xref:`Symfony as an event subscriber<Symfony event subscriber tag>`.
-    * - ``forms``
-      - ``form.type``
-      - Registers the service with :xref:`Symfony as a custom form field type<Symfony custom form field type tag>`.
-    * - ``permissions``
-      - ``mautic.permissions``
-      - Registers the service with Mautic's :ref:`permission service<security-roles-and-permissions>`.
-    * - ``*`` or ``other``
-      - n/a
-      - You can use any other key you want to organize services in the config array. Note that this could risk incompatibility with a future version of Mautic if using something generic that Mautic starts to use as well.
-
-Service definitions
-===================
-
-Key each service with a unique name to all of Mautic, including other Plugins.
-
-.. list-table::
-    :header-rows: 1
-    :widths: 25 17 15 50
-
-    * - Key
-      - Is required?
-      - Type
-      - Description
-    * - ``class``
-      - yes
-      - string
-      - Fully qualified name for the service's class.
-    * - ``arguments``
-      - no
-      - array
-      - Array of services, parameters, booleans, or strings injected as arguments into this service's construct. Wrap parameter names in ``%`` signs, for example, ``'%mautic.some_parameter%',``. Hard coded strings need to be wrapped in ``"`` signs, for example, ``'"some string"',``. Any other string is assumed to be the name of a defined service.
-    * - ``alias``
-      - conditional
-      - string
-      - Used by specific types of services. For example, services defined under ``helpers`` use this as the key in the ``$view`` variable to access the defined service from PHP templates. Otherwise, it defines an alternate name for the service.
-    * - ``serviceAlias``
-      - no
-      - string
-      - Define an alias for this service in addition to the name defined as the service's key. Note that Mautic sets the service's class name as an alias by default.
-    * - ``serviceAliases``
-      - no
-      - array
-      - Define multiple aliases for this service in addition to the name defined as the service's key. Note that the service's class name is set as an alias by default.
-    * - ``tag``
-      - no
-      - string
-      - Define a :xref:`tag used by Symfony when compiling the container<Symfony service tags>`. See :ref:`plugins/config:Mautic service tags` for Mautic specific tags.
-    * - ``tags``
-      - no
-      - array
-      - An array of tags when there are more than one. See :ref:`plugins/config:Mautic service tags` for Mautic specific tags. This supersedes ``tag``.
-    * - ``tagArguments``
-      - no
-      - array
-      - Some tags have special arguments definable through an array of ``tagArguments``. If using ``tag``, this should be a key/value pair of the arguments specific to the given tag. For example, ``['tag' => 'tag1', 'tagArguments' => ['tag1-key' => 'tag1-value'],],``. If using ``tags``, this should be an array of arrays keyed the same as the values of ``tags``. For example, ``['tags' => [ 'tag1', 'tag2'], 'tagArguments' => [['tag1-key' => 'tag1-value'],['tag2-key' => 'tag2-value'],],],``.
-    * - ``factory``
-      - no
-      - array
-      - Define a factory to create this service. For example, ``'factory' => ['@doctrine.orm.entity_manager', 'getRepository'],``. See :xref:`Symfony factories`.
-    * - ``methodCalls``
-      - no
-      - array[]
-      - Define methods to call after Mautic instantiates the service. Use an array of arrays with keys as the method name and values the arguments to pass into the given method. For example,  ``['methodCalls' => ['setSecurity' => [\Mautic\CoreBundle\Security\Permissions\CorePermissions::class],],],``.
-    * - ``decoratedService``
-      - no
-      - string
-      - Name of another service to override and decorate. The original service becomes available as ``thisServiceName.inner``  to this or others services. See :xref:`Symfony service decoration`.
-    * - ``public``
-      - no
-      - boolean
-      - Defines the service as public and accessible through the service container. By default, all Mautic services are public. Set this to ``FALSE`` to make the service private instead.
-    * - ``synthetic``
-      - no
-      - boolean
-      - Configure the service as synthetic meaning it gets set during run time. See :xref:`Symfony synthetic services`.
-    * - ``file``
-      - no
-      - string
-      - Include the specified file prior to loading the service. Symfony uses PHP's ``require_once``. See :xref:`Symfony requiring a file before loading a service`.
-    * - ``configurator``
-      - no
-      - array|string
-      - Callable to use as a configurator to configure the service after its instantiation. See :xref:`Symfony service configurators`.
-    * - ``abstract``
-      - no
-      - boolean
-      - Configure this service as an abstract/parent service. Symfony ignores this until Mautic addresses https://forum.mautic.org/t/support-symfony-abstract-parent-services/21922.
-    * - ``lazy``
-      - no
-      - boolean
-      - Define the service with lazy loading. Symfony ignores this until Mautic addresses https://forum.mautic.org/t/supporty-symfony-lazy-services/21923.
+        $services->set(HelloWorldTransport::class)
+            ->arg('$logger', service('monolog.logger.mautic'))
+            ->tag('mautic.sms_transport', ['integrationAlias' => 'HelloWorld']);
+    };
 
 Mautic service tags
--------------------
+===================
 
 Mautic uses the follow tags to register services as described below.
 
@@ -737,7 +598,7 @@ Mautic uses the follow tags to register services as described below.
       - Description
     * - ``mautic.permissions``
       - none
-      - Registers the service as a permission object that must extend ``\Mautic\CoreBundle\Security\Permissions\AbstractPermissions``. See :ref:`security-roles-and-permissions`. Services under the ``['services']['permissions']`` array do not require this.
+      - Registers the service as a permission object that must extend ``\Mautic\CoreBundle\Security\Permissions\AbstractPermissions``. See :ref:`security-Roles-and-permissions`. Mautic adds this tag automatically to every ``AbstractPermissions`` subclass registered with ``autoconfigure()``.
 
 **Integration tags**
 
@@ -829,10 +690,6 @@ Config event subscriber
 
 A config event subscriber adds the Plugin's settings to Mautic's configuration UI and processes the submitted values. Mautic dispatches the configuration events by their event class, so the subscriber keys ``getSubscribedEvents()`` on ``ConfigBuilderEvent::class`` and ``ConfigPreSaveEvent::class``.
 
-.. note::
-
-   Mautic 8 removed the ``Mautic\ConfigBundle\ConfigEvents`` class with its ``CONFIG_ON_GENERATE``, ``CONFIG_PRE_SAVE``, and ``CONFIG_POST_SAVE`` constants. A subscriber that still references one of them fails with ``Error: Undefined constant``. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
-
 The following code example shows how a Plugin structures its event subscriber.
 
 .. code-block:: php
@@ -864,7 +721,7 @@ The following code example shows how a Plugin structures its event subscriber.
             $event->addForm(
                 [
                     'formAlias'  => 'helloworld_config',
-                    'formTheme'  => 'HelloWorldBundle:FormTheme\Config',
+                    'formTheme'  => '@HelloWorldBundle/FormTheme/Config/_config_helloworld_config_widget.html.twig',
                     'parameters' => $event->getParametersFromConfig('HelloWorldBundle')
                 ]
             );
@@ -906,9 +763,9 @@ To register the Plugin's configuration details during the ``ConfigBuilderEvent``
     * - Key
       - Description
     * - ``formAlias``
-      - The alias of the form type class that defines the expected form elements.
+      - The alias of the Symfony ``FormType`` class that defines the expected configuration fields.
     * - ``formTheme``
-      - The view that formats the configuration form elements, for example, ``HelloWorldBundle:FormTheme\Config``.
+      - The full Twig template path that formats the configuration fields, for example, ``@HelloWorldBundle/FormTheme/Config/_config_helloworld_config_widget.html.twig``.
     * - ``parameters``
       - An array of custom configuration elements. ``Use $event->getParametersFromConfig('HelloWorldBundle')`` to retrieve them from the plugin’s configuration file.
 
@@ -920,15 +777,14 @@ To modify the submitted values before saving, subscribe to ``ConfigPreSaveEvent:
 Register the event subscriber
 -----------------------------
 
-Register the subscriber through the Plugin’s configuration in the ``services[events]`` in :ref:`plugins/config:Service config items`. This ensures that the plugin listens for the events and reacts accordingly.
+Load the subscriber's directory in the Plugin's ``Config/services.php`` with ``autoconfigure()`` enabled, as described in :ref:`Autowiring <Plugin Autowiring>`. Symfony then tags any class that implements ``EventSubscriberInterface`` as an event subscriber, so the Plugin listens for the event without further configuration.
 
 Config form
 ===========
 
 The form type is used to generate the form fields in the main configuration form. See the :doc:`Forms documentation</components/forms>` for more information about using form types.
 
-Remember that the form type must be registered through the Plugin’s config in the ``services[forms]`` in :ref:`plugins/config:Service config items`
-.
+Register the form type as a service by loading its directory in the Plugin's ``Config/services.php`` with ``autoconfigure()`` enabled, as described in :ref:`Autowiring <Plugin Autowiring>`. Symfony then tags any class that implements ``FormTypeInterface`` as a form type.
 
 Below is an example of a form type class that adds a custom configuration option to the Plugin's configuration form.
 
@@ -966,15 +822,15 @@ Below is an example of a form type class that adds a custom configuration option
 Config template
 ===============
 
-Setting ``formTheme`` to ``HelloWorldBundle:FormTheme\Config`` in the event listener tells the ConfigBundle to look in the HelloWorldBundle’s ``Resources/views/FormTheme/Config`` folder for templates. Specifically, it looks for a template named ``_config_{formAlias}_widget.html.twig``, where ``{formAlias}`` is the same as the ``formAlias`` set in the Plugin's ``ConfigBuilderEvent`` event listener.
+``formTheme`` must be the full Twig template path. Mautic passes the string directly to Twig's ``form_theme`` tag and doesn't derive it from ``formAlias`` or the bundle name. By convention, place the template under the Plugin's ``Resources/views/FormTheme/Config`` folder and name it ``_config_{formAlias}_widget.html.twig``, where ``{formAlias}`` matches the ``formAlias`` set in the Plugin's ``ConfigBuilderEvent`` event listener.
 
 The template should be structured in a panel format to match the rest of the configuration UI.
 
 Below is an example of how the template should be structured:
 
-.. code-block:: twig  
+.. code-block:: twig
 
-    {# plugins/HelloWorldBundle/Views/FormTheme/Config/_config_helloworld_config_widget.html.twig #}  
+    {# plugins/HelloWorldBundle/Resources/views/FormTheme/Config/_config_helloworld_config_widget.html.twig #}
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">{{ 'mautic.config.tab.helloworld_config'|trans }}</h3> 

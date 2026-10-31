@@ -43,7 +43,7 @@ PHP everything
 
 Mautic was originally written in PHP. YAML and Twig wasn't familiar at the time so mostly avoided. This is why Mautic used Symfony's PHP template engine by default and PHP based configurations.
 
-.. note:: Symfony has since deprecated its PHP template engine and removed it in Symfony 5. Twig is being slowly introduced to replace PHP templates.
+.. note:: Symfony has since deprecated its PHP template engine and removed it in Symfony 5. Twig has replaced nearly all of Mautic's PHP templates. Only a handful of legacy ``.html.php`` templates remain.
 
 The goal for a PHP based config was to create a single place within the bundle to define routes, services, menus, parameters, etc rather than hunting for annotations buried throughout the app's code. Symfony's PHP configuration for registering services, parameters, routes, etc is also verbose. Therefore, Mautic provides a custom configuration framework through ``\Mautic\CoreBundle\DependencyInjection\MauticCoreExtension`` and various listeners.
 
@@ -54,7 +54,7 @@ Mautic built its own configuration system that services can access through Symfo
 
 .. note:: Use Mautic's native means of managing configuration parameters, although you can define and use Symfony parameters if you want to.
 
-Mautic 3 introduced support for Symfony's environment variables. Note that not all bundles support environment variables for Symfony's configuration so take this into account before using third party bundles. You can sometimes implement workarounds by using custom proxy or delegation services. For example, see ``\Mautic\EmailBundle\Swiftmailer\Spool\DelegatingSpool``.
+Mautic 3 introduced support for Symfony's environment variables. Note that not all bundles support environment variables for Symfony's configuration so take this into account before using third party bundles. You can sometimes implement workarounds by using a custom environment variable processor. For example, see ``\Mautic\EmailBundle\DependencyInjection\EnvProcessor\MailerDsnEnvVarProcessor``.
 
 Included commands
 -----------------
@@ -67,12 +67,12 @@ Running ``./bin/console`` without any arguments outputs a list of available comm
 Autowired services
 ******************
 
-Mautic doesn't auto-wire native services other than Symfony commands and controllers.
+Every core bundle and Plugin's ``Config/services.php`` loads its own namespace with Symfony's ``->autowire()`` and ``->autoconfigure()``, so Mautic autowires nearly all services, not just commands and controllers. See :doc:`/plugins/autowiring` for details.
 
 Service scope
 *************
 
-Services are public by default to have backwards compatibility with Mautic 3 and Symfony 3. You can change the scope of your service by setting ``public`` to ``false`` when defining the service in the Plugin's ``Config/config.php``.
+Services are public by default to have backwards compatibility with Mautic 3 and Symfony 3. You can change the scope of your service by calling ``->private()`` instead of ``->public()`` when defining the service in the Plugin's ``Config/services.php``.
 
 Support for entity annotations
 ******************************
