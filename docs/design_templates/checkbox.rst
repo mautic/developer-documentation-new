@@ -1,7 +1,7 @@
 Checkbox template
 #################
 
-The ``checkbox.html.twig`` template renders one or more checkboxes in Mautic's checkbox style. Use it when your template outputs checkboxes, so they look and behave like the checkboxes in Mautic's own list views, filters, and settings.
+The ``checkbox.html.twig`` template renders one or more checkboxes in Mautic's checkbox style. Use it when your template outputs checkboxes, so they look and behave like the checkboxes in Mautic's own list views, filters, and Contact preferences.
 
 The template wraps the checkboxes in a ``<fieldset>``. Each checkbox is a ``<div class="form-check">`` that contains an ``<input class="form-check-input" type="checkbox">`` and, when you pass a label, a ``<label class="form-check-label">``.
 
@@ -11,7 +11,7 @@ Checkboxes rendered with ``form_row()``
 Mautic's layout template for Symfony fields, ``mautic_form_layout.html.twig``, already uses the Checkbox Component in two blocks. When you render these fields with ``form_row()``, you don't need to include the template yourself.
 
 * The ``checkbox_row`` block renders a ``CheckboxType`` field as one checkbox. It passes the field's ``label``, ``label_html``, ``translation_domain``, ``label_translation_parameters``, and ``attr`` options to the checkbox, and uses the humanized field name when the field has no label. When the field sets ``required``, the checkbox gets the ``required`` attribute.
-* The ``choice_row`` block renders a ``ChoiceType`` field with ``expanded`` and ``multiple`` set to ``true`` as a group of checkboxes. It renders the field's own label before the group with ``form_label()``, and passes one checkbox per choice with that choice's label, ``label_html``, translation options, and attributes. Each checkbox also gets the field's ``attr`` options. This block doesn't pass the field's ``required`` option, so that option doesn't add the ``required`` attribute. A ``required`` key in the field's or a choice's ``attr`` options still adds the attribute to the checkbox. Fields with an ``id`` that contains ``config_``, such as fields in Mautic's configuration settings, use Symfony's default widget instead of the Checkbox Component.
+* The ``choice_row`` block renders a ``ChoiceType`` field with ``expanded`` and ``multiple`` set to ``true`` as a group of checkboxes. It renders the field's own label before the group with ``form_label()``, and passes one checkbox per choice with that choice's label, ``label_html``, translation options, and attributes. Each checkbox also gets the field's ``attr`` options. This block doesn't pass the field's ``required`` option, so that option doesn't add the ``required`` attribute. A ``required`` key in the field's or a choice's ``attr`` options still adds the attribute to the checkbox. Fields with an ``id`` that contains ``config_``, such as fields in Mautic's configuration settings, render their checkboxes with ``form_widget()`` instead of the Checkbox Component.
 
 Including the template
 **********************
@@ -30,7 +30,7 @@ Include ``@MauticCore/Components/checkbox.html.twig`` with the ``only`` keyword,
        ]
    } only %}
 
-Without ``only``, Twig also passes every variable of the including template to the Component. The Component reads its options, such as ``required``, ``name``, and ``items``, from those variables, so a parent variable with the same name overrides the option's default. For example, an include inside a Twig block that defines ``required``, such as a Symfony field's row block, adds the ``required`` attribute to every checkbox. With ``only``, the Component receives just the variables you pass.
+Without ``only``, Twig also passes every variable of the including template to the Component. The Component reads its options, such as ``required``, ``name``, and ``items``, from those variables, so a parent variable with the same name overrides the option's default. For example, an include inside a Twig block where ``required`` is ``true``, such as the row block of a required Symfony field, adds the ``required`` attribute to every checkbox. With ``only``, the Component receives just the variables you pass.
 
 The template passes ``legend``, ``helpText``, and each item's ``label`` through Twig's ``trans`` filter, so you can pass translation keys or plain strings. It escapes label text as HTML unless you set the item's ``label_html`` key.
 
@@ -157,4 +157,4 @@ Each entry in ``items`` accepts these keys. All of them are optional.
     * - ``labelAttributes``
       - map
       - Empty map
-      - Extra HTML attributes for the ``<label>``.
+      - Extra HTML attributes for the ``<label>``. The template escapes each name and value and renders every entry as ``name="value"``, so ``true``, ``false``, and ``null`` don't work as boolean values here.
