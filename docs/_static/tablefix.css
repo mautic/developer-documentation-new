@@ -30,3 +30,8 @@
     margin-bottom: unset;
 }
 
+
+/* add space between paragraphs in a table cell */
+.rst-content table.docutils td > p + p {
+    margin-top: 12px;
+}
