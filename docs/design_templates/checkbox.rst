@@ -8,7 +8,10 @@ The template wraps the checkboxes in a ``<fieldset>``. Each checkbox is a ``<div
 Checkboxes rendered with ``form_row()``
 ****************************************
 
-Mautic's layout template for Symfony fields, ``mautic_form_layout.html.twig``, already uses the Checkbox Component in the ``checkbox_row`` block, and in the ``choice_row`` block for ``ChoiceType`` fields with ``expanded`` and ``multiple`` set to ``true``. When you render these fields with ``form_row()``, you don't need to include the template yourself. This layout template passes the field's ``label``, ``label_html``, ``translation_domain``, ``label_translation_parameters``, and ``attr`` options to the template, and adds the ``required`` attribute to a ``checkbox_row`` checkbox when the field sets ``required``.
+Mautic's layout template for Symfony fields, ``mautic_form_layout.html.twig``, already uses the Checkbox Component in two blocks. When you render these fields with ``form_row()``, you don't need to include the template yourself.
+
+* The ``checkbox_row`` block renders a ``CheckboxType`` field as one checkbox. It passes the field's ``label``, ``label_html``, ``translation_domain``, ``label_translation_parameters``, and ``attr`` options to the checkbox, and uses the humanized field name when the field has no label. When the field sets ``required``, the checkbox gets the ``required`` attribute.
+* The ``choice_row`` block renders a ``ChoiceType`` field with ``expanded`` and ``multiple`` set to ``true`` as a group of checkboxes. It renders the field's own label before the group with ``form_label()``, and passes one checkbox per choice with that choice's label, ``label_html``, translation options, and attributes. Each checkbox also gets the field's ``attr`` options. This block doesn't pass ``required``, so the checkboxes don't get the ``required`` attribute. Fields with an ``id`` that contains ``config_``, such as fields in Mautic's configuration settings, use Symfony's default widget instead of the Checkbox Component.
 
 Including the template
 **********************
