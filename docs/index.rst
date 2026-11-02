@@ -83,6 +83,7 @@ There are several ways to support Mautic other than contributing with code.
    design/quick_filters
    design/retrieving_system_information
    design/utilities
+   design/navigating_resources
 
 .. toctree::
    :maxdepth: 2
