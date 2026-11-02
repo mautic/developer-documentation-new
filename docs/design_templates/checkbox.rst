@@ -51,6 +51,7 @@ These options apply to the whole group of checkboxes. All of them are optional.
 
 .. list-table::
     :header-rows: 1
+    :widths: 25 10 15 50
 
     * - Option
       - Type
@@ -98,6 +99,7 @@ Each entry in ``items`` accepts these keys. All of them are optional.
 
 .. list-table::
     :header-rows: 1
+    :widths: 30 10 15 45
 
     * - Key
       - Type
@@ -106,7 +108,7 @@ Each entry in ``items`` accepts these keys. All of them are optional.
     * - ``id``
       - string
       - Built from the template's ``name`` option
-      - The checkbox ``id``. When you don't set it, the template builds one from the template's ``name`` option, or ``checkbox`` when that option is empty, followed by the item's zero-based position and its ``value``. The item's own ``name`` key doesn't affect the ``id``. For example, an item with ``name: 'foo'`` and ``value: 'bar'`` in a group without a ``name`` option gets the ``id`` ``checkbox-0-bar``. Set an explicit ``id`` when JavaScript or a ``<label>`` elsewhere needs to find the checkbox.
+      - The checkbox ``id``. When you don't set it, the template builds one from the template's ``name`` option, or ``checkbox`` when that option is empty, followed by the item's zero-based position and its ``value``. The item's own ``name`` key doesn't affect the ``id``. For example, an item with ``name: 'foo'`` and ``value: 'bar'`` in a group without a ``name`` option gets the ``id`` ``checkbox-0-bar``. The template normalizes both parts. In the ``name`` option, it replaces ``[``, spaces, and periods with hyphens and removes ``]``. In the ``value``, it also replaces underscores with hyphens and converts the result to lowercase. For example, the value ``Some_Value`` in the first item of a group named ``channels[]`` gives the ``id`` ``channels--0-some-value``. Set an explicit ``id`` when JavaScript or a ``<label>`` elsewhere needs to find the checkbox.
     * - ``name``
       - string
       - The template's ``name`` option
@@ -116,9 +118,9 @@ Each entry in ``items`` accepts these keys. All of them are optional.
       - The item's zero-based position in ``items``
       - The ``value`` attribute.
     * - ``label``
-      - string
-      - None
-      - The label text, or a translation key. The template renders no ``<label>`` when you don't set it, or when you set it to an empty string or ``false``.
+      - string or ``false``
+      - Empty string
+      - The label text, or a translation key. The template renders no ``<label>`` when the label is an empty string or ``false``.
     * - ``label_html``
       - boolean
       - ``false``
