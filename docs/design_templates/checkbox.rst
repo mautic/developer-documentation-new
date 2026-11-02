@@ -49,29 +49,45 @@ Template options
 
 These options apply to the whole group of checkboxes. All of them are optional.
 
-``items``
-    An array of checkboxes to render. Defaults to an empty array. See :ref:`Item options <checkbox item options>` for the keys each item accepts.
+.. list-table::
+    :header-rows: 1
 
-``name``
-    The ``name`` attribute for checkboxes that don't set their own. The template also uses it to build default ``id`` values. When neither this option nor the item sets a name, the checkbox has no ``name`` attribute, so the browser doesn't submit it, and default ``id`` values start with ``checkbox``.
-
-``legend``
-    Text for a ``<legend>`` element before the checkboxes. The template omits the legend when you don't set it.
-
-``helpText``
-    Help text shown below the checkboxes. Each checkbox references it through ``aria-describedby``, so screen readers announce it.
-
-``wrapperClass``
-    Extra CSS classes for the ``<fieldset>``.
-
-``inline``
-    Set to ``true`` to show the checkboxes on one line. This adds the ``form-check-inline`` class. Defaults to ``false``.
-
-``reverse``
-    Set to ``true`` to place each label before its checkbox. This adds the ``form-check-reverse`` class. Defaults to ``false``.
-
-``required``
-    Set to ``true`` to add the ``required`` attribute to every checkbox. Defaults to ``false``.
+    * - Option
+      - Type
+      - Default
+      - Description
+    * - ``items``
+      - array
+      - Empty array
+      - The checkboxes to render. See :ref:`Item options <checkbox item options>` for the keys each item accepts.
+    * - ``name``
+      - string
+      - Empty string
+      - The ``name`` attribute for checkboxes that don't set their own. The template also uses it to build default ``id`` values. When neither this option nor the item sets a name, the checkbox has no ``name`` attribute, so the browser doesn't submit it, and default ``id`` values start with ``checkbox``.
+    * - ``legend``
+      - string
+      - None
+      - Text for a ``<legend>`` element before the checkboxes. The template omits the legend when you don't set it.
+    * - ``helpText``
+      - string
+      - None
+      - Help text shown below the checkboxes. Each checkbox references it through ``aria-describedby``, so screen readers announce it.
+    * - ``wrapperClass``
+      - string
+      - Empty string
+      - Extra CSS classes for the ``<fieldset>``.
+    * - ``inline``
+      - boolean
+      - ``false``
+      - Set to ``true`` to show the checkboxes on one line. This adds the ``form-check-inline`` class.
+    * - ``reverse``
+      - boolean
+      - ``false``
+      - Set to ``true`` to place each label before its checkbox. This adds the ``form-check-reverse`` class.
+    * - ``required``
+      - boolean
+      - ``false``
+      - Set to ``true`` to add the ``required`` attribute to every checkbox.
 
 .. _checkbox item options:
 
@@ -80,38 +96,58 @@ Item options
 
 Each entry in ``items`` accepts these keys. All of them are optional.
 
-``id``
-    The checkbox ``id``. When you don't set it, the template builds one from the template's ``name`` option, or ``checkbox`` when that option is empty, followed by the item's zero-based position and its ``value``. The item's own ``name`` key doesn't affect the ``id``. For example, an item with ``name: 'foo'`` and ``value: 'bar'`` in a group without a ``name`` option gets the ``id`` ``checkbox-0-bar``. Set an explicit ``id`` when JavaScript or a ``<label>`` elsewhere needs to find the checkbox.
+.. list-table::
+    :header-rows: 1
 
-``name``
-    The ``name`` attribute for this checkbox. Defaults to the template's ``name`` option. The template omits the attribute when neither sets a name.
-
-``value``
-    The ``value`` attribute. Defaults to the item's zero-based position in ``items``.
-
-``label``
-    The label text, or a translation key. The template renders no ``<label>`` when you don't set it, or when you set it to an empty string or ``false``.
-
-``label_html``
-    Set to ``true`` to render HTML in the label, such as a link. The template sanitizes the translated label with the ``purify`` filter instead of escaping it. Defaults to ``false``.
-
-``translation_domain``
-    The translation domain for the label. Defaults to Symfony's default ``messages`` domain.
-
-``label_translation_parameters``
-    A map of parameters for the label's translation string. Defaults to an empty map.
-
-``checked``
-    Set to ``true`` to add the ``checked`` attribute. Defaults to ``false``.
-
-``disabled``
-    Set to ``true`` to add the ``disabled`` attribute. Defaults to ``false``.
-
-``className``
-    Extra CSS classes for the ``<input>``, added after ``form-check-input``.
-
-``attributes``
-    A map of extra HTML attributes for the ``<input>``, such as ``data-*`` attributes or an ``onclick`` handler. The template escapes each name and value. Set a value to ``true`` to render a boolean attribute without a value, or to ``false`` or ``null`` to omit the attribute. A ``class`` entry adds its classes to the ``<input>`` after ``form-check-input`` and ``className``.
-
-``labelAttributes``
-    A map of extra HTML attributes for the ``<label>``.
+    * - Key
+      - Type
+      - Default
+      - Description
+    * - ``id``
+      - string
+      - Built from the template's ``name`` option
+      - The checkbox ``id``. When you don't set it, the template builds one from the template's ``name`` option, or ``checkbox`` when that option is empty, followed by the item's zero-based position and its ``value``. The item's own ``name`` key doesn't affect the ``id``. For example, an item with ``name: 'foo'`` and ``value: 'bar'`` in a group without a ``name`` option gets the ``id`` ``checkbox-0-bar``. Set an explicit ``id`` when JavaScript or a ``<label>`` elsewhere needs to find the checkbox.
+    * - ``name``
+      - string
+      - The template's ``name`` option
+      - The ``name`` attribute for this checkbox. The template omits the attribute when neither the item nor the template sets a name.
+    * - ``value``
+      - string
+      - The item's zero-based position in ``items``
+      - The ``value`` attribute.
+    * - ``label``
+      - string
+      - None
+      - The label text, or a translation key. The template renders no ``<label>`` when you don't set it, or when you set it to an empty string or ``false``.
+    * - ``label_html``
+      - boolean
+      - ``false``
+      - Set to ``true`` to render HTML in the label, such as a link. The template sanitizes the translated label with the ``purify`` filter instead of escaping it.
+    * - ``translation_domain``
+      - string
+      - ``messages``
+      - The translation domain for the label.
+    * - ``label_translation_parameters``
+      - map
+      - Empty map
+      - Parameters for the label's translation string.
+    * - ``checked``
+      - boolean
+      - ``false``
+      - Set to ``true`` to add the ``checked`` attribute.
+    * - ``disabled``
+      - boolean
+      - ``false``
+      - Set to ``true`` to add the ``disabled`` attribute.
+    * - ``className``
+      - string
+      - None
+      - Extra CSS classes for the ``<input>``, added after ``form-check-input``.
+    * - ``attributes``
+      - map
+      - Empty map
+      - Extra HTML attributes for the ``<input>``, such as ``data-*`` attributes or an ``onclick`` handler. The template escapes each name and value. Set a value to ``true`` to render a boolean attribute without a value, or to ``false`` or ``null`` to omit the attribute. A ``class`` entry adds its classes to the ``<input>`` after ``form-check-input`` and ``className``.
+    * - ``labelAttributes``
+      - map
+      - Empty map
+      - Extra HTML attributes for the ``<label>``.
