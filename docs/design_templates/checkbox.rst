@@ -11,7 +11,7 @@ Checkboxes rendered with ``form_row()``
 Mautic's layout template for Symfony fields, ``mautic_form_layout.html.twig``, already uses the Checkbox Component in two blocks. When you render these fields with ``form_row()``, you don't need to include the template yourself.
 
 * The ``checkbox_row`` block renders a ``CheckboxType`` field as one checkbox. It passes the field's ``label``, ``label_html``, ``translation_domain``, ``label_translation_parameters``, and ``attr`` options to the checkbox, and uses the humanized field name when the field has no label. When the field sets ``required``, the checkbox gets the ``required`` attribute.
-* The ``choice_row`` block renders a ``ChoiceType`` field with ``expanded`` and ``multiple`` set to ``true`` as a group of checkboxes. It renders the field's own label before the group with ``form_label()``, and passes one checkbox per choice with that choice's label, ``label_html``, translation options, and attributes. Each checkbox also gets the field's ``attr`` options. This block doesn't pass ``required``, so the checkboxes don't get the ``required`` attribute. Fields with an ``id`` that contains ``config_``, such as fields in Mautic's configuration settings, use Symfony's default widget instead of the Checkbox Component.
+* The ``choice_row`` block renders a ``ChoiceType`` field with ``expanded`` and ``multiple`` set to ``true`` as a group of checkboxes. It renders the field's own label before the group with ``form_label()``, and passes one checkbox per choice with that choice's label, ``label_html``, translation options, and attributes. Each checkbox also gets the field's ``attr`` options. This block doesn't pass the field's ``required`` option, so that option doesn't add the ``required`` attribute. A ``required`` key in the field's or a choice's ``attr`` options still adds the attribute to the checkbox. Fields with an ``id`` that contains ``config_``, such as fields in Mautic's configuration settings, use Symfony's default widget instead of the Checkbox Component.
 
 Including the template
 **********************
@@ -110,7 +110,7 @@ Each entry in ``items`` accepts these keys. All of them are optional.
       - Description
     * - ``id``
       - string
-      - Built from the template's ``name`` option
+      - Built from the template's ``name`` option, the item's position, and its ``value``
       - The checkbox ``id``. When you don't set it, the template builds one from the template's ``name`` option, or ``checkbox`` when that option is empty, followed by the item's zero-based position and its ``value``. The item's own ``name`` key doesn't affect the ``id``. For example, an item with ``name: 'foo'`` and ``value: 'bar'`` in a group without a ``name`` option gets the ``id`` ``checkbox-0-bar``.
 
         The template normalizes both parts. In the ``name`` option, it replaces ``[``, spaces, and periods with hyphens and removes ``]``. In the ``value``, it also replaces underscores with hyphens and converts the result to lowercase. For example, the value ``Some_Value`` in the first item of a group named ``channels[]`` gives the ``id`` ``channels--0-some-value``. Set an explicit ``id`` when JavaScript or a ``<label>`` elsewhere needs to find the checkbox.
