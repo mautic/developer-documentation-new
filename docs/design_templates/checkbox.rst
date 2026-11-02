@@ -1,14 +1,14 @@
-Checkbox component
-##################
+Checkbox template
+#################
 
 The ``checkbox.html.twig`` template renders one or more checkboxes in Mautic's checkbox style. Use it when your template outputs checkboxes, so they look and behave like the checkboxes in Mautic's own list views, filters, and settings.
 
 The template wraps the checkboxes in a ``<fieldset>``. Each checkbox is a ``<div class="form-check">`` that contains an ``<input class="form-check-input" type="checkbox">`` and, when you pass a label, a ``<label class="form-check-label">``.
 
-Checkboxes in Symfony forms
-***************************
+Checkboxes rendered with ``form_row()``
+****************************************
 
-Mautic's form layout template, ``mautic_form_layout.html.twig``, already uses the Checkbox Component in the ``checkbox_row`` block, and in the ``choice_row`` block for ``ChoiceType`` fields with ``expanded`` and ``multiple`` set to ``true``. When you render these fields with ``form_row()``, you don't need to include the template yourself. The form layout passes the field's ``label``, ``label_html``, ``translation_domain``, ``label_translation_parameters``, and ``attr`` options to the template, and adds the ``required`` attribute to a ``checkbox_row`` checkbox when the field sets ``required``.
+Mautic's layout template for Symfony fields, ``mautic_form_layout.html.twig``, already uses the Checkbox Component in the ``checkbox_row`` block, and in the ``choice_row`` block for ``ChoiceType`` fields with ``expanded`` and ``multiple`` set to ``true``. When you render these fields with ``form_row()``, you don't need to include the template yourself. This layout template passes the field's ``label``, ``label_html``, ``translation_domain``, ``label_translation_parameters``, and ``attr`` options to the template, and adds the ``required`` attribute to a ``checkbox_row`` checkbox when the field sets ``required``.
 
 Including the template
 **********************
