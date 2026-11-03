@@ -30,29 +30,28 @@ Register the Integration for Configuration
 
 .. vale on
 
-To tell the IntegrationsBundle that this Integration has configuration options, tag the Integration or support class with ``mautic.config_integration`` in the Plugin's ``app/config.php``.
+Register the Integration or support class as a service in the Plugin's ``Config/services.php``. Mautic's ``autoconfigure()`` setting tags any service implementing ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormInterface`` with ``mautic.config_integration``, so you don't need to tag it manually.
 
 .. code-block:: php
 
     <?php
-    return [
-        // ...
-        'services' => [
-            // ...
-            'integrations' => [
-                // ...
-                'helloworld.integration.configuration' => [
-                    'class' => \MauticPlugin\HelloWorldBundle\Integration\Support\ConfigSupport::class,
-                    'tags'  => [
-                        'mautic.config_integration',
-                    ],
-                ],
-                // ...
-            ],
-            // ...
-        ],
-        // ...
-    ];
+    // plugins/HelloWorldBundle/Config/services.php
+
+    declare(strict_types=1);
+
+    use Mautic\CoreBundle\DependencyInjection\MauticCoreExtension;
+    use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+    return function (ContainerConfigurator $configurator): void {
+        $services = $configurator->services()
+            ->defaults()
+            ->autowire()
+            ->autoconfigure()
+            ->public();
+
+        $services->load('MauticPlugin\\HelloWorldBundle\\', '../')
+            ->exclude('../{'.implode(',', MauticCoreExtension::DEFAULT_EXCLUDES).'}');
+    };
 
 The ``ConfigSupport`` class must implement ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormInterface``.
 
@@ -78,7 +77,7 @@ Find the code snippet as follows,
 .. code-block:: php
 
     <?php
-    namespace MauticPlugin\HelloBundle\Integration\Support;
+    namespace MauticPlugin\HelloWorldBundle\Integration\Support;
 
     use MauticPlugin\HelloWorldBundle\Form\Type\ConfigAuthType;
     use Mautic\IntegrationsBundle\Integration\DefaultConfigFormTrait;
@@ -146,7 +145,7 @@ Find the following code snippet which helps you to fetch the API keys,
 .. code-block:: PHP
 
     <?php
-    $apiKeys  = $integrationHelper->get(HelloWorldIntegration::NAME)->getIntegrationConfiguration()->getApiKeys();
+    $apiKeys  = $integrationHelper->getIntegration(HelloWorldIntegration::NAME)->getIntegrationConfiguration()->getApiKeys();
     $username = $apiKeys['username'];
 
 
@@ -190,7 +189,7 @@ The interface ``\Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormFeat
 .. code-block:: PHP
 
     <?php
-    $featureSettings  = $integrationHelper->get(HelloWorldIntegration::NAME)->getIntegrationConfiguration()->getFeatureSettings();
+    $featureSettings  = $integrationHelper->getIntegration(HelloWorldIntegration::NAME)->getIntegrationConfiguration()->getFeatureSettings();
     $doSomething      = $featureSettings['do_Something'];
 
 .. vale off
