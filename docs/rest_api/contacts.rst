@@ -72,7 +72,7 @@ Get an individual Contact by ID.
            "modifiedByUser": "Joe Smith",
            "owner": {
                "id": 1,
-               "Username": "joesmith",
+               "username": "joesmith",
                "firstName": "Joe",
                "lastName": "Smith"
            },
@@ -208,6 +208,15 @@ Get an individual Contact by ID.
    * - ``doNotContact``
      - array
      - Array of ``Do Not Contact`` objects. See JSON code example for format.
+   * - ``stage``
+     - object/null
+     - Stage the Contact is in
+   * - ``frequencyRules``
+     - object
+     - The Contact's frequency rules, keyed by Channel
+   * - ``preferredProfileImage``
+     - string
+     - Source of the Contact's profile image, such as ``gravatar``
 
 .. vale off
 
@@ -250,7 +259,7 @@ Get a list of Contacts.
      - Column to sort by. Can use any column listed in the response. However, you need to change all properties in the response written in ``camelCase`` a bit. Before every capital, add an underscore ``_`` and then change the capital letters to non-capital letters. So ``dateIdentified`` becomes ``date_identified``, ``modifiedByUser`` becomes ``modified_by_user``, etc.
    * - ``orderByDir``
      - Sort direction: ``asc`` or ``desc``.
-   * - ``publishedOnly``
+   * - ``published``
      - Only return currently published entities.
    * - ``minimal``
      - Return only array of entities without additional lists in it.
@@ -306,7 +315,7 @@ You can find a list of available expressions on :xref:`Doctrine's ORM website<Do
                "modifiedByUser": "Joe Smith",
                "owner": {
                    "id": 1,
-                   "Username": "joesmith",
+                   "username": "joesmith",
                    "firstName": "Joe",
                    "lastName": "Smith"
                },
@@ -786,7 +795,7 @@ To add a ``Do Not Contact`` entry to a Contact:
    * - ``channel``
      - Channel of DNC. For example ``email``, ``sms``, etc. - default is email.
    * - ``reason``
-     - Int value of the reason. Use Contacts constants: ``Contacts::UNSUBSCRIBED (1)``, ``Contacts::BOUNCED (2)``, ``Contacts::MANUAL (3)``. Default is Manual
+     - Int value of the reason. Use the ``Mautic\LeadBundle\Entity\DoNotContact`` constants: ``DoNotContact::UNSUBSCRIBED (1)``, ``DoNotContact::BOUNCED (2)``, ``DoNotContact::MANUAL (3)``. Default is Manual
    * - ``channelId``
      - ID of the entity which was the reason for unsubscription
    * - ``comments``
@@ -863,7 +872,7 @@ Add UTM Tags
        'utm_medium'   => 'social',
        'utm_content'  => 'fbad',
        'utm_term'     => 'mautic api',
-       'Useragent'    => 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0',
+       'useragent'    => 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0',
        'url'          => '/product/fbad01/',
        'referer'      => 'https://google.com/q=mautic+api',
        'query'        => ['cid'=>'abc','cond'=>'new'], // or as string with "cid=abc&cond=new"
@@ -907,7 +916,7 @@ Mautic requires the parameter array. Each ``UTM`` tag entry is optional.
      - The UTM Content parameter
    * - ``utm_term``
      - The UTM Term parameter
-   * - ``Useragent``
+   * - ``useragent``
      - The browser's UserAgent. If provided a new Device entry gets created if necessary.
    * - ``url``
      - The ``page`` URL

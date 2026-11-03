@@ -453,7 +453,7 @@ Clone a Campaign
 
    <?php
 
-   $camnpaignId = 12;
+   $campaignId = 12;
 
    $campaign = $campaignApi->cloneCampaign($campaignId);
 
@@ -469,7 +469,7 @@ Clone an existing Campaign. To see a more advanced example with Campaign events 
 
 **Response**
 
-``Expected Response Code: 201``
+``Expected Response Code: 200``
 
 **Properties**
 
@@ -581,7 +581,7 @@ Export Campaign
 
 .. vale on
 
-This endpoint allows you to export data for a specific Mautic Campaign. It returns the data as a JSON file or a ZIP archive containing the JSON file and associated Assets.
+This endpoint allows you to export data for a specific Mautic Campaign. It returns the Campaign data as JSON.
 
 Refer to :xref:`Mautic REST API Authentication`\* for authentication details.
 
@@ -619,7 +619,7 @@ Response
 ``Expected Response Code: 200
 Content-Type: application/json``
 
-The response body is the Campaign data, either as a direct JSON payload or a ZIP file. The ``Content-Type`` header in the response indicates the format. For example, ``application/json`` or ``application/zip``.
+The response body contains the Campaign data as JSON.
 
 .. vale off
 
@@ -712,7 +712,7 @@ Response
 .. code-block:: json
 
    {
-       "success": true
+       "success": 1
    }
 
 .. vale off
@@ -751,5 +751,5 @@ Response
 .. code-block:: json
 
    {
-       "success": true
+       "success": 1
    }

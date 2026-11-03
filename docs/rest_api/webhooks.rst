@@ -509,7 +509,7 @@ Response
           },
           "mautic.lead_company_change": {
               "label": "Contact Company Subscription Change Event",
-              "description": "Triggered when a company is added or removed to/from contact"
+              "description": "Triggered when a company is added to or removed from contact"
           },
           "mautic.lead_post_delete": {
               "label": "Contact Deleted Event",
@@ -537,7 +537,7 @@ Response
           },
           "mautic.email_on_send": {
               "label": "Email Send Event",
-              "description": "mautic.email.webhook.event. send_desc"
+              "description": "mautic.email.webhook.event.send_desc"
           },
           "mautic.form_on_submit": {
               "label": "Form Submit Event",

@@ -68,6 +68,12 @@ Use these properties when creating a Text Message in a ``POST`` request. These p
    * - ``sentCount``
      - int
      - How many times the SMS got sent
+   * - ``category``
+     - null/object
+     - Category
+   * - ``lists``
+     - array
+     - Segments the SMS sends to
 
 **Using Mautic's API Library**
 
@@ -379,6 +385,35 @@ Send a predefined SMS to existing Contact.
 .. code-block:: json
 
    {
-       "success": 1,
-       "status": "Delivered"
+       "success": true,
+       "status": "Text Message Delivered",
+       "result": {
+           "sent": true,
+           "type": "mautic.sms.sms",
+           "status": "mautic.sms.timeline.status.delivered",
+           "id": 1,
+           "name": "Welcome SMS",
+           "content": "Welcome to Mautic!",
+           "statId": 42
+       },
+       "errors": []
    }
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Description
+   * - ``success``
+     - boolean
+     - Whether Mautic sent the SMS successfully
+   * - ``status``
+     - string
+     - Translated status message, for example 'Text Message Delivered'
+   * - ``result``
+     - object
+     - Send result for the Contact. Always includes ``sent`` and ``status``, where ``status`` is an untranslated message key. A successful send also includes ``type``, ``id``, ``name``, ``content``, and ``statId``
+   * - ``errors``
+     - array
+     - List of error objects, each with a ``message`` field that holds the untranslated status key - empty when ``success`` is ``true``
