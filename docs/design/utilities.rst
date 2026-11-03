@@ -43,6 +43,106 @@ Abbreviation keys
 - ``fb``: flex-basis
 - ``fo``: order
 
+.. _bootstrap 5 equivalents:
+
+Bootstrap 5 equivalents
+***********************
+
+Mautic includes Bootstrap 5, which provides its own `utility classes <https://getbootstrap.com/docs/5.3/utilities/flex/>`_. Where a Bootstrap 5 class has the same effect as a Mautic utility class, Mautic's templates use the Bootstrap 5 class. Use the Bootstrap 5 class in your own templates and Plugins too. The Mautic utility classes in this document remain available, so existing markup keeps rendering the same way.
+
+Bootstrap 5 names some classes differently from Mautic:
+
+- Bootstrap 5 puts the breakpoint in the middle of the class name, and its breakpoint names are one step larger than Mautic's. Mautic's ``-sm``, ``-md``, and ``-lg`` suffixes match Bootstrap 5's ``md``, ``lg``, and ``xl`` breakpoints. For example, ``.fd-row-md`` becomes ``.flex-lg-row``.
+- Bootstrap 5 uses ``s`` for start and ``e`` for end instead of left and right. For example, ``.pl-0`` becomes ``.ps-0`` and ``.ml-a`` becomes ``.ms-auto``.
+
+The following table lists the Mautic utility classes that Mautic's templates now write with their Bootstrap 5 equivalents.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Mautic class
+     - Bootstrap 5 class
+   * - ``.fd-row``
+     - ``.flex-row``
+   * - ``.fd-column``
+     - ``.flex-column``
+   * - ``.fd-column-reverse``
+     - ``.flex-column-reverse``
+   * - ``.fd-row-sm``
+     - ``.flex-md-row``
+   * - ``.fd-row-md``
+     - ``.flex-lg-row``
+   * - ``.fd-row-lg``
+     - ``.flex-xl-row``
+   * - ``.fw-wrap``
+     - ``.flex-wrap``
+   * - ``.fw-nowrap``
+     - ``.flex-nowrap``
+   * - ``.fw-nowrap-sm``
+     - ``.flex-md-nowrap``
+   * - ``.fw-nowrap-md``
+     - ``.flex-lg-nowrap``
+   * - ``.fw-nowrap-lg``
+     - ``.flex-xl-nowrap``
+   * - ``.jc-start``
+     - ``.justify-content-start``
+   * - ``.jc-end``
+     - ``.justify-content-end``
+   * - ``.jc-end-md``
+     - ``.justify-content-lg-end``
+   * - ``.jc-end-lg``
+     - ``.justify-content-xl-end``
+   * - ``.jc-center``
+     - ``.justify-content-center``
+   * - ``.jc-space-between``
+     - ``.justify-content-between``
+   * - ``.ai-start``
+     - ``.align-items-start``
+   * - ``.ai-end``
+     - ``.align-items-end``
+   * - ``.ai-center``
+     - ``.align-items-center``
+   * - ``.ai-center-md``
+     - ``.align-items-lg-center``
+   * - ``.as-end``
+     - ``.align-self-end``
+   * - ``.as-center``
+     - ``.align-self-center``
+   * - ``.as-stretch``
+     - ``.align-self-stretch``
+   * - ``.fg-1``
+     - ``.flex-grow-1``
+   * - ``.fs-0``
+     - ``.flex-shrink-0``
+   * - ``.fs-1``
+     - ``.flex-shrink-1``
+   * - ``.pa-0``, ``.np``
+     - ``.p-0``
+   * - ``.pl-0``
+     - ``.ps-0``
+   * - ``.pr-0``
+     - ``.pe-0``
+   * - ``.ma-0``
+     - ``.m-0``
+   * - ``.ml-0``
+     - ``.ms-0``
+   * - ``.mr-0``
+     - ``.me-0``
+   * - ``.ml-a``
+     - ``.ms-auto``
+   * - ``.mr-a``
+     - ``.me-auto``
+   * - ``.mt-a``
+     - ``.mt-auto``
+   * - ``.bdr-rds-0``
+     - ``.rounded-0``
+   * - ``.bdr-rds-circle``
+     - ``.rounded-circle``
+   * - ``.pull-left-lg``
+     - ``.float-xl-start``
+
+Bootstrap 5 has no equivalent for some Mautic utility classes, such as the pixel-based gap, padding, and margin sizes. Keep using the Mautic classes for those.
+
 Flex container properties
 *************************
 
