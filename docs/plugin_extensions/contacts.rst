@@ -37,9 +37,10 @@ To create a new Contact, use the ``\Mautic\LeadBundle\Entity\Lead`` entity. Revi
   namespace MauticPlugin\HelloWorldBundle\Services;
 
   use Mautic\CoreBundle\Helper\IpLookupHelper;
+  use Mautic\LeadBundle\Deduplicate\ContactMerger;
   use Mautic\LeadBundle\Entity\Lead;
   use Mautic\LeadBundle\Entity\LeadRepository;
-  use Mautic\LeadBundle\Model\FieldModel;
+  use Mautic\LeadBundle\Field\FieldsWithUniqueIdentifier;
   use Mautic\LeadBundle\Model\LeadModel;
   use Mautic\LeadBundle\Tracker\ContactTracker;
 
@@ -48,21 +49,24 @@ To create a new Contact, use the ``\Mautic\LeadBundle\Entity\Lead`` entity. Revi
       protected LeadModel $leadModel;
       protected ContactTracker $contactTracker;
       protected IpLookupHelper $ipLookupHelper;
-      protected FieldModel $fieldModel;
+      protected FieldsWithUniqueIdentifier $fieldsWithUniqueIdentifier;
+      protected ContactMerger $contactMerger;
       protected LeadRepository $leadRepository;
 
       public function __construct(
           LeadModel $leadModel,
           ContactTracker $contactTracker,
           IpLookupHelper $ipLookupHelper,
-          FieldModel $fieldModel,
+          FieldsWithUniqueIdentifier $fieldsWithUniqueIdentifier,
+          ContactMerger $contactMerger,
           LeadRepository $leadRepository
       ) {
-          $this->leadModel      = $leadModel;
-          $this->contactTracker = $contactTracker;
-          $this->ipLookupHelper = $ipLookupHelper;
-          $this->fieldModel     = $fieldModel;
-          $this->leadRepository = $leadRepository;
+          $this->leadModel                  = $leadModel;
+          $this->contactTracker             = $contactTracker;
+          $this->ipLookupHelper             = $ipLookupHelper;
+          $this->fieldsWithUniqueIdentifier = $fieldsWithUniqueIdentifier;
+          $this->contactMerger              = $contactMerger;
+          $this->leadRepository             = $leadRepository;
       }
 
       public function createLead()
@@ -86,7 +90,7 @@ To create a new Contact, use the ``\Mautic\LeadBundle\Entity\Lead`` entity. Revi
           );
 
           // Optionally check for identifier fields to determine if the Contact is unique
-          $uniqueLeadFields    = $this->fieldModel->getUniqueIdentiferFields();
+          $uniqueLeadFields    = $this->fieldsWithUniqueIdentifier->getFieldsWithUniqueIdentifier(['object' => 'lead']);
           $uniqueLeadFieldData = array();
 
           // Check if unique identifier fields are included
@@ -108,8 +112,8 @@ To create a new Contact, use the ``\Mautic\LeadBundle\Entity\Lead`` entity. Revi
                   $leadId // If a currently tracked Contact, ignore this ID when searching for duplicates
               );
               if (!empty($existingLeads)) {
-                  // Existing found so merge the two Contacts
-                  $lead = $this->leadModel->mergeLeads($lead, $existingLeads[0]);
+                  // Existing found so merge the two Contacts, keeping the existing Contact's ID
+                  $lead = $this->contactMerger->merge($existingLeads[0], $lead);
               }
 
               // Get the Contact's currently associated IPs
@@ -250,13 +254,8 @@ The ``LeadGetCurrentEvent`` provides the following methods:
 Contact timeline/history
 ************************
 
-To inject events into a Contact's timeline, create an event listener that subscribes to the ``LeadTimelineEvent`` event. The identifier you key the listener on depends on your Mautic version, as the note below explains.
+To inject events into a Contact's timeline, create an event listener that subscribes to ``LeadTimelineEvent::class``.
 Using this event, the Plugin can inject unique items into the timeline and also into the engagements graph on each page.
-
-.. note::
-
-   Before Mautic 8, key your listener on the ``LeadEvents::TIMELINE_ON_GENERATE`` constant. Starting in Mautic 8, key it on the event class, ``LeadTimelineEvent::class``. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for why the identifier changed and what breaks if a listener stays keyed on the old constant.
-
 .. note:: Before using this event listener, you'll need to ensure that you store your custom events in a custom database table. See :ref:`components/contacts:Generating timeline events from your own custom events` below for more details.
 
 The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` object. You can find the commonly used methods below the code example.
@@ -350,7 +349,7 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
                                     'type' => 'sent'
                                 ],
                                 // Optional template to customize the details of the event in the timeline
-                                'contentTemplate' => 'MauticDynamicContentBundle:SubscribedEvents\Timeline:index.html.php',
+                                'contentTemplate' => '@MauticDynamicContent/SubscribedEvents/Timeline/index.html.twig',
                                 // Font Awesome class to display as the icon
                                 'icon'            => 'fa-envelope'
                             ]
@@ -396,8 +395,8 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
       - The translated string representing this event type. Eg. Worlds visited
     * - ``timestamp``
       - Required
-      - \DateTime
-      - DateTime object when this event took place
+      - ``\DateTime``
+      - ``DateTime`` object when this event took place
     * - ``eventLabel``
       - Optional
       - string/array
@@ -409,7 +408,7 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
     * - ``contentTemplate``
       - Optional
       - string
-      - Template you want to use to generate the details view for this event. Eg. ``HelloBundle:SubscribedEvents\Timeline:index.html.php``
+      - Template you want to use to generate the details view for this event. Eg. ``@HelloWorld/SubscribedEvents/Timeline/index.html.twig``
     * - ``icon``
       - Optional
       - Font Awesome class
@@ -496,7 +495,7 @@ To leverage this, accept the array from ``$event->getQueryOptions()`` in the rep
     * - ``$dateTimeColumns``
       - Optional
       - array
-      - When using the Database Abstraction Layer, ``datetime`` columns won't be auto converted to \DateTime objects by Doctrine. Define the columns here, as returned by the query results, to auto do so.
+      - When using the Database Abstraction Layer, ``datetime`` columns won't be auto converted to ``\DateTime`` objects by Doctrine. Define the columns here, as returned by the query results, to auto do so.
     * - ``$resultsParserCallback``
       - Optional
       - callback
