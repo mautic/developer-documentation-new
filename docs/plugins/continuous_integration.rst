@@ -13,7 +13,7 @@ Mautic runs several tests on every commit to ensure that the code is working as 
 Example ``.github/workflows/tests.yml``
 ***************************************
 
-This file creates the GitHub Action jobs based on the definitions in it. It checks out Mautic, places your Plugin in the ``plugins`` directory, installs Mautic and the Plugin, and then runs the same tools that Mautic uses in its own :xref:`GitHub Actions` workflow against your Plugin directory.
+This file creates the GitHub Action jobs based on the definitions in it. It checks out Mautic, places your Plugin in the ``plugins`` directory, installs Mautic's Composer dependencies, installs Mautic, and installs your Plugin in Mautic. It then runs the same tools that Mautic uses in its own :xref:`GitHub Actions` workflow against your Plugin directory.
 
 .. code:: yaml
 
@@ -165,6 +165,7 @@ This file creates the GitHub Action jobs based on the definitions in it. It chec
    * Replace ``plugins/HelloWorldBundle`` with the directory of your Plugin. The same value should be in ``extra.install-directory-name`` in ``composer.json``.
    * Name your default branch ``main``, or update the ``push.branches`` list to match your default branch.
    * Update the ``matrix`` to set the PHP versions, database images, and Mautic versions that your Plugin supports. Each ``mautic-versions`` value must be a branch or tag in the ``mautic/mautic`` repository, such as ``8.x``. Mautic's own workflow tests against ``mysql:8.4``, ``mysql:9.2``, ``mariadb:10.11``, and ``mariadb:11.4``.
+   * The ``Install Composer dependencies`` step installs only the packages in Mautic's ``composer.json``, not the ones in your Plugin's ``composer.json``. If your Plugin requires Composer packages that Mautic doesn't include, add a step that installs them before the steps that run your Plugin's code.
    * The code style, static analysis, and Rector steps use the ``ecs.php``, ``phpstan.neon``, and ``rector.php`` configuration files from the Mautic checkout, so your Plugin follows the same rules as Mautic's core code.
 
 Once you paste this file into the ``.github/workflows/tests.yml`` file and replace the ``PLUGIN_DIR`` environmental variable, you can commit it and push it to GitHub. GitHub creates the jobs automatically, and you can see them in the Actions tab of your repository.
