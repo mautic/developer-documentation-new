@@ -17,6 +17,8 @@ Mautic uses :xref:`Doctrine ORM` to define the schema. Plugins define their sche
 
 Mautic registers a Plugin's ``Entity`` directory with Doctrine when an entity in it has a ``loadMetadata()`` method or an ``#[ORM\Entity]``, ``#[ORM\MappedSuperclass]``, or ``#[ORM\Embeddable]`` attribute. For each entity, Mautic reads the attributes first and then calls ``loadMetadata()`` if the entity has one, so ``loadMetadata()`` can add to or override the attribute mapping. This lets an entity map its columns with attributes and keep ``loadMetadata()`` only for mapping that Mautic's ``ClassMetadataBuilder`` helpers build.
 
+An entity's ``loadMetadata()`` holds only the mapping that its attributes don't declare, and many Core entities, including ``FormEntity``, don't have one. To read an entity's complete mapping, call ``getClassMetadata()`` on the entity manager instead of calling ``loadMetadata()``.
+
 Entity PHP static function mapping
 **********************************
 
