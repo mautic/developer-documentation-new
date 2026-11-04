@@ -13,12 +13,12 @@ Entities and schema
 
 .. vale on
 
-Mautic uses :xref:`Doctrine ORM` to define the schema. Plugins define their schema using entity classes stored in its ``Entity`` directory. Define the schema for the entity through Doctrine's :xref:`PHP static function mapping<Doctrine ORM PHP mapping>`, :xref:`attributes<Doctrine ORM attributes>`, or both. When an entity uses both, Mautic reads the attributes first and then runs the entity's ``loadMetadata()`` method, which can add to or override the attribute mapping.
+Mautic uses Doctrine's :xref:`object relational mapper<Doctrine Object Relational Mapper>` to define the schema. Plugins define their schema using entity classes stored in their ``Entity`` directory. Define the schema for the entity through Doctrine's :xref:`PHP static function mapping<Doctrine PHP mapping>`, :xref:`attributes<Doctrine attributes>`, or both. When an entity uses both, Mautic reads the attributes first and then runs the entity's ``loadMetadata()`` method, which can add to or override the attribute mapping.
 
 Entity PHP static function mapping
 **********************************
 
-You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder`` class. Refer to :xref:`Doctrine ORM PHP mapping` for methods available. Mautic also provides a decorated ``ClassMetadataBuilder`` class through ``Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder`` described below.
+You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder`` class. Refer to :xref:`Doctrine PHP mapping` for the available methods. Mautic also provides a decorated ``ClassMetadataBuilder`` class through ``Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder`` described below.
 
 This example maps a ``World`` entity to a ``hello_world`` table. Use the ``Doctrine\DBAL\Types\Types`` constants for field types.
 
@@ -245,7 +245,7 @@ This example maps a ``World`` entity to a ``hello_world`` table. Use the ``Doctr
 Entity attributes
 *****************
 
-You can map an entity with Doctrine attributes instead of the PHP static method. Refer to :xref:`Doctrine's documentation on available attributes<Doctrine ORM attributes>`. Doctrine ORM 3 doesn't support DocBlock annotations, so use attributes.
+You can map an entity with Doctrine attributes instead of the PHP static method. Refer to :xref:`Doctrine's documentation on available attributes<Doctrine attributes>`. The Doctrine version that Mautic 8 uses doesn't support DocBlock annotations, so use attributes.
 
 .. code-block:: php
 

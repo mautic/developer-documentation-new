@@ -4,7 +4,7 @@ Continuous Integration
 Mautic runs several tests on every commit to ensure that the code is working as expected using :xref:`GitHub Actions`.
 
 - :xref:`phpstan` for static analysis.
-- :xref:`phpunit` for unit, functional, and integration tests.
+- :xref:`phpunit` for automated tests, such as unit and functional tests.
 - :xref:`codecov` for code coverage reports and ensuring that the coverage isn't decreasing.
 - :xref:`rector` for additional code quality checks, for example that an unsupported Symfony or PHP syntax isn't used.
 - :xref:`easy_coding_standard` for checking that there is a unified code style across the codebase.

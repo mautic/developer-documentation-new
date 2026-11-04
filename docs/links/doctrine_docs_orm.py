@@ -1,6 +1,6 @@
 from . import link
 
-link_name = "Doctrine ORM"
+link_name = "Doctrine Object Relational Mapper"
 link_text = "Doctrine ORM"
 link_url = "https://www.doctrine-project.org/projects/doctrine-orm/en/current/index.html"
 

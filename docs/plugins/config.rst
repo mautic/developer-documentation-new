@@ -531,7 +531,7 @@ Service config items
 
 Register the Plugin's services in its ``Config/services.php`` file. Mautic doesn't read a ``services`` group in ``Config/config.php``. :ref:`Autowiring <Plugin Autowiring>` describes the ``services.php`` file and the bundle Extension that loads it.
 
-With ``autowire()`` and ``autoconfigure()`` enabled, Symfony registers the classes that ``$services->load()`` finds and tags them by the interface or base class they implement, such as event subscribers, Form types, console commands, and ``AbstractPermissions`` subclasses. Define a service explicitly when it needs an argument that Symfony can't resolve from the parameter type, or a tag that autoconfiguration doesn't add, such as the :ref:`plugins/config:Mautic service tags`:
+With ``autowire()`` and ``autoconfigure()`` enabled, Symfony registers the classes that ``$services->load()`` finds and tags them by the interface or base class they implement, such as event subscribers, Form types, console commands, and ``AbstractPermissions`` subclasses. Define a service explicitly when it needs an argument that Symfony can't resolve from the parameter type, or a tag that autoconfiguration doesn't add, such as the :ref:`Mautic service tags <Plugins/config:Mautic service tags>`:
 
 .. code-block:: php
 
@@ -784,7 +784,7 @@ Config form
 
 The form type is used to generate the form fields in the main configuration form. See the :doc:`Forms documentation</components/forms>` for more information about using form types.
 
-Register the form type as a service by loading its directory in the Plugin's ``Config/services.php`` with ``autoconfigure()`` enabled, as described in :ref:`Autowiring <Plugin Autowiring>`. Symfony then tags any class that implements ``FormTypeInterface`` as a form type.
+Register the class as a service by loading its directory in the Plugin's ``Config/services.php`` with ``autoconfigure()`` enabled, as described in :ref:`Autowiring <Plugin Autowiring>`. Symfony then adds the ``form.type`` tag to any class that implements ``FormTypeInterface``.
 
 Below is an example of a form type class that adds a custom configuration option to the Plugin's configuration form.
 
