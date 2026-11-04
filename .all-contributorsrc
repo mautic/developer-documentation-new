@@ -259,6 +259,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "peculiaruc",
+      "name": "Peculiar C. Umeh",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35475543?v=4",
+      "profile": "https://github.com/peculiaruc",
+      "contributions": [
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
