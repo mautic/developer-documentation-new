@@ -265,6 +265,7 @@ There are several ways to support Mautic other than contributing with code.
    :hidden:
 
    mauticjs_api/tracking_script
+   mauticjs_api/focus_scripts
 
 .. toctree::
    :maxdepth: 2
