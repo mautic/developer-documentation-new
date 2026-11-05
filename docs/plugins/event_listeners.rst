@@ -15,7 +15,7 @@ Event listeners
 
 .. vale off
 
-Mautic leverages Symfony's EventDispatcher to execute and communicate various actions through Mautic. Plugins can hook into these to extend Mautic's capabilities. Refer to the :doc:`Extending Mautic <../components/api>` section of the documentation for some of the ways to do this.
+Mautic leverages Symfony's EventDispatcher to execute and communicate various actions through Mautic. Plugins can hook into these to extend Mautic's capabilities. For examples, see the Plugin Extensions pages, such as :doc:`/plugin_extensions/campaigns` and :doc:`/plugin_extensions/forms`.
 
 .. vale on
 
