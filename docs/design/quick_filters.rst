@@ -9,8 +9,8 @@ Implementation overview
 Mautic implements quick filters using a combination of Twig templates and JavaScript:
 
 * The ``list_toolbar.html.twig`` template accepts a ``quickFilters`` option that defines the filters for a list view.
-* The ``list_quickfilters.html.twig`` template renders those filters as selectable labels in the **Quick filters** popover, under a header for each group.
-* JavaScript in ``1a.content.js`` toggles the selected labels and adds their search commands to the search box when the User clicks **Apply selected**.
+* The ``list_quickfilters.html.twig`` template renders those filters as selectable buttons in the **Quick filters** popover, under a header for each group.
+* JavaScript in ``1a.content.js`` toggles the selected buttons and adds their search commands to the search box when the User clicks **Apply selected**.
 
 Implementing quick filters
 ==========================
@@ -88,9 +88,9 @@ Quick filter options
 You define each quick filter as an associative array with the following keys:
 
 * ``search``: the search command to apply, either as a translation key or as a literal command such as ``has:results``
-* ``label``: the displayed text for the filter label
+* ``label``: the displayed text for the filter button
 * ``tooltip``: the tooltip text shown on hover
-* ``icon``: the CSS class for the icon displayed on the label
+* ``icon``: the CSS class for the icon displayed on the button
 
 Quick filters without groups
 ============================
@@ -106,10 +106,11 @@ Use the grouped format when a list view needs its own group or a different group
 How Mautic applies quick filters
 ================================
 
-The ``list_quickfilters.html.twig`` template renders each filter as a label with the following attributes:
+The ``list_quickfilters.html.twig`` template renders each filter as a ``<button>`` element with the ``label`` CSS class and the following attributes:
 
 * ``data-filter``: the translated search command
-* ``data-filter-action="toggle"``: marks the label as a selectable quick filter
+* ``data-filter-action="toggle"``: marks the button as a selectable quick filter
+* ``aria-pressed``: ``true`` while the User has the filter selected, otherwise ``false``, so assistive technologies announce its state
 * ``data-conflict-group``: the conflict group's name, when the filter's group sets ``conflictGroup``
 
-When a User clicks a label, ``Mautic.toggleFilter`` toggles the label's ``active`` class and deactivates the other labels with the same ``data-conflict-group`` value. When the User clicks **Apply selected**, ``Mautic.applyFilters`` appends the ``data-filter`` value of each active label to the search box and runs the search. **Reset** removes the quick filter commands from the search box.
+When a User clicks a quick filter, ``Mautic.toggleFilter`` toggles its ``active`` class and ``aria-pressed`` value, and deactivates the other quick filters with the same ``data-conflict-group`` value. When the User clicks **Apply selected**, ``Mautic.applyFilters`` appends the ``data-filter`` value of each active quick filter to the search box and runs the search. **Reset** removes the quick filter commands from the search box.
