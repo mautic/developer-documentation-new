@@ -11,7 +11,7 @@ The ProTip template conditionally renders a tip when provided. Here's a breakdow
 .. code-block:: twig
 
     {% if tip is defined and tip is not empty %}
-    <div class="col-xs-12 ai-center mt-md mb-md">
+    <div class="col-xs-12 ai-center mt-16 mb-16">
         <div class="text-muted">
             <i class="ri-lightbulb-line ri-lg"></i>
             <span class="fw-b">{{ 'mautic.core.protip'|trans }}</span>
