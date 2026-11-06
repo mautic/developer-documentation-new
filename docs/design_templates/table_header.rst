@@ -21,7 +21,7 @@ Mautic passes ``tooltip`` through the ``trans`` filter, so you can supply either
 
 Columns that don't pass ``tooltip`` render as before, with no tooltip markup, so existing list views stay unaffected until you opt in.
 
-You don't need any JavaScript setup. Mautic initializes tooltip support globally for any element carrying ``data-toggle="tooltip"``, so emitting the attribute is enough for the tooltip to appear. Mautic escapes the value you pass with the ``html_attr`` filter before rendering it into the ``data-original-title`` attribute.
+You don't need any JavaScript setup. The template renders the Bootstrap 5 tooltip attributes ``data-bs-toggle="tooltip"``, ``data-bs-placement="top"``, and ``data-bs-title``, so passing ``tooltip`` is enough for the tooltip to appear. Mautic escapes the value you pass with the ``html_attr`` filter before rendering it into the ``data-bs-title`` attribute.
 
 Common parameters
 *****************
