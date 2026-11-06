@@ -88,6 +88,7 @@ This automatically gets called when Symfony is processing Form data.
 A Form can also use :xref:`validation_groups<Symfony 5 Form validation groups>` to change the order of data to validate or only validate if certain criteria is true.
 For example, only validate a password confirmation field if the first password field passes validation.
 When registering a validation group in the Form type class, you can point it to a static callback on the Entity class that determines which validation groups Symfony should use.
+Symfony then applies only the constraints in the returned groups, so assign each constraint to one of them.
 
 .. code-block:: php
 
@@ -131,12 +132,31 @@ When registering a validation group in the Form type class, you can point it to 
 
     class World
     {
+        private ?int $id = null;
+
+        private ?string $name = null;
+
+        private ?int $population = null;
+
+        private int $visitCount = 0;
+
+        public function getId(): ?int
+        {
+            return $this->id;
+        }
+
+        public function getVisitCount(): int
+        {
+            return $this->visitCount;
+        }
+
         public static function loadValidatorMetadata(ClassMetadata $metadata): void
         {
             $metadata->addPropertyConstraint(
                 'name',
                 new NotBlank(
-                    message: 'mautic.core.name.required'
+                    message: 'mautic.core.name.required',
+                    groups: ['AllWorlds']
                 )
             );
 
