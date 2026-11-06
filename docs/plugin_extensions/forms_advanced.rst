@@ -201,7 +201,7 @@ A :xref:`Form type service<Symfony custom Form field type>` can also register :x
                 'text',
                 array(
                     'label'       => 'mautic.core.name',
-                    'label_attr'  => array('class' => 'control-label'),
+                    'label_attr'  => array('class' => 'form-label'),
                     'attr'        => array(
                         'class'   => 'form-control'
                     ),
