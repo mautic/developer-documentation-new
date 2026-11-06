@@ -312,6 +312,10 @@ For supplementary background on event listeners and subscribers, see the :doc:`l
 
    Both events extend ``AbstractSearchEvent`` and CoreBundle dispatches them, so every listener must call ``$event->checkContext('email')`` and return early otherwise. Without this guard a listener would act outside the Email list. ``getContext()`` reads the current context, and ``checkContext(string): bool`` compares it against the context you pass.
 
+.. warning::
+
+   Mautic deprecates ``SearchHelpEvent`` and removes it in Mautic 8. List views no longer show search help, and Mautic doesn't dispatch this event, so it never calls a listener that subscribes to it. Remove ``SearchHelpEvent`` listeners from your Plugin. To help Users discover your command, add it as a quick filter as described in :doc:`Quick filters for searches</design/quick_filters>`.
+
 Register the command with SearchCommandEvent
 ============================================
 
