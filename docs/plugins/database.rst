@@ -13,9 +13,11 @@ Entities and schema
 
 .. vale on
 
-Mautic uses :xref:`Doctrine ORM` to define the schema. Plugins define their schema using entity classes stored in its ``Entity`` directory. Define the schema for the entity through Doctrine's :xref:`PHP static function mapping<Doctrine ORM PHP mapping>` or :xref:`annotations<Doctrine ORM annotations>`.
+Mautic uses :xref:`Doctrine ORM` to define the schema. Plugins define their schema using entity classes stored in its ``Entity`` directory. Define the schema for the entity through Doctrine's :xref:`PHP static function mapping<Doctrine ORM PHP mapping>`, Doctrine attributes such as ``#[ORM\Column]``, or both.
 
-.. warning:: You use the PHP mapping **or** annotations. You can't use a mix of the two.
+Mautic registers a Plugin's ``Entity`` directory with Doctrine when an entity in it has a ``loadMetadata()`` method or an ``#[ORM\Entity]``, ``#[ORM\MappedSuperclass]``, or ``#[ORM\Embeddable]`` attribute. If the entity has an ``#[ORM\Entity]`` or ``#[ORM\MappedSuperclass]`` attribute, Mautic reads its attributes first and then calls ``loadMetadata()`` if the entity has one, so ``loadMetadata()`` can add to or override the attribute mapping. This lets an entity map its columns with attributes and keep ``loadMetadata()`` only for mapping that Mautic's ``ClassMetadataBuilder`` helpers build. Mautic ignores the property attributes of an entity that has neither class attribute, even if it has a ``loadMetadata()`` method, so the schema doesn't include those columns.
+
+An entity's ``loadMetadata()`` holds only the mapping that its attributes don't declare, and many Core entities, including ``FormEntity``, don't have one. To read an entity's complete mapping, call ``getClassMetadata()`` on the entity manager instead of calling ``loadMetadata()``.
 
 Entity PHP static function mapping
 **********************************
