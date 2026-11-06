@@ -87,7 +87,7 @@ This automatically gets called when Symfony is processing Form data.
 
 A Form can also use :xref:`validation_groups<Symfony 5 Form validation groups>` to change the order of data to validate or only validate if certain criteria is true.
 For example, only validate a password confirmation field if the first password field passes validation.
-When registering a validation group in the Form type class, you can use a static callback to determine what validation groups Symfony should use.
+When registering a validation group in the Form type class, you can point it to a static callback on the Entity class that determines which validation groups Symfony should use.
 
 .. code-block:: php
 
@@ -98,27 +98,40 @@ When registering a validation group in the Form type class, you can use a static
 
     namespace MauticPlugin\HelloWorldBundle\Form\Type;
 
+    use MauticPlugin\HelloWorldBundle\Entity\World;
     use Symfony\Component\Form\AbstractType;
-    use Symfony\Component\Form\Form;
-    use Symfony\Component\Form\FormBuilderInterface;
     use Symfony\Component\OptionsResolver\OptionsResolver;
-    use Symfony\Component\Validator\Constraints\NotBlank;
-    use Symfony\Component\Validator\Mapping\ClassMetadata;
 
     class WorldType extends AbstractType
     {
-        public function configureOptions(OptionsResolver $resolver)
+        public function configureOptions(OptionsResolver $resolver): void
         {
-            $resolver->setDefaults(array(
-                'data_class'        => 'MauticPlugin\HelloWorld\Entity\World',
-                'validation_groups' => array(
-                    'MauticPlugin\HelloWorld\Entity\World',
+            $resolver->setDefaults([
+                'data_class'        => World::class,
+                'validation_groups' => [
+                    World::class,
                     'determineValidationGroups',
-                )
-            ));
+                ],
+            ]);
         }
+    }
 
-        public static function loadValidatorMetadata(ClassMetadata $metadata)
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/Entity/World.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\Entity;
+
+    use Symfony\Component\Form\Form;
+    use Symfony\Component\Validator\Constraints\NotBlank;
+    use Symfony\Component\Validator\Mapping\ClassMetadata;
+
+    class World
+    {
+        public static function loadValidatorMetadata(ClassMetadata $metadata): void
         {
             $metadata->addPropertyConstraint(
                 'name',
@@ -131,15 +144,15 @@ When registering a validation group in the Form type class, you can use a static
                 'population',
                 new NotBlank(
                     message: 'mautic.core.value.required',
-                    groups: array('VisitedWorld')
+                    groups: ['VisitedWorld']
                 )
             );
         }
 
-        public static function determineValidationGroups(Form $form)
+        public static function determineValidationGroups(Form $form): array
         {
             $data   = $form->getData();
-            $groups = array('AllWorlds');
+            $groups = ['AllWorlds'];
 
             if (!$data->getId() || ($data->getId() && $data->getVisitCount() > 0)) {
                 $groups[] = 'VisitedWorld';
