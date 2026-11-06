@@ -69,8 +69,8 @@ Mautic uses Bootstrap 5.3.8 for its UI framework. The Bootstrap SCSS source file
 Write your Plugin templates, styles, and JavaScript for Bootstrap 5:
 
 * Use Bootstrap 5 classes in templates and styles.
-* Use ``data-bs-*`` attributes, such as ``data-bs-toggle`` and ``data-bs-target``, to set up Bootstrap components in markup.
-* Control components from JavaScript through the Bootstrap 5 API on ``window.bootstrap``, for example ``bootstrap.Modal.getOrCreateInstance(element).show()``.
+* Use ``data-bs-*`` attributes, such as ``data-bs-toggle`` and ``data-bs-target``, to set up modals, dropdowns, tabs, and other Bootstrap elements in markup.
+* Control these elements from JavaScript through the Bootstrap 5 API on ``window.bootstrap``, for example ``bootstrap.Modal.getOrCreateInstance(element).show()``.
 
 .. vale off
 
