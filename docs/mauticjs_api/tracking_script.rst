@@ -587,7 +587,7 @@ Page view requests use ``fetch()`` with ``keepalive: true`` instead, so the brow
 
 * The method is ``POST``.
 * The URL is ``MauticJS.pageTrackingCORSUrl``, the ``/mtc/event`` endpoint.
-* The browser supports ``window.fetch``.
+* The browser supports ``window.fetch`` and ``window.Blob``.
 * The serialized data is 60 KiB or smaller, measured in UTF-8 bytes.
 
 These requests send only the ``Content-Type: application/x-www-form-urlencoded`` header and no ``X-Requested-With`` header, so cross-origin page tracking doesn't trigger a CORS preflight ``OPTIONS`` request.
