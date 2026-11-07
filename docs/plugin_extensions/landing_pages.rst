@@ -348,13 +348,9 @@ Toggle 'Available for use' event
 
 .. vale on
 
-The ``\Mautic\PageBundle\PageEvents::PAGE_ON_TOGGLE_PUBLISH`` event dispatches when a User toggles the **Available for use** status of a Landing Page. Mautic dispatches it before persisting the status change to the database, so Plugins can run actions or validations before the User makes the Landing Page available or unavailable.
+The ``Mautic\PageBundle\Event\PageOnTogglePublishEvent`` event dispatches when a User toggles the **Available for use** status of a Landing Page. Mautic dispatches it by class name, before persisting the status change to the database, so Plugins can run actions or validations before the User makes the Landing Page available or unavailable.
 
-.. note::
-
-   ``PAGE_ON_TOGGLE_PUBLISH`` dispatches the shared ``PageEvent`` class that several event names reuse, so it stays keyed on its ``PageEvents::*`` string constant. Only events with a dedicated event class, such as ``PageBuilderEvent`` and ``PageDisplayEvent``, changed to class-name keying in Mautic 8.0.
-
-An event listener receives a ``Mautic\PageBundle\Event\PageEvent`` instance.
+Key ``getSubscribedEvents()`` on ``PageOnTogglePublishEvent::class``. Call ``getPage()`` on the event to get the Landing Page.
 
 .. code-block:: php
 
@@ -365,8 +361,7 @@ An event listener receives a ``Mautic\PageBundle\Event\PageEvent`` instance.
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\PageBundle\PageEvents;
-    use Mautic\PageBundle\Event\PageEvent;
+    use Mautic\PageBundle\Event\PageOnTogglePublishEvent;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
     final class PageLifecycleSubscriber implements EventSubscriberInterface
@@ -374,11 +369,11 @@ An event listener receives a ``Mautic\PageBundle\Event\PageEvent`` instance.
         public static function getSubscribedEvents(): array
         {
             return [
-                PageEvents::PAGE_ON_TOGGLE_PUBLISH => ['onPageTogglePublish', 0],
+                PageOnTogglePublishEvent::class => ['onPageTogglePublish', 0],
             ];
         }
 
-        public function onPageTogglePublish(PageEvent $event): void
+        public function onPageTogglePublish(PageOnTogglePublishEvent $event): void
         {
             $page = $event->getPage();
 

@@ -100,7 +100,7 @@ To find the name Mautic dispatches an event under, and to confirm a re-key, run 
 
    The ``Mautic\UserBundle`` events follow the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule, and Mautic 8 removes the ``Mautic\UserBundle\UserEvents`` class. A subscriber that still references a ``UserEvents`` constant, such as ``UserEvents::USER_POST_SAVE`` or ``UserEvents::USER_LOGIN``, raises a ``Class "Mautic\UserBundle\UserEvents" not found`` error. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\UserBundle\Event`` namespace instead.
 
-   For the User and Role save and delete events, subscribe to the concrete ``Pre*`` or ``Post*`` subclass, for example ``PostSaveUserEvent::class``. The base ``UserEvent`` and ``RoleEvent`` classes are now abstract, so dispatch or type-hint the concrete subclass.
+   To react when Mautic saves or deletes a User or Role, subscribe to the generic entity events described in :ref:`Entity save and delete events <entity save and delete events>`.
 
    The authentication events map to these event classes:
 
@@ -448,7 +448,7 @@ The following table is the complete migration reference for AssetBundle event su
 
    The WebhookBundle applies the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` change. Mautic 8 converted only ``WebhookBuilderEvent``, ``WebhookQueueEvent``, and ``WebhookRequestEvent``, so key ``getSubscribedEvents()`` on the event class, for example ``WebhookBuilderEvent::class``, not on the matching ``Mautic\WebhookBundle\WebhookEvents`` constant.
 
-   ``WebhookEvent`` - dispatched for ``WEBHOOK_PRE_SAVE``, ``WEBHOOK_POST_SAVE``, ``WEBHOOK_PRE_DELETE``, ``WEBHOOK_POST_DELETE``, and ``WEBHOOK_KILL`` - still dispatches by its ``WebhookEvents`` constants, so keep keying on the constant for those.
+   To react when Mautic saves or deletes a Webhook, subscribe to the generic entity events described in :ref:`Entity save and delete events <entity save and delete events>`. When Mautic stops a failing Webhook, it dispatches ``WebhookKillEvent`` by class name.
 
 .. note::
 
@@ -644,6 +644,95 @@ In Mautic 8, the subscriber keys on the event class:
         ];
     }
 
+.. _entity save and delete events:
+
+Entity save and delete events
+*****************************
+
+Some Mautic models don't define save and delete events of their own. For these models, the base ``Mautic\CoreBundle\Model\FormModel`` dispatches four generic events from the ``Mautic\CoreBundle\Event`` namespace by class name:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Event class
+     - When Mautic dispatches it
+   * - ``EntityPreSave``
+     - Before Mautic saves the entity to the database
+   * - ``EntityPostSave``
+     - After Mautic saves the entity to the database
+   * - ``EntityPreDelete``
+     - Before Mautic deletes the entity
+   * - ``EntityPostDelete``
+     - After Mautic deletes the entity
+
+Mautic dispatches these events for entities including the following:
+
+* ``Mautic\EmailBundle\Entity\Email``
+* ``Mautic\LeadBundle\Entity\LeadDevice``
+* ``Mautic\LeadBundle\Entity\Tag``
+* ``Mautic\NotificationBundle\Entity\Notification``
+* ``Mautic\UserBundle\Entity\Role``
+* ``Mautic\UserBundle\Entity\User``
+* ``Mautic\WebhookBundle\Entity\Webhook``
+
+All four events extend ``Mautic\CoreBundle\Event\AbstractEntityEvent``, which provides these methods:
+
+* ``getEntity()`` returns the entity that Mautic saves or deletes.
+* ``isNew()`` returns ``true`` when Mautic saves a new entity.
+* ``getChanges()`` returns the changes recorded on the entity.
+
+A listener receives these events for every entity type that uses them, so test the class of the entity and return early when it isn't the one your Plugin handles. The event Mautic dispatches before a save or delete and the event it dispatches afterward are separate objects, so a value that a listener sets on the earlier event isn't available to listeners of the later one. After a delete, the entity's ``deletedId`` property holds the ID it had before Mautic deleted it.
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/TagSubscriber.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\CoreBundle\Event\EntityPostDelete;
+    use Mautic\CoreBundle\Event\EntityPostSave;
+    use Mautic\LeadBundle\Entity\Tag;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class TagSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                EntityPostSave::class   => ['onEntityPostSave', 0],
+                EntityPostDelete::class => ['onEntityPostDelete', 0],
+            ];
+        }
+
+        public function onEntityPostSave(EntityPostSave $event): void
+        {
+            $tag = $event->getEntity();
+            if (!$tag instanceof Tag) {
+                return;
+            }
+
+            if ($event->isNew()) {
+                // do something with the new Tag
+            }
+        }
+
+        public function onEntityPostDelete(EntityPostDelete $event): void
+        {
+            $tag = $event->getEntity();
+            if (!$tag instanceof Tag) {
+                return;
+            }
+
+            $deletedId = $tag->deletedId;
+
+            // do something
+        }
+    }
+
 Custom events
 *************
 
@@ -740,7 +829,7 @@ LeadBundle events dispatched by event class
 
 .. vale on
 
-Since Mautic 8, Mautic dispatches the LeadBundle events for Contacts, Companies, Segments, Custom Fields, Tags, notes, devices, imports, and Contact exports by their event class instead of a ``LeadEvents`` string constant. Key ``getSubscribedEvents()`` on ``EventClass::class``. All the event classes below live in the ``Mautic\LeadBundle\Event`` namespace.
+Since Mautic 8, Mautic dispatches the LeadBundle events for Contacts, Companies, Segments, Custom Fields, Tag merges, notes, imports, and Contact exports by their event class instead of a ``LeadEvents`` string constant. Key ``getSubscribedEvents()`` on ``EventClass::class``. All the event classes below live in the ``Mautic\LeadBundle\Event`` namespace.
 
 Where several ``LeadEvents`` constants used to share one event class, each event now has its own subclass of that shared class. For example, ``LeadPreSaveEvent`` and ``LeadPostSaveEvent`` both extend ``LeadEvent``. Listener methods that type-hint the former shared class keep working.
 
@@ -831,22 +920,6 @@ Mautic 8 removes these ``LeadEvents`` constants. Code that still references one 
      - ``ImportPostDeleteEvent``
    * - ``IMPORT_BATCH_PROCESSED``
      - ``ImportBatchProcessedEvent``
-   * - ``DEVICE_PRE_SAVE``
-     - ``DevicePreSaveEvent``
-   * - ``DEVICE_POST_SAVE``
-     - ``DevicePostSaveEvent``
-   * - ``DEVICE_PRE_DELETE``
-     - ``DevicePreDeleteEvent``
-   * - ``DEVICE_POST_DELETE``
-     - ``DevicePostDeleteEvent``
-   * - ``TAG_PRE_SAVE``
-     - ``TagPreSaveEvent``
-   * - ``TAG_POST_SAVE``
-     - ``TagPostSaveEvent``
-   * - ``TAG_PRE_DELETE``
-     - ``TagPreDeleteEvent``
-   * - ``TAG_POST_DELETE``
-     - ``TagPostDeleteEvent``
    * - ``TAG_PRE_MERGE``
      - ``TagPreMergeEvent``
    * - ``TAG_POST_MERGE``
@@ -884,19 +957,17 @@ Mautic 8 removes these ``LeadEvents`` constants. Code that still references one 
 
 Mautic 8 also changes how these events behave for code that creates or reads them:
 
-* Mautic 8 makes these 12 former shared classes ``abstract``:
+* Mautic 8 makes these 10 former shared classes ``abstract``:
 
   * ``CompanyEvent``
   * ``CompanyMergeEvent``
   * ``ContactExportSchedulerEvent``
   * ``ImportEvent``
-  * ``LeadDeviceEvent``
   * ``LeadFieldEvent``
   * ``LeadListEvent``
   * ``LeadMergeEvent``
   * ``LeadNoteEvent``
   * ``SaveBatchLeadsEvent``
-  * ``TagEvent``
   * ``TagMergeEvent``
 
   If your Plugin creates one of these events with ``new``, create the matching subclass from the preceding tables instead. ``LeadEvent`` and ``ListChangeEvent`` are no longer ``final``, and Mautic still dispatches them directly.
