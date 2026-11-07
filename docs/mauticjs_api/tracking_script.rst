@@ -581,7 +581,18 @@ You may omit either of the callbacks. If you do, the callbacks get replaced with
 The callback methods receive the server response and the ``XHR`` object as arguments.
 If the response is a JSON string, it's automatically parsed to a JSON object.
 The data argument gets serialized using ``MauticJS.serialize(data)``, then sent with the request to the server.
-All requests made this way have the ``X-Requested-With`` header set to ``XMLHttpRequest``.
+Requests sent through ``XHR`` have the ``X-Requested-With`` header set to ``XMLHttpRequest``.
+
+Page view requests use ``fetch()`` with ``keepalive: true`` instead, so the browser completes them even when the visitor navigates away right after a page view. This applies when all of these conditions are true:
+
+* The method is ``POST``.
+* The URL is ``MauticJS.pageTrackingCORSUrl``, the ``/mtc/event`` endpoint.
+* The browser supports ``window.fetch``.
+* The serialized data is 60 KiB or smaller.
+
+These requests send only the ``Content-Type: application/x-www-form-urlencoded`` header and no ``X-Requested-With`` header, so cross-origin page tracking doesn't trigger a CORS preflight ``OPTIONS`` request.
+Instead of the ``XHR`` object, the callbacks receive an object that contains only the response ``status``. If the request or reading the response fails, the error callback runs.
+All other requests use ``XHR``.
 
 .. code-block:: js
 
