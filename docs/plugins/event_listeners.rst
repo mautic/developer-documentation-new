@@ -100,7 +100,7 @@ To find the name Mautic dispatches an event under, and to confirm a re-key, run 
 
    The ``Mautic\UserBundle`` events follow the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule, and Mautic 8 removes the ``Mautic\UserBundle\UserEvents`` class. A subscriber that still references a ``UserEvents`` constant, such as ``UserEvents::USER_POST_SAVE`` or ``UserEvents::USER_LOGIN``, raises a ``Class "Mautic\UserBundle\UserEvents" not found`` error. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\UserBundle\Event`` namespace instead.
 
-   To react when Mautic saves or deletes a User or Role, subscribe to the generic entity events described in :ref:`Entity save and delete events <entity save and delete events>`.
+   To react when Mautic saves or deletes a User or Role, subscribe to the generic entity events described in :ref:`Entity save and delete events <entity save and delete events>`. When an authentication Plugin creates or updates a User during login, Mautic dispatches ``PreSaveUserEvent`` and ``PostSaveUserEvent`` from the ``Mautic\UserBundle\Event`` namespace instead of the generic events.
 
    The authentication events map to these event classes:
 
