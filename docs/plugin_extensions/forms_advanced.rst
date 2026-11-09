@@ -101,10 +101,19 @@ Symfony then applies only the constraints in the returned groups, so assign each
 
     use MauticPlugin\HelloWorldBundle\Entity\World;
     use Symfony\Component\Form\AbstractType;
+    use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+    use Symfony\Component\Form\Extension\Core\Type\TextType;
+    use Symfony\Component\Form\FormBuilderInterface;
     use Symfony\Component\OptionsResolver\OptionsResolver;
 
     class WorldType extends AbstractType
     {
+        public function buildForm(FormBuilderInterface $builder, array $options): void
+        {
+            $builder->add('name', TextType::class);
+            $builder->add('population', IntegerType::class);
+        }
+
         public function configureOptions(OptionsResolver $resolver): void
         {
             $resolver->setDefaults([
@@ -126,7 +135,7 @@ Symfony then applies only the constraints in the returned groups, so assign each
 
     namespace MauticPlugin\HelloWorldBundle\Entity;
 
-    use Symfony\Component\Form\Form;
+    use Symfony\Component\Form\FormInterface;
     use Symfony\Component\Validator\Constraints\NotBlank;
     use Symfony\Component\Validator\Mapping\ClassMetadata;
 
@@ -143,6 +152,26 @@ Symfony then applies only the constraints in the returned groups, so assign each
         public function getId(): ?int
         {
             return $this->id;
+        }
+
+        public function getName(): ?string
+        {
+            return $this->name;
+        }
+
+        public function setName(?string $name): void
+        {
+            $this->name = $name;
+        }
+
+        public function getPopulation(): ?int
+        {
+            return $this->population;
+        }
+
+        public function setPopulation(?int $population): void
+        {
+            $this->population = $population;
         }
 
         public function getVisitCount(): int
@@ -169,12 +198,17 @@ Symfony then applies only the constraints in the returned groups, so assign each
             );
         }
 
-        public static function determineValidationGroups(Form $form): array
+        public static function determineValidationGroups(FormInterface $form): array
         {
             $data   = $form->getData();
             $groups = ['AllWorlds'];
 
-            if (!$data->getId() || ($data->getId() && $data->getVisitCount() > 0)) {
+            // An optional WorldType that's submitted empty has no World object.
+            if (!$data instanceof self) {
+                return $groups;
+            }
+
+            if (!$data->getId() || $data->getVisitCount() > 0) {
                 $groups[] = 'VisitedWorld';
             }
 
