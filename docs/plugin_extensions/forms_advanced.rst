@@ -151,20 +151,16 @@ Symfony then applies only the constraints in the returned groups, so assign each
             $metadata->addPropertyConstraint(
                 'name',
                 new NotBlank(
-                    [
-                        'message' => 'mautic.core.name.required',
-                        'groups'  => ['AllWorlds'],
-                    ]
+                    message: 'mautic.core.name.required',
+                    groups: ['AllWorlds']
                 )
             );
 
             $metadata->addPropertyConstraint(
                 'population',
                 new NotBlank(
-                    [
-                        'message' => 'mautic.core.value.required',
-                        'groups'  => ['VisitedWorld'],
-                    ]
+                    message: 'mautic.core.value.required',
+                    groups: ['VisitedWorld']
                 )
             );
         }
@@ -240,9 +236,7 @@ A :xref:`Form type service<Symfony custom Form field type>` can also register :x
                     ),
                     'constraints' => array(
                         new NotBlank(
-                            array(
-                                'message' => 'mautic.core.value.required'
-                            )
+                            message: 'mautic.core.value.required'
                         )
                     )
                 )
