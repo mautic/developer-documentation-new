@@ -372,3 +372,74 @@ A Plugin registers a listener as an event subscriber. When the subscribed contex
     }
 
 The Email detail view is ``@MauticEmail/Email/details.html.twig``. It calls ``customContent('right.section.start', _context)`` in its right-hand column, which exposes the ``right.section.start`` context as an injection point that a Plugin's listener subscribes to. Mautic's own ``EmailDetailsRightColumnSubscriber`` uses this context to render A/B test details. Other Mautic templates expose their own ``customContent`` contexts, so a listener must always narrow to the intended view and context with ``checkContext()``.
+
+Company and import contexts
+===========================
+
+The Company views and the import mapping step expose the following contexts. Pass the template name and the context to ``checkContext()``.
+
+.. list-table::
+    :header-rows: 1
+
+    *   - Template
+        - Context
+        - Location
+    *   - ``@MauticLead/Company/company.html.twig``
+        - ``company.engagement.before``
+        - Before the engagements chart in the main column.
+    *   - ``@MauticLead/Company/company.html.twig``
+        - ``company.engagement.after``
+        - After the engagements chart, before the Company's Contacts.
+    *   - ``@MauticLead/Company/company.html.twig``
+        - ``company.tabs``
+        - Tab controls after the **Contacts** tab. See :ref:`Adding tabs to the Company detail view <Company detail view tabs>`.
+    *   - ``@MauticLead/Company/company.html.twig``
+        - ``company.tabs.content``
+        - Tab panes after the Contacts pane. See :ref:`Adding tabs to the Company detail view <Company detail view tabs>`.
+    *   - ``@MauticLead/Company/company.html.twig``
+        - ``company.contacts.after``
+        - After the Company's Contacts, at the bottom of the main column.
+    *   - ``@MauticLead/Company/company.html.twig``
+        - ``company.sidebar.top``
+        - Top of the right-hand sidebar column.
+    *   - ``@MauticLead/Company/company.html.twig``
+        - ``company.sidebar.bottom``
+        - Bottom of the right-hand sidebar column.
+    *   - ``@MauticLead/Company/form_standalone.html.twig``
+        - ``company.form.sidebar``
+        - Left column of the Company create and edit view, after the field group list.
+    *   - ``@MauticLead/Import/_mapping_form.html.twig``
+        - ``import.defaults``
+        - Inside the import defaults panel, after the owner, Segment, Tags, and other default options.
+
+The Company detail view passes ``company``, ``fields``, ``permissions``, and ``security`` to its hooks. The Company create and edit view passes ``entity``, ``form``, ``fields``, and ``groups``. The modal version of that view, ``form_embedded.html.twig``, doesn't call ``company.form.sidebar``.
+
+The import mapping step serves every importable object, such as Contacts and Companies. Its hook passes ``form`` and ``objectName``. To inject content for one object only, compare ``objectName`` in ``$event->getVars()`` with the object's translation key, such as ``mautic.lead.leads`` for Contacts or ``mautic.lead.lead.companies`` for Companies. Each default option sits in a ``col-xs-4`` column of the same row, so wrap injected content in ``<div class="col-xs-4">`` to match the layout.
+
+.. _company detail view tabs:
+
+Adding tabs to the Company detail view
+--------------------------------------
+
+The Company's Contacts table shows without tabs until a listener adds content at ``company.tabs``. Once one does, Mautic renders a tab bar. The **Contacts** tab comes first, followed by the injected tabs. Inject the tab control and its pane separately, and match the control's ``href`` to the pane's ``id``:
+
+.. code-block:: php
+
+    public function injectContent(CustomContentEvent $event): void
+    {
+        $viewName = '@MauticLead/Company/company.html.twig';
+
+        if ($event->checkContext($viewName, 'company.tabs')) {
+            $event->addContent(
+                '<li><a href="#helloworld-container" class="nav-link" role="tab" data-bs-toggle="tab">Hello World</a></li>'
+            );
+        }
+
+        if ($event->checkContext($viewName, 'company.tabs.content')) {
+            $event->addContent(
+                '<div class="tab-pane fade bdr-w-0" id="helloworld-container">Custom company content</div>'
+            );
+        }
+    }
+
+The Contact detail view uses the ``tabs`` and ``tabs.content`` contexts in ``@MauticLead/Lead/lead.html.twig`` in the same way.
