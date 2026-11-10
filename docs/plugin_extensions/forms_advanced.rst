@@ -83,7 +83,8 @@ This automatically gets called when Symfony is processing Form data.
 
 A Form can also use :xref:`validation_groups<Symfony 5 Form validation groups>` to change the order of data to validate or only validate if certain criteria is true.
 For example, only validate a password confirmation field if the first password field passes validation.
-When registering a validation group in the Form type class, you can use a static callback to determine what validation groups Symfony should use.
+When registering a validation group in the Form type class, you can point it to a static callback on the Entity class that determines which validation groups Symfony should use.
+Symfony then applies only the constraints in the returned groups, so assign each constraint to one of them.
 
 .. code-block:: php
 
@@ -94,55 +95,116 @@ When registering a validation group in the Form type class, you can use a static
 
     namespace MauticPlugin\HelloWorldBundle\Form\Type;
 
+    use MauticPlugin\HelloWorldBundle\Entity\World;
     use Symfony\Component\Form\AbstractType;
-    use Symfony\Component\Form\Form;
+    use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+    use Symfony\Component\Form\Extension\Core\Type\TextType;
     use Symfony\Component\Form\FormBuilderInterface;
     use Symfony\Component\OptionsResolver\OptionsResolver;
-    use Symfony\Component\Validator\Constraints\NotBlank;
-    use Symfony\Component\Validator\Mapping\ClassMetadata;
 
     class WorldType extends AbstractType
     {
-        public function configureOptions(OptionsResolver $resolver)
+        public function buildForm(FormBuilderInterface $builder, array $options): void
         {
-            $resolver->setDefaults(array(
-                'data_class'        => 'MauticPlugin\HelloWorld\Entity\World',
-                'validation_groups' => array(
-                    'MauticPlugin\HelloWorld\Entity\World',
-                    'determineValidationGroups',
-                )
-            ));
+            $builder->add('name', TextType::class);
+            $builder->add('population', IntegerType::class);
         }
 
-        public static function loadValidatorMetadata(ClassMetadata $metadata)
+        public function configureOptions(OptionsResolver $resolver): void
+        {
+            $resolver->setDefaults([
+                'data_class'        => World::class,
+                'validation_groups' => [
+                    World::class,
+                    'determineValidationGroups',
+                ],
+            ]);
+        }
+    }
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/Entity/World.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\Entity;
+
+    use Symfony\Component\Form\FormInterface;
+    use Symfony\Component\Validator\Constraints\NotBlank;
+    use Symfony\Component\Validator\Mapping\ClassMetadata;
+
+    class World
+    {
+        private ?int $id = null;
+
+        private ?string $name = null;
+
+        private ?int $population = null;
+
+        private int $visitCount = 0;
+
+        public function getId(): ?int
+        {
+            return $this->id;
+        }
+
+        public function getName(): ?string
+        {
+            return $this->name;
+        }
+
+        public function setName(?string $name): void
+        {
+            $this->name = $name;
+        }
+
+        public function getPopulation(): ?int
+        {
+            return $this->population;
+        }
+
+        public function setPopulation(?int $population): void
+        {
+            $this->population = $population;
+        }
+
+        public function getVisitCount(): int
+        {
+            return $this->visitCount;
+        }
+
+        public static function loadValidatorMetadata(ClassMetadata $metadata): void
         {
             $metadata->addPropertyConstraint(
                 'name',
                 new NotBlank(
-                    array(
-                        'message' => 'mautic.core.name.required'
-                    )
+                    message: 'mautic.core.name.required',
+                    groups: ['AllWorlds']
                 )
             );
-            
+
             $metadata->addPropertyConstraint(
-                'population', 
+                'population',
                 new NotBlank(
-                    array(
-                        'message' => 'mautic.core.value.required',
-                        'groups'  => array('VisitedWorld')
-                    )
-                
+                    message: 'mautic.core.value.required',
+                    groups: ['VisitedWorld']
                 )
             );
         }
 
-        public static function determineValidationGroups(Form $form)
+        public static function determineValidationGroups(FormInterface $form): array
         {
             $data   = $form->getData();
-            $groups = array('AllWorlds');
+            $groups = ['AllWorlds'];
 
-            if (!$data->getId() || ($data->getId() && $data->getVisitCount() > 0)) {
+            // An optional WorldType that's submitted empty has no World object.
+            if (!$data instanceof self) {
+                return $groups;
+            }
+
+            if (!$data->getId() || $data->getVisitCount() > 0) {
                 $groups[] = 'VisitedWorld';
             }
 
@@ -189,17 +251,17 @@ A :xref:`Form type service<Symfony custom Form field type>` can also register :x
     namespace MauticPlugin\HelloWorldBundle\Form\Type;
 
     use Symfony\Component\Form\AbstractType;
-    use Symfony\Component\Form\Form;
+    use Symfony\Component\Form\Extension\Core\Type\TextType;
     use Symfony\Component\Form\FormBuilderInterface;
     use Symfony\Component\Validator\Constraints\NotBlank;
 
     class WorldType extends AbstractType
     {
-        public function buildForm(FormBuilderInterface $builder, array $options)
+        public function buildForm(FormBuilderInterface $builder, array $options): void
         {
             $builder->add(
                 'name',
-                'text',
+                TextType::class,
                 array(
                     'label'       => 'mautic.core.name',
                     'label_attr'  => array('class' => 'control-label'),
@@ -208,9 +270,7 @@ A :xref:`Form type service<Symfony custom Form field type>` can also register :x
                     ),
                     'constraints' => array(
                         new NotBlank(
-                            array(
-                                'message' => 'mautic.core.value.required'
-                            )
+                            message: 'mautic.core.value.required'
                         )
                     )
                 )
