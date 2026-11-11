@@ -270,6 +270,14 @@ The API returns error messages if:
 * The ZIP file is missing required files - ``config.json`` and ``html/message.html.twig``
 * The ZIP file contains disallowed file extensions
 
+.. note::
+
+   .. vale off
+
+   **Form style-only Themes:** A Theme that declares only the ``form`` feature and includes a Form style override file such as ``html/MauticFormBundle/Builder/_style.html.twig`` or ``html/MauticFormBundle/Builder/style.html.twig`` doesn't require ``html/message.html.twig``. This exception applies only when ``form`` is the Theme's sole feature; a Theme that also declares features such as ``email`` or ``page`` must still include the required files for each one.
+
+   .. vale on
+
 .. vale off
 
 Delete Theme
