@@ -44,6 +44,9 @@ Use these properties when creating a Text Message in a ``POST`` request. These p
    * - ``publishDown``
      - datetime/null
      - Date/time the SMS gets unpublished
+   * - ``continueSending``
+     - boolean
+     - Whether a scheduled Segment SMS - one with type ``list`` - keeps sending or sends once, defaulting to one-time when omitted. ``false`` sends once and ignores ``publishDown``, while ``true`` keeps sending with an optional later ``publishDown`` stop time.
    * - ``dateAdded``
      - ``datetime``
      - Date/time SMS got created
@@ -68,6 +71,12 @@ Use these properties when creating a Text Message in a ``POST`` request. These p
    * - ``sentCount``
      - int
      - How many times the SMS got sent
+
+.. note::
+
+   Writing or changing any schedule field - ``isPublished``, ``publishUp``, ``publishDown``, or ``continueSending`` - requires the ``sms:smses:publishown`` or ``sms:smses:publishother`` permission. Without it, Mautic ignores these fields on write.
+
+   ``publishDown`` reads back as ``null`` for a one-time ``list`` SMS - one sent with ``continueSending`` set to false.
 
 **Using Mautic's API Library**
 
@@ -305,6 +314,9 @@ To edit an SMS and create a new one if the SMS isn't found:
    * - ``publishDown``
      - datetime/null
      - Date/time the SMS should gets unpublished
+   * - ``continueSending``
+     - boolean
+     - Whether a scheduled Segment SMS - one with type ``list`` - keeps sending or sends once, defaulting to one-time when omitted. ``false`` sends once and ignores ``publishDown``, while ``true`` keeps sending with an optional later ``publishDown`` stop time.
    * - ``language``
      - string
      - Language locale of the SMS
