@@ -104,7 +104,6 @@ Response
                   "labelAttributes": null,
                   "inputAttributes": null,
                   "containerAttributes": null,
-                  "leadField": null,
                   "saveResult": true,
                   "isAutoFill": true,
                   "mappedObject": "company",
@@ -128,7 +127,6 @@ Response
                   "labelAttributes": null,
                   "inputAttributes": "class=\"btn btn-ghost\"",
                   "containerAttributes": null,
-                  "leadField": null,
                   "saveResult": true,
                   "isAutoFill": false,
                   "mappedObject": null,
@@ -337,9 +335,6 @@ Form Field properties
    * - ``containerAttributes``
      - string
      - HTML attributes for the field wrapper or container
-   * - ``leadField``
-     - string
-     - Internal reference name for the mapped field on the target object
    * - ``saveResult``
      - boolean
      - Result storage status - ``0`` or ``false`` prevents Mautic from storing the submitted value in the database. When not set, it defaults to save the submission
@@ -497,7 +492,6 @@ Response
                       "labelAttributes": null,
                       "inputAttributes": null,
                       "containerAttributes": null,
-                      "leadField": null,
                       "saveResult": true,
                       "isAutoFill": true,
                       "mappedObject": "company",
@@ -521,7 +515,6 @@ Response
                       "labelAttributes": null,
                       "inputAttributes": "class=\"btn btn-ghost\"",
                       "containerAttributes": null,
-                      "leadField": null,
                       "saveResult": true,
                       "isAutoFill": false,
                       "mappedObject": null,
@@ -1526,4 +1519,3 @@ Mautic can map Form Fields to Contact or Company fields:
 
 * Use ``mappedObject`` to specify ``contact`` or ``company``
 * Use ``mappedField`` to specify the target field name
-* Mautic still supports the deprecated ``leadField`` property for backward compatibility
