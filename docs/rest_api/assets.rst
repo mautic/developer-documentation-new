@@ -174,6 +174,12 @@ Get an individual Asset by ID.
    * - ``downloadUrl``
      - string
      - Public download URL for the Asset
+   * - ``storageLocation``
+     - string
+     - ``local`` or ``remote``
+   * - ``disallow``
+     - boolean
+     - ``true`` to ask search engine crawlers not to index a local Asset
 
 .. vale off
 

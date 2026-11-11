@@ -544,7 +544,7 @@ HTTP request
 
 .. vale on
 
-``DELETE /users/ID``
+``DELETE /users/ID/delete``
 
 Response
 ========
