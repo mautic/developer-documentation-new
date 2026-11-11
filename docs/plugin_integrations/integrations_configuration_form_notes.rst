@@ -53,9 +53,7 @@ Note Object
 
 .. php:class:: \Mautic\IntegrationsBundle\DTO\Note
 
-    .. php:attr:: public note;
-
-    .. php:attr:: public type;
+    The ``note`` and ``type`` properties are private. Use the ``getNote()`` and ``getType()`` methods to read them.
 
     .. php:method:: public function getNote(): string
 
