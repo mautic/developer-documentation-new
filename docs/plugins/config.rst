@@ -205,7 +205,11 @@ Mautic defaults the following route definitions if not declared otherwise by the
 Advanced routing
 ================
 
-Configure custom routes through writing a listener to the ``\Mautic\CoreBundle\CoreEvents::BUILD_ROUTE`` event. Listeners to this event receives a ``Mautic\CoreBundle\Event\RouteEvent`` object. Mautic dispatches an event for each firewall when compiling routes.
+Configure custom routes by writing a listener for the ``Mautic\CoreBundle\Event\RouteEvent`` event. Listeners to this event receive the ``RouteEvent`` object. Mautic dispatches an event for each firewall when compiling routes.
+
+.. note::
+
+   Since Mautic 8, key your subscriber on the event class rather than a ``CoreEvents`` constant - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks if you don't.
 
 .. php:class:: Mautic\CoreBundle\Event\RouteEvent
 
@@ -319,6 +323,8 @@ There are currently four menus built into Mautic.
       - Menu for User specific tasks such as Profile and Logout.
     * - ``extra``
       - Menu not used by Core but available to Plugins.
+
+A Plugin can also register its own top-level menu instead of adding items to these. See :ref:`Plugins/config:Registering a custom menu`.
 
 Menu definitions
 ================
@@ -467,6 +473,77 @@ Of course, you can also combine multiple checks. All must evaluate to TRUE to di
 
     // ...
 
+Registering a custom menu
+*************************
+
+The :ref:`Plugins/config:Menu config items` section adds items to Mautic's four built-in menus through the ``menu`` config array. This section covers the opposite direction: registering a Plugin's own top-level menu, with its own template and renderer.
+
+.. note::
+
+   Mautic 8 removed the ``ServicePass`` compiler pass and the ``services > menus`` array in ``Config/config.php``. A Plugin now declares its menu item and renderer explicitly in ``Config/services.php``.
+
+Registering a custom menu takes two services in your Plugin's ``Config/services.php``:
+
+* A ``Knp\Menu\MenuItem`` tagged ``knp_menu.menu``.
+* A ``Mautic\CoreBundle\Menu\MenuRenderer`` tagged ``knp_menu.renderer``.
+
+Give each tag an ``['alias' => '<alias>']`` argument so Mautic pairs the item with its renderer.
+
+Earlier versions registered the menu through the ``services > menus`` array in ``Config/config.php``:
+
+.. code-block:: php
+
+    <?php
+
+    'services' => [
+        'menus' => [
+            'mautic.menu.mybundle' => [
+                'alias'   => 'mybundle',
+                'options' => ['template' => '@MyBundle/Menu/mybundle.html.twig'],
+            ],
+        ],
+    ],
+
+The following snippet is the Mautic 8 equivalent. This is a partial example. The ``use`` statements go at the top of ``Config/services.php``, and the ``$services->set(...)`` definitions go inside its configurator closure. :ref:`plugins/autowiring:Autowiring` describes the bundle Extension and this ``$services`` configurator setup:
+
+.. code-block:: php
+
+    <?php
+
+    use Knp\Menu\MenuItem;
+    use Mautic\CoreBundle\Menu\MenuBuilder;
+    use Mautic\CoreBundle\Menu\MenuRenderer;
+
+    use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+
+    // ... inside the configurator closure, using the same $services
+
+    $services->set('mautic.menu.mybundle', MenuItem::class)
+        ->factory([service(MenuBuilder::class), 'mybundleMenu'])
+        ->tag('knp_menu.menu', ['alias' => 'mybundle']);
+
+    $services->set('mautic.menu_renderer.mybundle', MenuRenderer::class)
+        ->args([service('knp_menu.matcher'), service('twig'), ['template' => '@MyBundle/Menu/mybundle.html.twig']])
+        ->tag('knp_menu.renderer', ['alias' => 'mybundle']);
+
+Reference the menu builder by class through ``service(Mautic\CoreBundle\Menu\MenuBuilder::class)``. Mautic 8 removed the ``mautic.menu.builder`` string alias, so it no longer resolves.
+
+These two services register and render the menu, while the ``<alias>Menu`` method the factory calls on the menu builder, here ``mybundleMenu``, supplies the menu's contents.
+
+If your bundle has several menus, register them in a loop. ``$menuTemplates`` is the alias-to-options array you supply:
+
+.. code-block:: php
+
+    foreach ($menuTemplates as $alias => $options) {
+        $services->set('mautic.menu.'.$alias, MenuItem::class)
+            ->factory([service(MenuBuilder::class), $alias.'Menu'])
+            ->tag('knp_menu.menu', ['alias' => $alias]);
+
+        $services->set('mautic.menu_renderer.'.$alias, MenuRenderer::class)
+            ->args([service('knp_menu.matcher'), service('twig'), $options])
+            ->tag('knp_menu.renderer', ['alias' => $alias]);
+    }
+
 Service config items
 ********************
 
@@ -499,7 +576,7 @@ Services define the Plugin's classes and their dependencies with Mautic and Symf
             'helloworld.mars.validator' => [
                 'class'     => MauticPlugin\HelloWorldBundle\Form\Validator\Constraints\MarsValidator::class,
                 'arguments' => [
-                    'mautic.helper.core_parameters',
+                    \Mautic\CoreBundle\Helper\CoreParametersHelper::class,
                     'helloworld.helper.world',
                 ],
                 'tag'       => 'validator.constraint_validator',
@@ -533,9 +610,6 @@ For convenience, Mautic auto-tags services defined within specific keys.
     * - ``forms``
       - ``form.type``
       - Registers the service with :xref:`Symfony as a custom form field type<Symfony custom form field type tag>`.
-    * - ``models``
-      - ``mautic.model``
-      - Deprecated. Use service dependency injection instead.
     * - ``permissions``
       - ``mautic.permissions``
       - Registers the service with Mautic's :ref:`permission service<security-roles-and-permissions>`.
@@ -595,7 +669,7 @@ Key each service with a unique name to all of Mautic, including other Plugins.
     * - ``methodCalls``
       - no
       - array[]
-      - Define methods to call after the service is instantiated. Use an array of arrays with keys as the method name and values the arguments to pass into the given method. For example,  ``['methodCalls' => ['setSecurity' => ['mautic.security'],],],``.
+      - Define methods to call after Mautic instantiates the service. Use an array of arrays with keys as the method name and values the arguments to pass into the given method. For example,  ``['methodCalls' => ['setSecurity' => [\Mautic\CoreBundle\Security\Permissions\CorePermissions::class],],],``.
     * - ``decoratedService``
       - no
       - string
@@ -753,7 +827,11 @@ To add these configuration options in Mautic's configuration section, you’ll n
 Config event subscriber
 =======================
 
-This allows Plugins to interact with Mautic's configuration events. It listens to two important events: ``ConfigEvents::CONFIG_ON_GENERATE`` and ``ConfigEvents::CONFIG_PRE_SAVE``.
+A config event subscriber adds the Plugin's settings to Mautic's configuration UI and processes the submitted values. Mautic dispatches the configuration events by their event class, so the subscriber keys ``getSubscribedEvents()`` on ``ConfigBuilderEvent::class`` and ``ConfigPreSaveEvent::class``.
+
+.. note::
+
+   Mautic 8 removed the ``Mautic\ConfigBundle\ConfigEvents`` class with its ``CONFIG_ON_GENERATE``, ``CONFIG_PRE_SAVE``, and ``CONFIG_POST_SAVE`` constants. A subscriber that still references one of them fails with ``Error: Undefined constant``. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 The following code example shows how a Plugin structures its event subscriber.
 
@@ -764,12 +842,11 @@ The following code example shows how a Plugin structures its event subscriber.
     declare(strict_types=1);
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
-    use Mautic\ConfigBundle\Event\ConfigEvent;
-    use Mautic\ConfigBundle\ConfigEvents;
     use Mautic\ConfigBundle\Event\ConfigBuilderEvent;
+    use Mautic\ConfigBundle\Event\ConfigPreSaveEvent;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-    final class ConfigSubscriber extends EventSubscriberInterface
+    final class ConfigSubscriber implements EventSubscriberInterface
     {
         /**
          * @return mixed[]
@@ -777,8 +854,8 @@ The following code example shows how a Plugin structures its event subscriber.
         static public function getSubscribedEvents(): array
         {
             return [
-                ConfigEvents::CONFIG_ON_GENERATE => ['onConfigGenerate', 0],
-                ConfigEvents::CONFIG_PRE_SAVE    => ['onConfigSave', 0]
+                ConfigBuilderEvent::class => ['onConfigGenerate', 0],
+                ConfigPreSaveEvent::class => ['onConfigSave', 0],
             ];
         }
 
@@ -793,7 +870,7 @@ The following code example shows how a Plugin structures its event subscriber.
             );
         }
 
-        public function onConfigSave(ConfigEvent $event): void
+        public function onConfigSave(ConfigPreSaveEvent $event): void
         {
             /** @var array $values */
             $values = $event->getConfig();
@@ -811,16 +888,16 @@ Subscribed events
 
 The event subscriber listens to the following events:
 
-- ``ConfigEvents::CONFIG_ON_GENERATE``:
-  Mautic dispatches this event when it builds the configuration form. This allows the Plugin to inject its own tab and configuration options.
+* ``ConfigBuilderEvent::class`` - Mautic dispatches this event when it builds the configuration UI. The Plugin uses it to add its own tab and configuration options.
+* ``ConfigPreSaveEvent::class`` - Mautic dispatches this event before it saves the submitted values to the ``local.php`` file. The Plugin uses it to clean up or modify the data before Mautic writes it.
+* ``ConfigPostSaveEvent::class`` - Mautic dispatches this event after it writes the values to ``local.php``. Subscribe to it to react to saved configuration changes. The example subscriber doesn't use it.
 
-- ``ConfigEvents::CONFIG_PRE_SAVE``:
-  Mautic triggers this event before it renders the form values and saves them to the ``local.php`` file. This allows the Plugin to clean up or modify the data before writing it to ``local.php``.
+All three classes live in the ``Mautic\ConfigBundle\Event`` namespace. ``ConfigPreSaveEvent`` and ``ConfigPostSaveEvent`` extend ``ConfigEvent``, so a listener method that type-hints ``ConfigEvent`` still receives either event. After saving, Mautic creates a separate ``ConfigPostSaveEvent`` object. It carries the saved configuration values, including any changes that ``ConfigPreSaveEvent`` listeners made with ``setConfig()``.
 
 Generate Plugin configuration
 -----------------------------
 
-To register Plugin’s configuration details during the ``ConfigEvents::CONFIG_ON_GENERATE event``, call the ``addForm()`` method on the ``ConfigBuilderEvent`` object. The method expects an array with the following elements:
+To register the Plugin's configuration details during the ``ConfigBuilderEvent`` event, call the ``addForm()`` method on the ``ConfigBuilderEvent`` object. The method expects an array with the following elements:
 
 .. list-table::
     :header-rows: 1
@@ -838,7 +915,7 @@ To register Plugin’s configuration details during the ``ConfigEvents::CONFIG_O
 Modify configuration before saving
 ----------------------------------
 
-To modify the form data before saving, use the ``ConfigEvents::CONFIG_PRE_SAVE event``. This  event is triggered just before values are saved to the ``local.php`` file, allowing the Plugin to adjust them.
+To modify the submitted values before saving, subscribe to ``ConfigPreSaveEvent::class``. Mautic dispatches this event just before it writes them to the ``local.php`` file, so the Plugin can adjust them with ``$event->setConfig()``.
 
 Register the event subscriber
 -----------------------------
@@ -889,7 +966,7 @@ Below is an example of a form type class that adds a custom configuration option
 Config template
 ===============
 
-Registering a form theme as ``HelloWorldBundle:FormTheme\Config`` in the event listener tells the ConfigBundle to look in the HelloWorldBundle’s ``Resources/views/FormTheme/Config`` folder for templates. Specifically, it will look for a template named ``_config_{formAlias}_widget.html.twig``, where ``{formAlias}`` is the same as the ``formAlias`` set in the Plugin’s ``ConfigEvents::CONFIG_ON_GENERATE`` event listener.
+Setting ``formTheme`` to ``HelloWorldBundle:FormTheme\Config`` in the event listener tells the ConfigBundle to look in the HelloWorldBundle’s ``Resources/views/FormTheme/Config`` folder for templates. Specifically, it looks for a template named ``_config_{formAlias}_widget.html.twig``, where ``{formAlias}`` is the same as the ``formAlias`` set in the Plugin's ``ConfigBuilderEvent`` event listener.
 
 The template should be structured in a panel format to match the rest of the configuration UI.
 

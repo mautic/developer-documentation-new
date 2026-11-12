@@ -34,7 +34,7 @@ This places the route behind ``/api`` which is only accessible to authorized Use
                 'plugin.hello_world.controller.api' => [
                     'class' => \MauticPlugin\HelloWorldBundle\Controller\ApiController::class,
                     'arguments' => [
-                        'mautic.security',
+                        \Mautic\CoreBundle\Security\Permissions\CorePermissions::class,
                         'plugin.hello_world.model.worlds'
                     ],
                     'methodCalls' => [
@@ -217,10 +217,14 @@ The event is additive and non-breaking, so existing permission checks keep worki
    :header-rows: 1
    :widths: 30 70
 
-   * - Event constant
+   * - Event
      - Description
-   * - ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT``
-     - Mautic dispatches this before API Platform evaluates authorization. The event string is ``mautic.api_platform_permission_context``.
+   * - ``ApiPlatformPermissionContextEvent``
+     - Mautic dispatches this event by its class before API Platform evaluates authorization.
+
+.. note::
+
+   Key ``getSubscribedEvents()`` on ``ApiPlatformPermissionContextEvent::class``. Mautic 8 removed the ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT`` constant, so a subscriber that still references it raises an undefined-constant error. A subscriber keyed on the raw string ``mautic.api_platform_permission_context`` silently receives nothing. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 The event receives a ``Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent`` instance with the following methods:
 
@@ -261,7 +265,6 @@ Example subscriber
 
     namespace MauticPlugin\CustomObjectsBundle\EventListener;
 
-    use Mautic\ApiBundle\ApiEvents;
     use Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -270,7 +273,7 @@ Example subscriber
         public static function getSubscribedEvents(): array
         {
             return [
-                ApiEvents::API_PLATFORM_PERMISSION_CONTEXT => ['onPermissionContext', 0],
+                ApiPlatformPermissionContextEvent::class => ['onPermissionContext', 0],
             ];
         }
 
@@ -314,3 +317,137 @@ Example subscriber
             return new \stdClass();
         }
     }
+
+To confirm Mautic registered the subscriber, list the event's listeners. The subscriber's class and method appear in the listing when Mautic has wired it up:
+
+.. code-block:: console
+
+    bin/console debug:event-dispatcher 'Mautic\ApiBundle\Event\ApiPlatformPermissionContextEvent'
+
+.. vale off
+
+API entity save events
+**********************
+
+.. vale on
+
+When a REST API request creates or edits an entity through a controller that extends ``CommonApiController``, Mautic dispatches an event before and after it saves the entity. Subscribe to these events to validate or enrich API writes, or to react after Mautic stores the entity.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Event class
+     - When Mautic dispatches it
+   * - ``Mautic\ApiBundle\Event\PreSaveApiEntityEvent``
+     - After the submitted data passes validation and before Mautic saves the entity.
+   * - ``Mautic\ApiBundle\Event\PostSaveApiEntityEvent``
+     - After Mautic saves the entity and before it serializes the API response.
+
+Mautic dispatches each event only when at least one listener subscribes to its class. If a listener throws an exception, Mautic stops processing the request and returns an API error that uses the exception's message and code. Throwing from a ``PreSaveApiEntityEvent`` listener therefore prevents the save.
+
+Both classes extend the abstract ``Mautic\ApiBundle\Event\ApiEntityEvent``, which provides these methods:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Method
+     - Description
+   * - ``getEntity()``
+     - Returns the entity the request creates or edits.
+   * - ``getEntityRequestParameters()``
+     - Returns the entity parameters from the request payload.
+   * - ``getRequest()``
+     - Returns the current Symfony ``Request``.
+
+The following subscriber rejects API writes that don't include an ``email`` parameter:
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/ApiEntitySubscriber.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\ApiBundle\Event\PostSaveApiEntityEvent;
+    use Mautic\ApiBundle\Event\PreSaveApiEntityEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class ApiEntitySubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                PreSaveApiEntityEvent::class  => ['onApiEntityPreSave', 0],
+                PostSaveApiEntityEvent::class => ['onApiEntityPostSave', 0],
+            ];
+        }
+
+        public function onApiEntityPreSave(PreSaveApiEntityEvent $event): void
+        {
+            $parameters = $event->getEntityRequestParameters();
+
+            if (empty($parameters['email'])) {
+                // Mautic returns this message and code as the API error response.
+                throw new \InvalidArgumentException('An email is required.', 400);
+            }
+        }
+
+        public function onApiEntityPostSave(PostSaveApiEntityEvent $event): void
+        {
+            $entity = $event->getEntity();
+
+            // React to the saved entity, for example by queueing a sync.
+        }
+    }
+
+.. vale off
+
+API client lifecycle events
+***************************
+
+.. vale on
+
+When a User saves or deletes an API client, such as an OAuth2 client, ``ClientModel`` dispatches one of these events by its class:
+
+* ``Mautic\ApiBundle\Event\ClientPostSaveEvent`` - after Mautic saves the API client.
+* ``Mautic\ApiBundle\Event\ClientPostDeleteEvent`` - after Mautic deletes the API client.
+
+Both classes extend the abstract ``Mautic\ApiBundle\Event\ClientEvent``. Call ``getClient()`` to read the API client and ``getApiMode()`` to read its API mode.
+
+.. _mautic 8 api event constants removed:
+
+Upgrade API event subscribers to Mautic 8
+*****************************************
+
+Mautic 8 dispatches the ApiBundle events by their event class and removes the ``Mautic\ApiBundle\ApiEvents`` class. A subscriber that still references an ``ApiEvents`` constant raises a ``Class "Mautic\ApiBundle\ApiEvents" not found`` error. Key ``getSubscribedEvents()`` on the replacement event class instead:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed constant
+     - Replacement event class
+   * - ``ApiEvents::API_ON_ENTITY_PRE_SAVE``
+     - ``PreSaveApiEntityEvent::class``
+   * - ``ApiEvents::API_ON_ENTITY_POST_SAVE``
+     - ``PostSaveApiEntityEvent::class``
+   * - ``ApiEvents::CLIENT_POST_SAVE``
+     - ``ClientPostSaveEvent::class``
+   * - ``ApiEvents::CLIENT_POST_DELETE``
+     - ``ClientPostDeleteEvent::class``
+   * - ``ApiEvents::API_PRE_SERIALIZATION_CONTEXT``
+     - ``PreSerializationContextEvent::class``
+   * - ``ApiEvents::API_POST_SERIALIZATION_CONTEXT``
+     - ``PostSerializationContextEvent::class``
+   * - ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT``
+     - ``ApiPlatformPermissionContextEvent::class``
+
+Mautic 8 also removes ``ApiEvents::CLIENT_PRE_SAVE`` and ``ApiEvents::BUILD_ROUTE``. Mautic didn't dispatch any event under these constants, so remove any subscriptions to them.
+
+Mautic previously dispatched one event object under each pair of names. ``ApiEntityEvent``, ``ClientEvent``, and ``ApiSerializationContextEvent`` are now abstract base classes, so listener type hints on them keep working. Code that creates one of them with ``new`` must create the matching ``PreSave*``, ``PostSave*``, ``ClientPost*``, or ``*SerializationContextEvent`` subclass instead.
+
+For the general rule, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.

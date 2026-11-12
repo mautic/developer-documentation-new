@@ -19,7 +19,7 @@ It's possible for your Plugin to retrieve the real User IP for the request. You 
 
     <?php
     /** @var \Mautic\CoreBundle\Helper\IpLookupHelper */
-    $ipHelper = $this->get('mautic.helper.ip_lookup');
+    $ipHelper = $this->get(\Mautic\CoreBundle\Helper\IpLookupHelper::class);
 
     $requestIp = $ipHelper->getIpAddressFromRequest(); // 1.2.3.4
 

@@ -5,6 +5,7 @@ There are multiple ways to extend the way Mautic works with Emails. This documen
 
 * Email tokens
 * Email settings
+* Custom search commands
 * A/B testing
 * Monitored inbox Integration
 * Email transport or Email providers
@@ -261,7 +262,7 @@ Deprecated methods
 
 .. deprecated:: 7.2
 
-   Mautic deprecates the following ``BuilderEvent`` methods and removes them in a future version:
+   Mautic deprecates the following ``BuilderEvent`` methods in Mautic 7.2 and removes them in Mautic 8.0:
 
    - ``addTokensFromHelper()`` - Use ``BuilderTokenHelper::getFormattedTokens()`` and ``$event->addTokens()`` instead.
    - ``getTokensFromHelper()`` - Use ``BuilderTokenHelper::getFormattedTokens()`` instead.
@@ -293,6 +294,120 @@ Deprecated methods
             $event->addTokens($tokens);
         }
     }
+
+Custom search commands
+**********************
+
+A custom search command is a ``command:value`` search-bar filter that a User types into the Email list's search box, alongside built-in search commands such as ``is:published``. A Plugin registers its own search command by listening to three events that CoreBundle dispatches:
+
+* ``SearchCommandEvent`` registers the command.
+* ``SearchQueryEvent`` builds the ``WHERE`` clause that filters the Email list.
+* ``SearchHelpEvent`` supplies the help text Mautic shows for the Email list's search commands.
+
+Mautic wires this mechanism only for the Email list - the context ``'email'`` - and no custom search command ships by default.
+
+A Plugin registers these listeners the same way as any Symfony event subscriber. The complete, ready-to-copy pattern is the **Example** subsection below, which registers all three events in one subscriber. Use it as the reference.
+
+.. vale off
+
+For supplementary background on event listeners and subscribers, see the :doc:`listeners and subscribers</plugins/event_listeners>` section.
+
+.. vale on
+
+.. note::
+
+   All three events extend ``AbstractSearchEvent`` and CoreBundle dispatches them, so every listener must call ``$event->checkContext('email')`` and return early otherwise. Without this guard a listener would act outside the Email list. ``getContext()`` reads the current context, and ``checkContext(string): bool`` compares it against the context you pass.
+
+Register the command with SearchCommandEvent
+============================================
+
+``SearchCommandEvent`` makes the Email list recognize your command as a valid search command and suggest it in the search box as the User types. Your listener calls ``addCommand()`` to add a single command string, and can read or replace the whole list with ``getCommands()`` and ``setCommands(array)``. ``EmailRepository::getSearchCommands()`` dispatches this event.
+
+Filter the list with SearchQueryEvent
+=====================================
+
+``SearchQueryEvent`` carries the active filter and the query it's assembling. Your listener reads ``$event->getFilter()`` and compares ``$filter->command`` to the command string it registered with ``addCommand()``. When they match, it calls ``$event->setExpr(...)`` and ``$event->setParameters([...])`` to contribute the ``WHERE`` clause. Build the expression from ``$event->getQuery()`` and the entity alias from ``$event->getAlias()``. ``EmailRepository::addSearchCommandWhereClause()`` dispatches this event while it resolves a search command to its ``WHERE`` clause.
+
+.. note::
+
+   ``getQuery()`` may return either an ``ORM QueryBuilder`` or a ``DBAL QueryBuilder``, so your listener must not assume one or the other.
+
+   Mautic resolves its standard search commands first, then dispatches ``SearchQueryEvent`` for Plugin listeners, and only then falls back to its built-in Email command switch. When a listener sets an expression, ``EmailRepository`` returns it and skips that switch, so a listener-supplied expression takes precedence over the built-in Email commands.
+
+Document the command with SearchHelpEvent
+=========================================
+
+``SearchHelpEvent`` overrides the help text Mautic shows for the Email list's search commands. Your listener calls ``setHelp()`` to replace the default translation key ``mautic.email.help.searchcommands`` with its own key, so your custom command appears in that help text. ``getHelp()`` reads the current key. ``EmailController`` dispatches this event when it renders the Email list. Define the key you pass to ``setHelp()`` in your Plugin's own translation files. The Example below uses ``'mautic.helloworld.email.help.searchcommands'``. Otherwise Mautic shows the raw key instead of the help text.
+
+Example
+=======
+
+The subscriber below registers an ``is:special`` command on the Email list and filters the list to Emails whose ``customHtml`` contains ``FINDME``. Once you enable the Plugin, type ``is:special`` into the Email list search box to see it in action.
+
+.. code-block:: PHP
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/EmailSearchCommandSubscriber.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\CoreBundle\Event\SearchCommandEvent;
+    use Mautic\CoreBundle\Event\SearchHelpEvent;
+    use Mautic\CoreBundle\Event\SearchQueryEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class EmailSearchCommandSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                SearchCommandEvent::class => ['onSearchCommand', 0],
+                SearchQueryEvent::class   => ['onSearchQuery', 0],
+                SearchHelpEvent::class    => ['onSearchHelp', 0],
+            ];
+        }
+
+        public function onSearchCommand(SearchCommandEvent $event): void
+        {
+            if (!$event->checkContext('email')) {
+                return;
+            }
+
+            $event->addCommand('is:special');
+        }
+
+        public function onSearchQuery(SearchQueryEvent $event): void
+        {
+            if (!$event->checkContext('email')) {
+                return;
+            }
+
+            $filter = $event->getFilter();
+
+            if ('is:special' !== $filter->command) {
+                return;
+            }
+
+            $q     = $event->getQuery();
+            $alias = $event->getAlias();
+
+            $event->setExpr($q->expr()->like($alias.'.customHtml', ':specialMarker'));
+            $event->setParameters(['specialMarker' => '%FINDME%']);
+        }
+
+        public function onSearchHelp(SearchHelpEvent $event): void
+        {
+            if (!$event->checkContext('email')) {
+                return;
+            }
+
+            $event->setHelp('mautic.helloworld.email.help.searchcommands');
+        }
+    }
+
+The :doc:`Quick filters for searches</design/quick_filters>` documentation covers a complementary task. It explains how to surface existing search commands as clickable quick-filter buttons, while this section explains how to register new commands. The two features compose, so you can register a command here and then optionally surface it as a quick-filter button as described there.
 
 .. vale off
 
@@ -480,12 +595,14 @@ The Plugin also has access to inject specific search criteria for the processed 
 To do this, the Plugin needs to add an event listener for three events:
 
 #. ``Mautic\EmailBundle\Event\MonitoredEmailEvent`` This event injects the fields into Mautic's Configuration to configure the IMAP inbox and folder to monitor. Since Mautic 8.0, Mautic dispatches it by class name, so subscribers key on ``MonitoredEmailEvent::class``.
-#. ``EmailEvents::EMAIL_PRE_FETCH`` Mautic dispatches this event during the execution of the ``mautic:email:fetch`` command. Use it to inject search criteria for the desired messages.
-#. ``EmailEvents::EMAIL_PARSE`` This event parses the messages that the command fetched.
+#. ``Mautic\EmailBundle\Event\PreFetchEmailEvent`` Mautic dispatches this event during the execution of the ``mautic:email:fetch`` command, before it fetches any messages. Call ``setCriteriaRequest()`` on it to inject search criteria for the desired messages.
+#. ``Mautic\EmailBundle\Event\ParseEmailEvent`` Mautic dispatches this event with the messages that the command fetched. Call ``isApplicable()`` to confirm that the messages come from your folder, then process them with ``getMessages()``.
 
 .. note::
 
-   Since Mautic 8.0, the monitored inbox configuration event dispatches by class name, so key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``. Mautic removed the ``MONITORED_EMAIL_CONFIG`` constant, so code that still references ``EmailEvents::MONITORED_EMAIL_CONFIG`` throws a PHP fatal error - ``Error: Undefined constant``. ``EMAIL_PRE_FETCH`` and ``EMAIL_PARSE`` remain string-dispatched constants.
+   Since Mautic 8.0, all three monitored inbox events dispatch by class name, so key ``getSubscribedEvents()`` on ``MonitoredEmailEvent::class``, ``PreFetchEmailEvent::class``, and ``ParseEmailEvent::class``. Mautic removed the ``MONITORED_EMAIL_CONFIG``, ``EMAIL_PRE_FETCH``, and ``EMAIL_PARSE`` constants from ``EmailEvents``, so code that still references one of them throws a PHP fatal error - ``Error: Undefined constant``.
+
+   Before Mautic 8.0, the pre-fetch and parse phases shared one ``ParseEmailEvent`` object. ``setCriteriaRequest()``, ``getCriteriaRequests()``, and ``getMarkAsSeenInstructions()`` now live on ``PreFetchEmailEvent``, so change the type hint of your pre-fetch listener to ``PreFetchEmailEvent``. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 .. code-block:: PHP
 
@@ -496,9 +613,9 @@ To do this, the Plugin needs to add an event listener for three events:
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\EmailBundle\EmailEvents;
     use Mautic\EmailBundle\Event\MonitoredEmailEvent;
     use Mautic\EmailBundle\Event\ParseEmailEvent;
+    use Mautic\EmailBundle\Event\PreFetchEmailEvent;
     use Mautic\EmailBundle\MonitoredEmail\Mailbox;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -510,9 +627,9 @@ To do this, the Plugin needs to add an event listener for three events:
         static public function getSubscribedEvents(): array
         {
             return [
-                MonitoredEmailEvent::class   => ['onConfig', 0],
-                EmailEvents::EMAIL_PRE_FETCH => ['onPreFetch', 0],
-                EmailEvents::EMAIL_PARSE     => ['onParse', 0],
+                MonitoredEmailEvent::class => ['onConfig', 0],
+                PreFetchEmailEvent::class  => ['onPreFetch', 0],
+                ParseEmailEvent::class     => ['onParse', 0],
             ];
         }
 
@@ -532,7 +649,7 @@ To do this, the Plugin needs to add an event listener for three events:
         /**
         * Inject search criteria for which messages to fetch from the configured folder.
         */
-        public function onPreFetch(ParseEmailEvent $event): void
+        public function onPreFetch(PreFetchEmailEvent $event): void
         {
             $event->setCriteriaRequest($this->bundle, $this->monitor, Mailbox::CRITERIA_UNSEEN. " " . Mailbox::CRITERIA_FROM ." aliens@andromeda");
         }
@@ -551,6 +668,12 @@ To do this, the Plugin needs to add an event listener for three events:
             }
         }
     }
+
+To confirm Mautic registered the subscriber, list the event's listeners. The subscriber's class and method appear in the listing when Mautic has wired it up:
+
+.. code-block:: console
+
+    bin/console debug:event-dispatcher 'Mautic\EmailBundle\Event\MonitoredEmailEvent'
 
 Email transports
 ----------------
@@ -580,7 +703,7 @@ The most important thing here is to create a service that's tagged as ``mautic.e
                     'class'        => \MauticPlugin\HelloWorldBundle\Swiftmailer\Transport\HelloWorldApiTransport::class,
                     'serviceAlias' => 'swiftmailer.mailer.transport.%s',
                     'arguments'    => [
-                        'mautic.helper.core_parameters',
+                        \Mautic\CoreBundle\Helper\CoreParametersHelper::class,
                     ],
                     'tag'          => 'mautic.email_transport',
                     'tagArguments' => [

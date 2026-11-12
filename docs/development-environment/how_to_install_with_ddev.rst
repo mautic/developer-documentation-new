@@ -40,3 +40,8 @@ Installing Mautic is a two-step process:
       - ``Maut1cR0cks!``
 
 .. Note:: Versions of Mautic prior to 5.1 use the password ``mautic``
+
+When DDEV finishes and you log in with the credentials listed in the preceding table, Mautic opens on the Dashboard. A fresh install has no data yet, so the default widgets show 'No data found'. Once you see this Dashboard, your development environment is up and running.
+
+.. image:: images/default_dashboard.png
+    :alt: Default Mautic Dashboard after a successful install, with widgets showing 'No data found'

@@ -20,9 +20,18 @@ Registering Campaign Events
 
 .. vale on
 
-Mautic dispatches the Event ``\Mautic\CampaignBundle\CampaignEvents::CAMPAIGN_ON_BUILD`` for Plugins to register their Campaign Actions, Conditions and Decisions. Listeners receive a ``Mautic\CampaignBundle\Events\CampaignBuilderEvent`` object. Register the Event using the appropriate ``add`` method as described below.
+Since Mautic 8.0, Mautic dispatches the ``Mautic\CampaignBundle\Event\CampaignBuilderEvent`` by its class name so Plugins can register their Campaign Actions, Conditions, and Decisions. Subscribers key ``getSubscribedEvents()`` on ``CampaignBuilderEvent::class`` and receive a ``CampaignBuilderEvent`` object. Mautic 8 removed the former ``CampaignEvents::CAMPAIGN_ON_BUILD`` constant, so a subscriber that still references it fails with ``Error: Undefined constant``. For how class-name dispatch works, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`. Register the Event using the appropriate ``addAction()``, ``addCondition()``, or ``addDecision()`` method, as described below.
 
-.. php:namespace:: Mautic\CampaignBundle\Events
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Former Event constant
+     - Mautic 8.0 subscription key
+   * - ``CampaignEvents::CAMPAIGN_ON_BUILD``
+     - ``CampaignBuilderEvent::class``
+
+.. php:namespace:: Mautic\CampaignBundle\Event
 .. php:class:: CampaignBuilderEvent
 
   CampaignBuilderEvent class
@@ -78,7 +87,6 @@ Registering a Campaign Action
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\CampaignBundle\CampaignEvents;
     use Mautic\CampaignBundle\Event\CampaignBuilderEvent;
     use MauticPlugin\HelloWorldBundle\HelloWorldEvents;
     use MauticPlugin\HelloWorldBundle\Form\Type\TravelType;
@@ -91,7 +99,7 @@ Registering a Campaign Action
         public static function getSubscribedEvents(): array
         {
             return [
-                CampaignEvents::CAMPAIGN_ON_BUILD => ['onCampaignBuild', 0],
+                CampaignBuilderEvent::class => ['onCampaignBuild', 0],
             ];
         }
 
@@ -187,7 +195,6 @@ Registering a Campaign Condition
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\CampaignBundle\CampaignEvents;
     use Mautic\CampaignBundle\Event\CampaignBuilderEvent;
     use MauticPlugin\HelloWorldBundle\HelloWorldEvents;
     use MauticPlugin\HelloWorldBundle\Form\Type\TravelType;
@@ -200,7 +207,7 @@ Registering a Campaign Condition
         public static function getSubscribedEvents(): array
         {
             return [
-                CampaignEvents::CAMPAIGN_ON_BUILD => ['onCampaignBuild', 0],
+                CampaignBuilderEvent::class => ['onCampaignBuild', 0],
             ];
         }
 
@@ -296,7 +303,6 @@ Registering a Campaign Decision
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\CampaignBundle\CampaignEvents;
     use Mautic\CampaignBundle\Event\CampaignBuilderEvent;
     use MauticPlugin\HelloWorldBundle\HelloWorldEvents;
     use MauticPlugin\HelloWorldBundle\Form\Type\TravelType;
@@ -309,7 +315,7 @@ Registering a Campaign Decision
         public static function getSubscribedEvents(): array
         {
             return [
-                CampaignEvents::CAMPAIGN_ON_BUILD => ['onCampaignBuild', 0],
+                CampaignBuilderEvent::class => ['onCampaignBuild', 0],
             ];
         }
 
@@ -416,7 +422,6 @@ Listeners to the event's ``batchEventName`` receives a ``\Mautic\CampaignBundle\
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\CampaignBundle\CampaignEvents;
     use Mautic\CampaignBundle\Event\CampaignBuilderEvent;
     use Mautic\CampaignBundle\Event\PendingEvent;
     use MauticPlugin\HelloWorldBundle\HelloWorldEvents;
@@ -441,7 +446,7 @@ Listeners to the event's ``batchEventName`` receives a ``\Mautic\CampaignBundle\
         public static function getSubscribedEvents(): array
         {
             return [
-                CampaignEvents::CAMPAIGN_ON_BUILD         => ['onCampaignBuild', 0],
+                CampaignBuilderEvent::class               => ['onCampaignBuild', 0],
                 HelloWorldEvents::EXECUTE_CAMPAIGN_ACTION => ['onExecuteCampaignAction', 0],
             ];
         }
@@ -646,7 +651,6 @@ Listeners to the event's ``eventName`` receives a ``\Mautic\CampaignBundle\Event
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\CampaignBundle\CampaignEvents;
     use Mautic\CampaignBundle\Event\CampaignBuilderEvent;
     use Mautic\CampaignBundle\Event\ConditionEvent;
     use MauticPlugin\HelloWorldBundle\HelloWorldEvents;
@@ -668,7 +672,7 @@ Listeners to the event's ``eventName`` receives a ``\Mautic\CampaignBundle\Event
         public static function getSubscribedEvents(): array
         {
             return [
-                CampaignEvents::CAMPAIGN_ON_BUILD             => ['onCampaignBuild', 0],
+                CampaignBuilderEvent::class                   => ['onCampaignBuild', 0],
                 HelloWorldEvents::EVALUATE_CAMPAIGN_CONDITION => ['onEvaluateCampaignCondition', 0],
             ];
         }
@@ -742,6 +746,13 @@ Listeners to the event's ``eventName`` receives a ``\Mautic\CampaignBundle\Event
 
         :returntype: void
 
+    .. php:method:: public wasConditionSatisfied()
+
+        Returns whether the Condition passed. It returns ``TRUE`` when the listener called ``pass()``, and ``FALSE`` when the listener called ``fail()`` or called neither method.
+
+        :return: ``TRUE`` if the Condition passed.
+        :returntype: bool
+
 .. vale off
 
 Evaluating a Campaign Decision
@@ -749,7 +760,7 @@ Evaluating a Campaign Decision
 
 .. vale on
 
-Decisions are when a Contact takes some kind of direct action - where they made a decision to act. The code that handles the logic of the decision also needs to tell the Campaign Engine to evaluate Campaign Decisions of the given type by calling ``Mautic\CampaignBundle\Executioner\RealTimeExecutioner::execute()``, registered as the the ``mautic.campaign.executioner.realtime`` service.
+Decisions are when a Contact takes some kind of direct action - where they made a decision to act. The code that handles the logic of the decision also needs to tell the Campaign Engine to evaluate Campaign Decisions of the given type by calling ``Mautic\CampaignBundle\Executioner\RealTimeExecutioner::execute()``.
 
 The Campaign Engine then dispatches the Decision Event's ``eventName`` where listeners receive a ``\Mautic\CampaignBundle\Event\DecisionEvent`` object. This object contains the single LeadEventLog object for the Contact to evaluate this decision. The listener must call ``DecisionEvent::setAsApplicable()`` to instruct the Campaign Engine to execute or schedule Events attached to the "action" (left) path of the decision.
 
@@ -761,7 +772,6 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\CampaignBundle\CampaignEvents;
     use Mautic\CampaignBundle\Event\CampaignBuilderEvent;
     use Mautic\CampaignBundle\Event\DecisionEvent;
     use Mautic\CampaignBundle\Executioner\RealTimeExecutioner;
@@ -787,7 +797,7 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
         public static function getSubscribedEvents()
         {
             return [
-                CampaignEvents::CAMPAIGN_ON_BUILD                  => ['onCampaignBuild', 0],
+                CampaignBuilderEvent::class                        => ['onCampaignBuild', 0],
                 HelloWorldEvents::EVALUATE_CAMPAIGN_DECISION       => ['onEvaluateCampaignDecision', 0],
                 HelloWorldEvents::CONTACT_TRAVEL_DOCUMENTS_CREATED => ['onContactTravelDocumentsCreated', 0],
             ];
@@ -867,6 +877,140 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
         :param mixed $channelId: ID of the Channel entity.
 
     :returntype: void
+
+    .. php:method:: public wasDecisionApplicable()
+
+        Returns whether the Decision was applicable. It returns ``TRUE`` when the listener called ``setAsApplicable()``, and ``FALSE`` otherwise.
+
+        :return: ``TRUE`` if the Decision was applicable.
+        :returntype: bool
+
+Campaign membership change events
+*********************************
+
+Subscribe to these events to run custom logic when Mautic adds Contacts to a Campaign or removes them from it. Mautic dispatches each event by its event class, so key ``getSubscribedEvents()`` on the class name. Both classes live in the ``Mautic\CampaignBundle\Event`` namespace.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Event class
+     - Fires
+   * - ``CampaignSingleLeadChangeEvent``
+     - After Mautic adds one Contact to a Campaign or removes one Contact from it.
+   * - ``CampaignBatchLeadChangeEvent``
+     - After Mautic adds a batch of Contacts to a Campaign or removes a batch from it.
+
+Both classes extend the abstract ``CampaignLeadChangeEvent`` class, so a listener type-hinted against ``CampaignLeadChangeEvent`` keeps working. Use ``getCampaign()`` to read the Campaign entity. For a single Contact, ``getLead()`` returns the Contact. For a batch, ``getLeads()`` returns an array of Contacts. ``getAction()`` returns ``added`` or ``removed``, and ``wasAdded()`` and ``wasRemoved()`` return the same information as a boolean.
+
+.. code-block:: php
+
+   <?php
+
+   declare(strict_types=1);
+
+   use Mautic\CampaignBundle\Event\CampaignBatchLeadChangeEvent;
+   use Mautic\CampaignBundle\Event\CampaignSingleLeadChangeEvent;
+   use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+   final class CampaignMembershipSubscriber implements EventSubscriberInterface
+   {
+       public static function getSubscribedEvents(): array
+       {
+           return [
+               CampaignSingleLeadChangeEvent::class => ['onContactChange', 0],
+               CampaignBatchLeadChangeEvent::class  => ['onBatchChange', 0],
+           ];
+       }
+
+       public function onContactChange(CampaignSingleLeadChangeEvent $event): void
+       {
+           if ($event->wasAdded()) {
+               $contact  = $event->getLead();
+               $campaign = $event->getCampaign();
+               // Notify an external system that the Contact joined the Campaign, for example.
+           }
+       }
+
+       public function onBatchChange(CampaignBatchLeadChangeEvent $event): void
+       {
+           foreach ($event->getLeads() as $contact) {
+               // Handle each added or removed Contact.
+           }
+       }
+   }
+
+.. note::
+
+   Mautic 8 removed the ``CAMPAIGN_ON_LEADCHANGE`` and ``LEAD_CAMPAIGN_BATCH_CHANGE`` constants from ``Mautic\CampaignBundle\CampaignEvents``. Before Mautic 8, both events shared one ``CampaignLeadChangeEvent`` object under the two constant names. Code that still references one of these constants throws a PHP ``Error`` with the message 'Undefined constant'. Replace ``CAMPAIGN_ON_LEADCHANGE`` with ``CampaignSingleLeadChangeEvent::class`` and ``LEAD_CAMPAIGN_BATCH_CHANGE`` with ``CampaignBatchLeadChangeEvent::class``. For the general rule, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+
+Campaign save and delete events
+*******************************
+
+Subscribe to these events to run custom logic when a User saves or deletes a Campaign, for example to sync the Campaign to an external system or write an audit entry. Mautic dispatches each event by its event class, so key ``getSubscribedEvents()`` on the class name. All four classes live in the ``Mautic\CampaignBundle\Event`` namespace.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Event class
+     - Fires
+   * - ``CampaignPreSaveEvent``
+     - Before Mautic saves a Campaign to the database.
+   * - ``CampaignPostSaveEvent``
+     - After Mautic saves a Campaign to the database.
+   * - ``CampaignPreDeleteEvent``
+     - Before Mautic deletes a Campaign.
+   * - ``CampaignPostDeleteEvent``
+     - After Mautic deletes a Campaign.
+
+Each class is ``final`` and extends ``CampaignEvent``, so a listener type-hinted against ``CampaignEvent`` keeps working. Use ``getCampaign()`` to read the Campaign entity and ``isNew()`` to find out whether the save creates a new Campaign. In a ``CampaignPostSaveEvent`` listener, ``getChanges()`` returns the fields that changed.
+
+.. code-block:: php
+
+   <?php
+
+   declare(strict_types=1);
+
+   use Mautic\CampaignBundle\Event\CampaignPostDeleteEvent;
+   use Mautic\CampaignBundle\Event\CampaignPostSaveEvent;
+   use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+   class CampaignLifecycleSubscriber implements EventSubscriberInterface
+   {
+       public static function getSubscribedEvents(): array
+       {
+           return [
+               CampaignPostSaveEvent::class   => ['onCampaignPostSave', 0],
+               CampaignPostDeleteEvent::class => ['onCampaignPostDelete', 0],
+           ];
+       }
+
+       public function onCampaignPostSave(CampaignPostSaveEvent $event): void
+       {
+           $campaign = $event->getCampaign();
+           $changes  = $event->getChanges();
+           // Push the saved Campaign to an external system, for example.
+       }
+
+       public function onCampaignPostDelete(CampaignPostDeleteEvent $event): void
+       {
+           // Mautic has already removed the Campaign, so read its former ID from deletedId.
+           $campaignId = $event->getCampaign()->deletedId;
+           // Remove the Campaign from an external system, for example.
+       }
+   }
+
+.. note::
+
+   Mautic 8 removed the ``CAMPAIGN_PRE_SAVE``, ``CAMPAIGN_POST_SAVE``, ``CAMPAIGN_PRE_DELETE``, and ``CAMPAIGN_POST_DELETE`` constants from ``Mautic\CampaignBundle\CampaignEvents``. Before Mautic 8, all four events shared one ``CampaignEvent`` object under these constant names. Code that still references one of these constants throws a PHP ``Error`` with the message 'Undefined constant', and a subscriber keyed on a raw string such as ``mautic.campaign_post_save`` silently receives nothing. Replace each constant with its event class:
+
+   * ``CAMPAIGN_PRE_SAVE`` - ``CampaignPreSaveEvent::class``
+   * ``CAMPAIGN_POST_SAVE`` - ``CampaignPostSaveEvent::class``
+   * ``CAMPAIGN_PRE_DELETE`` - ``CampaignPreDeleteEvent::class``
+   * ``CAMPAIGN_POST_DELETE`` - ``CampaignPostDeleteEvent::class``
+
+   A Plugin test that creates the event with ``new CampaignEvent($campaign)`` to call a lifecycle listener must create the matching subclass instead, such as ``new CampaignPreSaveEvent($campaign)``. For the general rule, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 .. vale off
 
