@@ -241,7 +241,15 @@ See :ref:`themes/forms:Customizing forms` on how to customize Form fields.
 Template sandbox restrictions
 =============================
 
-Mautic renders User-uploaded Theme templates in a restricted Twig sandbox environment. The sandbox blocks certain functions and filters that could enable remote code execution, data leakage, or filesystem probing.
+Mautic renders User-uploaded Theme templates in a restricted Twig sandbox environment. The sandbox blocks certain functions and filters that could enable remote code execution, data leakage, or filesystem probing, such as the ``configGetParameter``, ``getEntity``, and ``source`` functions.
+
+Theme templates can use collection filters such as ``map``, ``filter``, ``reduce``, ``sort``, and ``find``. In the sandbox, Twig only accepts an arrow function as the callback for these filters:
+
+.. code-block:: twig
+
+    {{ items|map(item => item.name)|join(', ') }}
+
+Passing a PHP function name as a string callback, such as ``map('system')``, makes Twig throw a ``RuntimeError``.
 
 If your Theme template uses a restricted function or filter, Mautic throws an exception such as ``SecurityNotAllowedFilterError`` or ``SecurityNotAllowedFunctionError``. Use alternative approaches that don't require the restricted operation.
 
