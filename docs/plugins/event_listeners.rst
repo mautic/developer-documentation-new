@@ -64,12 +64,12 @@ Event subscribers
 
 The easiest way to listen to various events is to use an event subscriber. Read more about :xref:`Symfony event subscribers` in Symfony's documentation.
 
-A Plugin event subscriber implements ``Symfony\Component\EventDispatcher\EventSubscriberInterface`` and returns the events it listens to from ``getSubscribedEvents()``, as the earlier ``LeadSubscriber`` example does. When the Plugin's ``Config/services.php`` file turns on autoconfiguration for its services, Symfony registers the subscriber without a separate service definition. See :doc:`/plugins/autowiring`.
+A Plugin event subscriber implements ``Symfony\Component\EventDispatcher\EventSubscriberInterface`` and returns the events it listens to from ``getSubscribedEvents()``, as the earlier ``LeadSubscriber`` example does. When the Plugin's ``Config/services.php`` file turns on autoconfiguration for its services, Symfony registers the subscriber without a separate service definition. See :ref:`plugins/autowiring:Autowiring`.
 
 Attribute listeners
 *******************
 
-Instead of implementing ``EventSubscriberInterface``, you can mark each listener method with Symfony's ``#[AsEventListener]`` attribute. Mautic's own listeners and the Plugins bundled with Mautic use this attribute. Symfony only registers attribute listeners on autoconfigured services, so the Plugin's ``Config/services.php`` file must call ``->autoconfigure()``.
+Instead of implementing ``Symfony\Component\EventDispatcher\EventSubscriberInterface``, you can mark each listener method with Symfony's ``#[AsEventListener]`` attribute. Most of Mautic's own listeners and the Plugins bundled with Mautic use this attribute for Symfony events. The attribute only applies to Symfony's event dispatcher. Subscribers for other event systems keep their own registration. For example, a ``POST_SERIALIZE`` subscriber for JMS still implements ``JMS\Serializer\EventDispatcher\EventSubscriberInterface``. Symfony only registers attribute listeners on autoconfigured services, so the Plugin's ``Config/services.php`` file must call ``->autoconfigure()``.
 
 .. code-block:: php
 
