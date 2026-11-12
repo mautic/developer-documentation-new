@@ -1515,7 +1515,29 @@ Mautic shows fields conditionally based on other field values:
 Mapped fields
 *************
 
-Mautic can map Form Fields to Contact or Company fields:
+Mautic can map Form Fields to Contact or Company fields. To map a field, send both properties in the field's parameters:
 
-* Use ``mappedObject`` to specify ``contact`` or ``company``
-* Use ``mappedField`` to specify the target field name
+* ``mappedObject`` - the object that the field maps to, ``contact`` or ``company``
+* ``mappedField`` - the alias of the target field on that object
+
+Form Field responses return the mapping in the same two properties.
+
+.. warning::
+
+   Form Fields have no ``leadField`` property. Responses don't include it, and Mautic ignores ``leadField`` in a request. A request that sends ``leadField`` without ``mappedObject`` and ``mappedField`` still succeeds, but Mautic doesn't map the field, so a successful response doesn't confirm the mapping. If your API client reads or sends ``leadField``, update it to use ``mappedObject`` and ``mappedField``.
+
+For example, instead of ``"leadField": "email"``, send:
+
+.. code-block:: json
+
+   {
+       "label": "Email",
+       "alias": "email",
+       "type": "email",
+       "mappedObject": "contact",
+       "mappedField": "email"
+   }
+
+To map a field to the Company phone field, send ``"mappedObject": "company"`` and ``"mappedField": "companyphone"``. The ``company`` field belongs to the Contact object, so map it with ``"mappedObject": "contact"`` and ``"mappedField": "company"``.
+
+Mautic keeps the mappings of Forms already stored in the database. When you upgrade to Mautic 8, a database migration copies each stored ``leadField`` value to ``mappedObject`` and ``mappedField`` for fields that don't have a ``mappedField`` yet. The migration only updates stored Forms - it doesn't change the requests your API client sends.
