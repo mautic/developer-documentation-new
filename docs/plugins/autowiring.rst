@@ -1,9 +1,11 @@
+.. _plugin autowiring:
+
 Autowiring
 ##########
 
 Mautic 5 adds support for Symfony's :xref:`symfony-autowiring` and :xref:`symfony-autoconfigure` for services.
 
-Earlier versions required defining services in the ``*Bundle/Config/config.php`` file. This still works in Mautic 5, but won't work in Mautic 6 as it's due for removal. 
+Define your bundle's services in its ``Config/services.php`` file.
 
 Follow these steps to migrate from hard-coded services to autowired services.
 
@@ -14,7 +16,6 @@ Advantages
 -  If services aren't used in other services as dependencies, they're deleted, like **subscribers**, **commands** and **form types**.
 -  You can reduce existing service definitions to setting just the string alias, to maintain backward compatibility and keep controllers working.
 -  ``app/config/services.php`` automatically configures all bundles including Plugins so if the bundle doesn't do anything unusual, it should work out of the box.
--  The legacy services definitions are in the ``*Bundle/Config/config.php`` file , but in Mautic 6 this is due for removal.
 
 The same applies for Plugins as well as for the core bundles.
 
