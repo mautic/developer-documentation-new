@@ -141,7 +141,7 @@ A Plugin creates its own set of permissions by defining a permission class. Each
            $this->addStandardPermissions('categories');
        }
 
-       public function buildForm(FormBuilderInterface &$builder, array $options, array $data)
+       public function buildForm(FormBuilderInterface &$builder, array $options, array $data): void
        {
            // Add standard category form fields
            $this->addStandardFormFields('helloWorld', 'categories', $builder, $data);
@@ -278,7 +278,7 @@ Manipulating permissions before saving
 
    <?php
 
-   public function analyzePermissions(array &$permissions, $allPermissions, $isSecondRound = false)
+   public function analyzePermissions(array &$permissions, $allPermissions, bool $isSecondRound = false): bool
    {
        foreach ($permissions as $level => &$perms) {
            foreach ($perms as $perm) {
