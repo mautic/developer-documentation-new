@@ -86,4 +86,4 @@ Email stat properties
       - The Contact the Email went to. Contains only the Contact's ``id``, ``points``, ``color``, and ``fields``. See :ref:`Contact object<Webhooks/events/lead_post_save_new:Contact properties>` for these properties.
     * - ``email``
       - object|null
-      - The :ref:`Email object<Webhooks/events/email_on_send:Email properties>` the Contact opened. Mautic leaves out ``customHtml`` and ``plainText`` if you turn off the ``Send Email details`` Webhook Setting.
+      - The Email the Contact opened. Contains only the Email's own detail properties from the :ref:`Email object<Webhooks/events/email_on_send:Email properties>`, without ``isPublished``, ``dateAdded``, ``createdBy``, ``createdByUser``, ``dateModified``, ``modifiedBy``, and ``modifiedByUser``. Nested objects such as ``category``, ``unsubscribeForm``, ``lists``, and ``assetAttachments`` are empty. Mautic leaves out ``customHtml`` and ``plainText`` if you turn off the ``Send Email details`` Webhook Setting.

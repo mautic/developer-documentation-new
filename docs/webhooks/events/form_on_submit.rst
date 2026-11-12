@@ -48,7 +48,7 @@ Submission properties
       - :ref:`Form basic object<webhooks/events/form_on_submit:Form basic properties>`.
     * - ``lead``
       - object
-      - :ref:`Contact object<webhooks/events/lead_post_save_new:Contact properties>`.
+      - The Contact who submitted the Form. Contains only the Contact's ``id``, ``points``, ``color``, and ``fields``. See :ref:`Contact object<webhooks/events/lead_post_save_new:Contact properties>` for these properties.
     * - ``trackingId``
       - string
       - Generated ID for the tracking session.
@@ -84,8 +84,8 @@ Form basic properties
       - string
       - API name for the Form
     * - ``category``
-      - object
-      - :ref:`Category object<webhooks/events/email_on_send:Category properties>`
+      - object|null
+      - Empty object if the Form has a Category. Otherwise, ``null``.
 
 IP address basic properties
 ***************************
