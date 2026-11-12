@@ -13,7 +13,11 @@ Entities and schema
 
 .. vale on
 
-Mautic uses Doctrine's :xref:`object relational mapper<Doctrine Object Relational Mapper>` to define the schema. Plugins define their schema using entity classes stored in their ``Entity`` directory. Define the schema for the entity through Doctrine's :xref:`PHP static function mapping<Doctrine PHP mapping>`, :xref:`attributes<Doctrine attributes>`, or both. When an entity uses both, Mautic reads the attributes first and then runs the entity's ``loadMetadata()`` method, which can add to or override the attribute mapping.
+Mautic uses Doctrine's :xref:`object relational mapper<Doctrine Object Relational Mapper>` to define the schema. Plugins define their schema using entity classes stored in their ``Entity`` directory. Define the schema for the entity through Doctrine's :xref:`PHP static function mapping<Doctrine PHP mapping>`, :xref:`attributes<Doctrine attributes>` such as ``#[ORM\Column]``, or both.
+
+Mautic registers a Plugin's ``Entity`` directory with Doctrine when an entity in it has a ``loadMetadata()`` method or an ``#[ORM\Entity]``, ``#[ORM\MappedSuperclass]``, or ``#[ORM\Embeddable]`` attribute. If the entity has an ``#[ORM\Entity]`` or ``#[ORM\MappedSuperclass]`` attribute, Mautic reads its attributes first and then calls ``loadMetadata()`` if the entity has one, so ``loadMetadata()`` can add to or override the attribute mapping. This lets an entity map its columns with attributes and keep ``loadMetadata()`` only for mapping that Mautic's ``ClassMetadataBuilder`` helpers build. Mautic ignores the property attributes of an entity that has neither class attribute, even if it has a ``loadMetadata()`` method, so the schema doesn't include those columns.
+
+An entity's ``loadMetadata()`` holds only the mapping that its attributes don't declare, and many Core entities, including ``FormEntity``, don't have one. To read an entity's complete mapping, call ``getClassMetadata()`` on the entity manager instead of calling ``loadMetadata()``.
 
 Entity PHP static function mapping
 **********************************
