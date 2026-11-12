@@ -590,7 +590,7 @@ POST parameters
      - boolean
      - Set to ``false`` to send the Email without a tracking pixel and with its links pointing directly to their destinations, so Mautic records no opens or clicks for it. When ``true``, the global tracking settings apply. Defaults to ``true``.
 
-       **PUT behavior:** For ``PUT`` requests, this field defaults to ``true`` when not explicitly provided.
+       **PUT behavior:** When a ``PUT`` request that updates an existing Email leaves out this field, the Email keeps its current value. When a ``PUT`` request creates an Email, this field defaults to ``true``.
    * - ``settings``
      - associative array
      - Associative array of per-Email settings stored as key-value pairs
