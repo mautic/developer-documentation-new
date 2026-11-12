@@ -1423,7 +1423,7 @@ Response
 
 ``Expected Response Code: 200``
 
-The request returns ``HTTP 400 (Bad Request)`` when ``limit`` is zero, negative, or not an integer, or when ``start`` is negative.
+The request returns ``HTTP 400 (Bad Request)`` when ``limit`` is zero, negative, or not an integer, or when ``start`` is negative or not an integer.
 
 .. code-block:: json
 
