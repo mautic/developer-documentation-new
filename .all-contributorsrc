@@ -250,6 +250,33 @@
       "contributions": [
         "review"
       ]
+    },
+    {
+      "login": "stasadev",
+      "name": "Stanislav Zhuk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/24270994?v=4",
+      "profile": "https://github.com/stasadev",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "peculiaruc",
+      "name": "Peculiar C. Umeh",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35475543?v=4",
+      "profile": "https://github.com/peculiaruc",
+      "contributions": [
+        "review"
+      ]
+    },
+    {
+      "login": "JonasLudwig1998",
+      "name": "JonasLudwig1998",
+      "avatar_url": "https://avatars.githubusercontent.com/u/146742086?v=4",
+      "profile": "https://github.com/JonasLudwig1998",
+      "contributions": [
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
