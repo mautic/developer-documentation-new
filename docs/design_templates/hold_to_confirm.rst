@@ -8,7 +8,7 @@ While the User holds the button, a progress ring fills around its icon. When the
 Including the template
 **********************
 
-Include ``@MauticCore/Components/hold-to-confirm.html.twig`` with the ``only`` keyword. This example renders the **Restart all dismissed tips** button in the User's **Account** settings.
+Include ``@MauticCore/Components/hold-to-confirm.html.twig`` with the ``only`` keyword. This example renders the **Restart all dismissed tips** button and its hint in the User's **Account** settings.
 
 .. code-block:: twig
 
@@ -20,6 +20,9 @@ Include ``@MauticCore/Components/hold-to-confirm.html.twig`` with the ``only`` k
        size: 'sm',
        icon: 'ri-refresh-line',
    } only %}
+   <div class="form-text">{{ 'mautic.core.hold_to_confirm.hint'|trans }}</div>
+
+Add a visible hint below the button so Users know to press and hold it, because the template doesn't render one. The example uses the ``mautic.core.hold_to_confirm.hint`` translation key, which reads 'Press and hold to confirm.'
 
 The template passes ``label`` and ``confirmedLabel`` through Twig's ``trans`` filter, so you can pass translation keys or plain strings. It builds the button's ``aria-label`` from the label and the hold duration, for example 'Restart all dismissed tips. Press and hold for 1.2 seconds to confirm', and announces the confirmed label to screen readers.
 
