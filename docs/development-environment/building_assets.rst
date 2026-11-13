@@ -64,7 +64,13 @@ The production build also generates ``css/offline.css``, a compatibility stylesh
 Bootstrap framework
 ===================
 
-Mautic uses Bootstrap 3.4.1 for its UI framework. The Bootstrap source files come from the ``twbs/bootstrap-sass`` Composer package and are available for importing in your SCSS files.
+Mautic uses Bootstrap 5.3.8 for its UI framework. The Bootstrap SCSS source files come from the ``twbs/bootstrap`` Composer package. Mautic adds ``vendor/twbs/bootstrap/scss`` to the Sass load path, so you can import Bootstrap partials in your SCSS files.
+
+Write your Plugin templates, styles, and JavaScript for Bootstrap 5:
+
+* Use Bootstrap 5 classes in templates and styles.
+* Use ``data-bs-*`` attributes, such as ``data-bs-toggle`` and ``data-bs-target``, to set up modals, dropdowns, tabs, and other Bootstrap elements in markup.
+* Control these elements from JavaScript through the Bootstrap 5 API on ``window.bootstrap``, for example ``bootstrap.Modal.getOrCreateInstance(element).show()``.
 
 .. vale off
 
