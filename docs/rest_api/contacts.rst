@@ -2131,7 +2131,7 @@ Get Activity events for all Contacts
    * - ``filters[dateTo]``
      - Date to filter. Must be type of ``\DateTime`` for the PHP API Library and in format ``Y-m-d H:i:s`` for HTTP param
    * - ``filters[leadIds][]``
-     - Array of Contact IDs. Returns only the events of these Contacts, including the ``lead.create``, ``lead.identified``, and ``lead.ipadded`` events that requests without this filter leave out. The PHP API Library's ``getActivity()`` method doesn't accept this filter, so add it to the request URL instead.
+     - Array of Contact IDs. Returns only the events of these Contacts, including the ``lead.create``, ``lead.identified``, ``lead.ipadded``, and ``lead.apiadded`` events that requests without this filter leave out. The PHP API Library's ``getActivity()`` method doesn't accept this filter, so add it to the request URL instead.
    * - ``order[0]``
      - Column to sort by. Can use any column listed in the response.
    * - ``order[1]``
