@@ -568,7 +568,7 @@ A/B testing examples
     <div class="panel ovf-h bg-auto bg-light-xs abtest-bar-chart">
         <div class="panel-body box-layout">
             <div class="col-xs-8 va-m">
-                <h5 class="text-white dark-md fw-sb mb-xs">
+                <h5 class="text-white dark-md fw-sb mb-5">
                     <?php echo $label; ?>
                 </h5>
             </div>

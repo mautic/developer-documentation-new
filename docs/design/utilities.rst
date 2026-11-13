@@ -133,15 +133,15 @@ Flex order properties
 
 - ``.fo-auto``: Sets the order of a flex item to auto. This means the item will be laid out in the order it appears in the source code.
 - ``.fo-0``, ``.fo-1``, ``.fo-2``, ``.fo-3``, ``.fo-4``, ``.fo-5``: Sets the order of a flex item to the specified number. This means the item will be laid out in that order, regardless of where it appears in the source code.
-- ``.gap-20``, ``.gap-lg``: Sets the gap between flex items to 20px.
-- ``.gap-15``, ``.gap-md``: Sets the gap between flex items to 15px.
-- ``.gap-10``, ``.gap-sm``: Sets the gap between flex items to 10px.
-- ``.gap-5``, ``.gap-xs``: Sets the gap between flex items to 5px.
-- ``.gap-4``: Sets the gap between flex items to 4px.
-- ``.gap-3``: Sets the gap between flex items to 3px.
-- ``.gap-2``: Sets the gap between flex items to 2px.
-- ``.gap-1``: Sets the gap between flex items to 1px.
-- ``.gap-0``: Sets the gap between flex items to 0px.
+
+Gap properties
+--------------
+
+* ``.gap-{size}``: Sets the gap between flex items. For example, ``.gap-12`` sets a 12px gap.
+* ``.row-gap-{size}``: Sets the gap between rows of flex items.
+* ``.column-gap-{size}``: Sets the gap between columns of flex items.
+
+The ``{size}`` value is one of the sizes listed in :ref:`Size options <design/utilities:Size options>`, such as ``0``, ``5``, ``12``, or ``24``. The gap classes also support the ``10``, ``15``, and ``20`` sizes and the ``xs``, ``sm``, ``md``, and ``lg`` aliases, which existing custom templates may use.
 
 Responsive variations
 =====================
@@ -180,13 +180,13 @@ This example creates a flex container with items spread across the container and
 
 .. code-block:: html
 
-    <div class="d-flex fd-column ai-stretch gap-10">
+    <div class="d-flex fd-column ai-stretch gap-12">
       <div>Top item</div>
       <div>Middle item</div>
       <div>Bottom item</div>
     </div>
 
-This example creates a vertical stack of items that stretch to fill the container's width, with a 10px gap between them.
+This example creates a vertical stack of items that stretch to fill the container's width, with a 12px gap between them.
 
 Combining utilities
 ===================
@@ -195,7 +195,7 @@ Note that you can combine these utilities to create complex layouts. For example
 
 .. code-block:: html
 
-    <div class="d-flex fd-row-md fd-column fw-wrap jc-center ai-center gap-15">
+    <div class="d-flex fd-row-md fd-column fw-wrap jc-center ai-center gap-16">
       <!-- Flex items here -->
     </div>
 
@@ -204,59 +204,76 @@ This combination creates a flex container that:
 - Is a column on small screens and a row on medium screens and up
 - Wraps items if they don't fit
 - Centers items both horizontally and vertically
-- Has a 15px gap between items
+- Has a 16px gap between items
 
 Padding and margin utilities
 ****************************
 
-The CSS utility classes for padding and margin provide a comprehensive set of options for controlling spacing within your layouts. These utilities follow a consistent naming convention and offer a range of predefined sizes, including pixel values and variable-based spacing.
+Mautic provides the Bootstrap 5 spacing utilities for padding and margin, alongside its own spacing classes. Both sets use one pixel scale, so the number in a class name is the size in pixels. For example, ``mt-16`` sets a 16px top margin.
 
 Naming convention
 =================
 
-The utility classes use the following prefixes:
+The Bootstrap 5 spacing classes use these prefixes:
 
-- ``pa-``: padding all sides
-- ``pt-``: padding top
-- ``pr-``: padding right
-- ``pb-``: padding bottom
-- ``pl-``: padding left
-- ``ma-``: margin all sides
-- ``mt-``: margin top
-- ``mr-``: margin right
-- ``mb-``: margin bottom
-- ``ml-``: margin left
+* ``p-``, ``m-``: padding or margin on all sides
+* ``pt-``, ``mt-``: padding or margin top
+* ``pb-``, ``mb-``: padding or margin bottom
+* ``ps-``, ``ms-``: padding or margin start - the left side in left-to-right layouts
+* ``pe-``, ``me-``: padding or margin end - the right side in left-to-right layouts
+* ``px-``, ``mx-``: padding or margin on the start and end
+* ``py-``, ``my-``: padding or margin top and bottom
+
+Mautic's own spacing classes add these prefixes:
+
+* ``pa-``, ``ma-``: padding or margin on all sides
+* ``pl-``, ``ml-``: padding or margin left
+* ``pr-``, ``mr-``: padding or margin right
+
+Mautic's core templates use ``ps-``, ``pe-``, ``ms-``, and ``me-`` for left and right spacing. Use them in your templates too, because they follow the text direction.
+
+To set a margin to ``auto``, use ``ma-a``, ``mt-a``, ``mb-a``, ``ml-a``, ``mr-a``, or a Bootstrap ``-auto`` class such as ``ms-auto``.
 
 Size options
 ============
 
-The utilities offer the following size options:
+All spacing classes support these sizes, in pixels:
 
 .. vale off
 
-1. Pixel-based sizes: 0, 1, 2, 3, 4, 5, 10, 15, 20 pixels
-2. Variable-based sizes: 8, 12, 16, 24, 32, 40, 48, 64, 80, 96, 160 pixels (using CSS variables)
-3. Named sizes: xs (5px), sm (10px), md (15px), lg (20px), xl (32px)
+``0``, ``1``, ``2``, ``3``, ``4``, ``5``, ``8``, ``12``, ``16``, ``24``, ``32``, ``40``, ``48``, ``64``, ``80``, ``96``, ``160``
 
 .. vale on
+
+For example, ``me-1`` sets a 1px end margin and ``pb-24`` sets a 24px bottom padding.
+
+Mautic's own spacing classes also support the ``10``, ``15``, and ``20`` sizes, and these named aliases:
+
+* ``xs``: 5px
+* ``sm``: 10px
+* ``md``: 15px
+* ``lg``: 20px
+* ``xl``: 32px
+
+The aliases and the ``pl-``, ``pr-``, ``ml-``, and ``mr-`` classes remain available so that existing custom templates keep working. Mautic's core templates use the sizes ``5``, ``12``, ``16``, and ``24`` instead of ``xs``, ``sm``, ``md``, and ``lg``.
 
 Padding and margin examples
 ===========================
 
 .. code-block:: html
 
-    <div class="pa-5">Padding 5px on all sides</div>
-    <div class="pt-10 pb-10">Padding 10px on top and bottom</div>
-    <div class="pl-md pr-md">Padding 15px on left and right</div>
-    <div class="ma-lg">Margin 20px on all sides</div>
+    <div class="p-5">Padding 5px on all sides</div>
+    <div class="pt-12 pb-12">Padding 12px on top and bottom</div>
+    <div class="ps-16 pe-16">Padding 16px on left and right</div>
+    <div class="m-24">Margin 24px on all sides</div>
     <div class="mt-32 mb-32">Margin 32px on top and bottom</div>
 
 Variable-based sizes
 ====================
 
-Some utilities use CSS variables for spacing, allowing for easy theming and consistent spacing across your app:
+In Mautic's own spacing classes, the sizes from ``8`` to ``160`` - except ``10``, ``15``, and ``20`` - use CSS variables for spacing, allowing for easy theming and consistent spacing across your app:
 
-- ``var(--spacing-03)`` to ``var(--spacing-13)``
+* ``var(--spacing-03)`` to ``var(--spacing-13)``
 
 These correspond to specific pixel values - for example, ``var(--spacing-03)`` is 8px, ``var(--spacing-13)`` is 160px.
 
