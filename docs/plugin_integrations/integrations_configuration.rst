@@ -81,17 +81,26 @@ Find the code snippet as follows,
     namespace MauticPlugin\HelloBundle\Integration\Support;
 
     use MauticPlugin\HelloWorldBundle\Form\Type\ConfigAuthType;
-    use Mautic\IntegrationsBundle\Integration\DefaultConfigFormTrait;
     use Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormInterface;
     use Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormAuthInterface;
 
     class ConfigSupport implements ConfigFormInterface, ConfigFormAuthInterface
     {
-        use DefaultConfigFormTrait;
-
         public function getDisplayName(): string
         {
             return 'Hello World';
+        }
+
+        // Return null to use the default configuration Form.
+        public function getConfigFormName(): ?string
+        {
+            return null;
+        }
+
+        // Return null to use the default template.
+        public function getConfigFormContentTemplate(): ?string
+        {
+            return null;
         }
 
         /**
