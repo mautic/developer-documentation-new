@@ -69,7 +69,7 @@ A Plugin event subscriber implements ``Symfony\Component\EventDispatcher\EventSu
 Attribute listeners
 *******************
 
-Instead of implementing ``Symfony\Component\EventDispatcher\EventSubscriberInterface``, you can mark each listener method with Symfony's ``#[AsEventListener]`` attribute. Most of Mautic's own listeners and the Plugins bundled with Mautic use this attribute for Symfony events. The attribute only applies to Symfony's event dispatcher. Subscribers for other event systems keep their own registration. For example, a ``POST_SERIALIZE`` subscriber for JMS still implements ``JMS\Serializer\EventDispatcher\EventSubscriberInterface``. Symfony only registers attribute listeners on autoconfigured services, so the Plugin's ``Config/services.php`` file must call ``->autoconfigure()``.
+Instead of implementing ``Symfony\Component\EventDispatcher\EventSubscriberInterface``, you can mark each listener method with Symfony's ``#[AsEventListener]`` attribute. Most of Mautic's own listeners and the Plugins bundled with Mautic use this attribute for Symfony events. Symfony only registers attribute listeners on autoconfigured services, so the Plugin's ``Config/services.php`` file must call ``->autoconfigure()``.
 
 .. code-block:: php
 
@@ -97,6 +97,11 @@ Instead of implementing ``Symfony\Component\EventDispatcher\EventSubscriberInter
 The ``event`` argument takes the event class. The optional ``priority`` argument sets the order, and listeners with a higher priority run first. When your listener must run before or after a Mautic listener for the same event, set an explicit ``priority`` rather than relying on registration order.
 
 Some Mautic base classes, such as ``Mautic\CoreBundle\EventListener\CommonStatsSubscriber``, declare their listener methods with ``#[AsEventListener]``. A class that extends one of them inherits those listeners, provided the class's service has autoconfiguration turned on. PHP doesn't copy attributes to an overriding method, so if you override a listener method such as ``onStatsFetch()``, add ``#[AsEventListener]`` to the override. Otherwise, Symfony doesn't register it.
+
+The attribute only registers listeners with Symfony's main event dispatcher. Subscribers for other dispatchers keep their own registration:
+
+* A Symfony Form event subscriber, such as ``Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber``, still implements ``Symfony\Component\EventDispatcher\EventSubscriberInterface``. Each Form has its own event dispatcher, so the Form type adds the subscriber with ``$builder->addEventSubscriber()``.
+* A ``POST_SERIALIZE`` event subscriber still implements ``JMS\Serializer\EventDispatcher\EventSubscriberInterface``.
 
 Available events
 ****************
