@@ -78,7 +78,7 @@ Group options
 Each group accepts the following keys:
 
 * ``filters``: the list of quick filters in the group. Each filter uses the options described in the following section.
-* ``conflictGroup``: optional. Set it to ``true`` when the group's filters exclude each other, such as **Active** and **Inactive**. Selecting one filter in a conflict group deselects the other filters in that group. Mautic uses the last part of the group key as the conflict group's name, for example ``status`` for ``mautic.core.quick_filters.status``.
+* ``conflictGroup``: optional. Set it to ``true`` when the group's filters exclude each other, such as **Active** and **Inactive**. Selecting one filter in a conflict group deselects the other filters in that group. Mautic uses the group key as the conflict group's name.
 
 Leave ``conflictGroup`` out when Users can combine the group's filters.
 
