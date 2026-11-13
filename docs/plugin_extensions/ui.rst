@@ -461,7 +461,7 @@ The Company detail view is ``@MauticLead/Company/company.html.twig``. It calls `
 Company and import contexts
 ===========================
 
-The Company views and the import mapping step expose the following contexts. Pass the template name and the context to ``checkContext()``.
+The Company views and the import mapping step expose the following contexts. Pass the template and the context to ``checkContext()``.
 
 .. list-table::
     :header-rows: 1
@@ -477,10 +477,10 @@ The Company views and the import mapping step expose the following contexts. Pas
         - After the engagements chart, before the Company's Contacts.
     *   - ``@MauticLead/Company/company.html.twig``
         - ``company.tabs``
-        - Tab controls after the **Contacts** tab. See :ref:`Adding tabs to the Company detail view`.
+        - Tab controls after the **Contacts** tab. Add the matching pane at ``company.tabs.content``.
     *   - ``@MauticLead/Company/company.html.twig``
         - ``company.tabs.content``
-        - Tab panes after the Contacts pane. See :ref:`Adding tabs to the Company detail view`.
+        - Tab panes after the Contacts pane.
     *   - ``@MauticLead/Company/company.html.twig``
         - ``company.contacts.after``
         - After the Company's Contacts, at the bottom of the main column.
@@ -495,34 +495,4 @@ The Company views and the import mapping step expose the following contexts. Pas
         - Left column of the Company create and edit view, after the field group list.
     *   - ``@MauticLead/Import/_mapping_form.html.twig``
         - ``import.defaults``
-        - Inside the import defaults panel, after the owner, Segment, Tags, and other default options.
-
-The Company detail view passes ``company``, ``fields``, ``permissions``, and ``security`` to its hooks. The Company create and edit view passes ``entity``, ``form``, ``fields``, and ``groups``. The modal version of that view, ``form_embedded.html.twig``, doesn't call ``company.form.sidebar``.
-
-The import mapping step serves every importable object, such as Contacts and Companies. Its hook passes ``form`` and ``objectName``. To inject content for one object only, compare ``objectName`` in ``$event->getVars()`` with the object's translation key, such as ``mautic.lead.leads`` for Contacts or ``mautic.lead.lead.companies`` for Companies. Each default option sits in a ``col-xs-4`` column of the same row, so wrap injected content in ``<div class="col-xs-4">`` to match the layout.
-
-Adding tabs to the Company detail view
---------------------------------------
-
-The Company's Contacts table shows without tabs until a listener adds content at ``company.tabs``. Once one does, Mautic renders a tab bar. The **Contacts** tab comes first, followed by the injected tabs. Inject the tab control and its pane separately, and match the control's ``href`` to the pane's ``id``:
-
-.. code-block:: php
-
-    public function injectContent(CustomContentEvent $event): void
-    {
-        $viewName = '@MauticLead/Company/company.html.twig';
-
-        if ($event->checkContext($viewName, 'company.tabs')) {
-            $event->addContent(
-                '<li><a href="#helloworld-container" class="nav-link" role="tab" data-bs-toggle="tab">Hello World</a></li>'
-            );
-        }
-
-        if ($event->checkContext($viewName, 'company.tabs.content')) {
-            $event->addContent(
-                '<div class="tab-pane fade bdr-w-0" id="helloworld-container">Custom company content</div>'
-            );
-        }
-    }
-
-The Contact detail view uses the ``tabs`` and ``tabs.content`` contexts in ``@MauticLead/Lead/lead.html.twig`` in the same way.
+        - Inside the import defaults panel. The hook passes ``objectName``, so compare it in ``$event->getVars()`` to target one import object, such as Companies.
