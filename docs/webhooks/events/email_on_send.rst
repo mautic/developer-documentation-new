@@ -465,15 +465,18 @@ Unsubscribe Form Field properties
     * - ``containerAttributes``
       - string|null
       - HTML attributes to append to the field's wrapping element.
-    * - ``leadField``
-      - string|null
-      - The Contact Custom Field to persist the data to upon submit.
     * - ``saveResult``
       - boolean
       - ``false`` to prevent persisting the value to the database.
     * - ``isAutoFill``
       - boolean
       - ``true`` to auto fill known values from the tracked Contact's profile.
+    * - ``mappedObject``
+      - string|null
+      - The object type that the field maps to - ``contact`` or ``company``.
+    * - ``mappedField``
+      - string|null
+      - The Contact or Company field that Mautic saves the submitted value to.
 
 .. vale off
 
