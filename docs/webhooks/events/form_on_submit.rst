@@ -23,7 +23,7 @@ Event properties
       - Description
     * - ``submission``
       - object
-      - :ref:`Submission object<webhooks/events/form_on_submit:Submission properties>`
+      - :ref:`Submission object<Webhooks/events/form_on_submit:Submission properties>`
     * - ``timestamp``
       - string
       - Date/time the event occurred in ISO 8601 format.
@@ -42,13 +42,13 @@ Submission properties
       - ID of the Submission.
     * - ``ipAddress``
       - object
-      - :ref:`IP address basic object<webhooks/events/form_on_submit:IP address basic properties>` for the Contact when they submitted the Form.
+      - :ref:`IP address basic object<Webhooks/events/form_on_submit:IP address basic properties>` for the Contact when they submitted the Form.
     * - ``form``
       - object
-      - :ref:`Form basic object<webhooks/events/form_on_submit:Form basic properties>`.
+      - :ref:`Form basic object<Webhooks/events/form_on_submit:Form basic properties>`.
     * - ``lead``
       - object
-      - The Contact who submitted the Form. Contains only the Contact's ``id``, ``points``, ``color``, and ``fields``. See :ref:`Contact object<webhooks/events/lead_post_save_new:Contact properties>` for these properties.
+      - The Contact who submitted the Form. Contains only the Contact's ``id``, ``points``, ``color``, and ``fields``. See :ref:`Contact object<Webhooks/events/lead_post_save_new:Contact properties>` for these properties.
     * - ``trackingId``
       - string
       - Generated ID for the tracking session.
@@ -63,7 +63,7 @@ Submission properties
       - Key/value pairs with Form field API names as the keys and submitted values.
     * - ``page``
       - object|null
-      - :ref:`Landing Page basic object<webhooks/events/page_on_hit:Landing Page basic properties>` if the Contact submitted the Form when embedded on a Landing Page. Otherwise, ``null``.
+      - :ref:`Landing Page basic object<Webhooks/events/page_on_hit:Landing Page basic properties>` if the Contact submitted the Form when embedded on a Landing Page. Otherwise, ``null``.
 
 Form basic properties
 *********************

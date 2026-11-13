@@ -23,7 +23,7 @@ Event properties
       - Description
     * - ``hit``
       - object
-      - :ref:`Page visit object<webhooks/events/page_on_hit:Page visit properties>`
+      - :ref:`Page visit object<Webhooks/events/page_on_hit:Page visit properties>`
     * - ``timestamp``
       - string
       - Date/time the event occurred in ISO 8601 format.
@@ -48,13 +48,13 @@ Page visit properties
       - Always ``null`` for Webhook events.
     * - ``page``
       - object
-      - :ref:`Landing Page basic object<webhooks/events/page_on_hit:Landing Page basic properties>`.
+      - :ref:`Landing Page basic object<Webhooks/events/page_on_hit:Landing Page basic properties>`.
     * - ``lead``
       - object
-      - The Contact who visited the Page. Contains only the Contact's ``id``, ``points``, ``color``, and ``fields``. See :ref:`Contact object<webhooks/events/lead_post_save_new:Contact properties>` for these properties.
+      - The Contact who made the visit. Contains only the Contact's ``id``, ``points``, ``color``, and ``fields``. See :ref:`Contact object<Webhooks/events/lead_post_save_new:Contact properties>` for these properties.
     * - ``ipAddress``
       - object
-      - :ref:`IP address basic object<webhooks/events/form_on_submit:IP address basic properties>` for the Contact when they visited the Page.
+      - :ref:`IP address basic object<Webhooks/events/form_on_submit:IP address basic properties>` for the Contact when they visited the Page.
     * - ``country``
       - string
       - Country gleaned from tracked IP address.
