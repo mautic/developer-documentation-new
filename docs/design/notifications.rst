@@ -125,7 +125,7 @@ Parameters:
 
 - ``$message`` string: the main content of the notification.
 - ``$type`` string|null: identifies the source and style of the notification - optional.
-- ``$isRead`` boolean: indicates if the system has marked the notification as read - default: true.
+- ``$isRead`` boolean: indicates if the system has marked the notification as read - default: false.
 - ``$header`` string|null: the header text for the notification - required.
 - ``$iconClass`` string|null: CSS class for the notification icon - for example, 'ri-eye-line'.
 - ``$datetime`` \\DateTime|null: creation date of the notification.
@@ -150,10 +150,12 @@ The ``$type`` parameter determines the visual style of the notification:
 - ``'success'``: green alert with success icon
 - ``'info'``: blue alert with info icon
 - ``'warning'``: yellow alert with warning icon
-- ``'error'``: red alert with error icon
+- ``'danger'``: red alert with error icon
 - ``''`` empty string: default style without colors and icon
 
 .. vale on
+
+Mautic adds the type to the notification as an ``alert-{type}`` CSS class. A type without a matching style, such as ``'error'``, displays like the default style, without colors or an icon. Use ``'danger'`` for a red error notification.
 
 Example usage
 =============
