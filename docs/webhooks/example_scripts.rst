@@ -56,19 +56,21 @@ PHP
     $webhook = new webhookTest;
     $rawData = $webhook->getRequest();
 
-    // optional signature verification
-    $headers = getallheaders();
-    $receivedSignature = $headers['Webhook-Signature'];
+    // Verify the signature and stop processing if it doesn't match
+    $headers = array_change_key_case(getallheaders(), CASE_LOWER);
+    $receivedSignature = $headers['webhook-signature'] ?? '';
     $computedSignature = base64_encode(hash_hmac('sha256', $rawData, $secret, true));
 
-    if ($receivedSignature === $computedSignature) {
-        $webhook->log('Webhook authenticity verification OK', 'request');
-    } else {
+    if (!hash_equals($computedSignature, $receivedSignature)) {
         $webhook->log('Webhook not authentic!', 'request');
+        http_response_code(401);
+        exit;
     }
 
+    $webhook->log('Webhook authenticity verification OK', 'request');
+
     // @todo Process the $requestData as needed
-    $requestData = json_decode($rawData);
+    $requestData = json_decode($rawData, true);
 
     if (isset($requestData['mautic.lead_post_save_new'])) {
         foreach ($requestData['mautic.lead_post_save_new'] as $contact) {
@@ -103,18 +105,21 @@ Node.js
 
     app.post('/webhook', (req, res) => {
 
-        // optional signature verification
-        const receivedSignature = req.headers['webhook-signature'];
-        console.log('Received signature (in header):', receivedSignature);
+        // Verify the signature and stop processing if it doesn't match
+        const receivedSignature = Buffer.from(req.headers['webhook-signature'] || '');
+        const computedSignature = Buffer.from(
+            crypto.createHmac('sha256', SECRET).update(req.body).digest('base64')
+        );
 
-        const computedSignature = crypto.createHmac('sha256', SECRET).update(req.body).digest('base64');
-        console.log('Computed signature (from body):', computedSignature);
-
-        if (receivedSignature === computedSignature) {
-            console.log('Webhook authenticity verification OK');
-        } else {
+        if (
+            receivedSignature.length !== computedSignature.length ||
+            !crypto.timingSafeEqual(receivedSignature, computedSignature)
+        ) {
             console.log('Webhook not authentic!');
+            return res.status(401).send();
         }
+
+        console.log('Webhook authenticity verification OK');
 
         // TODO: process body
         const body = JSON.parse(req.body);
