@@ -348,15 +348,11 @@ Toggle 'Available for use' event
 
 .. vale on
 
-The ``\Mautic\PageBundle\PageEvents::PAGE_ON_TOGGLE_PUBLISH`` event dispatches when a User toggles the **Available for use** status of a Landing Page. Mautic dispatches it before persisting the status change to the database, so Plugins can run actions or validations before the User makes the Landing Page available or unavailable.
+Mautic dispatches the generic ``Mautic\CoreBundle\Event\EntityTogglePublishEvent`` event when a User toggles the **Available for use** status of a Landing Page. Mautic changes the status on the entity first, then dispatches the event before it saves the change to the database. Plugins can use this event to run custom logic before Mautic saves the new status.
 
-.. note::
+Mautic dispatches the same event for every entity whose status a User toggles, so verify the entity type in your listener. Call ``getEntity()`` on the event to get the entity. For a Landing Page, ``isPublished()`` returns the new **Available for use** status.
 
-   ``PAGE_ON_TOGGLE_PUBLISH`` dispatches the shared ``PageEvent`` class that several event names reuse, so it stays keyed on its ``PageEvents::*`` string constant. Only events with a dedicated event class, such as ``PageBuilderEvent`` and ``PageDisplayEvent``, changed to class-name keying in Mautic 8.0.
-
-An event listener receives a ``Mautic\PageBundle\Event\PageEvent`` instance.
-
-.. code-block:: php
+.. code-block:: PHP
 
     <?php
     // plugins/HelloWorldBundle/EventListener/PageLifecycleSubscriber.php
@@ -365,8 +361,8 @@ An event listener receives a ``Mautic\PageBundle\Event\PageEvent`` instance.
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\PageBundle\PageEvents;
-    use Mautic\PageBundle\Event\PageEvent;
+    use Mautic\CoreBundle\Event\EntityTogglePublishEvent;
+    use Mautic\PageBundle\Entity\Page;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
     final class PageLifecycleSubscriber implements EventSubscriberInterface
@@ -374,18 +370,22 @@ An event listener receives a ``Mautic\PageBundle\Event\PageEvent`` instance.
         public static function getSubscribedEvents(): array
         {
             return [
-                PageEvents::PAGE_ON_TOGGLE_PUBLISH => ['onPageTogglePublish', 0],
+                EntityTogglePublishEvent::class => ['onPageTogglePublish', 0],
             ];
         }
 
-        public function onPageTogglePublish(PageEvent $event): void
+        public function onPageTogglePublish(EntityTogglePublishEvent $event): void
         {
-            $page = $event->getPage();
+            $page = $event->getEntity();
 
-            // Check current publish status (before toggle)
-            $isCurrentlyPublished = $page->isPublished();
+            if (!$page instanceof Page) {
+                return;
+            }
 
-            // Perform custom logic before the status changes
+            // New status, not yet saved to the database
+            $isPublished = $page->isPublished();
+
+            // Perform custom logic before Mautic saves the change
             // For example, notify an external service or invalidate a cache
         }
     }
