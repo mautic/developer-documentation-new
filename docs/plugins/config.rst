@@ -1,3 +1,5 @@
+.. _plugin config file:
+
 Config file
 ###########
 
