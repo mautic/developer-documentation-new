@@ -31,9 +31,9 @@ Here's an example ``composer.json`` file:
             "install-directory-name": "ExampleBundle"
         },
         "require": {
-            "php": ">=8.0 <8.1",
+            "php": "~8.4",
             "ext-zip": "^1.15",
-            "mautic/core-lib": "^5.0"
+            "mautic/core-lib": "^8.0"
         }
     }
 
