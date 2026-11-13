@@ -141,7 +141,7 @@ Gap properties
 * ``.row-gap-{size}``: Sets the gap between rows of flex items.
 * ``.column-gap-{size}``: Sets the gap between columns of flex items.
 
-The ``{size}`` value is one of the sizes listed in :ref:`Size options <design/utilities:Size options>`, such as ``0``, ``5``, ``12``, or ``24``.
+The ``{size}`` value is one of the sizes listed in :ref:`Size options <design/utilities:Size options>`, such as ``0``, ``5``, ``12``, or ``24``. The gap classes also support the ``10``, ``15``, and ``20`` sizes and the ``xs``, ``sm``, ``md``, and ``lg`` aliases, which existing custom templates may use.
 
 Responsive variations
 =====================
@@ -209,12 +209,12 @@ This combination creates a flex container that:
 Padding and margin utilities
 ****************************
 
-Mautic uses the Bootstrap 5 spacing utilities for padding and margin, with a custom pixel scale. Each class combines a property, an optional side, and a size, for example ``mt-16`` for a 16px top margin.
+Mautic provides the Bootstrap 5 spacing utilities for padding and margin, alongside its own spacing classes. Both sets use one pixel scale, so the number in a class name is the size in pixels. For example, ``mt-16`` sets a 16px top margin.
 
 Naming convention
 =================
 
-The utility classes use the following prefixes:
+The Bootstrap 5 spacing classes use these prefixes:
 
 * ``p-``, ``m-``: padding or margin on all sides
 * ``pt-``, ``mt-``: padding or margin top
@@ -224,12 +224,20 @@ The utility classes use the following prefixes:
 * ``px-``, ``mx-``: padding or margin on the start and end
 * ``py-``, ``my-``: padding or margin top and bottom
 
-Mautic also provides ``pa-`` and ``ma-`` for padding or margin on all sides, with the same sizes. Use ``ma-a``, ``mt-a``, ``mb-a``, ``ml-a``, ``mr-a``, or the Bootstrap ``-auto`` classes such as ``ms-auto``, to set a margin to ``auto``.
+Mautic's own spacing classes add these prefixes:
+
+* ``pa-``, ``ma-``: padding or margin on all sides
+* ``pl-``, ``ml-``: padding or margin left
+* ``pr-``, ``mr-``: padding or margin right
+
+Mautic's core templates use ``ps-``, ``pe-``, ``ms-``, and ``me-`` for left and right spacing. Use them in your templates too, because they follow the text direction.
+
+To set a margin to ``auto``, use ``ma-a``, ``mt-a``, ``mb-a``, ``ml-a``, ``mr-a``, or a Bootstrap ``-auto`` class such as ``ms-auto``.
 
 Size options
 ============
 
-All spacing utilities use the same scale of sizes, in pixels.
+All spacing classes support these sizes, in pixels:
 
 .. vale off
 
@@ -237,7 +245,17 @@ All spacing utilities use the same scale of sizes, in pixels.
 
 .. vale on
 
-The number in the class name is the size in pixels, so ``me-1`` sets a 1px end margin and ``pb-24`` sets 24px bottom padding. There are no named sizes such as ``xs`` or ``md``, and no ``10``, ``15``, or ``20`` sizes. For left and right spacing with a size, use the ``ps-``, ``pe-``, ``ms-``, and ``me-`` prefixes, not ``pl-``, ``pr-``, ``ml-``, or ``mr-``.
+For example, ``me-1`` sets a 1px end margin and ``pb-24`` sets a 24px bottom padding.
+
+Mautic's own spacing classes also support the ``10``, ``15``, and ``20`` sizes, and these named aliases:
+
+* ``xs``: 5px
+* ``sm``: 10px
+* ``md``: 15px
+* ``lg``: 20px
+* ``xl``: 32px
+
+The aliases and the ``pl-``, ``pr-``, ``ml-``, and ``mr-`` classes remain available so that existing custom templates keep working. Mautic's core templates use the sizes ``5``, ``12``, ``16``, and ``24`` instead of ``xs``, ``sm``, ``md``, and ``lg``.
 
 Padding and margin examples
 ===========================
@@ -253,7 +271,7 @@ Padding and margin examples
 Variable-based sizes
 ====================
 
-The ``pa-`` and ``ma-`` classes from 8px and up use CSS variables for spacing, allowing for easy theming and consistent spacing across your app:
+In Mautic's own spacing classes, the sizes from ``8`` to ``160`` - except ``10``, ``15``, and ``20`` - use CSS variables for spacing, allowing for easy theming and consistent spacing across your app:
 
 * ``var(--spacing-03)`` to ``var(--spacing-13)``
 
