@@ -96,7 +96,8 @@ Get an individual Asset by ID.
            "extension": "pdf",
            "mime": "application/pdf",
            "size": 269128,
-           "downloadUrl": "https://example.com/asset/1:whitepaper"
+           "downloadUrl": "https://example.com/asset/1:whitepaper",
+           "trackDownloads": true
        }
    }
 
@@ -174,6 +175,9 @@ Get an individual Asset by ID.
    * - ``downloadUrl``
      - string
      - Public download URL for the Asset
+   * - ``trackDownloads``
+     - boolean
+     - Whether Mautic links downloads of the Asset to the Contacts who download them. With ``false``, Mautic still serves the file but doesn't link its downloads to Contacts. Mautic never links downloads from requests that send a ``DNT: 1`` or ``Sec-GPC: 1`` header.
 
 .. vale off
 
@@ -329,6 +333,9 @@ Create a new Asset. There are 2 options: local or remote Asset.
    * - ``file``
      - string
      - Either URL for remote file or filename for local file
+   * - ``trackDownloads``
+     - boolean
+     - Optional. ``1`` links downloads of the Asset to Contacts, and ``0`` doesn't. When you leave it out, the new Asset gets the value of the global download tracking setting in the Tracking settings.
 
 
 **Response**
@@ -396,6 +403,9 @@ To edit a Asset and create a new one if the Asset isn't found:
    * - ``file``
      - string
      - Either URL for remote file or filename for local file
+   * - ``trackDownloads``
+     - boolean
+     - Optional. ``1`` links downloads of the Asset to Contacts, and ``0`` doesn't. When you leave it out, ``PATCH`` and a ``PUT`` that edits an existing Asset keep its current value. When ``PUT`` creates an Asset and you leave it out, the new Asset gets the value of the global download tracking setting in the Tracking settings.
 
 
 **Response**
