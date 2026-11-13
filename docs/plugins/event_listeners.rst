@@ -98,7 +98,7 @@ The ``event`` argument takes the event class. The optional ``priority`` argument
 
 Some Mautic base classes, such as ``Mautic\CoreBundle\EventListener\CommonStatsSubscriber``, declare their listener methods with ``#[AsEventListener]``. A class that extends one of them inherits those listeners, provided the class's service has autoconfiguration turned on. PHP doesn't copy attributes to an overriding method, so if you override a listener method such as ``onStatsFetch()``, add ``#[AsEventListener]`` to the override. Otherwise, Symfony doesn't register it.
 
-The attribute only registers listeners with Symfony's main event dispatcher. Subscribers for other dispatchers keep their own registration:
+By default, the attribute registers the listener with Symfony's main event dispatcher. To listen on another dispatcher service, pass its service ID in the optional ``dispatcher`` argument. For example, ``#[AsEventListener(event: LoginSuccessEvent::class, dispatcher: 'security.event_dispatcher.main')]`` only receives login events from Mautic's ``main`` firewall. Some subscribers don't use a dispatcher service, so they keep their own registration:
 
 * A Symfony Form event subscriber, such as ``Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber``, still implements ``Symfony\Component\EventDispatcher\EventSubscriberInterface``. Each Form has its own event dispatcher, so the Form type adds the subscriber with ``$builder->addEventSubscriber()``.
 * A ``POST_SERIALIZE`` event subscriber still implements ``JMS\Serializer\EventDispatcher\EventSubscriberInterface``.
