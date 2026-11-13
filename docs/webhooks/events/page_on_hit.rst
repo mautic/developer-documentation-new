@@ -54,7 +54,7 @@ Page visit properties
       - The Contact who made the visit. Contains only the Contact's ``id``, ``points``, ``color``, and ``fields``. See :ref:`Contact object<Webhooks/events/lead_post_save_new:Contact properties>` for these properties.
     * - ``ipAddress``
       - object
-      - :ref:`IP address basic object<Webhooks/events/form_on_submit:IP address basic properties>` for the Contact when they visited the Page.
+      - :ref:`IP address basic object<Webhooks/events/form_on_submit:IP address basic properties>` for the Contact when they made the visit.
     * - ``country``
       - string
       - Country gleaned from tracked IP address.
