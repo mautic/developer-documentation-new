@@ -86,10 +86,6 @@ To add a custom Form Field, use the ``$event->addFormField($identifier, $paramet
                 'addIsRequired' => true
             ];
 
-.. note::
-
-   To read a Form Field's mapping in PHP, for example in a ``valueFilter`` or ``valueConstraints`` callback, call ``getMappedObject()`` and ``getMappedField()`` on ``\Mautic\FormBundle\Entity\Field``. To set it, call ``setMappedObject()`` and ``setMappedField()``. ``Field`` has no ``getLeadField()`` or ``setLeadField()`` method.
-
 Form submit actions
 *******************
 
