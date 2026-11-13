@@ -64,7 +64,7 @@ Event subscribers
 
 The easiest way to listen to various events is to use an event subscriber. Read more about :xref:`Symfony event subscribers` in Symfony's documentation.
 
-A Plugin event subscriber implements ``Symfony\Component\EventDispatcher\EventSubscriberInterface`` and returns the events it listens to from ``getSubscribedEvents()``, as the earlier ``LeadSubscriber`` example does. When the Plugin's ``Config/services.php`` file turns on autoconfiguration for its services, Symfony registers the subscriber without a separate service definition. See :ref:`plugins/autowiring:Autowiring`.
+A Plugin event subscriber implements ``Symfony\Component\EventDispatcher\EventSubscriberInterface`` and returns the events it listens to from ``getSubscribedEvents()``, as the earlier ``LeadSubscriber`` example does. When the Plugin's ``Config/services.php`` file turns on autoconfiguration for its services, Symfony registers the subscriber without a separate service definition. See :ref:`Plugins/Autowiring:Autowiring`.
 
 Attribute listeners
 *******************
