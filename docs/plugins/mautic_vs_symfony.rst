@@ -77,7 +77,7 @@ Services are public by default to have backwards compatibility with Mautic 3 and
 Support for entity attributes
 *****************************
 
-Mautic maps entities with Doctrine attributes, such as ``#[ORM\Column]``, and with Doctrine's PHP driver, which uses a ``public static function loadMetadata(ORM\ClassMetadata $metadata)`` method. Plugins can use either one, or both in the same entity. See :ref:`Plugins/database:Entities and schema` for more information.
+Mautic maps its entities with Doctrine attributes, such as ``#[ORM\Column]``. A Plugin entity can use attributes, Doctrine's PHP driver, or both. The PHP driver reads the mapping from a ``public static function loadMetadata(ORM\ClassMetadata $metadata)`` method. Mautic's static analysis rules flag a static ``loadMetadata()`` method, so map new entities with attributes. See :ref:`Plugins/database:Entities and schema` for more information.
 
 Firewalls and User access management
 ************************************
