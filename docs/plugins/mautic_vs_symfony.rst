@@ -16,27 +16,27 @@ Mautic uses directory paths that aren't typical in Symfony to make it distributa
     * - ``app/config/``
       - Symfony configuration files
     * - ``app/middlewares/``
-      - See :ref:`plugins/mautic_vs_symfony:Middlewares`
+      - See :ref:`Plugins/mautic_vs_symfony:Application middlewares`
     * - ``app/migrations/``
-      - Doctrine migrations that updates Core's database schema
+      - Doctrine migrations that update Core's database schema
     * - ``bin/console/``
       - Used to execute Symfony/Mautic commands
     * - ``media/``
-      - Contains combined and minified production assets along with default images
+      - Contains combined and minified production CSS and JavaScript files along with default images
     * - ``plugins/``
       - Mautic Plugins as Symfony bundles
     * - ``themes/``
       - Mautic Themes
     * - ``themes/system``
-      - :ref:`Contains custom overrides for Mautic Core templates<themes/system:Overriding core view templates>`
+      - :ref:`Contains custom overrides for Mautic Core templates<Themes/system:Overriding core view templates>`
     * - ``translations/``
-      - Mautic translation files leveraged by Mautic's custom :ref:`components/translator:Translator`
+      - Mautic translation files leveraged by Mautic's custom :ref:`Plugin_services/Translator:Translator`
     * - ``var/``
       - Contains temporary files such as logs and Symfony's cache
     * - ``vendor/``
       - Contains Composer installed dependencies
 
-Mautic mostly uses Symfony's 2.x/3.x bundle structure for Core bundles in ``app\bundles\`` and custom Plugins in ``plugins\``. Read more about these :ref:`here<plugins/structure:File and directory structure>`.
+Mautic mostly uses Symfony's 2.x/3.x bundle structure for Core bundles in ``app\bundles\`` and custom Plugins in ``plugins\``. Read more about these :ref:`here<Plugins/structure:File and directory structure>`.
 
 PHP everything
 **************
@@ -79,19 +79,19 @@ Support for entity attributes
 
 Mautic maps entities with Doctrine attributes, such as ``#[ORM\Column]``, and with Doctrine's PHP driver, which uses a ``public static function loadMetadata(ORM\ClassMetadata $metadata)`` method. Plugins can use either one, or both in the same entity. See :ref:`Plugins/database:Entities and schema` for more information.
 
-Firewalls and User access management
+User access management and firewalls
 ************************************
 
 ``app/config/security.php`` lists Mautic's firewalls. For the most part, Mautic uses Symfony's standard way of registering firewalls and authentication with a means for Plugins to hook into the authentication process by subscribing to the ``Mautic\UserBundle\Event\PreAuthenticationEvent`` and ``Mautic\UserBundle\Event\FormAuthenticationEvent`` events.
 
 Mautic has its own permission system based on bitwise permissions and thus doesn't leverage Symfony voters.
 
-Middlewares
-***********
+Application middlewares
+***********************
 
 Mautic leverages middlewares before booting Symfony, see ``app/middlewares``. For example, ``\Mautic\Middleware\Dev\IpRestrictMiddleware`` restricts IP address access to ``index_dev.php``.
 
 Custom Translator
 *****************
 
-Mautic has a custom Translator that extends Symfony's ``Translator`` component and enables Mautic's distributable language package model. All Plugins and bundles should contain US English language strings by default. https://github.com/mautic/language-packer integrates with Transifex to create language packs stored in https://github.com/mautic/language-packs.
+Mautic has a custom Translator that extends Symfony's ``Translator`` class and enables Mautic's distributable language package model. All Plugins and bundles should contain US English language strings by default. The :xref:`Mautic language packager` integrates with Transifex to create language packs stored in the :xref:`Mautic translation packs` repository.
