@@ -289,6 +289,69 @@ The ``LeadGetCurrentEvent`` provides the following methods:
 
 .. vale on
 
+Reacting to 'last active' updates
+=================================
+
+To react when a Contact becomes active, subscribe to ``Mautic\LeadBundle\Event\ContactLastActiveUpdatedEvent``. Use it to sync Contact activity to a CRM, re-engage inactive Contacts, or apply your own scoring, instead of listening to every event that counts as activity.
+
+Mautic dispatches this event whenever a Contact's 'last active' date changes. This covers tracking activity, such as Landing Page hits and Email opens, and saving a Contact with a new 'last active' date, such as after a Form submission, an API request, or an import. Mautic doesn't dispatch the event when a save leaves the date unchanged.
+
+Mautic dispatches the event by its class name, so use the class name as the event key.
+
+.. code-block:: PHP
+
+  <?php
+  // plugins/HelloWorldBundle/EventListener/ContactLastActiveSubscriber.php
+
+  declare(strict_types=1);
+
+  namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+  use Mautic\LeadBundle\Event\ContactLastActiveUpdatedEvent;
+  use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+  final class ContactLastActiveSubscriber implements EventSubscriberInterface
+  {
+      public static function getSubscribedEvents(): array
+      {
+          return [
+              ContactLastActiveUpdatedEvent::class => 'onLastActiveUpdated',
+          ];
+      }
+
+      public function onLastActiveUpdated(ContactLastActiveUpdatedEvent $event): void
+      {
+          $previousLastActive = $event->getPreviousLastActive();
+
+          if (null === $previousLastActive) {
+              // First recorded activity for this Contact
+              return;
+          }
+
+          $inactiveDays = $previousLastActive->diff($event->getLastActive())->days;
+
+          if ($inactiveDays >= 90) {
+              // The Contact is active again after 90 or more days of inactivity
+          }
+      }
+  }
+
+The ``ContactLastActiveUpdatedEvent`` provides the following methods:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method
+     - Description
+   * - ``getContactId()``
+     - Returns the ID of the Contact as an ``int``.
+   * - ``getLastActive()``
+     - Returns the new 'last active' date as a ``\DateTimeInterface``.
+   * - ``getPreviousLastActive()``
+     - Returns the previous 'last active' date as a ``\DateTimeInterface``, or ``null`` if the Contact had no recorded activity.
+
+The event carries the Contact ID rather than the Contact entity. If your listener needs the Contact's data, load the Contact with the ``LeadModel``.
+
 Contact timeline/history
 ************************
 
