@@ -13,7 +13,7 @@ Entities and schema
 
 .. vale on
 
-Mautic uses :xref:`Doctrine Object Relational Mapper (ORM)<Doctrine ORM>` to define the schema. Plugins define their schema using entity classes stored in its ``Entity`` directory. Define the schema for the entity through Doctrine attributes such as ``#[ORM\Column]``, Doctrine's :xref:`PHP static function mapping<Doctrine ORM PHP mapping>`, or both.
+Mautic uses :xref:`Doctrine Object Relational Mapper (ORM)<Doctrine ORM>` to define the schema. Plugins define their schema using entity classes stored in its ``Entity`` directory. Define the schema for the entity through Doctrine's :xref:`PHP static function mapping<Doctrine ORM PHP mapping>`, Doctrine attributes such as ``#[ORM\Column]``, or both.
 
 Mautic Core entities use attributes only. Map new entities with attributes, because Mautic's static analysis rules flag a static ``loadMetadata()`` method as a ``mautic.noLoadMetadata`` error when you run ``composer phpstan`` on your Plugin.
 
