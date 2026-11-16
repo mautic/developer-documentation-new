@@ -240,6 +240,64 @@ Mautic dispatches the ``ReportGeneratorEvent`` event when it generates and displ
 
 The ``ReportGeneratorEvent`` class provides several helper functions to append joins for common relationships such as Categories, Contacts, and IP addresses. Refer to the :xref:`Mautic ReportGeneratorEvent` class for more details.
 
+Providing custom filter conditions
+==================================
+
+Mautic builds the SQL condition for each Report filter from the filter's column, operator, and value. When a filter needs different SQL - for example, a nested query against a table that the Report doesn't join - your Plugin can supply the condition itself.
+
+Mautic dispatches ``\Mautic\ReportBundle\Event\ReportFilterConditionEvent`` for each filter it applies to a Report. Mautic uses the event's class name as the event name, so subscribe with ``ReportFilterConditionEvent::class``. The event provides these methods:
+
+* ``checkContext()`` - checks whether the Report uses your Plugin's context.
+* ``getFilter()`` - returns the filter as saved on the Report, with keys such as ``column``, ``condition`` for the operator, ``value``, and ``glue``.
+* ``getFilterDefinition()`` - returns the filter's definition from the ``ReportEvents::REPORT_ON_BUILD`` event.
+* ``getQueryBuilder()`` - returns the Report's QueryBuilder, for example to bind the filter value as a parameter.
+* ``setCondition()`` - sets the condition as a SQL string or a Doctrine ``CompositeExpression``. Mautic uses it instead of the default condition and stops propagating the event to other listeners.
+
+Mautic combines your condition with the Report's other filters according to each filter's ``glue`` value, ``and`` or ``or``, the same way it combines default conditions. If no listener sets a condition, Mautic builds the default condition.
+
+Mautic doesn't dispatch the event for Tag and Do Not Contact filters, or for filters without a value unless the operator is ``empty``, ``notEmpty``, or ``neq``.
+
+.. code-block:: php
+
+   <?php
+   // plugins\HelloWorldBundle\EventListener\ReportFilterSubscriber
+
+   declare(strict_types=1);
+
+   namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+   use Mautic\ReportBundle\Event\ReportFilterConditionEvent;
+   use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+   final class ReportFilterSubscriber implements EventSubscriberInterface
+   {
+      public static function getSubscribedEvents(): array
+      {
+         return [
+               ReportFilterConditionEvent::class => ['onReportFilterCondition', 0],
+         ];
+      }
+
+      public function onReportFilterCondition(ReportFilterConditionEvent $event): void
+      {
+         $filter = $event->getFilter();
+
+         if (!$event->checkContext('worlds') || 'w.moon' !== $filter['column']) {
+               return;
+         }
+
+         $qb = $event->getQueryBuilder();
+
+         $event->setCondition(sprintf(
+               'w.id IN (SELECT world_id FROM %sworld_moons WHERE moon = %s)',
+               MAUTIC_TABLE_PREFIX,
+               $qb->createNamedParameter($filter['value'])
+         ));
+      }
+   }
+
+Bind filter values with ``createNamedParameter()`` rather than concatenating them into the SQL string, because Report Users enter those values.
+
 Generating graphs
 =================
 
