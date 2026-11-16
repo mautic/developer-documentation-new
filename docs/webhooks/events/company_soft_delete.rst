@@ -12,7 +12,7 @@ Event type
 
 ``Mautic\LeadBundle\Event\CompanySoftDeleteEvent``
 
-Since Mautic 8, Mautic dispatches this event by its event class, which replaces the removed ``LeadEvents::COMPANY_SOFT_DELETE`` constant and its ``mautic.company_soft_delete`` event name. This event isn't a Webhook event type, so you can only subscribe to it from a Plugin. See :ref:`LeadBundle events dispatched by event class <LeadBundle events dispatched by event class>`.
+Mautic dispatches this event by its event class, so key ``getSubscribedEvents()`` on ``CompanySoftDeleteEvent::class``. This event isn't a Webhook event type, so you can only subscribe to it from a Plugin. See :ref:`LeadBundle events dispatched by event class <LeadBundle events dispatched by event class>`.
 
 Event instance
 **************

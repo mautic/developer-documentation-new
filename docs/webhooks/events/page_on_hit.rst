@@ -23,7 +23,7 @@ Event properties
       - Description
     * - ``hit``
       - object
-      - :ref:`Page visit object<webhooks/events/page_on_hit:Page visit properties>`
+      - :ref:`Page visit object<Webhooks/events/page_on_hit:Page visit properties>`
     * - ``timestamp``
       - string
       - Date/time the event occurred in ISO 8601 format.
@@ -43,18 +43,18 @@ Page visit properties
     * - ``dateHit``
       - string
       - Date/time the visit occurred in ISO 8601 format.
-    * - ``dateHit``
+    * - ``dateLeft``
       - null
       - Always ``null`` for Webhook events.
     * - ``page``
       - object
-      - :ref:`Landing Page basic object<webhooks/events/page_on_hit:Landing Page basic properties>`.
+      - :ref:`Landing Page basic object<Webhooks/events/page_on_hit:Landing Page basic properties>`.
     * - ``lead``
       - object
-      - :ref:`Contact object<webhooks/events/lead_post_save_new:Contact properties>`.
+      - The Contact who made the visit. Contains only the Contact's ``id``, ``points``, ``color``, and ``fields``. See :ref:`Contact object<Webhooks/events/lead_post_save_new:Contact properties>` for these properties.
     * - ``ipAddress``
       - object
-      - :ref:`IP address basic object<webhooks/events/form_on_submit:IP address basic properties>` for the Contact when they visited the Page.
+      - :ref:`IP address basic object<Webhooks/events/form_on_submit:IP address basic properties>` for the Contact when they made the visit.
     * - ``country``
       - string
       - Country gleaned from tracked IP address.
@@ -136,5 +136,5 @@ Landing Page basic properties
       - string
       - API name for the Landing Page.
     * - ``category``
-      - object
-      - :ref:`Category object<webhooks/events/email_on_send:Category properties>`.
+      - object|null
+      - Empty object if the Landing Page has a Category. Otherwise, ``null``.
