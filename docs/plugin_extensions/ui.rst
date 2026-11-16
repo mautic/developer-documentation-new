@@ -458,9 +458,6 @@ A Plugin registers a listener as an event subscriber. When the subscribed contex
 
 The Company detail view is ``@MauticLead/Company/company.html.twig``. It calls ``customContent('company.sidebar.top', _context)`` at the top of its right-hand sidebar column, which exposes the ``company.sidebar.top`` context as an injection point that a Plugin's listener subscribes to. Other Mautic templates expose their own ``customContent`` contexts, so a listener must always narrow to the intended view and context with ``checkContext()``.
 
-Company and import contexts
-===========================
-
 The Company views and the import mapping step expose the following contexts. Pass the template and the context to ``checkContext()``.
 
 .. list-table::
