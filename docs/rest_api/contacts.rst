@@ -986,6 +986,8 @@ To add Points to a Contact and return a 404 if the Contact isn't found:
 
 ``POST /contacts/ID/points/plus/POINTS``
 
+Set ``POINTS`` to a whole number, such as ``5``. If ``POINTS`` isn't a whole number, Mautic returns an ``HTTP 404 (Not Found)`` response.
+
 .. vale off
 
 **Data Parameters (optional)**
@@ -1041,6 +1043,8 @@ Subtract Contact Points
 To subtract Points from a Contact and return a 404 if the Contact isn't found:
 
 ``POST /contacts/ID/points/minus/POINTS``
+
+Set ``POINTS`` to a whole number, such as ``5``. If ``POINTS`` isn't a whole number, Mautic returns an ``HTTP 404 (Not Found)`` response.
 
 .. vale off
 
