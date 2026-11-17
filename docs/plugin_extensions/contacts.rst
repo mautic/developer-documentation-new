@@ -413,9 +413,9 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
     * - ``addEventType()``
       - Required - Add this event to the list of available events.
     * - ``getLead()``
-      - Get the Contact entity. Returns ``null`` when the timeline covers more than one Contact.
+      - Get the Contact entity, or ``null`` when the timeline covers more than one Contact.
     * - ``getLeadIds()``
-      - Returns the Contact IDs that limit the timeline when it has no single Contact, for example when a ``GET /contacts/activity`` API request uses the ``filters[leadIds][]`` filter. Returns an empty array otherwise. ``getQueryOptions()`` passes these IDs as the ``leadIds`` option.
+      - Get the Contact IDs from the ``leadIds`` filter, or an empty array if the filter isn't set.
     * - ``getQueryOptions()``
       - Used to get pagination, filters, etc needed to generate an appropriate query.
     * - ``addToCounter()``
@@ -461,7 +461,7 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
     * - ``contactId``
       - Optional
       - int
-      - ID of the Contact the event belongs to. When ``getLeadIds()`` returns IDs, ``addEvent()`` drops events whose ``contactId`` is missing or isn't one of those IDs. Set it if your listener can return events for more than one Contact.
+      - ID of the Contact the event belongs to. When ``getLeadIds()`` returns IDs, Mautic drops events without a matching ``contactId``.
 
 Generating timeline events from your own custom events
 ******************************************************
@@ -559,4 +559,4 @@ To leverage this, accept the array from ``$event->getQueryOptions()`` in the rep
     * - ``$leadIdColumn``
       - Optional
       - string
-      - Name of the column with table prefix that holds the Contact ID. When ``$options`` contains ``leadIds``, ``getTimelineResults()`` returns only the events of those Contacts by filtering on this column. Defaults to the ``lead_id`` column of the table in ``$timestampColumn``, for example ``w.lead_id`` for ``w.date_visited``. Set it when the Contact ID is in another table.
+      - Column with table prefix that holds the Contact ID, used for the ``leadIds`` filter. Defaults to the ``lead_id`` column of the ``$timestampColumn`` table.
