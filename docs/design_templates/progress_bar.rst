@@ -29,6 +29,7 @@ The template passes ``label`` and ``helperText`` through Twig's ``trans`` filter
 * ``mautic.core.progress_bar.preparing`` - 'Preparing...'
 * ``mautic.core.progress_bar.count`` - '%current% of %total%'
 * ``mautic.core.progress_bar.done`` - 'Done'
+* ``mautic.core.progress_bar.error`` - 'Error'
 
 .. vale on
 
@@ -43,7 +44,7 @@ To show an action that's starting, leave out ``value`` and pass the preparing te
        id: 'helloworld-sync'
    } only %}
 
-To show a completed action, set ``status`` to ``finished``. The bar fills completely, turns to the success color, and shows a checkmark icon next to the label.
+To show a completed action, set ``status`` to ``finished``. The bar fills completely and shows a checkmark icon next to the label.
 
 .. code-block:: twig
 
@@ -81,7 +82,7 @@ You must set ``label``. All other options are optional.
     * - ``status``
       - string
       - ``active``
-      - The state of the action. Set it to ``active``, ``finished``, or ``error``. ``finished`` fills the bar and shows a checkmark icon. ``error`` fills the bar in the error color, shows a warning icon, and shows the helper text in the error color. In both states, the template ignores ``value``.
+      - The state of the action. Set it to ``active``, ``finished``, or ``error``. ``finished`` fills the bar and shows a checkmark icon. ``error`` fills the bar in the error color and shows a warning icon. In both states, the template ignores ``value``.
     * - ``size``
       - string
       - ``big``
@@ -92,8 +93,8 @@ You must set ``label``. All other options are optional.
       - The layout. ``default`` places the label on its own line before the bar. ``inline`` places the label next to the bar, hides the helper text visually, and hides the bar when ``status`` is ``finished`` or ``error``. ``indented`` adds horizontal padding to the label and helper text.
     * - ``helperText``
       - string
-      - Empty string
-      - Text below the bar that describes the progress, such as '12 of 40'. The template links it to the bar through ``aria-describedby``. When you don't set it, the template renders no helper text and ``Mautic.updateProgressBar()`` can't show a count.
+      - Empty string, or ``mautic.core.progress_bar.error`` when ``status`` is ``error``
+      - Text below the bar that describes the progress, such as '12 of 40'. The template links it to the bar through ``aria-describedby``. When you don't set it, an error bar shows 'Error' and any other bar renders no helper text, so ``Mautic.updateProgressBar()`` can't show a count.
     * - ``hideLabel``
       - boolean
       - ``false``
@@ -110,7 +111,18 @@ You must set ``label``. All other options are optional.
 Updating the progress with JavaScript
 *************************************
 
-When your view loads progress in batches, for example through AJAX requests, call ``Mautic.updateProgressBar()`` with each response. The bar updates without a reload.
+When your view loads progress in batches, for example through AJAX requests, call ``Mautic.updateProgressBar()`` with each response. The bar updates without a reload. The template's ``id`` option doesn't set an ``id`` on the wrapper, so wrap the include in an element your JavaScript can select.
+
+.. code-block:: twig
+
+   <div id="helloworld-sync-progress">
+       {% include '@MauticCore/Components/progress-bar.html.twig' with {
+           label: 'plugin.helloworld.sync.progress',
+           max: 80,
+           helperText: 'mautic.core.progress_bar.preparing',
+           id: 'helloworld-sync'
+       } only %}
+   </div>
 
 .. code-block:: javascript
 
