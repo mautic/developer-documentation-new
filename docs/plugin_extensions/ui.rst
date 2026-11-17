@@ -461,7 +461,7 @@ The Company detail view is ``@MauticLead/Company/company.html.twig``. It calls `
 The Company views and the import mapping step expose the following contexts. Pass the template and the context to ``checkContext()``.
 
 .. list-table::
-    :widths: 35 30 35
+    :widths: 45 30 25
     :header-rows: 1
 
     *   - Template
