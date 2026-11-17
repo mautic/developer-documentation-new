@@ -864,13 +864,9 @@ Toggle 'Active' event
 
 .. vale on
 
-The ``Mautic\EmailBundle\Event\EmailOnTogglePublishEvent`` event fires when a User toggles the **Active** status of an Email. Since Mautic 8.0, Mautic dispatches it by class name, before persisting the status change to the database, so Plugins can run actions or validations before the User activates or deactivates the Email.
+Mautic dispatches the generic ``Mautic\CoreBundle\Event\EntityTogglePublishEvent`` event when a User toggles the **Active** status of an Email. Mautic changes the status on the entity first, then dispatches the event before it saves the change to the database. Plugins can use this event to run custom logic before Mautic saves the new status.
 
-An event listener receives a ``Mautic\EmailBundle\Event\EmailOnTogglePublishEvent`` instance, a subclass of ``EmailEvent``. Call ``getEmail()`` to get the Email, then ``isPublished()`` on that Email entity to read its current **Active** status.
-
-.. note::
-
-   Since Mautic 8.0, this event dispatches by class name, so key ``getSubscribedEvents()`` on ``EmailOnTogglePublishEvent::class``. Mautic removed the ``EMAIL_ON_TOGGLE_PUBLISH`` constant, so code that still references ``EmailEvents::EMAIL_ON_TOGGLE_PUBLISH`` throws a PHP fatal error - ``Error: Undefined constant``.
+Mautic dispatches the same event for every entity whose status a User toggles, so verify the entity type in your listener. Call ``getEntity()`` on the event to get the entity. For an Email, ``isPublished()`` returns the new **Active** status.
 
 .. code-block:: PHP
 
@@ -881,7 +877,8 @@ An event listener receives a ``Mautic\EmailBundle\Event\EmailOnTogglePublishEven
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\EmailBundle\Event\EmailOnTogglePublishEvent;
+    use Mautic\CoreBundle\Event\EntityTogglePublishEvent;
+    use Mautic\EmailBundle\Entity\Email;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
     final class EmailLifecycleSubscriber implements EventSubscriberInterface
@@ -889,18 +886,22 @@ An event listener receives a ``Mautic\EmailBundle\Event\EmailOnTogglePublishEven
         public static function getSubscribedEvents(): array
         {
             return [
-                EmailOnTogglePublishEvent::class => ['onEmailTogglePublish', 0],
+                EntityTogglePublishEvent::class => ['onEmailTogglePublish', 0],
             ];
         }
 
-        public function onEmailTogglePublish(EmailOnTogglePublishEvent $event): void
+        public function onEmailTogglePublish(EntityTogglePublishEvent $event): void
         {
-            $email = $event->getEmail();
+            $email = $event->getEntity();
 
-            // Check current publish status (before toggle)
-            $isCurrentlyPublished = $email->isPublished();
+            if (!$email instanceof Email) {
+                return;
+            }
 
-            // Perform custom logic before the status changes
+            // New status, not yet saved to the database
+            $isPublished = $email->isPublished();
+
+            // Perform custom logic before Mautic saves the change
             // For example, notify an external service
         }
     }
