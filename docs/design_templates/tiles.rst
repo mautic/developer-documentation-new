@@ -13,14 +13,14 @@ CSS class definitions
 
 The Tile Component consists of the following classes:
 
-``.tile`` 
-    This is the base class for the Tile Component. It sets up the basic appearance and layout of the tile, including its size, padding, background color, and border radius. It also sets up some default styles for when the tile is in focus.
+``.tile``
+    The base class for the Tile Component. Add it to every tile.
 
-``.tile-clickable`` and ``.tile-selectable`` 
-    These classes are modifiers for the base ``.tile`` class. Use them to make the tile behave as a clickable or selectable element, respectively. These classes adjust the padding, border, margin, font properties, and cursor style of the tile. They also set up hover and focus styles.
+``.tile-clickable`` and ``.tile-selectable``
+    Modifiers for the base ``.tile`` class. Use them to make the tile behave as a clickable or selectable element, respectively.
 
-``.tile-icon`` 
-    Use this class for an icon within the tile to position it and set its color. It also includes styles for a inactive icon.
+``.tile-icon``
+    Use this class for an icon within the tile.
 
 How to use the Tile Component
 =============================
