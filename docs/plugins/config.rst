@@ -356,7 +356,7 @@ Key each item with its respective :ref:`language string key<plugins/translations
     * - ``uri``
       - conditional
       - string
-      - Explicit URL for the menu item's link, used instead of a ``route``. Use this to link to an external or static URL, for example, ``https://mautic.org``. Mautic keeps any item that defines a ``route``, a ``uri``, or ``children``; items that define only a ``uri`` render starting in Mautic 7.2.
+      - Explicit URL for the menu item's link, used instead of a ``route``. Use this to link to an external or static URL, for example, ``https://mautic.org``. Mautic keeps any item that defines a ``route``, a ``uri``, or ``children``; items that define only a ``uri`` render starting in Mautic 7.2. In the ``profile`` menu, Mautic translates the ``uri`` value, so you can set it to a :ref:`language string key<plugins/translations:Translating plugins>` and define a different URL for each locale.
     * - ``parent``
       - no
       - string
@@ -380,7 +380,7 @@ Key each item with its respective :ref:`language string key<plugins/translations
     * - ``iconClass``
       - no
       - string
-      - Font Awesome class to set the icon for the menu item.
+      - Font Awesome class to set the icon for the menu item. For items in the ``profile`` menu, use a Remix Icon class instead, for example, ``ri-bank-card-line``.
     * - ``linkAttributes``
       - no
       - array
