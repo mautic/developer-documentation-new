@@ -14,7 +14,7 @@ The ProTip template conditionally renders a tip when provided. Here's a breakdow
     <div class="col-xs-12 ai-center mt-md mb-md">
         <div class="text-muted">
             <i class="ri-lightbulb-line ri-lg"></i>
-            <span class="fw-b">{{ 'mautic.core.protip'|trans }}</span>
+            <span class="fw-bold">{{ 'mautic.core.protip'|trans }}</span>
             {{ tip|trans|raw }}
         </div>
     </div>
