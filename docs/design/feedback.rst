@@ -57,7 +57,7 @@ The 'No Results' template is a Twig template:
     <div class="alert alert-info">
         {{ tip|trans }}
         {% if link is defined and (href is defined or onclick is defined) %}
-        <a class="ml-a" href="{{href}}" onclick="{{onclick}}">{{link|trans}}</a>
+        <a class="ms-auto" href="{{href}}" onclick="{{onclick}}">{{link|trans}}</a>
         {% endif %}
     </div>
     {% endif %}
