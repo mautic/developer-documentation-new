@@ -83,6 +83,26 @@ Basic token replacement
 
    For more complex replacements, use the event's ``$event->getContent()`` and ``$event->setContent()`` methods.
 
+Forwarded copies
+================
+
+Recipients can send a copy of an Email to another address through the ``{forward_url}`` or ``{forward_text}`` token. Mautic dispatches ``EMAIL_ON_SEND`` for the copy too, with no Contact and with ``$event->isForwardedCopy()`` returning ``true``. The copy goes to someone other than the original recipient, so don't render anything that acts on or identifies that recipient, such as personal links or tracking URLs. Mautic's own subscribers already leave the unsubscribe, preference, and forward links, the Contact Owner tokens, and the Contact's data out of the copy.
+
+.. code-block:: PHP
+
+    <?php
+
+    public function onEmailGenerate(EmailSendEvent $event): void
+    {
+        if ($event->isForwardedCopy()) {
+            $event->addToken('{my_custom_token}', '');
+
+            return;
+        }
+
+        $event->addToken('{my_custom_token}', 'Hello <b>World!</b>');
+    }
+
 Email settings
 **************
 
