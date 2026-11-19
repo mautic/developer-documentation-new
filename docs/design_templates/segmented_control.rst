@@ -97,7 +97,7 @@ To render a segmented control outside a Symfony form, include ``@MauticCore/Comp
 
 Without ``only``, Twig also passes every variable of the including template to the Component. The Component reads its options, such as ``value``, ``size``, and ``id``, from those variables, so a parent variable with the same name overrides the option's default. With ``only``, the Component receives just the variables you pass.
 
-The template passes ``label`` and each option's ``label`` through Twig's ``trans`` filter, so you can pass translation keys or plain strings.
+The template passes ``label`` and each option's ``label`` through Twig's ``trans`` filter, so you can pass translation keys or plain strings. To translate an option's label in another domain or with parameters, set the option's ``translation_domain`` and ``label_translation_parameters`` keys.
 
 Template options
 ================
@@ -159,7 +159,7 @@ You must set ``options``. All other options are optional.
     * - ``attr``
       - array
       - Empty array
-      - Extra HTML attributes for every radio button, keyed by attribute name.
+      - Extra HTML attributes for every radio button, keyed by attribute name. The template leaves out attributes whose value is ``false``.
     * - ``className``
       - string
       - None
@@ -194,6 +194,12 @@ Each entry in ``options`` accepts these keys. You must set ``value`` and ``label
     * - ``required``
       - boolean
       - Set to ``true`` to add the ``required`` attribute to the option's radio button.
+    * - ``translation_domain``
+      - string or boolean
+      - The translation domain for the option's ``label``. Set it to ``false`` to use ``label`` without translating it.
+    * - ``label_translation_parameters``
+      - array
+      - Parameters for the translation of the option's ``label``.
 
 Initializing the control with JavaScript
 ****************************************
