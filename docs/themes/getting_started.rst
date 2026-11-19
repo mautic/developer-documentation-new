@@ -226,6 +226,7 @@ A Theme can override the ``forward_content`` block, which holds the heading, the
 * ``emailAddressField`` - the address field view to pass to ``form_label()``, ``form_widget()``, and ``form_errors()``.
 * ``emailAddressValid`` - ``false`` when the submitted address fails validation.
 * ``emailAddressHasErrors`` - ``true`` when the address field has validation errors to display.
+* ``formHasErrors`` - ``true`` when the Form has errors that don't belong to a field, such as a missing or invalid Form token. Pass ``form`` to ``form_errors()`` to display them.
 * ``submitField`` - the submit button view to pass to ``form_row()``.
 * ``template`` - the name of the Theme that Mautic renders.
 
@@ -250,7 +251,8 @@ After a submission, or when the sent Email has reached its copy limit, Mautic re
                 {{ form_widget(emailAddressField) }}
                 {{ form_row(submitField) }}
             </div>
-            {% if emailAddressHasErrors %}
+            {% if emailAddressHasErrors or formHasErrors %}
+                {{ form_errors(form) }}
                 {{ form_errors(emailAddressField) }}
             {% endif %}
             {{ form_end(form) }}
