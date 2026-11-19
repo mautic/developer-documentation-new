@@ -218,7 +218,7 @@ The blank Theme ships an example override you can copy as a starting point. Over
 
 Mautic uses this template to render the page where an Email's recipient enters an address to send a copy of the Email to. Recipients reach this page through the ``{forward_url}`` and ``{forward_text}`` Email tokens. Mautic renders the confirmation and error messages that follow a submission with the same template.
 
-Like ``html/email-validation.html.twig``, this template is optional and doesn't go in the ``features`` array. If no Theme provides it, Mautic renders the core template ``@MauticCore/Theme/email-forward.html.twig``, which extends ``message.html.twig`` through the ``message_content`` block.
+Like ``html/email-validation.html.twig``, this template is optional and doesn't go in the ``features`` array. If no Theme provides it, Mautic renders the core template ``@MauticCore/Theme/email-forward.html.twig``, which extends the core ``email-validation.html.twig`` template through the ``validation_content`` block, so both templates share the same layout and styles.
 
 A Theme can override the ``forward_content`` block, which holds the heading, the instructional message, and the Form. Build the Form from the variables Mautic passes to the template, because the :ref:`Theme sandbox <Themes/getting_started:Template sandbox restrictions>` blocks property access on Symfony ``FormView`` objects. The template receives these variables:
 
