@@ -130,6 +130,48 @@ To create a new Contact, use the ``\Mautic\LeadBundle\Entity\Lead`` entity. Revi
       }
   }
 
+Customizing a Contact's primary identifier
+******************************************
+
+Mautic shows a Contact's primary identifier wherever it needs a display name for the Contact, such as the Contacts list. ``Lead::getPrimaryIdentifier()`` checks these sources in order and returns the first one that has a value:
+
+#. ``name`` - the Contact's first and last name
+#. ``company`` - the value of the Contact's Company field
+#. ``email`` - the Contact's Email address
+#. ``social`` - the Contact's first social media identity
+#. ``ip`` - the Contact's first IP address
+
+If none of them has a value, Mautic shows the Contact as anonymous.
+
+To change this order, or to show a Custom Field value instead, call ``setPrimaryIdentifierOrder()`` on the ``Lead`` entity. The method accepts an array that can contain any of the built-in keys in the preceding list and any Contact Custom Field alias. Mautic skips a Custom Field when its value is empty or isn't a string or number, such as a multiselect value, and also skips aliases that don't match a field.
+
+The order applies to each ``Lead`` instance separately, so set it every time Doctrine loads a Contact. The following example registers a Doctrine ``postLoad`` entity listener that shows the ``customer_number`` Custom Field first and prefers the Email address over the Company name.
+
+.. code-block:: php
+
+  <?php
+  // plugins/HelloWorldBundle/EventListener/ContactPrimaryIdentifierListener.php
+
+  declare(strict_types=1);
+
+  namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+  use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+  use Doctrine\ORM\Events;
+  use Mautic\LeadBundle\Entity\Lead;
+
+  #[AsEntityListener(event: Events::postLoad, entity: Lead::class)]
+  final class ContactPrimaryIdentifierListener
+  {
+      public function postLoad(Lead $contact): void
+      {
+          // Built-in keys and Custom Field aliases, in priority order
+          $contact->setPrimaryIdentifierOrder(['customer_number', 'name', 'email', 'company', 'social', 'ip']);
+      }
+  }
+
+The ``AsEntityListener`` attribute registers the listener when your Plugin's services are autoconfigured. See :ref:`Autowiring <Plugins/Autowiring:Autowiring>` for the ``services.php`` setup.
+
 Contact tracking
 ****************
 
@@ -313,7 +355,8 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
             // This method should use DBAL to obtain the events to be injected into the timeline based on pagination
             // but also should query for a total number of events and return an array of ['total' => $x, 'results' => []].
             // There is a TimelineTrait to assist with this. See repository example.
-            $stats = $repository->getTimelineStats($event->getLead()->getId(), $event->getQueryOptions());
+            // getLeadId() returns null when the timeline covers more than one Contact.
+            $stats = $repository->getTimelineStats($event->getLeadId(), $event->getQueryOptions());
 
             // If isEngagementCount(), this event should only inject $stats into addToCounter() to append to data to generate
             // the engagements graph. Not all events are engagements if they are just informational so it could be that this
@@ -349,7 +392,9 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
                                 // Optional template to customize the details of the event in the timeline
                                 'contentTemplate' => 'MauticDynamicContentBundle:SubscribedEvents\Timeline:index.html.php',
                                 // Font Awesome class to display as the icon
-                                'icon'            => 'fa-envelope'
+                                'icon'            => 'fa-envelope',
+                                // ID of the Contact the event belongs to
+                                'contactId'       => $stat['lead_id']
                             ]
                         );
                     }
@@ -368,7 +413,9 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
     * - ``addEventType()``
       - Required - Add this event to the list of available events.
     * - ``getLead()``
-      - Get the Contact entity
+      - Get the Contact entity, or ``null`` when the timeline covers more than one Contact.
+    * - ``getLeadIds()``
+      - Get the Contact IDs from the ``leadIds`` filter, or an empty array if the filter isn't set.
     * - ``getQueryOptions()``
       - Used to get pagination, filters, etc needed to generate an appropriate query.
     * - ``addToCounter()``
@@ -411,6 +458,10 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
       - Optional
       - Font Awesome class
       - 
+    * - ``contactId``
+      - Optional
+      - int
+      - ID of the Contact the event belongs to. When ``getLeadIds()`` returns IDs, Mautic drops events without a matching ``contactId``.
 
 Generating timeline events from your own custom events
 ******************************************************
@@ -442,13 +493,16 @@ To make this process a bit easier, the ``Mautic\LeadBundle\Entity\TimelineTrait`
         * @param array<string,string> $options
         * @return array<string,mixed>
         */
-        public function getTimelineStats(int $leadId, array $options = []): array
+        public function getTimelineStats(?int $leadId, array $options = []): array
         {
             $query = $this->getEntityManager()->getConnection()->createQueryBuilder();
 
-            $query->select('w.id, w.name, w.visited_count, w.date_visited, w.visit_details')
-                ->from(MAUTIC_TABLE_PREFIX . 'world_visits', 'w')
-                ->where($query->expr()->eq('w.lead_id', (int) $leadId));
+            $query->select('w.id, w.lead_id, w.name, w.visited_count, w.date_visited, w.visit_details')
+                ->from(MAUTIC_TABLE_PREFIX . 'world_visits', 'w');
+
+            if ($leadId) {
+                $query->where($query->expr()->eq('w.lead_id', $leadId));
+            }
 
             if (isset($options['search']) && $options['search']) {
                 $query->andWhere(
@@ -497,7 +551,15 @@ To leverage this, accept the array from ``$event->getQueryOptions()`` in the rep
     * - ``$resultsParserCallback``
       - Optional
       - callback
-      - Callback to custom parse a result. This is optional and mainly used to handle a column result when all results are already looped over for ``$serializedColumns`` and $dateTimeColumns.
+      - Callback to custom parse a result. This is optional and mainly used to handle a column result when all results are already looped over for ``$serializedColumns`` and ``$dateTimeColumns``.
+    * - ``$secondaryOrdering``
+      - Optional
+      - string
+      - Name of the column to use as a secondary sort when events share a timestamp.
+    * - ``$leadIdColumn``
+      - Optional
+      - string
+      - Column with table prefix that holds the Contact ID, used for the ``leadIds`` filter. Defaults to the ``lead_id`` column of the ``$timestampColumn`` table.
 
 .. vale off
 
