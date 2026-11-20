@@ -23,7 +23,7 @@ Event properties
       - Description
     * - ``company``
       - object
-      - :ref:`Company object<webhooks/events/company_post_save:Company properties>`.
+      - :ref:`Company object<Webhooks/events/company_post_save:Company properties>`.
     * - ``timestamp``
       - string
       - Date/time the event occurred in ISO 8601 format.
@@ -93,8 +93,8 @@ Company properties
       - string|null
       - The Company's industry.
     * - ``score``
-      - string|null
+      - int|null
       - The Company's behavior score - similar to Contact Points.
     * - ``fields``
       - object|array
-      -  Mautic groups fields by Field Groups keyed as one of ``core``, ``social``, ``personal``, and ``professional``. Each ``fieldGroup`` has an object of Fields keyed by the Field's API name. See :ref:`Custom Field object<webhooks/events/lead_post_save_new:Custom Field properties>` for each Field's properties. Note that this could be an object if there are Fields available. Otherwise, Mautic sets an empty array. For example, ``$companyCity = $company['fields']['core']['city']['value'];``.
+      -  Mautic groups fields by Field Groups keyed as one of ``core``, ``social``, ``personal``, and ``professional``. Each ``fieldGroup`` has an object of Fields keyed by the Field's API name. See :ref:`Custom Field object<Webhooks/events/lead_post_save_new:Custom Field properties>` for each Field's properties. Note that this could be an object if there are Fields available. Otherwise, Mautic sets an empty array. For example, ``$companyCity = $company['fields']['core']['city']['value'];``.
