@@ -218,11 +218,60 @@ For example, if the Integration syncs with Mautic Contacts, ``getSupportedFeatur
 
 .. php:attr:: public const string FEATURE_SYNC = 'sync';
 .. php:attr:: public const string FEATURE_PUSH_ACTIVITY = 'push_activity';
+.. php:attr:: public const string FEATURE_PUSH_LEAD = 'push_lead';
 
 .. php:method:: public function getSupportedFeatures(): array;
 
     :return: An array of value => label pairs for the features this Integration supports.
     :returntype: array[]
+
+.. vale off
+
+PushContactInterface
+====================
+
+.. vale on
+
+The **Push Contact to Integration** action in Campaigns, Forms, and Point Triggers sends a single Contact to an Integration when the action runs. To make your Integration available in that action, implement ``\Mautic\IntegrationsBundle\Integration\Interfaces\PushContactInterface`` and return ``ConfigFormFeaturesInterface::FEATURE_PUSH_LEAD`` from ``getSupportedFeatures()``. The action lists the Integration once an administrator enables that feature in the Integration's settings.
+
+Mautic pushes a Contact only when an administrator has enabled the Integration. It calls ``pushContact()`` on the Integration that ``IntegrationsHelper`` loads, so ``getIntegrationConfiguration()->getApiKeys()`` returns the decrypted API keys. To signal that a push failed, throw ``\Mautic\IntegrationsBundle\Exception\PushContactException``. Mautic shows the exception's message as the action's error, such as the reason on a failed Campaign event.
+
+.. php:interface:: \Mautic\IntegrationsBundle\Integration\Interfaces\PushContactInterface
+
+.. vale off
+
+.. php:method:: public function getPushContactConfigFormName(): string;
+
+    :return: The Symfony Form type class for the Integration's settings on a push action, such as a list to add the Contact to. Mautic stores the submitted data as the action's ``config``.
+    :returntype: string
+
+.. php:method:: public function pushContact(Lead $contact, array $config): void;
+
+    :param Lead $contact: The Contact to push.
+    :param array $config: The action's ``config``, as submitted through the Form type from ``getPushContactConfigFormName()``.
+    :returntype: void
+
+.. vale on
+
+.. code-block:: PHP
+
+    <?php
+    use Mautic\IntegrationsBundle\Exception\PushContactException;
+    use Mautic\LeadBundle\Entity\Lead;
+
+    public function getPushContactConfigFormName(): string
+    {
+        return HelloWorldPushType::class;
+    }
+
+    public function pushContact(Lead $contact, array $config): void
+    {
+        if (!$contact->getEmail()) {
+            throw new PushContactException('The Contact has no Email address.');
+        }
+
+        $this->client->addContact($config['list'], $contact->getEmail());
+    }
 
 .. vale off
 
