@@ -90,6 +90,7 @@ There are several ways to support Mautic other than contributing with code.
    :hidden:
 
    design_templates/accordion
+   design_templates/checkbox
    design_templates/protip
    design_templates/table_header
    design_templates/tiles
@@ -247,6 +248,7 @@ There are several ways to support Mautic other than contributing with code.
    rest_api/point_groups
    rest_api/point_insights
    rest_api/point_triggers
+   rest_api/projects
    rest_api/reports
    rest_api/roles
    rest_api/segments

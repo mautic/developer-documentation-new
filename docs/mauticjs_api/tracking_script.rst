@@ -17,7 +17,6 @@ You can embed ``mtc.js`` in third party websites to manage communication between
 
    use Mautic\CoreBundle\Event\BuildJsEvent;
    use Mautic\PageBundle\Event\TrackingEvent;
-   use Mautic\PageBundle\PageEvents;
    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
    class TrackingSubscriber implements EventSubscriberInterface
@@ -25,8 +24,8 @@ You can embed ``mtc.js`` in third party websites to manage communication between
        public static function getSubscribedEvents()
        {
            return [
-               BuildJsEvent::class            => ['onBuildJs', 0],
-               PageEvents::ON_CONTACT_TRACKED => ['onContactTracked', 0],
+               BuildJsEvent::class  => ['onBuildJs', 0],
+               TrackingEvent::class => ['onContactTracked', 0],
            ];
        }
 
@@ -65,7 +64,7 @@ This event receives a ``Mautic\CoreBundle\Event\BuildJsEvent`` object. Call ``$e
 
 .. note::
 
-   Since Mautic 8, ``BuildJsEvent`` dispatches by class rather than a ``CoreEvents`` constant - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks if you don't re-key.
+   Since Mautic 8, ``BuildJsEvent`` and ``TrackingEvent`` dispatch by class rather than by the ``CoreEvents`` and ``PageEvents`` constants - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks if you don't re-key.
 
 .. note::
 
@@ -247,9 +246,13 @@ Hooking into the tracking process and returning custom responses
 ****************************************************************
 
 
-If you need to do something during the request to track the Contact through ``/mtc/event``, or append to the payload returned to the tracking code which you can leverage by custom JavaScript injected through ``BuildJsEvent``, subscribe to the ``PageEvents::ON_CONTACT_TRACKED`` event.
+If you need to do something during the request to track the Contact through ``/mtc/event``, or append to the payload returned to the tracking code, which you can use from custom JavaScript injected through ``BuildJsEvent``, subscribe to the ``TrackingEvent`` event.
 The listener can inject a custom payload through the ``Mautic\PageBundle\Event\TrackingEvent::set`` method.
-This exposes the payload to the tracking code's ``mauticPageEventDelivered`` event in the ``detail.response.events`` object. See the PHP code example. 
+This exposes the payload to the tracking code's ``mauticPageEventDelivered`` event in the ``detail.response.events`` object. See the PHP code example.
+
+.. note::
+
+   Since Mautic 8, ``TrackingEvent`` dispatches by class rather than the ``PageEvents::ON_CONTACT_TRACKED`` constant - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks if you don't re-key.
 
 .. vale off
 

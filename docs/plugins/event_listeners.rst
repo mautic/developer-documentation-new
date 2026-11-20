@@ -15,60 +15,94 @@ Event listeners
 
 .. vale off
 
-Mautic leverages Symfony's EventDispatcher to execute and communicate various actions through Mautic. Plugins can hook into these to extend Mautic's capabilities. Refer to the :doc:`Extending Mautic <../components/api>` section of the documentation for some of the ways to do this.
+Mautic leverages Symfony's EventDispatcher to execute and communicate various actions through Mautic. Plugins can hook into these to extend Mautic's capabilities. For examples, see the Plugin Extensions pages, such as :doc:`/plugin_extensions/campaigns` and :doc:`/plugin_extensions/forms`.
 
 .. vale on
 
 .. code-block:: php
 
     <?php
-    //plugins\HelloWorldBundle\EventListener\LeadSubscriber
+    // plugins/HelloWorldBundle/EventListener/LeadSubscriber.php
 
-    namespace MauticPlugin\HelloWorldBundle\EventListener;  
+    declare(strict_types=1);
 
-    use Mautic\LeadBundle\LeadEvent;  
-    use Mautic\LeadBundle\LeadEvents;  
-    use Symfony\Component\EventDispatcher\EventSubscriberInterface;  
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    final class LeadSubscriber extends EventSubscriberInterface  
-    {  
-        static public function getSubscribedEvents(): array  
-        {  
-            return [  
-                LeadEvents::LEAD_POST_SAVE     => ['onLeadPostSave', 0],  
-                LeadEvents::LEAD_POST_DELETE   => ['onLeadDelete', 0],  
-            ];  
-        }  
-    
-        public function onLeadPostSave(LeadEvent $event): void  
-        {  
-            $lead = $event->getLead();  
-            
-            // do something  
-        }  
-    
-        public function onLeadDelete(LeadEvent $event): void  
-        {  
-            $lead = $event->getLead();  
-            
-            $deletedId = $lead->deletedId;  
-            
-            // do something  
-        }  
-    }  
-    // ...
+    use Mautic\LeadBundle\Event\LeadPostDeleteEvent;
+    use Mautic\LeadBundle\Event\LeadPostSaveEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class LeadSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                LeadPostSaveEvent::class   => ['onLeadPostSave', 0],
+                LeadPostDeleteEvent::class => ['onLeadDelete', 0],
+            ];
+        }
+
+        public function onLeadPostSave(LeadPostSaveEvent $event): void
+        {
+            $lead = $event->getLead();
+
+            // do something
+        }
+
+        public function onLeadDelete(LeadPostDeleteEvent $event): void
+        {
+            $lead = $event->getLead();
+
+            $deletedId = $lead->deletedId;
+
+            // do something
+        }
+    }
 
 Event subscribers
 *****************
 
 The easiest way to listen to various events is to use an event subscriber. Read more about :xref:`Symfony event subscribers` in Symfony's documentation.
 
-.. vale off
+A Plugin event subscriber implements ``Symfony\Component\EventDispatcher\EventSubscriberInterface`` and returns the events it listens to from ``getSubscribedEvents()``, as the earlier ``LeadSubscriber`` example does. When the Plugin's ``Config/services.php`` file turns on autoconfiguration for its services, Symfony registers the subscriber without a separate service definition. See :ref:`Plugins/Autowiring:Autowiring`.
 
-Plugin event subscribers can extend ``Symfony\Component\EventDispatcher\EventSubscriberInterface``, which gives access to commonly used dependencies and also allows registering the subscriber service through autowiring.
+Attribute listeners
+*******************
 
-.. vale on
-    
+Instead of implementing ``Symfony\Component\EventDispatcher\EventSubscriberInterface``, you can mark each listener method with Symfony's ``#[AsEventListener]`` attribute. Most of Mautic's own listeners and the Plugins bundled with Mautic use this attribute for Symfony events. Symfony only registers attribute listeners on autoconfigured services, so the Plugin's ``Config/services.php`` file must call ``->autoconfigure()``.
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/LeadListener.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\LeadBundle\Event\LeadPostSaveEvent;
+    use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+
+    final class LeadListener
+    {
+        #[AsEventListener(event: LeadPostSaveEvent::class)]
+        public function onLeadPostSave(LeadPostSaveEvent $event): void
+        {
+            $lead = $event->getLead();
+
+            // do something
+        }
+    }
+
+The ``event`` argument takes the event class. The optional ``priority`` argument sets the order, and listeners with a higher priority run first. When your listener must run before or after a Mautic listener for the same event, set an explicit ``priority`` rather than relying on registration order.
+
+Some Mautic base classes, such as ``Mautic\CoreBundle\EventListener\CommonStatsSubscriber``, declare their listener methods with ``#[AsEventListener]``. A class that extends one of them inherits those listeners, provided the class's service has autoconfiguration turned on. PHP doesn't copy attributes to an overriding method, so if you override a listener method such as ``onStatsFetch()``, add ``#[AsEventListener]`` to the override. Otherwise, Symfony doesn't register it.
+
+By default, the attribute registers the listener with Symfony's main event dispatcher. To listen on another dispatcher service, pass its service ID in the optional ``dispatcher`` argument. For example, ``#[AsEventListener(event: LoginSuccessEvent::class, dispatcher: 'security.event_dispatcher.main')]`` only receives login events from Mautic's ``main`` firewall. Some subscribers don't use a dispatcher service, so they keep their own registration:
+
+* A Symfony Form event subscriber, such as ``Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber``, still implements ``Symfony\Component\EventDispatcher\EventSubscriberInterface``. Each Form has its own event dispatcher, so the Form type adds the subscriber with ``$builder->addEventSubscriber()``.
+* A ``POST_SERIALIZE`` event subscriber still implements ``JMS\Serializer\EventDispatcher\EventSubscriberInterface``.
+
 Available events
 ****************
 
@@ -97,7 +131,34 @@ To find the name Mautic dispatches an event under, and to confirm a re-key, run 
 
 .. note::
 
-   The ``Mautic\UserBundle`` User and Role save and delete lifecycle events follow the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule. Key ``getSubscribedEvents()`` on the event class - for example ``PostSaveUserEvent::class`` in the ``Mautic\UserBundle\Event`` namespace - not on a ``UserEvents`` constant. Mautic 8 removed the eight User and Role save and delete constants from ``Mautic\UserBundle\UserEvents``, so a subscriber still keyed on one, such as ``UserEvents::USER_POST_SAVE``, raises an undefined-constant error instead of silently receiving nothing. The base ``UserEvent`` and ``RoleEvent`` classes are now abstract, so dispatch or type-hint the concrete ``Pre*`` or ``Post*`` subclass. Mautic 8 leaves the authentication constants, such as ``USER_LOGIN`` and ``USER_LOGOUT``, in place, so they still dispatch by their string names. The ``UPGRADE-8.0.md`` guide lists each removed constant with its replacement event class.
+   The ``Mautic\UserBundle`` events follow the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule, and Mautic 8 removes the ``Mautic\UserBundle\UserEvents`` class. A subscriber that still references a ``UserEvents`` constant, such as ``UserEvents::USER_POST_SAVE`` or ``UserEvents::USER_LOGIN``, raises a ``Class "Mautic\UserBundle\UserEvents" not found`` error. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\UserBundle\Event`` namespace instead.
+
+   For the User and Role save and delete events, subscribe to the concrete ``Pre*`` or ``Post*`` subclass, for example ``PostSaveUserEvent::class``. The base ``UserEvent`` and ``RoleEvent`` classes are now abstract, so dispatch or type-hint the concrete subclass.
+
+   The authentication events map to these event classes:
+
+   .. list-table::
+      :header-rows: 1
+      :widths: 50 50
+
+      * - Removed ``UserEvents`` constant
+        - Event class
+      * - ``USER_LOGIN``
+        - ``LoginEvent``
+      * - ``USER_LOGOUT``
+        - ``LogoutEvent``
+      * - ``USER_PRE_AUTHENTICATION``
+        - ``PreAuthenticationEvent``
+      * - ``USER_FORM_AUTHENTICATION``
+        - ``FormAuthenticationEvent``
+      * - ``USER_AUTHENTICATION_CONTENT``
+        - ``AuthenticationContentEvent``
+      * - ``USER_PASSWORD_STRENGTH_VALIDATION``
+        - ``PasswordStrengthValidateEvent``
+
+   Mautic previously dispatched ``AuthenticationEvent`` under both the ``USER_PRE_AUTHENTICATION`` and ``USER_FORM_AUTHENTICATION`` names. ``AuthenticationEvent`` is now an abstract base class for ``PreAuthenticationEvent`` and ``FormAuthenticationEvent``, so a listener method can keep its ``AuthenticationEvent`` type hint. Code that creates an ``AuthenticationEvent`` with ``new``, such as a Plugin test, must create one of the subclasses instead. Mautic also removes the ``USER_FORM_POST_LOCAL_PASSWORD_AUTHENTICATION`` constant without a replacement, because Mautic never dispatched an event under it.
+
+   The ``UPGRADE-8.0.md`` guide lists each removed constant with its replacement event class.
 
 .. note::
 
@@ -106,7 +167,7 @@ To find the name Mautic dispatches an event under, and to confirm a re-key, run 
 Form, Integration, and Focus events dispatched by class name in Mautic 8
 ========================================================================
 
-Seven events across three bundles moved to class-name dispatch in Mautic 8. Those bundles are FormBundle, IntegrationsBundle, and MauticFocusBundle. You now subscribe using the event class shown in the table below.
+Nine events across three bundles moved to class-name dispatch in Mautic 8. Those bundles are FormBundle, IntegrationsBundle, and MauticFocusBundle. You now subscribe using the event class shown in the table below.
 
 .. list-table::
    :header-rows: 1
@@ -140,6 +201,14 @@ Seven events across three bundles moved to class-name dispatch in Mautic 8. Thos
      - ``mautic.integration.INTEGRATION_FIND_OWNER_IDS``
      - ``IntegrationEvents::INTEGRATION_FIND_OWNER_IDS``
      - ``Mautic\IntegrationsBundle\Event\InternalObjectOwnerEvent``
+   * - IntegrationsBundle
+     - ``mautic.integration.config_before_save``
+     - ``IntegrationEvents::INTEGRATION_CONFIG_BEFORE_SAVE``
+     - ``Mautic\IntegrationsBundle\Event\ConfigBeforeSaveEvent``
+   * - IntegrationsBundle
+     - ``mautic.integration.config_after_save``
+     - ``IntegrationEvents::INTEGRATION_CONFIG_AFTER_SAVE``
+     - ``Mautic\IntegrationsBundle\Event\ConfigAfterSaveEvent``
    * - MauticFocusBundle
      - ``mautic.focus.on_view``
      - ``FocusEvents::FOCUS_ON_VIEW``
@@ -147,7 +216,13 @@ Seven events across three bundles moved to class-name dispatch in Mautic 8. Thos
 
 The FormBundle event classes live in the ``Mautic\FormBundle\Event`` namespace and the IntegrationsBundle event classes in the ``Mautic\IntegrationsBundle\Event`` namespace, both under ``app/bundles/``. MauticFocusBundle is a Plugin under ``plugins/``, so its event class is in the ``MauticPlugin\MauticFocusBundle\Event`` namespace. Note the different top-level namespace.
 
-Only these seven events changed. Mautic keeps an event as a string constant when several event names share one event object, or when the event crosses bundle boundaries, so those events still dispatch by the string name. For example, the IntegrationsBundle ``INTEGRATION_CONFIG_*`` before-and-after pair reuses one ``ConfigSaveEvent``, and FormBundle's create, read, update, and delete group constants do the same. For those, the guidance in the :ref:`Available events <Plugins/event_listeners:Available events>` intro to always use the event constants still holds.
+Only these nine events changed. Mautic keeps an event as a string constant when several event names share one event object, or when the event crosses bundle boundaries, so those events still dispatch by the string name. For example, FormBundle's create, read, update, and delete group constants share one event object. For those, the guidance in the :ref:`Available events <Plugins/event_listeners:Available events>` intro to always use the event constants still holds.
+
+The IntegrationsBundle configuration save events used to follow that rule too, because the before-save and after-save names shared one ``ConfigSaveEvent``. Mautic 8 gives each its own class and removes both constants, so update these subscribers as follows:
+
+* Key ``getSubscribedEvents()`` on ``ConfigBeforeSaveEvent::class`` or ``ConfigAfterSaveEvent::class``. A subscriber still keyed on the raw string, such as ``mautic.integration.config_before_save``, silently receives nothing.
+* Remove references to ``IntegrationEvents::INTEGRATION_CONFIG_BEFORE_SAVE`` and ``IntegrationEvents::INTEGRATION_CONFIG_AFTER_SAVE``. Mautic 8 removes the ``Mautic\IntegrationsBundle\IntegrationEvents`` class, so code that still references either constant raises a ``Class "Mautic\IntegrationsBundle\IntegrationEvents" not found`` error.
+* Type-hint your listener method on the concrete subclass. ``ConfigSaveEvent`` is now abstract, but both subclasses keep its ``getIntegrationConfiguration()`` and ``getIntegration()`` methods.
 
 .. warning::
 
@@ -394,91 +469,459 @@ The following table is the complete migration reference for AssetBundle event su
 
 .. note::
 
-   In Mautic 8, ``Mautic\IntegrationsBundle\Event`` events whose class maps to a single event name dispatch by the event object alone. Key ``getSubscribedEvents()`` on the event class - for example ``InternalObjectEvent::class`` - for those. Families whose class serves several names, such as ``ConfigSaveEvent`` and ``InternalObjectFindEvent``, still dispatch by their ``IntegrationEvents`` constants, so keep keying on the constant for those. For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+   In Mautic 8, every ``Mautic\IntegrationsBundle\Event`` event dispatches by the event object alone, and Mautic removes the ``Mautic\IntegrationsBundle\IntegrationEvents`` class. Key ``getSubscribedEvents()`` on the event class, for example ``InternalObjectEvent::class`` or ``InternalObjectFindEvent::class``. A subscriber that still references an ``IntegrationEvents`` constant raises a ``Class "Mautic\IntegrationsBundle\IntegrationEvents" not found`` error, and a subscriber keyed on a raw string name such as ``mautic.integration.INTEGRATION_FIND_INTERNAL_RECORDS`` silently receives nothing. For why this changed and what breaks if you don't re-key, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+
+.. vale off
+
+Since Mautic 8, some bundles dispatch an event by the event object alone rather than by a string constant, so you key ``getSubscribedEvents()`` on the event class. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rule. The following content covers the StageBundle, DashboardBundle, and StatsBundle events.
+
+.. note::
+
+   Since Mautic 8, Mautic dispatches ``Mautic\StageBundle\Event\StageBuilderEvent`` by the event object alone. Key ``getSubscribedEvents()`` on ``StageBuilderEvent::class``, not on ``StageEvents::STAGE_ON_BUILD`` or the string ``mautic.stage_on_build``. Those constants remain for backward compatibility but no longer dispatch this event. Mautic still dispatches the ``StageEvent`` CRUD group, ``STAGE_ON_ACTION``, and ``ON_CAMPAIGN_BATCH_ACTION`` by their string constants.
+
+   .. code-block:: php
+
+      return [
+          StageBuilderEvent::class => ['onStageBuild', 0],
+          // ...
+      ];
+
+.. vale on
+
+.. note::
+
+   The DashboardBundle applies the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` change to all four Widget events and removes the ``Mautic\DashboardBundle\DashboardEvents`` class. A subscriber that still references a ``DashboardEvents`` constant raises a ``Class "Mautic\DashboardBundle\DashboardEvents" not found`` error, and a subscriber keyed on a raw string name such as ``mautic.dashboard_on_widget_detail_generate`` silently receives nothing.
+
+The following table maps each old event name and ``DashboardEvents`` constant to the event class to key ``getSubscribedEvents()`` on. All event classes live in the ``Mautic\DashboardBundle\Event`` namespace:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 35 25
+
+   * - Old event name
+     - Removed ``DashboardEvents`` constant
+     - New event class
+   * - ``mautic.dashboard_on_widget_list_generate``
+     - ``DASHBOARD_ON_MODULE_LIST_GENERATE``
+     - ``WidgetTypeListEvent``
+   * - ``mautic.dashboard_on_widget_form_generate``
+     - ``DASHBOARD_ON_MODULE_FORM_GENERATE``
+     - ``WidgetFormEvent``
+   * - ``mautic.dashboard_on_widget_detail_pre_load``
+     - ``DASHBOARD_ON_MODULE_DETAIL_PRE_LOAD``
+     - ``PreLoadWidgetDetailEvent``
+   * - ``mautic.dashboard_on_widget_detail_generate``
+     - ``DASHBOARD_ON_MODULE_DETAIL_GENERATE``
+     - ``GenerateWidgetDetailEvent``
+
+Mautic previously dispatched ``WidgetDetailEvent`` under both detail event names. ``WidgetDetailEvent`` is now an abstract base class with two ``final`` subclasses, so each detail event has its own class:
+
+* ``PreLoadWidgetDetailEvent`` renders a Widget preview without data.
+* ``GenerateWidgetDetailEvent`` loads the Widget content with its data.
+
+Your listener methods can keep the ``WidgetDetailEvent`` type hint, because both subclasses extend it. Only the subscription keys change:
+
+.. code-block:: php
+
+    <?php
+
+    use Mautic\DashboardBundle\Event\GenerateWidgetDetailEvent;
+    use Mautic\DashboardBundle\Event\WidgetDetailEvent;
+    use Mautic\DashboardBundle\Event\WidgetTypeListEvent;
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            WidgetTypeListEvent::class       => ['onWidgetListGenerate', 0],
+            GenerateWidgetDetailEvent::class => ['onWidgetDetailGenerate', 0],
+        ];
+    }
+
+    public function onWidgetDetailGenerate(WidgetDetailEvent $event): void
+    {
+        // Set the Widget template and data.
+    }
+
+PHP can't instantiate an abstract class, so code that creates a ``WidgetDetailEvent`` directly, such as a Plugin test, must create ``GenerateWidgetDetailEvent`` or ``PreLoadWidgetDetailEvent`` instead. ``WidgetDetailEventFactory`` replaces its ``create()`` method with ``createPreLoad()`` and ``createGenerate()``.
+
+.. note::
+
+   Since Mautic 8.0, Mautic dispatches the authentication content and Segment filtering events by class name - see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`. To inject HTML into the login UI, key ``getSubscribedEvents()`` on ``Mautic\UserBundle\Event\AuthenticationContentEvent::class``. To apply custom Segment filter logic, key it on ``Mautic\LeadBundle\Event\LeadListFilteringEvent::class``. The ``LeadEvents::LIST_FILTERS_ON_FILTERING`` constant remains defined, but a subscriber still keyed on it silently receives nothing. Mautic 8 removes the ``UserEvents`` class, so a subscriber that still references ``UserEvents::USER_AUTHENTICATION_CONTENT`` raises a class-not-found error.
+
+.. note::
+
+   The StatsBundle applies the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` change to the aggregate stat request event. Key ``getSubscribedEvents()`` on ``AggregateStatRequestEvent::class``, from the ``Mautic\StatsBundle\Event`` namespace. Mautic 8 removes the ``Mautic\StatsBundle\StatEvents`` class, so a subscriber that still references ``StatEvents::AGGREGATE_STAT_REQUEST`` raises a ``Class "Mautic\StatsBundle\StatEvents" not found`` error. A subscriber keyed on the raw ``mautic.aggregate_stat_request`` string silently receives nothing.
+
+.. vale off
+
+Removed event constants
+=======================
+
+.. vale on
+
+Mautic 8 removed the string constants for the following events, which Mautic dispatches by the event object alone. A subscriber that still references one of these constants fails with ``Error: Undefined constant`` when PHP loads it. Key ``getSubscribedEvents()`` on the event class instead.
+
+.. vale off
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed constant
+     - Subscription key
+   * - ``ConfigEvents::CONFIG_PRE_SAVE``
+     - ``Mautic\ConfigBundle\Event\ConfigPreSaveEvent``
+   * - ``ConfigEvents::CONFIG_POST_SAVE``
+     - ``Mautic\ConfigBundle\Event\ConfigPostSaveEvent``
+   * - ``CampaignEvents::ON_CAMPAIGN_DELETE``
+     - ``Mautic\CampaignBundle\Event\DeleteCampaign``
+   * - ``CampaignEvents::CAMPAIGN_ON_BUILD``
+     - ``Mautic\CampaignBundle\Event\CampaignBuilderEvent``
+   * - ``CampaignEvents::CAMPAIGN_ON_TRIGGER``
+     - ``Mautic\CampaignBundle\Event\CampaignTriggerEvent``
+   * - ``CampaignEvents::ON_EVENT_EXECUTED``
+     - ``Mautic\CampaignBundle\Event\ExecutedEvent``
+   * - ``CampaignEvents::ON_EVENT_DELETE``
+     - ``Mautic\CampaignBundle\Event\DeleteEvent``
+   * - ``CampaignEvents::ON_EVENT_EXECUTED_BATCH``
+     - ``Mautic\CampaignBundle\Event\ExecutedBatchEvent``
+   * - ``CampaignEvents::ON_EVENT_SCHEDULED``
+     - ``Mautic\CampaignBundle\Event\ScheduledEvent``
+   * - ``CampaignEvents::ON_EVENT_SCHEDULED_BATCH``
+     - ``Mautic\CampaignBundle\Event\ScheduledBatchEvent``
+   * - ``CampaignEvents::ON_EVENT_FAILED``
+     - ``Mautic\CampaignBundle\Event\FailedEvent``
+   * - ``CampaignEvents::ON_EVENT_DECISION_EVALUATION_RESULTS``
+     - ``Mautic\CampaignBundle\Event\DecisionResultsEvent``
+   * - ``CampaignEvents::ON_CAMPAIGN_FAILURE_NOTIFY``
+     - ``Mautic\CampaignBundle\Event\NotifyOfFailureEvent``
+   * - ``CampaignEvents::ON_CAMPAIGN_UNPUBLISH_NOTIFY``
+     - ``Mautic\CampaignBundle\Event\NotifyOfUnpublishEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_CONFIG_SAVE``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_REQUEST``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationRequestEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_RESPONSE``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationResponseEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_AUTH_REDIRECT``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationAuthRedirectEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_GET_AUTH_CALLBACK_URL``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationAuthCallbackUrlEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_FORM_DISPLAY``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationFormDisplayEvent``
+   * - ``PluginEvents::PLUGIN_ON_INTEGRATION_FORM_BUILD``
+     - ``Mautic\PluginBundle\Event\PluginIntegrationFormBuildEvent``
+   * - ``PluginEvents::ON_PLUGIN_UPDATE``
+     - ``Mautic\PluginBundle\Event\PluginUpdateEvent``
+   * - ``PluginEvents::ON_PLUGIN_INSTALL``
+     - ``Mautic\PluginBundle\Event\PluginInstallEvent``
+   * - ``PluginEvents::PLUGIN_IS_PUBLISHED_STATE_CHANGING``
+     - ``Mautic\PluginBundle\Event\PluginIsPublishedEvent``
+   * - ``DynamicContentEvents::ON_CONTACTS_FILTER_EVALUATE``
+     - ``Mautic\DynamicContentBundle\Event\ContactFiltersEvaluateEvent``
+   * - ``DoNotContactAddEvent::ADD_DONOT_CONTACT``
+     - ``Mautic\LeadBundle\Event\DoNotContactAddEvent``
+   * - ``DoNotContactRemoveEvent::REMOVE_DONOT_CONTACT``
+     - ``Mautic\LeadBundle\Event\DoNotContactRemoveEvent``
+
+.. vale on
+
+The ``Mautic\ConfigBundle\ConfigEvents`` class no longer exists, so also remove any ``use Mautic\ConfigBundle\ConfigEvents;`` statement. Mautic 8 also removed these constants, which have no replacement event:
+
+* ``DynamicContentEvents::CATEGORY_PRE_SAVE``, ``CATEGORY_POST_SAVE``, ``CATEGORY_PRE_DELETE``, and ``CATEGORY_POST_DELETE`` duplicated the ``Mautic\CategoryBundle\CategoryEvents`` constants with the same string values. Use the ``CategoryEvents`` constants instead.
+* ``PluginEvents::ON_FORM_SUBMIT_ACTION_TRIGGERED`` had no dispatcher or listener.
+
+These illustrative fragments show the change for the Plugin Integration request event. Before Mautic 8, the subscriber keys on the constant:
+
+.. code-block:: php
+
+    <?php
+
+    use Mautic\PluginBundle\PluginEvents;
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            PluginEvents::PLUGIN_ON_INTEGRATION_REQUEST => ['onRequest', 0],
+        ];
+    }
+
+In Mautic 8, the subscriber keys on the event class:
+
+.. code-block:: php
+
+    <?php
+
+    use Mautic\PluginBundle\Event\PluginIntegrationRequestEvent;
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            PluginIntegrationRequestEvent::class => ['onRequest', 0],
+        ];
+    }
 
 Custom events
 *************
 
-A Plugin can create and dispatch its own events. 
+A Plugin can create and dispatch its own events. Since Symfony 4.3, the event class name is the event name, so a custom event doesn't need a separate class of event name constants.
 
 Custom events require the following:
 
-#. The class defines the available events for the Plugin using a ``final class`` with constants.
+#. An event class that extends ``Symfony\Contracts\EventDispatcher\Event``. The event object contains all data required for listeners to process the event.
 
    .. code-block:: php
 
        <?php
-       // plugins\HelloWorldBundle\HelloWorldEvents.php
-    
-       namespace MauticPlugin\HelloWorldBundle;
-    
-       final class HelloWorldEvents
+       // plugins\HelloWorldBundle\Event\ArmageddonEvent.php
+
+       namespace MauticPlugin\HelloWorldBundle\Event;
+
+       use MauticPlugin\HelloWorldBundle\Entity\World;
+       use Symfony\Contracts\EventDispatcher\Event;
+
+       final class ArmageddonEvent extends Event
        {
-           /**
-            * The giant meteor that dooms a world triggers the helloworld.armageddon event
-            *
-            * The event listener receives a MauticPlugin\HelloWorldBundle\Event\ArmageddonEvent instance.
-            *
-            * @var string
-            */
-           const ARMAGEDDON = 'helloworld.armageddon';
-       }
-       // ...
+           private bool $falseAlarm = false;
 
-
-#. The listeners receive the ``Event`` class. This class should extend ``Symfony\Contracts\EventDispatcher\Event``. The event object contains all data required for listeners to process the event.
-
-   .. code-block:: php
-
-       <?php  
-    // plugins\HelloWorldBundle\Event\ArmageddonEvent.php  
-    
-       namespace MauticPlugin\HelloWorldBundle\Event;  
-    
-       use Symfony\Contracts\EventDispatcher\Event;  
-       use MauticPlugin\HelloWorldBundle\Entity\World;  
-    
-       final class ArmageddonEvent extends Event  
-       {  
-           private bool $falseAlarm = false;  
-         
            public function __construct(private World $world)
-           {  
-               $this->world = $world;
-           }  
-        
-           public function shouldPanic(): bool  
-           {  
-               return ('earth' == $this->world->getName());  
-           }  
-        
-           public function setIsFalseAlarm(): void  
-           {  
-               $this->falseAlarm = true;  
-           }  
-        
-           public function getIsFalseAlarm(): bool  
-           {  
-               return $this->falseAlarm;  
-           }  
-       }
-       // ...
+           {
+           }
 
+           public function shouldPanic(): bool
+           {
+               return 'earth' === $this->world->getName();
+           }
 
-#. The code that dispatches the event where appropriate using the ``event_dispatcher`` service.
+           public function setIsFalseAlarm(): void
+           {
+               $this->falseAlarm = true;
+           }
 
-   .. code-block:: php
-
-       <?php
-    
-       $dispatcher = $this->get('event_dispatcher');
-       if ($dispatcher->hasListeners   (HelloWorldEvents::ARMAGEDDON)) {
-           $event = $dispatcher->dispatch(HelloWorldEvents::ARMAGEDDON, new ArmageddonEvent($world));
-
-           if ($event->shouldPanic()) {
-               throw new \Exception("Run for the hills!");
+           public function getIsFalseAlarm(): bool
+           {
+               return $this->falseAlarm;
            }
        }
+
+#. The code that dispatches the event object through the ``event_dispatcher`` service. Pass the event object as the only argument.
+
+   .. code-block:: php
+
+       <?php
+
+       // $dispatcher is an injected Symfony\Component\EventDispatcher\EventDispatcherInterface
+       if ($dispatcher->hasListeners(ArmageddonEvent::class)) {
+           $event = $dispatcher->dispatch(new ArmageddonEvent($world));
+
+           if ($event->shouldPanic()) {
+               throw new \Exception('Run for the hills!');
+           }
+       }
+
+   Don't pass an event name as a second argument, as in ``$dispatcher->dispatch($event, HelloWorldEvents::ARMAGEDDON)``. Mautic's static analysis rules flag that call as a ``mautic.singleArgumentDispatch`` error when you run ``composer phpstan`` on your Plugin.
+
+#. Subscribers that listen on the event class.
+
+   .. code-block:: php
+
+       <?php
+       // plugins\HelloWorldBundle\EventListener\ArmageddonSubscriber.php
+
+       namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+       use MauticPlugin\HelloWorldBundle\Event\ArmageddonEvent;
+       use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+       final class ArmageddonSubscriber implements EventSubscriberInterface
+       {
+           public static function getSubscribedEvents(): array
+           {
+               return [
+                   ArmageddonEvent::class => ['onArmageddon', 0],
+               ];
+           }
+
+           public function onArmageddon(ArmageddonEvent $event): void
+           {
+               // do something
+           }
+       }
+
+.. _leadbundle events dispatched by event class:
+
+.. vale off
+
+LeadBundle events dispatched by event class
+*******************************************
+
+.. vale on
+
+Since Mautic 8, Mautic dispatches the LeadBundle events for Contacts, Companies, Segments, Custom Fields, Tags, notes, devices, imports, and Contact exports by their event class instead of a ``LeadEvents`` string constant. Key ``getSubscribedEvents()`` on ``EventClass::class``. All the event classes below live in the ``Mautic\LeadBundle\Event`` namespace.
+
+Where several ``LeadEvents`` constants used to share one event class, each event now has its own subclass of that shared class. For example, ``LeadPreSaveEvent`` and ``LeadPostSaveEvent`` both extend ``LeadEvent``. Listener methods that type-hint the former shared class keep working.
+
+Mautic 8 keeps these ``LeadEvents`` constants because their string values remain the Webhook event type identifiers. Mautic no longer dispatches events under these names, so a subscriber still keyed on one of these constants silently stops receiving the event - no error, no log entry. Re-key it on the event class:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Kept ``LeadEvents`` constant
+     - Event class to subscribe to
+   * - ``LEAD_POST_SAVE``
+     - ``LeadPostSaveEvent``
+   * - ``LEAD_POST_DELETE``
+     - ``LeadPostDeleteEvent``
+   * - ``LEAD_POINTS_CHANGE``
+     - ``PointsChangeEvent``
+   * - ``LEAD_COMPANY_CHANGE``
+     - ``LeadChangeCompanyEvent``
+   * - ``LEAD_LIST_CHANGE``
+     - ``ListChangeEvent``
+   * - ``COMPANY_POST_SAVE``
+     - ``CompanyPostSaveEvent``
+   * - ``COMPANY_POST_DELETE``
+     - ``CompanyPostDeleteEvent``
+
+Mautic 8 removes these ``LeadEvents`` constants. Code that still references one of them throws a PHP fatal error - ``Error: Undefined constant``. Subscribe to the event class instead:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Removed ``LeadEvents`` constant
+     - Event class to subscribe to
+   * - ``LEAD_PRE_SAVE``
+     - ``LeadPreSaveEvent``
+   * - ``LEAD_PRE_DELETE``
+     - ``LeadPreDeleteEvent``
+   * - ``LEAD_PRE_MERGE``
+     - ``LeadPreMergeEvent``
+   * - ``LEAD_POST_MERGE``
+     - ``LeadPostMergeEvent``
+   * - ``LEAD_IDENTIFIED``
+     - ``LeadIdentifiedEvent``
+   * - ``LEAD_LIST_BATCH_CHANGE``
+     - ``ListBatchChangeEvent``
+   * - ``LEAD_PRE_BATCH_SAVE``
+     - ``LeadPreBatchSaveEvent``
+   * - ``LEAD_POST_BATCH_SAVE``
+     - ``LeadPostBatchSaveEvent``
+   * - ``CURRENT_LEAD_CHANGED``
+     - ``LeadChangeEvent``
+   * - ``LIST_PRE_SAVE``
+     - ``ListPreSaveEvent``
+   * - ``LIST_POST_SAVE``
+     - ``ListPostSaveEvent``
+   * - ``LIST_PRE_UNPUBLISH``
+     - ``ListPreUnpublishEvent``
+   * - ``LIST_PRE_DELETE``
+     - ``ListPreDeleteEvent``
+   * - ``ON_LIST_DELETE``
+     - ``ListDeleteEvent``
+   * - ``LIST_POST_DELETE``
+     - ``ListPostDeleteEvent``
+   * - ``FIELD_PRE_SAVE``
+     - ``FieldPreSaveEvent``
+   * - ``FIELD_POST_SAVE``
+     - ``FieldPostSaveEvent``
+   * - ``FIELD_PRE_DELETE``
+     - ``FieldPreDeleteEvent``
+   * - ``FIELD_POST_DELETE``
+     - ``FieldPostDeleteEvent``
+   * - ``NOTE_PRE_SAVE``
+     - ``NotePreSaveEvent``
+   * - ``NOTE_POST_SAVE``
+     - ``NotePostSaveEvent``
+   * - ``NOTE_PRE_DELETE``
+     - ``NotePreDeleteEvent``
+   * - ``NOTE_POST_DELETE``
+     - ``NotePostDeleteEvent``
+   * - ``IMPORT_PRE_SAVE``
+     - ``ImportPreSaveEvent``
+   * - ``IMPORT_POST_SAVE``
+     - ``ImportPostSaveEvent``
+   * - ``IMPORT_PRE_DELETE``
+     - ``ImportPreDeleteEvent``
+   * - ``IMPORT_POST_DELETE``
+     - ``ImportPostDeleteEvent``
+   * - ``IMPORT_BATCH_PROCESSED``
+     - ``ImportBatchProcessedEvent``
+   * - ``DEVICE_PRE_SAVE``
+     - ``DevicePreSaveEvent``
+   * - ``DEVICE_POST_SAVE``
+     - ``DevicePostSaveEvent``
+   * - ``DEVICE_PRE_DELETE``
+     - ``DevicePreDeleteEvent``
+   * - ``DEVICE_POST_DELETE``
+     - ``DevicePostDeleteEvent``
+   * - ``TAG_PRE_SAVE``
+     - ``TagPreSaveEvent``
+   * - ``TAG_POST_SAVE``
+     - ``TagPostSaveEvent``
+   * - ``TAG_PRE_DELETE``
+     - ``TagPreDeleteEvent``
+   * - ``TAG_POST_DELETE``
+     - ``TagPostDeleteEvent``
+   * - ``TAG_PRE_MERGE``
+     - ``TagPreMergeEvent``
+   * - ``TAG_POST_MERGE``
+     - ``TagPostMergeEvent``
+   * - ``COMPANY_PRE_SAVE``
+     - ``CompanyPreSaveEvent``
+   * - ``COMPANY_PRE_DELETE``
+     - ``CompanyPreDeleteEvent``
+   * - ``COMPANY_SOFT_DELETE``
+     - ``CompanySoftDeleteEvent``
+   * - ``COMPANY_PRE_MERGE``
+     - ``CompanyPreMergeEvent``
+   * - ``COMPANY_POST_MERGE``
+     - ``CompanyPostMergeEvent``
+   * - ``LIST_FILTERS_CHOICES_ON_GENERATE``
+     - ``LeadListFiltersChoicesEvent``
+   * - ``SEGMENT_DICTIONARY_ON_GENERATE``
+     - ``SegmentDictionaryGenerationEvent``
+   * - ``LIST_FILTERS_ON_FILTERING``
+     - ``LeadListFilteringEvent``
+   * - ``LIST_PRE_PROCESS_LIST``
+     - ``ListPreProcessListEvent``
+   * - ``ON_CLICKTHROUGH_IDENTIFICATION``
+     - ``ContactIdentificationEvent``
+   * - ``POST_CONTACT_EXPORT``
+     - ``ContactExportEvent``
+   * - ``POST_CONTACT_EXPORT_SCHEDULED``
+     - ``ContactExportScheduledEvent``
+   * - ``CONTACT_EXPORT_PREPARE_FILE``
+     - ``ContactExportPrepareFileEvent``
+   * - ``CONTACT_EXPORT_SEND_EMAIL``
+     - ``ContactExportSendEmailEvent``
+   * - ``POST_CONTACT_EXPORT_SEND_EMAIL``
+     - ``ContactExportEmailSentEvent``
+
+Mautic 8 also changes how these events behave for code that creates or reads them:
+
+* Mautic 8 makes these 12 former shared classes ``abstract``:
+
+  * ``CompanyEvent``
+  * ``CompanyMergeEvent``
+  * ``ContactExportSchedulerEvent``
+  * ``ImportEvent``
+  * ``LeadDeviceEvent``
+  * ``LeadFieldEvent``
+  * ``LeadListEvent``
+  * ``LeadMergeEvent``
+  * ``LeadNoteEvent``
+  * ``SaveBatchLeadsEvent``
+  * ``TagEvent``
+  * ``TagMergeEvent``
+
+  If your Plugin creates one of these events with ``new``, create the matching subclass from the preceding tables instead. ``LeadEvent`` and ``ListChangeEvent`` are no longer ``final``, and Mautic still dispatches them directly.
+
+* The event Mautic dispatches before a save, delete, or merge and the event it dispatches afterward are now separate objects. A value that a listener sets on the earlier event isn't available to listeners of the later one.
+* ``Mautic\LeadBundle\Field\Dispatcher\FieldSaveDispatcher::dispatchEvent()`` now takes the ``LeadFieldEvent`` subclass to dispatch, instead of an event name, the field entity, and an ``isNew`` flag.
+
+For the full list of Mautic 8 changes, see :xref:`UPGRADE_GUIDE_8`.
 
 Tag merge events
 ****************
@@ -489,14 +932,14 @@ Mautic dispatches events when two Tags merge. Use these events to sync Tag chang
    :header-rows: 1
    :widths: 30 70
 
-   * - Event constant
+   * - Event class
      - Description
-   * - ``LeadEvents::TAG_PRE_MERGE``
-     - Dispatched before two Tags merge. The event string is ``mautic.lead_tag_pre_merge``.
-   * - ``LeadEvents::TAG_POST_MERGE``
-     - Dispatched after two Tags merge. The event string is ``mautic.lead_tag_post_merge``.
+   * - ``Mautic\LeadBundle\Event\TagPreMergeEvent``
+     - Dispatched before two Tags merge.
+   * - ``Mautic\LeadBundle\Event\TagPostMergeEvent``
+     - Dispatched after two Tags merge.
 
-Both events receive a ``Mautic\LeadBundle\Event\TagMergeEvent`` instance with the following methods:
+Both event classes extend ``Mautic\LeadBundle\Event\TagMergeEvent`` and provide the following methods:
 
 .. list-table::
    :header-rows: 1
@@ -521,8 +964,8 @@ Example subscriber
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\LeadBundle\Event\TagMergeEvent;
-    use Mautic\LeadBundle\LeadEvents;
+    use Mautic\LeadBundle\Event\TagPostMergeEvent;
+    use Mautic\LeadBundle\Event\TagPreMergeEvent;
     use Psr\Log\LoggerInterface;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -535,12 +978,12 @@ Example subscriber
         public static function getSubscribedEvents(): array
         {
             return [
-                LeadEvents::TAG_PRE_MERGE  => ['onTagPreMerge', 0],
-                LeadEvents::TAG_POST_MERGE => ['onTagPostMerge', 0],
+                TagPreMergeEvent::class  => ['onTagPreMerge', 0],
+                TagPostMergeEvent::class => ['onTagPostMerge', 0],
             ];
         }
 
-        public function onTagPreMerge(TagMergeEvent $event): void
+        public function onTagPreMerge(TagPreMergeEvent $event): void
         {
             $primaryTag   = $event->getPrimaryTag();
             $secondaryTag = $event->getSecondaryTag();
@@ -552,7 +995,7 @@ Example subscriber
             ));
         }
 
-        public function onTagPostMerge(TagMergeEvent $event): void
+        public function onTagPostMerge(TagPostMergeEvent $event): void
         {
             $primaryTag   = $event->getPrimaryTag();
             $secondaryTag = $event->getSecondaryTag();

@@ -18,7 +18,11 @@ There are two ways to extend Landing Pages:
 * Landing Page tokens used to insert Dynamic Content into a Landing Page
 * A/B test winning criteria
 
-Both leverage the ``\Mautic\PageBundle\PageEvents::PAGE_ON_BUILD`` event. Read more about :ref:`plugins/event_listeners:Event listeners`.
+Both use the ``Mautic\PageBundle\Event\PageBuilderEvent`` event, and the tokens example below also handles ``PageDisplayEvent``. Read more about :ref:`Plugins/event_listeners:Event listeners`.
+
+.. note::
+
+   Since Mautic 8, Mautic dispatches ``PageBuilderEvent`` and ``PageDisplayEvent`` by their class names, so key ``getSubscribedEvents()`` on ``PageBuilderEvent::class`` and ``PageDisplayEvent::class``. Mautic 8 removed the ``PAGE_ON_BUILD`` and ``PAGE_ON_DISPLAY`` constants from ``Mautic\PageBundle\PageEvents``, so a subscriber still keyed on either constant raises an undefined-constant error. A subscriber keyed on the raw ``mautic.page_on_build`` or ``mautic.page_on_display`` string receives nothing. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 .. vale off
 
@@ -55,7 +59,6 @@ Below is an example of both Landing Page Tokens and Landing Page A/B Test Winner
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
     use Mautic\CoreBundle\Helper\TemplatingHelper;
-    use Mautic\PageBundle\PageEvents;
     use Mautic\PageBundle\Event\PageBuilderEvent;
     use Mautic\PageBundle\Event\PageDisplayEvent;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -72,8 +75,8 @@ Below is an example of both Landing Page Tokens and Landing Page A/B Test Winner
         static public function getSubscribedEvents()
         {
             return [
-                PageEvents::PAGE_ON_BUILD   => ['onPageBuild', 0],
-                PageEvents::PAGE_ON_DISPLAY => ['onPageDisplay', 0]
+                PageBuilderEvent::class => ['onPageBuild', 0],
+                PageDisplayEvent::class => ['onPageDisplay', 0],
             ];
         }
 
@@ -120,6 +123,10 @@ Below is an example of both Landing Page Tokens and Landing Page A/B Test Winner
             $event->setContent($content);
         }
     }
+
+.. note::
+
+   In Mautic 8.0, Mautic dispatches the ``PageDisplayEvent`` by its class name, so re-key ``getSubscribedEvents()`` on ``PageDisplayEvent::class``, as the preceding example shows. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks on the old key and why.
 
 .. vale off
 
@@ -198,18 +205,22 @@ The event provides:
 
 .. note::
 
-   The ``TokenHelper::REGEX`` constant provides the regular expression pattern for matching Contact field tokens. Use this to check whether a URL contains tokens before performing replacements.
+   The ``TokenHelper::REGEX`` constant provides the regular expression pattern for matching Contact field tokens. Use it to test whether a URL contains tokens before performing replacements.
 
 .. vale off
 
 Customizing Preference Center
 *****************************
 
-Preference Center lets Contacts manage their communication preferences. Since Mautic 7.2, you can programmatically customize the labels on Preference Center slot components using the ``PageEvents::PAGE_ON_DISPLAY`` event.
+Preference Center lets Contacts manage their communication preferences. Since Mautic 7.2, you can customize the labels on Preference Center slot components using ``PageDisplayEvent``.
 
 .. vale on
 
 This lets you override default translated labels with custom text for branding, localization beyond built-in translations, or dynamic label generation based on context.
+
+.. note::
+
+   In Mautic 8.0, Mautic dispatches the ``PageDisplayEvent`` by its class name, so subscribers key ``getSubscribedEvents()`` on ``PageDisplayEvent::class``. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for what breaks on the old key and why.
 
 Available slot parameters
 =========================
@@ -258,7 +269,7 @@ Each Preference Center slot accepts label attributes that override the default t
 Example implementation
 ======================
 
-Create an event subscriber that listens to ``PAGE_ON_DISPLAY`` and modifies the slot parameters:
+Create an event subscriber that listens to ``PageDisplayEvent`` and modifies the slot parameters:
 
 .. code-block:: php
 
@@ -270,7 +281,6 @@ Create an event subscriber that listens to ``PAGE_ON_DISPLAY`` and modifies the 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
     use Mautic\PageBundle\Event\PageDisplayEvent;
-    use Mautic\PageBundle\PageEvents;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
     class PreferenceCenterSubscriber implements EventSubscriberInterface
@@ -278,7 +288,7 @@ Create an event subscriber that listens to ``PAGE_ON_DISPLAY`` and modifies the 
         public static function getSubscribedEvents(): array
         {
             return [
-                PageEvents::PAGE_ON_DISPLAY => ['onPageDisplay', 100],
+                PageDisplayEvent::class => ['onPageDisplay', 100],
             ];
         }
 
@@ -338,11 +348,11 @@ Toggle 'Available for use' event
 
 .. vale on
 
-The ``\Mautic\PageBundle\PageEvents::PAGE_ON_TOGGLE_PUBLISH`` event dispatches when a User toggles the **Available for use** status of a Landing Page. Mautic dispatches it before persisting the status change to the database, so Plugins can run actions or validations before the User makes the Landing Page available or unavailable.
+Mautic dispatches the generic ``Mautic\CoreBundle\Event\EntityTogglePublishEvent`` event when a User toggles the **Available for use** status of a Landing Page. Mautic changes the status on the entity first, then dispatches the event before it saves the change to the database. Plugins can use this event to run custom logic before Mautic saves the new status.
 
-An event listener receives a ``Mautic\PageBundle\Event\PageEvent`` instance.
+Mautic dispatches the same event for every entity whose status a User toggles, so verify the entity type in your listener. Call ``getEntity()`` on the event to get the entity. For a Landing Page, ``isPublished()`` returns the new **Available for use** status.
 
-.. code-block:: php
+.. code-block:: PHP
 
     <?php
     // plugins/HelloWorldBundle/EventListener/PageLifecycleSubscriber.php
@@ -351,8 +361,8 @@ An event listener receives a ``Mautic\PageBundle\Event\PageEvent`` instance.
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\PageBundle\PageEvents;
-    use Mautic\PageBundle\Event\PageEvent;
+    use Mautic\CoreBundle\Event\EntityTogglePublishEvent;
+    use Mautic\PageBundle\Entity\Page;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
     final class PageLifecycleSubscriber implements EventSubscriberInterface
@@ -360,18 +370,22 @@ An event listener receives a ``Mautic\PageBundle\Event\PageEvent`` instance.
         public static function getSubscribedEvents(): array
         {
             return [
-                PageEvents::PAGE_ON_TOGGLE_PUBLISH => ['onPageTogglePublish', 0],
+                EntityTogglePublishEvent::class => ['onPageTogglePublish', 0],
             ];
         }
 
-        public function onPageTogglePublish(PageEvent $event): void
+        public function onPageTogglePublish(EntityTogglePublishEvent $event): void
         {
-            $page = $event->getPage();
+            $page = $event->getEntity();
 
-            // Check current publish status (before toggle)
-            $isCurrentlyPublished = $page->isPublished();
+            if (!$page instanceof Page) {
+                return;
+            }
 
-            // Perform custom logic before the status changes
+            // New status, not yet saved to the database
+            $isPublished = $page->isPublished();
+
+            // Perform custom logic before Mautic saves the change
             // For example, notify an external service or invalidate a cache
         }
     }

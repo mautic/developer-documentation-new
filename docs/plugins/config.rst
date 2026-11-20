@@ -827,7 +827,11 @@ To add these configuration options in Mautic's configuration section, you’ll n
 Config event subscriber
 =======================
 
-This allows Plugins to interact with Mautic's configuration events. It listens to two important events: ``ConfigEvents::CONFIG_ON_GENERATE`` and ``ConfigEvents::CONFIG_PRE_SAVE``.
+A config event subscriber adds the Plugin's settings to Mautic's configuration UI and processes the submitted values. Mautic dispatches the configuration events by their event class, so the subscriber keys ``getSubscribedEvents()`` on ``ConfigBuilderEvent::class`` and ``ConfigPreSaveEvent::class``.
+
+.. note::
+
+   Mautic 8 removed the ``Mautic\ConfigBundle\ConfigEvents`` class with its ``CONFIG_ON_GENERATE``, ``CONFIG_PRE_SAVE``, and ``CONFIG_POST_SAVE`` constants. A subscriber that still references one of them fails with ``Error: Undefined constant``. For details, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
 
 The following code example shows how a Plugin structures its event subscriber.
 
@@ -838,12 +842,11 @@ The following code example shows how a Plugin structures its event subscriber.
     declare(strict_types=1);
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
-    use Mautic\ConfigBundle\Event\ConfigEvent;
-    use Mautic\ConfigBundle\ConfigEvents;
     use Mautic\ConfigBundle\Event\ConfigBuilderEvent;
+    use Mautic\ConfigBundle\Event\ConfigPreSaveEvent;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-    final class ConfigSubscriber extends EventSubscriberInterface
+    final class ConfigSubscriber implements EventSubscriberInterface
     {
         /**
          * @return mixed[]
@@ -851,8 +854,8 @@ The following code example shows how a Plugin structures its event subscriber.
         static public function getSubscribedEvents(): array
         {
             return [
-                ConfigEvents::CONFIG_ON_GENERATE => ['onConfigGenerate', 0],
-                ConfigEvents::CONFIG_PRE_SAVE    => ['onConfigSave', 0]
+                ConfigBuilderEvent::class => ['onConfigGenerate', 0],
+                ConfigPreSaveEvent::class => ['onConfigSave', 0],
             ];
         }
 
@@ -867,7 +870,7 @@ The following code example shows how a Plugin structures its event subscriber.
             );
         }
 
-        public function onConfigSave(ConfigEvent $event): void
+        public function onConfigSave(ConfigPreSaveEvent $event): void
         {
             /** @var array $values */
             $values = $event->getConfig();
@@ -885,16 +888,16 @@ Subscribed events
 
 The event subscriber listens to the following events:
 
-- ``ConfigEvents::CONFIG_ON_GENERATE``:
-  Mautic dispatches this event when it builds the configuration form. This allows the Plugin to inject its own tab and configuration options.
+* ``ConfigBuilderEvent::class`` - Mautic dispatches this event when it builds the configuration UI. The Plugin uses it to add its own tab and configuration options.
+* ``ConfigPreSaveEvent::class`` - Mautic dispatches this event before it saves the submitted values to the ``local.php`` file. The Plugin uses it to clean up or modify the data before Mautic writes it.
+* ``ConfigPostSaveEvent::class`` - Mautic dispatches this event after it writes the values to ``local.php``. Subscribe to it to react to saved configuration changes. The example subscriber doesn't use it.
 
-- ``ConfigEvents::CONFIG_PRE_SAVE``:
-  Mautic triggers this event before it renders the form values and saves them to the ``local.php`` file. This allows the Plugin to clean up or modify the data before writing it to ``local.php``.
+All three classes live in the ``Mautic\ConfigBundle\Event`` namespace. ``ConfigPreSaveEvent`` and ``ConfigPostSaveEvent`` extend ``ConfigEvent``, so a listener method that type-hints ``ConfigEvent`` still receives either event. After saving, Mautic creates a separate ``ConfigPostSaveEvent`` object. It carries the saved configuration values, including any changes that ``ConfigPreSaveEvent`` listeners made with ``setConfig()``.
 
 Generate Plugin configuration
 -----------------------------
 
-To register Plugin’s configuration details during the ``ConfigEvents::CONFIG_ON_GENERATE event``, call the ``addForm()`` method on the ``ConfigBuilderEvent`` object. The method expects an array with the following elements:
+To register the Plugin's configuration details during the ``ConfigBuilderEvent`` event, call the ``addForm()`` method on the ``ConfigBuilderEvent`` object. The method expects an array with the following elements:
 
 .. list-table::
     :header-rows: 1
@@ -912,7 +915,7 @@ To register Plugin’s configuration details during the ``ConfigEvents::CONFIG_O
 Modify configuration before saving
 ----------------------------------
 
-To modify the form data before saving, use the ``ConfigEvents::CONFIG_PRE_SAVE event``. This  event is triggered just before values are saved to the ``local.php`` file, allowing the Plugin to adjust them.
+To modify the submitted values before saving, subscribe to ``ConfigPreSaveEvent::class``. Mautic dispatches this event just before it writes them to the ``local.php`` file, so the Plugin can adjust them with ``$event->setConfig()``.
 
 Register the event subscriber
 -----------------------------
@@ -963,7 +966,7 @@ Below is an example of a form type class that adds a custom configuration option
 Config template
 ===============
 
-Registering a form theme as ``HelloWorldBundle:FormTheme\Config`` in the event listener tells the ConfigBundle to look in the HelloWorldBundle’s ``Resources/views/FormTheme/Config`` folder for templates. Specifically, it will look for a template named ``_config_{formAlias}_widget.html.twig``, where ``{formAlias}`` is the same as the ``formAlias`` set in the Plugin’s ``ConfigEvents::CONFIG_ON_GENERATE`` event listener.
+Setting ``formTheme`` to ``HelloWorldBundle:FormTheme\Config`` in the event listener tells the ConfigBundle to look in the HelloWorldBundle’s ``Resources/views/FormTheme/Config`` folder for templates. Specifically, it looks for a template named ``_config_{formAlias}_widget.html.twig``, where ``{formAlias}`` is the same as the ``formAlias`` set in the Plugin's ``ConfigBuilderEvent`` event listener.
 
 The template should be structured in a panel format to match the rest of the configuration UI.
 

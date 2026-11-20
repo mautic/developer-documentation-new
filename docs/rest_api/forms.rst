@@ -104,7 +104,6 @@ Response
                   "labelAttributes": null,
                   "inputAttributes": null,
                   "containerAttributes": null,
-                  "leadField": null,
                   "saveResult": true,
                   "isAutoFill": true,
                   "mappedObject": "company",
@@ -128,7 +127,6 @@ Response
                   "labelAttributes": null,
                   "inputAttributes": "class=\"btn btn-ghost\"",
                   "containerAttributes": null,
-                  "leadField": null,
                   "saveResult": true,
                   "isAutoFill": false,
                   "mappedObject": null,
@@ -150,7 +148,6 @@ Response
           "template": "goldstar",
           "inKioskMode": true,
           "renderStyle": true,
-          "formType": "standalone",
           "postAction": "message",
           "postActionProperty": "Thank you for registering and see you there!",
           "noIndex": false,
@@ -236,9 +233,6 @@ Form properties
    * - ``renderStyle``
      - boolean
      - Render style status - set to ``0`` or ``false`` to turn off the inclusion of template CSS in the Form output. When not set, it defaults to on
-   * - ``formType``
-     - string
-     - Type of the Form - ``standalone`` or ``campaign``. Mautic deprecated this field in 7.1 and removes it from API responses in 8.0. Mautic no longer uses Form types
    * - ``postAction``
      - string
      - Action to perform after submission. Must be one of:
@@ -341,9 +335,6 @@ Form Field properties
    * - ``containerAttributes``
      - string
      - HTML attributes for the field wrapper or container
-   * - ``leadField``
-     - string
-     - Internal reference name for the mapped field on the target object
    * - ``saveResult``
      - boolean
      - Result storage status - ``0`` or ``false`` prevents Mautic from storing the submitted value in the database. When not set, it defaults to save the submission
@@ -501,7 +492,6 @@ Response
                       "labelAttributes": null,
                       "inputAttributes": null,
                       "containerAttributes": null,
-                      "leadField": null,
                       "saveResult": true,
                       "isAutoFill": true,
                       "mappedObject": "company",
@@ -525,7 +515,6 @@ Response
                       "labelAttributes": null,
                       "inputAttributes": "class=\"btn btn-ghost\"",
                       "containerAttributes": null,
-                      "leadField": null,
                       "saveResult": true,
                       "isAutoFill": false,
                       "mappedObject": null,
@@ -547,7 +536,6 @@ Response
               "template": "goldstar",
               "inKioskMode": true,
               "renderStyle": true,
-              "formType": "standalone",
               "postAction": "message",
               "postActionProperty": "Thank you for registering and see you there!",
               "noIndex": false,
@@ -672,9 +660,6 @@ POST parameters
      - **Required.**
        
        Array of Form actions. Refer to the :ref:`Action parameters` table for available options
-   * - ``formType``
-     - string
-     - Type of the Form - ``standalone`` or ``campaign``. Mautic deprecated this field in 7.1 and removes it in 8.0. Because Mautic no longer uses Form types, it ignores any value you submit for this field
    * - ``postAction``
      - string
      - Action to perform after submission. Must be one of:
@@ -1530,8 +1515,23 @@ Mautic shows fields conditionally based on other field values:
 Mapped fields
 *************
 
-Mautic can map Form Fields to Contact or Company fields:
+Mautic can map Form Fields to Contact or Company fields. To map a field, send both properties in the field's parameters:
 
-* Use ``mappedObject`` to specify ``contact`` or ``company``
-* Use ``mappedField`` to specify the target field name
-* Mautic still supports the deprecated ``leadField`` property for backward compatibility
+* ``mappedObject`` - the object that the field maps to, ``contact`` or ``company``
+* ``mappedField`` - the alias of the target field on that object
+
+Form Field responses return the mapping in the same two properties.
+
+For example, to map a field to the Contact field with the ``email`` alias, send:
+
+.. code-block:: json
+
+   {
+       "label": "Email",
+       "alias": "email",
+       "type": "email",
+       "mappedObject": "contact",
+       "mappedField": "email"
+   }
+
+To map a field to the Company phone field, send ``"mappedObject": "company"`` and ``"mappedField": "companyphone"``. The ``company`` field belongs to the Contact object, so map it with ``"mappedObject": "contact"`` and ``"mappedField": "company"``.
