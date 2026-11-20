@@ -64,12 +64,45 @@ Event subscribers
 
 The easiest way to listen to various events is to use an event subscriber. Read more about :xref:`Symfony event subscribers` in Symfony's documentation.
 
-.. vale off
+A Plugin event subscriber implements ``Symfony\Component\EventDispatcher\EventSubscriberInterface`` and returns the events it listens to from ``getSubscribedEvents()``, as the earlier ``LeadSubscriber`` example does. When the Plugin's ``Config/services.php`` file turns on autoconfiguration for its services, Symfony registers the subscriber without a separate service definition. See :ref:`Plugins/Autowiring:Autowiring`.
 
-Plugin event subscribers can extend ``Symfony\Component\EventDispatcher\EventSubscriberInterface``, which gives access to commonly used dependencies and also allows registering the subscriber service through autowiring.
+Attribute listeners
+*******************
 
-.. vale on
-    
+Instead of implementing ``Symfony\Component\EventDispatcher\EventSubscriberInterface``, you can mark each listener method with Symfony's ``#[AsEventListener]`` attribute. Most of Mautic's own listeners and the Plugins bundled with Mautic use this attribute for Symfony events. Symfony only registers attribute listeners on autoconfigured services, so the Plugin's ``Config/services.php`` file must call ``->autoconfigure()``.
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/LeadListener.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\LeadBundle\Event\LeadPostSaveEvent;
+    use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+
+    final class LeadListener
+    {
+        #[AsEventListener(event: LeadPostSaveEvent::class)]
+        public function onLeadPostSave(LeadPostSaveEvent $event): void
+        {
+            $lead = $event->getLead();
+
+            // do something
+        }
+    }
+
+The ``event`` argument takes the event class. The optional ``priority`` argument sets the order, and listeners with a higher priority run first. When your listener must run before or after a Mautic listener for the same event, set an explicit ``priority`` rather than relying on registration order.
+
+Some Mautic base classes, such as ``Mautic\CoreBundle\EventListener\CommonStatsSubscriber``, declare their listener methods with ``#[AsEventListener]``. A class that extends one of them inherits those listeners, provided the class's service has autoconfiguration turned on. PHP doesn't copy attributes to an overriding method, so if you override a listener method such as ``onStatsFetch()``, add ``#[AsEventListener]`` to the override. Otherwise, Symfony doesn't register it.
+
+By default, the attribute registers the listener with Symfony's main event dispatcher. To listen on another dispatcher service, pass its service ID in the optional ``dispatcher`` argument. For example, ``#[AsEventListener(event: LoginSuccessEvent::class, dispatcher: 'security.event_dispatcher.main')]`` only receives login events from Mautic's ``main`` firewall. Some subscribers don't use a dispatcher service, so they keep their own registration:
+
+* A Symfony Form event subscriber, such as ``Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber``, still implements ``Symfony\Component\EventDispatcher\EventSubscriberInterface``. Each Form has its own event dispatcher, so the Form type adds the subscriber with ``$builder->addEventSubscriber()``.
+* A ``POST_SERIALIZE`` event subscriber still implements ``JMS\Serializer\EventDispatcher\EventSubscriberInterface``.
+
 Available events
 ****************
 
