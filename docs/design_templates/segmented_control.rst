@@ -35,48 +35,17 @@ To add a segmented control to a Symfony form in your Plugin, add a field with th
                    'plugin.helloworld.world.visibility.public'  => 'public',
                ],
                'data'    => 'private',
-               'icons'   => [
-                   'private' => 'ri-lock-line',
-                   'public'  => 'ri-global-line',
-               ],
            ]);
        }
    }
 
 When you render the field with ``form_row()``, Mautic's layout template for Symfony fields, ``mautic_form_layout.html.twig``, shows the field's label and includes the segmented control template for you. The control also uses the label as its ``aria-label``. The browser submits the value of the selected option as the field's value, so the field works like any other single-choice field when you handle the submitted form.
 
-The layout passes the field's ``attr`` options to every radio button, except ``class`` and ``tooltip``.
+The layout passes the field's ``attr`` options to every radio button, except ``class`` and ``tooltip``. You don't need to set a ``class`` such as ``form-control`` on the field.
 
-``SegmentedControlType`` adds these options:
+``SegmentedControlType`` adds one option, ``draggable``, which defaults to ``true``. Set it to ``false`` to turn off dragging the indicator. Users can still click options and use the arrow keys.
 
-.. list-table::
-    :header-rows: 1
-    :widths: 20 10 15 55
-
-    * - Option
-      - Type
-      - Default
-      - Description
-    * - ``size``
-      - string
-      - ``md``
-      - The control's size. Set it to ``sm``, ``md``, or ``lg``.
-    * - ``equal_width``
-      - boolean
-      - ``false``
-      - Set to ``true`` to give every option the width of the widest option.
-    * - ``draggable``
-      - boolean
-      - ``true``
-      - Set to ``false`` to turn off dragging the indicator. Users can still click options and use the arrow keys.
-    * - ``duration``
-      - integer or float
-      - ``null``
-      - The time in seconds that the indicator takes to slide to the selected option. When you don't set it, the indicator takes 0.35 seconds.
-    * - ``icons``
-      - array
-      - Empty array
-      - Icon CSS classes to show before option labels, keyed by choice value. Options without an entry have no icon.
+To set the control's size, give options equal widths, show icons, or change how fast the indicator slides, include the template directly as described in the next section.
 
 Including the template
 **********************
