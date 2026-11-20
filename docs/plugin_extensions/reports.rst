@@ -249,7 +249,7 @@ Mautic dispatches ``\Mautic\ReportBundle\Event\ReportFilterConditionEvent`` for 
 
 * ``checkContext()`` - checks whether the Report uses your Plugin's context.
 * ``getFilter()`` - returns the filter as saved on the Report, with keys such as ``column``, ``condition`` for the operator, ``value``, and ``glue``.
-* ``getFilterDefinition()`` - returns the filter's definition from the ``ReportEvents::REPORT_ON_BUILD`` event.
+* ``getFilterDefinition()`` - returns the filter's definition from the ``ReportBuilderEvent`` event.
 * ``getQueryBuilder()`` - returns the Report's QueryBuilder, for example to bind the filter value as a parameter.
 * ``setCondition()`` - sets the condition as a SQL string or a Doctrine ``CompositeExpression``. Mautic uses it instead of the default condition and stops propagating the event to other listeners.
 
