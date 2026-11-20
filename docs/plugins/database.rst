@@ -24,9 +24,73 @@ Entity PHP static function mapping
 
 You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder`` class. Refer to :xref:`Doctrine ORM PHP mapping` for methods available. Mautic also provides a decorated ``ClassMetadataBuilder`` class through ``Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder`` described below.
 
-.. The link to this file is defined in docs/code_samples/helloworld_entity_world.py 
-.. literalinclude:: ../code_samples_downloaded/Entity_World.php
-    :language: php
+.. code-block:: php
+
+    <?php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\Entity;
+
+    use Doctrine\DBAL\Types\Types;
+    use Doctrine\ORM\Mapping\ClassMetadata;
+    use Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder;
+
+    class World
+    {
+        private ?int $id = null;
+        private ?string $world = null;
+        private bool $isEnabled = false;
+
+        /**
+         * @param ClassMetadata<self> $metadata
+         */
+        public static function loadMetadata(ClassMetadata $metadata): void
+        {
+            $builder = new ClassMetadataBuilder($metadata);
+
+            $builder
+                ->setTable('hello_world')
+                ->setCustomRepositoryClass(WorldRepository::class)
+                ->addIndex(['is_enabled'], 'is_enabled');
+
+            $builder->addId();
+
+            $builder
+                ->createField('world', Types::STRING)
+                ->build();
+
+            $builder
+                ->createField('isEnabled', Types::BOOLEAN)
+                ->columnName('is_enabled')
+                ->build();
+        }
+
+        public function getId(): ?int
+        {
+            return $this->id;
+        }
+
+        public function getWorld(): ?string
+        {
+            return $this->world;
+        }
+
+        public function setWorld(string $world): void
+        {
+            $this->world = $world;
+        }
+
+        public function isEnabled(): bool
+        {
+            return $this->isEnabled;
+        }
+
+        public function setIsEnabled(bool $isEnabled): void
+        {
+            $this->isEnabled = $isEnabled;
+        }
+    }
 
 .. php:class:: Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder
 
@@ -196,24 +260,51 @@ You can choose to use PHP 8 attributes instead of the PHP static method. Refer t
 
     namespace MauticPlugin\HelloWorldBundle\Entity;
 
+    use Doctrine\DBAL\Types\Types;
     use Doctrine\ORM\Mapping as ORM;
-    use Ramsey\Uuid\Uuid;
 
-    #[ORM\Entity]
-    #[ORM\Table(name: 'worlds')]
+    #[ORM\Entity(repositoryClass: WorldRepository::class)]
+    #[ORM\Table(name: 'hello_world')]
+    #[ORM\Index(name: 'is_enabled', columns: ['is_enabled'])]
     class World
     {
         #[ORM\Id]
-        #[ORM\Column(type: 'guid')]
-        private string $id;
+        #[ORM\GeneratedValue]
+        #[ORM\Column(type: Types::INTEGER, options: ['unsigned' => true])]
+        private ?int $id = null;
 
-        #[ORM\Column(type: 'string', length: 191)]
-        private string $name;
+        #[ORM\Column(type: Types::STRING)]
+        private ?string $world = null;
 
-        public function __construct()
+        #[ORM\Column(name: 'is_enabled', type: Types::BOOLEAN)]
+        private bool $isEnabled = false;
+
+        public function getId(): ?int
         {
-            $this->id = Uuid::uuid4()->toString();
+            return $this->id;
         }
+
+        public function getWorld(): ?string
+        {
+            return $this->world;
+        }
+
+        public function setWorld(string $world): void
+        {
+            $this->world = $world;
+        }
+
+        public function isEnabled(): bool
+        {
+            return $this->isEnabled;
+        }
+
+        public function setIsEnabled(bool $isEnabled): void
+        {
+            $this->isEnabled = $isEnabled;
+        }
+    }
+
 
         public function getId(): string
         {
