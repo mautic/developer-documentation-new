@@ -255,7 +255,7 @@ Mautic dispatches ``\Mautic\ReportBundle\Event\ReportFilterConditionEvent`` for 
 
 Mautic combines your condition with the Report's other filters according to each filter's ``glue`` value, ``and`` or ``or``, the same way it combines default conditions. If no listener sets a condition, Mautic builds the default condition.
 
-Mautic also dispatches the event for Tag and Do Not Contact filters, so your condition can replace their built-in conditions. Mautic skips a filter without a value and doesn't dispatch the event for it, unless the operator is ``empty``, ``notEmpty``, or ``neq``.
+Mautic also dispatches the event for filters on the ``tag`` and ``dnc_preferences`` columns, so your condition can replace their built-in conditions. Mautic skips a filter without a value and doesn't dispatch the event for it, unless the operator is ``empty``, ``notEmpty``, or ``neq``.
 
 .. code-block:: php
 
