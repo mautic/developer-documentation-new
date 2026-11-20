@@ -3,7 +3,11 @@ Progress bar template
 
 The ``progress-bar.html.twig`` template renders a progress bar in Mautic's style. Use it when your template shows the progress of a long-running action, such as sending Emails or importing Contacts, so the progress looks and behaves like Mautic's own progress bars.
 
-The progress bar has a label that names the action, a bar that fills as the action progresses, and optional helper text below the bar, such as '2000 of 5000'. It has active, finished, and error states. When you don't pass a value yet, for example while the first batch is still loading, it shows an indeterminate bar that slides instead of filling. The template also adds ``role="progressbar"`` and the ARIA (Accessible Rich Internet Applications) attributes that screen readers need.
+.. vale Google.Acronyms = NO
+
+The progress bar has a label that names the action, a bar that fills as the action progresses, and optional helper text below the bar, such as '2000 of 5000'. It has active, finished, and error states. When you don't pass a value yet, for example while the first batch is still loading, it shows an indeterminate bar that slides instead of filling. The template also adds ``role="progressbar"`` and the ARIA - Accessible Rich Internet Applications - attributes that screen readers need.
+
+.. vale Google.Acronyms = YES
 
 Including the template
 **********************
@@ -135,6 +139,6 @@ The function takes these arguments:
 * ``percent`` - the width of the bar, as a percentage from ``0`` to ``100``.
 * ``max`` - the value that represents a complete action.
 
-The function removes the indeterminate state, updates the bar's width and ARIA values, and sets the helper text to the translated 'current of total' count. It doesn't change ``status``, so render the template again with ``status`` set to ``finished`` or ``error`` when the action ends.
+The function removes the indeterminate state, updates the bar's width and its ``aria-valuemin``, ``aria-valuemax``, and ``aria-valuenow`` attributes, and sets the helper text to the translated 'current of total' count. It doesn't change ``status``, so render the template again with ``status`` set to ``finished`` or ``error`` when the action ends.
 
 Mautic's own Email send and Contact import views use this template and function.
