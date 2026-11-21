@@ -37,7 +37,7 @@ The worked example below builds a transport inside a Plugin named ``HelloWorldBu
 
    plugins/HelloWorldBundle/
    ├── Config/
-   │   └── config.php
+   │   └── services.php
    └── Sms/
        └── Transport/
            └── HelloWorldTransport.php
@@ -104,26 +104,27 @@ Implement the interfaces for the capabilities your provider supports. The exampl
 Registering the transport
 ==========================
 
-Register the transport in your Plugin's ``Config/config.php`` by tagging the service with ``mautic.sms_transport``. Mautic builds Plugin ``config.php`` services through its own ``ServicePass`` compiler pass rather than Symfony autoconfiguration, so implementing ``TransportInterface`` doesn't tag the service for you, and you must declare the tag explicitly. The ``SmsTransportPass`` compiler pass then collects every service carrying this tag, and the ``integrationAlias`` tag argument sets the name shown in the UI.
+Register the transport as a Symfony service in your Plugin's ``Config/services.php`` and tag it ``mautic.sms_transport``. Implementing ``TransportInterface`` doesn't tag the service for you, so you must declare the tag explicitly. The ``SmsTransportPass`` compiler pass then collects every service carrying this tag, and the ``integrationAlias`` tag argument sets the name shown in the UI.
 
 .. code-block:: php
 
    <?php
-   // plugins/HelloWorldBundle/Config/config.php
+   // plugins/HelloWorldBundle/Config/services.php
 
-   return [
-       'services' => [
-           'other' => [
-               'mautic.sms.transport.helloworld' => [
-                   'class'        => \MauticPlugin\HelloWorldBundle\Sms\Transport\HelloWorldTransport::class,
-                   'tag'          => 'mautic.sms_transport',
-                   'tagArguments' => [
-                       'integrationAlias' => 'Hello World SMS',
-                   ],
-               ],
-           ],
-       ],
-   ];
+   declare(strict_types=1);
+
+   use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+   return function (ContainerConfigurator $configurator): void {
+       $services = $configurator->services()
+           ->defaults()
+           ->autowire()
+           ->autoconfigure()
+           ->public();
+
+       $services->set(\MauticPlugin\HelloWorldBundle\Sms\Transport\HelloWorldTransport::class)
+           ->tag('mautic.sms_transport', ['integrationAlias' => 'Hello World SMS']);
+   };
 
 To handle delivery callbacks from your provider, register a callback handler service with the ``mautic.sms_callback_handler`` tag. Mautic's built-in :xref:`Twilio transport source` is a useful reference for a complete transport and callback implementation.
 
@@ -150,19 +151,13 @@ Three events fire sequentially during SMS sending to filter Contacts before disp
 
 .. vale off
 
-.. _SMS filtering class-name dispatch note:
+To confirm Mautic registered your listener under the event's class name, run:
 
-.. note::
+.. code-block:: bash
 
-   Since Mautic 8, Mautic dispatches these three filtering events by the event object alone, so you subscribe by the event class. See :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` for the general rule. Mautic 8 removed the ``DNC_FILTER_CONTACTS_ON_SEND``, ``QUEUE_FILTER_CONTACTS_ON_SEND``, and ``FILTER_CONTACTS_ON_SEND`` constants from ``SmsEvents``. This section doesn't cover the other SmsBundle events that Mautic 8 converted, such as ``SmsSendEvent`` and ``TokensBuildEvent``. For the SMS save, delete, and reply events, see `SMS lifecycle and reply events`_.
+   bin/console debug:event-dispatcher 'Mautic\SmsBundle\Event\DncEvent'
 
-   To confirm Mautic registered your listener under the event's class name, run:
-
-   .. code-block:: bash
-
-      bin/console debug:event-dispatcher 'Mautic\SmsBundle\Event\DncEvent'
-
-   Your subscriber's class and method appear in the listing for ``Mautic\SmsBundle\Event\DncEvent``. If they're absent, Mautic hasn't registered the subscriber for that event.
+Your subscriber's class and method appear in the listing for ``Mautic\SmsBundle\Event\DncEvent``. If they're absent, Mautic hasn't registered the subscriber for that event.
 
 For how to register a subscriber, see the :doc:`listeners and subscribers</plugins/event_listeners>` section.
 
@@ -207,7 +202,7 @@ Queue filter
 
 .. vale off
 
-Subscribe to ``QueueEvent::class`` to filter Contacts based on frequency rules or queueing logic. The listener receives a ``QueueEvent``. See the :ref:`Mautic 8 class-name dispatch note <SMS filtering class-name dispatch note>`.
+Subscribe to ``QueueEvent::class`` to filter Contacts based on frequency rules or queueing logic. The listener receives a ``QueueEvent``.
 
 .. vale on
 
@@ -216,16 +211,18 @@ Generic filter
 
 .. vale off
 
-Subscribe to ``FilterEvent::class`` for any remaining filtering logic, such as removing Contacts without phone numbers. The listener receives a ``FilterEvent``. See the :ref:`Mautic 8 class-name dispatch note <SMS filtering class-name dispatch note>`.
+Subscribe to ``FilterEvent::class`` for any remaining filtering logic, such as removing Contacts without phone numbers. The listener receives a ``FilterEvent``.
 
 .. vale on
 
-All three event classes share a common API, shown here for :xref:`FilterEvent source`:
+``DncEvent`` and ``FilterEvent`` share a common API, shown here for :xref:`FilterEvent source`:
 
 * ``getContacts()`` - Returns the array of Contacts
 * ``removeContact(int $id)`` - Remove a single Contact by ID
 * ``removeContacts(array $contacts)`` - Remove multiple Contacts
 * ``getRemovedContacts()`` - Get the list of removed Contacts
+
+``QueueEvent`` also exposes ``getContacts()``, but it queues Contacts rather than removing them, so it exposes ``queueContact(int $id)``, ``queueContacts(array $contacts)``, and ``getQueuedContacts()`` instead of the ``remove*``/``getRemovedContacts()`` methods.
 
 Campaign SMS events
 *******************
@@ -282,7 +279,7 @@ Subscribe to these events to run custom logic when a User saves or deletes an SM
 
 .. vale on
 
-The four lifecycle classes extend the abstract ``SmsEvent`` class. Use ``getSms()`` to read the SMS entity and ``isNew()`` to tell whether the save created it. Because each lifecycle class is a subclass, a listener type-hinted against ``SmsEvent`` keeps working. ``ReplyEvent`` exposes the Contact through ``getContact()`` and the reply text through ``getMessage()``.
+The four lifecycle classes extend the abstract ``SmsEvent`` class. Use ``getSms()`` to read the SMS entity and ``isNew()`` to tell whether the save created it. Because each lifecycle class is a subclass, a listener can type-hint ``SmsEvent``. ``ReplyEvent`` exposes the Contact through ``getContact()`` and the reply text through ``getMessage()``.
 
 .. code-block:: php
 
@@ -319,14 +316,10 @@ The four lifecycle classes extend the abstract ``SmsEvent`` class. Use ``getSms(
        }
    }
 
-.. note::
-
-   Mautic 8 removed the ``SMS_PRE_SAVE``, ``SMS_POST_SAVE``, ``SMS_PRE_DELETE``, ``SMS_POST_DELETE``, and ``ON_REPLY`` constants from ``SmsEvents``. Before Mautic 8, the four lifecycle events shared one ``SmsEvent`` object under four constant names. Code that still references one of these constants throws a PHP ``Error`` with the message 'Undefined constant'. Replace each constant with the matching event class from the preceding table.
-
 SMS event constants
 *******************
 
-The :xref:`SmsEvents source` class defines the SMS event constants that remain string-keyed:
+The :xref:`SmsEvents source` class defines these string-keyed SMS event constants:
 
 .. vale off
 
@@ -347,4 +340,4 @@ The :xref:`SmsEvents source` class defines the SMS event constants that remain s
 
 .. vale on
 
-Mautic 8 also removed the ``ON_CAMPAIGN_TRIGGER_ACTION``, ``ON_SMS_TOKENS_BUILD``, ``DNC_FILTER_CONTACTS_ON_SEND``, ``QUEUE_FILTER_CONTACTS_ON_SEND``, and ``FILTER_CONTACTS_ON_SEND`` constants from ``SmsEvents``. Mautic 8 dispatches no events under these names. To filter Contacts, subscribe to the event classes in `Contact filtering events`_.
+To filter Contacts, subscribe to the event classes in `Contact filtering events`_.
