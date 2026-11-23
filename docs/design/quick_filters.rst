@@ -1,64 +1,7 @@
 Quick filters for searches
 ##########################
 
-Quick filters provide an efficient way to search using existing search commands. This documentation outlines how to create and implement new quick filters for Mautic searches.
-
-Implementation overview
-***********************
-
-Mautic implements quick filters using a combination of JavaScript and Twig templates. The process involves three main components:
-
-1. JavaScript function for applying the filter
-2. Twig template for rendering filter buttons
-3. Array of PHP code for defining filter options
-
-JavaScript functionality
-========================
-
-The ``Mautic.listQuickFilter`` function is responsible for applying the quick filter:
-
-.. code-block:: javascript
-
-   Mautic.listQuickFilter = function (element) {
-       const filterValue = element.dataset.filter;
-       const searchInput = document.getElementById('list-search');
-       searchInput.value = filterValue;
-       const enterKeyEvent = new KeyboardEvent('keyup', {
-           keyCode: 13
-       });
-       searchInput.dispatchEvent(enterKeyEvent);
-   }
-
-This function performs the following actions:
-
-1. Retrieves the filter value from the clicked element's ``data-filter`` attribute
-2. Sets the search input field's value to the filter value
-3. Simulates an Enter key press to trigger the search
-
-Twig template
-=============
-
-Mautic renders the quick filter buttons using a Twig template:
-
-.. code-block:: twig
-
-   {% if quickFilters is defined and quickFilters is not empty %}
-   <div class="d-flex gap-xs">
-       {% for quickFilter in quickFilters %}
-           <a class="label label-outline"
-              data-filter="{{ quickFilter.search }}"
-              onclick="Mautic.listQuickFilter(this)"
-              data-toggle="tooltip"
-              data-placement="top"
-              data-original-title="{{ quickFilter.tooltip|trans }}">
-               <i class="{{ quickFilter.icon }}"></i>
-               {{ quickFilter.label|trans }}
-           </a>
-       {% endfor %}
-   </div>
-   {% endif %}
-
-This template iterates through the provided quick filters and creates clickable labels for each one on the toolbar.
+Quick filters provide an efficient way to search using existing search commands. You can add quick filters to any list view that includes the list toolbar.
 
 Implementing quick filters
 ==========================
@@ -87,17 +30,17 @@ Quick filter options
 
 You define each quick filter as an associative array with the following keys:
 
-- ``search``: the search query to apply
-- ``label``: the displayed text for the filter button
-- ``tooltip``: the tooltip text shown on hover
-- ``icon``: the CSS class for the icon displayed on the button
+* ``search``: the search query to apply
+* ``label``: the displayed text for the filter button
+* ``tooltip``: the tooltip text shown on hover
+* ``icon``: the CSS class for the icon displayed on the button
 
 Multiple quick filters
 ======================
 
 You can define multiple quick filters by adding more items to the ``quickFilters`` array:
 
-.. code-block:: php
+.. code-block:: twig
 
    'quickFilters': [
        {

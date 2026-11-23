@@ -46,36 +46,15 @@ This approach not only improves immediate usability but also accelerates the Use
 
 Mautic includes a reusable template for displaying informative messages when no results are available. This template offers a consistent and flexible way to provide User feedback, with options for additional actions.
 
-Template structure
-==================
-
-The 'No Results' template is a Twig template:
-
-.. code-block:: twig
-
-    {% if tip is defined %}
-    <div class="alert alert-info">
-        {{ tip|trans }}
-        {% if link is defined and (href is defined or onclick is defined) %}
-        <a class="ml-a" href="{{href}}" onclick="{{onclick}}">{{link|trans}}</a>
-        {% endif %}
-    </div>
-    {% endif %}
-
 Parameters
 ----------
 
-The template accepts the following parameters:
+The ``@MauticCore/Helper/no_information.html.twig`` template accepts the following parameters:
 
 - ``tip`` - required: display a translation string that contains the main message.
-- ``link`` - optional: a translation string for the link/button text.
+- ``link`` - optional: a translation string for the link/button text. The link displays only when you also set ``href`` or ``onclick``.
 - ``href`` - optional: use the ``URL`` for navigation when clicking the link.
 - ``onclick`` - optional: JavaScript function to be executed when the link is clicked.
-
-Functionality
--------------
-
-If you've defined ``tip``, a ``div`` with the class ``alert alert-info`` that contains the translated message displays, if not then nothing renders. If you've defined `link` and at least one of ``href`` or ``onclick``, a link below the main message displays. Configure the link to navigate to a new page with ``href`` or execute a JavaScript function with ``onclick``.
 
 Usage example
 -------------
@@ -84,10 +63,10 @@ To use this template in your code, you can include it as follows:
 
 .. code-block:: twig
 
-    {{ include('@MauticCore/Helper/no-information.html.twig', {
+    {{ include('@MauticCore/Helper/no_information.html.twig', {
         'tip': 'Mautic.segment.no.results',
         'link': 'Mautic.segment.add.new',
-        'href': '{{ path('Mautic_segment_action', {'objectAction': 'new'}) }}'
+        'href': path('mautic_segment_action', {'objectAction': 'new'})
     }) }}
 
 In this example, the template displays a message indicating that no Segments are available, with a link to create a new Segment.
