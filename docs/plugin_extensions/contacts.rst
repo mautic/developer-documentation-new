@@ -358,7 +358,8 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
             // This method should use DBAL to obtain the events to be injected into the timeline based on pagination
             // but also should query for a total number of events and return an array of ['total' => $x, 'results' => []].
             // There is a TimelineTrait to assist with this. See repository example.
-            $stats = $repository->getTimelineStats($event->getLead()->getId(), $event->getQueryOptions());
+            // getLeadId() returns null when the timeline covers more than one Contact.
+            $stats = $repository->getTimelineStats($event->getLeadId(), $event->getQueryOptions());
 
             // If isEngagementCount(), this event should only inject $stats into addToCounter() to append to data to generate
             // the engagements graph. Not all events are engagements if they are just informational so it could be that this
@@ -394,7 +395,9 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
                                 // Optional template to customize the details of the event in the timeline
                                 'contentTemplate' => 'MauticDynamicContentBundle:SubscribedEvents\Timeline:index.html.php',
                                 // Font Awesome class to display as the icon
-                                'icon'            => 'fa-envelope'
+                                'icon'            => 'fa-envelope',
+                                // ID of the Contact the event belongs to
+                                'contactId'       => $stat['lead_id']
                             ]
                         );
                     }
@@ -413,7 +416,9 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
     * - ``addEventType()``
       - Required - Add this event to the list of available events.
     * - ``getLead()``
-      - Get the Contact entity
+      - Get the Contact entity, or ``null`` when the timeline covers more than one Contact.
+    * - ``getLeadIds()``
+      - Get the Contact IDs from the ``leadIds`` filter, or an empty array if the filter isn't set.
     * - ``getQueryOptions()``
       - Used to get pagination, filters, etc needed to generate an appropriate query.
     * - ``addToCounter()``
@@ -456,6 +461,10 @@ The event listener receives a ``Mautic\LeadBundle\Event\LeadTimelineEvent`` obje
       - Optional
       - Font Awesome class
       - 
+    * - ``contactId``
+      - Optional
+      - int
+      - ID of the Contact the event belongs to. When ``getLeadIds()`` returns IDs, Mautic drops events without a matching ``contactId``.
 
 Generating timeline events from your own custom events
 ******************************************************
@@ -487,13 +496,16 @@ To make this process a bit easier, the ``Mautic\LeadBundle\Entity\TimelineTrait`
         * @param array<string,string> $options
         * @return array<string,mixed>
         */
-        public function getTimelineStats(int $leadId, array $options = []): array
+        public function getTimelineStats(?int $leadId, array $options = []): array
         {
             $query = $this->getEntityManager()->getConnection()->createQueryBuilder();
 
-            $query->select('w.id, w.name, w.visited_count, w.date_visited, w.visit_details')
-                ->from(MAUTIC_TABLE_PREFIX . 'world_visits', 'w')
-                ->where($query->expr()->eq('w.lead_id', (int) $leadId));
+            $query->select('w.id, w.lead_id, w.name, w.visited_count, w.date_visited, w.visit_details')
+                ->from(MAUTIC_TABLE_PREFIX . 'world_visits', 'w');
+
+            if ($leadId) {
+                $query->where($query->expr()->eq('w.lead_id', $leadId));
+            }
 
             if (isset($options['search']) && $options['search']) {
                 $query->andWhere(
@@ -542,4 +554,12 @@ To leverage this, accept the array from ``$event->getQueryOptions()`` in the rep
     * - ``$resultsParserCallback``
       - Optional
       - callback
-      - Callback to custom parse a result. This is optional and mainly used to handle a column result when all results are already looped over for ``$serializedColumns`` and $dateTimeColumns.
+      - Callback to custom parse a result. This is optional and mainly used to handle a column result when all results are already looped over for ``$serializedColumns`` and ``$dateTimeColumns``.
+    * - ``$secondaryOrdering``
+      - Optional
+      - string
+      - Name of the column to use as a secondary sort when events share a timestamp.
+    * - ``$leadIdColumn``
+      - Optional
+      - string
+      - Column with table prefix that holds the Contact ID, used for the ``leadIds`` filter. Defaults to the ``lead_id`` column of the ``$timestampColumn`` table.
