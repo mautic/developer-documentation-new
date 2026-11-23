@@ -422,7 +422,7 @@ Mautic dispatches the following events by event class:
    * - ``Mautic\StatsBundle\Event\AggregateStatRequestEvent``
      - Dispatched when Mautic fetches aggregate statistics for a date range.
 
-MauticFocusBundle is a Plugin under ``plugins/``, so its event classes use the ``MauticPlugin`` top-level namespace. Mautic dispatches the Stage save and delete events under ``StageEvents`` constants, such as ``StageEvents::STAGE_POST_SAVE``, and the Focus Item save, delete, and token replacement events under ``FocusEvents`` constants.
+MauticFocusBundle is a Plugin under ``plugins/``, so its event classes use the ``MauticPlugin`` top-level namespace. Mautic dispatches the Stage save and delete events under ``StageEvents`` constants, such as ``StageEvents::STAGE_POST_SAVE``, and the Focus Item save and delete events under ``FocusEvents`` constants, such as ``FocusEvents::POST_SAVE``. Mautic dispatches the Focus Item token replacement event by its class, ``MauticPlugin\MauticFocusBundle\Event\FocusTokenReplacementEvent``.
 
 Custom events
 *************
