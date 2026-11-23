@@ -460,3 +460,40 @@ A Plugin registers a listener as an event subscriber. When the subscribed contex
     }
 
 The Email detail view is ``@MauticEmail/Email/details.html.twig``. It calls ``customContent('right.section.start', _context)`` in its right-hand column, which exposes the ``right.section.start`` context as an injection point that a Plugin's listener subscribes to. Mautic's own ``EmailDetailsRightColumnSubscriber`` uses this context to render A/B test details. Other Mautic templates expose their own ``customContent`` contexts, so a listener must always narrow to the intended view and context with ``checkContext()``.
+
+The Company views and the import mapping step expose the following contexts. Pass the template and the context to ``checkContext()``.
+
+.. list-table::
+    :widths: 30 30 40
+    :header-rows: 1
+
+    *   - Template
+        - Context
+        - Location
+    *   - ``@MauticLead/Company/company.html.twig``
+        - ``company.engagement.before``
+        - Before the engagements chart in the main column.
+    *   - ``@MauticLead/Company/company.html.twig``
+        - ``company.engagement.after``
+        - After the engagements chart, before the Company's Contacts.
+    *   - ``@MauticLead/Company/company.html.twig``
+        - ``company.tabs``
+        - Tab controls after the **Contacts** tab. Add the matching pane at ``company.tabs.content``.
+    *   - ``@MauticLead/Company/company.html.twig``
+        - ``company.tabs.content``
+        - Tab panes after the Contacts pane.
+    *   - ``@MauticLead/Company/company.html.twig``
+        - ``company.contacts.after``
+        - After the Company's Contacts, at the bottom of the main column.
+    *   - ``@MauticLead/Company/company.html.twig``
+        - ``company.sidebar.top``
+        - Top of the right-hand sidebar column.
+    *   - ``@MauticLead/Company/company.html.twig``
+        - ``company.sidebar.bottom``
+        - Bottom of the right-hand sidebar column.
+    *   - ``@MauticLead/Company/form_standalone.html.twig``
+        - ``company.form.sidebar``
+        - Left column of the Company create and edit view, after the field group list.
+    *   - ``@MauticLead/Import/_mapping_form.html.twig``
+        - ``import.defaults``
+        - Inside the import defaults panel. The hook passes ``objectName``, so compare it in ``$event->getVars()`` to target one import object, such as Companies.
