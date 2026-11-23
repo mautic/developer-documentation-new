@@ -30,6 +30,28 @@ If a system error occurs, you should see a JSON-encoded array similar to the exa
       }
    }
 
+Handling connection errors with the API library
+------------------------------------------------
+
+The preceding JSON error responses only apply when Mautic receives your request and returns a response. If you're using the Mautic API library and the request can't reach Mautic at all - for example, the host doesn't resolve, the connection times out, or the secure handshake fails - the library throws a ``Mautic\Exception\ConnectionException`` instead. Its message names the target URL and the underlying transport error, so you can tell a connectivity problem apart from an error Mautic returns. For cURL-based clients, the message includes the original cURL error text.
+
+``ConnectionException`` extends the library's ``AbstractApiException``, which in turn extends PHP's ``\Exception``. Existing code that catches ``\Exception`` keeps working and simply receives a clearer message. To inspect the underlying transport failure, call ``getPrevious()`` on the caught exception to get the original client exception.
+
+.. code-block:: php
+
+   use Mautic\Exception\ConnectionException;
+
+   try {
+       $response = $contactApi->getList('', 0, 1);
+   } catch (ConnectionException $e) {
+       // The request never reached Mautic - for example, host unreachable or timeout.
+       // $e->getMessage() names the target URL and the transport error.
+       error_log($e->getMessage());
+
+       // Inspect the original PSR-18 client exception, if you need it:
+       $transportError = $e->getPrevious();
+   }
+
 Mautic version verification
 ***************************
 
