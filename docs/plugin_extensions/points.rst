@@ -275,3 +275,7 @@ Custom Point Trigger definition
       - REQUIRED unless you set ``eventName``
       - mixed
       - Static callback function used to execute the custom action. Provide this or an ``eventName`` key.
+    * - ``eventName``
+      - REQUIRED unless you set ``callback``
+      - string
+      - Name of the event Mautic dispatches with a ``Mautic\PointBundle\Event\TriggerExecutedEvent`` to run the custom action.

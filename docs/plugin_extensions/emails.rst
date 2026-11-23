@@ -669,7 +669,9 @@ If your transport enforces a maximum batch size or recipient count per send, imp
         }
     }
 
-To process the bounce or unsubscribe notifications a provider's Webhook sends back, implement ``Mautic\EmailBundle\Mailer\Transport\BounceProcessorInterface`` or ``Mautic\EmailBundle\Mailer\Transport\UnsubscriptionProcessorInterface``, then listen for ``Mautic\EmailBundle\Event\TransportWebhookEvent``, which Mautic dispatches for every request to ``/mailer/callback``. Call ``$event->setResponse()`` once your listener handles the request, otherwise Mautic treats it as unprocessed.
+To handle the bounce or unsubscribe notifications that a provider's Webhook sends to ``/mailer/callback``, listen for ``Mautic\EmailBundle\Event\TransportWebhookEvent``, which Mautic dispatches for every request to that URL. Call ``$event->setResponse()`` once your listener handles the request. If no listener sets a response, Mautic returns an ``HTTP 404`` response.
+
+To process bounce or unsubscribe messages that Mautic reads from a monitored inbox, implement ``Mautic\EmailBundle\Mailer\Transport\BounceProcessorInterface`` or ``Mautic\EmailBundle\Mailer\Transport\UnsubscriptionProcessorInterface`` on your transport.
 
 Email stat helpers
 ------------------
@@ -862,5 +864,5 @@ Each transport should include a callback URL which Webhooks should be ``POSTed``
 To test these callbacks you need to do the following:  
   
 #. Configure an Email transport and make it the default transport  
-#. Go to the ``/mailer/callback`` URL
-#. You should get a message that says ``success`` and there should be a callback logic to handle the Webhook
+#. Send a ``POST`` request with a sample payload from your provider to the ``/mailer/callback`` URL
+#. Confirm that the response is the one your listener sets. If no listener sets a response, Mautic returns an ``HTTP 404`` response.

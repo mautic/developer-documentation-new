@@ -61,7 +61,7 @@ Note that ``$sql`` and ``$sqlParameters`` are only used for debugging and shown 
                 $rows = (int) $qb->select('count(*) as records')
                     ->from(MAUTIC_TABLE_PREFIX . 'worlds', 'w')
                     ->where(
-                        $qb->expr()->gte('w.date_added', ':date')
+                        $qb->expr()->lte('w.date_added', ':date')
                     )
                     ->executeQuery()
                     ->fetchOne();

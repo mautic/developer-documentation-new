@@ -30,7 +30,10 @@ You can add Categories through your Plugin's ``config.php`` file by adding the f
     <?php
 
     'categories' => [
-        'plugin:helloWorld' => 'mautic.helloworld.world.categories'
+        'plugin:helloWorld' => [
+            'label' => 'mautic.helloworld.world.categories',
+            'class' => \MauticPlugin\HelloWorldBundle\Entity\World::class,
+        ],
     ]
 
 Please prefix Category keys with ``plugin:`` as it determines permissions to manage Categories.

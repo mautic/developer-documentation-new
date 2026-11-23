@@ -15,6 +15,7 @@ Forms
 
 You can extend Forms by listening to the ``Mautic\FormBundle\Event\FormBuilderEvent`` event. Key ``getSubscribedEvents()`` on ``FormBuilderEvent::class``. Read more about :ref:`listeners and subscribers <event listeners>`.
 At the bottom of this document, you can find code examples to make it easier to get started.
+
 .. vale off
 
 Form Fields
@@ -270,7 +271,7 @@ Example code
             $validation = $field->getValidation();
 
             if ($field->getType() === 'helloworld.customfield' && !empty($validation['c_enable'])) {
-                if (empty($validation['helloworld_customfield_enable_validationmsg'])) {
+                if (!empty($validation['helloworld_customfield_enable_validationmsg'])) {
                     $event->failedValidation($validation['helloworld_customfield_enable_validationmsg']);
                 } else {
                     $event->failedValidation('plugin.helloworld.formfield.customfield.invalid');
@@ -289,7 +290,7 @@ Example code
             $validation = $field->getValidation();
 
             if (!empty($validation['c_enable'])) {
-                if (empty($validation['helloworld_customfield_enable_validationmsg'])) {
+                if (!empty($validation['helloworld_customfield_enable_validationmsg'])) {
                     $event->failedValidation($validation['helloworld_customfield_enable_validationmsg']);
                 } else {
                     $event->failedValidation('plugin.helloworld.formfield.customfield.invalid');
@@ -323,7 +324,7 @@ Example code
         /**
         * The plugin.hello.world.on_form_submission event is fired when a form is submitted.
         *
-        * The event listener receives a Mautic\FormBundle\Events\SubmissionEvent
+        * The event listener receives a Mautic\FormBundle\Event\SubmissionEvent
         *
         * @var string
         */
@@ -332,7 +333,7 @@ Example code
         /**
         * The plugin.hello.world.on_form_submission_callback event is fired after all submit actions have been processed
         *
-        * The event listener receives a Mautic\FormBundle\Events\SubmissionEvent
+        * The event listener receives a Mautic\FormBundle\Event\SubmissionEvent
         *
         * @var string
         */

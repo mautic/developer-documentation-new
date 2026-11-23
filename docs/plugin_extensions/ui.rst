@@ -45,7 +45,7 @@ Mautic dispatches the ``Mautic\CoreBundle\Event\CustomButtonEvent`` for Plugins 
         :param string $location: Location of the button to be placed.
         :param string $route: Route.
 
-A Plugin can inject the buttons into five places in Mautic's UI.
+A Plugin can inject the buttons into the following places in Mautic's UI.
 
 .. list-table::
     :header-rows: 1
@@ -56,6 +56,8 @@ A Plugin can inject the buttons into five places in Mautic's UI.
         - Drop down actions per each item in list views.
     *   - ``\Mautic\CoreBundle\Twig\Helper\ButtonHelper::LOCATION_TOOLBAR_ACTIONS``
         - Top right preceding list view tables to the right of the table filter. Preferably buttons with icons only.
+    *   - ``\Mautic\CoreBundle\Twig\Helper\ButtonHelper::LOCATION_TOOLBAR_BULK_ACTIONS``
+        - Bulk actions in the list view toolbar, which apply to the selected items.
     *   - ``\Mautic\CoreBundle\Twig\Helper\ButtonHelper::LOCATION_PAGE_ACTIONS``
         - Main UI buttons to the right of the title: new, edit, and so forth. Primary buttons display as buttons, and the others appear in a drop-down.
     *   - ``\Mautic\CoreBundle\Twig\Helper\ButtonHelper::LOCATION_NAVBAR``
@@ -375,7 +377,7 @@ There are three types of button groups supported:
     *   - ``\Mautic\CoreBundle\Twig\Helper\ButtonHelper::TYPE_GROUP``
         - A group of buttons side by side.
 
-Drop-downs require the wrapping HTML to pass to the ``renderButtons`` method.
+Drop-downs require the wrapping HTML to pass to the ``buttonsRender`` Twig function.
 
 Injecting custom content
 ************************
