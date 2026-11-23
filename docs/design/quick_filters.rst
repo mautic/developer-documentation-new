@@ -101,6 +101,8 @@ Mautic still accepts ``quickFilters`` as a flat list of filters without groups. 
 * **Ownership**: commands that contain ``ismine`` or ``isunowned``
 * **Others**: every other command
 
+The filters in the **Statuses** group exclude each other, and so do the filters in the **Ownership** group. Users can combine the filters in the **Others** group.
+
 Use the grouped format when a list view needs its own group or a different grouping.
 
 How Mautic applies quick filters
