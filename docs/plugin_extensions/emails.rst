@@ -293,15 +293,14 @@ Deprecated methods
 Custom search commands
 **********************
 
-A custom search command is a ``command:value`` search-bar filter that a User types into the Email list's search box, alongside built-in search commands such as ``is:published``. A Plugin registers its own search command by listening to three events that CoreBundle dispatches:
+A custom search command is a ``command:value`` search-bar filter that a User types into the Email list's search box, alongside built-in search commands such as ``is:published``. A Plugin registers its own search command by listening to two events that CoreBundle dispatches:
 
 * ``SearchCommandEvent`` registers the command.
 * ``SearchQueryEvent`` builds the ``WHERE`` clause that filters the Email list.
-* ``SearchHelpEvent`` supplies the help text Mautic shows for the Email list's search commands.
 
 Mautic wires this mechanism only for the Email list - the context ``'email'`` - and no custom search command ships by default.
 
-A Plugin registers these listeners the same way as any Symfony event subscriber. The complete, ready-to-copy pattern is the **Example** subsection below, which registers all three events in one subscriber. Use it as the reference.
+A Plugin registers these listeners the same way as any Symfony event subscriber. The complete, ready-to-copy pattern is the **Example** subsection below, which registers both events in one subscriber. Use it as the reference.
 
 .. vale off
 
@@ -311,7 +310,11 @@ For supplementary background on event listeners and subscribers, see the :doc:`l
 
 .. note::
 
-   All three events extend ``AbstractSearchEvent`` and CoreBundle dispatches them, so every listener must call ``$event->checkContext('email')`` and return early otherwise. Without this guard a listener would act outside the Email list. ``getContext()`` reads the current context, and ``checkContext(string): bool`` compares it against the context you pass.
+   Both events extend ``AbstractSearchEvent`` and CoreBundle dispatches them, so every listener must call ``$event->checkContext('email')`` and return early otherwise. Without this guard a listener would act outside the Email list. ``getContext()`` reads the current context, and ``checkContext(string): bool`` compares it against the context you pass.
+
+.. warning::
+
+   Mautic deprecates ``SearchHelpEvent`` and removes it in Mautic 8. List views no longer show search help, and Mautic doesn't dispatch this event, so it never calls a listener that subscribes to it. Remove ``SearchHelpEvent`` listeners from your Plugin. To help Users discover your command, add it as a quick filter as described in :doc:`Quick filters for searches</design/quick_filters>`.
 
 Register the command with SearchCommandEvent
 ============================================
@@ -329,11 +332,6 @@ Filter the list with SearchQueryEvent
 
    Mautic resolves its standard search commands first, then dispatches ``SearchQueryEvent`` for Plugin listeners, and only then falls back to its built-in Email command switch. When a listener sets an expression, ``EmailRepository`` returns it and skips that switch, so a listener-supplied expression takes precedence over the built-in Email commands.
 
-Document the command with SearchHelpEvent
-=========================================
-
-``SearchHelpEvent`` overrides the help text Mautic shows for the Email list's search commands. Your listener calls ``setHelp()`` to replace the default translation key ``mautic.email.help.searchcommands`` with its own key, so your custom command appears in that help text. ``getHelp()`` reads the current key. ``EmailController`` dispatches this event when it renders the Email list. Define the key you pass to ``setHelp()`` in your Plugin's own translation files. The Example below uses ``'mautic.helloworld.email.help.searchcommands'``. Otherwise Mautic shows the raw key instead of the help text.
-
 Example
 =======
 
@@ -349,7 +347,6 @@ The subscriber below registers an ``is:special`` command on the Email list and f
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
     use Mautic\CoreBundle\Event\SearchCommandEvent;
-    use Mautic\CoreBundle\Event\SearchHelpEvent;
     use Mautic\CoreBundle\Event\SearchQueryEvent;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -360,7 +357,6 @@ The subscriber below registers an ``is:special`` command on the Email list and f
             return [
                 SearchCommandEvent::class => ['onSearchCommand', 0],
                 SearchQueryEvent::class   => ['onSearchQuery', 0],
-                SearchHelpEvent::class    => ['onSearchHelp', 0],
             ];
         }
 
@@ -390,15 +386,6 @@ The subscriber below registers an ``is:special`` command on the Email list and f
 
             $event->setExpr($q->expr()->like($alias.'.customHtml', ':specialMarker'));
             $event->setParameters(['specialMarker' => '%FINDME%']);
-        }
-
-        public function onSearchHelp(SearchHelpEvent $event): void
-        {
-            if (!$event->checkContext('email')) {
-                return;
-            }
-
-            $event->setHelp('mautic.helloworld.email.help.searchcommands');
         }
     }
 
