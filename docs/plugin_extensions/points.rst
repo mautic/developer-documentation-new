@@ -83,8 +83,9 @@ Registering a Custom Point Action
             $event->addAction('helloworld.action', $action);
         }
 
-        public static function addPointTriggerCallback(array $action, array $eventDetails): bool
+        public static function addPointTriggerCallback(array $action, ?object $eventDetails): bool
         {
+            // $eventDetails is the object passed to triggerAction(), or null.
             // .. Add logic to weigh the action.
         }
     }

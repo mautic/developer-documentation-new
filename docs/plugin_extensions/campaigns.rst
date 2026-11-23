@@ -704,7 +704,7 @@ Listeners to the event's ``eventName`` receives a ``\Mautic\CampaignBundle\Event
         }
     }
 
-.. php:class:: Mautic\CampaignBundle\Events\ConditionEvent
+.. php:class:: Mautic\CampaignBundle\Event\ConditionEvent
 
     .. php:method:: public checkContext(string $eventType)
 
@@ -726,7 +726,19 @@ Listeners to the event's ``eventName`` receives a ``\Mautic\CampaignBundle\Event
         :return: Object to fetch the configuration options for the Campaign Event.
         :returntype: \\Mautic\\CampaignBundle\\EventCollector\\Accessor\\Event\\AbstractEventAccessor
 
+    .. php:method:: public getEvent()
+
+        :return: The Campaign Event entity this Condition belongs to.
+        :returntype: \\Mautic\\CampaignBundle\\Entity\\Event
+
+    .. php:method:: public getLead()
+
+        :return: The Contact to evaluate this Condition for.
+        :returntype: ?\\Mautic\\LeadBundle\\Entity\\Lead
+
     .. php:method:: public getLog()
+
+        To attribute the Event to a Channel, call ``setChannel()`` and ``setChannelId()`` on the returned object.
 
         :return: The ``LeadEventLog`` object for the Condition.
         :returntype: \\Mautic\\CampaignBundle\\Entity\\LeadEventLog
@@ -734,15 +746,6 @@ Listeners to the event's ``eventName`` receives a ``\Mautic\CampaignBundle\Event
     .. php:method:: public pass()
 
         Evaluate this Condition as ``TRUE``.
-
-        :returntype: void
-
-    .. php:method:: public setChannel(string $channel[, $channelId = null)
-
-        Set the Channel to attribute to the Event.
-
-        :param string $channel: Name of the Channel this Event relates to. For example, ``email``, ``page``, ``form``, and so forth.
-        :param mixed $channelId: ID of the Channel entity.
 
         :returntype: void
 
@@ -831,11 +834,12 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
             }
 
             $event->setAsApplicable();
-            $event->setChannel('world', $travelDocumentEvent->getWorldId());
+            $event->getLog()->setChannel('world');
+            $event->getLog()->setChannelId($travelDocumentEvent->getWorldId());
         }
     }
 
-.. php:class:: Mautic\CampaignBundle\Events\DecisionEvent
+.. php:class:: Mautic\CampaignBundle\Event\DecisionEvent
 
     .. php:method:: public checkContext(string $eventType)
 
@@ -851,9 +855,21 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
         :return: Object to fetch the configuration options for the Campaign Event.
         :returntype: \\Mautic\\CampaignBundle\\EventCollector\\Accessor\\Event\\AbstractEventAccessor
 
+    .. php:method:: public getEvent()
+
+        :return: The Campaign Event entity this Decision belongs to.
+        :returntype: \\Mautic\\CampaignBundle\\Entity\\Event
+
+    .. php:method:: public getLead()
+
+        :return: The Contact to evaluate this Decision for.
+        :returntype: ?\\Mautic\\LeadBundle\\Entity\\Lead
+
     .. php:method:: public getLog()
 
-        :return: The ``LeadEventLog`` object for the Condition.
+        To attribute the Event to a Channel, call ``setChannel()`` and ``setChannelId()`` on the returned object.
+
+        :return: The ``LeadEventLog`` object for the Decision.
         :returntype: \\Mautic\\CampaignBundle\\Entity\\LeadEventLog
 
     .. php:method:: public getPassthrough()
@@ -868,15 +884,6 @@ The Campaign Engine then dispatches the Decision Event's ``eventName`` where lis
         Call this if the Decision is applicable to the action taken by the Contact which instructs the Campaign Engine to execute or schedule Events connected into this Decision's "action" (left) path.
 
         :returntype: void
-
-    .. php:method:: public setChannel(string $channel[, $channelId = null)
-
-        Set the Channel to attribute to the Event.
-
-        :param string $channel: Name of the Channel this Event relates to. For example, ``email``, ``page``, ``form``, and so forth.
-        :param mixed $channelId: ID of the Channel entity.
-
-    :returntype: void
 
     .. php:method:: public wasDecisionApplicable()
 
