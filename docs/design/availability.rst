@@ -48,8 +48,20 @@ This function:
 
 To implement inactive states for tabs:
 
-1. Assign unique IDs to your tab elements.
-2. Use JavaScript to toggle the ``disabled`` class on the appropriate ``<li>`` elements.
+#. Assign unique IDs to your tab elements.
+#. Use JavaScript to toggle the ``disabled`` class on the appropriate ``<li>`` elements.
+
+Tabs rendered with the tabs template
+====================================
+
+When you render tabs with the :doc:`/design_templates/tabs`, set a tab's ``disabled`` key to ``true`` to show it as unavailable. The template adds the ``disabled`` class to the tab's ``<li>`` and its ``<button>``, and the ``disabled`` attribute to the ``<button>``, so Users can't select the tab.
+
+To deactivate one of these tabs with JavaScript, toggle the ``disabled`` class and the ``disabled`` property on its ``<button>``. Mautic styles the ``<button>`` rather than the ``<li>``.
+
+.. code-block:: javascript
+
+   const $tab = mQuery('[data-bs-target="#helloworld-history"]');
+   $tab.toggleClass('disabled', !isAvailable).prop('disabled', !isAvailable);
 
 .. note::
    Always use inactive states instead of hiding elements.
