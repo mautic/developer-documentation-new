@@ -324,3 +324,10 @@ Mautic sets up every data table in content it loads, so tables in your views and
 
    mQuery('#helloworld-worlds-wrapper').html(response.html);
    Mautic.initDataTable('#helloworld-worlds-wrapper');
+
+When your JavaScript selects or clears rows, trigger a ``change`` event on each selection input that it changes. The table then updates the selected rows, the number of selected rows, and the batch actions. Both a native ``change`` event and a jQuery ``trigger('change')`` call work.
+
+.. code-block:: javascript
+
+   // Clear every selected row of the table with the id 'helloworld-worlds' and the default checkbox name
+   mQuery('[name="helloworld-worlds-select[]"]:checked').prop('checked', false).trigger('change');
