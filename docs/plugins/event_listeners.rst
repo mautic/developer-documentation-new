@@ -628,7 +628,7 @@ Mautic 8 removed the string constants for the following events, which Mautic dis
 
 The ``Mautic\ConfigBundle\ConfigEvents`` class no longer exists, so also remove any ``use Mautic\ConfigBundle\ConfigEvents;`` statement. Mautic 8 also removed these constants, which have no replacement event:
 
-* ``DynamicContentEvents::CATEGORY_PRE_SAVE``, ``CATEGORY_POST_SAVE``, ``CATEGORY_PRE_DELETE``, and ``CATEGORY_POST_DELETE`` duplicated the ``Mautic\CategoryBundle\CategoryEvents`` constants with the same string values. Use the ``CategoryEvents`` constants instead.
+* ``DynamicContentEvents::CATEGORY_PRE_SAVE``, ``CATEGORY_POST_SAVE``, ``CATEGORY_PRE_DELETE``, and ``CATEGORY_POST_DELETE`` duplicated the Category save and delete constants with the same string values. To react when Mautic saves or deletes a Category, subscribe to the generic ``EntityPreSave``, ``EntityPostSave``, ``EntityPreDelete``, and ``EntityPostDelete`` events from the ``Mautic\CoreBundle\Event`` namespace, and return early when ``getEntity()`` doesn't return a ``Mautic\CategoryBundle\Entity\Category``.
 * ``PluginEvents::ON_FORM_SUBMIT_ACTION_TRIGGERED`` had no dispatcher or listener.
 
 These illustrative fragments show the change for the Plugin Integration request event. Before Mautic 8, the subscriber keys on the constant:
