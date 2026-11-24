@@ -35,7 +35,7 @@ Sorting rows
 A column can sort in two ways:
 
 * Set ``sortable`` to ``true`` to sort the rendered rows in the browser. Selecting the header cycles through ascending, descending, and the original order. The sort compares numbers as numbers.
-* Set ``sortHref`` to a URL that returns the list sorted on the server, as Mautic's list views do. Set ``sort`` to ``asc`` or ``desc`` on the column that the server sorted the list by, so the header shows the current direction.
+* Set ``sortHref`` to a URL that returns the list sorted on the server, as Mautic's list views do. Mautic loads the response into the element that the ``target`` option names, ``.page-list`` by default. Set ``sort`` to ``asc`` or ``desc`` on the column that the server sorted the list by, so the header shows the current direction.
 
 Selecting rows and running batch actions
 ========================================
@@ -171,6 +171,10 @@ You must set ``columns`` and ``rows`` to show data. All other options are option
       - boolean
       - ``false``
       - Set to ``true`` to align cell content to the top of the row, for rows with cells of different heights.
+    * - ``target``
+      - string
+      - ``.page-list``
+      - The CSS selector of the element that Mautic loads the sorted list into when the reader selects a ``sortHref`` header.
     * - ``className``
       - string
       - None
@@ -263,6 +267,10 @@ Each entry in ``rows`` accepts these keys. All of them are optional.
       - string
       - None
       - Extra CSS classes for the row's selection input.
+    * - ``selectionAttr``
+      - map
+      - None
+      - Extra HTML attributes for the row's selection input. Set an attribute to ``false`` to leave it out.
     * - ``className``
       - string
       - None
@@ -310,7 +318,7 @@ A cell value can be a string or a number, which the template escapes as HTML. To
 Loading tables with JavaScript
 ******************************
 
-Mautic sets up every data table in content it loads, so tables in your views and in AJAX responses that Mautic renders work without extra JavaScript. When your own JavaScript inserts a table into the document, call ``Mautic.initDataTable()`` with the inserted element, so the selection and the batch actions match the rows you rendered as selected.
+Mautic sets up every data table in content it loads, so tables in your views and in AJAX responses that Mautic renders work without extra JavaScript. When your own JavaScript inserts a table into the document, call ``Mautic.initDataTable()`` with the inserted element, so the selection, the batch actions, and the header's expand-all button match the rows you rendered as selected or expanded.
 
 .. code-block:: javascript
 
