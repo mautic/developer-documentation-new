@@ -211,6 +211,10 @@ Use ``getFormattedTokens()`` to retrieve tokens with properly formatted labels. 
         }
     }
 
+.. warning::
+
+   Mautic deprecated ``BuilderEvent::addTokensFromHelper()`` and ``BuilderEvent::getTokensFromHelper()`` in Mautic 7.2 and removes them in Mautic 8. Use ``getFormattedTokens()`` and ``$event->addTokens()`` as shown in the preceding example instead. When you upgrade to Mautic 8, update your code as described in the :xref:`Mautic 8 UPGRADE-8.0.md`.
+
 Token format options
 --------------------
 
@@ -250,44 +254,6 @@ Mautic automatically groups tokens in the builder dropdown by type, such as Cont
 .. vale on
 
 Within the Contact group, First Name, Last Name, and Title appear first. Tokens then sort alphabetically by label within each group. The ``TokenSorter`` class constants in Mautic core define the authoritative order.
-
-Deprecated methods
-------------------
-
-.. deprecated:: 7.2
-
-   Mautic deprecates the following ``BuilderEvent`` methods and removes them in a future version:
-
-   - ``addTokensFromHelper()`` - Use ``BuilderTokenHelper::getFormattedTokens()`` and ``$event->addTokens()`` instead.
-   - ``getTokensFromHelper()`` - Use ``BuilderTokenHelper::getFormattedTokens()`` instead.
-
-**Migration example:**
-
-.. code-block:: PHP
-
-    // Before (deprecated):
-    public function onEmailBuild(EmailBuilderEvent $event): void
-    {
-        $event->addTokensFromHelper($tokenHelper, $tokenRegex, 'label', 'alias');
-    }
-
-    // After:
-    public function onEmailBuild(EmailBuilderEvent $event): void
-    {
-        $tokenHelper = $this->builderTokenHelperFactory->getBuilderTokenHelper('page');
-        $tokenFilter = $event->getTokenFilter();
-        $tokens = $tokenHelper->getFormattedTokens(
-            $tokenRegex,
-            TokenFormatOptions::simplePrefix('mautic.page.page'),
-            'label' === $tokenFilter['target'] ? $tokenFilter['filter'] : '',
-            'label',                                                       // Label column
-            'alias'                                                        // Value column
-        );
-
-        if ($tokens) {
-            $event->addTokens($tokens);
-        }
-    }
 
 .. vale off
 
