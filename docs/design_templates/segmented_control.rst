@@ -41,7 +41,9 @@ To add a segmented control to a Symfony form in your Plugin, add a field with th
 
 When you render the field with ``form_row()``, Mautic's layout template for Symfony fields, ``mautic_form_layout.html.twig``, shows the field's label and includes the segmented control template for you. The control also uses the label as its ``aria-label``. The browser submits the value of the selected option as the field's value, so the field works like any other single-choice field when you handle the submitted form.
 
-The layout passes the field's ``attr`` options to every radio button, except ``class`` and ``tooltip``. You don't need to set a ``class`` such as ``form-control`` on the field.
+The layout passes the field's ``attr`` options to every radio button, except ``class`` and ``tooltip``. It adds ``class`` to the control's wrapper ``<div>`` instead. You don't need to set a ``class`` such as ``form-control`` on the field.
+
+To show the field's value without letting Users change it, set ``'attr' => ['readonly' => 'readonly']``. Users can't select another option by clicking, dragging, or using the keyboard, and pressing Tab skips the control. The browser still submits the selected option's value. The ``disabled`` option also stops changes, but the browser doesn't submit the value of a field with ``disabled`` set to ``true``.
 
 ``SegmentedControlType`` adds one option, ``draggable``, which defaults to ``true``. Set it to ``false`` to turn off dragging the indicator. Users can still click options and use the arrow keys.
 
