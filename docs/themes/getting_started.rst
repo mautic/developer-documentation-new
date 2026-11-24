@@ -144,6 +144,15 @@ It requires echoing two variables: ``message`` and ``content``.
         </body>
     </html>
 
+Mautic also passes ``message_type``, which identifies the result of the unsubscribe or resubscribe request. Use it to show different content for each result:
+
+* ``unsubscribed`` - the Contact unsubscribed.
+* ``resubscribed`` - the Contact resubscribed.
+* ``preference_center`` - Mautic is showing the Preference Center, and ``message`` contains the Preference Center's HTML.
+* An empty string - the link isn't valid or Mautic can't find the Contact.
+
+If your Theme's ``message.html.twig`` extends ``@MauticCore/Theme/message.html.twig``, the core template shows a status icon for ``unsubscribed`` and ``resubscribed``. It doesn't apply its default styles to the Preference Center, so a Preference Center Landing Page keeps its own Theme's styles.
+
 .. _email-validation Twig file:
 
 ``html/email-validation.html.twig``
