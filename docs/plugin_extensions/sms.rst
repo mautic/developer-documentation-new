@@ -259,7 +259,7 @@ Use ``SmsEvents::ON_CAMPAIGN_TRIGGER_BATCH_ACTION`` to handle Campaign SMS actio
 SMS lifecycle and reply events
 ******************************
 
-Subscribe to these events to run custom logic when a User saves or deletes an SMS, or when a Contact replies to one. Mautic dispatches each of them by its event class, so key ``getSubscribedEvents()`` on the class name. All classes live in the ``Mautic\SmsBundle\Event`` namespace.
+Subscribe to these events to run custom logic when a User saves or deletes an SMS, or when a Contact replies to one. Mautic dispatches each of them by its event class, so key ``getSubscribedEvents()`` on the class name. For SMS saves and deletes, Mautic dispatches the generic entity events from the ``Mautic\CoreBundle\Event`` namespace. ``ReplyEvent`` lives in the ``Mautic\SmsBundle\Event`` namespace.
 
 .. vale off
 
@@ -269,20 +269,20 @@ Subscribe to these events to run custom logic when a User saves or deletes an SM
 
    * - Event class
      - Fires
-   * - ``SmsPreSaveEvent``
+   * - ``EntityPreSave``
      - Before Mautic saves an SMS.
-   * - ``SmsPostSaveEvent``
+   * - ``EntityPostSave``
      - After Mautic saves an SMS.
-   * - ``SmsPreDeleteEvent``
+   * - ``EntityPreDelete``
      - Before Mautic deletes an SMS.
-   * - ``SmsPostDeleteEvent``
+   * - ``EntityPostDelete``
      - After Mautic deletes an SMS.
    * - ``ReplyEvent``
      - When Mautic receives an SMS reply from a Contact.
 
 .. vale on
 
-The four lifecycle classes extend the abstract ``SmsEvent`` class. Use ``getSms()`` to read the SMS entity and ``isNew()`` to tell whether the save created it. Because each lifecycle class is a subclass, a listener type-hinted against ``SmsEvent`` keeps working. ``ReplyEvent`` exposes the Contact through ``getContact()`` and the reply text through ``getMessage()``.
+Mautic dispatches the four generic entity events when it saves or deletes other entities too, so return early when ``getEntity()`` doesn't return a ``Mautic\SmsBundle\Entity\Sms``. Use ``isNew()`` to tell whether the save created the SMS. ``ReplyEvent`` exposes the Contact through ``getContact()`` and the reply text through ``getMessage()``.
 
 .. code-block:: php
 
@@ -290,9 +290,9 @@ The four lifecycle classes extend the abstract ``SmsEvent`` class. Use ``getSms(
 
    declare(strict_types=1);
 
+   use Mautic\CoreBundle\Event\EntityPostSave;
+   use Mautic\SmsBundle\Entity\Sms;
    use Mautic\SmsBundle\Event\ReplyEvent;
-   use Mautic\SmsBundle\Event\SmsEvent;
-   use Mautic\SmsBundle\Event\SmsPostSaveEvent;
    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
    final class SmsLifecycleSubscriber implements EventSubscriberInterface
@@ -300,14 +300,18 @@ The four lifecycle classes extend the abstract ``SmsEvent`` class. Use ``getSms(
        public static function getSubscribedEvents(): array
        {
            return [
-               SmsPostSaveEvent::class => ['onSmsPostSave', 0],
-               ReplyEvent::class       => ['onSmsReply', 0],
+               EntityPostSave::class => ['onEntityPostSave', 0],
+               ReplyEvent::class     => ['onSmsReply', 0],
            ];
        }
 
-       public function onSmsPostSave(SmsEvent $event): void
+       public function onEntityPostSave(EntityPostSave $event): void
        {
-           $sms = $event->getSms();
+           $sms = $event->getEntity();
+           if (!$sms instanceof Sms) {
+               return;
+           }
+
            // Sync $sms to an external system, for example.
        }
 
@@ -318,10 +322,6 @@ The four lifecycle classes extend the abstract ``SmsEvent`` class. Use ``getSms(
            // Handle the reply, for example by forwarding it to a support tool.
        }
    }
-
-.. note::
-
-   Mautic 8 removed the ``SMS_PRE_SAVE``, ``SMS_POST_SAVE``, ``SMS_PRE_DELETE``, ``SMS_POST_DELETE``, and ``ON_REPLY`` constants from ``SmsEvents``. Before Mautic 8, the four lifecycle events shared one ``SmsEvent`` object under four constant names. Code that still references one of these constants throws a PHP ``Error`` with the message 'Undefined constant'. Replace each constant with the matching event class from the preceding table.
 
 SMS event constants
 *******************

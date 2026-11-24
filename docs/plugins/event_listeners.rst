@@ -448,18 +448,8 @@ The following table is the complete migration reference for AssetBundle event su
    * - ``mautic.asset_on_remote_browse``
      - ``AssetEvents::ASSET_ON_REMOTE_BROWSE``
      - ``RemoteAssetBrowseEvent``
-   * - ``mautic.asset_pre_save``
-     - ``AssetEvents::ASSET_PRE_SAVE``
-     - ``AssetPreSaveEvent``
-   * - ``mautic.asset_post_save``
-     - ``AssetEvents::ASSET_POST_SAVE``
-     - ``AssetPostSaveEvent``
-   * - ``mautic.asset_pre_delete``
-     - ``AssetEvents::ASSET_PRE_DELETE``
-     - ``AssetPreDeleteEvent``
-   * - ``mautic.asset_post_delete``
-     - ``AssetEvents::ASSET_POST_DELETE``
-     - ``AssetPostDeleteEvent``
+
+To react when Mautic saves or deletes an Asset, subscribe to the generic ``EntityPreSave``, ``EntityPostSave``, ``EntityPreDelete``, and ``EntityPostDelete`` events in the ``Mautic\CoreBundle\Event`` namespace. Return early when ``getEntity()`` doesn't return a ``Mautic\AssetBundle\Entity\Asset``.
 
 .. note::
 
@@ -757,7 +747,9 @@ LeadBundle events dispatched by event class
 
 .. vale on
 
-Since Mautic 8, Mautic dispatches the LeadBundle events for Contacts, Companies, Segments, Custom Fields, Tags, notes, devices, imports, and Contact exports by their event class instead of a ``LeadEvents`` string constant. Key ``getSubscribedEvents()`` on ``EventClass::class``. All the event classes below live in the ``Mautic\LeadBundle\Event`` namespace.
+Since Mautic 8, Mautic dispatches the LeadBundle events for Contacts, Companies, Segments, Custom Fields, Tags, devices, imports, and Contact exports by their event class instead of a ``LeadEvents`` string constant. Key ``getSubscribedEvents()`` on ``EventClass::class``. All the event classes below live in the ``Mautic\LeadBundle\Event`` namespace.
+
+To react when Mautic saves or deletes a Contact note or an import, subscribe to the generic ``EntityPreSave``, ``EntityPostSave``, ``EntityPreDelete``, and ``EntityPostDelete`` events in the ``Mautic\CoreBundle\Event`` namespace. Return early when ``getEntity()`` doesn't return a ``Mautic\LeadBundle\Entity\LeadNote`` or a ``Mautic\LeadBundle\Entity\Import``.
 
 Where several ``LeadEvents`` constants used to share one event class, each event now has its own subclass of that shared class. For example, ``LeadPreSaveEvent`` and ``LeadPostSaveEvent`` both extend ``LeadEvent``. Listener methods that type-hint the former shared class keep working.
 
@@ -830,22 +822,6 @@ Mautic 8 removes these ``LeadEvents`` constants. Code that still references one 
      - ``FieldPreDeleteEvent``
    * - ``FIELD_POST_DELETE``
      - ``FieldPostDeleteEvent``
-   * - ``NOTE_PRE_SAVE``
-     - ``NotePreSaveEvent``
-   * - ``NOTE_POST_SAVE``
-     - ``NotePostSaveEvent``
-   * - ``NOTE_PRE_DELETE``
-     - ``NotePreDeleteEvent``
-   * - ``NOTE_POST_DELETE``
-     - ``NotePostDeleteEvent``
-   * - ``IMPORT_PRE_SAVE``
-     - ``ImportPreSaveEvent``
-   * - ``IMPORT_POST_SAVE``
-     - ``ImportPostSaveEvent``
-   * - ``IMPORT_PRE_DELETE``
-     - ``ImportPreDeleteEvent``
-   * - ``IMPORT_POST_DELETE``
-     - ``ImportPostDeleteEvent``
    * - ``IMPORT_BATCH_PROCESSED``
      - ``ImportBatchProcessedEvent``
    * - ``DEVICE_PRE_SAVE``
@@ -901,7 +877,7 @@ Mautic 8 removes these ``LeadEvents`` constants. Code that still references one 
 
 Mautic 8 also changes how these events behave for code that creates or reads them:
 
-* Mautic 8 makes these 12 former shared classes ``abstract``:
+* Mautic 8 makes these 11 former shared classes ``abstract``:
 
   * ``CompanyEvent``
   * ``CompanyMergeEvent``
@@ -911,7 +887,6 @@ Mautic 8 also changes how these events behave for code that creates or reads the
   * ``LeadFieldEvent``
   * ``LeadListEvent``
   * ``LeadMergeEvent``
-  * ``LeadNoteEvent``
   * ``SaveBatchLeadsEvent``
   * ``TagEvent``
   * ``TagMergeEvent``
