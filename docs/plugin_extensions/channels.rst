@@ -56,9 +56,7 @@ You can find several events through the ``ChannelEvents`` class.
         );
     }
 
-.. note::
-
-   From Mautic 8.0, ChannelBundle events key on the event class - for example, ``ChannelEvent::class`` and ``ChannelBroadcastEvent::class``. For the rationale, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
+Key ChannelBundle subscribers on the event class, for example ``ChannelEvent::class`` and ``ChannelBroadcastEvent::class``.
 
 Extending broadcasts
 --------------------
