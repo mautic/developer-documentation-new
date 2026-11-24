@@ -3,6 +3,10 @@ Retrieving Mautic settings in Twig
 
 Mautic allows you to access configuration settings directly in Twig templates using the ``configGetParameter`` function. This feature is particularly useful for creating display conditions or showing existing data in your templates.
 
+.. note::
+
+   The ``configGetParameter`` function is only available in Twig templates Mautic renders outside the Theme sandbox, such as those rendered by the Email builder. Since Mautic 7.1.2, the :ref:`Theme sandbox <Themes/getting_started:Template sandbox restrictions>` blocks the function when rendering User-uploaded Theme templates, including email Themes. Calling it there throws a ``Twig\Sandbox\SecurityNotAllowedFunctionError`` exception, even when the parameter holds a public URL. For details, see the `security advisory <https://github.com/mautic/mautic/security/advisories/GHSA-9fx4-7cmj-47vg>`_.
+
 Basic usage
 ***********
 
