@@ -214,7 +214,7 @@ Similar to ``delegateView()``, but used after an action like saving a Form. Acce
 
 This controller extends ``CommonController`` and adds helper methods for handling Symfony ``FormInterface`` objects, such as ``isFormCancelled()``, ``isFormApplied()``, and ``isFormValid()``, plus entity locking through ``isLocked()``. It also gives your controller the ``$this->formFactory`` service for building them.
 
-If your controller manages an entity with the standard list, view, new, edit, clone, and delete actions, extend ``Mautic\CoreBundle\Controller\AbstractStandardFormController`` instead. It extends ``AbstractFormController`` and provides those actions through helpers such as ``indexStandard()``, ``newStandard()``, and ``editStandard()``. Your controller must implement ``getModelName()``, and can override methods such as ``getTemplateBase()``, ``getRouteBase()``, and ``getSessionBase()`` when the defaults derived from the model name don't fit.
+If your controller manages an entity with the standard list, view, new, edit, clone, and delete actions, extend ``Mautic\CoreBundle\Controller\AbstractStandardFormController`` instead. It extends ``AbstractFormController`` and provides those actions through helpers such as ``indexStandard()``, ``newStandard()``, and ``editStandard()``. Your controller must implement ``getModelName()``, which returns the name of a model that extends ``Mautic\CoreBundle\Model\FormModel``. The new, edit, delete, and batch delete helpers throw a ``LogicException`` if the model doesn't extend it. Your controller can override methods such as ``getTemplateBase()``, ``getRouteBase()``, and ``getSessionBase()`` when the defaults derived from the model name don't fit.
 
 .. code-block:: php
 
