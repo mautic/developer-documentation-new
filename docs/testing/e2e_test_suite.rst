@@ -233,6 +233,70 @@ You can watch your tests run in an automated browser by visiting the following U
 
 ``Password: secret``
 
+Testing on multiple databases
+*****************************
+
+Mautic supports MySQL, MariaDB, and PostgreSQL. The CI pipeline runs tests against all supported databases. Make sure your code works across all databases when developing features or writing tests.
+
+Supported database versions
+===========================
+
+.. list-table::
+   :header-rows: 1
+
+   * - Database
+     - Tested versions
+   * - PostgreSQL
+     - 16, 18
+   * - MariaDB
+     - 10.11, 11.4
+   * - MySQL
+     - 8.4, 9.4
+
+Configuring your test environment for PostgreSQL
+================================================
+
+To run tests locally against PostgreSQL:
+
+#. Update your ``.env.test.local`` with PostgreSQL credentials:
+
+   .. code-block:: bash
+
+      # .env.test.local
+      DB_DRIVER=pdo_pgsql
+      DB_HOST=localhost
+      DB_PORT=5432
+      DB_USER=postgres
+      DB_PASSWD=your_password
+      DB_NAME=mautic_test
+
+#. Install and enable the ``pdo_pgsql`` PHP extension.
+
+#. Run the test suite as normal:
+
+.. code-block:: bash
+
+    bin/phpunit
+
+Database-specific test considerations
+=====================================
+
+Keep these database differences in mind when writing tests:
+
+.. vale off
+
+* **Case sensitivity**: PostgreSQL ``LIKE`` is case-sensitive; MySQL/MariaDB ``LIKE`` isn't. Use Mautic's helper methods for case-insensitive matching.
+- **GROUP BY strictness**: PostgreSQL and MySQL 8+ strict mode require all non-aggregated ``SELECT`` columns in ``GROUP BY``.
+- **Identifier quoting**: PostgreSQL lowercases unquoted identifiers. Quote ``camelCase`` aliases in raw SQL.
+
+.. vale on
+
+.. vale off
+
+For detailed guidance on writing database-agnostic code, refer to the :doc:`/plugins/database` documentation.
+
+.. vale on
+
 Contributing
 ************
 

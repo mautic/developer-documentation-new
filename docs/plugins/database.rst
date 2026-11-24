@@ -364,3 +364,158 @@ Define migrations in the Plugin's ``Migrations`` directory. The file and class n
 
         :return: ``INDEX {tableName} ($columns...)`` statement
         :returntype: string
+
+Database compatibility
+**********************
+
+Mautic 7.x supports MySQL, MariaDB, and PostgreSQL. Follow these patterns to ensure your queries work across all platforms.
+
+Supported databases
+===================
+
+.. list-table::
+    :widths: 30 30 40
+    :header-rows: 1
+
+    * - Database
+      - Minimum version
+      - PHP extension
+    * - MySQL
+      - 8.0
+      - ``pdo_mysql``
+    * - MariaDB
+      - 10.6
+      - ``pdo_mysql``
+    * - PostgreSQL
+      - 16
+      - ``pdo_pgsql``
+
+.. vale off
+
+Case-insensitive string matching
+================================
+
+.. vale on
+
+MySQL and MariaDB use case-insensitive ``LIKE`` comparisons by default. PostgreSQL's ``LIKE`` is case-sensitive. Mautic centralizes all platform-specific helpers in ``Mautic\CoreBundle\Doctrine\DatabasePlatform``.
+
+**Using the helper methods:**
+
+.. code-block:: php
+
+    use Mautic\CoreBundle\Doctrine\DatabasePlatform;
+
+    $connection = $this->getEntityManager()->getConnection();
+    $platform   = $connection->getDatabasePlatform();
+    $qb         = $connection->createQueryBuilder();
+
+    // Case-insensitive LIKE - uses ILIKE on PostgreSQL, LIKE on MySQL/MariaDB
+    $qb->andWhere(
+        DatabasePlatform::getCaseInsensitiveLike($platform, 'l.email', ':search')
+    );
+
+    // Apply LOWER() to the column for case-insensitive comparison
+    $qb->andWhere(
+        DatabasePlatform::getCaseInsensitiveLike(
+            $platform,
+            'l.firstname',
+            ':search',
+            DatabasePlatform::FLAG_LOWER_COLUMN
+        )
+    );
+
+.. vale off
+
+**Available methods in DatabasePlatform:**
+
+.. vale on
+
+* ``getCaseInsensitiveLike($platform, $column, $valueOrParameter, $flags)``: returns platform-appropriate case-insensitive ``LIKE`` expression. Supports flags for ``LOWER()`` handling and negation.
+* ``getRegexpExpression($platform, $column, $pattern, $negative)``: handles ``REGEXP`` differences between MySQL and PostgreSQL.
+* ``isPostgreSQL($platform)``: returns ``TRUE`` if the platform is PostgreSQL.
+* ``isMySQL($platform)``: returns ``TRUE`` if the platform is MySQL or MariaDB.
+
+.. vale off
+
+Column and alias quoting
+========================
+
+.. vale on
+
+PostgreSQL lowercases unquoted identifiers automatically. This causes issues with Mautic's ``camelCase`` column aliases. Always quote identifiers in raw SQL queries that use mixed-case names.
+
+.. vale off
+
+**Use quoted identifiers for camelCase aliases:**
+
+.. vale on
+
+.. code-block:: php
+
+    // Correct - aliases are quoted
+    $qb->select('l.id, l.first_name AS "firstName", l.date_added AS "dateAdded"');
+
+    // Incorrect - PostgreSQL converts to lowercase
+    $qb->select('l.id, l.first_name AS firstName');
+
+Doctrine's QueryBuilder handles quoting automatically when you use proper field mappings. You only need manual quoting for raw SQL or custom column aliases.
+
+.. vale off
+
+GROUP BY requirements
+=====================
+
+.. vale on
+
+PostgreSQL enforces strict ``GROUP BY`` rules, and MySQL 8+ does the same when ``ONLY_FULL_GROUP_BY`` SQL mode is active - the default in strict mode. Every column in the ``SELECT`` clause must appear in the ``GROUP BY`` clause or use an aggregate function.
+
+Writing compliant ``GROUP BY`` clauses ensures compatibility across all supported databases and SQL modes.
+
+Mautic's Report Builder corrects ``GROUP BY`` clauses automatically. If you're building custom Reports or queries with aggregates, include all non-aggregated columns in the ``GROUP BY`` clause.
+
+**Correct pattern:**
+
+.. code-block:: php
+
+    $qb->select('l.id, l.email, COUNT(e.id) as emailCount')
+       ->from('leads', 'l')
+       ->leftJoin('l', 'emails', 'e', 'e.lead_id = l.id')
+       ->groupBy('l.id, l.email');  // All non-aggregate columns included
+
+**Incorrect pattern:**
+
+.. code-block:: php
+
+    // This fails on PostgreSQL - l.email not in GROUP BY
+    $qb->select('l.id, l.email, COUNT(e.id) as emailCount')
+       ->from('leads', 'l')
+       ->leftJoin('l', 'emails', 'e', 'e.lead_id = l.id')
+       ->groupBy('l.id');
+
+Detecting the database platform
+===============================
+
+When you need platform-specific query logic, use the static helpers in ``DatabasePlatform``:
+
+.. code-block:: php
+
+    use Mautic\CoreBundle\Doctrine\DatabasePlatform;
+
+    $connection = $this->getEntityManager()->getConnection();
+    $platform   = $connection->getDatabasePlatform();
+
+    if (DatabasePlatform::isPostgreSQL($platform)) {
+        // PostgreSQL-specific logic
+    } else {
+        // MySQL/MariaDB logic
+    }
+
+``DatabasePlatform`` is the single source of truth for platform differences. Use its helpers instead of writing platform checks manually to avoid drift as the codebase evolves.
+
+Best practices
+==============
+
+#. **Use Doctrine's Object Relational Mapper - ORM - and QueryBuilder** - Doctrine abstracts most database differences. Avoid raw SQL when possible.
+#. **Test on multiple databases** - Mautic's CI tests against MySQL, MariaDB, and PostgreSQL. Run your Plugin tests against all platforms before release.
+#. **Quote mixed-case aliases** - When using custom column aliases with ``camelCase`` names in raw SQL, always quote them.
+#. **Use DatabasePlatform helpers** - ``Mautic\CoreBundle\Doctrine\DatabasePlatform`` provides cross-platform helpers for case-insensitive searches, regular expressions, date handling, and platform detection. Consult its source for the full list of available methods.
