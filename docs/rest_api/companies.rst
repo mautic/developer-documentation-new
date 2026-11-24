@@ -436,7 +436,7 @@ Query parameters
    * - ``orderByDir``
      - string
      - Order direction - ``asc`` or ``desc``
-   * - ``publishedOnly``
+   * - ``published``
      - boolean
      - Returns only currently published entities
    * - ``minimal``

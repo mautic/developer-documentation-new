@@ -163,7 +163,7 @@ Returns a list of Contact Categories available to the User. This list isn't filt
          "description":null,
          "color":"b36262",
          "bundle":"point"
-       },
+       }
      ]
    }
 
@@ -380,7 +380,7 @@ To assign a Category to an entity, set ``category = [ID]`` to the payload. For e
    $data = array(
        'title' => 'PDF sent as a API request',
        'storageLocation' => 'remote',
-       'file' => 'https://www.mautic.org/media/logos/logo/Mautic_Logo_DB.pdf'
+       'file' => 'https://www.mautic.org/media/logos/logo/Mautic_Logo_DB.pdf',
        'category' => 123
    );
 

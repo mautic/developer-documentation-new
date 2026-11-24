@@ -137,8 +137,6 @@ Or define query parameters like this:
        "fax1": "l.fax",
        "firstname1": "l.firstname",
        "foursquare1": "l.foursquare",
-       "gender1": "l.gender",
-       "googleplus1": "l.googleplus",
        "ip_address1": "i.ip_address",
        "instagram1": "l.instagram",
        "is_primary1": "companies_lead.is_primary",
@@ -160,12 +158,12 @@ Or define query parameters like this:
        "title1": "l.title",
        "twitter1": "l.twitter",
        "website1": "l.website",
-       "zipcode1": "l.zipcode",
+       "zipcode1": "l.zipcode"
      },
      "limit": 5,
      "page": 3,
      "dateFrom": "2017-01-01T00:00:00+00:00",
-     "dateTo": "2018-10-24T11:55:29+00:00",
+     "dateTo": "2018-10-24T11:55:29+00:00"
    }
 
 **Report Properties**
@@ -234,7 +232,7 @@ Returns a list of Contact Reports available to the User. This list isn't filtera
        {  
          "id": 1,
          "name": "Contacts",
-         "descriptionn": "lists all contacts",
+         "description": "lists all contacts",
          "system": false,
          "isScheduled": false,
          "source": "leads",
@@ -258,7 +256,7 @@ Returns a list of Contact Reports available to the User. This list isn't filtera
          "toAddress": null,
          "scheduleDay": null,
          "scheduleMonthFrequency": null
-       },
+       }
      ]
    }
 

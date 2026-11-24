@@ -87,28 +87,4 @@ API rate limiter cache
 
 .. attention::
 
-   The rate limiter cache is no longer available in Mautic version 7 or later.
-
-You can configure the rate limiter cache in ``local.php``. The default configuration uses the filesystem as follows:
-
-.. code-block:: PHP
-
-   api_rate_limiter_cache => [ 
-      'type'      => 'file_system',
-   ],
-
-You can configure whatever cache you want as described in :xref:`DoctrineCacheBundle docs` or configure a ``memcached`` server as below:
-
-.. code-block::
-
-   'api_rate_limiter_cache' => [
-      'memcached' => [
-         'servers' =>
-         [
-            [
-               'host' => 'localhost',
-               'port' => 11211
-            ]
-         ]
-      ]
-   ],
+   The rate limiter cache is no longer available in Mautic version 7 or later. The ``api_rate_limiter_cache`` configuration key described in earlier versions no longer has any effect.

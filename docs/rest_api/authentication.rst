@@ -243,4 +243,4 @@ While the preferred method is to send the access token in the ``Authorization: B
     curl -X POST \
          -H "Content-Type: application/x-www-form-urlencoded" \
          -d "firstname=John&lastname=Smith&access_token=ACCESS_TOKEN" \
-         https://mautic.example.com/api/leads/new
+         https://mautic.example.com/api/contacts/new
