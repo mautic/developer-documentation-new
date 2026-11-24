@@ -122,11 +122,13 @@ Mautic dispatches the following events under a string event name, so key their s
 * The save and delete events that share one event class across several event names, such as ``FormEvents::FORM_POST_SAVE`` and ``StageEvents::STAGE_POST_SAVE``.
 * The events that a bundle or Plugin names when it registers a Campaign action, condition, or decision, a Form submit action or Form Field validation, or a Point Trigger event. Mautic dispatches these events under the ``eventName`` or ``batchEventName`` value from the registration.
 
-To list the listeners registered for an event, run ``bin/console debug:event-dispatcher`` with the event class. Your subscriber appears in the output only when its subscription key matches the name that Mautic dispatches the event under:
+To list the listeners registered for an event, run ``bin/console debug:event-dispatcher`` with the event class:
 
 .. code-block:: console
 
     bin/console debug:event-dispatcher "Mautic\FormBundle\Event\SubmissionEvent"
+
+The output lists every listener registered under that name, even when Mautic doesn't dispatch the event under it. To confirm the name that Mautic dispatches an event under, find the event's ``dispatch()`` call in the Mautic source code.
 
 .. vale off
 
@@ -301,7 +303,9 @@ Several lifecycle events share a base class, so a listener method can type-hint 
 * ``TagEvent``
 * ``TagMergeEvent``
 
-Mautic creates a separate event object for the events before and after a save, delete, or merge. A value that a listener sets on the earlier event isn't available to listeners of the later one. To dispatch a Custom Field event from your own code, pass the ``LeadFieldEvent`` subclass to ``Mautic\LeadBundle\Field\Dispatcher\FieldSaveDispatcher::dispatchEvent()``.
+Mautic creates a separate event object for the events before and after a save, delete, or merge. A value that a listener stores on the earlier event object isn't available to listeners of the later one. Both events receive the same entity, such as the same ``Lead``, so changes that a listener makes to the entity carry over to the later event.
+
+To dispatch a Custom Field event from your own code, pass the ``LeadFieldEvent`` subclass to ``Mautic\LeadBundle\Field\Dispatcher\FieldSaveDispatcher::dispatchEvent()``. When no listener subscribes to the event class, ``dispatchEvent()`` throws ``Mautic\LeadBundle\Exception\NoListenerException``, so catch that exception in your code.
 
 The following ``LeadEvents`` constants hold Webhook event types. Mautic doesn't dispatch events under these names, so subscribe to the event class:
 
