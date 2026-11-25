@@ -320,7 +320,7 @@ There are currently four menus built into Mautic.
     * - ``admin``
       - Menu for administration tasks such as Configuration, Webhooks, Custom Fields, and others.
     * - ``profile``
-      - Menu for User specific tasks such as Profile and Logout.
+      - Menu for User specific tasks such as Account, Invite your team, and Logout.
     * - ``extra``
       - Menu not used by Core but available to Plugins.
 
@@ -335,6 +335,14 @@ Menu item priority
 The ``priority`` determines the position in the parent menu where items display relative to other items defined by Core and Plugins. This can be in the root of the menu's array to set the priority for all items defined or in a specific item's definition. It can be negative to position the items lower than others or positive to position them higher. The default is ``9999`` if not defined.
 
 .. note:: You aren't able to control the exact position of items in menus.
+
+The ``profile`` menu's built-in items use these priorities:
+
+* **Account** - ``400``
+* **Invite your team** - ``300``
+* **Logout** - ``200``
+
+To place a Plugin's item between them, give it a priority in that range. For example, an item with a priority of ``250`` displays between **Invite your team** and **Logout**. Use a priority below ``200`` to display the item after **Logout**. An item without a priority uses the default of ``9999``, so it displays before **Account**.
 
 Menu item definitions
 ---------------------
