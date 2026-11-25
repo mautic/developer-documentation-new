@@ -1,9 +1,11 @@
 Hold-to-confirm template
 ########################
 
-The ``hold-to-confirm.html.twig`` template renders a button that runs its action only after the User presses and holds it. Use it for actions that are hard to undo, such as deleting or resetting data, so a stray click doesn't trigger them.
+The ``hold-to-confirm.html.twig`` template renders a button that runs its action only after the User presses and holds it, or confirms the action in a dialog. Use it for actions that are hard to undo, such as deleting or resetting data, so a stray click doesn't trigger them.
 
-While the User holds the button, a progress ring fills around its icon. When the ring is full, the button shows a checkmark and its confirmed label, and then returns to its original state. Releasing the button, moving the pointer off it, or moving focus away before the ring fills cancels the action. Users can also hold the button with the Space or Enter key.
+While the User holds the button, a progress ring fills around its icon. When the ring is full, the button shows a checkmark and its confirmed label, and then returns to its original state. Users can hold the button with a pointer, such as a mouse or a finger, or with the Space or Enter key. Lifting the pointer, moving it off the button, or moving focus away before the ring fills cancels the hold. A short click or tap does nothing.
+
+Users who can't do a timed hold, such as Users of screen readers, voice control, or switch devices, confirm the action in a dialog instead. Mautic opens a confirmation dialog when the User releases Space or Enter before the ring fills, or activates the button through assistive technology. Selecting the confirm button in the dialog completes the action the same way a full hold does.
 
 Including the template
 **********************
@@ -29,7 +31,7 @@ The template passes ``label`` and ``confirmedLabel`` through Twig's ``trans`` fi
 Running the action
 ******************
 
-The button has no click handler. When the User completes the hold, the Component dispatches a bubbling ``mautic:hold-to-confirm:confirm`` event on its wrapper element, which has the ``data-component="hold-to-confirm"`` attribute. The ``id`` option sets the ``id`` of the ``<button>`` inside that wrapper, so find the wrapper with ``closest()`` and listen for the event there.
+Don't run the action from a click handler on the button, because a click fires before the User confirms. When the User completes the hold or confirms the action in the dialog, the Component dispatches a bubbling ``mautic:hold-to-confirm:confirm`` event on its wrapper element, which has the ``data-component="hold-to-confirm"`` attribute. The ``id`` option sets the ``id`` of the ``<button>`` inside that wrapper, so find the wrapper with ``closest()`` and listen for the event there.
 
 .. code-block:: javascript
 
@@ -41,7 +43,7 @@ The button has no click handler. When the User completes the hold, the Component
            });
    };
 
-Mautic sets up every hold-to-confirm button when it loads, including buttons that AJAX content adds later. To change a button after it renders, get its controller with ``MauticUI.HoldToConfirmButton.get(wrapperElement)`` and call ``update()`` with the options to change, such as ``label``, ``disabled``, or ``duration``.
+Mautic sets up every hold-to-confirm button when it loads, including buttons that AJAX content adds later. To change a button after it renders, get its controller with ``Mautic.HoldToConfirmButton.get(wrapperElement)`` and call ``update()`` with the options to change, such as ``label``, ``disabled``, or ``duration``.
 
 Template options
 ================
