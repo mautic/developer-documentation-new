@@ -61,6 +61,16 @@ To add and render custom Reports in Mautic, your Plugin needs to listen to the f
                   'mars' => 'Mars',
                ];
 
+               // Filter-only entry, handled by the ReportFilterConditionEvent subscriber
+               $filters[$prefix . 'moon'] = [
+                  'label' => 'mautic.hellobundle.report.moon',
+                  'type' => 'select',
+                  'list' => [
+                     'luna' => 'Luna',
+                     'phobos' => 'Phobos',
+                  ],
+               ];
+
                $event->addTable('worlds', [
                   'display_name' => 'mautic.helloworld.worlds',
                   'columns' => $columns,
@@ -221,6 +231,70 @@ Mautic dispatches the ``ReportEvents::REPORT_ON_GENERATE`` event when it generat
 * Use Doctrine's DBAL layer QueryBuilder by obtaining it via ``$qb = $event->getQueryBuilder();``.
 
 The ``ReportGeneratorEvent`` class provides several helper functions to append joins for common relationships such as Categories, Contacts, and IP addresses. Refer to the :xref:`Mautic ReportGeneratorEvent` class for more details.
+
+Providing custom filter conditions
+==================================
+
+Mautic builds the SQL condition for each Report filter from the filter's column, operator, and value. When a filter needs different SQL - for example, a nested query against a table that the Report doesn't join - your Plugin can supply the condition itself.
+
+Mautic dispatches ``\Mautic\ReportBundle\Event\ReportFilterConditionEvent`` for each filter it applies to a Report. Mautic uses the event's class name as the event name, so subscribe with ``ReportFilterConditionEvent::class``. The event provides these methods:
+
+* ``checkContext()`` - checks whether the Report uses your Plugin's context.
+* ``getFilter()`` - returns the filter as saved on the Report, with keys such as ``column``, ``condition`` for the operator, ``value``, and ``glue``.
+* ``getFilterDefinition()`` - returns the filter's definition from the ``ReportEvents::REPORT_ON_BUILD`` event.
+* ``getQueryBuilder()`` - returns the Report's QueryBuilder, for example to bind the filter value as a parameter.
+* ``setCondition()`` - sets the condition as a SQL string or a Doctrine ``CompositeExpression``. Mautic uses it instead of the default condition and stops propagating the event to other listeners.
+
+Mautic combines your condition with the Report's other filters according to each filter's ``glue`` value, ``and`` or ``or``, the same way it combines default conditions. If no listener sets a condition, Mautic builds the default condition.
+
+Mautic also dispatches the event for filters on the ``tag`` and ``dnc_preferences`` columns, so your condition can replace their built-in conditions. Mautic skips a filter without a value and doesn't dispatch the event for it, unless the operator is ``empty``, ``notEmpty``, or ``neq``.
+
+.. code-block:: php
+
+   <?php
+   // plugins\HelloWorldBundle\EventListener\ReportFilterSubscriber
+
+   declare(strict_types=1);
+
+   namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+   use Mautic\ReportBundle\Event\ReportFilterConditionEvent;
+   use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+   final class ReportFilterSubscriber implements EventSubscriberInterface
+   {
+      public static function getSubscribedEvents(): array
+      {
+         return [
+               ReportFilterConditionEvent::class => ['onReportFilterCondition', 0],
+         ];
+      }
+
+      public function onReportFilterCondition(ReportFilterConditionEvent $event): void
+      {
+         $filter = $event->getFilter();
+
+         if (!$event->checkContext('worlds') || 'w.moon' !== $filter['column']) {
+               return;
+         }
+
+         $qb = $event->getQueryBuilder();
+
+         // A select filter offers the eq and neq operators
+         $operator = 'neq' === $filter['condition'] ? 'NOT IN' : 'IN';
+
+         $event->setCondition(sprintf(
+               'w.id %s (SELECT world_id FROM %sworld_moons WHERE moon = %s)',
+               $operator,
+               MAUTIC_TABLE_PREFIX,
+               $qb->createNamedParameter($filter['value'])
+         ));
+      }
+   }
+
+This example handles the ``w.moon`` filter that the ``REPORT_ON_BUILD`` example registers. Because the condition replaces the default one, it must handle each operator the filter offers. By default, select filters offer ``eq`` and ``neq``, so the example uses ``IN`` or ``NOT IN``.
+
+Bind filter values with ``createNamedParameter()`` rather than concatenating them into the SQL string, because Report Users enter those values.
 
 Generating graphs
 =================
