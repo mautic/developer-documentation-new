@@ -257,7 +257,7 @@ LeadBundle events
 
 .. vale on
 
-Mautic dispatches the LeadBundle events for Contacts, Companies, Segments, Custom Fields, Tags, notes, devices, imports, and Contact exports by their event class. Key ``getSubscribedEvents()`` on ``EventClass::class``. The field column events live in the ``Mautic\LeadBundle\Field\Event`` namespace, and the other event classes in the following table live in the ``Mautic\LeadBundle\Event`` namespace:
+Mautic dispatches the LeadBundle events for Contacts, Companies, Segments, Custom Fields, Tag merges, notes, imports, and Contact exports by their event class. Key ``getSubscribedEvents()`` on ``EventClass::class``. The field column events live in the ``Mautic\LeadBundle\Field\Event`` namespace, and the other event classes in the following table live in the ``Mautic\LeadBundle\Event`` namespace:
 
 .. list-table::
    :header-rows: 1
@@ -277,12 +277,10 @@ Mautic dispatches the LeadBundle events for Contacts, Companies, Segments, Custo
      - ``FieldPreSaveEvent``, ``FieldPostSaveEvent``, ``FieldPreDeleteEvent``, ``FieldPostDeleteEvent``
    * - Field columns
      - ``AddColumnEvent``, ``AddColumnBackgroundEvent``, ``UpdateColumnEvent``, ``UpdateColumnBackgroundEvent``, ``DeleteColumnEvent``, ``DeleteColumnBackgroundEvent``
-   * - Tags
-     - ``TagPreSaveEvent``, ``TagPostSaveEvent``, ``TagPreDeleteEvent``, ``TagPostDeleteEvent``, ``TagPreMergeEvent``, ``TagPostMergeEvent``
+   * - Tag merges
+     - ``TagPreMergeEvent``, ``TagPostMergeEvent``
    * - Notes
      - ``NotePreSaveEvent``, ``NotePostSaveEvent``, ``NotePreDeleteEvent``, ``NotePostDeleteEvent``
-   * - Devices
-     - ``DevicePreSaveEvent``, ``DevicePostSaveEvent``, ``DevicePreDeleteEvent``, ``DevicePostDeleteEvent``
    * - Imports
      - ``ImportInitEvent``, ``ImportMappingEvent``, ``ImportProcessEvent``, ``ImportValidateEvent``, ``ImportPreSaveEvent``, ``ImportPostSaveEvent``, ``ImportPreDeleteEvent``, ``ImportPostDeleteEvent``, ``ImportBatchProcessedEvent``
    * - Contact exports
@@ -294,16 +292,16 @@ Several lifecycle events share a base class, so a listener method can type-hint 
 * ``CompanyMergeEvent``
 * ``ContactExportSchedulerEvent``
 * ``ImportEvent``
-* ``LeadDeviceEvent``
 * ``LeadFieldEvent``
 * ``LeadListEvent``
 * ``LeadMergeEvent``
 * ``LeadNoteEvent``
 * ``SaveBatchLeadsEvent``
-* ``TagEvent``
 * ``TagMergeEvent``
 
 Mautic creates a separate event object for the events before and after a save, delete, or merge. A value that a listener stores on the earlier event object isn't available to listeners of the later one. Both events receive the same entity, such as the same ``Lead``, so changes that a listener makes to the entity carry over to the later event.
+
+To react when Mautic saves or deletes a Tag or a Contact's device, subscribe to the generic entity events described in :ref:`Entity save and delete events <entity save and delete events>`.
 
 To dispatch a Custom Field event from your own code, pass the ``LeadFieldEvent`` subclass to ``Mautic\LeadBundle\Field\Dispatcher\FieldSaveDispatcher::dispatchEvent()``. When no listener subscribes to the event class, ``dispatchEvent()`` throws ``Mautic\LeadBundle\Exception\NoListenerException``, so catch that exception in your code.
 
@@ -359,16 +357,10 @@ Mautic dispatches the following UserBundle events by event class. The classes li
      - Dispatched when Mautic renders the login screen, so a listener can add HTML to it.
    * - ``PasswordStrengthValidateEvent``
      - Dispatched when Mautic validates the strength of a password.
-   * - ``PreSaveUserEvent``, ``PostSaveUserEvent``
-     - Dispatched before and after Mautic saves a User.
-   * - ``PreDeleteUserEvent``, ``PostDeleteUserEvent``
-     - Dispatched before and after Mautic deletes a User.
-   * - ``PreSaveRoleEvent``, ``PostSaveRoleEvent``
-     - Dispatched before and after Mautic saves a Role.
-   * - ``PreDeleteRoleEvent``, ``PostDeleteRoleEvent``
-     - Dispatched before and after Mautic deletes a Role.
 
-``UserEvent``, ``RoleEvent``, and ``AuthenticationEvent`` are abstract base classes. A listener method can type-hint the base class, but code that creates one of these events, such as a Plugin test, creates the concrete subclass.
+``AuthenticationEvent`` is an abstract base class for ``PreAuthenticationEvent`` and ``FormAuthenticationEvent``. A listener method can type-hint the base class, but code that creates one of these events, such as a Plugin test, creates the concrete subclass.
+
+To react when Mautic saves or deletes a User or Role, subscribe to the generic entity events described in :ref:`Entity save and delete events <entity save and delete events>`. Mautic also dispatches ``EntityPreSave`` and ``EntityPostSave`` when it creates a User during an OpenID Connect login, or when an authentication Plugin creates or updates a User during login.
 
 .. vale off
 
@@ -393,14 +385,10 @@ Mautic dispatches the following WebhookBundle events by event class. The classes
      - Dispatched before Mautic sends the request for a Campaign's Webhook action.
    * - ``WebhookNotificationEvent``
      - Dispatched before Mautic sends a notification Email about a Webhook. A listener can stop the notification.
-   * - ``WebhookPreSaveEvent``, ``WebhookPostSaveEvent``
-     - Dispatched before and after Mautic saves a Webhook.
-   * - ``WebhookPreDeleteEvent``, ``WebhookPostDeleteEvent``
-     - Dispatched before and after Mautic deletes a Webhook.
    * - ``WebhookKillEvent``
-     - Dispatched after Mautic stops a Webhook by deactivating it.
+     - Dispatched after Mautic stops a failing Webhook by deactivating it.
 
-``WebhookKillEvent`` and the save and delete events extend the abstract ``WebhookEvent``, so a listener method can type-hint ``WebhookEvent``.
+To react when Mautic saves or deletes a Webhook, subscribe to the generic entity events described in :ref:`Entity save and delete events <entity save and delete events>`.
 
 .. vale off
 
@@ -427,6 +415,97 @@ Mautic dispatches the following events by event class:
      - Dispatched when Mautic fetches aggregate statistics for a date range.
 
 MauticFocusBundle is a Plugin under ``plugins/``, so its event classes use the ``MauticPlugin`` top-level namespace. Mautic dispatches the Stage save and delete events under ``StageEvents`` constants, such as ``StageEvents::STAGE_POST_SAVE``, and the Focus Item save and delete events under ``FocusEvents`` constants, such as ``FocusEvents::POST_SAVE``. Mautic dispatches the Focus Item token replacement event by its class, ``MauticPlugin\MauticFocusBundle\Event\FocusTokenReplacementEvent``.
+
+.. _entity save and delete events:
+
+Entity save and delete events
+*****************************
+
+Some Mautic models don't define save and delete events of their own. For these models, the base ``Mautic\CoreBundle\Model\FormModel`` dispatches four generic events from the ``Mautic\CoreBundle\Event`` namespace by class name:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Event class
+     - When Mautic dispatches it
+   * - ``EntityPreSave``
+     - Before Mautic saves the entity to the database
+   * - ``EntityPostSave``
+     - After Mautic saves the entity to the database
+   * - ``EntityPreDelete``
+     - Before Mautic deletes the entity
+   * - ``EntityPostDelete``
+     - After Mautic deletes the entity
+
+Mautic dispatches these events for entities including the following:
+
+* ``Mautic\EmailBundle\Entity\Email``
+* ``Mautic\LeadBundle\Entity\LeadDevice``
+* ``Mautic\LeadBundle\Entity\Tag``
+* ``Mautic\NotificationBundle\Entity\Notification``
+* ``Mautic\UserBundle\Entity\Role``
+* ``Mautic\UserBundle\Entity\User``
+* ``Mautic\WebhookBundle\Entity\Webhook``
+
+Models that dispatch save and delete events of their own, such as ``Mautic\FormBundle\Model\FormModel``, ``Mautic\PageBundle\Model\PageModel``, and ``Mautic\LeadBundle\Model\LeadModel``, dispatch only those events and not the generic ones.
+
+All four events extend ``Mautic\CoreBundle\Event\AbstractEntityEvent``, which provides these methods:
+
+* ``getEntity()`` returns the entity that Mautic saves or deletes.
+* ``isNew()`` returns ``true`` when Mautic saves a new entity.
+* ``getChanges()`` returns the changes recorded on the entity.
+
+A listener receives these events for every entity type that uses them, so test the class of the entity and return early when it isn't the one your Plugin handles. The event Mautic dispatches after a save or delete is a separate object from the one it dispatches before it, but it carries over the changes the earlier event recorded, so ``getChanges()`` returns the same changes in both. Other values that a listener sets on the earlier event aren't available on the later one. After a delete, the entity's ``deletedId`` property holds the ID it had before Mautic deleted it.
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/TagSubscriber.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\CoreBundle\Event\EntityPostDelete;
+    use Mautic\CoreBundle\Event\EntityPostSave;
+    use Mautic\LeadBundle\Entity\Tag;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class TagSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                EntityPostSave::class   => ['onEntityPostSave', 0],
+                EntityPostDelete::class => ['onEntityPostDelete', 0],
+            ];
+        }
+
+        public function onEntityPostSave(EntityPostSave $event): void
+        {
+            $tag = $event->getEntity();
+            if (!$tag instanceof Tag) {
+                return;
+            }
+
+            if ($event->isNew()) {
+                // do something with the new Tag
+            }
+        }
+
+        public function onEntityPostDelete(EntityPostDelete $event): void
+        {
+            $tag = $event->getEntity();
+            if (!$tag instanceof Tag) {
+                return;
+            }
+
+            $deletedId = $tag->deletedId;
+
+            // do something
+        }
+    }
 
 Custom events
 *************
