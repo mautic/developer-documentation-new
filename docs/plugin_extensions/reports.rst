@@ -61,6 +61,16 @@ To add and render custom Reports in Mautic, your Plugin needs to listen to the f
                   'mars' => 'Mars',
                ];
 
+               // Filter-only entry, handled by the ReportFilterConditionEvent subscriber
+               $filters[$prefix . 'moon'] = [
+                  'label' => 'mautic.hellobundle.report.moon',
+                  'type' => 'select',
+                  'list' => [
+                     'luna' => 'Luna',
+                     'phobos' => 'Phobos',
+                  ],
+               ];
+
                $event->addTable('worlds', [
                   'display_name' => 'mautic.helloworld.worlds',
                   'columns' => $columns,
@@ -270,13 +280,19 @@ Mautic also dispatches the event for filters on the ``tag`` and ``dnc_preference
 
          $qb = $event->getQueryBuilder();
 
+         // A select filter offers the eq and neq operators
+         $operator = 'neq' === $filter['condition'] ? 'NOT IN' : 'IN';
+
          $event->setCondition(sprintf(
-               'w.id IN (SELECT world_id FROM %sworld_moons WHERE moon = %s)',
+               'w.id %s (SELECT world_id FROM %sworld_moons WHERE moon = %s)',
+               $operator,
                MAUTIC_TABLE_PREFIX,
                $qb->createNamedParameter($filter['value'])
          ));
       }
    }
+
+This example handles the ``w.moon`` filter that the ``REPORT_ON_BUILD`` example registers. Because the condition replaces the default one, it must handle each operator the filter offers. By default, select filters offer ``eq`` and ``neq``, so the example uses ``IN`` or ``NOT IN``.
 
 Bind filter values with ``createNamedParameter()`` rather than concatenating them into the SQL string, because Report Users enter those values.
 
