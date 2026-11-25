@@ -92,6 +92,7 @@ There are several ways to support Mautic other than contributing with code.
    design_templates/accordion
    design_templates/checkbox
    design_templates/protip
+   design_templates/segmented_control
    design_templates/table_header
    design_templates/tiles
 
