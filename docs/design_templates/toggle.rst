@@ -35,7 +35,7 @@ To add a toggle to a Symfony form in your Plugin, add a field with the ``Mautic\
 
 When you render the field with ``form_row()``, Mautic's layout template for Symfony fields, ``mautic_form_layout.html.twig``, shows the field's label and includes the toggle template for you. The switch uses the field's label as its accessible name, so screen readers announce the label with the switch.
 
-When the field has no value, such as a new entity whose property is ``null``, the layout leaves the toggle unset. The layout then selects neither radio button and shows no text next to the switch, so the browser submits no value for the field. The first time the User switches the toggle, it turns on and selects ``yes_value``. To show the switch as on or off from the start, give the field a value, for example with the ``data`` option as in the preceding example.
+When the field has no value, such as a new entity whose property is ``null``, the layout leaves the toggle unset. The layout then selects neither radio button, so the browser submits no value for the field. The first time the User switches the toggle, it turns on and selects ``yes_value``. To show the switch as on or off from the start, give the field a value, for example with the ``data`` option as in the preceding example.
 
 ``YesNoButtonGroupType`` sets these options, which you can override:
 
@@ -99,7 +99,7 @@ All options are optional.
     * - ``checked``
       - boolean or null
       - ``false``
-      - Set to ``true`` to turn the switch on, which selects ``valueOn``. Set to ``null`` to leave the toggle unset. The template then selects neither radio button and shows no text next to the switch, and the browser submits no value until the User switches it on.
+      - Set to ``true`` to turn the switch on, which selects ``valueOn``. Set to ``null`` to leave the toggle unset. The template then selects neither radio button, and the browser submits no value until the User switches it on.
     * - ``label``
       - string
       - None
