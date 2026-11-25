@@ -128,8 +128,8 @@ All options are optional. The Components that accept ``aiLabel`` pass a map of t
       - Where the popover opens relative to the label: ``top``, ``bottom``, ``left``, ``right``, or ``auto``.
     * - ``trigger``
       - string
-      - ``focus``
-      - The Bootstrap popover trigger. With ``focus``, the popover opens when the label gets focus and closes when the User moves away from it.
+      - ``click focus``
+      - The Bootstrap popover trigger. With ``click focus``, the popover opens when a User selects the label or moves focus to it.
     * - ``aria_label``
       - string
       - ``mautic.core.ai.explainability``
