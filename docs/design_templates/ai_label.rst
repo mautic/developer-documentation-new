@@ -37,7 +37,7 @@ These Components accept ``aiLabel``:
     * - ``@MauticCore/Components/modal.html.twig``
       - In the modal header. The modal also gets an AI gradient and shadow.
     * - ``@MauticCore/Helper/_tag.html.twig``
-      - Inside read-only and dismissible Tags, as a small inline label. Set ``aiLabel`` on the Tag item, not on the include. Tags with an ``href`` attribute show a static label.
+      - Inside read-only, dismissible, and selectable Tags, as a small inline label. Set ``aiLabel`` on the Tag item, not on the include. Selectable Tags and Tags with an ``href`` attribute always show a static label, even when ``aiLabel`` sets ``static`` to ``false``.
     * - ``@MauticCore/Helper/table.html.twig``
       - Next to a header or cell value, as a small inline label. See :ref:`Table headers and cells <ai label tables>`.
 
@@ -59,7 +59,7 @@ The ``_tag.html.twig`` helper reads ``aiLabel`` from each Tag item, along with t
 Table headers and cells
 =======================
 
-In the ``table.html.twig`` helper, a header item can be a map with a ``label`` key instead of a string. Add ``aiLabel`` to that map to label the column header. To label a cell, add ``aiLabel`` to a body item that has a ``value`` key. Link cells, which set ``type`` to ``link``, don't show the label.
+In the ``table.html.twig`` helper, a header item can be a map with a ``label`` key instead of a string. Add ``aiLabel`` to that map to label the column header. To label a cell, add ``aiLabel`` to a body item that's a map, such as one with a ``value`` key or a link cell that sets ``type`` to ``link``. The label appears before the cell's value or link.
 
 .. code-block:: twig
 
@@ -113,7 +113,7 @@ All options are optional. The Components that accept ``aiLabel`` pass a map of t
     * - ``additionalText``
       - string
       - None
-      - Extra text after the label, such as the name of the model. The label widens to fit it. The template ignores this option when ``static`` is ``true``.
+      - Extra text after the label, such as the name of the model. The label widens to fit it.
     * - ``title``
       - string
       - ``mautic.core.ai.explainability.title``
@@ -133,7 +133,7 @@ All options are optional. The Components that accept ``aiLabel`` pass a map of t
     * - ``aria_label``
       - string
       - ``mautic.core.ai.explainability``
-      - The accessible name of the label button.
+      - The accessible name of the label button. On a static label, it replaces the ``label`` text as the accessible name.
 
         .. vale off
 
@@ -151,7 +151,7 @@ All options are optional. The Components that accept ``aiLabel`` pass a map of t
     * - ``static``
       - boolean
       - ``false``
-      - Set to ``true`` to render the label as an image instead of a button, with no popover. Use it inside links and buttons. Screen readers announce it as 'AI'.
+      - Set to ``true`` to render the label as an image instead of a button, with no popover. Use it inside links and buttons. Screen readers announce the ``label`` text, 'AI' by default, followed by any ``additionalText``.
     * - ``className``
       - string
       - None
