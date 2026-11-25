@@ -8,32 +8,38 @@ Implementation overview
 
 Mautic implements quick filters using a combination of JavaScript and Twig templates. The process involves three main components:
 
-1. JavaScript function for applying the filter
-2. Twig template for rendering filter buttons
-3. Array of PHP code for defining filter options
+#. JavaScript functions for selecting and applying filters
+#. Twig template for rendering filter buttons
+#. Array of PHP code for defining filter options
+
+.. vale off
 
 JavaScript functionality
 ========================
 
-The ``Mautic.listQuickFilter`` function is responsible for applying the quick filter:
+.. vale on
+
+Each quick filter button has a ``data-filter-action`` attribute. Mautic handles clicks on any element with this attribute through a single delegated listener:
 
 .. code-block:: javascript
 
-   Mautic.listQuickFilter = function (element) {
-       const filterValue = element.dataset.filter;
-       const searchInput = document.getElementById('list-search');
-       searchInput.value = filterValue;
-       const enterKeyEvent = new KeyboardEvent('keyup', {
-           keyCode: 13
-       });
-       searchInput.dispatchEvent(enterKeyEvent);
-   }
+   mQuery(document).on('click', '[data-filter-action]', function () {
+       const action = this.dataset.filterAction;
 
-This function performs the following actions:
+       if ('toggle' === action) {
+           Mautic.toggleFilter(this);
+       } else if ('apply' === action) {
+           Mautic.applyFilters();
+       } else if ('reset' === action) {
+           Mautic.resetFilters();
+       }
+   });
 
-1. Retrieves the filter value from the clicked element's ``data-filter`` attribute
-2. Sets the search input field's value to the filter value
-3. Simulates an Enter key press to trigger the search
+The value of ``data-filter-action`` selects the function that runs:
+
+* ``toggle`` - ``Mautic.toggleFilter`` marks the clicked filter as active or inactive. If the filter has a ``data-conflict-group`` attribute, Mautic deactivates the other filters in the same group, so only one status filter or one ownership filter is active at a time.
+* ``apply`` - ``Mautic.applyFilters`` adds the ``data-filter`` value of each active filter to the search input, then simulates an Enter key press to run the search. The **Apply selected** button uses this action.
+* ``reset`` - ``Mautic.resetFilters`` removes the filter commands from the search input, deactivates all filters, and runs the search again. The **Reset** button uses this action.
 
 Twig template
 =============
@@ -47,10 +53,10 @@ Mautic renders the quick filter buttons using a Twig template:
        {% for quickFilter in quickFilters %}
            <a class="label label-outline"
               data-filter="{{ quickFilter.search }}"
-              onclick="Mautic.listQuickFilter(this)"
-              data-toggle="tooltip"
-              data-placement="top"
-              data-original-title="{{ quickFilter.tooltip|trans }}">
+              data-filter-action="toggle"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              data-bs-title="{{ quickFilter.tooltip|trans }}">
                <i class="{{ quickFilter.icon }}"></i>
                {{ quickFilter.label|trans }}
            </a>
