@@ -54,7 +54,7 @@ The 'No Results' template is a Twig template:
 .. code-block:: twig
 
     {% if tip is defined %}
-    <div class="alert alert-info">
+    <div class="alert bdr-c-info text-secondary mb-0">
         {{ tip|trans }}
         {% if link is defined and (href is defined or onclick is defined) %}
         <a class="ml-a" href="{{href}}" onclick="{{onclick}}">{{link|trans}}</a>
@@ -84,10 +84,10 @@ To use this template in your code, you can include it as follows:
 
 .. code-block:: twig
 
-    {{ include('@MauticCore/Helper/no-information.html.twig', {
+    {{ include('@MauticCore/Helper/no_information.html.twig', {
         'tip': 'Mautic.segment.no.results',
         'link': 'Mautic.segment.add.new',
-        'href': '{{ path('Mautic_segment_action', {'objectAction': 'new'}) }}'
+        'href': path('mautic_segment_action', {'objectAction': 'new'})
     }) }}
 
 In this example, the template displays a message indicating that no Segments are available, with a link to create a new Segment.
