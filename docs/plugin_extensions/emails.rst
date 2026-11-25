@@ -86,7 +86,7 @@ Basic token replacement
 Forwarded copies
 ================
 
-Recipients can send a copy of an Email to another address through the ``{forward_url}`` or ``{forward_text}`` token. Mautic dispatches ``EMAIL_ON_SEND`` for the copy too, with no Contact and with ``$event->isForwardedCopy()`` returning ``true``. The copy goes to someone other than the original recipient, so don't render anything that acts on or identifies that recipient, such as personal links or tracking URLs. Mautic's own subscribers already leave the unsubscribe, preference, and forward links, the Contact Owner tokens, and the Contact's data out of the copy.
+Recipients can pass an Email on through the ``{forward_url}`` or ``{forward_text}`` token, which links to a copy of the Email that's the same for everyone. When someone opens the copy, Mautic dispatches ``EMAIL_ON_DISPLAY`` with no Contact, and ``$event->isForwardedCopy()`` returns ``true``. Whoever opens the copy isn't the original recipient, so don't render anything that acts on or identifies a Contact, such as personal links or tracking URLs. Mautic's own subscribers already leave the unsubscribe, resubscribe, and Do Not Contact links, the Contact Owner tokens, and the Contact's data out of the copy.
 
 .. code-block:: PHP
 
