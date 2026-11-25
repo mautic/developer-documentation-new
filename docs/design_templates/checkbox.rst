@@ -92,6 +92,10 @@ These options apply to the whole group of checkboxes. All of them are optional.
       - boolean
       - ``false``
       - Set to ``true`` to add the ``required`` attribute to every checkbox.
+    * - ``aiLabel``
+      - boolean or map
+      - ``false``
+      - Set to ``true`` or to a map of :ref:`AI label options <ai label template options>` to show an AI label next to the ``legend`` text, for checkboxes that AI selected or suggested. The template only renders the label when you set ``legend``.
 
 .. _checkbox item options:
 
