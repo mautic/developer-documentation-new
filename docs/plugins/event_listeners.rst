@@ -685,7 +685,9 @@ Some Mautic models don't define save and delete events of their own. For these m
 
 Mautic dispatches these events for entities including the following:
 
+* ``Mautic\ApiBundle\Entity\oAuth2\Client``
 * ``Mautic\EmailBundle\Entity\Email``
+* ``Mautic\LeadBundle\Entity\Company``
 * ``Mautic\LeadBundle\Entity\LeadDevice``
 * ``Mautic\LeadBundle\Entity\Tag``
 * ``Mautic\NotificationBundle\Entity\Notification``
@@ -850,6 +852,8 @@ LeadBundle events dispatched by event class
 
 Since Mautic 8, Mautic dispatches the LeadBundle events for Contacts, Companies, Segments, Custom Fields, Tag merges, notes, imports, and Contact exports by their event class instead of a ``LeadEvents`` string constant. Key ``getSubscribedEvents()`` on ``EventClass::class``. All the event classes below live in the ``Mautic\LeadBundle\Event`` namespace.
 
+To react when Mautic saves or deletes a Company, subscribe to the generic ``EntityPreSave``, ``EntityPostSave``, ``EntityPreDelete``, and ``EntityPostDelete`` events from the ``Mautic\CoreBundle\Event`` namespace, described in :ref:`Entity save and delete events <entity save and delete events>`. Return early when ``getEntity()`` doesn't return a ``Mautic\LeadBundle\Entity\Company``.
+
 Where several ``LeadEvents`` constants used to share one event class, each event now has its own subclass of that shared class. For example, ``LeadPreSaveEvent`` and ``LeadPostSaveEvent`` both extend ``LeadEvent``. Listener methods that type-hint the former shared class keep working.
 
 Mautic 8 keeps these ``LeadEvents`` constants because their string values remain the Webhook event type identifiers. Mautic no longer dispatches events under these names, so a subscriber still keyed on one of these constants silently stops receiving the event - no error, no log entry. Re-key it on the event class:
@@ -870,10 +874,8 @@ Mautic 8 keeps these ``LeadEvents`` constants because their string values remain
      - ``LeadChangeCompanyEvent``
    * - ``LEAD_LIST_CHANGE``
      - ``ListChangeEvent``
-   * - ``COMPANY_POST_SAVE``
-     - ``CompanyPostSaveEvent``
-   * - ``COMPANY_POST_DELETE``
-     - ``CompanyPostDeleteEvent``
+
+Mautic also keeps ``COMPANY_POST_SAVE`` and ``COMPANY_POST_DELETE`` as Webhook event type identifiers. Mautic doesn't dispatch events under these names, so subscribe to the generic ``EntityPostSave`` and ``EntityPostDelete`` events for Company saves and deletes.
 
 Mautic 8 removes these ``LeadEvents`` constants. Code that still references one of them throws a PHP fatal error - ``Error: Undefined constant``. Subscribe to the event class instead:
 
@@ -943,10 +945,6 @@ Mautic 8 removes these ``LeadEvents`` constants. Code that still references one 
      - ``TagPreMergeEvent``
    * - ``TAG_POST_MERGE``
      - ``TagPostMergeEvent``
-   * - ``COMPANY_PRE_SAVE``
-     - ``CompanyPreSaveEvent``
-   * - ``COMPANY_PRE_DELETE``
-     - ``CompanyPreDeleteEvent``
    * - ``COMPANY_SOFT_DELETE``
      - ``CompanySoftDeleteEvent``
    * - ``COMPANY_PRE_MERGE``
