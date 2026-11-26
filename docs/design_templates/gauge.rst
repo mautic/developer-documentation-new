@@ -3,7 +3,9 @@ Gauge template
 
 The ``gauge.html.twig`` template renders a gauge in Mautic's style. A gauge shows one value as a ring or a half ring that fills from ``0`` to ``100`` percent, with the value as text. Use it when your template shows a share, a score, or progress toward a total, so the value looks like the gauges in Mautic's own views. For example, the **Campaign share** tab of a Segment shows each Campaign's share of the Segment as a small ring.
 
-The gauge comes in five sizes. It can show the value as a percentage or as an amount out of a total, such as '42/50'. When you don't pass a value yet, for example while an AJAX request is still loading it, the gauge shows an empty ring in a loading state. The template also adds ``role="meter"`` and the ARIA (Accessible Rich Internet Applications) attributes that screen readers need.
+The gauge comes in five sizes. It can show the value as a percentage or as an amount out of a total, such as '42/50'. When you don't pass a value yet, for example while an AJAX request is still loading it, the gauge shows an empty ring in a loading state. The template also adds ``role="meter"`` and the ARIA - Accessible Rich Internet Applications - attributes that screen readers need.
+
+The ring fills with a short animation when the gauge appears and when its value changes. Browsers set to reduce motion show the filled ring without the animation.
 
 Including the template
 **********************
@@ -117,4 +119,4 @@ The function takes these arguments:
 
 The function removes the loading state, fills the ring, updates the ARIA values, and replaces the value text. It keeps the gauge's ``unit``. It doesn't change the ``delta`` text.
 
-The **Campaign share** tab of a Segment uses this template and function. It renders an ``xs`` ring for each Campaign and fills each ring when the tab opens.
+The **Campaign share** tab of a Segment uses this template and function. It renders an ``xs`` ring for each Campaign, in the loading state until the share is known. When the tab opens, or when the Segment view loads with that tab already active, it requests the missing shares and fills each ring with ``Mautic.updateGauge()``.
