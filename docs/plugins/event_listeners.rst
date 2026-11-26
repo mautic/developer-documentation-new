@@ -687,6 +687,7 @@ Mautic dispatches these events for entities including the following:
 
 * ``Mautic\EmailBundle\Entity\Email``
 * ``Mautic\LeadBundle\Entity\LeadDevice``
+* ``Mautic\LeadBundle\Entity\LeadList``
 * ``Mautic\LeadBundle\Entity\Tag``
 * ``Mautic\NotificationBundle\Entity\Notification``
 * ``Mautic\UserBundle\Entity\Role``
@@ -850,6 +851,8 @@ LeadBundle events dispatched by event class
 
 Since Mautic 8, Mautic dispatches the LeadBundle events for Contacts, Companies, Segments, Custom Fields, Tag merges, notes, imports, and Contact exports by their event class instead of a ``LeadEvents`` string constant. Key ``getSubscribedEvents()`` on ``EventClass::class``. All the event classes below live in the ``Mautic\LeadBundle\Event`` namespace.
 
+To react when Mautic saves or deletes a Segment, subscribe to the generic ``EntityPreSave``, ``EntityPostSave``, ``EntityPreDelete``, and ``EntityPostDelete`` events from the ``Mautic\CoreBundle\Event`` namespace, described in :ref:`Entity save and delete events <entity save and delete events>`. Return early when ``getEntity()`` doesn't return a ``Mautic\LeadBundle\Entity\LeadList``. Mautic still dispatches ``ListPreUnpublishEvent`` and ``ListDeleteEvent`` for Segments.
+
 Where several ``LeadEvents`` constants used to share one event class, each event now has its own subclass of that shared class. For example, ``LeadPreSaveEvent`` and ``LeadPostSaveEvent`` both extend ``LeadEvent``. Listener methods that type-hint the former shared class keep working.
 
 Mautic 8 keeps these ``LeadEvents`` constants because their string values remain the Webhook event type identifiers. Mautic no longer dispatches events under these names, so a subscriber still keyed on one of these constants silently stops receiving the event - no error, no log entry. Re-key it on the event class:
@@ -901,18 +904,10 @@ Mautic 8 removes these ``LeadEvents`` constants. Code that still references one 
      - ``LeadPostBatchSaveEvent``
    * - ``CURRENT_LEAD_CHANGED``
      - ``LeadChangeEvent``
-   * - ``LIST_PRE_SAVE``
-     - ``ListPreSaveEvent``
-   * - ``LIST_POST_SAVE``
-     - ``ListPostSaveEvent``
    * - ``LIST_PRE_UNPUBLISH``
      - ``ListPreUnpublishEvent``
-   * - ``LIST_PRE_DELETE``
-     - ``ListPreDeleteEvent``
    * - ``ON_LIST_DELETE``
      - ``ListDeleteEvent``
-   * - ``LIST_POST_DELETE``
-     - ``ListPostDeleteEvent``
    * - ``FIELD_PRE_SAVE``
      - ``FieldPreSaveEvent``
    * - ``FIELD_POST_SAVE``
