@@ -565,14 +565,14 @@ A/B testing examples
     }
     ?>
 
-    <div class="panel ovf-h bg-auto bg-light-xs abtest-bar-chart">
+    <div class="panel overflow-hidden bg-auto bg-light-xs abtest-bar-chart">
         <div class="panel-body box-layout">
-            <div class="col-xs-8 va-m">
-                <h5 class="text-white dark-md fw-sb mb-xs">
+            <div class="col-xs-8 align-middle">
+                <h5 class="text-white dark-md fw-sb mb-5">
                     <?php echo $label; ?>
                 </h5>
             </div>
-            <div class="col-xs-4 va-t text-right">
+            <div class="col-xs-4 align-top text-right">
                 <h3 class="text-white dark-sm"><span class="fa fa-bar-chart"></span></h3>
             </div>
         </div>
