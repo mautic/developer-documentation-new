@@ -411,12 +411,7 @@ API client lifecycle events
 
 .. vale on
 
-When a User saves or deletes an API client, such as an OAuth2 client, ``ClientModel`` dispatches one of these events by its class:
-
-* ``Mautic\ApiBundle\Event\ClientPostSaveEvent`` - after Mautic saves the API client.
-* ``Mautic\ApiBundle\Event\ClientPostDeleteEvent`` - after Mautic deletes the API client.
-
-Both classes extend the abstract ``Mautic\ApiBundle\Event\ClientEvent``. Call ``getClient()`` to read the API client and ``getApiMode()`` to read its API mode.
+When a User saves or deletes an API client, such as an OAuth2 client, Mautic dispatches the generic ``EntityPreSave``, ``EntityPostSave``, ``EntityPreDelete``, and ``EntityPostDelete`` events from the ``Mautic\CoreBundle\Event`` namespace, described in :ref:`Entity save and delete events <entity save and delete events>`. Call ``getEntity()`` to read the API client, and return early when it isn't a ``Mautic\ApiBundle\Entity\oAuth2\Client``.
 
 .. _mautic 8 api event constants removed:
 
@@ -436,9 +431,9 @@ Mautic 8 dispatches the ApiBundle events by their event class and removes the ``
    * - ``ApiEvents::API_ON_ENTITY_POST_SAVE``
      - ``PostSaveApiEntityEvent::class``
    * - ``ApiEvents::CLIENT_POST_SAVE``
-     - ``ClientPostSaveEvent::class``
+     - ``EntityPostSave::class``
    * - ``ApiEvents::CLIENT_POST_DELETE``
-     - ``ClientPostDeleteEvent::class``
+     - ``EntityPostDelete::class``
    * - ``ApiEvents::API_PRE_SERIALIZATION_CONTEXT``
      - ``PreSerializationContextEvent::class``
    * - ``ApiEvents::API_POST_SERIALIZATION_CONTEXT``
@@ -446,8 +441,10 @@ Mautic 8 dispatches the ApiBundle events by their event class and removes the ``
    * - ``ApiEvents::API_PLATFORM_PERMISSION_CONTEXT``
      - ``ApiPlatformPermissionContextEvent::class``
 
+Mautic dispatches ``EntityPostSave`` and ``EntityPostDelete`` for every entity that uses the generic events, so return early when ``getEntity()`` doesn't return a ``Mautic\ApiBundle\Entity\oAuth2\Client``.
+
 Mautic 8 also removes ``ApiEvents::CLIENT_PRE_SAVE`` and ``ApiEvents::BUILD_ROUTE``. Mautic didn't dispatch any event under these constants, so remove any subscriptions to them.
 
-Mautic previously dispatched one event object under each pair of names. ``ApiEntityEvent``, ``ClientEvent``, and ``ApiSerializationContextEvent`` are now abstract base classes, so listener type hints on them keep working. Code that creates one of them with ``new`` must create the matching ``PreSave*``, ``PostSave*``, ``ClientPost*``, or ``*SerializationContextEvent`` subclass instead.
+Mautic previously dispatched one event object under each pair of names. ``ApiEntityEvent`` and ``ApiSerializationContextEvent`` are now abstract base classes, so listener type hints on them keep working. Code that creates one of them with ``new`` must create the matching ``PreSave*``, ``PostSave*``, or ``*SerializationContextEvent`` subclass instead.
 
 For the general rule, see :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>`.
