@@ -221,7 +221,7 @@ Client-side runtime globals
 The split scripts expose a small set of client-side global variables and an event so that code can detect which layers have loaded:
 
 * ``MauticJS.runtimeReady`` - set to ``true`` once the runtime bootstrap has loaded. Tracking code guards on it before running.
-* ``MauticJS.trackingEnabled`` - ``false`` in the essential or runtime build and ``true`` once the tracking layer loads.
+* ``MauticJS.trackingEnabled`` - ``false`` in the essential or runtime build and ``true`` once the tracking layer loads. ``MauticJS.withdrawTrackingConsent()`` sets it back to ``false``.
 * ``MauticJS.requestWithCredentials`` - ``false`` by default in the essential or runtime build and ``true`` once tracking loads.
 * ``mauticEssentialReady`` - a convention event, not something the generated runtime emits on its own. The authoritative readiness flag is ``MauticJS.runtimeReady``; the consent-managed essential loader snippet - the copy-paste snippet that loads ``/mautic-essential.js`` - dispatches ``mauticEssentialReady`` once ``MauticJS.runtimeReady === true`` by calling ``MauticJS.dispatchEvent('mauticEssentialReady')``. That helper builds a native ``CustomEvent`` and dispatches it on ``document``, so browser-side code following the split-script loader pattern can rely on it as a readiness hook and listen with ``document.addEventListener('mauticEssentialReady', ...)``.
 
@@ -606,6 +606,27 @@ If not, then it simply returns the argument passed to it.
    var json = MauticJS.parseTextToJSON(text);
 
    alert(json); // Will show 'not valid json'
+
+``MauticJS.withdrawTrackingConsent(callback)``
+==============================================
+
+Call this method from a consent manager when a visitor withdraws tracking consent. It's part of the ``TRACKING`` scope, so ``/mtc.js`` and ``/mautic-tracking.js`` include it, but ``/mautic-essential.js`` doesn't.
+
+The method takes these steps:
+
+#. Sets ``MauticJS.trackingEnabled`` to ``false``, so the webpage sends no more tracking requests, such as the ``mt('send', 'pageview')`` requests to ``/mtc/event``.
+#. Removes ``mtc_id`` and ``mautic_device_id`` from the website's cookies and local storage.
+#. Sends a ``POST`` request to ``/mtc/withdraw`` with the browser's device ID.
+
+The optional ``callback`` receives ``true`` when the request to Mautic succeeds and ``false`` when it fails.
+
+.. code-block:: js
+
+   MauticJS.withdrawTrackingConsent(function (success) {
+       MauticJS.log(success ? 'Mautic forgot this browser' : 'Withdrawal request failed');
+   });
+
+When the tracking script isn't loaded, a consent manager can send the ``POST /mtc/withdraw`` request itself, with credentials so that the browser includes Mautic's cookies. Mautic takes the device ID from its ``mautic_device_id`` cookie and from an optional ``mautic_device_id`` request parameter. For each device ID, Mautic removes the tracking ID from the matching device, so that ID no longer identifies the Contact. Mautic doesn't change the Contact's other devices, and it never looks up a device by Contact ID. Mautic also expires its ``mautic_device_id``, ``mtc_id``, ``mautic_referer_id``, and ``mautic_session_id`` cookies, then responds with ``{"success": 1}``. The endpoint accepts only ``POST`` requests.
 
 ``MauticJS.insertScript(scriptUrl)``
 ====================================
