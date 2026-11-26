@@ -88,6 +88,10 @@ These options apply to the whole group of checkboxes. All of them are optional.
       - boolean
       - ``false``
       - Set to ``true`` to place each label before its checkbox. This adds the ``form-check-reverse`` class.
+    * - ``variant``
+      - string
+      - Empty string
+      - Set to ``chip`` to show each checkbox as an outlined pill that fills in when checked, like the note type filter on a Contact's **Notes** tab. This adds the ``checkbox-chips`` class to the ``<fieldset>``, which lays the pills out in a wrapping row, and the ``form-check--chip`` class to each checkbox. Selecting anywhere on a pill toggles its checkbox. The template ignores other values.
     * - ``required``
       - boolean
       - ``false``
