@@ -28,8 +28,9 @@ Mautic leverages Symfony's EventDispatcher to execute and communicate various ac
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\LeadBundle\Event\LeadPostDeleteEvent;
-    use Mautic\LeadBundle\Event\LeadPostSaveEvent;
+    use Mautic\CoreBundle\Event\EntityPostDelete;
+    use Mautic\CoreBundle\Event\EntityPostSave;
+    use Mautic\LeadBundle\Entity\Lead;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
     final class LeadSubscriber implements EventSubscriberInterface
@@ -37,21 +38,27 @@ Mautic leverages Symfony's EventDispatcher to execute and communicate various ac
         public static function getSubscribedEvents(): array
         {
             return [
-                LeadPostSaveEvent::class   => ['onLeadPostSave', 0],
-                LeadPostDeleteEvent::class => ['onLeadDelete', 0],
+                EntityPostSave::class   => ['onLeadPostSave', 0],
+                EntityPostDelete::class => ['onLeadDelete', 0],
             ];
         }
 
-        public function onLeadPostSave(LeadPostSaveEvent $event): void
+        public function onLeadPostSave(EntityPostSave $event): void
         {
-            $lead = $event->getLead();
+            $lead = $event->getEntity();
+            if (!$lead instanceof Lead) {
+                return;
+            }
 
             // do something
         }
 
-        public function onLeadDelete(LeadPostDeleteEvent $event): void
+        public function onLeadDelete(EntityPostDelete $event): void
         {
-            $lead = $event->getLead();
+            $lead = $event->getEntity();
+            if (!$lead instanceof Lead) {
+                return;
+            }
 
             $deletedId = $lead->deletedId;
 
@@ -80,15 +87,19 @@ Instead of implementing ``Symfony\Component\EventDispatcher\EventSubscriberInter
 
     namespace MauticPlugin\HelloWorldBundle\EventListener;
 
-    use Mautic\LeadBundle\Event\LeadPostSaveEvent;
+    use Mautic\CoreBundle\Event\EntityPostSave;
+    use Mautic\LeadBundle\Entity\Lead;
     use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
     final class LeadListener
     {
-        #[AsEventListener(event: LeadPostSaveEvent::class)]
-        public function onLeadPostSave(LeadPostSaveEvent $event): void
+        #[AsEventListener(event: EntityPostSave::class)]
+        public function onLeadPostSave(EntityPostSave $event): void
         {
-            $lead = $event->getLead();
+            $lead = $event->getEntity();
+            if (!$lead instanceof Lead) {
+                return;
+            }
 
             // do something
         }
@@ -686,6 +697,7 @@ Some Mautic models don't define save and delete events of their own. For these m
 Mautic dispatches these events for entities including the following:
 
 * ``Mautic\EmailBundle\Entity\Email``
+* ``Mautic\LeadBundle\Entity\Lead``
 * ``Mautic\LeadBundle\Entity\LeadDevice``
 * ``Mautic\LeadBundle\Entity\Tag``
 * ``Mautic\NotificationBundle\Entity\Notification``
@@ -693,7 +705,7 @@ Mautic dispatches these events for entities including the following:
 * ``Mautic\UserBundle\Entity\User``
 * ``Mautic\WebhookBundle\Entity\Webhook``
 
-Models that dispatch save and delete events of their own, such as ``Mautic\FormBundle\Model\FormModel``, ``Mautic\PageBundle\Model\PageModel``, and ``Mautic\LeadBundle\Model\LeadModel``, dispatch only those events and not the generic ones.
+Models that dispatch save and delete events of their own, such as ``Mautic\FormBundle\Model\FormModel`` and ``Mautic\PageBundle\Model\PageModel``, dispatch only those events and not the generic ones.
 
 All four events extend ``Mautic\CoreBundle\Event\AbstractEntityEvent``, which provides these methods:
 
@@ -850,7 +862,9 @@ LeadBundle events dispatched by event class
 
 Since Mautic 8, Mautic dispatches the LeadBundle events for Contacts, Companies, Segments, Custom Fields, Tag merges, notes, imports, and Contact exports by their event class instead of a ``LeadEvents`` string constant. Key ``getSubscribedEvents()`` on ``EventClass::class``. All the event classes below live in the ``Mautic\LeadBundle\Event`` namespace.
 
-Where several ``LeadEvents`` constants used to share one event class, each event now has its own subclass of that shared class. For example, ``LeadPreSaveEvent`` and ``LeadPostSaveEvent`` both extend ``LeadEvent``. Listener methods that type-hint the former shared class keep working.
+To react when Mautic saves or deletes a Contact, subscribe to the generic ``EntityPreSave``, ``EntityPostSave``, ``EntityPreDelete``, and ``EntityPostDelete`` events from the ``Mautic\CoreBundle\Event`` namespace, described in :ref:`Entity save and delete events <entity save and delete events>`. Return early when ``getEntity()`` doesn't return a ``Mautic\LeadBundle\Entity\Lead``. Mautic also dispatches ``EntityPreSave`` and ``EntityPostSave`` when it creates a Contact to track a new visitor.
+
+Where several ``LeadEvents`` constants used to share one event class, each event now has its own subclass of that shared class. For example, ``LeadPreMergeEvent`` and ``LeadPostMergeEvent`` both extend ``LeadMergeEvent``. Listener methods that type-hint the former shared class keep working.
 
 Mautic 8 keeps these ``LeadEvents`` constants because their string values remain the Webhook event type identifiers. Mautic no longer dispatches events under these names, so a subscriber still keyed on one of these constants silently stops receiving the event - no error, no log entry. Re-key it on the event class:
 
@@ -860,10 +874,6 @@ Mautic 8 keeps these ``LeadEvents`` constants because their string values remain
 
    * - Kept ``LeadEvents`` constant
      - Event class to subscribe to
-   * - ``LEAD_POST_SAVE``
-     - ``LeadPostSaveEvent``
-   * - ``LEAD_POST_DELETE``
-     - ``LeadPostDeleteEvent``
    * - ``LEAD_POINTS_CHANGE``
      - ``PointsChangeEvent``
    * - ``LEAD_COMPANY_CHANGE``
@@ -875,6 +885,8 @@ Mautic 8 keeps these ``LeadEvents`` constants because their string values remain
    * - ``COMPANY_POST_DELETE``
      - ``CompanyPostDeleteEvent``
 
+Mautic also keeps ``LEAD_POST_SAVE`` and ``LEAD_POST_DELETE`` as Webhook event type identifiers. Mautic doesn't dispatch events under these names, so subscribe to the generic ``EntityPostSave`` and ``EntityPostDelete`` events for Contact saves and deletes.
+
 Mautic 8 removes these ``LeadEvents`` constants. Code that still references one of them throws a PHP fatal error - ``Error: Undefined constant``. Subscribe to the event class instead:
 
 .. list-table::
@@ -883,10 +895,6 @@ Mautic 8 removes these ``LeadEvents`` constants. Code that still references one 
 
    * - Removed ``LeadEvents`` constant
      - Event class to subscribe to
-   * - ``LEAD_PRE_SAVE``
-     - ``LeadPreSaveEvent``
-   * - ``LEAD_PRE_DELETE``
-     - ``LeadPreDeleteEvent``
    * - ``LEAD_PRE_MERGE``
      - ``LeadPreMergeEvent``
    * - ``LEAD_POST_MERGE``
@@ -989,7 +997,7 @@ Mautic 8 also changes how these events behave for code that creates or reads the
   * ``SaveBatchLeadsEvent``
   * ``TagMergeEvent``
 
-  If your Plugin creates one of these events with ``new``, create the matching subclass from the preceding tables instead. ``LeadEvent`` and ``ListChangeEvent`` are no longer ``final``, and Mautic still dispatches them directly.
+  If your Plugin creates one of these events with ``new``, create the matching subclass from the preceding tables instead. ``LeadEvent`` and ``ListChangeEvent`` are no longer ``final``. Mautic dispatches ``ListChangeEvent`` directly. ``LeadIdentifiedEvent`` extends ``LeadEvent``, and ``getLeadsEvents()`` on ``LeadPreBatchSaveEvent`` and ``LeadPostBatchSaveEvent`` returns one ``LeadEvent`` per Contact in the batch.
 
 * The event Mautic dispatches before a save, delete, or merge and the event it dispatches afterward are now separate objects. A value that a listener sets on the earlier event isn't available to listeners of the later one.
 * ``Mautic\LeadBundle\Field\Dispatcher\FieldSaveDispatcher::dispatchEvent()`` now takes the ``LeadFieldEvent`` subclass to dispatch, instead of an event name, the field entity, and an ``isNew`` flag.
