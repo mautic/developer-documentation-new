@@ -477,7 +477,7 @@ Since Mautic 8, some bundles dispatch an event by the event object alone rather 
 
 .. note::
 
-   Since Mautic 8, Mautic dispatches ``Mautic\StageBundle\Event\StageBuilderEvent`` by the event object alone. Key ``getSubscribedEvents()`` on ``StageBuilderEvent::class``, not on ``StageEvents::STAGE_ON_BUILD`` or the string ``mautic.stage_on_build``. Those constants remain for backward compatibility but no longer dispatch this event. Mautic still dispatches the ``StageEvent`` CRUD group, ``STAGE_ON_ACTION``, and ``ON_CAMPAIGN_BATCH_ACTION`` by their string constants.
+   Since Mautic 8, Mautic dispatches ``Mautic\StageBundle\Event\StageBuilderEvent`` by the event object alone. Key ``getSubscribedEvents()`` on ``StageBuilderEvent::class``, not on ``StageEvents::STAGE_ON_BUILD`` or the string ``mautic.stage_on_build``. Those constants remain for backward compatibility but no longer dispatch this event. Mautic still dispatches ``STAGE_ON_ACTION`` and ``ON_CAMPAIGN_BATCH_ACTION`` by their string constants. When Mautic saves or deletes a Stage, it dispatches the generic ``EntityPreSave``, ``EntityPostSave``, ``EntityPreDelete``, and ``EntityPostDelete`` events from the ``Mautic\CoreBundle\Event`` namespace. Return early when ``getEntity()`` doesn't return a ``Mautic\StageBundle\Entity\Stage``.
 
    .. code-block:: php
 
@@ -628,7 +628,7 @@ Mautic 8 removed the string constants for the following events, which Mautic dis
 
 The ``Mautic\ConfigBundle\ConfigEvents`` class no longer exists, so also remove any ``use Mautic\ConfigBundle\ConfigEvents;`` statement. Mautic 8 also removed these constants, which have no replacement event:
 
-* ``DynamicContentEvents::CATEGORY_PRE_SAVE``, ``CATEGORY_POST_SAVE``, ``CATEGORY_PRE_DELETE``, and ``CATEGORY_POST_DELETE`` duplicated the ``Mautic\CategoryBundle\CategoryEvents`` constants with the same string values. Use the ``CategoryEvents`` constants instead.
+* ``DynamicContentEvents::CATEGORY_PRE_SAVE``, ``CATEGORY_POST_SAVE``, ``CATEGORY_PRE_DELETE``, and ``CATEGORY_POST_DELETE`` duplicated the Category save and delete constants with the same string values. To react when Mautic saves or deletes a Category, subscribe to the generic ``EntityPreSave``, ``EntityPostSave``, ``EntityPreDelete``, and ``EntityPostDelete`` events from the ``Mautic\CoreBundle\Event`` namespace, and return early when ``getEntity()`` doesn't return a ``Mautic\CategoryBundle\Entity\Category``.
 * ``PluginEvents::ON_FORM_SUBMIT_ACTION_TRIGGERED`` had no dispatcher or listener.
 
 These illustrative fragments show the change for the Plugin Integration request event. Before Mautic 8, the subscriber keys on the constant:
@@ -685,21 +685,37 @@ Some Mautic models don't define save and delete events of their own. For these m
 
 Mautic dispatches these events for entities including the following:
 
+* ``Mautic\CategoryBundle\Entity\Category``
+* ``Mautic\ChannelBundle\Entity\Message``
+* ``Mautic\DynamicContentBundle\Entity\DynamicContent``
 * ``Mautic\EmailBundle\Entity\Email``
+* ``Mautic\FormBundle\Entity\Field``
+* ``Mautic\FormBundle\Entity\Form``
 * ``Mautic\LeadBundle\Entity\LeadDevice``
 * ``Mautic\LeadBundle\Entity\Tag``
 * ``Mautic\NotificationBundle\Entity\Notification``
+* ``Mautic\PageBundle\Entity\Page``
+* ``Mautic\PointBundle\Entity\Group``
+* ``Mautic\PointBundle\Entity\Point``
+* ``Mautic\PointBundle\Entity\Trigger``
+* ``Mautic\ReportBundle\Entity\Report``
+* ``Mautic\StageBundle\Entity\Stage``
 * ``Mautic\UserBundle\Entity\Role``
 * ``Mautic\UserBundle\Entity\User``
 * ``Mautic\WebhookBundle\Entity\Webhook``
+* ``MauticPlugin\MauticFocusBundle\Entity\Focus``
 
-Models that dispatch save and delete events of their own, such as ``Mautic\FormBundle\Model\FormModel``, ``Mautic\PageBundle\Model\PageModel``, and ``Mautic\LeadBundle\Model\LeadModel``, dispatch only those events and not the generic ones.
+Models that dispatch save and delete events of their own, such as ``Mautic\LeadBundle\Model\LeadModel`` and ``Mautic\LeadBundle\Model\CompanyModel``, dispatch only those events and not the generic ones.
 
 All four events extend ``Mautic\CoreBundle\Event\AbstractEntityEvent``, which provides these methods:
 
 * ``getEntity()`` returns the entity that Mautic saves or deletes.
 * ``isNew()`` returns ``true`` when Mautic saves a new entity.
 * ``getChanges()`` returns the changes recorded on the entity.
+* ``addDependencyError()`` records a message that explains why Mautic can't delete the entity.
+* ``getDependencyErrors()`` returns the messages that listeners recorded.
+
+``getEntity()`` is the only method that returns the entity, and the event has no setter, so an ``EntityPreSave`` listener changes the entity it receives in place rather than replacing it. To stop a delete, for example because other items still use the entity, call ``addDependencyError()`` in an ``EntityPreDelete`` listener. Mautic then doesn't delete the entity and throws a ``Mautic\CoreBundle\Exception\DeleteEntityDependencyException`` that carries the messages. When a User deletes several entities at once, Mautic skips each entity that has a dependency error, deletes the others, and then throws a ``Mautic\CoreBundle\Exception\DeleteEntitiesDependencyException``.
 
 A listener receives these events for every entity type that uses them, so test the class of the entity and return early when it isn't the one your Plugin handles. The event Mautic dispatches after a save or delete is a separate object from the one it dispatches before it, but it carries over the changes the earlier event recorded, so ``getChanges()`` returns the same changes in both. Other values that a listener sets on the earlier event aren't available on the later one. After a delete, the entity's ``deletedId`` property holds the ID it had before Mautic deleted it.
 

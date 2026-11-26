@@ -164,7 +164,7 @@ To let Plugins register their custom Point Triggers, Mautic dispatches a ``Mauti
 
 .. note::
 
-   Mautic dispatches ``TriggerBuilderEvent`` by its class name. A subscriber keyed on ``PointEvents::TRIGGER_ON_BUILD`` or the ``mautic.trigger_on_build`` string silently receives nothing. The constant still exists, but Mautic no longer dispatches the event under it. Mautic still dispatches the other ``PointEvents`` events, such as ``PointEvents::TRIGGER_POST_SAVE``, by their string constants.
+   Mautic dispatches ``TriggerBuilderEvent`` by its class name. A subscriber keyed on ``PointEvents::TRIGGER_ON_BUILD`` or the ``mautic.trigger_on_build`` string silently receives nothing. The constant still exists, but Mautic no longer dispatches the event under it. When Mautic saves or deletes a Point Action or a Point Trigger, it dispatches the generic ``EntityPreSave``, ``EntityPostSave``, ``EntityPreDelete``, and ``EntityPostDelete`` events from the ``Mautic\CoreBundle\Event`` namespace. Return early when ``getEntity()`` doesn't return a ``Mautic\PointBundle\Entity\Point`` or ``Mautic\PointBundle\Entity\Trigger``.
 
 .. php:class:: Mautic\PointBundle\Event\TriggerBuilderEvent
 
