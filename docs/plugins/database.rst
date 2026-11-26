@@ -26,9 +26,73 @@ Entity PHP static function mapping
 
 You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder`` class. Refer to :xref:`Doctrine ORM PHP mapping` for methods available. Mautic also provides a decorated ``ClassMetadataBuilder`` class through ``Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder`` described below.
 
-.. The link to this file is defined in docs/code_samples/helloworld_entity_world.py 
-.. literalinclude:: ../code_samples_downloaded/Entity_World.php
-    :language: php
+.. code-block:: php
+
+    <?php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\Entity;
+
+    use Doctrine\DBAL\Types\Types;
+    use Doctrine\ORM\Mapping\ClassMetadata;
+    use Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder;
+
+    class World
+    {
+        private ?int $id = null;
+        private ?string $world = null;
+        private bool $isEnabled = false;
+
+        /**
+         * @param ClassMetadata<self> $metadata
+         */
+        public static function loadMetadata(ClassMetadata $metadata): void
+        {
+            $builder = new ClassMetadataBuilder($metadata);
+
+            $builder
+                ->setTable('hello_world')
+                ->setCustomRepositoryClass(WorldRepository::class)
+                ->addIndex(['is_enabled'], 'is_enabled');
+
+            $builder->addId();
+
+            $builder
+                ->createField('world', Types::STRING)
+                ->build();
+
+            $builder
+                ->createField('isEnabled', Types::BOOLEAN)
+                ->columnName('is_enabled')
+                ->build();
+        }
+
+        public function getId(): ?int
+        {
+            return $this->id;
+        }
+
+        public function getWorld(): ?string
+        {
+            return $this->world;
+        }
+
+        public function setWorld(string $world): void
+        {
+            $this->world = $world;
+        }
+
+        public function isEnabled(): bool
+        {
+            return $this->isEnabled;
+        }
+
+        public function setIsEnabled(bool $isEnabled): void
+        {
+            $this->isEnabled = $isEnabled;
+        }
+    }
 
 .. php:class:: Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder
 
@@ -181,10 +245,14 @@ You can build the schema through Doctrine's ``Doctrine\ORM\Mapping\Builder\Class
         :returns: Returns ``TRUE`` if the field is a ``string`` type or is indexed.
         :returntype: bool
 
-Entity annotations
-******************
+Entity attributes
+*****************
 
-You can choose to use annotations instead of the PHP static method. Refer to :xref:`Doctrine's documentation on available annotations<Doctrine ORM annotations>`.
+You can choose to use PHP 8 attributes instead of the PHP static method. Refer to :xref:`Doctrine's documentation on available attributes<Doctrine ORM attributes>`.
+
+.. note::
+
+   Mautic uses Doctrine ORM 3, which maps entities with PHP 8 attributes, such as ``#[ORM\Entity]``, or with the PHP static function mapping described in the preceding section. Doctrine ORM 3 doesn't support DocBlock annotations, such as ``@ORM\Entity``.
 
 .. code-block:: php
 
@@ -192,31 +260,53 @@ You can choose to use annotations instead of the PHP static method. Refer to :xr
 
     declare(strict_types=1);
 
-    namespace Mautic\UserBundle\Entity;
+    namespace MauticPlugin\HelloWorldBundle\Entity;
 
+    use Doctrine\DBAL\Types\Types;
     use Doctrine\ORM\Mapping as ORM;
-    use Ramsey\Uuid\Uuid;
 
-    /**
-     * @ORM\Table (name="worlds")
-     */
+    #[ORM\Entity(repositoryClass: WorldRepository::class)]
+    #[ORM\Table(name: 'hello_world')]
+    #[ORM\Index(name: 'is_enabled', columns: ['is_enabled'])]
     class World
     {
-        /**
-         * @ORM\Column(type="guid")
-         * @ORM\Id
-         */
-        private $id;
+        #[ORM\Id]
+        #[ORM\GeneratedValue]
+        #[ORM\Column(type: Types::INTEGER, options: ['unsigned' => true])]
+        private ?int $id = null;
 
-        /**
-         * @ORM\Column(type="string", length=191)
-         */
-        private $name;
+        #[ORM\Column(type: Types::STRING)]
+        private ?string $world = null;
 
-        public function __construct()
+        #[ORM\Column(name: 'is_enabled', type: Types::BOOLEAN)]
+        private bool $isEnabled = false;
+
+        public function getId(): ?int
         {
-            $this->id = Uuid::uuid4()->toString();
+            return $this->id;
         }
+
+        public function getWorld(): ?string
+        {
+            return $this->world;
+        }
+
+        public function setWorld(string $world): void
+        {
+            $this->world = $world;
+        }
+
+        public function isEnabled(): bool
+        {
+            return $this->isEnabled;
+        }
+
+        public function setIsEnabled(bool $isEnabled): void
+        {
+            $this->isEnabled = $isEnabled;
+        }
+    }
+
 
         public function getId(): string
         {
@@ -239,7 +329,7 @@ Plugin schema migrations
 
 Mautic Core uses :xref:`Doctrine migrations<Doctrine migrations bundle>` to manage schema changes. Plugins don't have access to this as migration files are in Core's ``migrations`` directory.
 
-Mautic provides a way for Plugins to manage their schema changes through the Integration bundle's ``\Mautic\IntegrationsBundle\Migration\Engine``. Mautic automatically handles migrations if the :ref:`Plugin's bundle class<plugins/structure:File and directory structure>` extends ``Mautic\IntegrationsBundle\Bundle\AbstractPluginBundle``.
+Mautic provides a way for Plugins to manage their schema changes through the Integration bundle's ``\Mautic\IntegrationsBundle\Migration\Engine``. Mautic automatically handles migrations if the :ref:`Plugin's bundle class<Plugins/structure:File and directory structure>` extends ``Mautic\IntegrationsBundle\Bundle\AbstractPluginBundle``.
 
 .. code-block:: php
 

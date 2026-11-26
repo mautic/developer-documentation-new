@@ -116,6 +116,7 @@ noindex
 OAuth
 OAuth1a
 OAuth2
+ORM
 Packagist
 patch
 PATCH
