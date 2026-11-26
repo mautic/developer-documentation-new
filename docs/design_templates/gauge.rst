@@ -119,4 +119,4 @@ The function takes these arguments:
 
 The function removes the loading state, fills the ring, updates the ARIA values, and replaces the value text. It keeps the gauge's ``unit``. It doesn't change the ``delta`` text.
 
-The **Campaign share** tab of a Segment uses this template and function. It renders an ``xs`` ring for each Campaign, in the loading state until the share is known. When the tab opens, or when the Segment view loads with that tab already active, it requests the missing shares and fills each ring with ``Mautic.updateGauge()``.
+The **Campaign share** tab of a Segment uses this template and function. It renders an ``xs`` ring for each Campaign, in the loading state until Mautic returns its share. When the tab opens, or when the Segment view loads with that tab already active, it requests the missing shares and fills each ring with ``Mautic.updateGauge()``.
