@@ -30,7 +30,10 @@ You can add Categories through your Plugin's ``config.php`` file by adding the f
     <?php
 
     'categories' => [
-        'plugin:helloWorld' => 'mautic.helloworld.world.categories'
+        'plugin:helloWorld' => [
+            'label' => 'mautic.helloworld.world.categories',
+            'class' => \MauticPlugin\HelloWorldBundle\Entity\World::class,
+        ],
     ]
 
 Please prefix Category keys with ``plugin:`` as it determines permissions to manage Categories.
@@ -58,13 +61,15 @@ Including Categories in Forms
 
 .. vale on
 
-To add a Category select list to a Form, use ``category`` as the Form type and pass ``bundle`` as an option:
+To add a Category select list to a Form, use ``Mautic\CategoryBundle\Form\Type\CategoryListType`` as the Form type and pass ``bundle`` as an option:
 
 .. code-block:: php
 
     <?php
-    
-    $builder->add('category', 'category', [
+
+    use Mautic\CategoryBundle\Form\Type\CategoryListType;
+
+    $builder->add('category', CategoryListType::class, [
         'bundle' => 'plugin:helloWorld'
     ]);
 

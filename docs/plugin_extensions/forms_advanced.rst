@@ -27,7 +27,7 @@ Form data isn't automatically sanitized. Mautic provides a Form event subscriber
 
 In your :xref:`Form type class<Symfony form classes>`, register the ``Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber`` event subscriber.
  
-The array provided to ``CleanFormSubscriber`` should contain the names of the Form Fields as keys and the values the masks to use to sanitize the data. Any unspecified Form Field uses the ``clean`` mask by default.
+Pass ``CleanFormSubscriber`` an array with the names of the Form Fields as keys and the masks to sanitize them with as values. Mautic sanitizes any Form Field missing from the array with a default filter that strips HTML tags. If you pass no array, Mautic uses the ``clean`` mask, which encodes HTML special characters, for every Form Field.
 
 .. code-block:: php
 
