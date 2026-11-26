@@ -675,12 +675,15 @@ Some Mautic models don't define save and delete events of their own. For these m
 
 Mautic dispatches these events for entities including the following:
 
+* ``Mautic\AssetBundle\Entity\Asset``
+* ``Mautic\CampaignBundle\Entity\Campaign``
 * ``Mautic\EmailBundle\Entity\Email``
 * ``Mautic\LeadBundle\Entity\Import``
 * ``Mautic\LeadBundle\Entity\LeadDevice``
 * ``Mautic\LeadBundle\Entity\LeadNote``
 * ``Mautic\LeadBundle\Entity\Tag``
 * ``Mautic\NotificationBundle\Entity\Notification``
+* ``Mautic\SmsBundle\Entity\Sms``
 * ``Mautic\UserBundle\Entity\Role``
 * ``Mautic\UserBundle\Entity\User``
 * ``Mautic\WebhookBundle\Entity\Webhook``
