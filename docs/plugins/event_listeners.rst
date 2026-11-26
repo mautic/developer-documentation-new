@@ -997,7 +997,7 @@ Mautic 8 also changes how these events behave for code that creates or reads the
   * ``SaveBatchLeadsEvent``
   * ``TagMergeEvent``
 
-  If your Plugin creates one of these events with ``new``, create the matching subclass from the preceding tables instead. ``LeadEvent`` and ``ListChangeEvent`` are no longer ``final``, and Mautic still dispatches them directly.
+  If your Plugin creates one of these events with ``new``, create the matching subclass from the preceding tables instead. ``LeadEvent`` and ``ListChangeEvent`` are no longer ``final``. Mautic dispatches ``ListChangeEvent`` directly. ``LeadIdentifiedEvent`` extends ``LeadEvent``, and ``getLeadsEvents()`` on ``LeadPreBatchSaveEvent`` and ``LeadPostBatchSaveEvent`` returns one ``LeadEvent`` per Contact in the batch.
 
 * The event Mautic dispatches before a save, delete, or merge and the event it dispatches afterward are now separate objects. A value that a listener sets on the earlier event isn't available to listeners of the later one.
 * ``Mautic\LeadBundle\Field\Dispatcher\FieldSaveDispatcher::dispatchEvent()`` now takes the ``LeadFieldEvent`` subclass to dispatch, instead of an event name, the field entity, and an ``isNew`` flag.
