@@ -80,3 +80,58 @@ Note that ``$sql`` and ``$sqlParameters`` are only used for debugging and shown 
             $event->setStat($this->translator->trans('mautic.maintenance.hello_world'), $rows, $qb->getSQL(), $qb->getParameters());
         }
     }
+
+Contacts that the cleanup deletes
+*********************************
+
+The ``mautic:maintenance:cleanup`` command deletes inactive Contacts with SQL queries, so Mautic doesn't dispatch the ``LeadPreDeleteEvent`` and ``LeadPostDeleteEvent`` events for them. To act on these Contacts before Mautic deletes them, for example to delete the data that your Plugin stores for them, create a listener for the ``Mautic\LeadBundle\Event\ContactPreCleanupDeleteEvent`` event. Mautic dispatches it before it deletes each batch of Contacts. It doesn't dispatch the event when the command runs with ``--dry-run``.
+
+The event has these methods:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Method
+     - Description
+   * - ``getContactIds()``
+     - Returns the IDs of the Contacts in the batch, as an array of integers.
+   * - ``isGdpr()``
+     - Returns ``true`` when the command runs with the ``--gdpr`` option. With this option, the batch can include identified Contacts. Without it, the batch contains only anonymous Contacts.
+
+.. code-block:: php
+
+    <?php
+    // plugins\HelloWorldBundle\EventListener\ContactCleanupSubscriber.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Doctrine\DBAL\ArrayParameterType;
+    use Doctrine\DBAL\Connection;
+    use Mautic\LeadBundle\Event\ContactPreCleanupDeleteEvent;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class ContactCleanupSubscriber implements EventSubscriberInterface
+    {
+        public function __construct(private Connection $db)
+        {
+        }
+
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                ContactPreCleanupDeleteEvent::class => ['onContactPreCleanupDelete', 0],
+            ];
+        }
+
+        public function onContactPreCleanupDelete(ContactPreCleanupDeleteEvent $event): void
+        {
+            $this->db->createQueryBuilder()
+                ->delete(MAUTIC_TABLE_PREFIX.'worlds')
+                ->where('contact_id IN (:contactIds)')
+                ->setParameter('contactIds', $event->getContactIds(), ArrayParameterType::INTEGER)
+                ->executeStatement();
+        }
+    }
