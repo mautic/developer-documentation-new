@@ -289,6 +289,71 @@ The ``LeadGetCurrentEvent`` provides the following methods:
 
 .. vale on
 
+Reacting to a Contact's tracking choice
+=======================================
+
+A Contact can turn off tracking in the Preference Center. After Mautic stores a Contact's tracking choice, it dispatches ``TrackingPreferenceChangeEvent``. Subscribe to it when your Plugin or consent Integration needs to act on the choice, for example to sync it to an external consent platform.
+
+Mautic dispatches the event when a Contact changes their choice in the Preference Center, and when it turns tracking off for a merged Contact because the other Contact had turned it off. Mautic itself subscribes to the event to stop recognizing a Contact who turns off tracking. It expires the Contact's tracking cookies and removes the tracking ID from each of the Contact's devices.
+
+.. code-block:: PHP
+
+  <?php
+  // plugins/HelloWorldBundle/EventListener/TrackingPreferenceSubscriber.php
+
+  declare(strict_types=1);
+
+  namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+  use Mautic\LeadBundle\Entity\TrackingPreference;
+  use Mautic\LeadBundle\Event\TrackingPreferenceChangeEvent;
+  use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+  final class TrackingPreferenceSubscriber implements EventSubscriberInterface
+  {
+      public static function getSubscribedEvents(): array
+      {
+          return [
+              TrackingPreferenceChangeEvent::TRACKING_PREFERENCE_CHANGE => 'onTrackingPreferenceChange',
+          ];
+      }
+
+      public function onTrackingPreferenceChange(TrackingPreferenceChangeEvent $event): void
+      {
+          if (TrackingPreference::PURPOSE_ACTIVITY !== $event->getPurpose()) {
+              return;
+          }
+
+          $contact = $event->getContact();
+
+          if ($event->isAllowed()) {
+              // The Contact turned tracking on
+          } else {
+              // The Contact turned tracking off
+          }
+      }
+  }
+
+The ``TrackingPreferenceChangeEvent::TRACKING_PREFERENCE_CHANGE`` constant holds the event name, ``mautic.lead.tracking_preference_change``. The event provides the following methods:
+
+.. vale off
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method
+     - Description
+   * - ``getContact()``
+     - Returns the Contact whose choice Mautic stored.
+   * - ``getPurpose()``
+     - Returns the tracking purpose the choice applies to. ``TrackingPreference::PURPOSE_ACTIVITY`` - ``activity`` - covers recording the Contact's activity on their profile.
+   * - ``isAllowed()``
+     - Returns ``true`` if the Contact allows tracking for the purpose, or ``false`` if they turned it off.
+   * - ``getSource()``
+     - Returns where the choice came from, or ``null``. ``TrackingPreference::SOURCE_PREFERENCE_CENTRE`` - ``preference_centre`` - for the Preference Center, and ``TrackingPreference::SOURCE_CONTACT_MERGE`` - ``contact_merge`` - for a Contact merge.
+
+.. vale on
+
 Contact timeline/history
 ************************
 
