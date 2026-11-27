@@ -620,13 +620,15 @@ The method takes these steps:
 
 The optional ``callback`` receives ``true`` when Mautic responds with ``{"success": 1}``. It receives ``false`` when the request fails or Mautic responds with anything else. The method keeps the device IDs on the website until Mautic confirms, so after ``false`` you can call it again.
 
+When the website is on a different domain than Mautic and you set **Restrict Domains** to **Yes** in Mautic's CORS settings, add the website's domain to **Valid Domains**, as for tracking requests to ``/mtc/event``. Otherwise, the browser blocks the request to ``/mtc/withdraw`` and the callback receives ``false``.
+
 .. code-block:: js
 
    MauticJS.withdrawTrackingConsent(function (success) {
        MauticJS.log(success ? 'Mautic forgot this browser' : 'Withdrawal request failed');
    });
 
-When the tracking script isn't loaded, a consent manager can send the ``POST /mtc/withdraw`` request itself, with credentials so that the browser includes Mautic's cookies. Mautic takes the device IDs from its ``mautic_device_id`` cookie and from an optional ``mautic_device_id`` request parameter, which can hold two device IDs separated by commas. Mautic ignores any device IDs after the first two. For each device ID, Mautic removes the tracking ID from the matching device, so that ID no longer identifies the Contact. Mautic doesn't change the Contact's other devices, and it never looks up a device by Contact ID. Mautic also expires its ``mautic_device_id``, ``mtc_id``, ``mautic_referer_id``, and ``mautic_session_id`` cookies, then responds with ``{"success": 1}``. If a User has logged in to Mautic in that browser, Mautic changes nothing and responds with ``{"success": 0}``. The endpoint accepts only ``POST`` requests.
+When the tracking script isn't loaded, a consent manager can send the ``POST /mtc/withdraw`` request itself, with credentials so that the browser includes Mautic's cookies. Mautic takes the device IDs from its ``mautic_device_id`` cookie and from an optional ``mautic_device_id`` request parameter, which can hold two device IDs separated by commas. Mautic ignores any device IDs after the first two. For each device ID, Mautic removes the tracking ID from the matching device, so that ID no longer identifies the Contact. Mautic doesn't change the Contact's other devices, and it never looks up a device by Contact ID. Mautic keeps one device per Contact for each combination of device type, brand, model, and operating system, so two browsers on the same device can share a device ID. In that case, the other browser's device ID also stops identifying the Contact. Mautic also expires its ``mautic_device_id``, ``mtc_id``, ``mautic_referer_id``, and ``mautic_session_id`` cookies, then responds with ``{"success": 1}``. If a User has logged in to Mautic in that browser, Mautic changes nothing and responds with ``{"success": 0}``. The endpoint accepts only ``POST`` requests.
 
 ``MauticJS.insertScript(scriptUrl)``
 ====================================
