@@ -857,6 +857,8 @@ Mautic dispatches events at key points in an Email's lifecycle. Plugins can use 
 
 .. vale on
 
+To react when Mautic saves or deletes an Email, subscribe to the generic entity events described in :ref:`Entity save and delete events <entity save and delete events>`, and return early when the entity isn't a ``Mautic\EmailBundle\Entity\Email``.
+
 .. vale off
 
 Toggle 'Active' event

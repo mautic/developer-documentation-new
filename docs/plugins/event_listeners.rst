@@ -64,12 +64,45 @@ Event subscribers
 
 The easiest way to listen to various events is to use an event subscriber. Read more about :xref:`Symfony event subscribers` in Symfony's documentation.
 
-.. vale off
+A Plugin event subscriber implements ``Symfony\Component\EventDispatcher\EventSubscriberInterface`` and returns the events it listens to from ``getSubscribedEvents()``, as the earlier ``LeadSubscriber`` example does. When the Plugin's ``Config/services.php`` file turns on autoconfiguration for its services, Symfony registers the subscriber without a separate service definition. See :ref:`Plugins/Autowiring:Autowiring`.
 
-Plugin event subscribers can extend ``Symfony\Component\EventDispatcher\EventSubscriberInterface``, which gives access to commonly used dependencies and also allows registering the subscriber service through autowiring.
+Attribute listeners
+*******************
 
-.. vale on
-    
+Instead of implementing ``Symfony\Component\EventDispatcher\EventSubscriberInterface``, you can mark each listener method with Symfony's ``#[AsEventListener]`` attribute. Most of Mautic's own listeners and the Plugins bundled with Mautic use this attribute for Symfony events. Symfony only registers attribute listeners on autoconfigured services, so the Plugin's ``Config/services.php`` file must call ``->autoconfigure()``.
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/LeadListener.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\LeadBundle\Event\LeadPostSaveEvent;
+    use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+
+    final class LeadListener
+    {
+        #[AsEventListener(event: LeadPostSaveEvent::class)]
+        public function onLeadPostSave(LeadPostSaveEvent $event): void
+        {
+            $lead = $event->getLead();
+
+            // do something
+        }
+    }
+
+The ``event`` argument takes the event class. The optional ``priority`` argument sets the order, and listeners with a higher priority run first. When your listener must run before or after a Mautic listener for the same event, set an explicit ``priority`` rather than relying on registration order.
+
+Some Mautic base classes, such as ``Mautic\CoreBundle\EventListener\CommonStatsSubscriber``, declare their listener methods with ``#[AsEventListener]``. A class that extends one of them inherits those listeners, provided the class's service has autoconfiguration turned on. PHP doesn't copy attributes to an overriding method, so if you override a listener method such as ``onStatsFetch()``, add ``#[AsEventListener]`` to the override. Otherwise, Symfony doesn't register it.
+
+By default, the attribute registers the listener with Symfony's main event dispatcher. To listen on another dispatcher service, pass its service ID in the optional ``dispatcher`` argument. For example, ``#[AsEventListener(event: LoginSuccessEvent::class, dispatcher: 'security.event_dispatcher.main')]`` only receives login events from Mautic's ``main`` firewall. Some subscribers don't use a dispatcher service, so they keep their own registration:
+
+* A Symfony Form event subscriber, such as ``Mautic\CoreBundle\Form\EventListener\CleanFormSubscriber``, still implements ``Symfony\Component\EventDispatcher\EventSubscriberInterface``. Each Form has its own event dispatcher, so the Form type adds the subscriber with ``$builder->addEventSubscriber()``.
+* A ``POST_SERIALIZE`` event subscriber still implements ``JMS\Serializer\EventDispatcher\EventSubscriberInterface``.
+
 Available events
 ****************
 
@@ -100,7 +133,7 @@ To find the name Mautic dispatches an event under, and to confirm a re-key, run 
 
    The ``Mautic\UserBundle`` events follow the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule, and Mautic 8 removes the ``Mautic\UserBundle\UserEvents`` class. A subscriber that still references a ``UserEvents`` constant, such as ``UserEvents::USER_POST_SAVE`` or ``UserEvents::USER_LOGIN``, raises a ``Class "Mautic\UserBundle\UserEvents" not found`` error. Key ``getSubscribedEvents()`` on the event class in the ``Mautic\UserBundle\Event`` namespace instead.
 
-   For the User and Role save and delete events, subscribe to the concrete ``Pre*`` or ``Post*`` subclass, for example ``PostSaveUserEvent::class``. The base ``UserEvent`` and ``RoleEvent`` classes are now abstract, so dispatch or type-hint the concrete subclass.
+   To react when Mautic saves or deletes a User or Role, subscribe to the generic entity events described in :ref:`Entity save and delete events <entity save and delete events>`. Mautic also dispatches ``EntityPreSave`` and ``EntityPostSave`` when it creates a User during an OpenID Connect login, or when an authentication Plugin creates or updates a User during login.
 
    The authentication events map to these event classes:
 
@@ -126,22 +159,6 @@ To find the name Mautic dispatches an event under, and to confirm a re-key, run 
    Mautic previously dispatched ``AuthenticationEvent`` under both the ``USER_PRE_AUTHENTICATION`` and ``USER_FORM_AUTHENTICATION`` names. ``AuthenticationEvent`` is now an abstract base class for ``PreAuthenticationEvent`` and ``FormAuthenticationEvent``, so a listener method can keep its ``AuthenticationEvent`` type hint. Code that creates an ``AuthenticationEvent`` with ``new``, such as a Plugin test, must create one of the subclasses instead. Mautic also removes the ``USER_FORM_POST_LOCAL_PASSWORD_AUTHENTICATION`` constant without a replacement, because Mautic never dispatched an event under it.
 
    The ``UPGRADE-8.0.md`` guide lists each removed constant with its replacement event class.
-
-.. note::
-
-   Mautic 8 dispatches the ``MauticPlugin\MauticSocialBundle`` Monitor and Tweet save and delete events by event class, following the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` rule. Mautic 8 removed the matching constants from ``MauticPlugin\MauticSocialBundle\SocialEvents``, so a subscriber still keyed on one, such as ``SocialEvents::TWEET_POST_SAVE``, raises an undefined-constant error. Key ``getSubscribedEvents()`` on the replacement class in the ``MauticPlugin\MauticSocialBundle\Event`` namespace instead:
-
-   * ``MONITOR_PRE_SAVE`` - ``MonitorPreSaveEvent``
-   * ``MONITOR_POST_SAVE`` - ``MonitorPostSaveEvent``
-   * ``MONITOR_PRE_DELETE`` - ``MonitorPreDeleteEvent``
-   * ``MONITOR_POST_DELETE`` - ``MonitorPostDeleteEvent``
-   * ``MONITOR_POST_PROCESS`` - ``SocialMonitorEvent``, which Mautic already dispatched by class
-   * ``TWEET_PRE_SAVE`` - ``TweetPreSaveEvent``
-   * ``TWEET_POST_SAVE`` - ``TweetPostSaveEvent``
-   * ``TWEET_PRE_DELETE`` - ``TweetPreDeleteEvent``
-   * ``TWEET_POST_DELETE`` - ``TweetPostDeleteEvent``
-
-   Mautic 8 also removed the ``SocialEvent`` class. The Monitor events extend ``AbstractMonitorEvent``, which provides ``getMonitoring()``, and the Tweet events extend ``AbstractTweetEvent``, which provides ``getTweet()``.
 
 .. note::
 
@@ -448,7 +465,7 @@ The following table is the complete migration reference for AssetBundle event su
 
    The WebhookBundle applies the :ref:`Mautic 8 class-name event dispatch <Mautic 8 class-name event dispatch>` change. Mautic 8 converted only ``WebhookBuilderEvent``, ``WebhookQueueEvent``, and ``WebhookRequestEvent``, so key ``getSubscribedEvents()`` on the event class, for example ``WebhookBuilderEvent::class``, not on the matching ``Mautic\WebhookBundle\WebhookEvents`` constant.
 
-   ``WebhookEvent`` - dispatched for ``WEBHOOK_PRE_SAVE``, ``WEBHOOK_POST_SAVE``, ``WEBHOOK_PRE_DELETE``, ``WEBHOOK_POST_DELETE``, and ``WEBHOOK_KILL`` - still dispatches by its ``WebhookEvents`` constants, so keep keying on the constant for those.
+   To react when Mautic saves or deletes a Webhook, subscribe to the generic entity events described in :ref:`Entity save and delete events <entity save and delete events>`. When Mautic stops a failing Webhook, it dispatches ``WebhookKillEvent`` by class name.
 
 .. note::
 
@@ -644,6 +661,97 @@ In Mautic 8, the subscriber keys on the event class:
         ];
     }
 
+.. _entity save and delete events:
+
+Entity save and delete events
+*****************************
+
+Some Mautic models don't define save and delete events of their own. For these models, the base ``Mautic\CoreBundle\Model\FormModel`` dispatches four generic events from the ``Mautic\CoreBundle\Event`` namespace by class name:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Event class
+     - When Mautic dispatches it
+   * - ``EntityPreSave``
+     - Before Mautic saves the entity to the database
+   * - ``EntityPostSave``
+     - After Mautic saves the entity to the database
+   * - ``EntityPreDelete``
+     - Before Mautic deletes the entity
+   * - ``EntityPostDelete``
+     - After Mautic deletes the entity
+
+Mautic dispatches these events for entities including the following:
+
+* ``Mautic\EmailBundle\Entity\Email``
+* ``Mautic\LeadBundle\Entity\LeadDevice``
+* ``Mautic\LeadBundle\Entity\Tag``
+* ``Mautic\NotificationBundle\Entity\Notification``
+* ``Mautic\UserBundle\Entity\Role``
+* ``Mautic\UserBundle\Entity\User``
+* ``Mautic\WebhookBundle\Entity\Webhook``
+
+Models that dispatch save and delete events of their own, such as ``Mautic\FormBundle\Model\FormModel``, ``Mautic\PageBundle\Model\PageModel``, and ``Mautic\LeadBundle\Model\LeadModel``, dispatch only those events and not the generic ones.
+
+All four events extend ``Mautic\CoreBundle\Event\AbstractEntityEvent``, which provides these methods:
+
+* ``getEntity()`` returns the entity that Mautic saves or deletes.
+* ``isNew()`` returns ``true`` when Mautic saves a new entity.
+* ``getChanges()`` returns the changes recorded on the entity.
+
+A listener receives these events for every entity type that uses them, so test the class of the entity and return early when it isn't the one your Plugin handles. The event Mautic dispatches after a save or delete is a separate object from the one it dispatches before it, but it carries over the changes the earlier event recorded, so ``getChanges()`` returns the same changes in both. Other values that a listener sets on the earlier event aren't available on the later one. After a delete, the entity's ``deletedId`` property holds the ID it had before Mautic deleted it.
+
+.. code-block:: php
+
+    <?php
+    // plugins/HelloWorldBundle/EventListener/TagSubscriber.php
+
+    declare(strict_types=1);
+
+    namespace MauticPlugin\HelloWorldBundle\EventListener;
+
+    use Mautic\CoreBundle\Event\EntityPostDelete;
+    use Mautic\CoreBundle\Event\EntityPostSave;
+    use Mautic\LeadBundle\Entity\Tag;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+    final class TagSubscriber implements EventSubscriberInterface
+    {
+        public static function getSubscribedEvents(): array
+        {
+            return [
+                EntityPostSave::class   => ['onEntityPostSave', 0],
+                EntityPostDelete::class => ['onEntityPostDelete', 0],
+            ];
+        }
+
+        public function onEntityPostSave(EntityPostSave $event): void
+        {
+            $tag = $event->getEntity();
+            if (!$tag instanceof Tag) {
+                return;
+            }
+
+            if ($event->isNew()) {
+                // do something with the new Tag
+            }
+        }
+
+        public function onEntityPostDelete(EntityPostDelete $event): void
+        {
+            $tag = $event->getEntity();
+            if (!$tag instanceof Tag) {
+                return;
+            }
+
+            $deletedId = $tag->deletedId;
+
+            // do something
+        }
+    }
+
 Custom events
 *************
 
@@ -740,7 +848,7 @@ LeadBundle events dispatched by event class
 
 .. vale on
 
-Since Mautic 8, Mautic dispatches the LeadBundle events for Contacts, Companies, Segments, Custom Fields, Tags, notes, devices, imports, and Contact exports by their event class instead of a ``LeadEvents`` string constant. Key ``getSubscribedEvents()`` on ``EventClass::class``. All the event classes below live in the ``Mautic\LeadBundle\Event`` namespace.
+Since Mautic 8, Mautic dispatches the LeadBundle events for Contacts, Companies, Segments, Custom Fields, Tag merges, notes, imports, and Contact exports by their event class instead of a ``LeadEvents`` string constant. Key ``getSubscribedEvents()`` on ``EventClass::class``. All the event classes below live in the ``Mautic\LeadBundle\Event`` namespace.
 
 Where several ``LeadEvents`` constants used to share one event class, each event now has its own subclass of that shared class. For example, ``LeadPreSaveEvent`` and ``LeadPostSaveEvent`` both extend ``LeadEvent``. Listener methods that type-hint the former shared class keep working.
 
@@ -831,22 +939,6 @@ Mautic 8 removes these ``LeadEvents`` constants. Code that still references one 
      - ``ImportPostDeleteEvent``
    * - ``IMPORT_BATCH_PROCESSED``
      - ``ImportBatchProcessedEvent``
-   * - ``DEVICE_PRE_SAVE``
-     - ``DevicePreSaveEvent``
-   * - ``DEVICE_POST_SAVE``
-     - ``DevicePostSaveEvent``
-   * - ``DEVICE_PRE_DELETE``
-     - ``DevicePreDeleteEvent``
-   * - ``DEVICE_POST_DELETE``
-     - ``DevicePostDeleteEvent``
-   * - ``TAG_PRE_SAVE``
-     - ``TagPreSaveEvent``
-   * - ``TAG_POST_SAVE``
-     - ``TagPostSaveEvent``
-   * - ``TAG_PRE_DELETE``
-     - ``TagPreDeleteEvent``
-   * - ``TAG_POST_DELETE``
-     - ``TagPostDeleteEvent``
    * - ``TAG_PRE_MERGE``
      - ``TagPreMergeEvent``
    * - ``TAG_POST_MERGE``
@@ -884,19 +976,17 @@ Mautic 8 removes these ``LeadEvents`` constants. Code that still references one 
 
 Mautic 8 also changes how these events behave for code that creates or reads them:
 
-* Mautic 8 makes these 12 former shared classes ``abstract``:
+* Mautic 8 makes these 10 former shared classes ``abstract``:
 
   * ``CompanyEvent``
   * ``CompanyMergeEvent``
   * ``ContactExportSchedulerEvent``
   * ``ImportEvent``
-  * ``LeadDeviceEvent``
   * ``LeadFieldEvent``
   * ``LeadListEvent``
   * ``LeadMergeEvent``
   * ``LeadNoteEvent``
   * ``SaveBatchLeadsEvent``
-  * ``TagEvent``
   * ``TagMergeEvent``
 
   If your Plugin creates one of these events with ``new``, create the matching subclass from the preceding tables instead. ``LeadEvent`` and ``ListChangeEvent`` are no longer ``final``, and Mautic still dispatches them directly.
