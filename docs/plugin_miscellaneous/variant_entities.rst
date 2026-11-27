@@ -17,12 +17,12 @@ Mautic provides helper methods for creating variants of an entity, which is espe
 
 .. vale off
 
-VariantInterface
-****************
+VariantEntityInterface
+**********************
 
 .. vale on
 
-The ``\Mautic\CoreBundle\Entity\VariantInterface`` entity interface ensures an entity has everything Mautic needs to handle its variants correctly.
+The ``\Mautic\CoreBundle\Entity\VariantEntityInterface`` entity interface ensures an entity has everything Mautic needs to handle its variants correctly.
 
 .. vale off
 
